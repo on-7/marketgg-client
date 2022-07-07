@@ -22,4 +22,5 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
     public String gatewayIp() {
         return "http://localhost:6060";
     }
+
 }
