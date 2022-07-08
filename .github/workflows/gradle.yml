@@ -28,7 +28,14 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+
     - name: Build with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build
+
+    - name: Run SonarQube
+      run: mvn sonar:sonar -Dsonar.projectKey=marketgg-client-dev
+                           -Dsonar.host.url=http://133.186.211.156:9000
+                           -Dsonar.login=2d50ff74896d705e21d98ac7a6727c15560d414d
+ 
