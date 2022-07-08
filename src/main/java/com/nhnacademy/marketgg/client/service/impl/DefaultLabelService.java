@@ -9,8 +9,11 @@ import com.nhnacademy.marketgg.client.service.LabelService;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -25,13 +28,21 @@ public class DefaultLabelService implements LabelService {
 
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest) throws JsonProcessingException {
-
         String request = objectMapper.writeValueAsString(labelRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
         restTemplate.postForEntity(gateWayIp + "/admin/v1/labels",
                                    requestEntity,
                                    Void.class);
+    }
+
+    @Override
+    public void deleteLabel(Long labelId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        restTemplate.exchange(gateWayIp + "/admin/v1/labels/" + labelId,
+                              HttpMethod.DELETE,
+                              requestEntity,
+                              Void.class);
     }
 
     @Override

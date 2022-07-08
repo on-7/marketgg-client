@@ -9,5 +9,8 @@ import java.util.List;
 public interface LabelService {
     void createLabel(final LabelRegisterRequest labelRequest) throws JsonProcessingException;
 
+    void deleteLabel(Long labelId);
+
     List<LabelRetrieveResponse> retrieveLabels();
+
 }
