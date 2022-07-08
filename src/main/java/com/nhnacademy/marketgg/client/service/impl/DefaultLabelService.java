@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,6 +38,18 @@ public class DefaultLabelService implements LabelService {
     }
 
     @Override
+    public List<LabelRetrieveResponse> retrieveLabels() {
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        ResponseEntity<List<LabelRetrieveResponse>>
+                response = restTemplate.exchange(gateWayIp + "/admin/v1/labels",
+                                                 HttpMethod.GET,
+                                                 requestEntity,
+                                                 new ParameterizedTypeReference<>() {
+                                                                                     });
+        return response.getBody();
+    }
+
+    @Override
     public void deleteLabel(Long labelId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         restTemplate.exchange(gateWayIp + "/admin/v1/labels/" + labelId,
@@ -45,19 +58,7 @@ public class DefaultLabelService implements LabelService {
                               Void.class);
     }
 
-    @Override
-    public List<LabelRetrieveResponse> retrieveLabels() {
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<LabelRetrieveResponse>> response = restTemplate.exchange(gateWayIp + "/admin/v1/labels",
-                                                                                     HttpMethod.GET,
-                                                                                     requestEntity,
-                                                                                     new ParameterizedTypeReference<>() {
-                                                                                     });
-        return response.getBody();
-    }
-
     private static HttpHeaders buildHeaders() {
-
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));

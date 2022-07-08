@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.dto.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,21 +50,22 @@ public class AdminLabelController {
         return mv;
     }
 
-    @GetMapping("/{labelId}")
-    ModelAndView deleteLabel(@PathVariable final Long labelId) {
-
-        ModelAndView mv = new ModelAndView();
-        labelService.deleteLabel(labelId);
-        mv.setViewName("redirect:/admin/v1/labels/index");
-
     @GetMapping
     ModelAndView retrieveLabels() {
-
         ModelAndView mv = new ModelAndView();
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
 
         mv.setViewName("/labels/retrieve");
         mv.addObject("labels", responses);
+
+        return mv;
+    }
+
+    @DeleteMapping("/{labelId}")
+    ModelAndView deleteLabel(@PathVariable final Long labelId) {
+        ModelAndView mv = new ModelAndView();
+        labelService.deleteLabel(labelId);
+        mv.setViewName("redirect:/admin/v1/labels/index");
 
         return mv;
     }
