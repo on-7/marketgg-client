@@ -1,9 +1,13 @@
 package com.nhnacademy.marketgg.client.adapter;
 
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
+import java.util.List;
 
 public interface ProductAdapter {
 
-    void createProject(ProductCreateRequest projectRequest);
+    void createProduct(ProductCreateRequest productRequest);
+
+    List<ProductResponse> retrieveProducts();
 
 }

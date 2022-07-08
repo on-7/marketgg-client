@@ -2,6 +2,8 @@ package com.nhnacademy.marketgg.client.adapter.impl;
 
 import com.nhnacademy.marketgg.client.adapter.ProductAdapter;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -24,7 +26,7 @@ public class DefaultProductAdapter implements ProductAdapter {
     private final RestTemplate restTemplate;
 
     @Override
-    public void createProject(final ProductCreateRequest productRequest) {
+    public void createProduct(final ProductCreateRequest productRequest) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -39,6 +41,24 @@ public class DefaultProductAdapter implements ProductAdapter {
                 });
 
         log.info(String.valueOf(response.getHeaders().getLocation()));
+    }
+
+    @Override
+    public List<ProductResponse> retrieveProducts() {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<List<ProductResponse>> response =
+            restTemplate.exchange(BASE_URL
+                    + SERVER_DEFAULT_PRODUCT,
+                HttpMethod.GET,
+                httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        return response.getBody();
     }
 
 }
