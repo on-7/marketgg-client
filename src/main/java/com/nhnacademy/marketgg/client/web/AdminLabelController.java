@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.LabelRegisterRequest;
+import com.nhnacademy.marketgg.client.dto.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/v1/labels")
@@ -27,7 +30,7 @@ public class AdminLabelController {
         return mv;
     }
 
-    @GetMapping
+    @GetMapping("/create")
     ModelAndView doCreateLabel() {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("/labels/create-form");
@@ -52,6 +55,15 @@ public class AdminLabelController {
         ModelAndView mv = new ModelAndView();
         labelService.deleteLabel(labelId);
         mv.setViewName("redirect:/admin/v1/labels/index");
+
+    @GetMapping
+    ModelAndView retrieveLabels() {
+
+        ModelAndView mv = new ModelAndView();
+        List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
+
+        mv.setViewName("/labels/retrieve");
+        mv.addObject("labels", responses);
 
         return mv;
     }
