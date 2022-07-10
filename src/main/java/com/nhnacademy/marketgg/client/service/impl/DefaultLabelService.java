@@ -2,8 +2,8 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.LabelRegisterRequest;
-import com.nhnacademy.marketgg.client.dto.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
+import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
 
 import java.util.List;
