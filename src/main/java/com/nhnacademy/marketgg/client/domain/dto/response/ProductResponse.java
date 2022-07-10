@@ -1,11 +1,12 @@
 package com.nhnacademy.marketgg.client.domain.dto.response;
 
-import java.time.LocalDate;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
+import java.time.LocalDate;
+
 @NoArgsConstructor
+@Getter
 public class ProductResponse {
 
     private Long assetNo;

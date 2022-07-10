@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class DefaultProductAdapter implements ProductAdapter {
 
-    private static final String BASE_URL = "http://localhost:5050";
+    private static final String BASE_URL = "http://localhost:7080";
     private static final String SERVER_DEFAULT_PRODUCT = "/admin/v1/products";
 
     private final RestTemplate restTemplate;
