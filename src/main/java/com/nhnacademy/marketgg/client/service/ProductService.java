@@ -9,4 +9,6 @@ public interface ProductService {
     void createProduct(ProductCreateRequest productRequest);
 
     List<ProductResponse> retrieveProducts();
+
+    ProductResponse retrieveProductDetails(Long productNo);
 }

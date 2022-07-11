@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.domain.dto.response;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductResponse {
 
+    private Long productNo;
     private Long assetNo;
     private String categoryCode;
     private String name;
@@ -22,4 +24,7 @@ public class ProductResponse {
     private LocalDate expirationDate;
     private String allergyInfo;
     private String capacity;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
 }

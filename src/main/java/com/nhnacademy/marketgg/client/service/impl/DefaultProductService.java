@@ -23,4 +23,9 @@ public class DefaultProductService implements ProductService {
         return productAdapter.retrieveProducts();
     }
 
+    @Override
+    public ProductResponse retrieveProductDetails(Long productNo) {
+        return productAdapter.retrieveProductDetails(productNo);
+    }
+
 }

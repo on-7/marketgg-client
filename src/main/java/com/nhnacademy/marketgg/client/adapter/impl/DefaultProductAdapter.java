@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class DefaultProductAdapter implements ProductAdapter {
 
-    private static final String BASE_URL = "http://localhost:5050";
+    private static final String BASE_URL = "http://localhost:7080";
     private static final String SERVER_DEFAULT_PRODUCT = "/admin/v1/products";
 
     private final RestTemplate restTemplate;
@@ -53,6 +53,24 @@ public class DefaultProductAdapter implements ProductAdapter {
         ResponseEntity<List<ProductResponse>> response =
             restTemplate.exchange(BASE_URL
                     + SERVER_DEFAULT_PRODUCT,
+                HttpMethod.GET,
+                httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        return response.getBody();
+    }
+
+    @Override
+    public ProductResponse retrieveProductDetails(Long productNo) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<ProductResponse> response =
+            restTemplate.exchange(BASE_URL
+                    + SERVER_DEFAULT_PRODUCT + "/" + productNo,
                 HttpMethod.GET,
                 httpEntity,
                 new ParameterizedTypeReference<>() {

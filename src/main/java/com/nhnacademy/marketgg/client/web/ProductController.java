@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -20,8 +21,13 @@ public class ProductController {
     private final ProductService productService;
     private final static String DEFAULT_PRODUCT_URI = "/admin/v1/products";
 
+    @GetMapping("/index")
+    public ModelAndView index() {
+        return new ModelAndView("products/index");
+    }
+
     @PostMapping
-    ModelAndView createProduct(@ModelAttribute final ProductCreateRequest productRequest) {
+    public ModelAndView createProduct(@ModelAttribute final ProductCreateRequest productRequest) {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
         productService.createProduct(productRequest);
@@ -30,12 +36,25 @@ public class ProductController {
     }
 
     @GetMapping
-    ModelAndView retrieveProducts() {
+    public ModelAndView retrieveProducts() {
+
         List<ProductResponse> products = productService.retrieveProducts();
 
-        ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_URI + "/index");
-        mav.addObject("Products", products);
+        ModelAndView mav = new ModelAndView("products/retrieve-products");
+        mav.addObject("products", products);
 
         return mav;
     }
+
+    @GetMapping("/{productNo}")
+    public ModelAndView retrieveProductDetails(@PathVariable Long productNo) {
+
+        ProductResponse productDetails = productService.retrieveProductDetails(productNo);
+
+        ModelAndView mav = new ModelAndView("products/product-details");
+        mav.addObject("productDetails", productDetails);
+
+        return mav;
+    }
+
 }
