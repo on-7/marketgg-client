@@ -32,7 +32,8 @@ public class DefaultLabelService implements LabelService {
         String request = objectMapper.writeValueAsString(labelRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
-        restTemplate.postForEntity(gateWayIp + "/admin/v1/labels",
+        restTemplate.exchange(gateWayIp + "/admin/v1/labels",
+                                   HttpMethod.POST,
                                    requestEntity,
                                    Void.class);
     }

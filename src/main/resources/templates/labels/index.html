@@ -5,6 +5,11 @@
         <title>LabelIndex</title>
     </head>
     <body>
+        <details><summary>라벨 등록하기</summary>
+            <form th:action="post" th:acthion="'/admin/v1/labels'">
+                <input type="submit" value="등록">
+            </form>
+        </details>
         <h2 style="text-align: center">[라벨 목록]</h2>
         <div style="text-align: center; display: flex; justify-content: center">
             <table style="text-align: center; border: 1px solid black">
@@ -23,7 +28,6 @@
                     </td>
                 </tr>
             </table>
-            <button formaction="/admin/v1/labels/create" type="submit" formmethod="get" value="라벨 등록"></button>
         </div>
     </body>
 </html>

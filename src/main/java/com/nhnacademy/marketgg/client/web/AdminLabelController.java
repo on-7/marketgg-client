@@ -23,31 +23,21 @@ public class AdminLabelController {
 
     private final LabelService labelService;
 
-    @GetMapping("/create")
-    ModelAndView doCreateLabel() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/labels/create-form");
-
-        return mv;
-    }
-
     @PostMapping
     ModelAndView createLabel(@ModelAttribute final LabelRegisterRequest labelRequest)
             throws JsonProcessingException {
 
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView("redirect:/admin/v1/labels/index");
         labelService.createLabel(labelRequest);
-        mv.setViewName("redirect:/admin/v1/labels/index");
 
         return mv;
     }
 
     @GetMapping
     ModelAndView retrieveLabels() {
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView("/labels/index");
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
 
-        mv.setViewName("/labels/index");
         mv.addObject("labels", responses);
 
         return mv;
@@ -55,9 +45,8 @@ public class AdminLabelController {
 
     @DeleteMapping("/{labelId}")
     ModelAndView deleteLabel(@PathVariable final Long labelId) {
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView("redirect:/admin/v1/labels/index");
         labelService.deleteLabel(labelId);
-        mv.setViewName("redirect:/admin/v1/labels/index");
 
         return mv;
     }
