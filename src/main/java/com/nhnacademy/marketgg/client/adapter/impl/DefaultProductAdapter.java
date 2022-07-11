@@ -67,4 +67,22 @@ public class DefaultProductAdapter implements ProductAdapter {
         return response.getBody();
     }
 
+    @Override
+    public ProductResponse retrieveProductDetails(Long productNo) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<ProductResponse> response =
+            restTemplate.exchange(BASE_URL
+                    + SERVER_DEFAULT_PRODUCT + "/" + productNo,
+                HttpMethod.GET,
+                httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        return response.getBody();
+    }
+
 }

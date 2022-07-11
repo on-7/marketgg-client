@@ -12,4 +12,6 @@ public interface ProductService {
     void createProduct(MultipartFile image, ProductCreateRequest productRequest) throws IOException;
 
     List<ProductResponse> retrieveProducts();
+
+    ProductResponse retrieveProductDetails(Long productNo);
 }

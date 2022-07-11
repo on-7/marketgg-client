@@ -13,4 +13,6 @@ public interface ProductAdapter {
 
     List<ProductResponse> retrieveProducts();
 
+    ProductResponse retrieveProductDetails(Long productNo);
+
 }
