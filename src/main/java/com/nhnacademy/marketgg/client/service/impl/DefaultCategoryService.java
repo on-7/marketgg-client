@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -28,6 +29,17 @@ public class DefaultCategoryService implements CategoryService {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
         restTemplate.postForEntity(gateWayIp + "/admin/v1/categories",
+                                    requestEntity,
+                                    Void.class);
+    }
+
+    public void updateCategory(final String categoryId, final CategoryUpdateRequest categoryRequest)
+            throws JsonProcessingException {
+
+        String request = objectMapper.writeValueAsString(categoryRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
+        restTemplate.put(gateWayIp + "/admin/v1/categories/" + categoryId,
                                    requestEntity,
                                    Void.class);
     }
