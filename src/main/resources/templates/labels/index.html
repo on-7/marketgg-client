@@ -7,7 +7,7 @@
     <body>
         <div style="text-align: center; display: flex; justify-content: center">
         <details><summary>라벨 등록하기</summary>
-            <form th:action="post" th:acthion="'/admin/v1/labels'">
+            <form th:method="post" th:acthion="'/admin/v1/labels'">
                 라벨 이름 : <input type="text" name="name">
                 <input type="submit" value="등록">
             </form>
