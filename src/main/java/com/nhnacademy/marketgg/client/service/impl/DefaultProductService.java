@@ -4,9 +4,12 @@ import com.nhnacademy.marketgg.client.adapter.ProductAdapter;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,8 +17,10 @@ public class DefaultProductService implements ProductService {
 
     private final ProductAdapter productAdapter;
 
-    public void createProduct(final ProductCreateRequest productRequest) {
-        productAdapter.createProduct(productRequest);
+    public void createProduct(final MultipartFile image,
+                              final ProductCreateRequest productRequest) throws IOException {
+
+        productAdapter.createProduct(image, productRequest);
     }
 
     @Override

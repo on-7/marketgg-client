@@ -5,12 +5,11 @@ import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -21,14 +20,14 @@ public class ProductController {
     private final ProductService productService;
     private final static String DEFAULT_PRODUCT_URI = "/admin/v1/products";
 
-    @PostMapping
-    ModelAndView createProduct(@ModelAttribute final ProductCreateRequest productRequest) {
-
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
-        productService.createProduct(productRequest);
-
-        return mav;
-    }
+    // @PostMapping
+    // ModelAndView createProduct(@ModelAttribute final ProductCreateRequest productRequest) {
+    //
+    //     ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
+    //     productService.createProduct(productRequest);
+    //
+    //     return mav;
+    // }
 
     @GetMapping
     public ModelAndView retrieveProducts() {
@@ -47,8 +46,9 @@ public class ProductController {
     }
 
     @PostMapping("/register")
-    public ModelAndView doRegisterProduct(@ModelAttribute final ProductCreateRequest productRequest) {
-        productService.createProduct(productRequest);
+    public ModelAndView doRegisterProduct(@RequestPart(value = "image") final MultipartFile image,
+                                          @ModelAttribute final ProductCreateRequest productRequest) throws IOException {
+        productService.createProduct(image, productRequest);
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI);
     }

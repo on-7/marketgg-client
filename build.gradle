@@ -27,6 +27,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 //    testImplementation 'org.springframework.security:spring-security-test'
 }
 

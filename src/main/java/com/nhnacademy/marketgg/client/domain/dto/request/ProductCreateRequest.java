@@ -2,8 +2,8 @@ package com.nhnacademy.marketgg.client.domain.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Getter
 public class ProductCreateRequest {
 
-    private MultipartFile image;
     private String categoryCode;
     private String name;
     private String content;
