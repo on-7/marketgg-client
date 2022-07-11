@@ -19,6 +19,7 @@ public class AdminCategoryController {
     @GetMapping("/index")
     ModelAndView index() {
         ModelAndView mv = new ModelAndView();
+
         mv.setViewName("/categories/index");
 
         return mv;
@@ -27,7 +28,9 @@ public class AdminCategoryController {
     @DeleteMapping("/{categoryId}")
     ModelAndView deleteCategory(@PathVariable final String categoryId) {
         ModelAndView mv = new ModelAndView();
+
         categoryService.deleteCategory(categoryId);
+
         mv.setViewName("redirect:/admin/v1/categories/index");
 
         return mv;

@@ -22,7 +22,7 @@ public class DefaultCategoryService implements CategoryService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public void deleteCategory(String categoryId) {
+    public void deleteCategory(final String categoryId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
         restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + categoryId,
                               HttpMethod.DELETE,
