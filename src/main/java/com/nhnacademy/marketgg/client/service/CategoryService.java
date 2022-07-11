@@ -15,7 +15,7 @@ public interface CategoryService {
 
     void updateCategory(final String categoryId, final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException;
-            
+
     void deleteCategory(final String categoryId);
 
 }

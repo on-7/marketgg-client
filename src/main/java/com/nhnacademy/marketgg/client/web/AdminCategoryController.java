@@ -7,12 +7,12 @@ import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,32 +27,26 @@ public class AdminCategoryController {
 
     @GetMapping("/create")
     ModelAndView doCreateCategory() {
-        ModelAndView mv = new ModelAndView();
-        
-        mv.setViewName("/categories/create-form");
-
-        return mv;
+        return new ModelAndView("/categories/create-form");
     }
 
     @PostMapping
     ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView("redirect:/admin/v1/categories/index");
 
         categoryService.createCategory(categoryRequest);
-
-        mv.setViewName("redirect:/admin/v1/categories/index");
 
         return mv;
     }
 
     @GetMapping("/index")
     ModelAndView index() {
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView("/categories/index");
+
         List<CategoryRetrieveResponse> responses = categoryService.retrieveCategories();
 
-        mv.setViewName("/categories/index");
         mv.addObject("categories", responses);
 
         return mv;
@@ -60,11 +54,7 @@ public class AdminCategoryController {
 
     @GetMapping("/update")
     ModelAndView doUpdateCategory() {
-        ModelAndView mv = new ModelAndView();
-
-        mv.setViewName("/categories/update-form");
-
-        return mv;
+        return new ModelAndView("/categories/update-form");
     }
 
     @PutMapping("/{categoryId}")
@@ -72,23 +62,19 @@ public class AdminCategoryController {
                                 @ModelAttribute final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView("redirect:/admin/v1/categories/index");
 
         categoryService.updateCategory(categoryId, categoryRequest);
-        
-        mv.setViewName("redirect:/admin/v1/categories/index");
 
         return mv;
     }
-    
+
     @DeleteMapping("/{categoryId}")
     ModelAndView deleteCategory(@PathVariable final String categoryId) {
-        ModelAndView mv = new ModelAndView();
+        ModelAndView mv = new ModelAndView("redirect:/admin/v1/categories/index");
 
         categoryService.deleteCategory(categoryId);
 
-        mv.setViewName("redirect:/admin/v1/categories/index");
-        
         return mv;
     }
 

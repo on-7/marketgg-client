@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,9 +32,10 @@ public class DefaultCategoryService implements CategoryService {
         String request = objectMapper.writeValueAsString(categoryRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
-        restTemplate.postForEntity(gateWayIp + "/admin/v1/categories",
-                                    requestEntity,
-                                    Void.class);
+        restTemplate.exchange(gateWayIp + "/admin/v1/categories",
+                              HttpMethod.POST,
+                              requestEntity,
+                              Void.class);
     }
 
     @Override
@@ -44,11 +45,12 @@ public class DefaultCategoryService implements CategoryService {
         String request = objectMapper.writeValueAsString(categoryRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
-        restTemplate.put(gateWayIp + "/admin/v1/categories/" + categoryId,
-                                   requestEntity,
-                                   Void.class);
+        restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + categoryId,
+                              HttpMethod.PUT,
+                              requestEntity,
+                              Void.class);
     }
-    
+
     @Override
     public void deleteCategory(final String categoryId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(headers);
