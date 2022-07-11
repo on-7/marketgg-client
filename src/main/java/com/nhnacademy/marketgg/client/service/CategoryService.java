@@ -5,6 +5,6 @@ import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 
 public interface CategoryService {
 
-    void createCategory(CategoryCreateRequest categoryRequest) throws JsonProcessingException;
+    void createCategory(final CategoryCreateRequest categoryRequest) throws JsonProcessingException;
 
 }
