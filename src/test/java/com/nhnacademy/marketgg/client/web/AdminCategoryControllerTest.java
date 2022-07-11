@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -63,6 +68,15 @@ public class AdminCategoryControllerTest {
                .andExpect(status().is3xxRedirection());
 
         verify(categoryService, times(1)).createCategory(any(CategoryCreateRequest.class));
+    }
+
+    @DisplayName("카테고리 전체 목록 조회")
+    void testIndex() throws Exception {
+        when(categoryService.retrieveCategories()).thenReturn(List.of(new CategoryRetrieveResponse()));
+
+        mockMvc.perform(get("/admin/v1/categories/index"))
+               .andExpect(status().isOk())
+               .andExpect(view().name("/categories/index"));
     }
 
     @Test
