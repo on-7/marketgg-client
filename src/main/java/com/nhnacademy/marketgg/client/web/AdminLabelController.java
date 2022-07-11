@@ -27,28 +27,28 @@ public class AdminLabelController {
     ModelAndView createLabel(@ModelAttribute final LabelRegisterRequest labelRequest)
             throws JsonProcessingException {
 
-        ModelAndView mv = new ModelAndView("redirect:/admin/v1/labels/index");
+        ModelAndView mav = new ModelAndView("redirect:/admin/v1/labels/index");
         labelService.createLabel(labelRequest);
 
-        return mv;
+        return mav;
     }
 
     @GetMapping
     ModelAndView retrieveLabels() {
-        ModelAndView mv = new ModelAndView("/labels/index");
+        ModelAndView mav = new ModelAndView("/labels/index");
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
 
-        mv.addObject("labels", responses);
+        mav.addObject("labels", responses);
 
-        return mv;
+        return mav;
     }
 
     @DeleteMapping("/{labelId}")
     ModelAndView deleteLabel(@PathVariable final Long labelId) {
-        ModelAndView mv = new ModelAndView("redirect:/admin/v1/labels/index");
+        ModelAndView mav = new ModelAndView("redirect:/admin/v1/labels/index");
         labelService.deleteLabel(labelId);
 
-        return mv;
+        return mav;
     }
 
 }
