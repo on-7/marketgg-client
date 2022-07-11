@@ -36,13 +36,6 @@ class AdminLabelControllerTest {
     LabelService labelService;
 
     @Test
-    @DisplayName("라벨 메인 페이지 이동")
-    void testIndex() throws Exception {
-        mockMvc.perform(get("/admin/v1/labels/index"))
-                .andExpect(view().name("/labels/index"));
-    }
-
-    @Test
     @DisplayName("라벨 등록 페이지 이동")
     void testDoCreateLabel() throws Exception {
         mockMvc.perform(get("/admin/v1/labels/create"))
@@ -68,7 +61,7 @@ class AdminLabelControllerTest {
 
         mockMvc.perform(get("/admin/v1/labels"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/labels/retrieve"));
+                .andExpect(view().name("/labels/index"));
     }
     
     @Test
