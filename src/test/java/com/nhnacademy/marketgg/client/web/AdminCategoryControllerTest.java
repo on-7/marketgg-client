@@ -36,7 +36,7 @@ public class AdminCategoryControllerTest {
 
     @Test
     @DisplayName("카테고리 등록 페이지 이동")
-    void testDoCreateLabel() throws Exception {
+    void testDoCreateCategory() throws Exception {
         mockMvc.perform(get("/admin/v1/categories/create"))
                .andExpect(view().name("/categories/create-form"));
     }
