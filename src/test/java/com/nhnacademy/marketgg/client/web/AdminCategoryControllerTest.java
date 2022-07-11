@@ -28,8 +28,8 @@ public class AdminCategoryControllerTest {
     CategoryService categoryService;
 
     @Test
-    @DisplayName("라벨 전체 목록 조회")
-    void testRetrieveLabels() throws Exception {
+    @DisplayName("카테고리 전체 목록 조회")
+    void testIndex() throws Exception {
         when(categoryService.retrieveCategories()).thenReturn(List.of(new CategoryRetrieveResponse()));
 
         mockMvc.perform(get("/admin/v1/categories/index"))
