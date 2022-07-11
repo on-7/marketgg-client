@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service;
 
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,4 +15,7 @@ public interface ProductService {
     List<ProductResponse> retrieveProducts();
 
     ProductResponse retrieveProductDetails(Long productNo);
+
+    void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest) throws IOException;
+
 }

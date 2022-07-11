@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -54,15 +55,24 @@ public class ProductController {
         return mav;
     }
 
-    @GetMapping("/{productNo}")
-    public ModelAndView retrieveProductDetails(@PathVariable Long productNo) {
+    @GetMapping("/{productId}")
+    public ModelAndView retrieveProductDetails(@PathVariable Long productId) {
 
-        ProductResponse productDetails = productService.retrieveProductDetails(productNo);
+        ProductResponse productDetails = productService.retrieveProductDetails(productId);
 
         ModelAndView mav = new ModelAndView("products/product-details");
         mav.addObject("productDetails", productDetails);
 
         return mav;
+    }
+
+    @PutMapping("/{productId}")
+    public ModelAndView updateProduct(@RequestPart(value = "image") final MultipartFile image,
+                                      @ModelAttribute final ProductModifyRequest productRequest,
+                                      @PathVariable Long productId) throws IOException {
+        productService.updateProduct(productId, image, productRequest);
+
+        return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
     }
 }
 
