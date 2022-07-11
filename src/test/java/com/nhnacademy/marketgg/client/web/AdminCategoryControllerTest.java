@@ -14,6 +14,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
+import org.springframework.test.web.servlet.MockMvc;
+
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
@@ -21,6 +23,8 @@ import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -84,6 +88,18 @@ public class AdminCategoryControllerTest {
 
         verify(categoryService, times(1))
                 .updateCategory(anyString(), any(CategoryUpdateRequest.class));
+    }
+    
+    @Test
+    @DisplayName("카테고리 삭제")
+    void testDeleteCategory() throws Exception {
+        doNothing().when(categoryService).deleteCategory(anyString());
+
+        mockMvc.perform(delete("/admin/v1/categories/{categoryId}", "001"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/admin/v1/categories/index"));
+
+        verify(categoryService, times(1)).deleteCategory("001");
     }
 
 }

@@ -8,6 +8,7 @@ import com.nhnacademy.marketgg.client.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -33,6 +34,7 @@ public class DefaultCategoryService implements CategoryService {
                                     Void.class);
     }
 
+    @Override
     public void updateCategory(final String categoryId, final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
@@ -42,6 +44,15 @@ public class DefaultCategoryService implements CategoryService {
         restTemplate.put(gateWayIp + "/admin/v1/categories/" + categoryId,
                                    requestEntity,
                                    Void.class);
+    }
+    
+    @Override
+    public void deleteCategory(final String categoryId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + categoryId,
+                              HttpMethod.DELETE,
+                              requestEntity,
+                              Void.class);
     }
 
     private static HttpHeaders buildHeaders() {

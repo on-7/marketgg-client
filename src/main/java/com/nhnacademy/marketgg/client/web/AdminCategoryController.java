@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -60,6 +61,17 @@ public class AdminCategoryController {
         ModelAndView mv = new ModelAndView();
 
         categoryService.updateCategory(categoryId, categoryRequest);
+        
+        mv.setViewName("redirect:/admin/v1/categories/index");
+
+        return mv;
+    }
+    
+    @DeleteMapping("/{categoryId}")
+    ModelAndView deleteCategory(@PathVariable final String categoryId) {
+        ModelAndView mv = new ModelAndView();
+
+        categoryService.deleteCategory(categoryId);
 
         mv.setViewName("redirect:/admin/v1/categories/index");
 
