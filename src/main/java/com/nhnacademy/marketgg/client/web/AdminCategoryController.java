@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,9 @@ public class AdminCategoryController {
 
     @PutMapping("/{categoryId}")
     ModelAndView updateCategory(@PathVariable final String categoryId,
-                                @ModelAttribute final CategoryUpdateRequest categoryRequest) {
+                                @ModelAttribute final CategoryUpdateRequest categoryRequest)
+            throws JsonProcessingException {
+
         ModelAndView mv = new ModelAndView();
 
         categoryService.updateCategory(categoryId, categoryRequest);

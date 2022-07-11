@@ -9,4 +9,10 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CategoryUpdateRequest {
 
+    private String categorizationCode;
+
+    private String name;
+
+    private Integer sequence;
+
 }
