@@ -23,7 +23,7 @@ public class DefaultCategoryService implements CategoryService {
     private final ObjectMapper objectMapper;
 
     @Override
-    public void updateCategory(String categoryId, CategoryUpdateRequest categoryRequest)
+    public void updateCategory(final String categoryId, final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
         String request = objectMapper.writeValueAsString(categoryRequest);
