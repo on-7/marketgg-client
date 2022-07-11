@@ -23,7 +23,6 @@ import org.springframework.web.client.RestTemplate;
 public class DefaultLabelService implements LabelService {
 
     private final String gateWayIp;
-    private final HttpHeaders headers = buildHeaders();
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
@@ -31,28 +30,28 @@ public class DefaultLabelService implements LabelService {
     public void createLabel(final LabelRegisterRequest labelRequest) throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(labelRequest);
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(request, buildHeaders());
         restTemplate.exchange(gateWayIp + "/admin/v1/labels",
-                                   HttpMethod.POST,
-                                   requestEntity,
-                                   Void.class);
+                              HttpMethod.POST,
+                              requestEntity,
+                              Void.class);
     }
 
     @Override
     public List<LabelRetrieveResponse> retrieveLabels() {
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<List<LabelRetrieveResponse>>
                 response = restTemplate.exchange(gateWayIp + "/admin/v1/labels",
                                                  HttpMethod.GET,
                                                  requestEntity,
                                                  new ParameterizedTypeReference<>() {
-                                                                                     });
+                                                 });
         return response.getBody();
     }
 
     @Override
     public void deleteLabel(Long labelId) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+        HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         restTemplate.exchange(gateWayIp + "/admin/v1/labels/" + labelId,
                               HttpMethod.DELETE,
                               requestEntity,
