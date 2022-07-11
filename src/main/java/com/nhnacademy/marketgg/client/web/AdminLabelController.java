@@ -23,14 +23,6 @@ public class AdminLabelController {
 
     private final LabelService labelService;
 
-    @GetMapping("/index")
-    ModelAndView index() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/labels/index");
-
-        return mv;
-    }
-
     @GetMapping("/create")
     ModelAndView doCreateLabel() {
         ModelAndView mv = new ModelAndView();
@@ -55,7 +47,7 @@ public class AdminLabelController {
         ModelAndView mv = new ModelAndView();
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
 
-        mv.setViewName("/labels/retrieve");
+        mv.setViewName("/labels/index");
         mv.addObject("labels", responses);
 
         return mv;
