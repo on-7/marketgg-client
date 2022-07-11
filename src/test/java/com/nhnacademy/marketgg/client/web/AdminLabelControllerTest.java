@@ -36,13 +36,6 @@ class AdminLabelControllerTest {
     LabelService labelService;
 
     @Test
-    @DisplayName("라벨 등록 페이지 이동")
-    void testDoCreateLabel() throws Exception {
-        mockMvc.perform(get("/admin/v1/labels/create"))
-               .andExpect(view().name("/labels/create-form"));
-    }
-
-    @Test
     @DisplayName("라벨 등록")
     void testCreateLabel() throws Exception {
         doNothing().when(labelService).createLabel(any(LabelRegisterRequest.class));
