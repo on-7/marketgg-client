@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import com.nhnacademy.marketgg.client.adapter.ProductAdapter;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,12 @@ public class DefaultProductService implements ProductService {
     @Override
     public ProductResponse retrieveProductDetails(Long productNo) {
         return productAdapter.retrieveProductDetails(productNo);
+    }
+
+    @Override
+    public void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest)
+        throws IOException {
+        productAdapter.updateProduct(productId, image, productRequest);
     }
 
 }

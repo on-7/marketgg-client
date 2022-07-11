@@ -2,18 +2,22 @@ package com.nhnacademy.marketgg.client.adapter.impl;
 
 import com.nhnacademy.marketgg.client.adapter.ProductAdapter;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
+import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -26,14 +30,15 @@ public class DefaultProductAdapter implements ProductAdapter {
     private final RestTemplate restTemplate;
 
     @Override
-    public void createProduct(final MultipartFile image,
-                              final ProductCreateRequest productRequest) throws IOException {
+    public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
+        throws IOException {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         LinkedMultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
-        headerMap.add("Content-disposition", "form-data; name=image; filename=" + image.getOriginalFilename());
+        headerMap.add("Content-disposition",
+            "form-data; name=image; filename=" + image.getOriginalFilename());
         headerMap.add("Content-type", "application/pdf");
         HttpEntity<byte[]> doc = new HttpEntity<>(image.getBytes(), headerMap);
 
@@ -41,9 +46,11 @@ public class DefaultProductAdapter implements ProductAdapter {
         multipartReqMap.add("productRequest", productRequest);
         multipartReqMap.add("image", doc);
 
-        HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity = new HttpEntity<>(multipartReqMap, headers);
-        ResponseEntity<Void> response = restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT,
-                HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
+        HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
+            new HttpEntity<>(multipartReqMap, headers);
+        ResponseEntity<Void> response =
+            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT, HttpMethod.POST, httpEntity,
+                new ParameterizedTypeReference<>() {
                 });
 
         log.info(String.valueOf(response.getHeaders().getLocation()));
@@ -57,12 +64,9 @@ public class DefaultProductAdapter implements ProductAdapter {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<List<ProductResponse>> response =
-                restTemplate.exchange(BASE_URL
-                                + SERVER_DEFAULT_PRODUCT,
-                        HttpMethod.GET,
-                        httpEntity,
-                        new ParameterizedTypeReference<>() {
-                        });
+            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT, HttpMethod.GET, httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         return response.getBody();
     }
@@ -75,14 +79,38 @@ public class DefaultProductAdapter implements ProductAdapter {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            restTemplate.exchange(BASE_URL
-                    + SERVER_DEFAULT_PRODUCT + "/" + productNo,
-                HttpMethod.GET,
-                httpEntity,
-                new ParameterizedTypeReference<>() {
+            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productNo,
+                HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
                 });
 
         return response.getBody();
+    }
+
+    @Override
+    public void updateProduct(final Long productId, final MultipartFile image,
+                              final ProductModifyRequest productRequest) throws IOException {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        LinkedMultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
+        headerMap.add("Content-disposition",
+            "form-data; name=image; filename=" + image.getOriginalFilename());
+        headerMap.add("Content-type", "application/pdf");
+        HttpEntity<byte[]> doc = new HttpEntity<>(image.getBytes(), headerMap);
+
+        LinkedMultiValueMap<String, Object> multipartReqMap = new LinkedMultiValueMap<>();
+        multipartReqMap.add("productRequest", productRequest);
+        multipartReqMap.add("image", doc);
+
+        HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
+            new HttpEntity<>(multipartReqMap, headers);
+        ResponseEntity<Void> response =
+            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId, HttpMethod.PUT, httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 
 }
