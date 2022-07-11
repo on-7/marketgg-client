@@ -6,12 +6,7 @@ import com.nhnacademy.marketgg.client.dto.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -24,42 +19,33 @@ public class AdminLabelController {
     private final LabelService labelService;
 
     @GetMapping("/create")
-    ModelAndView doCreateLabel() {
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("/labels/create-form");
-
-        return mv;
+    public ModelAndView doCreateLabel() {
+        return new ModelAndView("/labels/create-form");
     }
 
     @PostMapping
-    ModelAndView createLabel(@ModelAttribute final LabelRegisterRequest labelRequest)
-            throws JsonProcessingException {
-
-        ModelAndView mv = new ModelAndView();
+    public ModelAndView
+    createLabel(@ModelAttribute final LabelRegisterRequest labelRequest) throws JsonProcessingException {
         labelService.createLabel(labelRequest);
-        mv.setViewName("redirect:/admin/v1/labels/index");
 
-        return mv;
+        return new ModelAndView("redirect:/admin/v1/labels/index");
     }
 
     @GetMapping
-    ModelAndView retrieveLabels() {
-        ModelAndView mv = new ModelAndView();
+    public ModelAndView retrieveLabels() {
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
 
-        mv.setViewName("/labels/index");
-        mv.addObject("labels", responses);
+        ModelAndView mav = new ModelAndView("/labels/index");
+        mav.addObject("labels", responses);
 
-        return mv;
+        return mav;
     }
 
     @DeleteMapping("/{labelId}")
-    ModelAndView deleteLabel(@PathVariable final Long labelId) {
-        ModelAndView mv = new ModelAndView();
+    public ModelAndView deleteLabel(@PathVariable final Long labelId) {
         labelService.deleteLabel(labelId);
-        mv.setViewName("redirect:/admin/v1/labels/index");
 
-        return mv;
+        return new ModelAndView("redirect:/admin/v1/labels/index");
     }
 
 }
