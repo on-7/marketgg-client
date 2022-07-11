@@ -29,13 +29,18 @@ public class ProductController {
         return new ModelAndView("products/index");
     }
 
-    @PostMapping
-    public ModelAndView createProduct(@ModelAttribute final ProductCreateRequest productRequest) {
+    @PostMapping("/create")
+    public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
+                                      @ModelAttribute final ProductCreateRequest productRequest) throws IOException {
+        productService.createProduct(image, productRequest);
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
-        productService.createProduct(productRequest);
+        return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
+    }
 
-        return mav;
+    @GetMapping("/create")
+    public ModelAndView createProduct() {
+
+        return new ModelAndView("products/product-form");
     }
 
     @GetMapping
@@ -59,18 +64,5 @@ public class ProductController {
 
         return mav;
     }
-
-    @GetMapping("/register")
-    public ModelAndView registerProduct() {
-
-        return new ModelAndView("product-form");
-    }
-
-    @PostMapping("/register")
-    public ModelAndView doRegisterProduct(@RequestPart(value = "image") final MultipartFile image,
-                                          @ModelAttribute final ProductCreateRequest productRequest) throws IOException {
-        productService.createProduct(image, productRequest);
-
-        return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI);
-    }
 }
+
