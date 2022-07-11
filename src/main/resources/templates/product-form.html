@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>파일 업로드</title>
+    </head>
+    <body>
+        <form name="form" method="post" action="/admin/v1/products/register" enctype="multipart/form-data">
+
+            <input type="text" name="name" placeholder="상품 이름"> <br>
+            <input type="text" name="categoryCode" placeholder="카테고리 코드"> <br>
+            <input type="text" name="content" placeholder="상품 설명"> <br>
+            <input type="number" name="totalStock" placeholder="총 수량"> <br>
+            <input type="number" name="price" placeholder="가격"> <br>
+            <input type="text" name="description" placeholder="설명"> <br>
+            <input type="text" name="unit" placeholder="판매 단위"> <br>
+            <input type="text" name="deliveryType" placeholder="배송 구분"> <br>
+            <input type="text" name="origin" placeholder="원산지"> <br>
+            <input type="text" name="packageType" placeholder="포장 타입"> <br>
+            <input type="date" name="expirationDate" placeholder="유효기간"> <br>
+            <input type="text" name="allergyInfo" placeholder="알러지 정보"> <br>
+            <input type="text" name="capacity" placeholder="중량/용량"> <br>
+            <input type="file" name="image" multiple="multiple"/> <br>
+            <button type="submit">상품 등록 </button>
+        </form>
+    </body>
+</html>

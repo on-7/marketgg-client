@@ -5,8 +5,10 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
+import java.time.LocalDate;
+
 @NoArgsConstructor
+@Getter
 public class ProductResponse {
 
     private Long productNo;
