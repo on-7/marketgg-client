@@ -5,12 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.time.Duration;
 
 @Configuration
-public class WebConfiguration extends WebMvcConfigurationSupport {
+public class WebConfiguration {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
@@ -25,8 +24,9 @@ public class WebConfiguration extends WebMvcConfigurationSupport {
         return "http://localhost:6060";
     }
 
+    // REVIEW 2:
     @Bean
-    public CommonsMultipartResolver multipartResolver(){
+    public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
         commonsMultipartResolver.setDefaultEncoding("utf-8");
         commonsMultipartResolver.setMaxUploadSize(50000000);
