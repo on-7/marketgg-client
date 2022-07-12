@@ -1,9 +1,9 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
-import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,18 +24,18 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class ProductAdapter implements ProductRepository {
 
-    //TODO: @Value로 고치기
+    // TODO: @Value로 고치기
     private static final String BASE_URL = "http://localhost:7080";
     private static final String SERVER_DEFAULT_PRODUCT = "/admin/v1/products";
 
-    //TODO: AdapterTemplate 만들어서 공통 코드 분리하기
+    // TODO: AdapterTemplate 만들어서 공통 코드 분리하기
     private final RestTemplate restTemplate;
 
     @Override
     public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
         throws IOException {
 
-        //TODO: 주석으로 코드 설명하기
+        // TODO: 주석으로 코드 설명하기
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -56,7 +56,7 @@ public class ProductAdapter implements ProductRepository {
                 new ParameterizedTypeReference<>() {
                 });
 
-        //TODO: Log를 AOP로 뺴기
+        // TODO: Log를 AOP로 뺴기
         log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 
@@ -110,11 +110,12 @@ public class ProductAdapter implements ProductRepository {
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
             new HttpEntity<>(multipartReqMap, headers);
         ResponseEntity<Void> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId, HttpMethod.PUT, httpEntity,
+            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId,
+                HttpMethod.PUT, httpEntity,
                 new ParameterizedTypeReference<>() {
                 });
 
-        //TODO: Log를 AOP로 빼기
+        // TODO: Log를 AOP로 빼기
         log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 
@@ -126,7 +127,7 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId +"/deleted",
+            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId + "/deleted",
                 HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
                 });
 
