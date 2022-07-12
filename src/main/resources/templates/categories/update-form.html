@@ -12,18 +12,16 @@
                 <table>
                     <tr>
                         <th>카테고리분류</th>
-                        <th>코드</th>
+                        <th>카테고리코드</th>
                         <th>이름</th>
                         <th>순서</th>
                     </tr>
                     <tr>
                         <td>
-                            <select name="categorization" th:each="categorization : ${categorizations}">
-                                <option th:text="${categorization.name}" th:value="${categorization.categorizationCode}"></option>
-                            </select>
+                            <p th:text="${category.categorizationName}"></p>
                         </td>
                         <td>
-                            <input type="text" name="code" th:placeholder="${category.categoryCode}">
+                            <p th:text="${category.categoryCode}"></p>
                         </td>
                         <td>
                             <input type="text" name="name" th:placeholder="${category.name}">
