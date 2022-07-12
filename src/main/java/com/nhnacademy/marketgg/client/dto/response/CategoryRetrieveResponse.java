@@ -7,8 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class CategoryRetrieveResponse {
 
-    private String categorizationCode;
-
     private String categoryCode;
 
     private String categorizationName;
