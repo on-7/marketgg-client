@@ -27,7 +27,7 @@ public class AdminLabelController {
     public ModelAndView createLabel(@ModelAttribute final LabelRegisterRequest labelRequest)
             throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/admin/v1/labels/index");
+        ModelAndView mav = new ModelAndView("redirect:/admin/v1/labels");
         labelService.createLabel(labelRequest);
 
         return mav;
@@ -45,7 +45,7 @@ public class AdminLabelController {
 
     @DeleteMapping("/{labelId}")
     public ModelAndView deleteLabel(@PathVariable final Long labelId) {
-        ModelAndView mav = new ModelAndView("redirect:/admin/v1/labels/index");
+        ModelAndView mav = new ModelAndView("redirect:/admin/v1/labels");
         labelService.deleteLabel(labelId);
 
         return mav;

@@ -26,6 +26,7 @@
                     <td th:text="${label.name}"></td>
                     <td>
                         <form th:method="delete" th:action="'/admin/v1/labels/' + ${label.labelNo}">
+                            <input type="hidden" name="_method" value="delete"/>
                             <input type="submit" value="삭제">
                         </form>
                     </td>
