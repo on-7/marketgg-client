@@ -58,7 +58,7 @@ public class DefaultLabelService implements LabelService {
                               Void.class);
     }
 
-    private static HttpHeaders buildHeaders() {
+    private HttpHeaders buildHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
