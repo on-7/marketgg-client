@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class CategoryUpdateRequest {
 
-    private String categorizationCode;
+    private String categoryCode;
 
     private String name;
 
