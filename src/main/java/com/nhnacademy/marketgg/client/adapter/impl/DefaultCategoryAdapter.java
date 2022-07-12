@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.adapter.CategoryAdapter;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +47,19 @@ public class DefaultCategoryAdapter implements CategoryAdapter {
         HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<List<CategoryRetrieveResponse>>
                 response = restTemplate.exchange(gateWayIp + "/admin/v1/categories",
+                                                 HttpMethod.GET, requestEntity,
+                                                 new ParameterizedTypeReference<>() {
+                                                 });
+
+        checkResponseUri(response);
+        return response.getBody();
+    }
+
+    @Override
+    public List<CategorizationRetrieveResponse> retrieveCategorizations() {
+        HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
+        ResponseEntity<List<CategorizationRetrieveResponse>>
+                response = restTemplate.exchange(gateWayIp + "/admin/v1/categorizations",
                                                  HttpMethod.GET, requestEntity,
                                                  new ParameterizedTypeReference<>() {
                                                  });

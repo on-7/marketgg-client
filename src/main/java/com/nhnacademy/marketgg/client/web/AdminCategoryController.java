@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,12 @@ public class AdminCategoryController {
 
     @GetMapping("/create")
     public ModelAndView doCreateCategory() {
-        return new ModelAndView("/categories/create-form");
+        ModelAndView mav = new ModelAndView("/categories/create-form");
+
+        List<CategorizationRetrieveResponse> responses = categoryService.retrieveCategorizations();
+
+        mav.addObject("categorizationNames", responses);
+        return mav;
     }
 
     @PostMapping

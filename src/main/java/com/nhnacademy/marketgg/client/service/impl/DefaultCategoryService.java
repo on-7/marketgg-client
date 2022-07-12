@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.adapter.CategoryAdapter;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import java.util.List;
@@ -26,6 +27,11 @@ public class DefaultCategoryService implements CategoryService {
     @Override
     public List<CategoryRetrieveResponse> retrieveCategories() {
         return categoryAdapter.retrieveCategories();
+    }
+
+    @Override
+    public List<CategorizationRetrieveResponse> retrieveCategorizations() {
+        return categoryAdapter.retrieveCategorizations();
     }
 
     @Override
