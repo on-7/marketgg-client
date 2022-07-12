@@ -1,82 +1,43 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.adapter.CategoryAdapter;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class DefaultCategoryService implements CategoryService {
 
-    private final String gateWayIp;
-    private final HttpHeaders headers = buildHeaders();
-    private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
+    private final CategoryAdapter categoryAdapter;
 
     @Override
-    public void createCategory(final CategoryCreateRequest categoryRequest) throws JsonProcessingException {
-        String request = objectMapper.writeValueAsString(categoryRequest);
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
-        restTemplate.exchange(gateWayIp + "/admin/v1/categories",
-                              HttpMethod.POST,
-                              requestEntity,
-                              Void.class);
-    }
-
-    @Override
-    public void updateCategory(final String categoryId, final CategoryUpdateRequest categoryRequest)
+    public void createCategory(final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException {
 
-        String request = objectMapper.writeValueAsString(categoryRequest);
-
-        HttpEntity<String> requestEntity = new HttpEntity<>(request, headers);
-        restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + categoryId,
-                              HttpMethod.PUT,
-                              requestEntity,
-                              Void.class);
-    }
-
-    @Override
-    public void deleteCategory(final String categoryId) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + categoryId,
-                              HttpMethod.DELETE,
-                              requestEntity,
-                              Void.class);
+        categoryAdapter.createCategory(categoryRequest);
     }
 
     @Override
     public List<CategoryRetrieveResponse> retrieveCategories() {
-        HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<CategoryRetrieveResponse>>
-                response = restTemplate.exchange(gateWayIp + "/admin/v1/categories",
-                                                 HttpMethod.GET, requestEntity,
-                                                 new ParameterizedTypeReference<>() {
-                                                 });
-        return response.getBody();
+        return categoryAdapter.retrieveCategories();
     }
 
-    private static HttpHeaders buildHeaders() {
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
+    @Override
+    public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
+            throws JsonProcessingException {
 
-        return httpHeaders;
+        categoryAdapter.updateCategory(id, categoryRequest);
+    }
+
+    @Override
+    public void deleteCategory(final String id) {
+        categoryAdapter.deleteCategory(id);
     }
 
 }

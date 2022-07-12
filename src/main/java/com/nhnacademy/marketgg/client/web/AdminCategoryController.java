@@ -26,12 +26,12 @@ public class AdminCategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/create")
-    ModelAndView doCreateCategory() {
+    public ModelAndView doCreateCategory() {
         return new ModelAndView("/categories/create-form");
     }
 
     @PostMapping
-    ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
+    public ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException {
 
         ModelAndView mv = new ModelAndView("redirect:/admin/v1/categories/index");
@@ -42,7 +42,7 @@ public class AdminCategoryController {
     }
 
     @GetMapping("/index")
-    ModelAndView index() {
+    public ModelAndView retrieveCategories() {
         ModelAndView mv = new ModelAndView("/categories/index");
 
         List<CategoryRetrieveResponse> responses = categoryService.retrieveCategories();
