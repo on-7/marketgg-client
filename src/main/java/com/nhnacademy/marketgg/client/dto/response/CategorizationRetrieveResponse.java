@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class CategorizationRetrieveResponse {
-    
+
     private String categorizationCode;
 
     private String name;

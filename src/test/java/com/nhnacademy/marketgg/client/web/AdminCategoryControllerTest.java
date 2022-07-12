@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -52,8 +53,13 @@ public class AdminCategoryControllerTest {
     @Test
     @DisplayName("카테고리 등록")
     void testCreateCategory() throws Exception {
-        String content = objectMapper.writeValueAsString(
-                new CategoryCreateRequest("001001", "001", "친환경", 1));
+        CategoryCreateRequest categoryRequest = new CategoryCreateRequest();
+        ReflectionTestUtils.setField(categoryRequest, "categoryCode", "001001");
+        ReflectionTestUtils.setField(categoryRequest, "categorizationCode", "001");
+        ReflectionTestUtils.setField(categoryRequest, "name", "친환경");
+        ReflectionTestUtils.setField(categoryRequest, "sequence", 1);
+
+        String content = objectMapper.writeValueAsString(categoryRequest);
 
         doNothing().when(categoryService).createCategory(any(CategoryCreateRequest.class));
 
@@ -85,8 +91,12 @@ public class AdminCategoryControllerTest {
     @Test
     @DisplayName("카테고리 수정")
     void testUpdateCategory() throws Exception {
-        String content = objectMapper.writeValueAsString(
-                new CategoryUpdateRequest("001", "콩나물", 1));
+        CategoryUpdateRequest categoryRequest = new CategoryUpdateRequest();
+        ReflectionTestUtils.setField(categoryRequest, "categorizationCode", "001");
+        ReflectionTestUtils.setField(categoryRequest, "name", "콩나물");
+        ReflectionTestUtils.setField(categoryRequest, "sequence", 1);
+
+        String content = objectMapper.writeValueAsString(categoryRequest);
 
         doNothing().when(categoryService).updateCategory(anyString(), any(CategoryUpdateRequest.class));
 

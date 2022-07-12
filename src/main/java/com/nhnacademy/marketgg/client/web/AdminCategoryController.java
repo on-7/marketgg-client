@@ -33,7 +33,7 @@ public class AdminCategoryController {
 
         List<CategorizationRetrieveResponse> responses = categoryService.retrieveCategorizations();
 
-        mav.addObject("categorizationNames", responses);
+        mav.addObject("categorizations", responses);
         return mav;
     }
 
