@@ -9,17 +9,17 @@
         <hr/>
         <div>
             <form th:method="post" action="/admin/v1/categories">
-                <table>
+                <table style="margin-left: auto; margin-right: auto;">
                     <tr>
                         <th>카테고리분류</th>
-                        <th>코드</th>
+                        <th>카테고리코드</th>
                         <th>이름</th>
                         <th>순서</th>
                     </tr>
                     <tr>
                         <td>
                             <select name="categorizationCode" th:each="categorization : ${categorizations}">
-                                <option th:text="${categorization.name}"></option>
+                                <option th:text="${categorization.name}" th:value="${categorization.categorizationCode}"></option>
                             </select>
                         </td>
                         <td>
