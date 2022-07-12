@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(AdminCategoryController.class)
-public class AdminCategoryControllerTest {
+class AdminCategoryControllerTest {
 
     @Autowired
     MockMvc mockMvc;
