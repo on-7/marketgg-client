@@ -74,5 +74,12 @@ public class ProductController {
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
     }
+
+    @PostMapping("/{productId}/deleted")
+    public ModelAndView deleteProduct(@PathVariable Long productId) {
+        productService.deleteProduct(productId);
+
+        return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
+    }
 }
 

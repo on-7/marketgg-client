@@ -40,4 +40,9 @@ public class DefaultProductService implements ProductService {
         productAdapter.updateProduct(productId, image, productRequest);
     }
 
+    @Override
+    public void deleteProduct(Long productId) {
+        productAdapter.deleteProduct(productId);
+    }
+
 }
