@@ -26,7 +26,7 @@ public class DefaultCategoryService implements CategoryService {
 
     @Override
     public CategoryRetrieveResponse retrieveCategory(String id) {
-        return categoryRepository.;
+        return categoryRepository.retrieveCategory(id);
     }
 
     @Override
