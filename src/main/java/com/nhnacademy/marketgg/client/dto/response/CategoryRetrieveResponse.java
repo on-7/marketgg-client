@@ -15,4 +15,6 @@ public class CategoryRetrieveResponse {
 
     private String categoryName;
 
+    private Integer sequence;
+
 }

@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.adapter;
+package com.nhnacademy.marketgg.client.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
@@ -7,9 +7,11 @@ import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveRespons
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import java.util.List;
 
-public interface CategoryAdapter {
+public interface CategoryRepository {
 
     void createCategory(final CategoryCreateRequest categoryRequest) throws JsonProcessingException;
+
+    CategoryRetrieveResponse retrieveCategory(final String id);
 
     List<CategoryRetrieveResponse> retrieveCategories();
 

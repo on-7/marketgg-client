@@ -1,12 +1,12 @@
-package com.nhnacademy.marketgg.client.adapter.impl;
+package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.adapter.CategoryAdapter;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.repository.CategoryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +22,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DefaultCategoryAdapter implements CategoryAdapter {
+public class CategoryAdapter implements CategoryRepository {
 
     private final String gateWayIp;
     private final RestTemplate restTemplate;
@@ -40,6 +40,18 @@ public class DefaultCategoryAdapter implements CategoryAdapter {
                                                               Void.class);
 
         checkResponseUri(response);
+    }
+
+    @Override
+    public CategoryRetrieveResponse retrieveCategory(String id) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
+        ResponseEntity<CategoryRetrieveResponse>
+                response = restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + id,
+                                                 HttpMethod.GET, requestEntity,
+                                                 CategoryRetrieveResponse.class);
+
+        checkResponseUri(response);
+        return response.getBody();
     }
 
     @Override

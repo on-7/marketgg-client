@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.adapter.CategoryAdapter;
+import com.nhnacademy.marketgg.client.repository.CategoryRepository;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
@@ -15,35 +15,40 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DefaultCategoryService implements CategoryService {
 
-    private final CategoryAdapter categoryAdapter;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public void createCategory(final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException {
 
-        categoryAdapter.createCategory(categoryRequest);
+        categoryRepository.createCategory(categoryRequest);
+    }
+
+    @Override
+    public CategoryRetrieveResponse retrieveCategory(String id) {
+        return categoryRepository.;
     }
 
     @Override
     public List<CategoryRetrieveResponse> retrieveCategories() {
-        return categoryAdapter.retrieveCategories();
+        return categoryRepository.retrieveCategories();
     }
 
     @Override
     public List<CategorizationRetrieveResponse> retrieveCategorizations() {
-        return categoryAdapter.retrieveCategorizations();
+        return categoryRepository.retrieveCategorizations();
     }
 
     @Override
     public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
-        categoryAdapter.updateCategory(id, categoryRequest);
+        categoryRepository.updateCategory(id, categoryRequest);
     }
 
     @Override
     public void deleteCategory(final String id) {
-        categoryAdapter.deleteCategory(id);
+        categoryRepository.deleteCategory(id);
     }
 
 }

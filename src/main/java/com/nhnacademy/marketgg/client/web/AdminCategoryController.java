@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -40,48 +41,53 @@ public class AdminCategoryController {
     public ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mv = new ModelAndView("redirect:/admin/v1/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");
 
         categoryService.createCategory(categoryRequest);
 
-        return mv;
+        return mav;
     }
 
     @GetMapping("/index")
     public ModelAndView retrieveCategories() {
-        ModelAndView mv = new ModelAndView("/categories/index");
+        ModelAndView mav = new ModelAndView("/categories/index");
 
         List<CategoryRetrieveResponse> responses = categoryService.retrieveCategories();
 
-        mv.addObject("categories", responses);
+        mav.addObject("categories", responses);
 
-        return mv;
+        return mav;
     }
 
-    @GetMapping("/update")
-    ModelAndView doUpdateCategory() {
-        return new ModelAndView("/categories/update-form");
+    @GetMapping("/update/{categoryId}")
+    public ModelAndView doUpdateCategory(@PathVariable final String categoryId) {
+        ModelAndView mav = new ModelAndView("/categories/update-form");
+
+        CategoryRetrieveResponse categoryResponse = categoryService.retrieveCategory(categoryId);
+        mav.addObject("category", categoryResponse);
+
+        return mav;
     }
 
     @PutMapping("/{categoryId}")
-    ModelAndView updateCategory(@PathVariable final String categoryId,
+    public ModelAndView updateCategory(@PathVariable final String categoryId,
                                 @ModelAttribute final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mv = new ModelAndView("redirect:/admin/v1/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");
 
         categoryService.updateCategory(categoryId, categoryRequest);
 
-        return mv;
+        return mav;
     }
 
     @DeleteMapping("/{categoryId}")
-    ModelAndView deleteCategory(@PathVariable final String categoryId) {
-        ModelAndView mv = new ModelAndView("redirect:/admin/v1/categories/index");
+    public ModelAndView deleteCategory(@PathVariable final String categoryId) {
+        ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");
 
         categoryService.deleteCategory(categoryId);
 
-        return mv;
+        return mav;
     }
 
 }

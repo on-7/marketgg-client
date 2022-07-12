@@ -12,6 +12,8 @@ public interface CategoryService {
 
     void createCategory(final CategoryCreateRequest categoryRequest) throws JsonProcessingException;
 
+    CategoryRetrieveResponse retrieveCategory(final String id);
+
     List<CategorizationRetrieveResponse> retrieveCategorizations();
 
     List<CategoryRetrieveResponse> retrieveCategories();

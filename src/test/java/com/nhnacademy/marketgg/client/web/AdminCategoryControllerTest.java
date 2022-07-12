@@ -67,7 +67,7 @@ public class AdminCategoryControllerTest {
     }
 
     @DisplayName("카테고리 전체 목록 조회")
-    void testIndex() throws Exception {
+    void testRetrieveCategories() throws Exception {
         when(categoryService.retrieveCategories()).thenReturn(List.of(new CategoryRetrieveResponse()));
 
         mockMvc.perform(get("/admin/v1/categories/index"))
