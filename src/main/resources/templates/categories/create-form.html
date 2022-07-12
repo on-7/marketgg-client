@@ -18,8 +18,8 @@
                     </tr>
                     <tr>
                         <td>
-                            <select name="categorization" th:each="name : ${categorizationNames}">
-                                <option th:text="${name}"></option>
+                            <select name="categorization" th:each="categorization : ${categorizations}">
+                                <option th:text="${categorization.name}"></option>
                             </select>
                         </td>
                         <td>

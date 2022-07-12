@@ -1,13 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>CategoryList</title>
     </head>
     <body>
-        <h1>관리자가 카테고리관리 선택 시 보일 페이지</h1>
-        <h2>카테고리 목록 표시</h2>
-        <h2>카테고리 목록 우측상단 등록 버튼</h2>
-        <h2>각 카테고리 마다 수정, 삭제 버튼</h2>
+        <h1>카테고리 관리</h1>
+        <hr/>
+        <table>
+            <tr>
+                <th>카테고리분류</th>
+                <th>카테고리코드</th>
+                <th>카테고리이름</th>
+                <th>카테고리순서</th>
+                <th>카테고리변경</th>
+            </tr>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.categorizationName}"></td>
+                <td th:text="${category.categoryCode}"></td>
+                <td th:text="${category.categoryName}"></td>
+                <td th:text="${category.sequence}"></td>
+                <td>
+                    <!-- REVIEW button 에 링크다는 방법을 검색하여 적용시켜 보았는데 맞는 방법인지 모르겠습니다.-->
+                    <button onclick="|location.href='@{categoryId(${category.categoryCode})}'|">수정</button>
+                    <button type="submit" th:action="'/admin/v1/categories/' + ${category.categoryCode}" th:method="delete">삭제</button>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
