@@ -74,7 +74,7 @@ public class DefaultLabelAdapter implements LabelAdapter {
     }
 
     private <T> void checkResponseUri(final ResponseEntity<T> response) {
-        log.info(String.valueOf(response.getBody()));
+        log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 
 }
