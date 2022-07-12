@@ -1,6 +1,6 @@
-package com.nhnacademy.marketgg.client.adapter.impl;
+package com.nhnacademy.marketgg.client.repository.impl;
 
-import com.nhnacademy.marketgg.client.adapter.ProductAdapter;
+import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DefaultProductAdapter implements ProductAdapter {
+public class ProductAdapter implements ProductRepository {
 
     //TODO: @Value로 고치기
     private static final String BASE_URL = "http://localhost:7080";
