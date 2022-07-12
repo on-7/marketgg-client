@@ -24,15 +24,18 @@ import org.springframework.web.multipart.MultipartFile;
 @Slf4j
 public class DefaultProductAdapter implements ProductAdapter {
 
+    //TODO: @Value로 고치기
     private static final String BASE_URL = "http://localhost:7080";
     private static final String SERVER_DEFAULT_PRODUCT = "/admin/v1/products";
 
+    //TODO: AdapterTemplate 만들어서 공통 코드 분리하기
     private final RestTemplate restTemplate;
 
     @Override
     public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
         throws IOException {
 
+        //TODO: 주석으로 코드 설명하기
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
@@ -53,6 +56,7 @@ public class DefaultProductAdapter implements ProductAdapter {
                 new ParameterizedTypeReference<>() {
                 });
 
+        //TODO: Log를 AOP로 뺴기
         log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 
@@ -72,14 +76,14 @@ public class DefaultProductAdapter implements ProductAdapter {
     }
 
     @Override
-    public ProductResponse retrieveProductDetails(Long productNo) {
+    public ProductResponse retrieveProductDetails(Long productId) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productNo,
+            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId,
                 HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
                 });
 
@@ -108,6 +112,22 @@ public class DefaultProductAdapter implements ProductAdapter {
         ResponseEntity<Void> response =
             restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId, HttpMethod.PUT, httpEntity,
                 new ParameterizedTypeReference<>() {
+                });
+
+        //TODO: Log를 AOP로 빼기
+        log.info(String.valueOf(response.getHeaders().getLocation()));
+    }
+
+    @Override
+    public void deleteProduct(Long productId) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<ProductResponse> response =
+            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId +"/deleted",
+                HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
                 });
 
         log.info(String.valueOf(response.getHeaders().getLocation()));

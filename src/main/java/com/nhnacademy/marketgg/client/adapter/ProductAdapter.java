@@ -14,8 +14,10 @@ public interface ProductAdapter {
 
     List<ProductResponse> retrieveProducts();
 
-    ProductResponse retrieveProductDetails(Long productNo);
+    //TODO: 그냥 Id로 바꾸기.
+    ProductResponse retrieveProductDetails(Long productId);
 
     void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest) throws IOException;
 
+    void deleteProduct(Long productId);
 }
