@@ -4,33 +4,35 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
         <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
         <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
         <script src="/js/toast.js" defer></script>
+
         <title>파일 업로드</title>
     </head>
     <body>
         <form name="form" method="post" action="/admin/v1/products/create" enctype="multipart/form-data">
 
-            <input type="text" name="name" placeholder="상품 이름"> <br>
-            <input type="text" name="categoryCode" placeholder="카테고리 코드"> <br>
-            <input type="text" name="content" placeholder="상품 설명"> <br>
-            <input type="number" name="totalStock" placeholder="총 수량"> <br>
-            <input type="number" name="price" placeholder="가격"> <br>
-            <!-- <input type="text" name="description" placeholder="설명"> <br> -->
-            <input type="text" name="unit" placeholder="판매 단위"> <br>
-            <input type="text" name="deliveryType" placeholder="배송 구분"> <br>
-            <input type="text" name="origin" placeholder="원산지"> <br>
-            <input type="text" name="packageType" placeholder="포장 타입"> <br>
+            <input type="text" name="name" placeholder="상품 이름" value="다시다맛 젤리"> <br>
+            <input type="text" name="categoryCode" placeholder="카테고리 코드" value="101"> <br>
+            <input type="text" name="content" placeholder="상품 설명" value="북해도에서 온 다시마 젤리"> <br>
+            <input type="number" name="totalStock" placeholder="총 수량" value=1> <br>
+            <input type="number" name="price" placeholder="가격" value=5900> <br>
+            <input type="text" name="unit" placeholder="판매 단위" value="1개"> <br>
+            <input type="text" name="deliveryType" placeholder="배송 구분" value="택배 배송"> <br>
+            <input type="text" name="origin" placeholder="원산지" value="일본"> <br>
+            <input type="text" name="packageType" placeholder="포장 타입" value="스티로폼"> <br>
             <input type="date" name="expirationDate" placeholder="유효기간"> <br>
-            <input type="text" name="allergyInfo" placeholder="알러지 정보"> <br>
-            <input type="text" name="capacity" placeholder="중량/용량"> <br>
+            <input type="text" name="allergyInfo" placeholder="알러지 정보" value="바닷물, 다시마, 소금"> <br>
+            <input type="text" name="capacity" placeholder="중량/용량" value="520g"> <br>
             <input type="file" name="image" multiple="multiple"/> <br>
 
             <div id="editor"></div>
-            <input type="hidden" id="toast-content" name="description" value="">
+            <input type="hidden" id="toast-content" name="description" value="상품">
             <button type="submit" id="btn-submit">상품 등록 </button>
+
         </form>
     </body>
 </html>
