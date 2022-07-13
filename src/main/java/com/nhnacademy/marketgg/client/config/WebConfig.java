@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 @Configuration
 public class WebConfig {
@@ -22,6 +23,11 @@ public class WebConfig {
     @Bean
     public String gatewayIp(@Value("${marketgg.gateway-origin}") String ip) {
         return ip;
+    }
+
+    @Bean
+    public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
+        return new HiddenHttpMethodFilter();
     }
 
 }

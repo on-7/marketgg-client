@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.dto;
+package com.nhnacademy.marketgg.client.dto.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,5 +7,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class LabelRetrieveResponse {
 
+    private Long labelNo;
+
     private String name;
+
 }

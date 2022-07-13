@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.LabelRegisterRequest;
-import com.nhnacademy.marketgg.client.dto.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
+import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,23 +18,20 @@ public class AdminLabelController {
 
     private final LabelService labelService;
 
-    @GetMapping("/create")
-    public ModelAndView doCreateLabel() {
-        return new ModelAndView("/labels/create-form");
-    }
-
     @PostMapping
-    public ModelAndView
-    createLabel(@ModelAttribute final LabelRegisterRequest labelRequest) throws JsonProcessingException {
+    public ModelAndView createLabel(@ModelAttribute final LabelRegisterRequest labelRequest)
+            throws JsonProcessingException {
+
+        ModelAndView mav = new ModelAndView("redirect:/admin/v1/labels");
         labelService.createLabel(labelRequest);
 
-        return new ModelAndView("redirect:/admin/v1/labels/index");
+        return mav;
     }
 
     @GetMapping
     public ModelAndView retrieveLabels() {
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
-
+        
         ModelAndView mav = new ModelAndView("/labels/index");
         mav.addObject("labels", responses);
 

@@ -12,8 +12,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.nhnacademy.marketgg.client.dto.LabelRegisterRequest;
-import com.nhnacademy.marketgg.client.dto.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
+import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,13 +34,6 @@ class AdminLabelControllerTest {
 
     @MockBean
     LabelService labelService;
-
-    @Test
-    @DisplayName("라벨 등록 페이지 이동")
-    void testDoCreateLabel() throws Exception {
-        mockMvc.perform(get("/admin/v1/labels/create"))
-               .andExpect(view().name("/labels/create-form"));
-    }
 
     @Test
     @DisplayName("라벨 등록")
