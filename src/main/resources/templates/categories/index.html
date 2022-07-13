@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>CategoryList</title>
+    </head>
+    <body>
+        <h1 style="display: inline">카테고리 관리</h1>
+        <button style="float: right" onclick="location.href='/admin/v1/categories/create'">카테고리 등록</button>
+        <hr/>
+        <table style="margin-left: auto; margin-right: auto;">
+            <tr>
+                <th>카테고리분류</th>
+                <th>카테고리코드</th>
+                <th>카테고리이름</th>
+                <th>카테고리순서</th>
+                <th>카테고리변경</th>
+            </tr>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.categorizationName}"></td>
+                <td th:text="${category.categoryCode}"></td>
+                <td th:text="${category.categoryName}"></td>
+                <td th:text="${category.sequence}"></td>
+                <td>
+                    <!-- REVIEW button 에 링크다는 방법을 검색하여 적용시켜 보았는데 맞는 방법인지 모르겠습니다.-->
+                    <!-- <button th:onclick="|location.href='@{/admin/v1/categories/}' + ${category.categoryCode}|">수정</button> -->
+                    <a style="text-decoration: none" th:href="@{/admin/v1/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
+                        <button>수정</button>
+                    </a>
+                    <form style="display: inline" th:action="'/admin/v1/categories/' + ${category.categoryCode}" method="post">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <input type="submit" value="삭제"/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

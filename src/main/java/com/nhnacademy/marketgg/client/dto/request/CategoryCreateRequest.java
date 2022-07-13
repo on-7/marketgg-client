@@ -5,8 +5,14 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class LabelRegisterRequest {
+public class CategoryCreateRequest {
+
+    private String categoryCode;
+
+    private String categorizationCode;
 
     private String name;
+
+    private Integer sequence;
 
 }

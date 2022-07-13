@@ -22,10 +22,9 @@ public class AdminLabelController {
     public ModelAndView createLabel(@ModelAttribute final LabelRegisterRequest labelRequest)
             throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/admin/v1/labels");
         labelService.createLabel(labelRequest);
 
-        return mav;
+        return new ModelAndView("redirect:/admin/v1/labels");
     }
 
     @GetMapping
