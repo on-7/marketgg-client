@@ -18,6 +18,7 @@ public class DefaultProductService implements ProductService {
 
     private final ProductRepository productRepository;
 
+    // REVIEW 4
     public void createProduct(final MultipartFile image,
                               final ProductCreateRequest productRequest) throws IOException {
 
