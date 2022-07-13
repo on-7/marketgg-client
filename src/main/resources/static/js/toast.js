@@ -9,7 +9,8 @@ const editor = new Toast({
 });
 
 const submitButton = document.getElementById('btn-submit');
-submitButton.addEventListener('mouseover', (event) => {
+
+submitButton.addEventListener('click', (event) => {
     const description = editor.getHTML();
     console.log(description);
     document.getElementById('toast-content').value = description;
