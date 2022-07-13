@@ -1,10 +1,10 @@
-package com.nhnacademy.marketgg.client.adapter.impl;
+package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.adapter.LabelAdapter;
 import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.repository.LabelRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DefaultLabelAdapter implements LabelAdapter {
+public class LabelAdapter implements LabelRepository {
 
     private final String gateWayIp;
     private final RestTemplate restTemplate;

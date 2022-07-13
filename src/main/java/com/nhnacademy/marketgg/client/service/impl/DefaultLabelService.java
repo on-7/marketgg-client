@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.adapter.LabelAdapter;
+import com.nhnacademy.marketgg.client.repository.LabelRepository;
 import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
@@ -13,22 +13,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DefaultLabelService implements LabelService {
 
-    private final LabelAdapter labelAdapter;
+    private final LabelRepository labelRepository;
 
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest)
             throws JsonProcessingException {
 
-        labelAdapter.createLabel(labelRequest);
+        labelRepository.createLabel(labelRequest);
     }
 
     @Override
     public List<LabelRetrieveResponse> retrieveLabels() {
-        return labelAdapter.retrieveResponse();
+        return labelRepository.retrieveResponse();
     }
 
     @Override
     public void deleteLabel(final Long id) {
-        labelAdapter.deleteLabel(id);
+        labelRepository.deleteLabel(id);
     }
 }
