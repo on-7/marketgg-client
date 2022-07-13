@@ -30,6 +30,7 @@ public class ProductController {
         return new ModelAndView("products/index");
     }
 
+    // REVIEW 3
     @PostMapping("/create")
     public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute final ProductCreateRequest productRequest) throws IOException {

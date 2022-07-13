@@ -31,11 +31,12 @@ public class ProductAdapter implements ProductRepository {
     // TODO: AdapterTemplate 만들어서 공통 코드 분리하기
     private final RestTemplate restTemplate;
 
+    // REVIEW 5
     @Override
     public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
         throws IOException {
 
-        // TODO: 주석으로 코드 설명하기
+        // MEMO
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
