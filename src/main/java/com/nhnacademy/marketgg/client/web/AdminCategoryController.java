@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,13 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-
 @Controller
-@RequestMapping("/admin/v1/categories")
+@RequestMapping("/shop/v1/admin/categories")
 @RequiredArgsConstructor
 public class AdminCategoryController {
 
@@ -71,7 +69,7 @@ public class AdminCategoryController {
 
     @PutMapping("/{categoryId}")
     public ModelAndView updateCategory(@PathVariable final String categoryId,
-                                @ModelAttribute final CategoryUpdateRequest categoryRequest)
+                                       @ModelAttribute final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");

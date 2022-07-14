@@ -19,9 +19,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class CategoryAdapter implements CategoryRepository {
 
     private final String gateWayIp;

@@ -6,4 +6,4 @@ spring:
     name: marketgg-client
 
 marketgg:
-  gateway-origin: http://127.0.0.1:6060
+  gateway-origin: http://127.0.0.1:7080
