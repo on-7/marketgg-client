@@ -4,18 +4,19 @@ import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
+import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/admin/v1/products")
@@ -33,7 +34,9 @@ public class ProductController {
     // REVIEW 3
     @PostMapping("/create")
     public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
-                                      @ModelAttribute final ProductCreateRequest productRequest) throws IOException {
+                                      @ModelAttribute final ProductCreateRequest productRequest)
+        throws IOException {
+
         productService.createProduct(image, productRequest);
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
@@ -67,10 +70,22 @@ public class ProductController {
         return mav;
     }
 
-    @PutMapping("/{productId}")
+    @GetMapping("/update/{productId}")
+    public ModelAndView updateProduct(@PathVariable Long productId) {
+
+        ModelAndView mav = new ModelAndView("products/product-modify-form");
+
+        ProductResponse product = productService.retrieveProductDetails(productId);
+        mav.addObject("product", product);
+        return mav;
+    }
+
+    //multipartFile의 경우 html form에서 PUT 맵핑을 적용시키기 어려워서 일단 POST로 구현.
+    @PostMapping("/update/{productId}")
     public ModelAndView updateProduct(@RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute final ProductModifyRequest productRequest,
                                       @PathVariable Long productId) throws IOException {
+
         productService.updateProduct(productId, image, productRequest);
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
@@ -78,6 +93,7 @@ public class ProductController {
 
     @PostMapping("/{productId}/deleted")
     public ModelAndView deleteProduct(@PathVariable Long productId) {
+
         productService.deleteProduct(productId);
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");

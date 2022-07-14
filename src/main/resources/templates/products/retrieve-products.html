@@ -17,6 +17,7 @@
                     <th>상품 내용</th>
                     <th>재고량</th>
                     <th>가격</th>
+                    <!-- <th>버튼</th> -->
                 </tr>
             </thead>
 
@@ -31,8 +32,12 @@
                     <td th:text="${product.content}"></td>
                     <td th:text="${product.totalStock}"></td>
                     <td th:text="${product.price}"></td>
+                    <td class="move"
+                        th:onclick="'location.href=\''+ @{|/admin/v1/products/update/${product.productNo}|} + '\''" style="color: dodgerblue">상품 수정
+                    </td>
                 </tr>
             </tbody>
+
         </table>
     </body>
 
