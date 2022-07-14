@@ -17,7 +17,10 @@ public interface ProductRepository {
     //TODO: 그냥 Id로 바꾸기.
     ProductResponse retrieveProductDetails(Long productId);
 
+    List<ProductResponse> retrieveProductsByCategory(String categorizationCode, String categoryCode);
+
     void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest) throws IOException;
 
     void deleteProduct(Long productId);
+
 }

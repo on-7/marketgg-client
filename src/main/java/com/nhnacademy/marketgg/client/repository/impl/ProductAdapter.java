@@ -92,6 +92,24 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
+    public List<ProductResponse> retrieveProductsByCategory(String categorizationCode,
+                                                            String categoryCode) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<List<ProductResponse>> response =
+            restTemplate.exchange(
+                BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryCode,
+                HttpMethod.GET, httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        return response.getBody();
+    }
+
+    @Override
     public void updateProduct(final Long productId, final MultipartFile image,
                               final ProductModifyRequest productRequest) throws IOException {
 
