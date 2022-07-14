@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,6 +69,19 @@ public class ProductController {
         return mav;
     }
 
+    @GetMapping("/{categorizationCode}/{categoryCode}")
+    public ModelAndView retrieveProductsByCategory(@PathVariable String categorizationCode,
+                                                   @PathVariable String categoryCode) {
+
+        List<ProductResponse> products =
+            productService.retrieveProductsByCategory(categorizationCode, categoryCode);
+
+        ModelAndView mav = new ModelAndView("products/retrieve-products");
+        mav.addObject("products", products);
+
+        return mav;
+    }
+
     @GetMapping("/update/{productId}")
     public ModelAndView updateProduct(@PathVariable Long productId) {
 
@@ -80,7 +92,7 @@ public class ProductController {
         return mav;
     }
 
-    //multipartFile의 경우 html form에서 PUT 맵핑을 적용시키기 어려워서 일단 POST로 구현.
+    // multipartFile의 경우 html form에서 PUT 맵핑을 적용시키기 어려워서 일단 POST로 구현.
     @PostMapping("/update/{productId}")
     public ModelAndView updateProduct(@RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute final ProductModifyRequest productRequest,
@@ -99,4 +111,3 @@ public class ProductController {
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
     }
 }
-

@@ -16,6 +16,8 @@ public interface ProductService {
 
     ProductResponse retrieveProductDetails(Long productNo);
 
+    List<ProductResponse> retrieveProductsByCategory(String categorizationCode, String categoryCode);
+
     void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest) throws IOException;
 
     void deleteProduct(Long productId);

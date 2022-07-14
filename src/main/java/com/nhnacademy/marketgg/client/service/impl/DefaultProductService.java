@@ -36,6 +36,11 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
+    public List<ProductResponse> retrieveProductsByCategory(String categorizationCode, String categoryCode) {
+        return productRepository.retrieveProductsByCategory(categorizationCode, categoryCode);
+    }
+
+    @Override
     public void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest)
         throws IOException {
         productRepository.updateProduct(productId, image, productRequest);
