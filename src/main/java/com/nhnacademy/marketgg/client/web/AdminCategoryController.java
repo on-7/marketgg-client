@@ -72,7 +72,7 @@ public class AdminCategoryController {
                                        @ModelAttribute final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:/shop/v1/admin/categories/index");
 
         categoryService.updateCategory(categoryId, categoryRequest);
 
@@ -81,7 +81,7 @@ public class AdminCategoryController {
 
     @DeleteMapping("/{categoryId}")
     public ModelAndView deleteCategory(@PathVariable final String categoryId) {
-        ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:/shop/v1/admin/categories/index");
 
         categoryService.deleteCategory(categoryId);
 
