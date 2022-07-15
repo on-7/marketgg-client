@@ -69,6 +69,7 @@ class AdminCategoryControllerTest {
         verify(categoryService, times(1)).createCategory(any(CategoryCreateRequest.class));
     }
 
+    @Test
     @DisplayName("카테고리 전체 목록 조회")
     void testRetrieveCategories() throws Exception {
         when(categoryService.retrieveCategories()).thenReturn(

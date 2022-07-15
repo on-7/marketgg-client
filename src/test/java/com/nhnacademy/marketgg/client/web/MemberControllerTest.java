@@ -33,6 +33,7 @@ class MemberControllerTest {
     @Test
     @DisplayName("GG 패스 메인 페이지")
     void testIndex() throws Exception {
+        when(memberService.retrievePassUpdatedAt(anyLong())).thenReturn(LocalDateTime.now());
         mockMvc.perform(get("/shop/v1/members/{memberId}/ggpass", 1L))
                .andExpect(status().isOk())
                .andExpect(view().name("/ggpass/index"));
