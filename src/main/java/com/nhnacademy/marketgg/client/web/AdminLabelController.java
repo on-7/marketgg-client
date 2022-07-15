@@ -17,7 +17,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/admin/v1/labels")
+@RequestMapping("/shop/v1/admin/labels")
 @RequiredArgsConstructor
 public class AdminLabelController {
 
@@ -37,7 +37,7 @@ public class AdminLabelController {
 
         labelService.createLabel(labelRequest);
 
-        return new ModelAndView("redirect:/admin/v1/labels");
+        return new ModelAndView("redirect:/shop/v1/admin/labels");
     }
 
     /**
@@ -67,7 +67,7 @@ public class AdminLabelController {
     public ModelAndView deleteLabel(@PathVariable final Long labelId) {
         labelService.deleteLabel(labelId);
 
-        return new ModelAndView("redirect:/admin/v1/labels/index");
+        return new ModelAndView("redirect:/shop/v1/admin/labels/index");
     }
 
 }

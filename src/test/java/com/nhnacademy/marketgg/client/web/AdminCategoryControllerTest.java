@@ -43,10 +43,12 @@ class AdminCategoryControllerTest {
     @MockBean
     CategoryService categoryService;
 
+    private static final String DEFAULT_CATEGORY = "/shop/v1/admin/categories";
+
     @Test
     @DisplayName("카테고리 등록 페이지 이동")
     void testDoCreateCategory() throws Exception {
-        mockMvc.perform(get("/admin/v1/categories/create"))
+        mockMvc.perform(get(DEFAULT_CATEGORY + "/create"))
                .andExpect(view().name("/categories/create-form"));
     }
 
@@ -60,7 +62,7 @@ class AdminCategoryControllerTest {
 
         doNothing().when(categoryService).createCategory(any(CategoryCreateRequest.class));
 
-        mockMvc.perform(post("/admin/v1/categories")
+        mockMvc.perform(post(DEFAULT_CATEGORY)
                                 .content(content)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
@@ -69,12 +71,13 @@ class AdminCategoryControllerTest {
         verify(categoryService, times(1)).createCategory(any(CategoryCreateRequest.class));
     }
 
+    @Test
     @DisplayName("카테고리 전체 목록 조회")
     void testRetrieveCategories() throws Exception {
         when(categoryService.retrieveCategories()).thenReturn(
                 List.of(new CategoryRetrieveResponse()));
 
-        mockMvc.perform(get("/admin/v1/categories/index"))
+        mockMvc.perform(get(DEFAULT_CATEGORY + "/index"))
                .andExpect(status().isOk())
                .andExpect(view().name("/categories/index"));
     }
@@ -91,7 +94,7 @@ class AdminCategoryControllerTest {
         when(categoryService.retrieveCategory(anyString()))
                 .thenReturn(categoryResponse);
 
-        mockMvc.perform(get("/admin/v1/categories/update/{categoryId}", "001"))
+        mockMvc.perform(get(DEFAULT_CATEGORY + "/update/{categoryId}", "001"))
                .andExpect(view().name("/categories/update-form"));
     }
 
@@ -105,7 +108,7 @@ class AdminCategoryControllerTest {
         doNothing().when(categoryService)
                    .updateCategory(anyString(), any(CategoryUpdateRequest.class));
 
-        mockMvc.perform(put("/admin/v1/categories/" + "001001")
+        mockMvc.perform(put(DEFAULT_CATEGORY + "/001001")
                                 .content(content)
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
@@ -120,9 +123,9 @@ class AdminCategoryControllerTest {
     void testDeleteCategory() throws Exception {
         doNothing().when(categoryService).deleteCategory(anyString());
 
-        mockMvc.perform(delete("/admin/v1/categories/{categoryId}", "001"))
+        mockMvc.perform(delete(DEFAULT_CATEGORY + "/{categoryId}", "001"))
                .andExpect(status().is3xxRedirection())
-               .andExpect(view().name("redirect:/admin/v1/categories/index"));
+               .andExpect(view().name("redirect:" + DEFAULT_CATEGORY + "/index"));
 
         verify(categoryService, times(1)).deleteCategory("001");
     }

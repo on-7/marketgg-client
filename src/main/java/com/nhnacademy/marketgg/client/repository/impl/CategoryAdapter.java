@@ -28,13 +28,15 @@ public class CategoryAdapter implements CategoryRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
+    private static final String DEFAULT_CATEGORY = "/admin/v1/categories";
+
     @Override
     public void createCategory(final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(categoryRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + "/admin/v1/categories",
+        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY,
                                                               HttpMethod.POST,
                                                               requestEntity,
                                                               Void.class);
@@ -46,7 +48,7 @@ public class CategoryAdapter implements CategoryRepository {
     public CategoryRetrieveResponse retrieveCategory(String id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<CategoryRetrieveResponse>
-                response = restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + id,
+                response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
                                                  HttpMethod.GET, requestEntity,
                                                  CategoryRetrieveResponse.class);
 
@@ -58,7 +60,7 @@ public class CategoryAdapter implements CategoryRepository {
     public List<CategoryRetrieveResponse> retrieveCategories() {
         HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<List<CategoryRetrieveResponse>>
-                response = restTemplate.exchange(gateWayIp + "/admin/v1/categories",
+                response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY,
                                                  HttpMethod.GET, requestEntity,
                                                  new ParameterizedTypeReference<>() {
                                                  });
@@ -88,7 +90,7 @@ public class CategoryAdapter implements CategoryRepository {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, buildHeaders());
         ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + id,
+                restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
                                       HttpMethod.PUT,
                                       requestEntity,
                                       Void.class);
@@ -100,7 +102,7 @@ public class CategoryAdapter implements CategoryRepository {
     public void deleteCategory(final String id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + "/admin/v1/categories/" + id,
+                restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
                                       HttpMethod.DELETE,
                                       requestEntity,
                                       Void.class);

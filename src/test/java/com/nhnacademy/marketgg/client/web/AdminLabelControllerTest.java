@@ -35,12 +35,14 @@ class AdminLabelControllerTest {
     @MockBean
     LabelService labelService;
 
+    private static final String DEFAULT_LABEL = "/shop/v1/admin/labels";
+
     @Test
     @DisplayName("라벨 등록")
     void testCreateLabel() throws Exception {
         doNothing().when(labelService).createLabel(any(LabelRegisterRequest.class));
 
-        mockMvc.perform(post("/admin/v1/labels")
+        mockMvc.perform(post(DEFAULT_LABEL)
                                 .param("name", "hello"))
                .andExpect(status().is3xxRedirection());
 
@@ -52,7 +54,7 @@ class AdminLabelControllerTest {
     void testRetrieveLabels() throws Exception {
         when(labelService.retrieveLabels()).thenReturn(List.of(new LabelRetrieveResponse()));
 
-        mockMvc.perform(get("/admin/v1/labels"))
+        mockMvc.perform(get(DEFAULT_LABEL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/labels/index"));
     }
@@ -62,7 +64,7 @@ class AdminLabelControllerTest {
     void testDeleteLabel() throws Exception {
         doNothing().when(labelService).deleteLabel(anyLong());
 
-        mockMvc.perform(delete("/admin/v1/labels/{labelId}", 1L))
+        mockMvc.perform(delete(DEFAULT_LABEL + "/{labelId}", 1L))
                .andExpect(status().is3xxRedirection());
 
         verify(labelService, times(1)).deleteLabel(anyLong());

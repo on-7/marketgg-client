@@ -26,7 +26,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/admin/v1/categories")
+@RequestMapping("/shop/v1/admin/categories")
 @RequiredArgsConstructor
 public class AdminCategoryController {
 
@@ -60,7 +60,7 @@ public class AdminCategoryController {
     public ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:/shop/v1/admin/categories/index");
 
         categoryService.createCategory(categoryRequest);
 
@@ -115,7 +115,7 @@ public class AdminCategoryController {
                                 @ModelAttribute final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:/shop/v1/admin/categories/index");
 
         categoryService.updateCategory(categoryId, categoryRequest);
 
@@ -131,7 +131,7 @@ public class AdminCategoryController {
      */
     @DeleteMapping("/{categoryId}")
     public ModelAndView deleteCategory(@PathVariable final String categoryId) {
-        ModelAndView mav = new ModelAndView("redirect:/admin/v1/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:/shop/v1/admin/categories/index");
 
         categoryService.deleteCategory(categoryId);
 
