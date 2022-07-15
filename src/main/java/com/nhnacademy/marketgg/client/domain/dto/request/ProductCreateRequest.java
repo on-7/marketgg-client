@@ -1,13 +1,15 @@
 package com.nhnacademy.marketgg.client.domain.dto.request;
 
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
-
-
+/**
+ * 상품 생성을 위한 DTO 입니다.
+ *
+ * @version 1.0.0
+ */
 @AllArgsConstructor
 @Getter
 public class ProductCreateRequest {
