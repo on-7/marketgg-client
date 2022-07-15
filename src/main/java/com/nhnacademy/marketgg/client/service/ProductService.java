@@ -28,6 +28,7 @@ public interface ProductService {
      * 모든 상품을 조회합니다.
      *
      * @return 모든 상품 List를 반환합니다.
+     * @since 1.0.0
      */
     List<ProductResponse> retrieveProducts();
 
@@ -36,6 +37,7 @@ public interface ProductService {
      *
      * @param productNo - 상품의 PK 입니다.
      * @return 파라미터로 받은 PK에 해당하는 상품의 상세 정보를 반환합니다.
+     * @since 1.0.0
      */
     ProductResponse retrieveProductDetails(Long productNo);
 
@@ -45,6 +47,7 @@ public interface ProductService {
      * @param categorizationCode - 카테고리 대분류입니다. ex) 100 - 상품
      * @param categoryCode       - 카테고리 소분류입니다. ex) 101 - 채소
      * @return - 해당 카테고리에 해당하는 모든 상품 리스트를 반환합니다.
+     * @since 1.0.0
      */
     List<ProductResponse> retrieveProductsByCategory(String categorizationCode,
                                                      String categoryCode);
@@ -56,6 +59,7 @@ public interface ProductService {
      * @param image          - MultiparttFile 타입 입니다.
      * @param productRequest - 상품 수정을 위한 DTO 입니다.
      * @throws IOException
+     * @since 1.0.0
      */
     void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest)
         throws IOException;
@@ -65,6 +69,7 @@ public interface ProductService {
      * 소프트 삭제입니다.
      *
      * @param productId - 상품의 PK 입니다.
+     * @since 1.0.0
      */
     void deleteProduct(Long productId);
 
