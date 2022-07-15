@@ -3,8 +3,8 @@ package com.nhnacademy.marketgg.client.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor
+@Getter
 public class Message {
 
     private String error;
