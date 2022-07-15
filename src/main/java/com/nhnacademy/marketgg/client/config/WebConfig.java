@@ -5,9 +5,10 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import java.time.Duration;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 /**
  * Web Configuration 을 설정할 수 있습니다.
@@ -53,6 +54,15 @@ public class WebConfig {
     @Bean
     public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
         return new HiddenHttpMethodFilter();
+    }
+
+    // REVIEW 2:
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding("utf-8");
+        commonsMultipartResolver.setMaxUploadSize(50000000);
+        return commonsMultipartResolver;
     }
 
 }

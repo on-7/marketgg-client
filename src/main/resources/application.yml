@@ -5,6 +5,10 @@ spring:
   application:
     name: marketgg-client
 
+  datasource:
+    url: jdbc:mysql://127.0.0.1/index
+    username: root
+    password: 1234
+
 marketgg:
   gateway-origin: http://localhost:6060
-  
