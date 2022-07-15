@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * 상품 수정을 위한 DTO 입니다.
+ *
+ * @version 1.0.0
+ */
 @AllArgsConstructor
 @Getter
 public class ProductModifyRequest {
