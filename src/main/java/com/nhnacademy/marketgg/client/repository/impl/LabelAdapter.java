@@ -26,43 +26,45 @@ public class LabelAdapter implements LabelRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
+    private static final String DEFAULT_LABEL = "/shop/v1/admin/labels";
+
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest)
             throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(labelRequest);
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(request, buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + "/admin/v1/labels",
+        HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
+        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
                                                               HttpMethod.POST,
                                                               requestEntity,
                                                               Void.class);
 
-        checkResponseUri(response);
+        this.checkResponseUri(response);
     }
 
     @Override
     public List<LabelRetrieveResponse> retrieveResponse() {
-        HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<LabelRetrieveResponse>>
-                response = restTemplate.exchange(gateWayIp + "/admin/v1/labels",
+                response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
                                                  HttpMethod.GET,
                                                  requestEntity,
                                                  new ParameterizedTypeReference<>() {
                                                  });
 
-        checkResponseUri(response);
+        this.checkResponseUri(response);
         return response.getBody();
     }
 
     @Override
     public void deleteLabel(final Long id) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + "/admin/v1/labels/" + id,
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL + "/" + id,
                                                               HttpMethod.DELETE,
                                                               requestEntity,
                                                               Void.class);
 
-        checkResponseUri(response);
+        this.checkResponseUri(response);
     }
 
     private HttpHeaders buildHeaders() {

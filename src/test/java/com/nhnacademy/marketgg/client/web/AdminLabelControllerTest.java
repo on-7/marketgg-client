@@ -1,17 +1,5 @@
 package com.nhnacademy.marketgg.client.web;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-
 import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
@@ -25,6 +13,18 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(AdminLabelController.class)
 class AdminLabelControllerTest {
@@ -35,12 +35,14 @@ class AdminLabelControllerTest {
     @MockBean
     LabelService labelService;
 
+    private static final String DEFAULT_LABEL = "/shop/v1/admin/labels";
+
     @Test
     @DisplayName("라벨 등록")
     void testCreateLabel() throws Exception {
         doNothing().when(labelService).createLabel(any(LabelRegisterRequest.class));
 
-        mockMvc.perform(post("/shop/v1/admin/labels")
+        mockMvc.perform(post(DEFAULT_LABEL)
                                 .param("name", "hello"))
                .andExpect(status().is3xxRedirection());
 
@@ -52,17 +54,17 @@ class AdminLabelControllerTest {
     void testRetrieveLabels() throws Exception {
         when(labelService.retrieveLabels()).thenReturn(List.of(new LabelRetrieveResponse()));
 
-        mockMvc.perform(get("/shop/v1/admin/labels"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/labels/index"));
+        mockMvc.perform(get(DEFAULT_LABEL))
+               .andExpect(status().isOk())
+               .andExpect(view().name("/labels/index"));
     }
-    
+
     @Test
     @DisplayName("라벨 삭제")
     void testDeleteLabel() throws Exception {
         doNothing().when(labelService).deleteLabel(anyLong());
 
-        mockMvc.perform(delete("/shop/v1/admin/labels/{labelId}", 1L))
+        mockMvc.perform(delete(DEFAULT_LABEL + "/{labelId}", 1L))
                .andExpect(status().is3xxRedirection());
 
         verify(labelService, times(1)).deleteLabel(anyLong());
