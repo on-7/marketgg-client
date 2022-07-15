@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import com.nhnacademy.marketgg.client.service.MemberService;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,8 @@ public class DefaultMemberService implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
-    public Boolean checkPassUpdatedAt(final Long id) {
-        return memberRepository.checkPassUpdatedAt(id);
+    public LocalDateTime retrievePassUpdatedAt(final Long id) {
+        return memberRepository.retrievePassUpdatedAt(id);
     }
 
     @Override

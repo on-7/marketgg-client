@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,15 +22,15 @@ public class MemberAdapter implements MemberRepository {
     private final RestTemplate restTemplate;
 
     @Override
-    public Boolean checkPassUpdatedAt(final Long id) {
+    public LocalDateTime retrievePassUpdatedAt(final Long id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
-        ResponseEntity<Boolean>
+        ResponseEntity<LocalDateTime>
                 response = restTemplate.exchange(gateWayIp + "/shop/v1/members/" + id + "/ggpass",
                                                  HttpMethod.GET,
                                                  requestEntity,
-                                                 Boolean.class);
+                                                 LocalDateTime.class);
         checkResponseUri(response);
-        return Boolean.TRUE.equals(response.getBody());
+        return response.getBody();
     }
 
     @Override

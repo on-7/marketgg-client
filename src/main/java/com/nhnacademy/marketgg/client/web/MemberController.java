@@ -2,6 +2,8 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.Message;
 import com.nhnacademy.marketgg.client.service.MemberService;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +35,7 @@ public class MemberController {
     public ModelAndView index(@PathVariable final Long memberId) {
         ModelAndView mav = new ModelAndView("/ggpass/index");
         mav.addObject("id", memberId);
+        mav.addObject("time", LocalDate.from(memberService.retrievePassUpdatedAt(memberId)));
 
         return mav;
     }
@@ -47,7 +50,7 @@ public class MemberController {
      */
     @PostMapping("/{memberId}/ggpass/subscribe")
     public ModelAndView subscribePass(@PathVariable final Long memberId) {
-        if (Boolean.TRUE.equals(memberService.checkPassUpdatedAt(memberId))) {
+        if (memberService.retrievePassUpdatedAt(memberId).isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("error", new Message("이미 구독하신 상태입니다.",
                                                "/shop/v1/members/" + memberId + "/ggpass"));

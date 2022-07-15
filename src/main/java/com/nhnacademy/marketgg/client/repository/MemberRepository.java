@@ -1,5 +1,7 @@
 package com.nhnacademy.marketgg.client.repository;
 
+import java.time.LocalDateTime;
+
 /**
  * 회원 Repository 입니다.
  *
@@ -8,13 +10,13 @@ package com.nhnacademy.marketgg.client.repository;
 public interface MemberRepository {
 
     /**
-     * 지정한 회원의 GG PASS 갱신일시를 현재일시와 비교처리하는 메소드입니다.
+     * 지정한 회원의 GG PASS 갱신일시를 반환하는 메소드입니다.
      *
-     * @param id - 갱신일시와 현재일시를 비교 할 회원의 식별번호입니다.
-     * @return 회원의 갱신일시가 현재일시보다 빠를 시 False, 늦을 시 True 를 반환
+     * @param id - 갱신일시를 반환할 회원의 식별번호입니다.
+     * @return 회원의 갱신일시를 반환합니다.
      * @since 1.0.0
      */
-    Boolean checkPassUpdatedAt(final Long id);
+    LocalDateTime retrievePassUpdatedAt(final Long id);
 
     /**
      * 지정한 회원의 GG PASS 구독처리 메소드입니다.
