@@ -31,7 +31,7 @@ public class MemberAdapter implements MemberRepository {
                                                  HttpMethod.GET,
                                                  requestEntity,
                                                  LocalDateTime.class);
-        checkResponseUri(response);
+        this.checkResponseUri(response);
         return response.getBody();
     }
 
@@ -43,7 +43,7 @@ public class MemberAdapter implements MemberRepository {
                                       HttpMethod.POST,
                                       requestEntity,
                                       Void.class);
-        checkResponseUri(response);
+        this.checkResponseUri(response);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class MemberAdapter implements MemberRepository {
                                       HttpMethod.POST,
                                       requestEntity,
                                       Void.class);
-        checkResponseUri(response);
+        this.checkResponseUri(response);
     }
 
     private HttpHeaders buildHeaders() {

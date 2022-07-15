@@ -6,11 +6,12 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Message {
-    private String message = "";
-    private String href = "";
 
-    public Message(String message, String href) {
-        this.message = message;
+    private String error;
+    private String href;
+
+    public Message(String error, String href) {
+        this.error = error;
         this.href = href;
     }
 
