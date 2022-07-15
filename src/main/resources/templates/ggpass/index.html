@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>GG PASS</title>
+    </head>
+    <body>
+        <h2 style="text-align: center"><span th:text="'회원님의 GG PASS 구독 갱신일자'"></span></h2>
+        <h3 style="text-align: center"><span th:text="${time}"></span></h3>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <form th:action="'/shop/v1/members/'+${id}+'/ggpass/subscribe'" th:method="post">
+                <input type="submit" value="구독">
+            </form>
+            <form th:action="'/shop/v1/members/'+${id}+'/ggpass/withdraw'" th:method="post">
+                <input type="submit" value="구독해지">
+            </form>
+        </div>
+    </body>
+</html>
