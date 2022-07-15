@@ -21,11 +21,13 @@ public class MemberAdapter implements MemberRepository {
     private final String gateWayIp;
     private final RestTemplate restTemplate;
 
+    private static final String DEFAULT_MEMBER = "/shop/v1/members/";
+
     @Override
     public LocalDateTime retrievePassUpdatedAt(final Long id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<LocalDateTime>
-                response = restTemplate.exchange(gateWayIp + "/shop/v1/members/" + id + "/ggpass",
+                response = restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass",
                                                  HttpMethod.GET,
                                                  requestEntity,
                                                  LocalDateTime.class);
@@ -37,7 +39,7 @@ public class MemberAdapter implements MemberRepository {
     public void subscribePass(final Long id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + "/shop/v1/members/" + id + "/ggpass/subscribe",
+                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass/subscribe",
                                       HttpMethod.POST,
                                       requestEntity,
                                       Void.class);
@@ -48,7 +50,7 @@ public class MemberAdapter implements MemberRepository {
     public void withdrawPass(final Long id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + "/shop/v1/members/" + id + "/ggpass/withdraw",
+                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass/withdraw",
                                       HttpMethod.POST,
                                       requestEntity,
                                       Void.class);

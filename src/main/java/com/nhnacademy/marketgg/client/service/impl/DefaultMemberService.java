@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import com.nhnacademy.marketgg.client.service.MemberService;
+import java.net.http.HttpHeaders;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
