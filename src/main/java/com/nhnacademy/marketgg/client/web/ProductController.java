@@ -164,9 +164,10 @@ public class ProductController {
      */
 
     @PostMapping("/update/{productId}")
-    public ModelAndView updateProduct(@RequestPart(value = "image") final MultipartFile image,
-                                      @ModelAttribute final ProductModifyRequest productRequest,
-                                      @PathVariable Long productId) throws IOException {
+    public ModelAndView updateProduct(@PathVariable Long productId,
+                                      @RequestPart(value = "image") final MultipartFile image,
+                                      @ModelAttribute final ProductModifyRequest productRequest)
+        throws IOException {
 
         productService.updateProduct(productId, image, productRequest);
 
@@ -180,7 +181,7 @@ public class ProductController {
      * @param productId - 상품의 PK 입니다.
      * @return - index 페이지를 리턴합니다.
      */
-    @PostMapping("/{productId}/deleted")
+    @PostMapping("/{productId}/delete")
     public ModelAndView deleteProduct(@PathVariable Long productId) {
 
         productService.deleteProduct(productId);
