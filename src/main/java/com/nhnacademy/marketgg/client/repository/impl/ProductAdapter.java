@@ -130,11 +130,11 @@ public class ProductAdapter implements ProductRepository {
         headerMap.add("Content-disposition",
             "form-data; name=image; filename=" + image.getOriginalFilename());
         headerMap.add("Content-type", "application/octet-stream");
-        HttpEntity<byte[]> doc = new HttpEntity<>(image.getBytes(), headerMap);
+        HttpEntity<byte[]> imageBytes = new HttpEntity<>(image.getBytes(), headerMap);
 
         LinkedMultiValueMap<String, Object> multipartReqMap = new LinkedMultiValueMap<>();
         multipartReqMap.add("productRequest", productRequest);
-        multipartReqMap.add("image", doc);
+        multipartReqMap.add("image", imageBytes);
 
         return new HttpEntity<>(multipartReqMap, headers);
     }
