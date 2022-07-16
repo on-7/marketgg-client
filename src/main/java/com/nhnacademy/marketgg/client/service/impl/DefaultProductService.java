@@ -1,9 +1,9 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.nhnacademy.marketgg.client.repository.ProductRepository;
-import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
-import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

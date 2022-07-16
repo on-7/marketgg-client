@@ -1,18 +1,14 @@
-package com.nhnacademy.marketgg.client.domain.dto.response;
+package com.nhnacademy.marketgg.client.dto.request;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
-
-@NoArgsConstructor
+@AllArgsConstructor
 @Getter
-public class ProductResponse {
+public class ProductModifyRequest {
 
-    private Long productNo;
-    private Long assetNo;
     private String categoryCode;
     private String name;
     private String content;
@@ -23,10 +19,8 @@ public class ProductResponse {
     private String deliveryType;
     private String origin;
     private String packageType;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expirationDate;
     private String allergyInfo;
     private String capacity;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
 }

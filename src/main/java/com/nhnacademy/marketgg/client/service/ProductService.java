@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.service;
 
-import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
-import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;

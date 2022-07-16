@@ -1,13 +1,16 @@
-package com.nhnacademy.marketgg.client.domain.dto.request;
+package com.nhnacademy.marketgg.client.dto.request;
 
-import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import java.time.LocalDate;
+
 
 @AllArgsConstructor
 @Getter
-public class ProductModifyRequest {
+public class ProductCreateRequest {
 
     private String categoryCode;
     private String name;
@@ -23,4 +26,5 @@ public class ProductModifyRequest {
     private LocalDate expirationDate;
     private String allergyInfo;
     private String capacity;
+
 }
