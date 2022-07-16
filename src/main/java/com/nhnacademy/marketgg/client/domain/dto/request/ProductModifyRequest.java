@@ -28,4 +28,5 @@ public class ProductModifyRequest {
     private LocalDate expirationDate;
     private String allergyInfo;
     private String capacity;
+
 }
