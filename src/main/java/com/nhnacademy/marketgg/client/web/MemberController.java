@@ -29,10 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class MemberController {
 
     private final MemberService memberService;
-    private final DibService dibService;
 
     private static final String DEFAULT_MEMBER = "/shop/v1/members";
-    private static final String DEFAULT_PRODUCT = "/shop/v1/products";
 
     /**
      * 선택한 회원의 GG 패스 화면으로 이동합니다.
@@ -83,56 +81,6 @@ public class MemberController {
         memberService.withdrawPass(memberId);
 
         return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
-    }
-
-    /**
-     * 지정한 상품을 지정한 회원의 찜 목록에 추가하는 Mapping 을 지원합니다.
-     *
-     * @param memberId - 지정한 회원의 식별변호입니다.
-     * @param productId - 지정한 상품의 식별번호입니다.
-     * @return 다시 상품 조회 페이지로 이동합니다.
-     * @since 1.0.0
-     */
-    @PostMapping("/{memberId}/dibs/{productId}")
-    @ResponseBody
-    public ModelAndView createDib(@PathVariable final Long memberId,
-                                   @PathVariable final Long productId) {
-
-        dibService.createDib(memberId, productId);
-
-        return new ModelAndView("redirect:" + DEFAULT_PRODUCT + "/index");
-    }
-
-    /**
-     * 지정한 회원의 찜 목록을 조회하는 Mapping 을 지원합니다.
-     *
-     * @param memberId - 지정한 회원의 식별번호입니다.
-     * @return 자신의 찜 목록 페이지로 이동합니다.
-     * @since 1.0.0
-     */
-    @GetMapping("/{memberId}/dibs")
-    public ModelAndView retrieveDibs(@PathVariable final Long memberId) {
-        ModelAndView mav = new ModelAndView("/mygg/dibs/index");
-        mav.addObject("dibs", dibService.retrieveDibs(memberId));
-        mav.addObject("id", memberId);
-
-        return mav;
-    }
-
-    /**
-     * 지정한 상품을 지정한 회원의 찜 목록에서 삭제하는 Mapping 을 지원합니다.
-     *
-     * @param memberId - 지정한 회원의 식별번호입니다.
-     * @param productId - 지정한 상품의 식별번호입니다.
-     * @return 다시 상품 조회 페이지로 이동합니다.
-     * @since 1.0.0
-     */
-    @DeleteMapping("/{memberId}/dibs/{productId}")
-    public ModelAndView deleteDib(@PathVariable final Long memberId,
-                                  @PathVariable final Long productId) {
-
-        dibService.deleteDib(memberId, productId);
-        return new ModelAndView("redirect:" + DEFAULT_PRODUCT + "/index");
     }
 
 }

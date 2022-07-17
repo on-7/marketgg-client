@@ -17,9 +17,11 @@
                 </tr>
                 <tr th:each="dib : ${dibs}">
                     <td>
-                        <img th:src="${dib.thumbnail}" />
+                        <img th:src="${dib.thumbnail}" alt="null"/>
                     </td>
-                    <td th:text="${dib.productName}"></td>
+                    <td>
+                        <a th:href="'/shop/v1/products/' + ${dib.productNo}" th:text="${dib.productName}"></a>
+                    </td>
                     <td th:text="${dib.productPrice}"></td>
                     <td>
                         <form th:method="delete" th:action="'/shop/v1/member/' + ${id} + '/dibs/' + ${dib.productNo}">
