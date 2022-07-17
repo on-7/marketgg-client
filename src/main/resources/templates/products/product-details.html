@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <title>상품 상세</title>
@@ -32,16 +32,18 @@
             <tbody>
                 <tr th:each="product : ${productDetails}">
                     <td>
-                        <script type="text/javascript">
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                        <script defer>
                             $(document).ready(function(){
                                 dibView();
                             });
-                            let memberId = '${memberId}';
-                            let productId = '${product.productNo}';
+                            // FIXME : @조현진 @민아영 Product Detail Retrieve Controller 아래두개 값 넣어주세요.(넣으면 잘됨^^)
+                            let memberId = '1';
+                            let productId = '4';
 
                             function dibView() {
                                 $.ajax({
-                                    url: 'localhost:5050/dibs',
+                                    url: 'http://localhost:5050/dibs',
                                     type: 'post',
                                     async: true,
                                     data: {
@@ -52,11 +54,11 @@
                                     success: function (data) {
                                         let htmlBody = '';
                                         if (data.exist === 1) {
-                                            htmlBody += '<a onclick="dibDelete(' + memberId + '' + productId + ');"'
-                                                + '>찜제거</a>'
+                                            htmlBody += '<button onclick="dibDelete(memberId, productId);"'
+                                                + '>찜제거</button>'
                                         } else {
-                                            htmlBody += '<a onclick="dibInsert(' + memberId + '' + productId + ');"'
-                                                + '>찜</a>'
+                                            htmlBody += '<button onclick="dibInsert(memberId, productId);"'
+                                                + '>찜</button>'
                                         }
                                         $('#dib').html(htmlBody);
                                     }
@@ -64,7 +66,7 @@
                             }
                             function dibInsert(memberId, productId) {
                                 $.ajax({
-                                    url: '/dibs/insert' + memberId + '/' + productId,
+                                    url: 'http://localhost:5050/dibs/insert/' + memberId + '/' + productId,
                                     type: 'get',
                                     success: function (data) {
                                         if (data === 1)
@@ -74,7 +76,7 @@
                             }
                             function dibDelete(memberId, productId) {
                                 $.ajax({
-                                    url: '/dibs/delete' + memberId + '/' + productId,
+                                    url: 'http://localhost:5050/dibs/delete/' + memberId + '/' + productId,
                                     type: 'get',
                                     success: function (data) {
                                         if (data === 1)

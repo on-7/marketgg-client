@@ -49,7 +49,8 @@ public class DibAjaxController {
     }
 
     @GetMapping("/insert/{memberId}/{productId}")
-    public Integer dibInsert(@PathVariable final Long memberId, @PathVariable final Long productId) {
+    @ResponseBody
+    public int dibInsert(@PathVariable final Long memberId, @PathVariable final Long productId) {
 
         dibService.createDib(memberId, productId);
 
@@ -57,7 +58,8 @@ public class DibAjaxController {
     }
 
     @GetMapping("/delete/{memberId}/{productId}")
-    public Integer dibDelete(@PathVariable final Long memberId, @PathVariable final Long productId) {
+    @ResponseBody
+    public int dibDelete(@PathVariable final Long memberId, @PathVariable final Long productId) {
 
         dibService.deleteDib(memberId, productId);
 
