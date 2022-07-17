@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -28,13 +27,12 @@ public class DibController {
     /**
      * 지정한 상품을 지정한 회원의 찜 목록에 추가하는 Mapping 을 지원합니다.
      *
-     * @param memberId - 지정한 회원의 식별변호입니다.
+     * @param memberId  - 지정한 회원의 식별변호입니다.
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 다시 상품 조회 페이지로 이동합니다.
      * @since 1.0.0
      */
     @PostMapping("/{productId}")
-    @ResponseBody
     public ModelAndView createDib(@PathVariable final Long memberId,
                                   @PathVariable final Long productId) {
 
@@ -62,7 +60,7 @@ public class DibController {
     /**
      * 지정한 상품을 지정한 회원의 찜 목록에서 삭제하는 Mapping 을 지원합니다.
      *
-     * @param memberId - 지정한 회원의 식별번호입니다.
+     * @param memberId  - 지정한 회원의 식별번호입니다.
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 다시 상품 조회 페이지로 이동합니다.
      * @since 1.0.0

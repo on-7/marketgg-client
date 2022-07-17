@@ -3,7 +3,6 @@ package com.nhnacademy.marketgg.client.web;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.service.DibService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
