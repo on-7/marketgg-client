@@ -1,10 +1,11 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
-import com.nhnacademy.marketgg.client.repository.MemberRepository;
-import java.time.LocalDateTime;
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
+import com.nhnacademy.marketgg.client.repository.DibRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,48 +14,56 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MemberAdapter implements MemberRepository {
+public class DibAdapter implements DibRepository {
 
     private final String gateWayIp;
     private final RestTemplate restTemplate;
 
-    private static final String DEFAULT_MEMBER = "/shop/v1/members/";
+    @Override
+    public void createDib(final Long memberId, final Long productId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<Void> response =
+                restTemplate.exchange(gateWayIp + this.buildUri(memberId) + "/" + productId,
+                                      HttpMethod.POST,
+                                      requestEntity,
+                                      Void.class);
+
+        this.checkResponseUri(response);
+    }
 
     @Override
-    public LocalDateTime retrievePassUpdatedAt(final Long id) {
+    public List<DibRetrieveResponse> retrieveDibs(final Long id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<LocalDateTime>
-                response = restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass",
-                                                 HttpMethod.GET,
-                                                 requestEntity,
-                                                 LocalDateTime.class);
+        ResponseEntity<List<DibRetrieveResponse>> response =
+                restTemplate.exchange(gateWayIp + this.buildUri(id),
+                                      HttpMethod.GET,
+                                      requestEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
+
         this.checkResponseUri(response);
         return response.getBody();
     }
 
     @Override
-    public void subscribePass(final Long id) {
+    public void deleteDib(final Long memberId, final Long productId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass/subscribe",
-                                      HttpMethod.POST,
+                restTemplate.exchange(gateWayIp + this.buildUri(memberId) + "/" + productId,
+                                      HttpMethod.DELETE,
                                       requestEntity,
                                       Void.class);
+
         this.checkResponseUri(response);
     }
 
-    @Override
-    public void withdrawPass(final Long id) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass/withdraw",
-                                      HttpMethod.POST,
-                                      requestEntity,
-                                      Void.class);
-        this.checkResponseUri(response);
+    private String buildUri(final Long memberId) {
+        return "/shop/v1/members/" + memberId + "/dibs";
     }
 
     private HttpHeaders buildHeaders() {

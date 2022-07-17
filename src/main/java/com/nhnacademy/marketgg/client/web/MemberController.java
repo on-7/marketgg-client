@@ -1,15 +1,21 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.Message;
+import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
+import com.nhnacademy.marketgg.client.service.DibService;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -23,6 +29,10 @@ import org.springframework.web.servlet.ModelAndView;
 public class MemberController {
 
     private final MemberService memberService;
+    private final DibService dibService;
+
+    private static final String DEFAULT_MEMBER = "/shop/v1/members";
+    private static final String DEFAULT_PRODUCT = "/shop/v1/products";
 
     /**
      * 선택한 회원의 GG 패스 화면으로 이동합니다.
@@ -53,12 +63,12 @@ public class MemberController {
         if (memberService.retrievePassUpdatedAt(memberId).isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("error", new Message("이미 구독하신 상태입니다.",
-                                               "/shop/v1/members/" + memberId + "/ggpass"));
+                                               DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
             return mav;
         }
         memberService.subscribePass(memberId);
 
-        return new ModelAndView("redirect:/shop/v1/members/" + memberId + "/ggpass");
+        return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
     }
 
     /**
@@ -72,7 +82,33 @@ public class MemberController {
     public ModelAndView withdrawPass(@PathVariable final Long memberId) {
         memberService.withdrawPass(memberId);
 
-        return new ModelAndView("redirect:/shop/v1/members/" + memberId + "/ggpass");
+        return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
+    }
+
+    @PostMapping("/{memberId}/dibs/{productId}")
+    @ResponseBody
+    public ModelAndView createDib(@PathVariable final Long memberId,
+                                   @PathVariable final Long productId) {
+
+        dibService.createDib(memberId, productId);
+
+        return new ModelAndView("redirect:" + DEFAULT_PRODUCT + "/index");
+    }
+
+    @GetMapping("/{memberId}/dibs")
+    public ModelAndView retrieveDibs(@PathVariable final Long memberId) {
+        ModelAndView mav = new ModelAndView("/mygg/dibs/index");
+        mav.addObject("dibs", dibService.retrieveDibs(memberId));
+
+        return mav;
+    }
+
+    @DeleteMapping("/{memberId}/dibs/{productId}")
+    public ModelAndView deleteDib(@PathVariable final Long memberId,
+                                  @PathVariable final Long productId) {
+
+        dibService.deleteDib(memberId, productId);
+        return new ModelAndView("redirect:" + DEFAULT_PRODUCT + "/index");
     }
 
 }

@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.service.DibService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -43,13 +45,11 @@ public class ProductController {
 
     @GetMapping("/create")
     public ModelAndView createProduct() {
-
         return new ModelAndView("products/product-form");
     }
 
     @GetMapping
     public ModelAndView retrieveProducts() {
-
         List<ProductResponse> products = productService.retrieveProducts();
 
         ModelAndView mav = new ModelAndView("products/retrieve-products");
@@ -59,8 +59,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ModelAndView retrieveProductDetails(@PathVariable Long productId) {
-
+    public ModelAndView retrieveProductDetails(@PathVariable final Long productId) {
         ProductResponse productDetails = productService.retrieveProductDetails(productId);
 
         ModelAndView mav = new ModelAndView("products/product-details");
@@ -70,8 +69,8 @@ public class ProductController {
     }
 
     @GetMapping("/{categorizationCode}/{categoryCode}")
-    public ModelAndView retrieveProductsByCategory(@PathVariable String categorizationCode,
-                                                   @PathVariable String categoryCode) {
+    public ModelAndView retrieveProductsByCategory(@PathVariable final String categorizationCode,
+                                                   @PathVariable final String categoryCode) {
 
         List<ProductResponse> products =
             productService.retrieveProductsByCategory(categorizationCode, categoryCode);
@@ -84,7 +83,6 @@ public class ProductController {
 
     @GetMapping("/update/{productId}")
     public ModelAndView updateProduct(@PathVariable Long productId) {
-
         ModelAndView mav = new ModelAndView("products/product-modify-form");
 
         ProductResponse product = productService.retrieveProductDetails(productId);
@@ -105,9 +103,9 @@ public class ProductController {
 
     @PostMapping("/{productId}/deleted")
     public ModelAndView deleteProduct(@PathVariable Long productId) {
-
         productService.deleteProduct(productId);
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
     }
+
 }
