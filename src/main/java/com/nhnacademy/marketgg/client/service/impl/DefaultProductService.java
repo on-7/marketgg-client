@@ -20,34 +20,36 @@ public class DefaultProductService implements ProductService {
     public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
         throws IOException {
 
-        productRepository.createProduct(image, productRequest);
+        this.productRepository.createProduct(image, productRequest);
     }
 
     @Override
     public List<ProductResponse> retrieveProducts() {
-        return productRepository.retrieveProducts();
+        return this.productRepository.retrieveProducts();
     }
 
     @Override
-    public ProductResponse retrieveProductDetails(Long productNo) {
-        return productRepository.retrieveProductDetails(productNo);
+    public ProductResponse retrieveProductDetails(final Long id) {
+        return this.productRepository.retrieveProductDetails(id);
     }
 
     @Override
-    public List<ProductResponse> retrieveProductsByCategory(String categorizationCode, String categoryCode) {
-        return productRepository.retrieveProductsByCategory(categorizationCode, categoryCode);
+    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
+                                                            final String categoryCode) {
+
+        return this.productRepository.retrieveProductsByCategory(categorizationCode, categoryCode);
     }
 
     @Override
-    public void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest)
-        throws IOException {
+    public void updateProduct(final Long id, final MultipartFile image,
+                              final ProductModifyRequest productRequest) throws IOException {
 
-        productRepository.updateProduct(productId, image, productRequest);
+        this.productRepository.updateProduct(id, image, productRequest);
     }
 
     @Override
-    public void deleteProduct(Long productId) {
-        productRepository.deleteProduct(productId);
+    public void deleteProduct(final Long id) {
+        this.productRepository.deleteProduct(id);
     }
 
 }

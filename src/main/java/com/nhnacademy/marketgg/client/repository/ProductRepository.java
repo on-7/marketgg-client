@@ -22,7 +22,8 @@ public interface ProductRepository {
      * @throws IOException
      * @since 1.0.0
      */
-    void createProduct(MultipartFile image, ProductCreateRequest productRequest) throws IOException;
+    void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
+        throws IOException;
 
     /**
      * 모든 상품을 조회합니다.
@@ -39,7 +40,7 @@ public interface ProductRepository {
      * @return - 상품을 반환합니다.
      * @since 1.0.0
      */
-    ProductResponse retrieveProductDetails(Long productId);
+    ProductResponse retrieveProductDetails(final Long productId);
 
     /**
      * 카테고리로 상품 목록을 조회합니다.
@@ -49,8 +50,8 @@ public interface ProductRepository {
      * @return - 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
-    List<ProductResponse> retrieveProductsByCategory(String categorizationCode,
-                                                     String categoryCode);
+    List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
+                                                     final String categoryCode);
 
     /**
      * 상품 번호로 상품을 찾은 뒤, 해당 상품을 수정합니다.
@@ -61,7 +62,8 @@ public interface ProductRepository {
      * @throws IOException
      * @since 1.0.0
      */
-    void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest)
+    void updateProduct(final Long productId, final MultipartFile image,
+                       final ProductModifyRequest productRequest)
         throws IOException;
 
     /**
@@ -70,6 +72,6 @@ public interface ProductRepository {
      * @param productId - 상품의 PK 입니다.
      * @since 1.0.0
      */
-    void deleteProduct(Long productId);
+    void deleteProduct(final Long productId);
 
 }

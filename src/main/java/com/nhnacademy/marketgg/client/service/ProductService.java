@@ -22,7 +22,7 @@ public interface ProductService {
      * @throws IOException
      * @since 1.0.0
      */
-    void createProduct(MultipartFile image, ProductCreateRequest productRequest) throws IOException;
+    void createProduct(final MultipartFile image, final ProductCreateRequest productRequest) throws IOException;
 
     /**
      * 모든 상품을 조회합니다.
@@ -35,11 +35,11 @@ public interface ProductService {
     /**
      * 상품 상세 정보를 조회합니다.
      *
-     * @param productNo - 상품의 PK 입니다.
+     * @param id - 상품의 PK 입니다.
      * @return 파라미터로 받은 PK에 해당하는 상품의 상세 정보를 반환합니다.
      * @since 1.0.0
      */
-    ProductResponse retrieveProductDetails(Long productNo);
+    ProductResponse retrieveProductDetails(final Long id);
 
     /**
      * 카테고리로 조회한 모든 상품을 반환 합니다.
@@ -49,28 +49,28 @@ public interface ProductService {
      * @return - 해당 카테고리에 해당하는 모든 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
-    List<ProductResponse> retrieveProductsByCategory(String categorizationCode,
-                                                     String categoryCode);
+    List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
+                                                     final String categoryCode);
 
     /**
      * productId에 해당하는 상품을 수정합니다.
      *
-     * @param productId      - 상품의 PK 입니다.
+     * @param id      - 상품의 PK 입니다.
      * @param image          - MultiparttFile 타입 입니다.
      * @param productRequest - 상품 수정을 위한 DTO 입니다.
      * @throws IOException
      * @since 1.0.0
      */
-    void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest)
+    void updateProduct(final Long id, final MultipartFile image, final ProductModifyRequest productRequest)
         throws IOException;
 
     /**
      * productId에 해당하는 상품을 삭제합니다.
      * 소프트 삭제입니다.
      *
-     * @param productId - 상품의 PK 입니다.
+     * @param id - 상품의 PK 입니다.
      * @since 1.0.0
      */
-    void deleteProduct(Long productId);
+    void deleteProduct(final Long id);
 
 }
