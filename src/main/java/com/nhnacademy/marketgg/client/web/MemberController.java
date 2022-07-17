@@ -1,21 +1,16 @@
 package com.nhnacademy.marketgg.client.web;
 
-import com.nhnacademy.marketgg.client.dto.Message;
-import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
-import com.nhnacademy.marketgg.client.service.DibService;
+import com.nhnacademy.marketgg.client.dto.Alert;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -60,8 +55,8 @@ public class MemberController {
     public ModelAndView subscribePass(@PathVariable final Long memberId) {
         if (memberService.retrievePassUpdatedAt(memberId).isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
-            mav.addObject("error", new Message("이미 구독하신 상태입니다.",
-                                               DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
+            mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
+                                             DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
             return mav;
         }
         memberService.subscribePass(memberId);

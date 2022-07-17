@@ -11,4 +11,4 @@ spring:
     password: 1234
 
 marketgg:
-  gateway-origin: http://localhost:6060
+  gateway-origin: http://localhost:7080
