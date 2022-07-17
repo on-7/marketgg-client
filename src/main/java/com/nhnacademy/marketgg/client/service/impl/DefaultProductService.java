@@ -29,8 +29,8 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public ProductResponse retrieveProductDetails(Long productNo) {
-        return productRepository.retrieveProductDetails(productNo);
+    public ProductResponse retrieveProductDetails(Long id) {
+        return productRepository.retrieveProductDetails(id);
     }
 
     @Override
@@ -39,15 +39,15 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest)
+    public void updateProduct(Long id, MultipartFile image, ProductModifyRequest productRequest)
         throws IOException {
 
-        productRepository.updateProduct(productId, image, productRequest);
+        productRepository.updateProduct(id, image, productRequest);
     }
 
     @Override
-    public void deleteProduct(Long productId) {
-        productRepository.deleteProduct(productId);
+    public void deleteProduct(Long id) {
+        productRepository.deleteProduct(id);
     }
 
 }
