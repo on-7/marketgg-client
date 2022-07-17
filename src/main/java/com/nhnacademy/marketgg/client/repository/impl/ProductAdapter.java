@@ -43,7 +43,6 @@ public class ProductAdapter implements ProductRepository {
                 new ParameterizedTypeReference<>() {
                 });
 
-        // TODO: Log를 AOP로 뺴기
         log.info(getResponseURI(response.getHeaders()));
     }
 
