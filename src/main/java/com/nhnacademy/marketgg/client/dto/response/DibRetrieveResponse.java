@@ -9,6 +9,8 @@ public class DibRetrieveResponse {
 
     private Long productNo;
 
+    private Byte[] thumbnail;
+
     private String productName;
 
     private String productPrice;
