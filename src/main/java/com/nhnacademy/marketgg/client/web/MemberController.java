@@ -114,6 +114,7 @@ public class MemberController {
     public ModelAndView retrieveDibs(@PathVariable final Long memberId) {
         ModelAndView mav = new ModelAndView("/mygg/dibs/index");
         mav.addObject("dibs", dibService.retrieveDibs(memberId));
+        mav.addObject("id", memberId);
 
         return mav;
     }

@@ -1,10 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>My Dib</title>
     </head>
     <body>
-
+        </div>
+        <h2 style="text-align: center">[찜 목록]</h2>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <table style="text-align: center; border: 1px solid black">
+                <tr>
+                    <th>-</th>
+                    <th>이름</th>
+                    <th>가격</th>
+                    <th>찜 상태</th>
+                </tr>
+                <tr th:each="dib : ${dibs}">
+                    <td>
+                        <img th:src="${dib.thumbnail}" />
+                    </td>
+                    <td th:text="${dib.productName}"></td>
+                    <td th:text="${dib.productPrice}"></td>
+                    <td>
+                        <form th:method="delete" th:action="'/shop/v1/member/' + ${id} + '/dibs/' + ${dib.productNo}">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <input type="submit" value="제거">
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>
