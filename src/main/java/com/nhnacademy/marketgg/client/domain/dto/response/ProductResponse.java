@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ProductResponse {
 
-    private Long productNo;
+    private Long id;
     private Long assetNo;
     private String categoryCode;
     private String name;
@@ -34,4 +34,5 @@ public class ProductResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
+
 }
