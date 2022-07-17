@@ -19,9 +19,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class ProductAdapter implements ProductRepository {
 
     // TODO: @Value로 고치기
@@ -61,7 +61,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public ProductResponse retrieveProductDetails(Long productId) {
+    public ProductResponse retrieveProductDetails(final Long productId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -75,13 +75,13 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<ProductResponse> retrieveProductsByCategory(String categorizationCode, String categoryCode) {
+    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode, final String categoryCode) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<ProductResponse>> response = restTemplate.exchange(
+        ResponseEntity<List<ProductResponse>> response = this.restTemplate.exchange(
             BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryCode, HttpMethod.GET,
             httpEntity, new ParameterizedTypeReference<>() {
             });
@@ -97,23 +97,22 @@ public class ProductAdapter implements ProductRepository {
             getLinkedMultiValueMapHttpEntity(image, productRequest);
 
         ResponseEntity<Void> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId, HttpMethod.PUT,
+            this.restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId, HttpMethod.PUT,
                 httpEntity, new ParameterizedTypeReference<>() {
                 });
 
-        // TODO: Log를 AOP로 빼기
         log.info(getResponseURI(response.getHeaders()));
     }
 
     @Override
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(final Long productId) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId + "/deleted",
+            this.restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId + "/deleted",
                 HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
                 });
 
@@ -138,7 +137,7 @@ public class ProductAdapter implements ProductRepository {
         return new HttpEntity<>(multipartReqMap, headers);
     }
 
-    private String getResponseURI(HttpHeaders response) {
+    private String getResponseURI(final HttpHeaders response) {
         return String.valueOf(response.getLocation());
     }
 
