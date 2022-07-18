@@ -23,7 +23,7 @@ public class LogAspect {
      *
      * @since 1.0.0
      */
-    @Pointcut("execution(* com..adapter.impl.*Adapter.*(..))")
+    @Pointcut("execution(* com..repository.impl.*Adapter.*(..))")
     private void cut() {
     }
 
