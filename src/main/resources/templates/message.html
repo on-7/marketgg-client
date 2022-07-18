@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <th:block th:if="${#strings.length(error.error) != 0}">
+    <th:block th:if="${#strings.length(message.message) != 0}">
         <script>
-            top.alert("[[${error.error}]]");
+            top.alert("[[${message.message}]]");
         </script>
     </th:block>
-    <th:block th:if="${#strings.length(error.href) != 0}">
+    <th:block th:if="${#strings.length(message.href) != 0}">
         <script>
-            top.location.href = '[[${error.href}]]';
+            top.location.href = '[[${message.href}]]';
         </script>
     </th:block>
 </html>
