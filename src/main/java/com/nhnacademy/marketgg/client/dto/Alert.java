@@ -5,13 +5,13 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class Message {
+public class Alert {
 
-    private String error;
+    private String message;
     private String href;
 
-    public Message(String error, String href) {
-        this.error = error;
+    public Alert(String message, String href) {
+        this.message = message;
         this.href = href;
     }
 

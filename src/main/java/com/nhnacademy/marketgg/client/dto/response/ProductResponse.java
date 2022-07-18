@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.domain.dto.response;
+package com.nhnacademy.marketgg.client.dto.response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

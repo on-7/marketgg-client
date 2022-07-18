@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.domain.dto.request;
+package com.nhnacademy.marketgg.client.dto.request;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;

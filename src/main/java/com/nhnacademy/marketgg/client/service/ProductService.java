@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.service;
 
-import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
-import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +22,8 @@ public interface ProductService {
      * @throws IOException
      * @since 1.0.0
      */
-    void createProduct(final MultipartFile image, final ProductCreateRequest productRequest) throws IOException;
+    void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
+        throws IOException;
 
     /**
      * 모든 상품을 조회합니다.
@@ -55,7 +56,7 @@ public interface ProductService {
     /**
      * productId에 해당하는 상품을 수정합니다.
      *
-     * @param id      - 상품의 PK 입니다.
+     * @param id             - 상품의 PK 입니다.
      * @param image          - MultiparttFile 타입 입니다.
      * @param productRequest - 상품 수정을 위한 DTO 입니다.
      * @throws IOException

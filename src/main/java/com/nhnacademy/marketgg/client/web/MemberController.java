@@ -1,9 +1,10 @@
 package com.nhnacademy.marketgg.client.web;
 
-import com.nhnacademy.marketgg.client.dto.Message;
+import com.nhnacademy.marketgg.client.dto.Alert;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class MemberController {
 
     private final MemberService memberService;
+
+    private static final String DEFAULT_MEMBER = "/shop/v1/members";
 
     /**
      * 선택한 회원의 GG 패스 화면으로 이동합니다.
@@ -52,13 +55,13 @@ public class MemberController {
     public ModelAndView subscribePass(@PathVariable final Long memberId) {
         if (memberService.retrievePassUpdatedAt(memberId).isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
-            mav.addObject("error", new Message("이미 구독하신 상태입니다.",
-                                               "/shop/v1/members/" + memberId + "/ggpass"));
+            mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
+                                             DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
             return mav;
         }
         memberService.subscribePass(memberId);
 
-        return new ModelAndView("redirect:/shop/v1/members/" + memberId + "/ggpass");
+        return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
     }
 
     /**
@@ -72,7 +75,7 @@ public class MemberController {
     public ModelAndView withdrawPass(@PathVariable final Long memberId) {
         memberService.withdrawPass(memberId);
 
-        return new ModelAndView("redirect:/shop/v1/members/" + memberId + "/ggpass");
+        return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
     }
 
 }

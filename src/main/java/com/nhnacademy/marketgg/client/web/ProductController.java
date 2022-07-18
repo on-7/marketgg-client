@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.web;
 
-import com.nhnacademy.marketgg.client.domain.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.domain.dto.request.ProductModifyRequest;
-import com.nhnacademy.marketgg.client.domain.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
@@ -68,7 +68,6 @@ public class ProductController {
      */
     @GetMapping("/create")
     public ModelAndView createProduct() {
-
         return new ModelAndView("products/product-form");
     }
 
@@ -82,7 +81,6 @@ public class ProductController {
      */
     @GetMapping
     public ModelAndView retrieveProducts() {
-
         List<ProductResponse> products = this.productService.retrieveProducts();
 
         ModelAndView mav = new ModelAndView("products/retrieve-products");
@@ -103,7 +101,6 @@ public class ProductController {
     public ModelAndView retrieveProductDetails(@PathVariable final Long id) {
 
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
-
         ModelAndView mav = new ModelAndView("products/product-details");
         mav.addObject("productDetails", productDetails);
 
@@ -183,7 +180,6 @@ public class ProductController {
      */
     @PostMapping("/{productId}/delete")
     public ModelAndView deleteProduct(@PathVariable final Long productId) {
-
         this.productService.deleteProduct(productId);
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
