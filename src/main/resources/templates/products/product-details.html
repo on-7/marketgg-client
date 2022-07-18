@@ -31,26 +31,25 @@
             </thead>
 
             <tbody>
-                <tr th:each="product : ${productDetails}">
-                    <td th:text="${product.id}"></td>
-                    <td th:text="${product.categoryCode}"></td>
-                    <td th:text="${product.assetNo}"></td>
-                    <td th:text="${product.name}"></td>
-                    <td th:text="${product.name}"></td>
-                    <td th:text="${product.content}"></td>
-                    <td th:text="${product.totalStock}"></td>
-                    <td th:text="${product.price}"></td>
-                    <td th:text="${product.description}"></td>
-                    <td th:text="${product.unit}"></td>
-                    <td th:text="${product.deliveryType}"></td>
-                    <td th:text="${product.origin}"></td>
-                    <td th:text="${product.packageType}"></td>
-                    <td th:text="${product.expirationDate}"></td>
-                    <td th:text="${product.allergyInfo}"></td>
-                    <td th:text="${product.capacity}"></td>
-                    <td th:text="${product.createdAt}"></td>
-                    <td th:text="${product.updatedAt}"></td>
-                    <td th:text="${product.deletedAt}"></td>
+                <tr>
+                    <td th:text="${productDetails.id}"></td>
+                    <td th:text="${productDetails.categoryCode}"></td>
+                    <td th:text="${productDetails.assetNo}"></td>
+                    <td th:text="${productDetails.name}"></td>
+                    <td th:text="${productDetails.content}"></td>
+                    <td th:text="${productDetails.totalStock}"></td>
+                    <td th:text="${productDetails.price}"></td>
+                    <td th:text="${productDetails.description}"></td>
+                    <td th:text="${productDetails.unit}"></td>
+                    <td th:text="${productDetails.deliveryType}"></td>
+                    <td th:text="${productDetails.origin}"></td>
+                    <td th:text="${productDetails.packageType}"></td>
+                    <td th:text="${productDetails.expirationDate}"></td>
+                    <td th:text="${productDetails.allergyInfo}"></td>
+                    <td th:text="${productDetails.capacity}"></td>
+                    <td th:text="${productDetails.createdAt}"></td>
+                    <td th:text="${productDetails.updatedAt}"></td>
+                    <td th:text="${productDetails.deletedAt}"></td>
                 </tr>
             </tbody>
         </table>

@@ -188,4 +188,5 @@ public class ProductController {
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
     }
+
 }
