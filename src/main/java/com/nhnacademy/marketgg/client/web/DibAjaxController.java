@@ -26,6 +26,7 @@ import java.util.Objects;
 public class DibAjaxController {
 
     private final DibService dibService;
+    private static final Integer SUCCESS = 1;
 
     /**
      * 지정한 상품을 지정한 회원의 찜 목록에 존재하는지 판단하는 Mapping 을 지원합니다.
@@ -63,11 +64,11 @@ public class DibAjaxController {
      */
     @GetMapping("/insert/{memberId}/{productId}")
     @ResponseBody
-    public int dibInsert(@PathVariable final Long memberId, @PathVariable final Long productId) {
+    public Integer dibInsert(@PathVariable final Long memberId, @PathVariable final Long productId) {
 
         dibService.createDib(memberId, productId);
 
-        return 1;
+        return SUCCESS;
     }
 
     /**
@@ -80,11 +81,11 @@ public class DibAjaxController {
      */
     @GetMapping("/delete/{memberId}/{productId}")
     @ResponseBody
-    public int dibDelete(@PathVariable final Long memberId, @PathVariable final Long productId) {
+    public Integer dibDelete(@PathVariable final Long memberId, @PathVariable final Long productId) {
 
         dibService.deleteDib(memberId, productId);
 
-        return 1;
+        return SUCCESS;
     }
 
 }
