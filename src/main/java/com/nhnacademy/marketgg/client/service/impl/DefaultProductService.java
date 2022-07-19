@@ -1,16 +1,15 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
-import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import com.nhnacademy.marketgg.client.service.ProductService;
+import java.io.IOException;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,37 +17,39 @@ public class DefaultProductService implements ProductService {
 
     private final ProductRepository productRepository;
 
-    // REVIEW 4
-    public void createProduct(final MultipartFile image,
-                              final ProductCreateRequest productRequest) throws IOException {
+    public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
+        throws IOException {
 
-        productRepository.createProduct(image, productRequest);
+        this.productRepository.createProduct(image, productRequest);
     }
 
     @Override
     public List<ProductResponse> retrieveProducts() {
-        return productRepository.retrieveProducts();
+        return this.productRepository.retrieveProducts();
     }
 
     @Override
-    public ProductResponse retrieveProductDetails(Long productNo) {
-        return productRepository.retrieveProductDetails(productNo);
+    public ProductResponse retrieveProductDetails(final Long id) {
+        return this.productRepository.retrieveProductDetails(id);
     }
 
     @Override
-    public List<ProductResponse> retrieveProductsByCategory(String categorizationCode, String categoryCode) {
-        return productRepository.retrieveProductsByCategory(categorizationCode, categoryCode);
+    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
+                                                            final String categoryCode) {
+
+        return this.productRepository.retrieveProductsByCategory(categorizationCode, categoryCode);
     }
 
     @Override
-    public void updateProduct(Long productId, MultipartFile image, ProductModifyRequest productRequest)
-        throws IOException {
-        productRepository.updateProduct(productId, image, productRequest);
+    public void updateProduct(final Long id, final MultipartFile image,
+                              final ProductModifyRequest productRequest) throws IOException {
+
+        this.productRepository.updateProduct(id, image, productRequest);
     }
 
     @Override
-    public void deleteProduct(Long productId) {
-        productRepository.deleteProduct(productId);
+    public void deleteProduct(final Long id) {
+        this.productRepository.deleteProduct(id);
     }
 
 }

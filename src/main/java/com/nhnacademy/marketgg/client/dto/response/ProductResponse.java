@@ -5,13 +5,18 @@ import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-
+/**
+ * 상품의 모든 속성을 담은 반환 객체입니다.
+ * deletedAt 속성만 nullable 입니다.
+ * deletedAt 속성이 null이 아닌 경우 해당 상품은 삭제된 상태입니다.
+ *
+ * @version 1.0.0
+ */
 @NoArgsConstructor
 @Getter
 public class ProductResponse {
 
-    private Long productNo;
+    private Long id;
     private Long assetNo;
     private String categoryCode;
     private String name;
@@ -29,4 +34,5 @@ public class ProductResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime deletedAt;
+
 }
