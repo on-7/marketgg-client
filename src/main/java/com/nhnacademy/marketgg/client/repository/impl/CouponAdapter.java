@@ -1,5 +1,8 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.repository.CouponRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +27,22 @@ public class CouponAdapter implements CouponRepository {
 
     private final RestTemplate restTemplate;
 
+    private final ObjectMapper objectMapper;
+
     private static final String DEFAULT_COUPON = "/shop/v1/admin/coupons";
+
+    @Override
+    public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException {
+        String request = objectMapper.writeValueAsString(couponRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
+        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+                                                              HttpMethod.POST,
+                                                              requestEntity,
+                                                              Void.class);
+
+        this.checkResponseUri(response);
+    }
 
     @Override
     public List<CouponRetrieveResponse> retrieveCoupons() {
@@ -37,6 +55,19 @@ public class CouponAdapter implements CouponRepository {
 
         this.checkResponseUri(response);
         return response.getBody();
+    }
+
+    @Override
+    public void updateCoupon(final CouponRequest couponRequest) throws JsonProcessingException {
+        String request = objectMapper.writeValueAsString(couponRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
+        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+                                                              HttpMethod.PUT,
+                                                              requestEntity,
+                                                              Void.class);
+
+        this.checkResponseUri(response);
     }
 
     private HttpHeaders buildHeaders() {

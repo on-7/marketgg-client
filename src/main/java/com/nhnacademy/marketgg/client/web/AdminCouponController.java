@@ -1,10 +1,16 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -17,7 +23,19 @@ public class AdminCouponController {
 
     private final CouponService couponService;
 
-    @GetMapping
+    @GetMapping("/create")
+    public ModelAndView doCreateCoupon() {
+        return new ModelAndView("/coupons/create-form");
+    }
+
+    @PostMapping
+    public ModelAndView createCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
+        couponService.createCoupon(couponRequest);
+
+        return new ModelAndView("redirect:/shop/v1/admin/coupons");
+    }
+
+    @GetMapping("/index")
     public ModelAndView retrieveCoupons() {
         List<CouponRetrieveResponse> responses = couponService.retrieveCoupons();
 
@@ -26,4 +44,22 @@ public class AdminCouponController {
 
         return mav;
     }
+
+    @GetMapping("/update/{couponId}")
+    public ModelAndView doUpdateCoupon(@PathVariable final Long couponId) {
+        ModelAndView mav = new ModelAndView("/categories/update-form");
+
+        // CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
+        // mav.addObject("coupon", couponResponse);
+
+        return mav;
+    }
+
+    @PutMapping
+    public ModelAndView updateCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
+        couponService.updateCoupon(couponRequest);
+
+        return new ModelAndView("redirect:/shop/v1/admin/coupons");
+    }
+
 }
