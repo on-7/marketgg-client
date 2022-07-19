@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.config;
 
 import com.nhnacademy.marketgg.client.exception.SecureManagerException;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,14 +62,14 @@ public class RedisConfig {
      * @return RedisTemplate
      */
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(
+    public RedisTemplate<String, JwtInfo> redisTemplate(
         RedisConnectionFactory redisConnectionFactory) {
 
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<String, JwtInfo> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(JwtInfo.class));
 
         return redisTemplate;
     }

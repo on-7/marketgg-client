@@ -5,39 +5,63 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Spring Security 기본 설정을 진행합니다.
+ *
+ * @version 1.0.0
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-   @Bean
-   public PasswordEncoder passwordEncoder() {
-       return new BCryptPasswordEncoder();
-   }
+    /**
+     * Blowfish 알고리즘을 기반으로 비밀번호를 암호화합니다.
+     *
+     * @return 암호화 가능한 단방향 해시 함수인 BCryptPasswordEncoder
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-   @Bean
-   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-       // FIXME: th:action 적용 후 주석 해제
-       http.csrf();
+    /**
+     * 인증을 처리하는 여러 개의 SecurityFilter 를 담는 filter chain 입니다.
+     *
+     * @param http - 세부 보안 기능을 설정할 수 있는 API 제공 클래스
+     * @return 인증 처리와 관련된 SecurityFilterChain
+     * @throws Exception Spring Security 의 메소드에서 발생하는 예외입니다.
+     */
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // FIXME: th:action 적용 후 주석 해제
+        http.csrf();
 
-       http.authorizeRequests()
-           .antMatchers("/**").permitAll();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-       // TODO: 경로에 따른 접근 설정
-       http.headers()
-           .defaultsDisabled()
-           .frameOptions().sameOrigin();
+        http.formLogin().disable()
+            .logout().disable();
 
-       return http.build();
-   }
+        http.authorizeRequests()
+            // .antMatchers("/auth/**").permitAll()
+            .antMatchers("/**").permitAll();
 
-   @Bean
-   public WebSecurityCustomizer webSecurityCustomizer() {
-       return web -> web.ignoring()
-                        .antMatchers("/resources/**");
-   }
+        // TODO: 경로에 따른 접근 설정
+        http.headers()
+            .defaultsDisabled()
+            .frameOptions().sameOrigin();
+
+        return http.build();
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring()
+                         .antMatchers("/resources/**");
+    }
 
 }

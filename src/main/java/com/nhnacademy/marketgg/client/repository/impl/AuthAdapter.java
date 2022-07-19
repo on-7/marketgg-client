@@ -1,15 +1,22 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
-import com.nhnacademy.marketgg.client.dto.response.LoginResponse;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.AuthRepository;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -20,40 +27,69 @@ import org.springframework.web.client.RestTemplate;
  *
  * @version 1.0.0
  */
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class AuthAdapter implements AuthRepository {
+
+    private static final String JWT = "JWT";
+    private static final String JWT_EXPIRE = "JWT-Expire";
 
     @Value("${marketgg.gateway-origin}")
     private String authServerUrl;
 
     private final RestTemplate restTemplate;
+    private final RedisTemplate<String, JwtInfo> redisTemplate;
 
     /**
      * 로그인 시 서버에 로그인 정보를 전송합니다.
      *
      * @param loginRequest - 사용자가 입력한 이메일과 비밀번호
      */
-    public void doLogin(final LoginRequest loginRequest) {
+    @Override
+    public void doLogin(final LoginRequest loginRequest, final String sessionId) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(loginRequest, httpHeaders);
 
-        ResponseEntity<LoginResponse> response =
-            restTemplate.postForEntity(authServerUrl + "/auth/login", httpEntity, LoginResponse.class);
+        ResponseEntity<Void> response =
+            restTemplate.postForEntity(authServerUrl + "/auth/login", httpEntity, Void.class);
 
-        checkStatus(response.getStatusCode());
+        checkStatus(response);
+
+        HttpHeaders headers = response.getHeaders();
+
+        String jwt = Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0);
+        String expire = Objects.requireNonNull(headers.get(JWT_EXPIRE)).get(0);
+
+        JwtInfo jwtInfo = new JwtInfo(jwt, expire);
+        Instant instant = jwtInfo.getJwtExpireDate()
+                                 .atZone(ZoneId.systemDefault())
+                                 .toInstant();
+        Date expireDate = Date.from(instant);
+
+        redisTemplate.opsForHash().put(sessionId, JWT, jwtInfo);
+        redisTemplate.expireAt(sessionId, expireDate);
     }
 
-    private void checkStatus(HttpStatus status) {
-        if (status.is4xxClientError()) {
+    private void checkStatus(ResponseEntity<?> response) {
+        log.info("{}", response.getStatusCode());
+        if (response.getStatusCode().is4xxClientError()) {
+            log.info("Login Fail - http status: {}", response.getStatusCode());
             throw new LoginFailException();
         }
 
-        if (status.is5xxServerError()) {
+        if (response.getStatusCode().is5xxServerError()) {
+            log.info("Login Fail - http status: {}", response.getStatusCode());
             throw new ServerException();
+        }
+
+        if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
+            || Objects.isNull(response.getHeaders().get(JWT_EXPIRE))) {
+            log.info("Empty header");
+            throw new LoginFailException();
         }
     }
 
