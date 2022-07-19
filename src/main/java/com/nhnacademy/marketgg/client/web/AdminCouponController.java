@@ -32,7 +32,7 @@ public class AdminCouponController {
     public ModelAndView createCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
         couponService.createCoupon(couponRequest);
 
-        return new ModelAndView("redirect:/shop/v1/admin/coupons");
+        return new ModelAndView("redirect:/shop/v1/admin/coupons/index");
     }
 
     @GetMapping("/index")
@@ -59,7 +59,7 @@ public class AdminCouponController {
     public ModelAndView updateCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
         couponService.updateCoupon(couponRequest);
 
-        return new ModelAndView("redirect:/shop/v1/admin/coupons");
+        return new ModelAndView("redirect:/shop/v1/admin/coupons/index");
     }
 
 }
