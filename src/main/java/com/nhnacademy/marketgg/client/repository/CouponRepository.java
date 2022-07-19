@@ -16,4 +16,6 @@ public interface CouponRepository {
 
     void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException;
 
+    void deleteCoupon(Long couponId);
+
 }

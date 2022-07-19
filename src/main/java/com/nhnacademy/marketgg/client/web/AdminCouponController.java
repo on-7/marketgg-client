@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +60,13 @@ public class AdminCouponController {
     public ModelAndView updateCoupon(@PathVariable final Long couponId,
                                      @ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
         couponService.updateCoupon(couponId, couponRequest);
+
+        return new ModelAndView("redirect:/shop/v1/admin/coupons/index");
+    }
+
+    @DeleteMapping("/{couponId}")
+    public ModelAndView deleteCoupon(@PathVariable final Long couponId) {
+        couponService.deleteCoupon(couponId);
 
         return new ModelAndView("redirect:/shop/v1/admin/coupons/index");
     }

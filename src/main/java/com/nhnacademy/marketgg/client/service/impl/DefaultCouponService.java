@@ -36,4 +36,8 @@ public class DefaultCouponService implements CouponService {
         couponRepository.updateCoupon(couponId, couponRequest);
     }
 
+    @Override
+    public void deleteCoupon(Long couponId) {
+        couponRepository.deleteCoupon(couponId);
+    }
 }

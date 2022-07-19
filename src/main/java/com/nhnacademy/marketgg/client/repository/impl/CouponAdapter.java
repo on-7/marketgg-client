@@ -83,6 +83,18 @@ public class CouponAdapter implements CouponRepository {
         this.checkResponseUri(response);
     }
 
+    @Override
+    public void deleteCoupon(Long couponId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<Void> response =
+                restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+                                      HttpMethod.DELETE,
+                                      requestEntity,
+                                      Void.class);
+
+        this.checkResponseUri(response);
+    }
+
     private HttpHeaders buildHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
