@@ -6,4 +6,6 @@ import java.util.List;
 public interface PointService {
 
     List<PointRetrieveResponse> adminRetrievePointHistories();
+
+    PointRetrieveResponse retrievePointHistories(final Long id);
 }

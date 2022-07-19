@@ -7,4 +7,6 @@ public interface PointRepository {
 
     List<PointRetrieveResponse> adminRetrievePointHistory();
 
+    PointRetrieveResponse retrievePointHistory(final Long id);
+
 }

@@ -17,4 +17,9 @@ public class DefaultPointService implements PointService {
     public List<PointRetrieveResponse> adminRetrievePointHistories() {
         return this.pointRepository.adminRetrievePointHistory();
     }
+
+    @Override
+    public PointRetrieveResponse retrievePointHistories(final Long id) {
+        return this.pointRepository.retrievePointHistory(id);
+    }
 }
