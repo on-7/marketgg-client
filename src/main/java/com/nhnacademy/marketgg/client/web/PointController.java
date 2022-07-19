@@ -16,7 +16,6 @@ public class PointController {
 
     private final PointService pointService;
 
-
     @GetMapping("/{memberId}/points")
     public ModelAndView retrievePointHistory(@PathVariable final Long memberId) {
         PointRetrieveResponse response = this.pointService.retrievePointHistories(memberId);
