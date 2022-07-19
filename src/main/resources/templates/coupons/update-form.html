@@ -19,19 +19,19 @@
                     </tr>
                     <tr>
                         <td>
-                            <input type="text" name="name" th:placeholder="${coupon.name}"/>
+                            <input type="text" name="name" th:value="${coupon.name}" th:placeholder="${coupon.name}"/>
                         </td>
                         <td>
-                            <input type="text" name="type" th:placeholder="${coupon.type}"/>
+                            <input type="text" name="type" th:value="${coupon.type}" th:placeholder="${coupon.type}"/>
                         </td>
                         <td>
-                            <input type="number" min="1" name="expiredDate" th:placeholder="${coupon.expiredDate}"/>
+                            <input type="number" min="1" name="expiredDate" th:value="${coupon.expiredDate}" th:placeholder="${coupon.expiredDate}"/>
                         </td>
                         <td>
-                            <input type="number" min="0" name="minimumMoney" th:placeholder="${coupon.minimumMoney}"/>
+                            <input type="number" min="0" name="minimumMoney" th:value="${coupon.minimumMoney}" th:placeholder="${coupon.minimumMoney}"/>
                         </td>
                         <td>
-                            <input type="number" step="any" name="discountAmount" th:placeholder="${coupon.discountAmount}"/>
+                            <input type="number" step="any" name="discountAmount" th:value="${coupon.discountAmount}" th:placeholder="${coupon.discountAmount}"/>
                         </td>
                     </tr>
                     <tr>
