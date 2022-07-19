@@ -45,6 +45,19 @@ public class CouponAdapter implements CouponRepository {
     }
 
     @Override
+    public CouponRetrieveResponse retrieveCoupon(Long couponId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<CouponRetrieveResponse>
+                response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+                                                 HttpMethod.GET, requestEntity,
+                                                 new ParameterizedTypeReference<>() {
+                                                 });
+
+        this.checkResponseUri(response);
+        return response.getBody();
+    }
+
+    @Override
     public List<CouponRetrieveResponse> retrieveCoupons() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<CouponRetrieveResponse>>
@@ -58,11 +71,11 @@ public class CouponAdapter implements CouponRepository {
     }
 
     @Override
-    public void updateCoupon(final CouponRequest couponRequest) throws JsonProcessingException {
+    public void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(couponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
                                                               HttpMethod.PUT,
                                                               requestEntity,
                                                               Void.class);

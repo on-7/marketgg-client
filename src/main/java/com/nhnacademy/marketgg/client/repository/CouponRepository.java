@@ -8,9 +8,12 @@ import java.util.List;
 
 public interface CouponRepository {
 
-    void createCoupon(CouponRequest couponRequest) throws JsonProcessingException;
+    void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException;
+
+    CouponRetrieveResponse retrieveCoupon(Long couponId);
+
     List<CouponRetrieveResponse> retrieveCoupons();
 
-    void updateCoupon(CouponRequest couponRequest) throws JsonProcessingException;
+    void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException;
 
 }

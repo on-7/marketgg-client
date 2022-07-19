@@ -47,17 +47,18 @@ public class AdminCouponController {
 
     @GetMapping("/update/{couponId}")
     public ModelAndView doUpdateCoupon(@PathVariable final Long couponId) {
-        ModelAndView mav = new ModelAndView("/categories/update-form");
+        ModelAndView mav = new ModelAndView("/coupons/update-form");
 
-        // CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
-        // mav.addObject("coupon", couponResponse);
+        CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
+        mav.addObject("coupon", couponResponse);
 
         return mav;
     }
 
-    @PutMapping
-    public ModelAndView updateCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
-        couponService.updateCoupon(couponRequest);
+    @PutMapping("/{couponId}")
+    public ModelAndView updateCoupon(@PathVariable final Long couponId,
+                                     @ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
+        couponService.updateCoupon(couponId, couponRequest);
 
         return new ModelAndView("redirect:/shop/v1/admin/coupons/index");
     }

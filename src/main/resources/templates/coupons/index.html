@@ -23,7 +23,7 @@
                 <td th:text="${coupon.minimumMoney}"></td>
                 <td th:text="${coupon.discountAmount}"></td>
                 <td>
-                    <a style="text-decoration: none" th:href="@{/shop/v1/coupons/update/{couponId}(couponId=${coupon.id})}">
+                    <a style="text-decoration: none" th:href="@{/shop/v1/admin/coupons/update/{couponId}(couponId=${coupon.id})}">
                         <button>수정</button>
                     </a>
                     <form style="display: inline" th:action="'/shop/v1/admin/coupons/' + ${coupon.id}" method="post">

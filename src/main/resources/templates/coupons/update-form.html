@@ -2,9 +2,51 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
-        <title>CouponUpdateForm</title>
+        <title>CouponCreateForm</title>
     </head>
     <body>
-        <h1>쿠폰 수정 페이지</h1>
+        <h1>쿠폰 수정</h1>
+        <hr/>
+        <div>
+            <form th:method="put" th:action="'/shop/v1/admin/coupons/' + ${coupon.id}">
+                <table style="margin-left: auto; margin-right: auto;">
+                    <tr>
+                        <th>쿠폰이름</th>
+                        <th>쿠폰종류</th>
+                        <th>유효기간</th>
+                        <th>최소주문금액</th>
+                        <th>할인량</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="name" th:placeholder="${coupon.name}"/>
+                        </td>
+                        <td>
+                            <input type="text" name="type" th:placeholder="${coupon.type}"/>
+                        </td>
+                        <td>
+                            <input type="number" min="1" name="expiredDate" th:placeholder="${coupon.expiredDate}"/>
+                        </td>
+                        <td>
+                            <input type="number" min="0" name="minimumMoney" th:placeholder="${coupon.minimumMoney}"/>
+                        </td>
+                        <td>
+                            <input type="number" step="any" name="discountAmount" th:placeholder="${coupon.discountAmount}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <input type="hidden" name="id" th:value="${coupon.id}"/>
+                            <button style="flex: none; float: right;" type="submit">수정</button>
+                        </td>
+                        <td>
+                            <a style="text-decoration: none" th:href="@{/shop/v1/admin/coupons/index}">
+                                <button>취소</button>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
     </body>
 </html>

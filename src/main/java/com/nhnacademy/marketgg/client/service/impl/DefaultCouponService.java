@@ -22,13 +22,18 @@ public class DefaultCouponService implements CouponService {
     }
 
     @Override
+    public CouponRetrieveResponse retrieveCoupon(Long couponId) {
+        return couponRepository.retrieveCoupon(couponId);
+    }
+
+    @Override
     public List<CouponRetrieveResponse> retrieveCoupons() {
         return couponRepository.retrieveCoupons();
     }
 
     @Override
-    public void updateCoupon(final CouponRequest couponRequest) throws JsonProcessingException {
-        couponRepository.updateCoupon(couponRequest);
+    public void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException {
+        couponRepository.updateCoupon(couponId, couponRequest);
     }
 
 }
