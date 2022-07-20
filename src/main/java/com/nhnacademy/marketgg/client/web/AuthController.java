@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.AuthService;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -18,8 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private static final String SESSION_ID = "SESSION-ID";
-
     private final AuthService authService;
 
     @GetMapping("/login")
@@ -36,7 +35,7 @@ public class AuthController {
             return new ModelAndView("/login");
         }
 
-        response.addCookie(new Cookie(SESSION_ID, httpSession.getId()));
+        response.addCookie(new Cookie(JwtInfo.SESSION_ID, httpSession.getId()));
 
         authService.doLogin(loginRequest, httpSession.getId());
 

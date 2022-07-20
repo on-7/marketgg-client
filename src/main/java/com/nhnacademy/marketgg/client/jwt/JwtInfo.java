@@ -8,6 +8,10 @@ import lombok.Getter;
 @Getter
 public class JwtInfo implements Serializable {
 
+    public static final String JWT_KEY = "JWT";
+    public static final String JWT_EXPIRE = "JWT-Expire";
+    public static final String SESSION_ID = "SESSION-ID";
+
     private final String jwt;
     private final LocalDateTime jwtExpireDate;
 

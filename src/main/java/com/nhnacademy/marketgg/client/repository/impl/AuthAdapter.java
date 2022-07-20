@@ -9,6 +9,7 @@ import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.AuthRepository;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +33,6 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class AuthAdapter implements AuthRepository {
 
-    private static final String JWT = "JWT";
-    private static final String JWT_EXPIRE = "JWT-Expire";
-
     @Value("${marketgg.gateway-origin}")
     private String authServerUrl;
 
@@ -48,7 +46,7 @@ public class AuthAdapter implements AuthRepository {
      */
     @Override
     public void doLogin(final LoginRequest loginRequest, final String sessionId) {
-
+        log.info("login start");
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
@@ -57,25 +55,27 @@ public class AuthAdapter implements AuthRepository {
         ResponseEntity<Void> response =
             restTemplate.postForEntity(authServerUrl + "/auth/login", httpEntity, Void.class);
 
-        checkStatus(response);
+        this.checkStatus(response);
 
         HttpHeaders headers = response.getHeaders();
 
         String jwt = Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0);
-        String expire = Objects.requireNonNull(headers.get(JWT_EXPIRE)).get(0);
+        String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
         Instant instant = jwtInfo.getJwtExpireDate()
+                                 .plus(6, ChronoUnit.DAYS)
+                                 .plus(30, ChronoUnit.MINUTES)
                                  .atZone(ZoneId.systemDefault())
                                  .toInstant();
         Date expireDate = Date.from(instant);
 
-        redisTemplate.opsForHash().put(sessionId, JWT, jwtInfo);
+        log.info("login success: {}", jwtInfo.getJwt());
+        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_KEY, jwtInfo);
         redisTemplate.expireAt(sessionId, expireDate);
     }
 
     private void checkStatus(ResponseEntity<?> response) {
-        log.info("{}", response.getStatusCode());
         if (response.getStatusCode().is4xxClientError()) {
             log.info("Login Fail - http status: {}", response.getStatusCode());
             throw new LoginFailException();
@@ -87,7 +87,7 @@ public class AuthAdapter implements AuthRepository {
         }
 
         if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
-            || Objects.isNull(response.getHeaders().get(JWT_EXPIRE))) {
+            || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
             log.info("Empty header");
             throw new LoginFailException();
         }

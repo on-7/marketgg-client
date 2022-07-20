@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.config;
 
+import java.time.Duration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -7,8 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
-import java.time.Duration;
 
 /**
  * Web Configuration 을 설정할 수 있습니다.
@@ -28,9 +27,10 @@ public class WebConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder
-                .setReadTimeout(Duration.ofSeconds(10L))
-                .setConnectTimeout(Duration.ofSeconds(5L))
-                .build();
+            // .interceptors()
+            .setReadTimeout(Duration.ofSeconds(10L))
+            .setConnectTimeout(Duration.ofSeconds(5L))
+            .build();
     }
 
     /**
