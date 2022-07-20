@@ -2,7 +2,9 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.service.CategoryService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
@@ -28,6 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
     private final static String DEFAULT_PRODUCT_URI = "/admin/v1/products";
 
     /**
@@ -68,7 +71,11 @@ public class ProductController {
      */
     @GetMapping("/create")
     public ModelAndView createProduct() {
-        return new ModelAndView("products/product-form");
+        ModelAndView mav = new ModelAndView("products/product-form");
+
+        List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
+        mav.addObject("categories", categories);
+        return mav;
     }
 
     /**

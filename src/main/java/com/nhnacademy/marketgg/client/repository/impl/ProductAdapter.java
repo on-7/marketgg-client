@@ -26,7 +26,7 @@ public class ProductAdapter implements ProductRepository {
 
     // TODO: @Value로 고치기
     private static final String BASE_URL = "http://localhost:7080";
-    private static final String SERVER_DEFAULT_PRODUCT = "/admin/v1/products";
+    private static final String SERVER_DEFAULT_PRODUCT = "/shop/v1/admin/products";
 
     // TODO: AdapterTemplate 만들어서 공통 코드 분리하기
     private final RestTemplate restTemplate;
