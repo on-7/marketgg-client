@@ -17,10 +17,10 @@
         <form name="form" method="post" action="/admin/v1/products/create" enctype="multipart/form-data">
 
             <input type="text" name="name" placeholder="상품 이름" value="다시다맛 젤리"> <br>
-            <th: each = "category : ${categories}">
-                <input type="checkbox">
-            </th:>
-            <input type="text" name="categoryCode" placeholder="카테고리 코드" value="101"> <br>
+            <div th:each="category : ${categories}" class="form-check form-check-inline">
+                <input type="checkbox" th:value="${category.categoryCode}" name="categoryCode" class="form-check-input">
+                <label th:text="${category.categoryName}" class="form-check-label">서울</label>
+            </div>
             <input type="text" name="content" placeholder="상품 설명" value="북해도에서 온 다시마 젤리"> <br>
             <input type="number" name="totalStock" placeholder="총 수량" value=1> <br>
             <input type="number" name="price" placeholder="가격" value=5900> <br>
@@ -31,11 +31,11 @@
             <input type="date" name="expirationDate" placeholder="유효기간"> <br>
             <input type="text" name="allergyInfo" placeholder="알러지 정보" value="바닷물, 다시마, 소금"> <br>
             <input type="text" name="capacity" placeholder="중량/용량" value="520g"> <br>
-            <input type="file" name="image" multiple="multiple"/> <br>
+            <input type="file" name="image" multiple="multiple" /> <br>
 
             <div id="editor"></div>
             <input type="hidden" id="toast-content" name="description" value="상품">
-            <button type="submit" id="btn-submit">상품 등록 </button>
+            <button type="submit" id="btn-submit">상품 등록</button>
 
         </form>
     </body>
