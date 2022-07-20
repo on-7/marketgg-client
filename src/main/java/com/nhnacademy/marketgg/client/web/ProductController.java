@@ -150,7 +150,9 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("products/product-modify-form");
 
         ProductResponse product = this.productService.retrieveProductDetails(id);
+        List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
         mav.addObject("product", product);
+        mav.addObject("categories", categories);
         return mav;
     }
 
