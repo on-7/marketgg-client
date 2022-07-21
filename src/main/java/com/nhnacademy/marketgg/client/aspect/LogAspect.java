@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.config;
+package com.nhnacademy.marketgg.client.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;

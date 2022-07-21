@@ -15,6 +15,7 @@ public class DefaultLabelService implements LabelService {
 
     private final LabelRepository labelRepository;
 
+
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest)
             throws JsonProcessingException {

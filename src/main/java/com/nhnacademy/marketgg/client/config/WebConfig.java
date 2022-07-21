@@ -26,9 +26,10 @@ public class WebConfig {
      */
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.setReadTimeout(Duration.ofSeconds(10L))
-                      .setConnectTimeout(Duration.ofSeconds(5L))
-                      .build();
+        return builder
+            .setReadTimeout(Duration.ofSeconds(10L))
+            .setConnectTimeout(Duration.ofSeconds(5L))
+            .build();
     }
 
     /**
