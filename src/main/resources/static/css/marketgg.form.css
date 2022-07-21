@@ -1,0 +1,39 @@
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    padding: 5rem;
+}
+
+section form {
+    margin: 2rem;
+}
+
+.form-item {
+    display: flex;
+    justify-content: center;
+    margin: 0.5rem;
+}
+
+.form-item label {
+    width: 10rem;
+}
+
+.form-item input[type="date"], .form-item input[type="file"] {
+    width: 13.3rem;
+}
+
+.btn-wrapper {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.product-details {
+    margin-top: 3rem;
+}
+
+.product-details h2 {
+    text-align: center;
+}

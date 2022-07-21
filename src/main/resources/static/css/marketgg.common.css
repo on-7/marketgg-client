@@ -1,0 +1,64 @@
+* {
+    font-family: 'Gmarket Sans', sans-serif;
+}
+
+.fab, .fas {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.bg-orange {
+    background-color: #ff654a !important;
+}
+
+.main__title, .main__description {
+    /* margin: 2rem; */
+    color: #fff !important;
+}
+
+.main__title, .main__description {
+    margin: 2rem;
+}
+
+.jumbotron {
+    /* FIXME: 둘 중 택 1 */
+    background-color: transparent !important;
+    border-radius: 0;
+}
+
+nav {
+    display: flex;
+    flex: 1;
+}
+
+footer {
+    width: 1050px;
+    color: #ddd;
+    /*line-height: 1.5;*/
+    margin: 5rem auto;
+    display: flex;
+}
+
+footer img {
+    width: 128px;
+    height: 128px;
+}
+
+.footer__description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 2rem;
+}
+
+.footer__navigation {
+    margin: 0.5rem 0 0;
+}
+
+footer a {
+    color: lightblue;
+}
+
+footer a:hover {
+    color: lightskyblue;
+}
