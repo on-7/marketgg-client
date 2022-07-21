@@ -68,7 +68,7 @@ public class ProductController {
      */
     @GetMapping("/create")
     public ModelAndView createProduct() {
-        return new ModelAndView("products/product-form");
+        return new ModelAndView("products/product-create-form");
     }
 
     /**
