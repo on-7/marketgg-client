@@ -27,7 +27,6 @@ public class WebConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder
-            // .interceptors()
             .setReadTimeout(Duration.ofSeconds(10L))
             .setConnectTimeout(Duration.ofSeconds(5L))
             .build();
@@ -56,7 +55,6 @@ public class WebConfig {
         return new HiddenHttpMethodFilter();
     }
 
-    // REVIEW 2:
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
