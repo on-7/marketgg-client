@@ -24,7 +24,7 @@
             <tbody>
                 <tr th:each="product : ${products}">
                     <td th:text="${product.id}"></td>
-                    <td th:text="${product.categoryCode}"></td>
+                    <td th:text="${product.categoryName}"></td>
                     <td th:text="${product.assetNo}"></td>
                     <td class="move" th:text="${product.name}"
                         th:onclick="'location.href=\''+ @{|/admin/v1/products/${product.id}|} + '\''" style="color: tomato">업무 이름

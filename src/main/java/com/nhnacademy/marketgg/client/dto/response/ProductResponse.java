@@ -19,6 +19,7 @@ public class ProductResponse {
     private Long id;
     private Long assetNo;
     private String categoryCode;
+    private String categoryName;
     private String name;
     private String content;
     private Long totalStock;
