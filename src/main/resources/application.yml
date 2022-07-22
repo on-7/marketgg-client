@@ -5,8 +5,8 @@ spring:
   application:
     name: marketgg-client
 
-  profiles:
-    include: oauth2, db
+#  profiles:
+#    include: oauth2, db
 
 marketgg:
   gateway-origin: http://localhost:6060
