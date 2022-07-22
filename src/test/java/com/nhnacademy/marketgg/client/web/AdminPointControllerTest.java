@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web;
 
+import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -29,7 +30,7 @@ class AdminPointControllerTest {
     @Test
     @DisplayName("관리자의 전체 회원 포인트 내역 조회 테스트")
     void testAdminRetrieveMembersPoints() throws Exception {
-        BDDMockito.given(pointService.adminRetrievePointHistories()).willReturn(List.of(new PointRetrieveResponse()));
+        given(pointService.adminRetrievePointHistories()).willReturn(List.of(new PointRetrieveResponse()));
 
         mockMvc.perform(get("/shop/v1/admin/points"))
                .andExpect(status().isOk())

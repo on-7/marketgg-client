@@ -19,7 +19,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class PointAdapter implements PointRepository {
 
-    private static final String BASE_URL = "http://localhost:7080";
+    private static final String BASE_URL = "http://localhost:7080/shop/v1/";
 
     private final RestTemplate restTemplate;
 
@@ -30,7 +30,7 @@ public class PointAdapter implements PointRepository {
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<List<PointRetrieveResponse>> response =
-            this.restTemplate.exchange(BASE_URL + "/shop/v1/admin/points", HttpMethod.GET, request,
+            this.restTemplate.exchange(BASE_URL + "admin/points", HttpMethod.GET, request,
                 new ParameterizedTypeReference<>() {
                 });
 
@@ -38,13 +38,13 @@ public class PointAdapter implements PointRepository {
     }
 
     @Override
-    public PointRetrieveResponse retrievePointHistory(Long id) {
+    public PointRetrieveResponse retrievePointHistory(final Long id) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<PointRetrieveResponse> response =
-            this.restTemplate.exchange(BASE_URL + "/shop/v1/members/" + id + "/points", HttpMethod.GET, request,
+            this.restTemplate.exchange(BASE_URL + "members/" + id + "/points", HttpMethod.GET, request,
                 new ParameterizedTypeReference<>() {
                 });
 
