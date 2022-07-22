@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.LogoutException;
@@ -36,6 +37,7 @@ public class AuthAdapter implements AuthRepository {
     private final RestTemplate restTemplate;
     private final RedisTemplate<String, JwtInfo> redisTemplate;
 
+    @NoAuth
     @Override
     public void doLogin(final LoginRequest loginRequest, final String sessionId) {
         log.info("login start");

@@ -48,7 +48,8 @@ public class JwtAspect {
     /**
      * JWT 가 만료되었을 때 JWT 갱신을 인증서버에 요청합니다.
      */
-    @Before("within(com.nhnacademy.marketgg.client.repository.impl.*)")
+    @Before("within(com.nhnacademy.marketgg.client.repository.impl.*)"
+        + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
     public void tokenRefresh() {
         log.info("Jwt Aspect");
 
@@ -59,7 +60,8 @@ public class JwtAspect {
         }
 
         String sessionId = cookie.getValue();
-        JwtInfo jwtInfo = (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
+        JwtInfo jwtInfo =
+            (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         if (Objects.isNull(jwtInfo)) {
             return;
@@ -123,11 +125,12 @@ public class JwtAspect {
     /**
      * 클라이언트가 보관중인 쿠키에 있는 세션아이디를 통해 Redis 에 저장된 JWT 에 접근하기 위한 메서드입니다.
      *
-     * @param pjp 메서드 원본 실행시킬 수 있는 객체입니다.
+     * @param pjp - 메서드 원본 실행시킬 수 있는 객체입니다.
      * @return 메서드를 실행시킵니다.
      * @throws Throwable 메서드를 실행시킬 때 발생할 수 있는 예외입니다.
      */
-    @Around("execution(* com.nhnacademy.marketgg.client.web.*.*(..))")
+    @Around("execution(* com.nhnacademy.marketgg.client.web.*.*(..))"
+        + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
     public Object session(ProceedingJoinPoint pjp) throws Throwable {
         log.info("Method process: {}", pjp.getSignature().getName());
 
