@@ -33,7 +33,7 @@ class AdminPointControllerTest {
 
         mockMvc.perform(get("/shop/v1/admin/points"))
                .andExpect(status().isOk())
-               .andExpect(view().name("/points/index"));
+               .andExpect(view().name("/points/admin-retrieve-members"));
     }
 
 }
