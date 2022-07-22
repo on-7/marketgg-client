@@ -20,7 +20,7 @@ public class AdminPointController {
     public ModelAndView adminRetrievePointHistory() {
         List<PointRetrieveResponse> responses = this.pointService.adminRetrievePointHistories();
 
-        ModelAndView mav = new ModelAndView("/points/index");
+        ModelAndView mav = new ModelAndView("/points/admin-retrieve-members");
         mav.addObject("points", responses);
 
         return mav;
