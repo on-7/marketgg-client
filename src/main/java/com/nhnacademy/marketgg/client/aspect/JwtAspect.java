@@ -18,6 +18,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -25,8 +26,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 인증을 처리하기 위해 사용되는 AOP 입니다.
@@ -35,6 +34,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 @Slf4j
 @Aspect
+@Order(1)
 @Component
 @RequiredArgsConstructor
 public class JwtAspect {
@@ -140,7 +140,7 @@ public class JwtAspect {
             return pjp.proceed();
         }
 
-        HttpSession session = this.getHttpRequest().getSession(true);
+        HttpSession session = AspectUtils.getHttpRequest().getSession(true);
         session.setAttribute(JwtInfo.SESSION_ID, cookie.getValue());
 
         Object proceed = pjp.proceed();
@@ -152,7 +152,7 @@ public class JwtAspect {
 
     private Cookie getSessionIdCookie() {
 
-        HttpServletRequest request = this.getHttpRequest();
+        HttpServletRequest request = AspectUtils.getHttpRequest();
         if (Objects.isNull(request.getCookies())) {
             return null;
         }
@@ -166,14 +166,6 @@ public class JwtAspect {
         }
 
         return cookie;
-    }
-
-    private HttpServletRequest getHttpRequest() {
-        ServletRequestAttributes requestAttributes =
-            Objects.requireNonNull(
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-
-        return requestAttributes.getRequest();
     }
 
 }
