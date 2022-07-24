@@ -125,22 +125,22 @@ public class SearchAdapter implements SearchRepository {
                 "                    }\n" +
                 "                },\n" +
                 "                    {\n" +
-                "                    \"match_phrase\": {\n" +
+                "                    \"match\": {\n" +
                 "                        \"productName.forEng\": \"" + request.getRequest() + "\"\n" +
                 "                    }\n" +
                 "                },\n" +
                 "                    {\n" +
-                "                    \"match_phrase\": {\n" +
+                "                    \"match\": {\n" +
                 "                        \"productName.forEng\": \"" + typo + "\"\n" +
                 "                    }\n" +
                 "                },\n" +
                 "                    {\n" +
-                "                    \"match_phrase\": {\n" +
+                "                    \"match\": {\n" +
                 "                        \"content.forEng\": \"" + request.getRequest() + "\"\n" +
                 "                    }\n" +
                 "                },\n" +
                 "                    {\n" +
-                "                    \"match_phrase\": {\n" +
+                "                    \"match\": {\n" +
                 "                        \"content.forEng\": \"" + typo + "\"\n" +
                 "                    }\n" +
                 "                },\n" +
