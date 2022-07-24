@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,26 +23,28 @@ public class SearchController {
 
     @GetMapping("/categories/{categoryCode}/search")
     public ModelAndView searchForCategory(@PathVariable String categoryCode,
-                                          @RequestParam Integer page,
-                                          @RequestParam Integer size)
+                                          Pageable pageable)
             throws ParseException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView();
+        // FIXME: 후에 상품 리스트 페이지로 이동
+        ModelAndView mav = new ModelAndView("search/search-list");
         mav.addObject("response", searchService.searchForCategory(
-                new SearchRequest(categoryCode, PageRequest.of(page, size))));
+                new SearchRequest(categoryCode, PageRequest.of(pageable.getPageNumber(),
+                                                               pageable.getPageSize()))));
 
         return mav;
     }
 
     @GetMapping("/search")
     public ModelAndView searchForKeyword(@RequestParam String keyword,
-                                         @RequestParam Integer page,
-                                         @RequestParam Integer size)
+                                         Pageable pageable)
             throws ParseException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView();
+        // FIXME: 후에 상품 리스트 페이지로 이동
+        ModelAndView mav = new ModelAndView("search/search-list");
         mav.addObject("response", searchService.searchForKeyword(
-                new SearchRequest(keyword, PageRequest.of(page, size))));
+                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
+                                                          pageable.getPageSize()))));
 
         return mav;
     }
