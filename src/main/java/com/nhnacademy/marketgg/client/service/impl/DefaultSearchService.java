@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.request.PageRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.SearchRepository;
 import com.nhnacademy.marketgg.client.service.SearchService;
@@ -17,17 +17,17 @@ public class DefaultSearchService implements SearchService {
     private final SearchRepository searchRepository;
 
     @Override
-    public List<SearchProductResponse> searchForCategory(final String category, final PageRequest pageRequest)
+    public List<SearchProductResponse> searchForCategory(final SearchRequest request)
             throws ParseException, JsonProcessingException {
 
-        return searchRepository.searchProductForCategory(category, pageRequest);
+        return searchRepository.searchProductForCategory(request);
     }
 
     @Override
-    public List<SearchProductResponse> searchForKeyword(final String keyword, final PageRequest pageRequest)
+    public List<SearchProductResponse> searchForKeyword(final SearchRequest request)
             throws ParseException, JsonProcessingException {
 
-        return searchRepository.searchProductWithKeyword(keyword, pageRequest);
+        return searchRepository.searchProductWithKeyword(request);
     }
 
 }

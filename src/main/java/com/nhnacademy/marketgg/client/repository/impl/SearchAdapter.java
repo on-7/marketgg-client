@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.request.PageRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.SearchRepository;
 import java.util.ArrayList;
@@ -32,23 +32,21 @@ public class SearchAdapter implements SearchRepository {
     private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";
 
     @Override
-    public List<SearchProductResponse> searchProductForCategory(final String categoryCode,
-                                                                final PageRequest pageRequest)
+    public List<SearchProductResponse> searchProductForCategory(final SearchRequest request)
             throws ParseException, JsonProcessingException {
 
         HttpEntity<String> requestEntity =
-                new HttpEntity<>(this.buildCategoryCodeRequestBody(categoryCode, pageRequest),this.buildHeaders());
+                new HttpEntity<>(this.buildCategoryCodeRequestBody(request),this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
 
     @Override
-    public List<SearchProductResponse> searchProductWithKeyword(final String keyword,
-                                                                final PageRequest pageRequest)
+    public List<SearchProductResponse> searchProductWithKeyword(final SearchRequest request)
             throws ParseException, JsonProcessingException {
 
         HttpEntity<String> requestEntity =
-                new HttpEntity<>(this.buildKeywordRequestBody(keyword, pageRequest), this.buildHeaders());
+                new HttpEntity<>(this.buildKeywordRequestBody(request), this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -60,7 +58,7 @@ public class SearchAdapter implements SearchRepository {
                                      String.class);
     }
 
-    private String buildCategoryCodeRequestBody(final String code, final PageRequest pageRequest) {
+    private String buildCategoryCodeRequestBody(final SearchRequest request) {
         return "{\n" +
                 "    \"sort\": [\n" +
                 "        {\n" +
@@ -69,14 +67,14 @@ public class SearchAdapter implements SearchRepository {
                 "            }\n" +
                 "        }\n" +
                 "    ],\n" +
-                "    \"from\": " + pageRequest.getPage() + ",\n" +
-                "    \"size\": " + pageRequest.getSize() + ",\n" +
+                "    \"from\": " + request.getPageRequest().getPageNumber() + ",\n" +
+                "    \"size\": " + request.getPageRequest().getPageSize() + ",\n" +
                 "    \"query\": {\n" +
                 "        \"bool\": {\n" +
                 "            \"should\": [\n" +
                 "                    {\n" +
                 "                    \"match\": {\n" +
-                "                        \"categoryCode\": \"" + code + "\"\n" +
+                "                        \"categoryCode\": \"" + request.getRequest() + "\"\n" +
                 "                    }\n" +
                 "                }\n" +
                 "            ]\n" +
@@ -85,7 +83,7 @@ public class SearchAdapter implements SearchRepository {
                 "}";
     }
 
-    private String buildKeywordRequestBody(final String keyword, final PageRequest pageRequest) {
+    private String buildKeywordRequestBody(final SearchRequest request) {
         return "{\n" +
                 "    \"sort\": [\n" +
                 "        {\n" +
@@ -94,19 +92,19 @@ public class SearchAdapter implements SearchRepository {
                 "            }\n" +
                 "        }\n" +
                 "    ],\n" +
-                "    \"from\": " + pageRequest.getPage() + ",\n" +
-                "    \"size\": " + pageRequest.getSize() + ",\n" +
+                "    \"from\": " + request.getPageRequest().getPageNumber() + ",\n" +
+                "    \"size\": " + request.getPageRequest().getPageSize() + ",\n" +
                 "    \"query\": {\n" +
                 "        \"bool\": {\n" +
                 "            \"should\": [\n" +
                 "                    {\n" +
                 "                    \"match\": {\n" +
-                "                        \"content\": \"" + keyword + "\"\n" +
+                "                        \"content\": \"" + request.getRequest() + "\"\n" +
                 "                    }\n" +
                 "                },\n" +
                 "                    {\n" +
                 "                    \"match_phrase\": {\n" +
-                "                        \"content.forEng\": \"" + keyword + "\"\n" +
+                "                        \"content.forEng\": \"" + request.getRequest() + "\"\n" +
                 "                    }\n" +
                 "                }\n" +
                 "            ]\n" +
