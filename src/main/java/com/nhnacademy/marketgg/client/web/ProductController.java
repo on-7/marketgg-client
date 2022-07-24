@@ -3,8 +3,10 @@ package com.nhnacademy.marketgg.client.web;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
+import com.nhnacademy.marketgg.client.service.LabelService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
@@ -31,6 +33,8 @@ public class ProductController {
 
     private final ProductService productService;
     private final CategoryService categoryService;
+    private final LabelService labelService;
+
     private final static String DEFAULT_PRODUCT_URI = "/admin/v1/products";
 
     /**
@@ -75,6 +79,10 @@ public class ProductController {
 
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
         mav.addObject("categories", categories);
+
+        List<LabelRetrieveResponse> labels = this.labelService.retrieveLabels();
+        mav.addObject("labels", labels);
+
         return mav;
     }
 
