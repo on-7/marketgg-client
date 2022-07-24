@@ -75,7 +75,8 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode, final String categoryCode) {
+    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
+                                                            final String categoryCode) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

@@ -171,7 +171,7 @@ public class ProductController {
      *
      * @param image          - MultipartFile 타입입니다.
      * @param productRequest - 상품 수정을 위한 DTO 입니다.
-     * @param id      - 상품의 PK 입니다.
+     * @param id             - 상품의 PK 입니다.
      * @return - index 페이지를 리턴합니다.
      * @throws IOException
      * @since 1.0.0
