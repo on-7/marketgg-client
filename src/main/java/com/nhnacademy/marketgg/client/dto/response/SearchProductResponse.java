@@ -21,14 +21,4 @@ public class SearchProductResponse {
 
     private String content;
 
-    public SearchProductResponse(SearchProductResponse readValue) {
-        this.id = readValue.getId();
-        this.productName = readValue.getProductName();
-        this.categoryCode = readValue.getCategoryCode();
-        this.labelName = readValue.getLabelName();
-        this.imageAddress = readValue.getImageAddress();
-        this.price = readValue.getPrice();
-        this.content = readValue.getContent();
-    }
-
 }

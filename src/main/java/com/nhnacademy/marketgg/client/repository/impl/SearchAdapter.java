@@ -124,8 +124,7 @@ public class SearchAdapter implements SearchRepository {
         for (Object data : hitBody) {
             JSONObject source = (JSONObject) data;
             JSONObject body = (JSONObject) source.get("_source");
-            list.add(new SearchProductResponse(
-                    objectMapper.readValue(body.toJSONString(), SearchProductResponse.class)));
+            list.add(objectMapper.readValue(body.toJSONString(), SearchProductResponse.class));
         }
 
         return list;
