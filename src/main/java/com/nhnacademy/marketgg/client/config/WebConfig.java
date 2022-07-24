@@ -50,6 +50,12 @@ public class WebConfig {
      * @return HiddenHttpMethodFilter 객체를 반환합니다.
      * @since 1.0.0
      */
+
+    @Bean
+    public String elasticIp(@Value("${elastic.url}") String url) {
+        return url;
+    }
+
     @Bean
     public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
         return new HiddenHttpMethodFilter();
