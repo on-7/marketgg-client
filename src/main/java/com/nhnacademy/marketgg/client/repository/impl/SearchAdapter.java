@@ -87,6 +87,9 @@ public class SearchAdapter implements SearchRepository {
         return "{\n" +
                 "    \"sort\": [\n" +
                 "        {\n" +
+                "            \"_score\": {\n" +
+                "                \"order\": \"desc\"\n" +
+                "            },\n" +
                 "            \"id\": {\n" +
                 "                \"order\": \"asc\"\n" +
                 "            }\n" +
