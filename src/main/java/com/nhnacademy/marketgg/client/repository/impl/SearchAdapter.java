@@ -25,10 +25,10 @@ import org.springframework.web.client.RestTemplate;
 public class SearchAdapter implements SearchRepository {
 
     private final JSONParser jsonParser = new JSONParser();
-    private final String elasticIp;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
+    private static final String DEFAULT_ELASTIC = "http://localhost:9200";
     private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";
 
     @Override
@@ -36,7 +36,7 @@ public class SearchAdapter implements SearchRepository {
             throws ParseException, JsonProcessingException {
 
         HttpEntity<String> requestEntity =
-                new HttpEntity<>(this.buildCategoryCodeRequestBody(request),this.buildHeaders());
+                new HttpEntity<>(this.buildCategoryCodeRequestBody(request), this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -52,7 +52,7 @@ public class SearchAdapter implements SearchRepository {
     }
 
     private ResponseEntity<String> doRequest(final HttpEntity<String> request) {
-        return restTemplate.exchange(elasticIp + DEFAULT_ELASTIC_PRODUCT,
+        return restTemplate.exchange(DEFAULT_ELASTIC + DEFAULT_ELASTIC_PRODUCT,
                                      HttpMethod.POST,
                                      request,
                                      String.class);
@@ -124,7 +124,8 @@ public class SearchAdapter implements SearchRepository {
         for (Object data : hitBody) {
             JSONObject source = (JSONObject) data;
             JSONObject body = (JSONObject) source.get("_source");
-            list.add(new SearchProductResponse(objectMapper.readValue(body.toJSONString(), SearchProductResponse.class)));
+            list.add(new SearchProductResponse(
+                    objectMapper.readValue(body.toJSONString(), SearchProductResponse.class)));
         }
 
         return list;
