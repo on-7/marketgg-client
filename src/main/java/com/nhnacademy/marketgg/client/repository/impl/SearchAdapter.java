@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.SearchRepository;
+import com.nhnacademy.marketgg.client.util.Converter;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,8 @@ public class SearchAdapter implements SearchRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
+    private final Converter converter;
+
     private static final String DEFAULT_ELASTIC = "http://localhost:9200";
     private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";
 
@@ -46,7 +49,8 @@ public class SearchAdapter implements SearchRepository {
             throws ParseException, JsonProcessingException {
 
         HttpEntity<String> requestEntity =
-                new HttpEntity<>(this.buildKeywordRequestBody(request), this.buildHeaders());
+                new HttpEntity<>(this.buildKeywordRequestBody(request, converter.converter(
+                        request.getRequest())), this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -83,7 +87,7 @@ public class SearchAdapter implements SearchRepository {
                 "}";
     }
 
-    private String buildKeywordRequestBody(final SearchRequest request) {
+    private String buildKeywordRequestBody(final SearchRequest request, final String typo) {
         return "{\n" +
                 "    \"sort\": [\n" +
                 "        {\n" +
@@ -102,14 +106,44 @@ public class SearchAdapter implements SearchRepository {
                 "            \"should\": [\n" +
                 "                    {\n" +
                 "                    \"match\": {\n" +
+                "                        \"productName\": \"" + request.getRequest() + "\"\n" +
+                "                    }\n" +
+                "                },\n" +
+                "                    {\n" +
+                "                    \"match\": {\n" +
+                "                        \"productName\": \"" + typo + "\"\n" +
+                "                    }\n" +
+                "                },\n" +
+                "                    {\n" +
+                "                    \"match\": {\n" +
                 "                        \"content\": \"" + request.getRequest() + "\"\n" +
+                "                    }\n" +
+                "                },\n" +
+                "                    {\n" +
+                "                    \"match\": {\n" +
+                "                        \"content\": \"" + typo + "\"\n" +
+                "                    }\n" +
+                "                },\n" +
+                "                    {\n" +
+                "                    \"match_phrase\": {\n" +
+                "                        \"productName.forEng\": \"" + request.getRequest() + "\"\n" +
+                "                    }\n" +
+                "                },\n" +
+                "                    {\n" +
+                "                    \"match_phrase\": {\n" +
+                "                        \"productName.forEng\": \"" + typo + "\"\n" +
                 "                    }\n" +
                 "                },\n" +
                 "                    {\n" +
                 "                    \"match_phrase\": {\n" +
                 "                        \"content.forEng\": \"" + request.getRequest() + "\"\n" +
                 "                    }\n" +
-                "                }\n" +
+                "                },\n" +
+                "                    {\n" +
+                "                    \"match_phrase\": {\n" +
+                "                        \"content.forEng\": \"" + typo + "\"\n" +
+                "                    }\n" +
+                "                },\n" +
                 "            ]\n" +
                 "        }\n" +
                 "    }\n" +
