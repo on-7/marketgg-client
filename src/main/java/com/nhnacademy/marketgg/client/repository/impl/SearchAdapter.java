@@ -53,7 +53,7 @@ public class SearchAdapter implements SearchRepository {
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
 
-    private ResponseEntity<String> doRequest(HttpEntity<String> request) {
+    private ResponseEntity<String> doRequest(final HttpEntity<String> request) {
         return restTemplate.exchange(elasticIp + DEFAULT_ELASTIC_PRODUCT,
                                      HttpMethod.POST,
                                      request,
