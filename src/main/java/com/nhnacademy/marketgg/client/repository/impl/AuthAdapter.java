@@ -1,6 +1,9 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
+import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToAuth;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
@@ -9,6 +12,7 @@ import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberSignupResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
+import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.AuthRepository;
@@ -35,22 +39,26 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
  *
  * @version 1.0.0
  */
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class AuthAdapter implements AuthRepository {
 
     @Value("${marketgg.gateway-origin}")
-    private String authServerUrl;
+    private String requestUrl;
 
     private final RestTemplate restTemplate;
     private final RedisTemplate<String, JwtInfo> redisTemplate;
 
-    /**
-     * 로그인 시 서버에 로그인 정보를 전송합니다.
-     *
-     * @param loginRequest - 사용자가 입력한 이메일과 비밀번호
-     */
+    @NoAuth
     @Override
     public void doLogin(final LoginRequest loginRequest, final String sessionId) {
         log.info("login start");
@@ -61,12 +69,16 @@ public class AuthAdapter implements AuthRepository {
 
         ResponseEntity<Void> response =
                 restTemplate.postForEntity(authServerUrl + "/auth/login", httpEntity, Void.class);
+            restTemplate.postForEntity(requestUrl + "/auth/login", httpEntity, Void.class);
 
         this.checkStatus(response);
 
         HttpHeaders headers = response.getHeaders();
 
         String jwt = Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0);
+        if (jwt.startsWith("Bearer")) {
+            jwt = jwt.substring(7);
+        }
         String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
@@ -78,7 +90,7 @@ public class AuthAdapter implements AuthRepository {
         Date expireDate = Date.from(instant);
 
         log.info("login success: {}", jwtInfo.getJwt());
-        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_KEY, jwtInfo);
+        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
         redisTemplate.expireAt(sessionId, expireDate);
     }
 
@@ -207,6 +219,23 @@ public class AuthAdapter implements AuthRepository {
 
     private HttpHeaders getHttpHeaders() {
         return new HttpHeaders();
+    @Override
+    public void logout(String sessionId) {
+        if (Objects.isNull(redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY))) {
+            log.info("already logout");
+            return;
+        }
+
+        ResponseEntity<Void> forEntity =
+            restTemplate.getForEntity(requestUrl + "/auth/logout", Void.class);
+
+        HttpStatus statusCode = forEntity.getStatusCode();
+
+        if (statusCode.is4xxClientError() || statusCode.is5xxServerError()) {
+            throw new LogoutException(statusCode);
+        }
+
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
     }
 
 }

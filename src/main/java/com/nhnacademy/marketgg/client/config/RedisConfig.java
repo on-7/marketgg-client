@@ -17,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * Redis 설정을 담당합니다.
+ *
+ * @version 1.0.0
  */
 @Configuration
 public class RedisConfig {
