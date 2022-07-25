@@ -4,6 +4,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
+import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.AuthRepository;
@@ -18,32 +19,23 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
- *
- * @version 1.0.0
- */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class AuthAdapter implements AuthRepository {
 
     @Value("${marketgg.gateway-origin}")
-    private String authServerUrl;
+    private String requestUrl;
 
     private final RestTemplate restTemplate;
     private final RedisTemplate<String, JwtInfo> redisTemplate;
 
-    /**
-     * 로그인 시 서버에 로그인 정보를 전송합니다.
-     *
-     * @param loginRequest - 사용자가 입력한 이메일과 비밀번호
-     */
     @Override
     public void doLogin(final LoginRequest loginRequest, final String sessionId) {
         log.info("login start");
@@ -53,7 +45,7 @@ public class AuthAdapter implements AuthRepository {
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(loginRequest, httpHeaders);
 
         ResponseEntity<Void> response =
-            restTemplate.postForEntity(authServerUrl + "/auth/login", httpEntity, Void.class);
+            restTemplate.postForEntity(requestUrl + "/auth/login", httpEntity, Void.class);
 
         this.checkStatus(response);
 
@@ -71,7 +63,7 @@ public class AuthAdapter implements AuthRepository {
         Date expireDate = Date.from(instant);
 
         log.info("login success: {}", jwtInfo.getJwt());
-        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_KEY, jwtInfo);
+        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
         redisTemplate.expireAt(sessionId, expireDate);
     }
 
@@ -91,6 +83,25 @@ public class AuthAdapter implements AuthRepository {
             log.info("Empty header");
             throw new LoginFailException();
         }
+    }
+
+    @Override
+    public void logout(String sessionId) {
+        if (Objects.isNull(redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY))) {
+            log.info("already logout");
+            return;
+        }
+
+        ResponseEntity<Void> forEntity =
+            restTemplate.getForEntity(requestUrl + "/auth/logout", Void.class);
+
+        HttpStatus statusCode = forEntity.getStatusCode();
+
+        if (statusCode.is4xxClientError() || statusCode.is5xxServerError()) {
+            throw new LogoutException(statusCode);
+        }
+
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
     }
 
 }

@@ -13,6 +13,12 @@ import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+/**
+ * RestTemplate 을 이용한 요청 시 자동으로 헤더에 JWT 를 추가하기 위한 클래스입니다.
+ *
+ * @version 1.0.0
+ * @see <a href="https://www.baeldung.com/spring-rest-template-interceptor">RestTemplate Interceptor</a>
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class JwtRefreshInterceptor implements ClientHttpRequestInterceptor {
@@ -35,7 +41,7 @@ public class JwtRefreshInterceptor implements ClientHttpRequestInterceptor {
 
         String sessionId = (String) session;
 
-        JwtInfo jwtInfo = (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_KEY);
+        JwtInfo jwtInfo = (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         if (Objects.isNull(jwtInfo)) {
             return execution.execute(httpRequest, body);

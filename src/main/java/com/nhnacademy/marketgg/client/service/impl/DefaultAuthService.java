@@ -16,8 +16,13 @@ public class DefaultAuthService implements AuthService {
 
     @Override
     public void doLogin(final LoginRequest loginRequest, final String sessionId) {
-        loginRequest.encodePassword(passwordEncoder);
+        // loginRequest.encodePassword(passwordEncoder);
         authRepository.doLogin(loginRequest, sessionId);
+    }
+
+    @Override
+    public void logout(String sessionId) {
+        authRepository.logout(sessionId);
     }
 
 }
