@@ -54,6 +54,9 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders headers = response.getHeaders();
 
         String jwt = Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0);
+        if (jwt.startsWith("Bearer")) {
+            jwt = jwt.substring(7);
+        }
         String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
