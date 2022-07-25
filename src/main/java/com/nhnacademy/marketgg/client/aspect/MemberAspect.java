@@ -1,20 +1,16 @@
 package com.nhnacademy.marketgg.client.aspect;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.response.AuthResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +19,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -81,11 +73,11 @@ public class MemberAspect {
         }
 
         SingleResponse<AuthResponse> authEntity = getEntity("/auth/info");
-        // SingleResponse<MemberResponse> memberEntity = getEntity("/shop/member");
+        SingleResponse<MemberResponse> memberEntity = getEntity("/shop/v1/members");
 
 
         MemberInfo memberInfo =
-            new MemberInfo(authEntity.getResponse(), new MemberResponse());
+            new MemberInfo(authEntity.getData(), memberEntity.getData());
         Object[] args = Arrays.stream(pjp.getArgs())
                               .map(arg -> {
                                   if (arg instanceof MemberInfo) {
@@ -101,21 +93,17 @@ public class MemberAspect {
         ResponseEntity<String> exchange =
             restTemplate.getForEntity(gatewayOrigin + path, String.class);
 
-        System.out.println(mapper.readValue(exchange.getBody(), Object.class));
+        log.info("response object: {}", mapper.readValue(exchange.getBody(), String.class));
 
         if (exchange.getStatusCode().is4xxClientError()) {
-            CommonResponse<ErrorEntity> commonResponse =
-                mapper.readValue(exchange.getBody(), new TypeReference<>(){});
+            ErrorEntity error =
+                mapper.readValue(exchange.getBody(), ErrorEntity.class);
 
-            throw new ClientException(commonResponse.getData().getMessage());
+            throw new ClientException(error.getMessage());
         }
 
-        CommonResponse<SingleResponse<T>> commonResponse
-            = mapper.readValue(exchange.getBody(), new TypeReference<>(){});;
-
-        log.info("", exchange.getBody());
-
-        return commonResponse.getData();
+        return mapper.readValue(exchange.getBody(), new TypeReference<>() {
+        });
     }
 
 }

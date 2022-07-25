@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ListResponse<T> extends CommonResponse {
 
-    private List<T> response;
+    private List<T> data;
 
 }

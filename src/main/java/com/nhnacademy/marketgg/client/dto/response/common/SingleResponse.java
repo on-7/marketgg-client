@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class SingleResponse<T> extends CommonResponse {
 
-    private T response;
+    private T data;
 
 }
