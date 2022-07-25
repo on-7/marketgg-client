@@ -32,9 +32,11 @@
             <tbody>
                 <tr th:each="product : ${productDetails}">
                     <td>
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                                crossorigin="anonymous"></script>
                         <script defer>
-                            $(document).ready(function(){
+                            $(document).ready(function () {
                                 dibView();
                             });
                             // FIXME : @조현진 @민아영 Product Detail Retrieve Controller 아래두개 값 넣어주세요.(넣으면 잘됨^^)
@@ -64,6 +66,7 @@
                                     }
                                 })
                             }
+
                             function dibInsert(memberId, productId) {
                                 $.ajax({
                                     url: 'http://localhost:5050/dibs/insert/' + memberId + '/' + productId,
@@ -74,6 +77,7 @@
                                     }
                                 });
                             }
+
                             function dibDelete(memberId, productId) {
                                 $.ajax({
                                     url: 'http://localhost:5050/dibs/delete/' + memberId + '/' + productId,
@@ -87,25 +91,24 @@
                         </script>
                         <div th:id="dib"></div>
                     </td>
-                    <td th:text="${product.productNo}"></td>
-                    <td th:text="${product.categoryCode}"></td>
-                    <td th:text="${product.assetNo}"></td>
-                    <td th:text="${product.name}"></td>
-                    <td th:text="${product.name}"></td>
-                    <td th:text="${product.content}"></td>
-                    <td th:text="${product.totalStock}"></td>
-                    <td th:text="${product.price}"></td>
-                    <td th:text="${product.description}"></td>
-                    <td th:text="${product.unit}"></td>
-                    <td th:text="${product.deliveryType}"></td>
-                    <td th:text="${product.origin}"></td>
-                    <td th:text="${product.packageType}"></td>
-                    <td th:text="${product.expirationDate}"></td>
-                    <td th:text="${product.allergyInfo}"></td>
-                    <td th:text="${product.capacity}"></td>
-                    <td th:text="${product.createdAt}"></td>
-                    <td th:text="${product.updatedAt}"></td>
-                    <td th:text="${product.deletedAt}"></td>
+                    <td th:text="${productDetails.id}"></td>
+                    <td th:text="${productDetails.categoryCode}"></td>
+                    <td th:text="${productDetails.assetNo}"></td>
+                    <td th:text="${productDetails.name}"></td>
+                    <td th:text="${productDetails.content}"></td>
+                    <td th:text="${productDetails.totalStock}"></td>
+                    <td th:text="${productDetails.price}"></td>
+                    <td th:text="${productDetails.description}"></td>
+                    <td th:text="${productDetails.unit}"></td>
+                    <td th:text="${productDetails.deliveryType}"></td>
+                    <td th:text="${productDetails.origin}"></td>
+                    <td th:text="${productDetails.packageType}"></td>
+                    <td th:text="${productDetails.expirationDate}"></td>
+                    <td th:text="${productDetails.allergyInfo}"></td>
+                    <td th:text="${productDetails.capacity}"></td>
+                    <td th:text="${productDetails.createdAt}"></td>
+                    <td th:text="${productDetails.updatedAt}"></td>
+                    <td th:text="${productDetails.deletedAt}"></td>
                 </tr>
             </tbody>
         </table>

@@ -1,0 +1,5 @@
+<div class="form-item" th:fragment="formItem(name, textContent, inputType, defaultValue)">
+    <label th:for="${name}" th:text="${textContent}"></label>
+    <input th:type="${inputType}" th:name="${name}" th:id="${name}"
+           th:placeholder="${textContent}" th:value="${defaultValue}">
+</div>

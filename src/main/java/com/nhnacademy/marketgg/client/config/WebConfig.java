@@ -55,7 +55,6 @@ public class WebConfig {
         return new HiddenHttpMethodFilter();
     }
 
-    // REVIEW 2:
     @Bean
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();

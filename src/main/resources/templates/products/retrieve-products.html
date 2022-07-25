@@ -23,17 +23,17 @@
 
             <tbody>
                 <tr th:each="product : ${products}">
-                    <td th:text="${product.productNo}"></td>
+                    <td th:text="${product.id}"></td>
                     <td th:text="${product.categoryCode}"></td>
                     <td th:text="${product.assetNo}"></td>
                     <td class="move" th:text="${product.name}"
-                        th:onclick="'location.href=\''+ @{|/admin/v1/products/${product.productNo}|} + '\''" style="color: tomato">업무 이름
+                        th:onclick="'location.href=\''+ @{|/admin/v1/products/${product.id}|} + '\''" style="color: tomato">업무 이름
                     </td>
                     <td th:text="${product.content}"></td>
                     <td th:text="${product.totalStock}"></td>
                     <td th:text="${product.price}"></td>
                     <td class="move"
-                        th:onclick="'location.href=\''+ @{|/admin/v1/products/update/${product.productNo}|} + '\''" style="color: dodgerblue">상품 수정
+                        th:onclick="'location.href=\''+ @{|/admin/v1/products/update/${product.id}|} + '\''" style="color: dodgerblue">상품 수정
                     </td>
                 </tr>
             </tbody>
