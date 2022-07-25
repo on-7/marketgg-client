@@ -3,6 +3,16 @@ package com.nhnacademy.marketgg.client.repository.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestBody;
+import com.nhnacademy.marketgg.client.dto.request.SearchToCategoryRequestBody;
+import com.nhnacademy.marketgg.client.dto.request.searchutil.Bool;
+import com.nhnacademy.marketgg.client.dto.request.searchutil.BoolQuery;
+import com.nhnacademy.marketgg.client.dto.request.searchutil.Id;
+import com.nhnacademy.marketgg.client.dto.request.searchutil.MultiMatch;
+import com.nhnacademy.marketgg.client.dto.request.searchutil.Must;
+import com.nhnacademy.marketgg.client.dto.request.searchutil.Query;
+import com.nhnacademy.marketgg.client.dto.request.searchutil.Score;
+import com.nhnacademy.marketgg.client.dto.request.searchutil.Sort;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.SearchRepository;
 import com.nhnacademy.marketgg.client.util.Converter;
@@ -35,11 +45,17 @@ public class SearchAdapter implements SearchRepository {
     private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";
 
     @Override
-    public List<SearchProductResponse> searchProductForCategory(final SearchRequest request)
+    public List<SearchProductResponse> searchProductForCategory(final String code,
+                                                                final SearchRequest request)
             throws ParseException, JsonProcessingException {
 
         HttpEntity<String> requestEntity =
-                new HttpEntity<>(this.buildCategoryCodeRequestBody(request), this.buildHeaders());
+                new HttpEntity<>(
+                        objectMapper.writeValueAsString(
+                                this.buildCategoryCodeRequestBody(code, request,
+                                                                  converter.converter(
+                                                                          request.getRequest()))),
+                        this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -49,8 +65,10 @@ public class SearchAdapter implements SearchRepository {
             throws ParseException, JsonProcessingException {
 
         HttpEntity<String> requestEntity =
-                new HttpEntity<>(this.buildKeywordRequestBody(request, converter.converter(
-                        request.getRequest())), this.buildHeaders());
+                new HttpEntity<>(
+                        objectMapper.writeValueAsString(
+                                this.buildKeywordRequestBody(request, converter.converter(
+                                        request.getRequest()))), this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -62,92 +80,41 @@ public class SearchAdapter implements SearchRepository {
                                      String.class);
     }
 
-    private String buildCategoryCodeRequestBody(final SearchRequest request) {
-        return "{\n" +
-                "    \"sort\": [\n" +
-                "        {\n" +
-                "            \"id\": {\n" +
-                "                \"order\": \"asc\"\n" +
-                "            }\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"from\": " + request.getPageRequest().getPageNumber() + ",\n" +
-                "    \"size\": " + request.getPageRequest().getPageSize() + ",\n" +
-                "    \"query\": {\n" +
-                "        \"bool\": {\n" +
-                "            \"should\": [\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"categoryCode\": \"" + request.getRequest() + "\"\n" +
-                "                    }\n" +
-                "                }\n" +
-                "            ]\n" +
-                "        }\n" +
-                "    }\n" +
-                "}";
+    private SearchToCategoryRequestBody buildCategoryCodeRequestBody(final String code,
+                                                                     final SearchRequest request,
+                                                                     final String typo) {
+
+        return SearchToCategoryRequestBody.builder()
+                                          .sort(List.of(new Sort(new Score("desc"), new Id("asc"))))
+                                          .from(request.getPageRequest().getPageNumber())
+                                          .size(request.getPageRequest().getPageSize())
+                                          .query(new BoolQuery(
+                                                  new Bool(new Must(List.of(new MultiMatch(code,
+                                                                                           List.of("categoryCode")),
+                                                                            new MultiMatch(
+                                                                                    request.getRequest() +
+                                                                                            " " +
+                                                                                            typo,
+                                                                                    List.of("productName",
+                                                                                            "productName_forEng",
+                                                                                            "content",
+                                                                                            "content_forEng")))))))
+                                          .build();
     }
 
-    private String buildKeywordRequestBody(final SearchRequest request, final String typo) {
-        return "{\n" +
-                "    \"sort\": [\n" +
-                "        {\n" +
-                "            \"_score\": {\n" +
-                "                \"order\": \"desc\"\n" +
-                "            },\n" +
-                "            \"id\": {\n" +
-                "                \"order\": \"asc\"\n" +
-                "            }\n" +
-                "        }\n" +
-                "    ],\n" +
-                "    \"from\": " + request.getPageRequest().getPageNumber() + ",\n" +
-                "    \"size\": " + request.getPageRequest().getPageSize() + ",\n" +
-                "    \"query\": {\n" +
-                "        \"bool\": {\n" +
-                "            \"should\": [\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"productName\": \"" + request.getRequest() + "\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"productName\": \"" + typo + "\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"content\": \"" + request.getRequest() + "\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"content\": \"" + typo + "\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"productName.forEng\": \"" + request.getRequest() + "\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"productName.forEng\": \"" + typo + "\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"content.forEng\": \"" + request.getRequest() + "\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "                    {\n" +
-                "                    \"match\": {\n" +
-                "                        \"content.forEng\": \"" + typo + "\"\n" +
-                "                    }\n" +
-                "                },\n" +
-                "            ]\n" +
-                "        }\n" +
-                "    }\n" +
-                "}";
+    private SearchRequestBody buildKeywordRequestBody(final SearchRequest request,
+                                                      final String typo) {
+
+        return SearchRequestBody.builder()
+                                .sort(List.of(new Sort(new Score("desc"), new Id("asc"))))
+                                .from(request.getPageRequest().getPageNumber())
+                                .size(request.getPageRequest().getPageSize())
+                                .query(new Query(new MultiMatch(request.getRequest() + " " + typo,
+                                                                List.of("productName",
+                                                                        "productName_forEng",
+                                                                        "content",
+                                                                        "content_forEng"))))
+                                .build();
     }
 
     private List<SearchProductResponse> parsingResponseBody(final String response)

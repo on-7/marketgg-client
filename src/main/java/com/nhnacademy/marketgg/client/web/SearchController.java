@@ -23,13 +23,14 @@ public class SearchController {
 
     @GetMapping("/categories/{categoryCode}/search")
     public ModelAndView searchForCategory(@PathVariable String categoryCode,
+                                          @RequestParam String keyword,
                                           Pageable pageable)
             throws ParseException, JsonProcessingException {
 
         // FIXME: 후에 상품 리스트 페이지로 이동
         ModelAndView mav = new ModelAndView("search/search-list");
-        mav.addObject("response", searchService.searchForCategory(
-                new SearchRequest(categoryCode, PageRequest.of(pageable.getPageNumber(),
+        mav.addObject("response", searchService.searchForCategory(categoryCode,
+                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                pageable.getPageSize()))));
 
         return mav;

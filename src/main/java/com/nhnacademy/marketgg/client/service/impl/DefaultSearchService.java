@@ -17,10 +17,10 @@ public class DefaultSearchService implements SearchService {
     private final SearchRepository searchRepository;
 
     @Override
-    public List<SearchProductResponse> searchForCategory(final SearchRequest request)
+    public List<SearchProductResponse> searchForCategory(final String code, final SearchRequest request)
             throws ParseException, JsonProcessingException {
 
-        return searchRepository.searchProductForCategory(request);
+        return searchRepository.searchProductForCategory(code, request);
     }
 
     @Override
