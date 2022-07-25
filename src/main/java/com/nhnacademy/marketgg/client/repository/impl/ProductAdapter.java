@@ -19,9 +19,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
-@Slf4j
 public class ProductAdapter implements ProductRepository {
 
     // TODO: @Value로 고치기
@@ -31,45 +31,29 @@ public class ProductAdapter implements ProductRepository {
     // TODO: AdapterTemplate 만들어서 공통 코드 분리하기
     private final RestTemplate restTemplate;
 
-    // REVIEW 5
     @Override
     public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
         throws IOException {
 
-        // MEMO
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-        LinkedMultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
-        headerMap.add("Content-disposition",
-            "form-data; name=image; filename=" + image.getOriginalFilename());
-        headerMap.add("Content-type", "application/pdf");
-        HttpEntity<byte[]> doc = new HttpEntity<>(image.getBytes(), headerMap);
-
-        LinkedMultiValueMap<String, Object> multipartReqMap = new LinkedMultiValueMap<>();
-        multipartReqMap.add("productRequest", productRequest);
-        multipartReqMap.add("image", doc);
-
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
-            new HttpEntity<>(multipartReqMap, headers);
+            getLinkedMultiValueMapHttpEntity(image, productRequest);
+
         ResponseEntity<Void> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT, HttpMethod.POST, httpEntity,
+            this.restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT, HttpMethod.POST, httpEntity,
                 new ParameterizedTypeReference<>() {
                 });
 
-        // TODO: Log를 AOP로 뺴기
-        log.info(String.valueOf(response.getHeaders().getLocation()));
+        log.info(getResponseURI(response.getHeaders()));
     }
 
     @Override
     public List<ProductResponse> retrieveProducts() {
-
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+        HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<List<ProductResponse>> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT, HttpMethod.GET, httpEntity,
+            this.restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT, HttpMethod.GET, request,
                 new ParameterizedTypeReference<>() {
                 });
 
@@ -77,34 +61,30 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public ProductResponse retrieveProductDetails(Long productId) {
-
+    public ProductResponse retrieveProductDetails(final Long productId) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId,
-                HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
+            this.restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId, HttpMethod.GET,
+                httpEntity, new ParameterizedTypeReference<>() {
                 });
 
         return response.getBody();
     }
 
     @Override
-    public List<ProductResponse> retrieveProductsByCategory(String categorizationCode,
-                                                            String categoryCode) {
+    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode, final String categoryCode) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<ProductResponse>> response =
-            restTemplate.exchange(
-                BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryCode,
-                HttpMethod.GET, httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+        ResponseEntity<List<ProductResponse>> response = this.restTemplate.exchange(
+            BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryCode, HttpMethod.GET,
+            httpEntity, new ParameterizedTypeReference<>() {
+            });
 
         return response.getBody();
     }
@@ -113,44 +93,52 @@ public class ProductAdapter implements ProductRepository {
     public void updateProduct(final Long productId, final MultipartFile image,
                               final ProductModifyRequest productRequest) throws IOException {
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-
-        LinkedMultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
-        headerMap.add("Content-disposition",
-            "form-data; name=image; filename=" + image.getOriginalFilename());
-        headerMap.add("Content-type", "application/pdf");
-        HttpEntity<byte[]> doc = new HttpEntity<>(image.getBytes(), headerMap);
-
-        LinkedMultiValueMap<String, Object> multipartReqMap = new LinkedMultiValueMap<>();
-        multipartReqMap.add("productRequest", productRequest);
-        multipartReqMap.add("image", doc);
-
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
-            new HttpEntity<>(multipartReqMap, headers);
+            getLinkedMultiValueMapHttpEntity(image, productRequest);
+
         ResponseEntity<Void> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId,
-                HttpMethod.PUT, httpEntity,
-                new ParameterizedTypeReference<>() {
+            this.restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId, HttpMethod.PUT,
+                httpEntity, new ParameterizedTypeReference<>() {
                 });
 
-        // TODO: Log를 AOP로 빼기
-        log.info(String.valueOf(response.getHeaders().getLocation()));
+        log.info(getResponseURI(response.getHeaders()));
     }
 
     @Override
-    public void deleteProduct(Long productId) {
+    public void deleteProduct(final Long productId) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId + "/deleted",
+            this.restTemplate.exchange(BASE_URL + SERVER_DEFAULT_PRODUCT + "/" + productId + "/deleted",
                 HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
                 });
 
-        log.info(String.valueOf(response.getHeaders().getLocation()));
+        log.info(getResponseURI(response.getHeaders()));
+    }
+
+    private <T> HttpEntity<LinkedMultiValueMap<String, Object>> getLinkedMultiValueMapHttpEntity(
+        MultipartFile image, T productRequest) throws IOException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        LinkedMultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
+        headerMap.add("Content-disposition",
+            "form-data; name=image; filename=" + image.getOriginalFilename());
+        headerMap.add("Content-type", "application/octet-stream");
+        HttpEntity<byte[]> imageBytes = new HttpEntity<>(image.getBytes(), headerMap);
+
+        LinkedMultiValueMap<String, Object> multipartReqMap = new LinkedMultiValueMap<>();
+        multipartReqMap.add("productRequest", productRequest);
+        multipartReqMap.add("image", imageBytes);
+
+        return new HttpEntity<>(multipartReqMap, headers);
+    }
+
+    private String getResponseURI(final HttpHeaders response) {
+        return String.valueOf(response.getLocation());
     }
 
 }

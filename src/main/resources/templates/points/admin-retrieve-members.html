@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>전체 회원의 포인트 내역 조회</title>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <th>회원 번호</th>
+                    <th>순서</th>
+                    <th>포인트</th>
+                    <th>토탈 포인트</th>
+                    <th>내용</th>
+                    <th>날짜</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="point : ${points}">
+                    <td th:text="${point.memberId}"></td>
+                    <td th:text="${point.orderNo}"></td>
+                    <td th:text="${point.point}"></td>
+                    <td th:text="${point.totalPoint}"> </td>
+                    <td th:text="${point.content}"></td>
+                    <td th:text="${point.updatedAt}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>

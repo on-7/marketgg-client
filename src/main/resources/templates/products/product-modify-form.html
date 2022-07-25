@@ -10,8 +10,9 @@
         <script src="/js/toast.js" defer></script>
         <title>파일 수정</title>
     </head>
+
     <body>
-        <form th:action = "@{|/admin/v1/products/update/${product.productNo}|}" method="post" enctype="multipart/form-data">
+        <form th:action = "@{|/admin/v1/products/update/${product.id}|}" method="post" enctype="multipart/form-data">
 
             <input type="text" name="name" placeholder="상품 이름" th:value="${product.name}"> <br>
             <input type="text" name="categoryCode" placeholder="카테고리 코드" th:value="${product.categoryCode}"> <br>
