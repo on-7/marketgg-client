@@ -1,11 +1,12 @@
 package com.nhnacademy.marketgg.client.util.subutil;
 
+import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ConvertToKoreanUtil {
 
-    public void medialCodeExtraction(String word, int[] code) {
+    public void medialCodeExtraction(final String word, int[] code) {
         code[3] = code[5];
         code[4] = this.getSingleMedial(code[0] + 2, word);
 
@@ -18,7 +19,7 @@ public class ConvertToKoreanUtil {
         }
     }
 
-    public void noFinalCode(String word, int[] code) {
+    public void noFinalCode(final String word, int[] code) {
         code[4] = this.getSingleMedial(code[0] + 1, word);
         // 그 다음의 중성 문자에 대한 코드 추출.
         if (code[4] != -1) {
@@ -43,7 +44,7 @@ public class ConvertToKoreanUtil {
      * @param type 초성 : chosung, 중성 : jungsung, 종성 : jongsung 구분
      * @param word 해당 문자
      */
-    public int getCode(String type, String word) {
+    public int getCode(final String type, final String word) {
         // 초성
         String[] init =
                 { "r", "R", "s", "e", "E", "f", "a", "q", "Q", "t", "T", "d", "w", "W", "c", "z",
@@ -59,26 +60,11 @@ public class ConvertToKoreanUtil {
 
         switch (type) {
             case "chosung":
-                for (int i = 0; i < init.length; i++) {
-                    if (init[i].equals(word)) {
-                        return i * 21 * 28;
-                    }
-                }
-                break;
+                return Arrays.asList(init).indexOf(word) * 21 * 28;
             case "jungsung":
-                for (int i = 0; i < mid.length; i++) {
-                    if (mid[i].equals(word)) {
-                        return i * 28;
-                    }
-                }
-                break;
+                return Arrays.asList(mid).indexOf(word) * 28;
             case "jongsung":
-                for (int i = 0; i < fin.length; i++) {
-                    if (fin[i].equals(word)) {
-                        return i + 1;
-                    }
-                }
-                break;
+                return Arrays.asList(fin).indexOf(word) + 1;
             default:
                 log.error("잘못된 타입 입니다");
         }
@@ -87,7 +73,7 @@ public class ConvertToKoreanUtil {
 
     // 한 자로 된 중성값을 리턴한다
     // 인덱스를 벗어낫다면 -1을 리턴
-    public int getSingleMedial(int i, String eng) {
+    public int getSingleMedial(final Integer i, final String eng) {
         if ((i + 1) <= eng.length()) {
             return getCode("jungsung", eng.substring(i, i + 1));
         }
@@ -96,7 +82,7 @@ public class ConvertToKoreanUtil {
 
     // 두 자로 된 중성을 체크하고, 있다면 값을 리턴한다.
     // 없으면 리턴값은 -1
-    public int getDoubleMedial(int i, String eng) {
+    public int getDoubleMedial(final Integer i, final String eng) {
         if ((i + 2) > eng.length()) {
             return -1;
         }
@@ -105,7 +91,7 @@ public class ConvertToKoreanUtil {
 
     // 두 자로된 종성을 체크하고, 있다면 값을 리턴한다.
     // 없으면 리턴값은 -1
-    public int getDoubleFinal(int i, String eng) {
+    public int getDoubleFinal(final Integer i, final String eng) {
         if ((i + 2) > eng.length()) {
             return -1;
         }
@@ -114,7 +100,7 @@ public class ConvertToKoreanUtil {
 
     // 한 자로된 종성값을 리턴한다
     // 인덱스를 벗어낫다면 -1을 리턴
-    private int getSingleFinal(int i, String eng) {
+    private int getSingleFinal(final Integer i, final String eng) {
         if ((i + 1) <= eng.length()) {
             return getCode("jongsung", eng.substring(i, i + 1));
         }

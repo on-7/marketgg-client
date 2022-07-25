@@ -49,7 +49,7 @@ public class ConvertToEnglishUtil {
                 "T", "d", "w", "W", "c", "z", "x", "v", "g"};
     }
 
-    public void combineWord(StringBuilder resultEng, char chars) {
+    public void combineWord(final StringBuilder resultEng, final Character chars) {
         if (chars <= 11172) {
             /* A-1. 초/중/종성 분리 */
             this.wordSeparation(resultEng, chars);
@@ -60,7 +60,7 @@ public class ConvertToEnglishUtil {
         }
     }
 
-    private void wordSeparation(final StringBuilder resultEng, final char chars) {
+    private void wordSeparation(final StringBuilder resultEng, final Character chars) {
         int chosung = chars / (21 * 28);
         int jungsung = chars % (21 * 28) / 28;
         int jongsung = chars % (21 * 28) % 28;
@@ -74,7 +74,7 @@ public class ConvertToEnglishUtil {
         }
     }
 
-    private void convertToAlphabet(StringBuilder resultEng, char chars) {
+    private void convertToAlphabet(final StringBuilder resultEng, final Character chars) {
         if (chars >= 34097 && chars <= 34126) {
             /* 단일자음인 경우 */
             int jaum = (chars - 34097);
