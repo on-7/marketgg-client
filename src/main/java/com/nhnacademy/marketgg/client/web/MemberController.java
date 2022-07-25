@@ -1,17 +1,23 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.Alert;
+import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
+import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.MemberService;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 회원관리에 관련된 Controller 입니다.
@@ -56,7 +62,7 @@ public class MemberController {
         if (memberService.retrievePassUpdatedAt(memberId).isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
-                                             DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
+                    DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
             return mav;
         }
         memberService.subscribePass(memberId);
@@ -76,6 +82,70 @@ public class MemberController {
         memberService.withdrawPass(memberId);
 
         return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
+    }
+
+    /**
+     * 회원가입 View
+     *
+     * @return 회원가입 폼
+     * @since 1.0.0
+     */
+    @GetMapping("/signup")
+    public ModelAndView signup() {
+        return new ModelAndView("member/signup");
+    }
+
+    /**
+     * 회원가입 요청을 받아 회원가입을 진행합니다.
+     *
+     * @param memberSignupRequest - 회원가입에 필요한 요청 정보 객체입니다.
+     * @return 회원가입 실행 후, 다시 Index 페이지로 이동합니다.
+     * @since 1.0.0
+     */
+    @PostMapping("/signup")
+    public ModelAndView doSignup(final MemberSignupRequest memberSignupRequest) {
+
+        memberService.doSignup(memberSignupRequest);
+        return new ModelAndView("index");
+    }
+
+    /**
+     * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
+     *
+     * @param memberUpdateToAuth - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
+     * @param session            - session 이 없는 회원의 접근을 막기위한 파라미터 입니다.
+     * @return 회원수정 실행 후, 다시 Index 페이지로 이동합니다.
+     * @since 1.0.0
+     */
+    @PostMapping("/update")
+    public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth, HttpSession session) {
+        String sessionId = (String) session.getAttribute(JwtInfo.SESSION_ID);
+
+        if (Objects.isNull(sessionId)) {
+            // TODO: Merge 후 처리할 예정.
+            throw new RuntimeException();
+        }
+        memberService.update(memberUpdateToAuth, sessionId);
+        return new ModelAndView("index");
+    }
+
+    /**
+     * 회원탈퇴 요청을 받아 회원탈퇴 프로세스를 진행합니다.
+     *
+     * @param session - session 이 없는 회원의 접근을 막기위한 파라미터 입니다.
+     * @return 회원탈퇴 실행 후, 다시 Index 페이지로 이동합니다.
+     */
+    @GetMapping("/withdraw")
+    public ModelAndView doWithdraw(HttpSession session) {
+        String sessionId = (String) session.getAttribute(JwtInfo.SESSION_ID);
+
+        if (Objects.isNull(sessionId)) {
+            // TODO: Merge 후 처리할 예정.
+            throw new RuntimeException();
+        }
+
+        memberService.withdraw(sessionId);
+        return new ModelAndView("index");
     }
 
 }
