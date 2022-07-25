@@ -1,33 +1,39 @@
 package com.nhnacademy.marketgg.client.util.subutil;
 
 /**
- * 알파벳으로 변환
- * 박세완 -> qkrtpdhks, 천재 -> cjswo
+ * 한국어 검색어를 키보드 배열에 맞는 알파벳으로 전환해줍니다.
+ * ex) 박세완 -> qkrtpdhks, 천재 -> cjswo
  *
  * @version 1.0.0
  */
 public class ConvertToEnglishUtil {
 
-    /**
+    /*
      * 초성 - 가(ㄱ), 날(ㄴ) 닭(ㄷ)
      */
     private final String[] arrChoSungEng;
 
-    /**
+    /*
      * 중성 - 가(ㅏ), 야(ㅑ), 뺨(ㅑ)
      */
     private final String[] arrJungSungEng;
 
-    /**
+    /*
      * 종성 - 가(없음), 갈(ㄹ) 천(ㄴ)
      */
     private final String[] arrJongSungEng;
 
-    /**
+    /*
      * 단일 자음 - ㄱ,ㄴ,ㄷ,ㄹ... (ㄸ,ㅃ,ㅉ은 단일자음(초성)으로 쓰이지만 단일자음으론 안쓰임)
      */
     private final String[] arrSingleJaumEng;
 
+    /**
+     * 초성, 중성, 종성, 자음의 값을 지정해주는 생성자입니다.
+     * 각 배열 속 문자 하나하나가 한글과 일치합니다.
+     *
+     * @since 1.0.0
+     */
     public ConvertToEnglishUtil() {
         this.arrChoSungEng = new String[]{ "r", "R", "s", "e", "E",
                 "f", "a", "q", "Q", "t", "T", "d", "w",
@@ -49,6 +55,13 @@ public class ConvertToEnglishUtil {
                 "T", "d", "w", "W", "c", "z", "x", "v", "g"};
     }
 
+    /**
+     * 자음과 모음이 합쳐진 글자를 분리 후 알파벳으로 변환합니다.
+     *
+     * @param resultEng - 변환 될 영어를 담아 둘 문자열입니다.
+     * @param chars - 자음과 모음이 합쳐진 글자입니다.
+     * @since 1.0.0
+     */
     public void combineWord(final StringBuilder resultEng, final Character chars) {
         if (chars <= 11172) {
             /* A-1. 초/중/종성 분리 */

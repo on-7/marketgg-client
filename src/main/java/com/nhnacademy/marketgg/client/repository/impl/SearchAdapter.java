@@ -38,7 +38,6 @@ public class SearchAdapter implements SearchRepository {
     private final JSONParser jsonParser = new JSONParser();
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-
     private final Converter converter = new Converter();
 
     private static final String DEFAULT_ELASTIC = "http://localhost:9200";

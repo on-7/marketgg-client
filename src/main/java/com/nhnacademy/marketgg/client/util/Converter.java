@@ -5,6 +5,11 @@ import com.nhnacademy.marketgg.client.util.subutil.ConvertToKoreanUtil;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 받은 검색어의 한=>영, 영=>한 전환을 진행 해줍니다.
+ *
+ * @version 1.0.0
+ */
 @Slf4j
 public class Converter {
     private final ConvertToEnglishUtil convertToEnglishUtil = new ConvertToEnglishUtil();
