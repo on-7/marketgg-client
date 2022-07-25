@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.util.subutil;
 
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.annotation.QueryAnnotation;
 
 /**
  * 영어 검색어를 키보드 배열에 맞는 한국어로 전환해줍니다.

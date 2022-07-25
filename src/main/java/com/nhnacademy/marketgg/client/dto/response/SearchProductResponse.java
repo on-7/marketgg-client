@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
  *
  * @version 1.0.0
  */
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class SearchProductResponse {

@@ -20,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/products")
+@RequestMapping("/shop/v1")
 @RequiredArgsConstructor
 public class SearchController {
 
@@ -37,7 +37,7 @@ public class SearchController {
      * @throws ParseException 파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/search")
+    @GetMapping("/categories/{categoryCode}/products/search")
     public ModelAndView searchForCategory(@PathVariable String categoryCode,
                                           @RequestParam String keyword,
                                           Pageable pageable)
@@ -63,7 +63,7 @@ public class SearchController {
      * @since 1.0.0essingException
      * @since 1.0.0
      */
-    @GetMapping("/search")
+    @GetMapping("/products/search")
     public ModelAndView searchForKeyword(@RequestParam String keyword,
                                          Pageable pageable)
             throws ParseException, JsonProcessingException {
