@@ -39,7 +39,7 @@ public class SearchAdapter implements SearchRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    private final Converter converter;
+    private final Converter converter = new Converter();
 
     private static final String DEFAULT_ELASTIC = "http://localhost:9200";
     private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";

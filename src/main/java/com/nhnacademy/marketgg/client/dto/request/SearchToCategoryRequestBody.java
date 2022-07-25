@@ -20,5 +20,4 @@ public class SearchToCategoryRequestBody {
 
     private BoolQuery query;
 
-
 }
