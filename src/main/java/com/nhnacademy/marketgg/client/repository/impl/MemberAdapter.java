@@ -1,17 +1,16 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
+import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @Component
@@ -28,9 +27,9 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<LocalDateTime>
                 response = restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass",
-                                                 HttpMethod.GET,
-                                                 requestEntity,
-                                                 LocalDateTime.class);
+                HttpMethod.GET,
+                requestEntity,
+                LocalDateTime.class);
         this.checkResponseUri(response);
         return response.getBody();
     }
@@ -40,9 +39,9 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response =
                 restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass/subscribe",
-                                      HttpMethod.POST,
-                                      requestEntity,
-                                      Void.class);
+                        HttpMethod.POST,
+                        requestEntity,
+                        Void.class);
         this.checkResponseUri(response);
     }
 
@@ -51,10 +50,46 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response =
                 restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + id + "/ggpass/withdraw",
-                                      HttpMethod.POST,
-                                      requestEntity,
-                                      Void.class);
+                        HttpMethod.POST,
+                        requestEntity,
+                        Void.class);
         this.checkResponseUri(response);
+    }
+
+    @Override
+    public void signup(final MemberSignupToShopMember signupRequestToShopMember) {
+        HttpEntity<MemberSignupToShopMember> response = new HttpEntity<>(signupRequestToShopMember, buildHeaders());
+        ResponseEntity<Void> exchange = restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/signup"
+                , HttpMethod.POST
+                , response
+                , Void.class
+        );
+
+        this.checkResponseUri(exchange);
+    }
+
+    @Override
+    public void withdraw(final LocalDateTime deletedAt) {
+        HttpEntity<LocalDateTime> response = new HttpEntity<>(deletedAt, buildHeaders());
+        ResponseEntity<Void> exchange = restTemplate.exchange(gateWayIp + DEFAULT_MEMBER
+                , HttpMethod.DELETE
+                , response
+                , Void.class
+        );
+
+        this.checkResponseUri(exchange);
+    }
+
+    @Override
+    public void update(final MemberUpdateToAuthResponse memberUpdateToAuthResponse, String sessionId) {
+        HttpEntity<MemberUpdateToAuthResponse> response = new HttpEntity<>(memberUpdateToAuthResponse, buildHeaders());
+        ResponseEntity<Void> exchange = restTemplate.exchange(gateWayIp + DEFAULT_MEMBER
+                , HttpMethod.PUT
+                , response
+                , Void.class
+        );
+
+        this.checkResponseUri(exchange);
     }
 
     private HttpHeaders buildHeaders() {

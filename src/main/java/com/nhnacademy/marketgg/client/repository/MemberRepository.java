@@ -1,5 +1,8 @@
 package com.nhnacademy.marketgg.client.repository;
 
+import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
+import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
+
 import java.time.LocalDateTime;
 
 /**
@@ -34,4 +37,14 @@ public interface MemberRepository {
      */
     void withdrawPass(final Long id);
 
+    /**
+     * 회원가입 메소드입니다.
+     *
+     * @param signupRequestToShopMember - Shop 서버에 저장될 회원의 정보를 담은 객체입니다.
+     */
+    void signup(final MemberSignupToShopMember signupRequestToShopMember);
+
+    void withdraw(final LocalDateTime deletedAt);
+
+    void update(final MemberUpdateToAuthResponse memberUpdateToAuthResponse, final String sessionId);
 }
