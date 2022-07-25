@@ -4,12 +4,11 @@ import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToAuth;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberSignupResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
-
-import java.time.LocalDateTime;
 
 /**
  * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
@@ -32,7 +31,7 @@ public interface AuthRepository {
 
     EmailUseResponse useEmail(final EmailRequest emailRequest);
 
-    void withdraw(final LocalDateTime deletedAt, final String sessionId);
+    void withdraw(final MemberWithdrawRequest memberWithdrawRequest, final String sessionId);
 
     MemberUpdateToAuthResponse update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId);
     /**

@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToAuth;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberSignupResponse;
@@ -32,8 +33,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-
 /**
  * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
  *
@@ -44,8 +43,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
@@ -68,7 +65,7 @@ public class AuthAdapter implements AuthRepository {
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(loginRequest, httpHeaders);
 
         ResponseEntity<Void> response =
-                restTemplate.postForEntity(authServerUrl + "/auth/login", httpEntity, Void.class);
+                restTemplate.postForEntity(requestUrl + "/auth/login", httpEntity, Void.class);
             restTemplate.postForEntity(requestUrl + "/auth/login", httpEntity, Void.class);
 
         this.checkStatus(response);
@@ -100,7 +97,7 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders headers = getHttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<MemberSignupToAuth> httpEntity = new HttpEntity<>(memberSignupToAuth, headers);
-        ResponseEntity<MemberSignupResponse> exchange = restTemplate.exchange(authServerUrl + "/member/v1/members/signup"
+        ResponseEntity<MemberSignupResponse> exchange = restTemplate.exchange(requestUrl + "/member/v1/members/signup"
                 , HttpMethod.POST
                 , httpEntity
                 , MemberSignupResponse.class
@@ -116,7 +113,7 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders headers = getHttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<EmailRequest> httpEntity = new HttpEntity<>(emailRequest, headers);
-        ResponseEntity<EmailExistResponse> exchange = restTemplate.exchange(authServerUrl + "/auth/check/email"
+        ResponseEntity<EmailExistResponse> exchange = restTemplate.exchange(requestUrl + "/auth/check/email"
                 , HttpMethod.POST
                 , httpEntity
                 , EmailExistResponse.class
@@ -131,7 +128,7 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders headers = getHttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<EmailRequest> httpEntity = new HttpEntity<>(emailRequest, headers);
-        ResponseEntity<EmailUseResponse> exchange = restTemplate.exchange(authServerUrl + "/auth/use/email"
+        ResponseEntity<EmailUseResponse> exchange = restTemplate.exchange(requestUrl + "/auth/use/email"
                 , HttpMethod.POST
                 , httpEntity
                 , EmailUseResponse.class
@@ -142,17 +139,17 @@ public class AuthAdapter implements AuthRepository {
     }
 
     @Override
-    public void withdraw(final LocalDateTime deletedAt, final String sessionId) {
+    public void withdraw(final MemberWithdrawRequest memberWithdrawRequest, final String sessionId) {
         log.info("withdraw: start");
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<LocalDateTime> httpEntity = new HttpEntity<>(deletedAt, httpHeaders);
-        ResponseEntity<Void> response = restTemplate.exchange(authServerUrl + "/auth/info"
+        HttpEntity<MemberWithdrawRequest> httpEntity = new HttpEntity<>(memberWithdrawRequest, httpHeaders);
+        ResponseEntity<Void> response = restTemplate.exchange(requestUrl + "/auth/info"
                 , HttpMethod.DELETE
                 , httpEntity
                 , Void.class
         );
-        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_KEY);
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
         log.info("withdraw success: {}", response.getStatusCode());
 
     }
@@ -163,7 +160,7 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<MemberUpdateToAuth> httpEntity = new HttpEntity<>(memberUpdateToAuth, httpHeaders);
-        ResponseEntity<MemberUpdateToAuthResponse> response = restTemplate.exchange(authServerUrl + "/auth/info"
+        ResponseEntity<MemberUpdateToAuthResponse> response = restTemplate.exchange(requestUrl + "/auth/info"
                 , HttpMethod.PUT
                 , httpEntity
                 , MemberUpdateToAuthResponse.class
@@ -177,7 +174,7 @@ public class AuthAdapter implements AuthRepository {
             throw new LoginFailException();
         }
 
-        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_KEY);
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
         Instant instant = jwtInfo.getJwtExpireDate()
@@ -188,7 +185,7 @@ public class AuthAdapter implements AuthRepository {
         Date expireDate = Date.from(instant);
 
         log.info("login success: {}", jwtInfo.getJwt());
-        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_KEY, jwtInfo);
+        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
         redisTemplate.expireAt(sessionId, expireDate);
 
         log.info("update success: {}", response.getStatusCode());
@@ -219,6 +216,8 @@ public class AuthAdapter implements AuthRepository {
 
     private HttpHeaders getHttpHeaders() {
         return new HttpHeaders();
+    }
+
     @Override
     public void logout(String sessionId) {
         if (Objects.isNull(redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY))) {
