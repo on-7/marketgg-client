@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.AuthService;
@@ -31,6 +32,7 @@ public class AuthController {
      *
      * @return - 로그인 페이지
      */
+    @NoAuth
     @GetMapping("/login")
     public ModelAndView login() {
         return new ModelAndView("/users/login");
@@ -45,6 +47,7 @@ public class AuthController {
      * @param httpSession   - 첫 로그인 시 세션 아이디 정보를 얻기위해 입력받음
      * @return 메인페이지로 리다이렉트합니다.
      */
+    @NoAuth
     @PostMapping("/login")
     public ModelAndView doLogin(@ModelAttribute @Valid LoginRequest loginRequest,
                                 BindingResult bindingResult, HttpServletResponse response,
