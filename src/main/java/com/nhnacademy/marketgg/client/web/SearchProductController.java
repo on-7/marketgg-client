@@ -95,7 +95,7 @@ public class SearchProductController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/products/price/{type}}")
+    @GetMapping("/categories/{categoryCode}/products/price/{type}")
     public ModelAndView searchForCategorySortPrice(@PathVariable final String categoryCode,
                                                    @PathVariable final String type,
                                                    @RequestParam final String keyword,

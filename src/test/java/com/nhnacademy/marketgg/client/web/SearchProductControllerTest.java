@@ -42,13 +42,14 @@ class SearchProductControllerTest {
     void setUp() {
         searchProductResponse = new SearchProductResponse(1L, "z", "zz",
                                                           "zzz", "hello",
-                                                          1000L, 50L,"hello");
+                                                          1000L, 50L, "hello");
     }
 
     @Test
     @DisplayName("카테고리 목록에서 검색")
     void testSearchForCategory() throws Exception {
-        given(searchProductService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
+        given(searchProductService.searchForCategory(anyString(),
+                                                     any(SearchRequest.class))).willReturn(
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
@@ -84,19 +85,49 @@ class SearchProductControllerTest {
                           .getModel()
                           .get("response")).isNotNull();
     }
-    
+
     @Test
     @DisplayName("카테고리 내 검색 중 가격 필터 적용 검색")
-    void testSearchForCategorySortPrice() {
+    void testSearchForCategorySortPrice() throws Exception {
+        given(searchProductService.searchForCategorySortPrice(anyString(), any(SearchRequest.class),
+                                                              anyString())).willReturn(
+                List.of(searchProductResponse));
 
+        MvcResult mvcResult =
+                mockMvc.perform(
+                               get(DEFAULT_SEARCH + "/categories/{categoryCode}/products/price/{type}",
+                                   "11", "desc")
+                                       .param("keyword", "안녕")
+                                       .param("page", "0")
+                                       .param("size", "1"))
+                       .andExpect(status().isOk())
+                       .andExpect(view().name(SEARCH_RESULT))
+                       .andReturn();
+
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
+                          .getModel()
+                          .get("response")).isNotNull();
     }
-    
+
     @Test
     @DisplayName("전체 목록 검색 중 가격 필터 적용 검색")
-    void testSearchForKeywordSortPrice() {
+    void testSearchForKeywordSortPrice() throws Exception {
+        given(searchProductService.searchForKeywordSortPrice(any(SearchRequest.class),
+                                                             anyString())).willReturn(
+                List.of(searchProductResponse));
 
+        MvcResult mvcResult =
+                mockMvc.perform(get(DEFAULT_SEARCH + "/products/price/{type}", "desc")
+                                        .param("keyword", "안녕")
+                                        .param("page", "0")
+                                        .param("size", "1"))
+                       .andExpect(status().isOk())
+                       .andExpect(view().name(SEARCH_RESULT))
+                       .andReturn();
+
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
+                          .getModel()
+                          .get("response")).isNotNull();
     }
-    
-    
 
 }

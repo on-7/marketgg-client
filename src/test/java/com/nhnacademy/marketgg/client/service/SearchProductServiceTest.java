@@ -41,22 +41,57 @@ class SearchProductServiceTest {
 
     @Test
     @DisplayName("카테고리 목록 내 검색")
-    void searchForCategory() throws Exception {
-        given(searchProductRepository.searchProductForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(searchProductResponse));
+    void testSearchForCategory() throws Exception {
+        given(searchProductRepository.searchProductForCategory(anyString(),
+                                                               any(SearchRequest.class))).willReturn(
+                List.of(searchProductResponse));
 
         searchProductService.searchForCategory("11", searchRequest);
 
-        then(searchProductRepository).should().searchProductForCategory(anyString(), any(SearchRequest.class));
+        then(searchProductRepository).should()
+                                     .searchProductForCategory(anyString(),
+                                                               any(SearchRequest.class));
     }
 
     @Test
     @DisplayName("전체 목록 검색")
-    void searchForKeyword() throws Exception {
-        given(searchProductRepository.searchProductWithKeyword(any(SearchRequest.class))).willReturn(List.of(searchProductResponse));
+    void testSearchForKeyword() throws Exception {
+        given(searchProductRepository.searchProductWithKeyword(
+                any(SearchRequest.class))).willReturn(List.of(searchProductResponse));
 
         searchProductService.searchForKeyword(searchRequest);
 
         then(searchProductRepository).should().searchProductWithKeyword(any(SearchRequest.class));
+    }
+
+    @Test
+    @DisplayName("카테고리 목록 내 가격별 정렬 검색")
+    void testSearchForCategorySortPrice() throws Exception {
+        given(searchProductRepository.searchProductForCategorySortPrice(anyString(),
+                                                                        any(SearchRequest.class),
+                                                                        anyString())).willReturn(
+                List.of(searchProductResponse));
+
+        searchProductService.searchForCategorySortPrice("11", searchRequest, "desc");
+
+        then(searchProductRepository).should()
+                                     .searchProductForCategorySortPrice(anyString(),
+                                                                        any(SearchRequest.class),
+                                                                        anyString());
+    }
+
+    @Test
+    @DisplayName("전체 목록 내 가격별 정렬 검색")
+    void testSearchForKeywordSortPrice() throws Exception {
+        given(searchProductRepository.searchProductForKeywordSortPrice(any(SearchRequest.class),
+                                                                       anyString())).willReturn(
+                List.of(searchProductResponse));
+
+        searchProductService.searchForKeywordSortPrice(searchRequest, "desc");
+
+        then(searchProductRepository).should()
+                                     .searchProductForKeywordSortPrice(any(SearchRequest.class),
+                                                                       anyString());
     }
 
 }
