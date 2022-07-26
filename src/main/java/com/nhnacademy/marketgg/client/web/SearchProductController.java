@@ -15,16 +15,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 검색을 지원하는 Controller 입니다.
+ * 상품 검색을 지원하는 Controller 입니다.
  *
  * @version 1.0.0
  */
 @Controller
 @RequestMapping("/shop/v1")
 @RequiredArgsConstructor
-public class SearchController {
+public class SearchProductController {
 
     private final SearchService searchService;
+
+
+    private static final String SEARCH_RESULT = "saerch/search-list";
 
     /**
      * 카테고리 내에서 검색어를 통한 검색 후, 검색 결과 목록을 담은 후 검색 목록 조회페이지로 이동합니다.
@@ -44,10 +47,12 @@ public class SearchController {
             throws ParseException, JsonProcessingException {
 
         // FIXME: 후에 상품 리스트 페이지로 이동
-        ModelAndView mav = new ModelAndView("search/search-list");
+        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
         mav.addObject("response", searchService.searchForCategory(categoryCode,
                 new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                pageable.getPageSize()))));
+        mav.addObject("keyword", keyword);
+        mav.addObject("page", pageable.getPageNumber());
 
         return mav;
     }
@@ -69,12 +74,66 @@ public class SearchController {
             throws ParseException, JsonProcessingException {
 
         // FIXME: 후에 상품 리스트 페이지로 이동
-        ModelAndView mav = new ModelAndView("search/search-list");
+        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
         mav.addObject("response", searchService.searchForKeyword(
                 new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                           pageable.getPageSize()))));
+        mav.addObject("keyword", keyword);
+        mav.addObject("page", pageable.getPageNumber());
 
         return mav;
     }
+
+    @GetMapping("/categories/{categoryCode}/products/search/asc")
+    public ModelAndView searchForCategoryPriceAsc(@PathVariable final String categoryCode,
+                                                  @RequestParam final String keyword,
+                                                  final Pageable pageable) {
+        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
+        mav.addObject("response", searchService.searchForCategory());
+        mav.addObject("keyword", keyword);
+
+        return mav;
+    }
+
+    @GetMapping("/categories/{categoryCode}/products/search/desc")
+    public ModelAndView searchForCategoryPriceDesc(@PathVariable final String categoryCode,
+                                                   @RequestParam final String keyword,
+                                                   final Pageable pageable) {
+        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
+        mav.addObject("response", searchService.searchForCategory());
+        mav.addObject("keyword", keyword);
+
+        return mav;
+    }
+
+
+    @GetMapping("/products/search/asc")
+    public ModelAndView searchForKeywordPriceAsc(@RequestParam final String keyword,
+                                                 final Pageable pageable)
+            throws ParseException, JsonProcessingException {
+
+        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
+        mav.addObject("response", searchService.searchForKeyword());
+        mav.addObject("keyword", keyword);
+        mav.addObject("page", pageable.getPageNumber());
+
+        return mav;
+    }
+
+    @GetMapping("/products/search/desc")
+    public ModelAndView searchForKeywordPriceDesc(@RequestParam final String keyword,
+                                                  final Pageable pageable)
+            throws ParseException, JsonProcessingException {
+
+        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
+        mav.addObject("response", searchService.searchForKeyword());
+        mav.addObject("keyword", keyword);
+        mav.addObject("page", pageable.getPageNumber());
+
+        return mav;
+    }
+
+
+
 
 }

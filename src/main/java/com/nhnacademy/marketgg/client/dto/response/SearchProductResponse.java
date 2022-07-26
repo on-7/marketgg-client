@@ -26,6 +26,8 @@ public class SearchProductResponse {
 
     private Long price;
 
+    private Long amount;
+
     private String content;
 
 }
