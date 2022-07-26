@@ -10,9 +10,9 @@ import lombok.Getter;
 @Getter
 public class SortForPrice {
 
-    private Score _score;
+    private Score price;
 
-    private Price price;
+    private Price _score;
 
     private Id id;
 

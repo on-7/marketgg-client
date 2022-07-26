@@ -47,10 +47,13 @@ public class SearchProductAdapter implements SearchProductRepository {
 
     private static final String DEFAULT_ELASTIC = "http://133.186.153.181:9200";
     private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";
-
+    private static final List<String> CATEGORY_FIELD = List.of("categoryCode");
     private static final List<String> DEFAULT_FIELD =
             List.of("productName", "productName.forSyno", "content", "content.forSyno",
                     "description", "description.forSyno");
+
+    private static final List<Sort> DEFAULT_SORT =
+            List.of(new Sort(new Score("desc"), new Id("adc")));
 
     @Override
     public List<SearchProductResponse> searchProductForCategory(final String code,
@@ -118,19 +121,18 @@ public class SearchProductAdapter implements SearchProductRepository {
                                                 final String typo,
                                                 final String type) {
 
+        String requestString = request + " " + typo;
+
         if (Objects.isNull(type)) {
             return SearchProductForCategory.builder()
-                                           .sort(List.of(
-                                                   new Sort(new Score("desc"), new Id("asc"))))
+                                           .sort(DEFAULT_SORT)
                                            .from(request.getPageRequest().getPageNumber())
                                            .size(request.getPageRequest().getPageSize())
                                            .query(new BoolQuery(
                                                    new Bool(new Must(List.of(new MultiMatch(code,
-                                                                                            List.of("categoryCode")),
+                                                                                            CATEGORY_FIELD),
                                                                              new MultiMatch(
-                                                                                     request.getRequest() +
-                                                                                             " " +
-                                                                                             typo,
+                                                                                     requestString,
                                                                                      DEFAULT_FIELD))))))
                                            .build();
         }
@@ -142,11 +144,9 @@ public class SearchProductAdapter implements SearchProductRepository {
                                        .size(request.getPageRequest().getPageSize())
                                        .query(new BoolQuery(
                                                new Bool(new Must(List.of(new MultiMatch(code,
-                                                                                        List.of("categoryCode")),
+                                                                                        CATEGORY_FIELD),
                                                                          new MultiMatch(
-                                                                                 request.getRequest() +
-                                                                                         " " +
-                                                                                         typo,
+                                                                                 requestString,
                                                                                  DEFAULT_FIELD))))))
                                        .build();
     }
@@ -155,13 +155,15 @@ public class SearchProductAdapter implements SearchProductRepository {
                                            final String typo,
                                            final String type) {
 
+        String requestString = request + " " + typo;
+
         if (Objects.isNull(type)) {
             return SearchProduct.builder()
-                                .sort(List.of(new Sort(new Score("desc"), new Id("asc"))))
+                                .sort(DEFAULT_SORT)
                                 .from(request.getPageRequest().getPageNumber())
                                 .size(request.getPageRequest().getPageSize())
                                 .query(new Query(
-                                        new MultiMatch(request.getRequest() + " " + typo,
+                                        new MultiMatch(requestString,
                                                        DEFAULT_FIELD)))
                                 .build();
         }
@@ -172,7 +174,7 @@ public class SearchProductAdapter implements SearchProductRepository {
                                     .from(request.getPageRequest().getPageNumber())
                                     .size(request.getPageRequest().getPageSize())
                                     .query(new Query(
-                                            new MultiMatch(request.getRequest() + " " + typo,
+                                            new MultiMatch(requestString,
                                                            DEFAULT_FIELD)))
                                     .build();
     }
