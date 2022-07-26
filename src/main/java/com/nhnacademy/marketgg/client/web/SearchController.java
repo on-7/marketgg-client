@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- *
+ * 검색을 지원하는 Controller 입니다.
  *
  * @version 1.0.0
  */
@@ -38,9 +38,9 @@ public class SearchController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/products/search")
-    public ModelAndView searchForCategory(@PathVariable String categoryCode,
-                                          @RequestParam String keyword,
-                                          Pageable pageable)
+    public ModelAndView searchForCategory(@PathVariable final String categoryCode,
+                                          @RequestParam final String keyword,
+                                          final Pageable pageable)
             throws ParseException, JsonProcessingException {
 
         // FIXME: 후에 상품 리스트 페이지로 이동
@@ -64,8 +64,8 @@ public class SearchController {
      * @since 1.0.0
      */
     @GetMapping("/products/search")
-    public ModelAndView searchForKeyword(@RequestParam String keyword,
-                                         Pageable pageable)
+    public ModelAndView searchForKeyword(@RequestParam final String keyword,
+                                         final Pageable pageable)
             throws ParseException, JsonProcessingException {
 
         // FIXME: 후에 상품 리스트 페이지로 이동
