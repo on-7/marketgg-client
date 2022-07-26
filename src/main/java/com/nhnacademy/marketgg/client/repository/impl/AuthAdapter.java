@@ -1,9 +1,9 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
-import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
+import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToAuth;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
@@ -16,14 +16,6 @@ import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.AuthRepository;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.*;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -31,16 +23,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-
-/**
- * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
- *
- * @version 1.0.0
- */
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -68,8 +57,8 @@ public class AuthAdapter implements AuthRepository {
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(loginRequest, httpHeaders);
 
         ResponseEntity<Void> response =
-                restTemplate.postForEntity(authServerUrl + "/auth/login", httpEntity, Void.class);
             restTemplate.postForEntity(requestUrl + "/auth/login", httpEntity, Void.class);
+        restTemplate.postForEntity(requestUrl + "/auth/login", httpEntity, Void.class);
 
         this.checkStatus(response);
 
@@ -100,11 +89,9 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders headers = getHttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<MemberSignupToAuth> httpEntity = new HttpEntity<>(memberSignupToAuth, headers);
-        ResponseEntity<MemberSignupResponse> exchange = restTemplate.exchange(authServerUrl + "/member/v1/members/signup"
-                , HttpMethod.POST
-                , httpEntity
-                , MemberSignupResponse.class
-        );
+        ResponseEntity<MemberSignupResponse> exchange =
+            restTemplate.exchange(requestUrl + "/member/v1/members/signup", HttpMethod.POST,
+                httpEntity, MemberSignupResponse.class);
         log.info("signup success: {}", exchange.getStatusCode());
 
         return Objects.requireNonNull(exchange.getBody());
@@ -116,11 +103,9 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders headers = getHttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<EmailRequest> httpEntity = new HttpEntity<>(emailRequest, headers);
-        ResponseEntity<EmailExistResponse> exchange = restTemplate.exchange(authServerUrl + "/auth/check/email"
-                , HttpMethod.POST
-                , httpEntity
-                , EmailExistResponse.class
-        );
+        ResponseEntity<EmailExistResponse> exchange =
+            restTemplate.exchange(requestUrl + "/auth/check/email", HttpMethod.POST, httpEntity,
+                EmailExistResponse.class);
         log.info("email exist {}", exchange.getBody());
         return Objects.requireNonNull(exchange.getBody());
     }
@@ -131,11 +116,9 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders headers = getHttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         HttpEntity<EmailRequest> httpEntity = new HttpEntity<>(emailRequest, headers);
-        ResponseEntity<EmailUseResponse> exchange = restTemplate.exchange(authServerUrl + "/auth/use/email"
-                , HttpMethod.POST
-                , httpEntity
-                , EmailUseResponse.class
-        );
+        ResponseEntity<EmailUseResponse> exchange =
+            restTemplate.exchange(requestUrl + "/auth/use/email", HttpMethod.POST, httpEntity,
+                EmailUseResponse.class);
         log.info("email exist {}", exchange.getBody());
 
         return Objects.requireNonNull(exchange.getBody());
@@ -147,29 +130,31 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<LocalDateTime> httpEntity = new HttpEntity<>(deletedAt, httpHeaders);
-        ResponseEntity<Void> response = restTemplate.exchange(authServerUrl + "/auth/info"
-                , HttpMethod.DELETE
-                , httpEntity
-                , Void.class
-        );
-        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_KEY);
+        ResponseEntity<Void> response =
+            restTemplate.exchange(requestUrl + "/auth/info", HttpMethod.DELETE, httpEntity,
+                Void.class);
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
         log.info("withdraw success: {}", response.getStatusCode());
 
     }
 
     @Override
-    public MemberUpdateToAuthResponse update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId) {
+    public MemberUpdateToAuthResponse update(final MemberUpdateToAuth memberUpdateToAuth,
+                                             final String sessionId) {
         log.info("update: start");
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<MemberUpdateToAuth> httpEntity = new HttpEntity<>(memberUpdateToAuth, httpHeaders);
-        ResponseEntity<MemberUpdateToAuthResponse> response = restTemplate.exchange(authServerUrl + "/auth/info"
-                , HttpMethod.PUT
-                , httpEntity
-                , MemberUpdateToAuthResponse.class
-        );
+        HttpEntity<MemberUpdateToAuth> httpEntity =
+            new HttpEntity<>(memberUpdateToAuth, httpHeaders);
+        ResponseEntity<MemberUpdateToAuthResponse> response =
+            restTemplate.exchange(requestUrl + "/auth/info", HttpMethod.PUT, httpEntity,
+                MemberUpdateToAuthResponse.class
+            );
 
         HttpHeaders headers = response.getHeaders();
+        if (Objects.isNull(headers.get(AUTHORIZATION))) {
+            throw new LoginFailException();
+        }
         String jwt = headers.get(AUTHORIZATION).get(0);
         String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
         if (Objects.isNull(jwt) || Objects.isNull(expire)) {
@@ -177,7 +162,7 @@ public class AuthAdapter implements AuthRepository {
             throw new LoginFailException();
         }
 
-        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_KEY);
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
         Instant instant = jwtInfo.getJwtExpireDate()
@@ -188,7 +173,7 @@ public class AuthAdapter implements AuthRepository {
         Date expireDate = Date.from(instant);
 
         log.info("login success: {}", jwtInfo.getJwt());
-        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_KEY, jwtInfo);
+        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
         redisTemplate.expireAt(sessionId, expireDate);
 
         log.info("update success: {}", response.getStatusCode());
@@ -211,7 +196,7 @@ public class AuthAdapter implements AuthRepository {
         }
 
         if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
-                || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
+            || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
             log.info("Empty header");
             throw new LoginFailException();
         }
@@ -219,6 +204,8 @@ public class AuthAdapter implements AuthRepository {
 
     private HttpHeaders getHttpHeaders() {
         return new HttpHeaders();
+    }
+
     @Override
     public void logout(String sessionId) {
         if (Objects.isNull(redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY))) {
