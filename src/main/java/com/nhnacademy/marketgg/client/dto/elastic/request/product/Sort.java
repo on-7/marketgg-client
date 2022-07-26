@@ -1,5 +1,7 @@
-package com.nhnacademy.marketgg.client.dto.request.searchutil;
+package com.nhnacademy.marketgg.client.dto.elastic.request.product;
 
+import com.nhnacademy.marketgg.client.dto.elastic.request.product.sortdata.Id;
+import com.nhnacademy.marketgg.client.dto.elastic.request.product.sortdata.Score;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

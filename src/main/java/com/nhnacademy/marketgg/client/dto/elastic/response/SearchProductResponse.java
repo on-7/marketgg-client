@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.dto.response;
+package com.nhnacademy.marketgg.client.dto.elastic.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,6 @@
-package com.nhnacademy.marketgg.client.dto.request;
+package com.nhnacademy.marketgg.client.dto.elastic.request.product;
 
-import com.nhnacademy.marketgg.client.dto.request.searchutil.Query;
-import com.nhnacademy.marketgg.client.dto.request.searchutil.Sort;
+import com.nhnacademy.marketgg.client.dto.elastic.request.searchutil.Query;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +14,7 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 @Getter
-public class SearchRequestBody {
+public class SearchProduct {
 
     /**
      * 검색 결과 목록의 정렬 기준을 지정합니다.

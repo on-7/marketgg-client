@@ -1,15 +1,14 @@
 package com.nhnacademy.marketgg.client.service;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.repository.SearchRepository;
-import com.nhnacademy.marketgg.client.service.impl.DefaultSearchService;
+import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.repository.SearchProductRepository;
+import com.nhnacademy.marketgg.client.service.impl.DefaultSearchProductService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -22,13 +21,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
-class SearchServiceTest {
+class SearchProductServiceTest {
 
     @InjectMocks
-    private DefaultSearchService searchService;
+    private DefaultSearchProductService searchProductService;
 
     @Mock
-    private SearchRepository searchRepository;
+    private SearchProductRepository searchProductRepository;
 
     private static SearchRequest searchRequest;
     private static SearchProductResponse searchProductResponse;
@@ -43,21 +42,21 @@ class SearchServiceTest {
     @Test
     @DisplayName("카테고리 목록 내 검색")
     void searchForCategory() throws Exception {
-        given(searchRepository.searchProductForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(searchProductResponse));
+        given(searchProductRepository.searchProductForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(searchProductResponse));
 
-        searchService.searchForCategory("11", searchRequest);
+        searchProductService.searchForCategory("11", searchRequest);
 
-        then(searchRepository).should().searchProductForCategory(anyString(), any(SearchRequest.class));
+        then(searchProductRepository).should().searchProductForCategory(anyString(), any(SearchRequest.class));
     }
 
     @Test
     @DisplayName("전체 목록 검색")
     void searchForKeyword() throws Exception {
-        given(searchRepository.searchProductWithKeyword(any(SearchRequest.class))).willReturn(List.of(searchProductResponse));
+        given(searchProductRepository.searchProductWithKeyword(any(SearchRequest.class))).willReturn(List.of(searchProductResponse));
 
-        searchService.searchForKeyword(searchRequest);
+        searchProductService.searchForKeyword(searchRequest);
 
-        then(searchRepository).should().searchProductWithKeyword(any(SearchRequest.class));
+        then(searchProductRepository).should().searchProductWithKeyword(any(SearchRequest.class));
     }
 
 }

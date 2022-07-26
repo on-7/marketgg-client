@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.dto.request.searchutil;
+package com.nhnacademy.marketgg.client.dto.elastic.request.searchutil;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
