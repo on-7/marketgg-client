@@ -35,6 +35,9 @@ class SearchProductControllerTest {
 
     private SearchProductResponse searchProductResponse;
 
+    private static final String DEFAULT_SEARCH = "/shop/v1/search";
+    private static final String SEARCH_RESULT = "search/search-list";
+
     @BeforeEach
     void setUp() {
         searchProductResponse = new SearchProductResponse(1L, "z", "zz",
@@ -44,17 +47,17 @@ class SearchProductControllerTest {
 
     @Test
     @DisplayName("카테고리 목록에서 검색")
-    void searchForCategory() throws Exception {
+    void testSearchForCategory() throws Exception {
         given(searchProductService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get("/shop/v1/products/categories/{categoryCode}/search", "11")
+                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/products", "11")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
                        .andExpect(status().isOk())
-                       .andExpect(view().name("search/search-list"))
+                       .andExpect(view().name(SEARCH_RESULT))
                        .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
@@ -64,21 +67,36 @@ class SearchProductControllerTest {
 
     @Test
     @DisplayName("전체 목록에서 검색")
-    void searchForKeyword() throws Exception {
+    void testSearchForKeyword() throws Exception {
         given(searchProductService.searchForKeyword(any(SearchRequest.class))).willReturn(
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get("/shop/v1/products/search")
+                mockMvc.perform(get(DEFAULT_SEARCH + "/products")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
                        .andExpect(status().isOk())
-                       .andExpect(view().name("search/search-list"))
+                       .andExpect(view().name(SEARCH_RESULT))
                        .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
                           .get("response")).isNotNull();
     }
+    
+    @Test
+    @DisplayName("카테고리 내 검색 중 가격 필터 적용 검색")
+    void testSearchForCategorySortPrice() {
+
+    }
+    
+    @Test
+    @DisplayName("전체 목록 검색 중 가격 필터 적용 검색")
+    void testSearchForKeywordSortPrice() {
+
+    }
+    
+    
+
 }
