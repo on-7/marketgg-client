@@ -19,7 +19,7 @@ import com.nhnacademy.marketgg.client.dto.elastic.request.searchutil.Must;
 import com.nhnacademy.marketgg.client.dto.elastic.request.searchutil.Query;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.SearchProductRepository;
-import com.nhnacademy.marketgg.client.util.Converter;
+import com.nhnacademy.marketgg.client.utils.KoreanToEnglishTranslator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,10 +40,10 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class SearchProductAdapter implements SearchProductRepository {
 
-    private final JSONParser jsonParser = new JSONParser();
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    private final Converter converter = new Converter();
+    private final JSONParser jsonParser = new JSONParser();
+    private final KoreanToEnglishTranslator converter = new KoreanToEnglishTranslator();
 
     private static final String DEFAULT_ELASTIC = "http://133.186.153.181:9200";
     private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";
@@ -60,12 +60,10 @@ public class SearchProductAdapter implements SearchProductRepository {
                                                                 final SearchRequest request)
             throws ParseException, JsonProcessingException {
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(
-                objectMapper.writeValueAsString(
-                        this.buildCategoryCodeRequestBody(code, request,
-                                                          converter.converter(
-                                                                  request.getRequest()), null)),
-                this.buildHeaders());
+        String requestBody = this.buildCategoryCodeRequestBody(code, request, converter.converter(
+                request.getRequest()), null);
+        HttpEntity<String> requestEntity =
+                new HttpEntity<>(objectMapper.writeValueAsString(requestBody), this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -74,10 +72,10 @@ public class SearchProductAdapter implements SearchProductRepository {
     public List<SearchProductResponse> searchProductWithKeyword(final SearchRequest request)
             throws ParseException, JsonProcessingException {
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(
-                objectMapper.writeValueAsString(
-                        this.buildKeywordRequestBody(request, converter.converter(
-                                request.getRequest()), null)), this.buildHeaders());
+        String requestBody =
+                this.buildKeywordRequestBody(request, converter.converter(request.getRequest()),
+                                             null);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -88,10 +86,9 @@ public class SearchProductAdapter implements SearchProductRepository {
                                                                          final String type)
             throws JsonProcessingException, ParseException {
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(
-                objectMapper.writeValueAsString(
-                        this.buildCategoryCodeRequestBody(code, request, converter.converter(
-                                request.getRequest()), type)), this.buildHeaders());
+        String requestBody = this.buildCategoryCodeRequestBody(code, request, converter.converter(
+                request.getRequest()), type);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -101,10 +98,10 @@ public class SearchProductAdapter implements SearchProductRepository {
                                                                         final String type)
             throws JsonProcessingException, ParseException {
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(
-                objectMapper.writeValueAsString(
-                        this.buildKeywordRequestBody(request, converter.converter(
-                                request.getRequest()), type)), this.buildHeaders());
+        String requestBody =
+                this.buildKeywordRequestBody(request, converter.converter(request.getRequest()),
+                                             type);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -116,67 +113,62 @@ public class SearchProductAdapter implements SearchProductRepository {
                                      String.class);
     }
 
-    private Object buildCategoryCodeRequestBody(final String code,
+    private String buildCategoryCodeRequestBody(final String code,
                                                 final SearchRequest request,
                                                 final String typo,
-                                                final String type) {
+                                                final String type) throws JsonProcessingException {
 
         String requestString = request + " " + typo;
+        Integer page = request.getPageRequest().getPageNumber();
+        Integer size = request.getPageRequest().getPageSize();
+        List<MultiMatch> match = List.of(new MultiMatch(code, CATEGORY_FIELD),
+                                         new MultiMatch(requestString, DEFAULT_FIELD));
+        Must must = new Must(match);
+        BoolQuery query = new BoolQuery(new Bool(must));
+        List<SortForPrice> priceSort =
+                List.of(new SortForPrice(new Score("desc"), new Price(type), new Id("asc")));
 
         if (Objects.isNull(type)) {
-            return SearchProductForCategory.builder()
-                                           .sort(DEFAULT_SORT)
-                                           .from(request.getPageRequest().getPageNumber())
-                                           .size(request.getPageRequest().getPageSize())
-                                           .query(new BoolQuery(
-                                                   new Bool(new Must(List.of(new MultiMatch(code,
-                                                                                            CATEGORY_FIELD),
-                                                                             new MultiMatch(
-                                                                                     requestString,
-                                                                                     DEFAULT_FIELD))))))
-                                           .build();
+            return objectMapper.writeValueAsString(SearchProductForCategory.builder()
+                                                                           .sort(DEFAULT_SORT)
+                                                                           .from(page)
+                                                                           .size(size)
+                                                                           .query(query)
+                                                                           .build());
         }
-        return SearchToCategoryForPrice.builder()
-                                       .sort(List.of(
-                                               new SortForPrice(new Score("desc"), new Price(type),
-                                                                new Id("asc"))))
-                                       .from(request.getPageRequest().getPageNumber())
-                                       .size(request.getPageRequest().getPageSize())
-                                       .query(new BoolQuery(
-                                               new Bool(new Must(List.of(new MultiMatch(code,
-                                                                                        CATEGORY_FIELD),
-                                                                         new MultiMatch(
-                                                                                 requestString,
-                                                                                 DEFAULT_FIELD))))))
-                                       .build();
+        return objectMapper.writeValueAsString(SearchToCategoryForPrice.builder()
+                                                                       .sort(priceSort)
+                                                                       .from(page)
+                                                                       .size(size)
+                                                                       .query(query)
+                                                                       .build());
     }
 
-    private Object buildKeywordRequestBody(final SearchRequest request,
+    private String buildKeywordRequestBody(final SearchRequest request,
                                            final String typo,
-                                           final String type) {
+                                           final String type) throws JsonProcessingException {
 
         String requestString = request + " " + typo;
+        Integer page = request.getPageRequest().getPageNumber();
+        Integer size = request.getPageRequest().getPageSize();
+        Query query = new Query(new MultiMatch(requestString, DEFAULT_FIELD));
+        List<SortForPrice> priceSort =
+                List.of(new SortForPrice(new Score("desc"), new Price(type), new Id("asc")));
 
         if (Objects.isNull(type)) {
-            return SearchProduct.builder()
-                                .sort(DEFAULT_SORT)
-                                .from(request.getPageRequest().getPageNumber())
-                                .size(request.getPageRequest().getPageSize())
-                                .query(new Query(
-                                        new MultiMatch(requestString,
-                                                       DEFAULT_FIELD)))
-                                .build();
+            return objectMapper.writeValueAsString(SearchProduct.builder()
+                                                                .sort(DEFAULT_SORT)
+                                                                .from(page)
+                                                                .size(size)
+                                                                .query(query)
+                                                                .build());
         }
-        return SearchProductForPrice.builder()
-                                    .sort(List.of(
-                                            new SortForPrice(new Score("desc"), new Price(type),
-                                                             new Id("asc"))))
-                                    .from(request.getPageRequest().getPageNumber())
-                                    .size(request.getPageRequest().getPageSize())
-                                    .query(new Query(
-                                            new MultiMatch(requestString,
-                                                           DEFAULT_FIELD)))
-                                    .build();
+        return objectMapper.writeValueAsString(SearchProductForPrice.builder()
+                                                                    .sort(priceSort)
+                                                                    .from(page)
+                                                                    .size(size)
+                                                                    .query(query)
+                                                                    .build());
     }
 
     private List<SearchProductResponse> parsingResponseBody(final String response)

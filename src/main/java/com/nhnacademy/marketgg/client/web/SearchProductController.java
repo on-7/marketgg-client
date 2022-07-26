@@ -2,7 +2,9 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.service.SearchProductService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.PageRequest;
@@ -46,11 +48,11 @@ public class SearchProductController {
             throws ParseException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView(SEARCH_RESULT);
-        mav.addObject("response", searchProductService.searchForCategory(categoryCode,
-                                                                         new SearchRequest(keyword,
-                                                                                           PageRequest.of(
-                                                                                                   pageable.getPageNumber(),
-                                                                                                   pageable.getPageSize()))));
+        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
+                                                                          pageable.getPageSize()));
+        List<SearchProductResponse> response = searchProductService.searchForCategory(categoryCode, request);
+
+        mav.addObject("response", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
 
@@ -74,9 +76,11 @@ public class SearchProductController {
             throws ParseException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView(SEARCH_RESULT);
-        mav.addObject("response", searchProductService.searchForKeyword(
-                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
-                                                          pageable.getPageSize()))));
+        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
+                                                                          pageable.getPageSize()));
+        List<SearchProductResponse> response = searchProductService.searchForKeyword(request);
+
+        mav.addObject("response", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
 
@@ -103,13 +107,12 @@ public class SearchProductController {
             throws ParseException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView(SEARCH_RESULT);
-        mav.addObject("response", searchProductService.searchForCategorySortPrice(categoryCode,
-                                                                                  new SearchRequest(
-                                                                                          keyword,
-                                                                                          PageRequest.of(
-                                                                                                  pageable.getPageNumber(),
-                                                                                                  pageable.getPageSize())),
-                                                                                  type));
+        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
+                                                                          pageable.getPageSize()));
+        List<SearchProductResponse> response =
+                searchProductService.searchForCategorySortPrice(categoryCode, request, type);
+
+        mav.addObject("response", response);
         mav.addObject("keyword", keyword);
 
         return mav;
@@ -134,9 +137,12 @@ public class SearchProductController {
             throws ParseException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView(SEARCH_RESULT);
-        mav.addObject("response", searchProductService.searchForKeywordSortPrice(
-                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
-                                                          pageable.getPageSize())), type));
+        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
+                                                                          pageable.getPageSize()));
+        List<SearchProductResponse> response =
+                searchProductService.searchForKeywordSortPrice(request, type);
+
+        mav.addObject("response", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
 

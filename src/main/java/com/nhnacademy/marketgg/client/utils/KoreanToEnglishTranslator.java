@@ -1,6 +1,6 @@
-package com.nhnacademy.marketgg.client.util;
+package com.nhnacademy.marketgg.client.utils;
 
-import com.nhnacademy.marketgg.client.util.subutil.ConvertToEnglishUtil;
+import com.nhnacademy.marketgg.client.utils.subutils.ConvertToEnglishUtil;
 import java.util.regex.Pattern;
 
 /**
@@ -8,13 +8,14 @@ import java.util.regex.Pattern;
  *
  * @version 1.0.0
  */
-public class Converter {
+public class KoreanToEnglishTranslator {
     private final ConvertToEnglishUtil convertToEnglishUtil = new ConvertToEnglishUtil();
 
-    static String ignoreChars = "`1234567890-=[]\\;',./~!@#$%^&*()_+{}|:\"<>? ";
+    private static final String IGNORE_CHARS = "`1234567890-=[]\\;',./~!@#$%^&*()_+{}|:\"<>? ";
+    private static final String IS_ALPHA = "^[a-zA-Z]*$";
 
     public String converter(final String word) {
-        if (Pattern.matches("^[a-zA-Z]*$", word)) {
+        if (Pattern.matches(IS_ALPHA, word)) {
             return word;
         }
         return convertToEnglish(word);
@@ -26,7 +27,7 @@ public class Converter {
 
         while (i < word.length()) {
             // 한글자씩 읽어들인다.
-            if (!ignoreChars.contains(word.substring(i, i + 1))) {
+            if (!IGNORE_CHARS.contains(word.substring(i, i + 1))) {
                 char chars = (char) (word.charAt(i) - 0xAC00);
                 // A. 자음과 모음이 합쳐진 글자인경우
                 convertToEnglishUtil.combineWord(resultEng, chars);

@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -22,6 +23,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(SearchProductController.class)
@@ -39,7 +42,10 @@ class SearchProductControllerTest {
     private static final String SEARCH_RESULT = "search/search-list";
 
     @BeforeEach
-    void setUp() {
+    void setUp(@Autowired WebApplicationContext applicationContext) {
+        mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext)
+                                 .alwaysDo(print())
+                                 .build();
         searchProductResponse = new SearchProductResponse(1L, "z", "zz",
                                                           "zzz", "hello",
                                                           1000L, 50L, "hello");

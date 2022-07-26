@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.util.subutil;
+package com.nhnacademy.marketgg.client.utils.subutils;
 
 /**
  * 한국어 검색어를 키보드 배열에 맞는 알파벳으로 전환해줍니다.
