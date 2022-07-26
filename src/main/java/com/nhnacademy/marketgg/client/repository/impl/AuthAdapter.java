@@ -71,12 +71,7 @@ public class AuthAdapter implements AuthRepository {
         String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
-        Instant instant = jwtInfo.getJwtExpireDate()
-                                 .plus(6, ChronoUnit.DAYS)
-                                 .plus(30, ChronoUnit.MINUTES)
-                                 .atZone(ZoneId.systemDefault())
-                                 .toInstant();
-        Date expireDate = Date.from(instant);
+        Date expireDate = localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
 
         log.info("login success: {}", jwtInfo.getJwt());
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
@@ -152,31 +147,25 @@ public class AuthAdapter implements AuthRepository {
             );
 
         HttpHeaders headers = response.getHeaders();
-        if (Objects.isNull(headers.get(AUTHORIZATION))) {
+
+        List<String> jwtHeader = headers.get(AUTHORIZATION);
+        List<String> expiredHeader = headers.get(JwtInfo.JWT_EXPIRE);
+
+        if (Objects.isNull(jwtHeader) || Objects.isNull(expiredHeader)) {
             throw new LoginFailException();
         }
-        String jwt = headers.get(AUTHORIZATION).get(0);
-        String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
-        if (Objects.isNull(jwt) || Objects.isNull(expire)) {
-            // TODO: Merge 후 예외 바꾸기
-            throw new LoginFailException();
-        }
+
+        String jwt = jwtHeader.get(0);
+        String expire = expiredHeader.get(0);
 
         redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
-        Instant instant = jwtInfo.getJwtExpireDate()
-                                 .plus(6, ChronoUnit.DAYS)
-                                 .plus(30, ChronoUnit.MINUTES)
-                                 .atZone(ZoneId.systemDefault())
-                                 .toInstant();
-        Date expireDate = Date.from(instant);
+        Date expireDate = localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
 
-        log.info("login success: {}", jwtInfo.getJwt());
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
         redisTemplate.expireAt(sessionId, expireDate);
 
-        log.info("update success: {}", response.getStatusCode());
         if (Objects.isNull(response.getBody())) {
             throw new ServerException();
         }
@@ -223,6 +212,15 @@ public class AuthAdapter implements AuthRepository {
         }
 
         redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
+    }
+
+    private Date localDateTimeToDateForRenewToken(LocalDateTime expiredTime) {
+        Instant instant = expiredTime
+            .plus(6, ChronoUnit.DAYS)
+            .plus(30, ChronoUnit.MINUTES)
+            .atZone(ZoneId.systemDefault())
+            .toInstant();
+        return Date.from(instant);
     }
 
 }
