@@ -25,9 +25,10 @@ public class Converter {
         int i = 0;
 
         while (i < word.length()) {
-            if (!ignoreChars.contains(word.substring(i, i + 1))) {/*  한글자씩 읽어들인다. */
+            // 한글자씩 읽어들인다.
+            if (!ignoreChars.contains(word.substring(i, i + 1))) {
                 char chars = (char) (word.charAt(i) - 0xAC00);
-                /* A. 자음과 모음이 합쳐진 글자인경우 */
+                // A. 자음과 모음이 합쳐진 글자인경우
                 convertToEnglishUtil.combineWord(resultEng, chars);
             } else {
                 resultEng.append(word.charAt(i));
