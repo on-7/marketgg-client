@@ -5,8 +5,8 @@ spring:
   application:
     name: marketgg-client
 
-  profiles:
-    include: oauth2
+#  profiles:
+#    include: oauth2, db
 
   config:
     import: "optional:configserver:http://133.186.209.70:8888"

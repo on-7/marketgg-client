@@ -2,10 +2,13 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.response.CommonResponse;
+import com.nhnacademy.marketgg.client.dto.response.ListResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -54,10 +57,11 @@ public class ProductAdapter implements ProductRepository {
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<List<ProductResponse>> response =
             this.restTemplate.exchange(BASE_URL + ADMIN_DEFAULT_PRODUCT, HttpMethod.GET, request,
+
                 new ParameterizedTypeReference<>() {
                 });
 
-        return response.getBody();
+        return (List<ProductResponse>) response.getBody().getData();
     }
 
     @Override
@@ -75,7 +79,8 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode, final String categoryCode) {
+    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
+                                                            final String categoryCode) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

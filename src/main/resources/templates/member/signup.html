@@ -1,0 +1,289 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+              crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"
+                integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp"
+                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"
+                integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <title>Register</title>
+    </head>
+    <body>
+        <div class="container mt-5">
+            <h3>Market GG</h3>
+            <div class="card" style="width: 55rem; ">
+                <div class="card-header text-center bg-info ">
+                    <h3>회원가입</h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/marketgg/members/signup}" method="post" onsubmit="return formValidation()">
+
+                        <div class="form-group">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="이메일"
+                                   maxlength="30" required oninput="">
+                            <!-- id ajax 중복체크 -->
+                            <span id="email-ok" hidden>
+                            사용 가능한 이메일입니다.
+                        </span>
+                            <span id="email-already" hidden>
+                            누군가 이 이메일을 사용하고 있어요.
+                        </span>
+                            <button type="button" id="email-check-btn">이메일 중복체크</button>
+                            <input type="hidden" id="exist-email" value="false">
+                            <input type="hidden" id="use-email" value="false">
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password"
+                                   placeholder="영문,숫자,특수문자 중 2가지 혼합 (영문,숫자 = 통과) (특문,숫자 = 통과) 10~20자리" maxlength="20"
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password-check"
+                                   placeholder="영문,숫자,특수문자 중 2가지 혼합 (영문,숫자 = 통과) (특문,숫자 = 통과) 10~20자리" maxlength="20"
+                                   required>
+                        </div>
+                        <button type="button" id="password-check-btn">비밀번호 확인</button>
+                        <input type="hidden" id="use-password" value="false">
+                        <br>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="name" placeholder="이름" maxlength="15" required>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <input type="tel" class="form-control" id="phone-number" placeholder="휴대폰번호" maxlength="15"
+                                   required>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="postcode" placeholder="우편번호" disabled required>
+                            <input type="text" class="form-control" id="address" placeholder="주소" disabled required>
+                            <input type="text" class="form-control" id="detailAddress" placeholder="상세주소" required>
+                            <input type="button" class="btn btn-primary" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="referrer-email" placeholder="추천인 이메일"
+                                   maxlength="30">
+                            <button type="button" id="referrer-exist-email">추천인 확인</button>
+                        </div>
+                        <br>
+
+
+                        <div class="form-group">
+                            <label>생년월일</label>
+                            <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker">
+                                <label for="birthDate"></label><input type="date" id="birthDate" class="form-control">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>성별</label><br/>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" value="M">남자
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" value="F">여자
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>개인정보보호 약관 안내</label><br/>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" name="inlineRadioOptions"
+                                       id="privacy-policy"
+                                       value="true" checked>
+                                <label class="form-check-label" for="privacy-policy">이용약관 동의</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="enable-signup" disabled>회원가입</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script>
+            function execDaumPostcode() {
+                new daum.Postcode({
+                    oncomplete: function (data) {
+                        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                        let addr = ''; // 주소 변수
+
+                        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                        if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                            addr = data.roadAddress;
+                        } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                            addr = data.jibunAddress;
+                        }
+
+                        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                        document.getElementById('postcode').value = data.zonecode;
+                        document.getElementById("address").value = addr;
+                        // 커서를 상세주소 필드로 이동한다.
+                        document.getElementById("detailAddress").focus();
+                    }
+                }).open();
+            }
+        </script>
+        <script>
+            let someInterval;
+            const regEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+            window.onload = function () {
+
+                document.getElementById("email-check-btn").addEventListener('click', async () => {
+                    const email = document.getElementById("email").value;
+                    const emailOk = document.getElementById("email-ok");
+                    const emailAlready = document.getElementById("email-already");
+                    let emailExist = document.getElementById("exist-email");
+                    let useEmail = document.getElementById("use-email");
+                    const emailCheckBtn = document.getElementById("email-check");
+                    let isEmailVerified = false;
+
+                    let sampleSocket = new WebSocket("https://localhost:5050/marketgg/use/email",["protocolOne","protocolTwo"]);
+                    sampleSocket.onopen = function () {
+                        sampleSocket.send(function sendUseEmailValue() {
+                            let requestData = {
+                                email: email,
+                                isReferrer: false
+                            };
+                            sampleSocket.send(JSON.stringify(requestData));
+                        })
+                    }
+
+                    sampleSocket.onmessage = function (event) {
+                        let response = JSON.parse(event.data);
+                        switch (response.type) {
+                            case "isUseEmail":
+                                useEmail.value = response.getValue(0);
+                                break;
+                        }
+                    }
+                    sampleSocket.close();
+                });
+
+                document.getElementById("password-check-btn").addEventListener('click', () => {
+                    const password = document.getElementById('password').value;
+                    const passwordCheck = document.getElementById("password-check").value;
+                    let usePassword = document.getElementById("use-password");
+
+                    const num = password.search(/[0-9]/g);
+                    const eng = password.search(/[a-z]/ig);
+                    const spe = password.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+                    if (password !== passwordCheck) {
+                        alert("암호가 일치하지 않습니다.")
+                    } else if (password.length < 10 || password.length > 20) {
+                        alert("10자리 ~ 20자리 이내로 입력 부탁드려요 ^_^77")
+                    } else if (password.search(/\s/) !== -1) {
+                        alert("비밀번호는 공백 없이 입력 부탁드려요 ^_^77")
+                    } else if ((num < 0 && eng < 0) || (eng < 0 && spe < 0) || (spe < 0 && num < 0)) {
+                        alert("영문,숫자,특수문자 중 2가지 이상을 혼합하여 입력 부탁드려요 ^_^77")
+                    } else {
+                        alert("사용 가능한 암호입니다.")
+                        usePassword.value = true;
+                        activeSignUpEvent();
+                    }
+                });
+
+                document.getElementById("referrer-exist-email").addEventListener('click', async () => {
+                    const referrerExistEmail = document.getElementById('referrer-email').value;
+
+                    if (referrerExistEmail.match(regEmail) !== null) {
+                        /* 입력된 데이터 Json 형식으로 변경 */
+                        let reqJson = {};
+                        reqJson.email = referrerExistEmail;
+                        reqJson.isReferrer = true;
+
+                        const res = await fetch("check/email", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json;charset=utf8"
+                            },
+                            body: JSON.stringify(reqJson),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data.existMail);
+                                // let existEmail = json.body.get("isExistEmail");
+                                // alert(existEmail);
+
+                            });
+
+                        console.groupEnd();
+
+                    }
+                })
+
+            };
+
+            function activeSignUpEvent() {
+                let enableSignUp = document.getElementById('enable-signup');
+
+                // true 면 버튼 비활성화, false 면 버튼 활성화
+                enableSignUp.disabled = !(document.getElementById('use-email').value
+                    && document.getElementById('use-password').value);
+            }
+
+            function formValidation() {
+                const email = document.getElementById("email").value;
+
+                if (document.getElementById("exist-email").value === true) {
+                    alert('메일중복확인을 해주세용.');
+                    email.focus();
+                    return false;
+                } else if (document.getElementById('use-email').value === false) {
+                    alert('도착한 메일함을 확인해주세용');
+                    email.focus();
+                    return false;
+                }
+
+                const password = document.getElementById("password").value;
+                const passwordCheck = document.getElementById("password-check").value;
+
+                if (document.getElementById('use-password').value === false) {
+                    alert('비밀번호 확인버튼을 눌러주세용.')
+                    passwordCheck.focus();
+                    return false;
+                }
+
+                const name = document.getElementById("name").value;
+                //const regName =
+
+                const regPhoneNumber = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+                const phoneNumber = document.getElementById("phone-number").value;
+
+                if (!(phoneNumber.match(regPhoneNumber))) {
+                    alert('올바른 휴대폰번호를 입력해주세요.')
+                    phoneNumber.focus();
+                    return false;
+                }
+
+                let gender = document.getElementsByName('gender').forEach((node) => {
+                    if (node.checked()) {
+                        gender = node.value;
+                    }
+                });
+
+                const privacyPolicy = document.getElementById('privacy-policy').value;
+
+                if (privacyPolicy.checked() === false) {
+                    alert('이용약관은 반드시 동의 해주셔야합니다.')
+                    privacyPolicy.focus();
+                    return false;
+                }
+            }
+
+        </script>
+    </body>
+</html>

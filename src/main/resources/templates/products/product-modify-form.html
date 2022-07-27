@@ -15,11 +15,13 @@
         <form th:action = "@{|/admin/v1/products/update/${product.id}|}" method="post" enctype="multipart/form-data">
 
             <input type="text" name="name" placeholder="상품 이름" th:value="${product.name}"> <br>
-            <input type="text" name="categoryCode" placeholder="카테고리 코드" th:value="${product.categoryCode}"> <br>
+            <div th:each="category : ${categories}" class="form-check form-check-inline">
+                <input type="checkbox" th:value="${category.categoryCode}" name="categoryCode" class="form-check-input">
+                <label th:text="${category.categoryName}" class="form-check-label">서울</label>
+            </div>
             <input type="text" name="content" placeholder="상품 설명" th:value="${product.content}"> <br>
             <input type="number" name="totalStock" placeholder="총 수량" th:value="${product.totalStock}"> <br>
             <input type="number" name="price" placeholder="가격" th:value="${product.price}"> <br>
-            <!-- <input type="text" name="description" placeholder="설명"> <br> -->
             <input type="text" name="unit" placeholder="판매 단위" th:value="${product.unit}"> <br>
             <input type="text" name="deliveryType" placeholder="배송 구분" th:value="${product.deliveryType}"> <br>
             <input type="text" name="origin" placeholder="원산지" th:value="${product.origin}"> <br>

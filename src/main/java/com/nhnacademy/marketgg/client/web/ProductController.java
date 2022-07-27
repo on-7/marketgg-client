@@ -2,7 +2,11 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.service.CategoryService;
+import com.nhnacademy.marketgg.client.service.LabelService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
@@ -28,6 +32,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
+    private final LabelService labelService;
+
     private final static String DEFAULT_PRODUCT_URI = "/admin/v1/products";
 
     /**
@@ -68,7 +75,15 @@ public class ProductController {
      */
     @GetMapping("/create")
     public ModelAndView createProduct() {
-        return new ModelAndView("products/product-create-form");
+        ModelAndView mav = new ModelAndView("products/product-form");
+
+        List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
+        mav.addObject("categories", categories);
+
+        List<LabelRetrieveResponse> labels = this.labelService.retrieveLabels();
+        mav.addObject("labels", labels);
+
+        return mav;
     }
 
     /**
@@ -143,7 +158,9 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("products/product-modify-form");
 
         ProductResponse product = this.productService.retrieveProductDetails(id);
+        List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
         mav.addObject("product", product);
+        mav.addObject("categories", categories);
         return mav;
     }
 
@@ -154,7 +171,7 @@ public class ProductController {
      *
      * @param image          - MultipartFile 타입입니다.
      * @param productRequest - 상품 수정을 위한 DTO 입니다.
-     * @param id      - 상품의 PK 입니다.
+     * @param id             - 상품의 PK 입니다.
      * @return - index 페이지를 리턴합니다.
      * @throws IOException
      * @since 1.0.0

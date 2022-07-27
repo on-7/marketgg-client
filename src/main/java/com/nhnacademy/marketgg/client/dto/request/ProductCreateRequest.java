@@ -17,6 +17,7 @@ import java.time.LocalDate;
 public class ProductCreateRequest {
 
     private final String categoryCode;
+    private final Long labelNo;
     private final String name;
     private final String content;
     private final Long totalStock;

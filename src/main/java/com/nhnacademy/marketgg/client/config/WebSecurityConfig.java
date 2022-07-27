@@ -47,10 +47,8 @@ public class WebSecurityConfig {
             .logout().disable();
 
         http.authorizeRequests()
-            // .antMatchers("/auth/**").permitAll()
             .antMatchers("/**").permitAll();
 
-        // TODO: 경로에 따른 접근 설정
         http.headers()
             .defaultsDisabled()
             .frameOptions().sameOrigin();
