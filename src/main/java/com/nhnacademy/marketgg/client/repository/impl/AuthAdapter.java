@@ -33,17 +33,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
- *
- * @version 1.0.0
- */
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
+ *
+ * @version 1.0.0
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -143,7 +143,7 @@ public class AuthAdapter implements AuthRepository {
         log.info("withdraw: start");
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<LocalDateTime> httpEntity = new HttpEntity<>(deletedAt, httpHeaders);
+        HttpEntity<MemberWithdrawRequest> httpEntity = new HttpEntity<>(memberWithdrawRequest, httpHeaders);
         ResponseEntity<Void> response = restTemplate.exchange(requestUrl + "/auth/info"
                 , HttpMethod.DELETE
                 , httpEntity
