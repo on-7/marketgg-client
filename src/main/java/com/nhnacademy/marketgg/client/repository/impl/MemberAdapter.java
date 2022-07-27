@@ -6,7 +6,11 @@ import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -71,7 +75,8 @@ public class MemberAdapter implements MemberRepository {
 
     @Override
     public void withdraw(final MemberWithdrawRequest deletedAt) {
-        HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(deletedAt, buildHeaders());
+
+        HttpEntity<LocalDateTime> response = new HttpEntity(deletedAt, buildHeaders());
         ResponseEntity<Void> exchange = restTemplate.exchange(gateWayIp + DEFAULT_MEMBER
                 , HttpMethod.DELETE
                 , response
