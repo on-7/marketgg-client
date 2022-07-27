@@ -27,15 +27,15 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
@@ -94,7 +94,7 @@ public class AuthAdapter implements AuthRepository {
         ResponseEntity<MemberSignupResponse> exchange =
             restTemplate.exchange(requestUrl + "/member/v1/members/signup", HttpMethod.POST,
                 httpEntity, MemberSignupResponse.class);
-        
+
         log.info("signup success: {}", exchange.getStatusCode());
 
         return Objects.requireNonNull(exchange.getBody());
@@ -137,7 +137,7 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<LocalDateTime> httpEntity = new HttpEntity<>(deletedAt, httpHeaders);
+        HttpEntity<MemberWithdrawRequest> httpEntity = new HttpEntity<>(memberWithdrawRequest, httpHeaders);
         ResponseEntity<Void> response =
             restTemplate.exchange(requestUrl + "/auth/info", HttpMethod.DELETE, httpEntity,
                 Void.class);
@@ -154,7 +154,7 @@ public class AuthAdapter implements AuthRepository {
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-HttpEntity<MemberUpdateToAuth> httpEntity =
+        HttpEntity<MemberUpdateToAuth> httpEntity =
             new HttpEntity<>(memberUpdateToAuth, httpHeaders);
         ResponseEntity<MemberUpdateToAuthResponse> response =
             restTemplate.exchange(requestUrl + "/auth/info", HttpMethod.PUT, httpEntity,
@@ -179,7 +179,7 @@ HttpEntity<MemberUpdateToAuth> httpEntity =
         Date expireDate = localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
 
         log.info("login success: {}", jwtInfo.getJwt());
-        
+
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
         redisTemplate.expireAt(sessionId, expireDate);
 
