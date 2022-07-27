@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.OK;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/marketgg")
+@RequestMapping("/marketgg/members")
 public class MemberAjaxController {
 
     private final MemberService memberService;
