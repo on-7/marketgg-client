@@ -61,7 +61,7 @@ public class ProductAdapter implements ProductRepository {
                 new ParameterizedTypeReference<>() {
                 });
 
-        return (List<ProductResponse>) response.getBody().getData();
+        return (List<ProductResponse>) response.getBody();
     }
 
     @Override
