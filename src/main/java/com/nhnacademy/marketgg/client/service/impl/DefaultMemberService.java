@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberSignupResponse;
@@ -47,9 +48,9 @@ public class DefaultMemberService implements MemberService {
 
     @Override
     public void withdraw(final String sessionId) {
-        LocalDateTime deletedAt = LocalDateTime.now();
-        authRepository.withdraw(deletedAt, sessionId);
-        memberRepository.withdraw(deletedAt);
+        MemberWithdrawRequest withdrawRequest = new MemberWithdrawRequest(LocalDateTime.now());
+        authRepository.withdraw(withdrawRequest, sessionId);
+        memberRepository.withdraw(withdrawRequest);
     }
 
     @Override
