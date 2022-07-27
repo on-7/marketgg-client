@@ -57,7 +57,7 @@ public class WebConfig {
      * @since 1.0.0
      */
     @Bean
-    public String gatewayIp(@Value("${marketgg.gateway-origin}") String ip) {
+    public String gatewayIp(@Value("${gg.gateway-origin}") String ip) {
         return ip;
     }
 
@@ -109,7 +109,7 @@ public class WebConfig {
         }
 
         SSLConnectionSocketFactory socketFactory
-                = new SSLConnectionSocketFactory(Optional.ofNullable(sslContext).orElseThrow());
+            = new SSLConnectionSocketFactory(Optional.ofNullable(sslContext).orElseThrow());
 
         return HttpClients.custom()
                           .setSSLSocketFactory(socketFactory)
@@ -120,8 +120,7 @@ public class WebConfig {
 
     @Bean
     HttpComponentsClientHttpRequestFactory requestFactory(final HttpClient httpClient) {
-        HttpComponentsClientHttpRequestFactory requestFactory =
-                new HttpComponentsClientHttpRequestFactory(httpClient);
+        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
 
         requestFactory.setReadTimeout(5_000);
         requestFactory.setConnectTimeout(3_000);
@@ -131,8 +130,7 @@ public class WebConfig {
     }
 
     @Bean(name = "clientCertificateAuthenticationRestTemplate")
-    public RestTemplate clientCertificationRestTemplate(
-            final HttpComponentsClientHttpRequestFactory requestFactory) {
+    public RestTemplate clientCertificationRestTemplate(final HttpComponentsClientHttpRequestFactory requestFactory) {
         return new RestTemplate(requestFactory);
     }
 

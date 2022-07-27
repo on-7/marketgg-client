@@ -41,7 +41,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 @RequiredArgsConstructor
 public class JwtAspect {
 
-    @Value("${marketgg.gateway-origin}")
+    @Value("${gg.gateway-origin}")
     private String gatewayOrigin;
 
     private final RedisTemplate<String, JwtInfo> redisTemplate;
