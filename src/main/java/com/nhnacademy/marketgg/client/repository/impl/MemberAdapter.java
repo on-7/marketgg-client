@@ -71,7 +71,7 @@ public class MemberAdapter implements MemberRepository {
 
     @Override
     public void withdraw(final MemberWithdrawRequest deletedAt) {
-        HttpEntity<LocalDateTime> response = new HttpEntity<>(deletedAt, buildHeaders());
+        HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(deletedAt, buildHeaders());
         ResponseEntity<Void> exchange = restTemplate.exchange(gateWayIp + DEFAULT_MEMBER
                 , HttpMethod.DELETE
                 , response

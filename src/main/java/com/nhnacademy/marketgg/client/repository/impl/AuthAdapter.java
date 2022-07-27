@@ -33,17 +33,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
- *
- * @version 1.0.0
- */
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
+ *
+ * @version 1.0.0
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
