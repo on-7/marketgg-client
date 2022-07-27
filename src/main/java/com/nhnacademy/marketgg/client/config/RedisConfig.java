@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.exception.SecureManagerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +30,9 @@ public class RedisConfig {
     private final int database;
     private final String password;
 
-    public RedisConfig(RestTemplate restTemplate,
-                       @Value("${redis.password-url}") String redisPasswordUrl,
-                       @Value("${redis.url}") String redisInfoUrl) {
+    public RedisConfig(@Qualifier("clientCertificateAuthenticationRestTemplate") RestTemplate restTemplate,
+                       @Value("${gg.redis.password-url}") String redisPasswordUrl,
+                       @Value("${gg.redis.url}") String redisInfoUrl) {
         this.restTemplate = restTemplate;
         String[] info = this.getRedisInfo(redisInfoUrl);
         this.host = info[0];

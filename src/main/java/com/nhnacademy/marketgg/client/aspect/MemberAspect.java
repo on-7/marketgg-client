@@ -37,7 +37,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class MemberAspect {
 
-    @Value("${marketgg.gateway-origin}")
+    @Value("${gg.gateway-origin}")
     private String gatewayOrigin;
 
     private final RedisTemplate<String, JwtInfo> redisTemplate;

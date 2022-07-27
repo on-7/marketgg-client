@@ -5,12 +5,5 @@ spring:
   application:
     name: marketgg-client
 
-#  profiles:
-#    include: oauth2, db
-
-marketgg:
-  gateway-origin: http://localhost:6060
-
-redis:
-  url: https://api-keymanager.cloud.toast.com/keymanager/v1.0/appkey/mcXcTmrnbRezlila/secrets/ae33d69450f841cfa1d5cce5250746f4
-  password-url: https://api-keymanager.cloud.toast.com/keymanager/v1.0/appkey/mcXcTmrnbRezlila/secrets/42c84798d4784e83be3c568a75809829
+  config:
+    import: "optional:configserver:http://133.186.209.70:8888"
