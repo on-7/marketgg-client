@@ -1,16 +1,5 @@
 package com.nhnacademy.marketgg.client.config;
 
-import java.security.KeyStore;
-import java.time.Duration;
-import javax.net.ssl.SSLContext;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.filter.HiddenHttpMethodFilter;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.security.GeneralSecurityException;
@@ -33,6 +22,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 /**
  * Web Configuration 을 설정할 수 있습니다.
@@ -53,9 +44,9 @@ public class WebConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder
-            .setReadTimeout(Duration.ofSeconds(10L))
-            .setConnectTimeout(Duration.ofSeconds(5L))
-            .build();
+                .setReadTimeout(Duration.ofSeconds(10L))
+                .setConnectTimeout(Duration.ofSeconds(5L))
+                .build();
     }
 
     /**
@@ -129,7 +120,8 @@ public class WebConfig {
 
     @Bean
     HttpComponentsClientHttpRequestFactory requestFactory(final HttpClient httpClient) {
-        HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
+        HttpComponentsClientHttpRequestFactory requestFactory =
+                new HttpComponentsClientHttpRequestFactory(httpClient);
 
         requestFactory.setReadTimeout(5_000);
         requestFactory.setConnectTimeout(3_000);
@@ -139,7 +131,8 @@ public class WebConfig {
     }
 
     @Bean(name = "clientCertificateAuthenticationRestTemplate")
-    public RestTemplate clientCertificationRestTemplate(final HttpComponentsClientHttpRequestFactory requestFactory) {
+    public RestTemplate clientCertificationRestTemplate(
+            final HttpComponentsClientHttpRequestFactory requestFactory) {
         return new RestTemplate(requestFactory);
     }
 

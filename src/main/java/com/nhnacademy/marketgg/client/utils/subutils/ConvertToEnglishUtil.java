@@ -27,31 +27,31 @@ public class ConvertToEnglishUtil {
      * @since 1.0.0
      */
     public ConvertToEnglishUtil() {
-        this.arrChoSungEng = new String[]{ "r", "R", "s", "e", "E",
+        this.arrChoSungEng = new String[] { "r", "R", "s", "e", "E",
                 "f", "a", "q", "Q", "t", "T", "d", "w",
                 "W", "c", "z", "x", "v", "g" };
 
-        this.arrJungSungEng = new String[]{ "k", "o", "i", "O",
+        this.arrJungSungEng = new String[] { "k", "o", "i", "O",
                 "j", "p", "u", "P", "h", "hk", "ho", "hl",
                 "y", "n", "nj", "np", "nl", "b", "m", "ml",
                 "l" };
 
-        this.arrJongSungEng = new String[]{ "", "r", "R", "rt",
+        this.arrJongSungEng = new String[] { "", "r", "R", "rt",
                 "s", "sw", "sg", "e", "f", "fr", "fa", "fq",
                 "ft", "fx", "fv", "fg", "a", "q", "qt", "t",
                 "T", "d", "w", "c", "z", "x", "v", "g" };
 
-        this.arrSingleJaumEng = new String[]{"r", "R", "rt",
+        this.arrSingleJaumEng = new String[] { "r", "R", "rt",
                 "s", "sw", "sg", "e", "E", "f", "fr", "fa", "fq",
                 "ft", "fx", "fv", "fg", "a", "q", "Q", "qt", "t",
-                "T", "d", "w", "W", "c", "z", "x", "v", "g"};
+                "T", "d", "w", "W", "c", "z", "x", "v", "g" };
     }
 
     /**
      * 자음과 모음이 합쳐진 글자를 분리 후 알파벳으로 변환합니다.
      *
      * @param resultEng - 변환 될 영어를 담아 둘 문자열입니다.
-     * @param chars - 자음과 모음이 합쳐진 글자입니다.
+     * @param chars     - 자음과 모음이 합쳐진 글자입니다.
      * @since 1.0.0
      */
     public void combineWord(final StringBuilder resultEng, final Character chars) {

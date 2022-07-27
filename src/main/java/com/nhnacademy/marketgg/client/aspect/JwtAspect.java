@@ -69,8 +69,8 @@ public class JwtAspect {
         HttpEntity<Void> httpEntity = new HttpEntity<>(null, headers);
 
         ResponseEntity<Void> response
-            = restTemplate.exchange(gatewayOrigin + "/auth/refresh", HttpMethod.GET, httpEntity,
-            Void.class);
+                = restTemplate.exchange(gatewayOrigin + "/auth/refresh", HttpMethod.GET, httpEntity,
+                                        Void.class);
 
         if (this.isValid(response)) {
             log.info("Token Refresh");
@@ -105,7 +105,7 @@ public class JwtAspect {
         }
 
         if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
-            || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
+                || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
             log.info("Empty header");
             return false;
         }
@@ -151,8 +151,8 @@ public class JwtAspect {
 
     private HttpServletRequest getHttpRequest() {
         ServletRequestAttributes requestAttributes =
-            Objects.requireNonNull(
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+                Objects.requireNonNull(
+                        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
 
         return requestAttributes.getRequest();
     }

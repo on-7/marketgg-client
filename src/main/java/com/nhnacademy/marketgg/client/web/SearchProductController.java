@@ -50,7 +50,8 @@ public class SearchProductController {
         ModelAndView mav = new ModelAndView(SEARCH_RESULT);
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
-        List<SearchProductResponse> response = searchProductService.searchForCategory(categoryCode, request);
+        List<SearchProductResponse> response =
+                searchProductService.searchForCategory(categoryCode, request);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
