@@ -36,7 +36,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 @Slf4j
 @Aspect
-@Order(1)
+@Order(-1)
 @Component
 @RequiredArgsConstructor
 public class JwtAspect {
@@ -168,14 +168,6 @@ public class JwtAspect {
         }
 
         return cookie;
-    }
-
-    private HttpServletRequest getHttpRequest() {
-        ServletRequestAttributes requestAttributes =
-                Objects.requireNonNull(
-                        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-
-        return requestAttributes.getRequest();
     }
 
 }
