@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToAuth;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberSignupResponse;
@@ -32,8 +33,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-
 /**
  * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
  *
@@ -44,8 +43,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component
@@ -142,7 +139,7 @@ public class AuthAdapter implements AuthRepository {
     }
 
     @Override
-    public void withdraw(final LocalDateTime deletedAt, final String sessionId) {
+    public void withdraw(final MemberWithdrawRequest memberWithdrawRequest, final String sessionId) {
         log.info("withdraw: start");
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
