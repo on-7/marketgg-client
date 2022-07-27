@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.repository;
 
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
+import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 
 import java.time.LocalDateTime;
@@ -44,7 +45,7 @@ public interface MemberRepository {
      */
     void signup(final MemberSignupToShopMember signupRequestToShopMember);
 
-    void withdraw(final LocalDateTime deletedAt);
+    void withdraw(final MemberWithdrawRequest deletedAt);
 
     void update(final MemberUpdateToAuthResponse memberUpdateToAuthResponse, final String sessionId);
 }
