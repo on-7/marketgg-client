@@ -1,9 +1,12 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.Alert;
+import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -24,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class MemberController {
 
     private final MemberService memberService;
+    private final GivenCouponService givenCouponService;
 
     private static final String DEFAULT_MEMBER = "/shop/v1/members";
 
@@ -76,6 +80,16 @@ public class MemberController {
         memberService.withdrawPass(memberId);
 
         return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
+    }
+
+    @GetMapping("/{memberId}/coupons")
+    public ModelAndView retrieveOwnCoupons(@PathVariable final Long memberId) {
+        List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(memberId);
+
+        ModelAndView mav = new ModelAndView("/mygg/coupons/index");
+        mav.addObject("coupons", responses);
+
+        return mav;
     }
 
 }
