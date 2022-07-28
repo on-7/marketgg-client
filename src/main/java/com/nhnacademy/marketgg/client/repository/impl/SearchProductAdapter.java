@@ -44,7 +44,6 @@ public class SearchProductAdapter implements SearchProductRepository {
 
         Map<String, String> sort = this.buildProductSort(type);
         request.setRequest(request.getRequest() + " " + converter.converter(request.getRequest()));
-
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
                         new SearchProductForCategory<>(code, sort, request)), this.buildHeaders());
@@ -58,7 +57,6 @@ public class SearchProductAdapter implements SearchProductRepository {
             throws ParseException, JsonProcessingException {
 
         Map<String, String> sort = this.buildProductSort(type);
-
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
                         new SearchProduct<>(sort, request)), this.buildHeaders());
@@ -73,6 +71,7 @@ public class SearchProductAdapter implements SearchProductRepository {
             sortMap.put("price", type);
         }
         sortMap.put("_id", "asc");
+
         return sortMap;
     }
 
