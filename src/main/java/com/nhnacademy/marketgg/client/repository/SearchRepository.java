@@ -44,10 +44,12 @@ public interface SearchRepository {
                                                          final String priceSortType)
             throws JsonProcessingException, ParseException;
 
+
     List<SearchBoardResponse> searchBoardWithOption(final String optionCode,
                                                     final SearchRequest request,
                                                     final String option)
             throws JsonProcessingException, ParseException;
+
 
     List<SearchBoardResponse> searchBoardWithKeyword(final SearchRequest request)
             throws JsonProcessingException, ParseException;

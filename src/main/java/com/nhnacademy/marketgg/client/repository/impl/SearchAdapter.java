@@ -81,7 +81,7 @@ public class SearchAdapter implements SearchRepository {
         Map<String, String> sort = this.buildSort(null);
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
-                        new SearchRequestBodyForBool<>(optionCode, sort, request, BOARD + option)),
+                        new SearchRequestBodyForBool<>(optionCode, sort, request, option)),
                                  this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity, BOARD).getBody());

@@ -17,7 +17,7 @@ public interface SearchService {
     /**
      * 지정한 카테고리에서 상품에 대한 검색 후 반환하거나 지정한 타입으로 가격을 정렬후 반환 할수있는 메소드입니다.
      *
-     * @param optionCode          - 지정한 카테고리의 식별번호입니다.
+     * @param optionCode    - 지정한 카테고리의 식별번호입니다.
      * @param request       - 검색을 진행 할 조건을 담은 객체입니다.
      * @param priceSortType - 가격의 정렬 타입입니다. (asc, desc)
      * @return 지정한 카테고리 내의 검색어를 통한 검색 결과 목록을 반환합니다.
