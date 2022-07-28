@@ -29,7 +29,7 @@ public class CouponAdapter implements CouponRepository {
 
     private final ObjectMapper objectMapper;
 
-    private static final String DEFAULT_COUPON = "/shop/v1/admin/coupons";
+    private static final String DEFAULT_COUPON = "/admin/coupons";
 
     @Override
     public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException {
