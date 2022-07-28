@@ -34,7 +34,7 @@ public class SearchProductAdapter implements SearchProductRepository {
     private final ObjectMapper objectMapper;
     private final String gatewayIp;
     private final KoreanToEnglishTranslator converter;
-    private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";
+    private static final String DEFAULT_ELASTIC_PRODUCT = "/elastic/products/_search";
 
     @Override
     public List<SearchProductResponse> searchProductForCategory(final String code,
