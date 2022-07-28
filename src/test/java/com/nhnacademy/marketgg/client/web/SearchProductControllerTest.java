@@ -55,7 +55,7 @@ class SearchProductControllerTest {
     @DisplayName("카테고리 목록에서 검색")
     void testSearchForCategory() throws Exception {
         given(searchProductService.searchForCategory(anyString(),
-                                                     any(SearchRequest.class))).willReturn(
+                                                     any(SearchRequest.class), any())).willReturn(
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
@@ -75,7 +75,7 @@ class SearchProductControllerTest {
     @Test
     @DisplayName("전체 목록에서 검색")
     void testSearchForKeyword() throws Exception {
-        given(searchProductService.searchForKeyword(any(SearchRequest.class))).willReturn(
+        given(searchProductService.searchForKeyword(any(SearchRequest.class), any())).willReturn(
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
@@ -95,8 +95,8 @@ class SearchProductControllerTest {
     @Test
     @DisplayName("카테고리 내 검색 중 가격 필터 적용 검색")
     void testSearchForCategorySortPrice() throws Exception {
-        given(searchProductService.searchForCategorySortPrice(anyString(), any(SearchRequest.class),
-                                                              anyString())).willReturn(
+        given(searchProductService.searchForCategory(anyString(), any(SearchRequest.class),
+                                                     anyString())).willReturn(
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
@@ -118,8 +118,8 @@ class SearchProductControllerTest {
     @Test
     @DisplayName("전체 목록 검색 중 가격 필터 적용 검색")
     void testSearchForKeywordSortPrice() throws Exception {
-        given(searchProductService.searchForKeywordSortPrice(any(SearchRequest.class),
-                                                             anyString())).willReturn(
+        given(searchProductService.searchForKeyword(any(SearchRequest.class),
+                                                    anyString())).willReturn(
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =

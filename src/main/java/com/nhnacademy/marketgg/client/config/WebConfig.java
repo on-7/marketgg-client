@@ -56,11 +56,11 @@ public class WebConfig {
      * @return GATEWAY 의 IP 와 PORT 번호를 반환합니다.
      * @since 1.0.0
      */
+
     @Bean
     public String gatewayIp(@Value("${gg.gateway-origin}") String ip) {
         return ip;
     }
-
     /**
      * Html 의 Form 태그를 Get, Post 맵핑 이외릐 메소드로 ACTION 할 수 있게 해줍니다.
      *

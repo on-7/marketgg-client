@@ -51,7 +51,7 @@ public class SearchProductController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchProductResponse> response =
-                searchProductService.searchForCategory(categoryCode, request);
+                searchProductService.searchForCategory(categoryCode, request, null);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
@@ -79,7 +79,7 @@ public class SearchProductController {
         ModelAndView mav = new ModelAndView(SEARCH_RESULT);
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
-        List<SearchProductResponse> response = searchProductService.searchForKeyword(request);
+        List<SearchProductResponse> response = searchProductService.searchForKeyword(request, null);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
@@ -111,7 +111,7 @@ public class SearchProductController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchProductResponse> response =
-                searchProductService.searchForCategorySortPrice(categoryCode, request, type);
+                searchProductService.searchForCategory(categoryCode, request, type);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
@@ -141,7 +141,7 @@ public class SearchProductController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchProductResponse> response =
-                searchProductService.searchForKeywordSortPrice(request, type);
+                searchProductService.searchForKeyword(request, type);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);

@@ -1,7 +1,8 @@
 package com.nhnacademy.marketgg.client.dto.elastic.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.domain.PageRequest;
 
 /**
@@ -9,8 +10,9 @@ import org.springframework.data.domain.PageRequest;
  *
  * @version 1.0.0
  */
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
+@Setter
 public class SearchRequest {
 
     /**
@@ -18,13 +20,13 @@ public class SearchRequest {
      *
      * @since 1.0.0
      */
-    private final String request;
+    private String request;
 
     /**
      * 반환 할 페이지 정보입니다.
      *
      * @since 1.0.0
      */
-    private final PageRequest pageRequest;
+    private PageRequest pageRequest;
 
 }
