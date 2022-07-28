@@ -14,10 +14,15 @@
                     <th>종류</th>
                     <th>유효기간</th>
                     <th>상태</th>
+                    <th>할인가</th>
                 </tr>
                 <tr th:each="coupon : ${coupons}">
                     <td th:text="${coupon.couponId}"></td>
-                    <td th:text="${coupon.}"></td>
+                    <td th:text="${coupon.name}"></td>
+                    <td th:text="${coupon.type}"></td>
+                    <td th:text="${#temporals.format(coupon.expiredDate, 'yyyy/MM/dd')}"></td>
+                    <td th:text="${coupon.state}"></td>
+                    <td th:text="${coupon.discountAmount}"></td>
                 </tr>
             </table>
         </div>

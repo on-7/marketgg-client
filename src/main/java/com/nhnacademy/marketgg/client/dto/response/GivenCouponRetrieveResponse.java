@@ -21,7 +21,7 @@ public class GivenCouponRetrieveResponse {
 
     private Double discountAmount;
 
-    private LocalDateTime expirationPeriod;
+    private LocalDateTime expiredDate;
 
     private String state;
 
