@@ -17,9 +17,12 @@ import lombok.Getter;
 public class SearchRequestBodyForBool<T> {
 
     private static final List<String> CATEGORY_FIELD = List.of("categoryCode");
-    private static final List<String> DEFAULT_FIELD =
+    private static final List<String> DEFAULT_PRODUCT_FIELD =
             List.of("productName", "productName.forSyno", "content", "content.forSyno",
                     "description", "description.forSyno");
+
+    private static final List<String> DEFAULT_BOARD_FIELD =
+            List.of("title", "title.forSyno");
 
     /**
      * 검색 결과 목록의 정렬 기준을 지정합니다.
@@ -49,13 +52,23 @@ public class SearchRequestBodyForBool<T> {
      */
     private final BoolQuery query;
 
-    public SearchRequestBodyForBool(String code, T sortMap, SearchRequest request) {
+    public SearchRequestBodyForBool(final String code, final T sortMap, final SearchRequest request,
+                                    final String option) {
+
         this.sort = Collections.singletonList(sortMap);
         this.from = request.getPageRequest().getPageNumber();
         this.size = request.getPageRequest().getPageSize();
-        this.query = new BoolQuery(new Bool(new Must(List.of(new MultiMatch(code, CATEGORY_FIELD),
-                                                             new MultiMatch(request.getRequest(),
-                                                                            DEFAULT_FIELD)))));
+        if (option.contains("product")) {
+            this.query =
+                    new BoolQuery(new Bool(
+                            new Must(List.of(new MultiMatch(code, List.of(option.split("t")[1])),
+                                             new MultiMatch(request.getRequest(),
+                                                            DEFAULT_PRODUCT_FIELD)))));
+        } else {
+            this.query =
+                    new BoolQuery(new Bool(new Must(List.of(new MultiMatch(code, List.of(option)),
+                                                            new MultiMatch(request.getRequest(),
+                                                                           DEFAULT_BOARD_FIELD)))));
+        }
     }
-
 }

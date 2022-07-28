@@ -1,10 +1,12 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequestBody;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequestBodyForBool;
+import com.nhnacademy.marketgg.client.dto.elastic.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.SearchRepository;
 import com.nhnacademy.marketgg.client.utils.KoreanToEnglishTranslator;
@@ -34,8 +36,14 @@ public class SearchAdapter implements SearchRepository {
     private final ObjectMapper objectMapper;
     private final String gatewayIp;
     private final KoreanToEnglishTranslator converter;
+    private final JSONParser jsonParser;
     private static final String DEFAULT_ELASTIC_PRODUCT = "/elastic/products/_search";
     private static final String DEFAULT_ELASTIC_BOARD = "/elastic/boards/_search";
+    private static final String PRODUCT = "product";
+    private static final String BOARD = "board";
+    private static final String CATEGORY = "category";
+    private static final String REASON = "reason";
+    private static final String STATUS = "status";
 
     @Override
     public List<SearchProductResponse> searchProductForCategory(final String code,
@@ -43,13 +51,14 @@ public class SearchAdapter implements SearchRepository {
                                                                 final String type)
             throws ParseException, JsonProcessingException {
 
-        Map<String, String> sort = this.buildProductSort(type);
+        Map<String, String> sort = this.buildSort(type);
         request.setRequest(request.getRequest() + " " + converter.converter(request.getRequest()));
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
-                        new SearchRequestBodyForBool<>(code, sort, request)), this.buildHeaders());
+                        new SearchRequestBodyForBool<>(code, sort, request, PRODUCT + CATEGORY)),
+                                 this.buildHeaders());
 
-        return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
+        return this.parsingResponseBody(this.doRequest(requestEntity, PRODUCT).getBody());
     }
 
     @Override
@@ -57,16 +66,65 @@ public class SearchAdapter implements SearchRepository {
                                                                 final String type)
             throws ParseException, JsonProcessingException {
 
-        Map<String, String> sort = this.buildProductSort(type);
+        Map<String, String> sort = this.buildSort(type);
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
-                        new SearchRequestBody<>(sort, request)), this.buildHeaders());
+                        new SearchRequestBody<>(sort, request, PRODUCT)), this.buildHeaders());
 
-        return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
+        return this.parsingResponseBody(this.doRequest(requestEntity, PRODUCT).getBody());
     }
 
-    private Map<String, String> buildProductSort(String type) {
+    @Override
+    public List<SearchBoardResponse> searchBoardWithCategory(final String code,
+                                                             final SearchRequest request)
+            throws JsonProcessingException, ParseException {
+
+        return getSearchBoardResponses(code, request, CATEGORY);
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchBoardWithKeyword(final SearchRequest request)
+            throws JsonProcessingException, ParseException {
+
+        Map<String, String> sort = this.buildSort(null);
+        HttpEntity<String> requestEntity =
+                new HttpEntity<>(objectMapper.writeValueAsString(
+                        new SearchRequestBody<>(sort, request, BOARD)), this.buildHeaders());
+
+        return this.parsingResponseBody(this.doRequest(requestEntity, BOARD).getBody());
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchBoardWithReason(final String reason,
+                                                           final SearchRequest request)
+            throws JsonProcessingException, ParseException {
+
+        return getSearchBoardResponses(reason, request, REASON);
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchBoardWithStatus(final String status,
+                                                           final SearchRequest request)
+            throws JsonProcessingException, ParseException {
+
+        return getSearchBoardResponses(status, request, STATUS);
+    }
+
+    private List<SearchBoardResponse> getSearchBoardResponses(final String status, final SearchRequest request,
+                                                              final String option)
+            throws JsonProcessingException, ParseException {
+        Map<String, String> sort = this.buildSort(null);
+        HttpEntity<String> requestEntity =
+                new HttpEntity<>(objectMapper.writeValueAsString(
+                        new SearchRequestBodyForBool<>(status, sort, request, BOARD + option)),
+                                 this.buildHeaders());
+
+        return this.parsingResponseBody(this.doRequest(requestEntity, BOARD).getBody());
+    }
+
+    private Map<String, String> buildSort(final String type) {
         Map<String, String> sortMap = new LinkedHashMap<>();
+
         sortMap.put("_score", "desc");
         if (Objects.nonNull(type)) {
             sortMap.put("price", type);
@@ -76,28 +134,30 @@ public class SearchAdapter implements SearchRepository {
         return sortMap;
     }
 
-    private ResponseEntity<String> doRequest(final HttpEntity<String> request) {
-        return restTemplate.exchange(gatewayIp + DEFAULT_ELASTIC_PRODUCT,
+    private ResponseEntity<String> doRequest(final HttpEntity<String> request,
+                                             final String document) {
+        String requestUri = DEFAULT_ELASTIC_PRODUCT;
+        if (document.compareTo(PRODUCT) != 0) {
+            requestUri = DEFAULT_ELASTIC_BOARD;
+        }
+        return restTemplate.exchange(gatewayIp + requestUri,
                                      HttpMethod.POST,
                                      request,
                                      String.class);
     }
 
-    private List<SearchProductResponse> parsingResponseBody(final String response)
+    private <T> List<T> parsingResponseBody(final String response)
             throws ParseException, JsonProcessingException {
 
-        JSONParser jsonParser = new JSONParser();
-        List<SearchProductResponse> list = new ArrayList<>();
-
+        List<T> list = new ArrayList<>();
         JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
         JSONObject hits = (JSONObject) jsonObject.get("hits");
         JSONArray hitBody = (JSONArray) hits.get("hits");
-
         for (Object data : hitBody) {
             JSONObject source = (JSONObject) data;
             JSONObject body = (JSONObject) source.get("_source");
-            list.add(objectMapper.readValue(body.toJSONString(),
-                                            SearchProductResponse.class));
+            list.add(objectMapper.readValue(body.toJSONString(), new TypeReference<>() {
+            }));
         }
 
         return list;

@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.elastic.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
 import java.util.List;
 import org.json.simple.parser.ParseException;
@@ -40,6 +41,17 @@ public interface SearchRepository {
      */
     List<SearchProductResponse> searchProductWithKeyword(final SearchRequest request, final String type)
             throws JsonProcessingException, ParseException;
-    
+
+    List<SearchBoardResponse> searchBoardWithCategory(final String code, final SearchRequest request)
+        throws JsonProcessingException, ParseException;
+
+    List<SearchBoardResponse> searchBoardWithKeyword(final SearchRequest request)
+            throws JsonProcessingException, ParseException;
+
+    List<SearchBoardResponse> searchBoardWithReason(final String reason, final SearchRequest request)
+            throws JsonProcessingException, ParseException;
+
+    List<SearchBoardResponse> searchBoardWithStatus(final String status, final SearchRequest request)
+            throws JsonProcessingException, ParseException;
 
 }
