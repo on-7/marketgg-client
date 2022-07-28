@@ -1,6 +1,31 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
+import com.nhnacademy.marketgg.client.service.GivenCouponService;
+import com.nhnacademy.marketgg.client.service.MemberService;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.ui.Model;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -10,16 +35,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.nhnacademy.marketgg.client.service.MemberService;
-import java.time.LocalDateTime;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc;
-
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(MemberController.class)
 class MemberControllerTest {
@@ -27,8 +42,14 @@ class MemberControllerTest {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @MockBean
     MemberService memberService;
+
+    @MockBean
+    GivenCouponService givenCouponService;
 
     @Test
     @DisplayName("GG 패스 메인 페이지")
@@ -73,6 +94,39 @@ class MemberControllerTest {
                .andExpect(status().is3xxRedirection());
 
         verify(memberService, times(1)).withdrawPass(anyLong());
+    }
+
+    @Test
+    @DisplayName("회원의 쿠폰 등록")
+    void testRegisterCoupon() throws Exception {
+        GivenCouponCreateRequest givenCouponRequest = new GivenCouponCreateRequest("couponName");
+
+        String content = objectMapper.writeValueAsString(givenCouponRequest);
+
+        willDoNothing().given(givenCouponService).registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
+
+        mockMvc.perform(post("/shop/v1/members/{memberId}/coupons", 1L)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(content))
+               .andExpect(status().is3xxRedirection());
+
+        then(givenCouponService).should().registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
+    }
+
+    @Test
+    @DisplayName("회원 보유 쿠폰 목록 조회")
+    void testRetrieveOwnCoupons() throws Exception {
+        given(givenCouponService.retrieveOwnGivenCoupons(anyLong())).willReturn(List.of());
+
+        MvcResult mvcResult = mockMvc.perform(get("/shop/v1/members/{memberId}/coupons", 1L))
+                                     .andExpect(status().isOk())
+                                     .andExpect(view().name("/mygg/coupons/index"))
+                                     .andReturn();
+        Map<String, Object> resultModel = Objects.requireNonNull(mvcResult.getModelAndView()).getModel();
+
+        then(givenCouponService).should().retrieveOwnGivenCoupons(anyLong());
+        assertThat(resultModel.get("coupons")).isInstanceOf(List.class);
+        assertThat(resultModel.get("memberId")).isInstanceOf(Long.class);
     }
 
 }
