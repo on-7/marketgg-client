@@ -2,12 +2,9 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.repository.CategoryRepository;
-import java.util.List;
+import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
+import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.repository.CouponRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -19,24 +16,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.List;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class CategoryAdapter implements CategoryRepository {
+public class CouponAdapter implements CouponRepository {
 
     private final String gateWayIp;
+
     private final RestTemplate restTemplate;
+
     private final ObjectMapper objectMapper;
 
-    private static final String DEFAULT_CATEGORY = "/shop/v1/admin/categories";
+    private static final String DEFAULT_COUPON = "/admin/coupons";
 
     @Override
-    public void createCategory(final CategoryCreateRequest categoryRequest)
-            throws JsonProcessingException {
-        String request = objectMapper.writeValueAsString(categoryRequest);
+    public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException {
+        String request = objectMapper.writeValueAsString(couponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY,
+        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
                                                               HttpMethod.POST,
                                                               requestEntity,
                                                               Void.class);
@@ -45,22 +45,10 @@ public class CategoryAdapter implements CategoryRepository {
     }
 
     @Override
-    public CategoryRetrieveResponse retrieveCategory(String id) {
+    public CouponRetrieveResponse retrieveCoupon(Long couponId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<CategoryRetrieveResponse>
-                response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
-                                                 HttpMethod.GET, requestEntity,
-                                                 CategoryRetrieveResponse.class);
-
-        this.checkResponseUri(response);
-        return response.getBody();
-    }
-
-    @Override
-    public List<CategoryRetrieveResponse> retrieveCategories() {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<CategoryRetrieveResponse>>
-                response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY,
+        ResponseEntity<CouponRetrieveResponse>
+                response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
                                                  HttpMethod.GET, requestEntity,
                                                  new ParameterizedTypeReference<>() {
                                                  });
@@ -70,10 +58,10 @@ public class CategoryAdapter implements CategoryRepository {
     }
 
     @Override
-    public List<CategorizationRetrieveResponse> retrieveCategorizations() {
+    public List<CouponRetrieveResponse> retrieveCoupons() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<CategorizationRetrieveResponse>>
-                response = restTemplate.exchange(gateWayIp + "/shop/v1/admin/categorizations",
+        ResponseEntity<List<CouponRetrieveResponse>>
+                response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
                                                  HttpMethod.GET, requestEntity,
                                                  new ParameterizedTypeReference<>() {
                                                  });
@@ -83,26 +71,23 @@ public class CategoryAdapter implements CategoryRepository {
     }
 
     @Override
-    public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
-            throws JsonProcessingException {
-
-        String request = objectMapper.writeValueAsString(categoryRequest);
+    public void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException {
+        String request = objectMapper.writeValueAsString(couponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
-                                      HttpMethod.PUT,
-                                      requestEntity,
-                                      Void.class);
+        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+                                                              HttpMethod.PUT,
+                                                              requestEntity,
+                                                              Void.class);
 
         this.checkResponseUri(response);
     }
 
     @Override
-    public void deleteCategory(final String id) {
+    public void deleteCoupon(Long couponId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
+                restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
                                       HttpMethod.DELETE,
                                       requestEntity,
                                       Void.class);
