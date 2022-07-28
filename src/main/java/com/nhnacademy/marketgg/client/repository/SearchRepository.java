@@ -42,16 +42,11 @@ public interface SearchRepository {
     List<SearchProductResponse> searchProductWithKeyword(final SearchRequest request, final String type)
             throws JsonProcessingException, ParseException;
 
-    List<SearchBoardResponse> searchBoardWithCategory(final String code, final SearchRequest request)
-        throws JsonProcessingException, ParseException;
-
     List<SearchBoardResponse> searchBoardWithKeyword(final SearchRequest request)
             throws JsonProcessingException, ParseException;
 
-    List<SearchBoardResponse> searchBoardWithReason(final String reason, final SearchRequest request)
-            throws JsonProcessingException, ParseException;
-
-    List<SearchBoardResponse> searchBoardWithStatus(final String status, final SearchRequest request)
+    List<SearchBoardResponse> getSearchBoardResponses(final String status, final SearchRequest request,
+                                                              final String option)
             throws JsonProcessingException, ParseException;
 
 }

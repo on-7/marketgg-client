@@ -42,8 +42,6 @@ public class SearchAdapter implements SearchRepository {
     private static final String PRODUCT = "product";
     private static final String BOARD = "board";
     private static final String CATEGORY = "category";
-    private static final String REASON = "reason";
-    private static final String STATUS = "status";
 
     @Override
     public List<SearchProductResponse> searchProductForCategory(final String code,
@@ -75,14 +73,6 @@ public class SearchAdapter implements SearchRepository {
     }
 
     @Override
-    public List<SearchBoardResponse> searchBoardWithCategory(final String code,
-                                                             final SearchRequest request)
-            throws JsonProcessingException, ParseException {
-
-        return getSearchBoardResponses(code, request, CATEGORY);
-    }
-
-    @Override
     public List<SearchBoardResponse> searchBoardWithKeyword(final SearchRequest request)
             throws JsonProcessingException, ParseException {
 
@@ -95,24 +85,10 @@ public class SearchAdapter implements SearchRepository {
     }
 
     @Override
-    public List<SearchBoardResponse> searchBoardWithReason(final String reason,
-                                                           final SearchRequest request)
-            throws JsonProcessingException, ParseException {
-
-        return getSearchBoardResponses(reason, request, REASON);
-    }
-
-    @Override
-    public List<SearchBoardResponse> searchBoardWithStatus(final String status,
-                                                           final SearchRequest request)
-            throws JsonProcessingException, ParseException {
-
-        return getSearchBoardResponses(status, request, STATUS);
-    }
-
-    private List<SearchBoardResponse> getSearchBoardResponses(final String status, final SearchRequest request,
+    public List<SearchBoardResponse> getSearchBoardResponses(final String status, final SearchRequest request,
                                                               final String option)
             throws JsonProcessingException, ParseException {
+
         Map<String, String> sort = this.buildSort(null);
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
