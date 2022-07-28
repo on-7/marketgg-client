@@ -12,13 +12,13 @@ public class SearchBoardResponse {
 
     private Long id;
 
-    private String title;
-
     private String categoryCode;
 
-    private String status;
+    private String title;
 
     private String reason;
+
+    private String status;
 
     private LocalDateTime createdAt;
 

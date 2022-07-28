@@ -65,6 +65,7 @@ public class SearchAdapter implements SearchRepository {
             throws ParseException, JsonProcessingException {
 
         Map<String, String> sort = this.buildSort(priceSortType);
+        request.setRequest(request.getRequest() + " " + converter.converter(request.getRequest()));
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
                         new SearchRequestBody<>(sort, request, PRODUCT)), this.buildHeaders());
@@ -79,6 +80,7 @@ public class SearchAdapter implements SearchRepository {
             throws JsonProcessingException, ParseException {
 
         Map<String, String> sort = this.buildSort(null);
+        request.setRequest(request.getRequest() + " " + converter.converter(request.getRequest()));
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
                         new SearchRequestBodyForBool<>(optionCode, sort, request, option)),
@@ -92,6 +94,7 @@ public class SearchAdapter implements SearchRepository {
             throws JsonProcessingException, ParseException {
 
         Map<String, String> sort = this.buildSort(null);
+        request.setRequest(request.getRequest() + " " + converter.converter(request.getRequest()));
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
                         new SearchRequestBody<>(sort, request, BOARD)), this.buildHeaders());
