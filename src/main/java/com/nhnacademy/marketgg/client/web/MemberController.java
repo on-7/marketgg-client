@@ -85,6 +85,15 @@ public class MemberController {
         return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
     }
 
+    /**
+     * 회원이 쿠폰을 등록할 수 있는 POST Mapping 을 지원합니다.
+     *
+     * @param memberId - 쿠폰을 등록하는 회원의 식별번호입니다.
+     * @param givenCouponRequest - 쿠폰을 등록하기 위한 DTO 객체입니다.
+     * @return 쿠폰 index 페이지로 REDIRECT 합니다.
+     * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @since 1.0.0
+     */
     @PostMapping("/{memberId}/coupons")
     public ModelAndView registerCoupon(@PathVariable final Long memberId,
                                        @ModelAttribute final GivenCouponCreateRequest givenCouponRequest) throws JsonProcessingException {
@@ -93,6 +102,13 @@ public class MemberController {
         return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/coupons");
     }
 
+    /**
+     * 회원의 보유 쿠폰 목록을 조회할 수 있는 GET Mapping 을 지원합니다.
+     *
+     * @param memberId - 쿠폰 목록을 조회할 회원의 식별번호입니다.
+     * @return 회원의 식별번호와 조회한 쿠폰 목록 정보와 함께 쿠폰 index 페이지로 이동합니다.
+     * @since 1.0.0
+     */
     @GetMapping("/{memberId}/coupons")
     public ModelAndView retrieveOwnCoupons(@PathVariable final Long memberId) {
         List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(memberId);
