@@ -1,20 +1,23 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.Alert;
+import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 회원관리에 관련된 Controller 입니다.
@@ -60,7 +63,7 @@ public class MemberController {
         if (memberService.retrievePassUpdatedAt(memberId).isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
-                                             DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
+                                               DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
             return mav;
         }
         memberService.subscribePass(memberId);
@@ -82,12 +85,21 @@ public class MemberController {
         return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
     }
 
+    @PostMapping("/{memberId}/coupons")
+    public ModelAndView registerCoupon(@PathVariable final Long memberId,
+                                       @ModelAttribute final GivenCouponCreateRequest givenCouponRequest) throws JsonProcessingException {
+        givenCouponService.registerCoupon(memberId, givenCouponRequest);
+
+        return new ModelAndView("redirect:" + DEFAULT_MEMBER + "/" + memberId + "/coupons");
+    }
+
     @GetMapping("/{memberId}/coupons")
     public ModelAndView retrieveOwnCoupons(@PathVariable final Long memberId) {
         List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(memberId);
 
         ModelAndView mav = new ModelAndView("mygg/coupons/index");
         mav.addObject("coupons", responses);
+        mav.addObject("memberId", memberId);
 
         return mav;
     }

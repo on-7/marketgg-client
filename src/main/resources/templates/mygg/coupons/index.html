@@ -6,6 +6,11 @@
     </head>
     <body>
         <h2 style="text-align: center">[지급쿠폰 목록]</h2>
+        <form style="display: flex; justify-content: center" th:method="post" th:acthion="'/shop/v1/members/'+${memberId}+'/coupons'">
+            쿠폰 이름 : <input type="text" name="name">
+            <input type="submit" value="등록">
+        </form>
+        <br/>
         <div style="text-align: center; display: flex; justify-content: center">
             <table style="text-align: center; border: 1px solid black">
                 <tr>
@@ -20,7 +25,7 @@
                     <td th:text="${coupon.couponId}"></td>
                     <td th:text="${coupon.name}"></td>
                     <td th:text="${coupon.type}"></td>
-                    <td th:text="${#temporals.format(coupon.expiredDate, 'yyyy/MM/dd')}"></td>
+                    <td th:text="${#temporals.format(coupon.expiredDate, 'yyyy/MM/dd hh:mm:ss')}"></td>
                     <td th:text="${coupon.state}"></td>
                     <td th:text="${coupon.discountAmount}"></td>
                 </tr>
