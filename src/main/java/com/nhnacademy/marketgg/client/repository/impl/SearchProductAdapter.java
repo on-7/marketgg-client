@@ -42,7 +42,7 @@ public class SearchProductAdapter implements SearchProductRepository {
                                                                 final String type)
             throws ParseException, JsonProcessingException {
 
-        Map<String, String> sort = this.buildSort(type);
+        Map<String, String> sort = this.buildProductSort(type);
         request.setRequest(request.getRequest() + " " + converter.converter(request.getRequest()));
 
         HttpEntity<String> requestEntity =
@@ -57,7 +57,7 @@ public class SearchProductAdapter implements SearchProductRepository {
                                                                 final String type)
             throws ParseException, JsonProcessingException {
 
-        Map<String, String> sort = this.buildSort(type);
+        Map<String, String> sort = this.buildProductSort(type);
 
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
@@ -66,7 +66,7 @@ public class SearchProductAdapter implements SearchProductRepository {
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
 
-    private Map<String, String> buildSort(String type) {
+    private Map<String, String> buildProductSort(String type) {
         Map<String, String> sortMap = new LinkedHashMap<>();
         sortMap.put("_score", "desc");
         if (Objects.nonNull(type)) {
@@ -87,8 +87,8 @@ public class SearchProductAdapter implements SearchProductRepository {
             throws ParseException, JsonProcessingException {
 
         JSONParser jsonParser = new JSONParser();
-
         List<SearchProductResponse> list = new ArrayList<>();
+
         JSONObject jsonObject = (JSONObject) jsonParser.parse(response);
         JSONObject hits = (JSONObject) jsonObject.get("hits");
         JSONArray hitBody = (JSONArray) hits.get("hits");
