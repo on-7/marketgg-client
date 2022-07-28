@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class ElasticConfig {
 
     @Bean
-    public KoreanToEnglishTranslator converter() {
+    public KoreanToEnglishTranslator koreanTranslator() {
         return new KoreanToEnglishTranslator();
     }
 
