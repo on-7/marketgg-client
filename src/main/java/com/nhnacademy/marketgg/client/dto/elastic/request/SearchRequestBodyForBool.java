@@ -52,7 +52,7 @@ public class SearchRequestBodyForBool<T> {
      */
     private final BoolQuery query;
 
-    public SearchRequestBodyForBool(final String code, final T sortMap, final SearchRequest request,
+    public SearchRequestBodyForBool(final String optionCode, final T sortMap, final SearchRequest request,
                                     final String option) {
 
         this.sort = Collections.singletonList(sortMap);
@@ -61,12 +61,12 @@ public class SearchRequestBodyForBool<T> {
         if (option.contains("product")) {
             this.query =
                     new BoolQuery(new Bool(
-                            new Must(List.of(new MultiMatch(code, List.of(option.split("t")[1])),
+                            new Must(List.of(new MultiMatch(optionCode, List.of(option.split("t")[1])),
                                              new MultiMatch(request.getRequest(),
                                                             DEFAULT_PRODUCT_FIELD)))));
         } else {
             this.query =
-                    new BoolQuery(new Bool(new Must(List.of(new MultiMatch(code, List.of(option)),
+                    new BoolQuery(new Bool(new Must(List.of(new MultiMatch(optionCode, List.of(option)),
                                                             new MultiMatch(request.getRequest(),
                                                                            DEFAULT_BOARD_FIELD)))));
         }

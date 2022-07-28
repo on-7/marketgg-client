@@ -44,16 +44,16 @@ public class SearchAdapter implements SearchRepository {
     private static final String CATEGORY = "category";
 
     @Override
-    public List<SearchProductResponse> searchProductForCategory(final String code,
+    public List<SearchProductResponse> searchProductForCategory(final String optionCode,
                                                                 final SearchRequest request,
-                                                                final String type)
+                                                                final String priceSortType)
             throws ParseException, JsonProcessingException {
 
-        Map<String, String> sort = this.buildSort(type);
+        Map<String, String> sort = this.buildSort(priceSortType);
         request.setRequest(request.getRequest() + " " + converter.converter(request.getRequest()));
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
-                        new SearchRequestBodyForBool<>(code, sort, request, PRODUCT + CATEGORY)),
+                        new SearchRequestBodyForBool<>(optionCode, sort, request, PRODUCT + CATEGORY)),
                                  this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity, PRODUCT).getBody());
@@ -61,15 +61,30 @@ public class SearchAdapter implements SearchRepository {
 
     @Override
     public List<SearchProductResponse> searchProductWithKeyword(final SearchRequest request,
-                                                                final String type)
+                                                                final String priceSortType)
             throws ParseException, JsonProcessingException {
 
-        Map<String, String> sort = this.buildSort(type);
+        Map<String, String> sort = this.buildSort(priceSortType);
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
                         new SearchRequestBody<>(sort, request, PRODUCT)), this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity, PRODUCT).getBody());
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchBoardWithOption(final String optionCode,
+                                                           final SearchRequest request,
+                                                           final String option)
+            throws JsonProcessingException, ParseException {
+
+        Map<String, String> sort = this.buildSort(null);
+        HttpEntity<String> requestEntity =
+                new HttpEntity<>(objectMapper.writeValueAsString(
+                        new SearchRequestBodyForBool<>(optionCode, sort, request, BOARD + option)),
+                                 this.buildHeaders());
+
+        return this.parsingResponseBody(this.doRequest(requestEntity, BOARD).getBody());
     }
 
     @Override
@@ -80,20 +95,6 @@ public class SearchAdapter implements SearchRepository {
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
                         new SearchRequestBody<>(sort, request, BOARD)), this.buildHeaders());
-
-        return this.parsingResponseBody(this.doRequest(requestEntity, BOARD).getBody());
-    }
-
-    @Override
-    public List<SearchBoardResponse> getSearchBoardResponses(final String status, final SearchRequest request,
-                                                              final String option)
-            throws JsonProcessingException, ParseException {
-
-        Map<String, String> sort = this.buildSort(null);
-        HttpEntity<String> requestEntity =
-                new HttpEntity<>(objectMapper.writeValueAsString(
-                        new SearchRequestBodyForBool<>(status, sort, request, BOARD + option)),
-                                 this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity, BOARD).getBody());
     }

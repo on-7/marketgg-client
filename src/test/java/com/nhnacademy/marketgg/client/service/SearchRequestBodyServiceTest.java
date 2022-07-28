@@ -8,7 +8,7 @@ import static org.mockito.BDDMockito.then;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.SearchRepository;
-import com.nhnacademy.marketgg.client.service.impl.DefaultSearchProductService;
+import com.nhnacademy.marketgg.client.service.impl.DefaultSearchService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -24,7 +24,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 class SearchRequestBodyServiceTest {
 
     @InjectMocks
-    private DefaultSearchProductService searchProductService;
+    private DefaultSearchService searchProductService;
 
     @Mock
     private SearchRepository searchRepository;
@@ -47,7 +47,7 @@ class SearchRequestBodyServiceTest {
                                                         any())).willReturn(
                 List.of(searchProductResponse));
 
-        searchProductService.searchForCategory("11", searchRequest, null);
+        searchProductService.searchProductForCategory("11", searchRequest, null);
 
         then(searchRepository).should()
                               .searchProductForCategory(anyString(),
@@ -60,7 +60,7 @@ class SearchRequestBodyServiceTest {
         given(searchRepository.searchProductWithKeyword(
                 any(SearchRequest.class), any())).willReturn(List.of(searchProductResponse));
 
-        searchProductService.searchForKeyword(searchRequest, null);
+        searchProductService.searchProductForKeyword(searchRequest, null);
 
         then(searchRepository).should()
                               .searchProductWithKeyword(any(SearchRequest.class), any());
@@ -74,7 +74,7 @@ class SearchRequestBodyServiceTest {
                                                         anyString())).willReturn(
                 List.of(searchProductResponse));
 
-        searchProductService.searchForCategory("11", searchRequest, "desc");
+        searchProductService.searchProductForCategory("11", searchRequest, "desc");
 
         then(searchRepository).should()
                               .searchProductForCategory(anyString(),
@@ -89,7 +89,7 @@ class SearchRequestBodyServiceTest {
                                                         anyString())).willReturn(
                 List.of(searchProductResponse));
 
-        searchProductService.searchForKeyword(searchRequest, "desc");
+        searchProductService.searchProductForKeyword(searchRequest, "desc");
 
         then(searchRepository).should()
                               .searchProductWithKeyword(any(SearchRequest.class),

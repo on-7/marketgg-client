@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.service.SearchProductService;
+import com.nhnacademy.marketgg.client.service.SearchService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.parser.ParseException;
@@ -22,13 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/search")
+@RequestMapping("/shop/v1/search/products")
 @RequiredArgsConstructor
 public class SearchProductController {
 
-    private final SearchProductService searchProductService;
+    private final SearchService searchService;
 
-    private static final String SEARCH_RESULT = "search/search-list";
+    private static final String SEARCH_RESULT = "search/product-search-list";
 
     /**
      * 카테고리 내에서 검색어를 통한 검색 후, 검색 결과 목록을 담은 후 검색 목록 조회페이지로 이동합니다.
@@ -41,7 +41,7 @@ public class SearchProductController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/products")
+    @GetMapping("/categories/{categoryCode}")
     public ModelAndView searchForCategory(@PathVariable final String categoryCode,
                                           @RequestParam final String keyword,
                                           final Pageable pageable)
@@ -51,7 +51,7 @@ public class SearchProductController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchProductResponse> response =
-                searchProductService.searchForCategory(categoryCode, request, null);
+                searchService.searchProductForCategory(categoryCode, request, null);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
@@ -71,7 +71,7 @@ public class SearchProductController {
      * @since 1.0.0essingException
      * @since 1.0.0
      */
-    @GetMapping("/products")
+    @GetMapping
     public ModelAndView searchForKeyword(@RequestParam final String keyword,
                                          final Pageable pageable)
             throws ParseException, JsonProcessingException {
@@ -79,7 +79,7 @@ public class SearchProductController {
         ModelAndView mav = new ModelAndView(SEARCH_RESULT);
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
-        List<SearchProductResponse> response = searchProductService.searchForKeyword(request, null);
+        List<SearchProductResponse> response = searchService.searchProductForKeyword(request, null);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
@@ -100,7 +100,7 @@ public class SearchProductController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/products/price/{type}")
+    @GetMapping("/categories/{categoryCode}/price/{type}")
     public ModelAndView searchForCategorySortPrice(@PathVariable final String categoryCode,
                                                    @PathVariable final String type,
                                                    @RequestParam final String keyword,
@@ -111,7 +111,7 @@ public class SearchProductController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchProductResponse> response =
-                searchProductService.searchForCategory(categoryCode, request, type);
+                searchService.searchProductForCategory(categoryCode, request, type);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
@@ -131,7 +131,7 @@ public class SearchProductController {
      * @since 1.0.0essingException
      * @since 1.0.0
      */
-    @GetMapping("/products/price/{type}")
+    @GetMapping("/price/{type}")
     public ModelAndView searchForKeywordSortPrice(@RequestParam final String keyword,
                                                   @PathVariable final String type,
                                                   final Pageable pageable)
@@ -141,7 +141,7 @@ public class SearchProductController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchProductResponse> response =
-                searchProductService.searchForKeyword(request, type);
+                searchService.searchProductForKeyword(request, type);
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
