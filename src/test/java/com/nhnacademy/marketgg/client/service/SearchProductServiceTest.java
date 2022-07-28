@@ -43,55 +43,57 @@ class SearchProductServiceTest {
     @DisplayName("카테고리 목록 내 검색")
     void testSearchForCategory() throws Exception {
         given(searchProductRepository.searchProductForCategory(anyString(),
-                                                               any(SearchRequest.class))).willReturn(
+                                                               any(SearchRequest.class),
+                                                               any())).willReturn(
                 List.of(searchProductResponse));
 
-        searchProductService.searchForCategory("11", searchRequest);
+        searchProductService.searchForCategory("11", searchRequest, null);
 
         then(searchProductRepository).should()
                                      .searchProductForCategory(anyString(),
-                                                               any(SearchRequest.class));
+                                                               any(SearchRequest.class), any());
     }
 
     @Test
     @DisplayName("전체 목록 검색")
     void testSearchForKeyword() throws Exception {
         given(searchProductRepository.searchProductWithKeyword(
-                any(SearchRequest.class))).willReturn(List.of(searchProductResponse));
+                any(SearchRequest.class), any())).willReturn(List.of(searchProductResponse));
 
-        searchProductService.searchForKeyword(searchRequest);
+        searchProductService.searchForKeyword(searchRequest, null);
 
-        then(searchProductRepository).should().searchProductWithKeyword(any(SearchRequest.class));
+        then(searchProductRepository).should()
+                                     .searchProductWithKeyword(any(SearchRequest.class), any());
     }
 
     @Test
     @DisplayName("카테고리 목록 내 가격별 정렬 검색")
     void testSearchForCategorySortPrice() throws Exception {
-        given(searchProductRepository.searchProductForCategorySortPrice(anyString(),
-                                                                        any(SearchRequest.class),
-                                                                        anyString())).willReturn(
+        given(searchProductRepository.searchProductForCategory(anyString(),
+                                                               any(SearchRequest.class),
+                                                               anyString())).willReturn(
                 List.of(searchProductResponse));
 
-        searchProductService.searchForCategorySortPrice("11", searchRequest, "desc");
+        searchProductService.searchForCategory("11", searchRequest, "desc");
 
         then(searchProductRepository).should()
-                                     .searchProductForCategorySortPrice(anyString(),
-                                                                        any(SearchRequest.class),
-                                                                        anyString());
+                                     .searchProductForCategory(anyString(),
+                                                               any(SearchRequest.class),
+                                                               anyString());
     }
 
     @Test
     @DisplayName("전체 목록 내 가격별 정렬 검색")
     void testSearchForKeywordSortPrice() throws Exception {
-        given(searchProductRepository.searchProductForKeywordSortPrice(any(SearchRequest.class),
-                                                                       anyString())).willReturn(
+        given(searchProductRepository.searchProductWithKeyword(any(SearchRequest.class),
+                                                               anyString())).willReturn(
                 List.of(searchProductResponse));
 
-        searchProductService.searchForKeywordSortPrice(searchRequest, "desc");
+        searchProductService.searchForKeyword(searchRequest, "desc");
 
         then(searchProductRepository).should()
-                                     .searchProductForKeywordSortPrice(any(SearchRequest.class),
-                                                                       anyString());
+                                     .searchProductWithKeyword(any(SearchRequest.class),
+                                                               anyString());
     }
 
 }

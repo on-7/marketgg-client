@@ -18,34 +18,19 @@ public class DefaultSearchProductService implements SearchProductService {
 
     @Override
     public List<SearchProductResponse> searchForCategory(final String code,
-                                                         final SearchRequest request)
+                                                         final SearchRequest request,
+                                                         final String type)
             throws ParseException, JsonProcessingException {
 
-        return searchProductRepository.searchProductForCategory(code, request);
+        return searchProductRepository.searchProductForCategory(code, request, type);
     }
 
     @Override
-    public List<SearchProductResponse> searchForKeyword(final SearchRequest request)
+    public List<SearchProductResponse> searchForKeyword(final SearchRequest request,
+                                                        final String type)
             throws ParseException, JsonProcessingException {
 
-        return searchProductRepository.searchProductWithKeyword(request);
-    }
-
-    @Override
-    public List<SearchProductResponse> searchForCategorySortPrice(final String code,
-                                                                  final SearchRequest request,
-                                                                  final String type)
-            throws ParseException, JsonProcessingException {
-
-        return searchProductRepository.searchProductForCategorySortPrice(code, request, type);
-    }
-
-    @Override
-    public List<SearchProductResponse> searchForKeywordSortPrice(final SearchRequest request,
-                                                                 final String type)
-            throws ParseException, JsonProcessingException {
-
-        return searchProductRepository.searchProductForKeywordSortPrice(request, type);
+        return searchProductRepository.searchProductWithKeyword(request, type);
     }
 
 }
