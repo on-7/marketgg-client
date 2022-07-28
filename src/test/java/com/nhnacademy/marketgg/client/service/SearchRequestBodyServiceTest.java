@@ -7,7 +7,7 @@ import static org.mockito.BDDMockito.then;
 
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.repository.SearchProductRepository;
+import com.nhnacademy.marketgg.client.repository.SearchRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultSearchProductService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,13 +21,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
-class SearchProductServiceTest {
+class SearchRequestBodyServiceTest {
 
     @InjectMocks
     private DefaultSearchProductService searchProductService;
 
     @Mock
-    private SearchProductRepository searchProductRepository;
+    private SearchRepository searchRepository;
 
     private static SearchRequest searchRequest;
     private static SearchProductResponse searchProductResponse;
@@ -42,42 +42,42 @@ class SearchProductServiceTest {
     @Test
     @DisplayName("카테고리 목록 내 검색")
     void testSearchForCategory() throws Exception {
-        given(searchProductRepository.searchProductForCategory(anyString(),
-                                                               any(SearchRequest.class),
-                                                               any())).willReturn(
+        given(searchRepository.searchProductForCategory(anyString(),
+                                                        any(SearchRequest.class),
+                                                        any())).willReturn(
                 List.of(searchProductResponse));
 
         searchProductService.searchForCategory("11", searchRequest, null);
 
-        then(searchProductRepository).should()
-                                     .searchProductForCategory(anyString(),
+        then(searchRepository).should()
+                              .searchProductForCategory(anyString(),
                                                                any(SearchRequest.class), any());
     }
 
     @Test
     @DisplayName("전체 목록 검색")
     void testSearchForKeyword() throws Exception {
-        given(searchProductRepository.searchProductWithKeyword(
+        given(searchRepository.searchProductWithKeyword(
                 any(SearchRequest.class), any())).willReturn(List.of(searchProductResponse));
 
         searchProductService.searchForKeyword(searchRequest, null);
 
-        then(searchProductRepository).should()
-                                     .searchProductWithKeyword(any(SearchRequest.class), any());
+        then(searchRepository).should()
+                              .searchProductWithKeyword(any(SearchRequest.class), any());
     }
 
     @Test
     @DisplayName("카테고리 목록 내 가격별 정렬 검색")
     void testSearchForCategorySortPrice() throws Exception {
-        given(searchProductRepository.searchProductForCategory(anyString(),
-                                                               any(SearchRequest.class),
-                                                               anyString())).willReturn(
+        given(searchRepository.searchProductForCategory(anyString(),
+                                                        any(SearchRequest.class),
+                                                        anyString())).willReturn(
                 List.of(searchProductResponse));
 
         searchProductService.searchForCategory("11", searchRequest, "desc");
 
-        then(searchProductRepository).should()
-                                     .searchProductForCategory(anyString(),
+        then(searchRepository).should()
+                              .searchProductForCategory(anyString(),
                                                                any(SearchRequest.class),
                                                                anyString());
     }
@@ -85,14 +85,14 @@ class SearchProductServiceTest {
     @Test
     @DisplayName("전체 목록 내 가격별 정렬 검색")
     void testSearchForKeywordSortPrice() throws Exception {
-        given(searchProductRepository.searchProductWithKeyword(any(SearchRequest.class),
-                                                               anyString())).willReturn(
+        given(searchRepository.searchProductWithKeyword(any(SearchRequest.class),
+                                                        anyString())).willReturn(
                 List.of(searchProductResponse));
 
         searchProductService.searchForKeyword(searchRequest, "desc");
 
-        then(searchProductRepository).should()
-                                     .searchProductWithKeyword(any(SearchRequest.class),
+        then(searchRepository).should()
+                              .searchProductWithKeyword(any(SearchRequest.class),
                                                                anyString());
     }
 

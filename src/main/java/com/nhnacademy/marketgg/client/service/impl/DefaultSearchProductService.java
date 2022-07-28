@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.repository.SearchProductRepository;
+import com.nhnacademy.marketgg.client.repository.SearchRepository;
 import com.nhnacademy.marketgg.client.service.SearchProductService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DefaultSearchProductService implements SearchProductService {
 
-    private final SearchProductRepository searchProductRepository;
+    private final SearchRepository searchRepository;
 
     @Override
     public List<SearchProductResponse> searchForCategory(final String code,
@@ -22,7 +22,7 @@ public class DefaultSearchProductService implements SearchProductService {
                                                          final String type)
             throws ParseException, JsonProcessingException {
 
-        return searchProductRepository.searchProductForCategory(code, request, type);
+        return searchRepository.searchProductForCategory(code, request, type);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class DefaultSearchProductService implements SearchProductService {
                                                         final String type)
             throws ParseException, JsonProcessingException {
 
-        return searchProductRepository.searchProductWithKeyword(request, type);
+        return searchRepository.searchProductWithKeyword(request, type);
     }
 
 }

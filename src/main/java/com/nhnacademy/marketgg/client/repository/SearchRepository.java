@@ -11,7 +11,7 @@ import org.json.simple.parser.ParseException;
  *
  * @version 1.0.0
  */
-public interface SearchProductRepository {
+public interface SearchRepository {
 
     /**
      * 지정한 카테고리에서 상품에 대한 검색을 할 수 있는 메소드입니다.
@@ -40,5 +40,6 @@ public interface SearchProductRepository {
      */
     List<SearchProductResponse> searchProductWithKeyword(final SearchRequest request, final String type)
             throws JsonProcessingException, ParseException;
+    
 
 }

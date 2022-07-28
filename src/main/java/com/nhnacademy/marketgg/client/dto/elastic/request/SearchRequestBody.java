@@ -1,6 +1,5 @@
-package com.nhnacademy.marketgg.client.dto.elastic.request.product;
+package com.nhnacademy.marketgg.client.dto.elastic.request;
 
-import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.request.searchutil.MultiMatch;
 import com.nhnacademy.marketgg.client.dto.elastic.request.searchutil.Query;
 import java.util.Collections;
@@ -13,7 +12,7 @@ import lombok.Getter;
  * @version 1.0.0
  */
 @Getter
-public class SearchProduct <T> {
+public class SearchRequestBody<T> {
 
     private static final List<String> DEFAULT_FIELD =
             List.of("productName", "productName.forSyno", "content", "content.forSyno",
@@ -47,7 +46,7 @@ public class SearchProduct <T> {
      */
     private final Query query;
 
-    public SearchProduct(T sortMap, SearchRequest request) {
+    public SearchRequestBody(T sortMap, SearchRequest request) {
         this.sort = Collections.singletonList(sortMap);
         this.from = request.getPageRequest().getPageNumber();
         this.size = request.getPageRequest().getPageSize();

@@ -1,6 +1,5 @@
-package com.nhnacademy.marketgg.client.dto.elastic.request.product;
+package com.nhnacademy.marketgg.client.dto.elastic.request;
 
-import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.request.searchutil.Bool;
 import com.nhnacademy.marketgg.client.dto.elastic.request.searchutil.BoolQuery;
 import com.nhnacademy.marketgg.client.dto.elastic.request.searchutil.MultiMatch;
@@ -15,7 +14,7 @@ import lombok.Getter;
  * @version 1.0.0
  */
 @Getter
-public class SearchProductForCategory<T> {
+public class SearchRequestBodyForBool<T> {
 
     private static final List<String> CATEGORY_FIELD = List.of("categoryCode");
     private static final List<String> DEFAULT_FIELD =
@@ -50,13 +49,13 @@ public class SearchProductForCategory<T> {
      */
     private final BoolQuery query;
 
-    public SearchProductForCategory(String code, T sortMap, SearchRequest request) {
+    public SearchRequestBodyForBool(String code, T sortMap, SearchRequest request) {
         this.sort = Collections.singletonList(sortMap);
         this.from = request.getPageRequest().getPageNumber();
         this.size = request.getPageRequest().getPageSize();
         this.query = new BoolQuery(new Bool(new Must(List.of(new MultiMatch(code, CATEGORY_FIELD),
-                                                     new MultiMatch(request.getRequest(),
-                                                                    DEFAULT_FIELD)))));
+                                                             new MultiMatch(request.getRequest(),
+                                                                            DEFAULT_FIELD)))));
     }
 
 }

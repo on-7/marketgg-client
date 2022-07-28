@@ -3,10 +3,10 @@ package com.nhnacademy.marketgg.client.repository.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
-import com.nhnacademy.marketgg.client.dto.elastic.request.product.SearchProduct;
-import com.nhnacademy.marketgg.client.dto.elastic.request.product.SearchProductForCategory;
+import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequestBody;
+import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequestBodyForBool;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.repository.SearchProductRepository;
+import com.nhnacademy.marketgg.client.repository.SearchRepository;
 import com.nhnacademy.marketgg.client.utils.KoreanToEnglishTranslator;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -28,13 +28,14 @@ import org.springframework.web.client.RestTemplate;
 
 @Component
 @RequiredArgsConstructor
-public class SearchProductAdapter implements SearchProductRepository {
+public class SearchAdapter implements SearchRepository {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final String gatewayIp;
     private final KoreanToEnglishTranslator converter;
     private static final String DEFAULT_ELASTIC_PRODUCT = "/elastic/products/_search";
+    private static final String DEFAULT_ELASTIC_BOARD = "/elastic/boards/_search";
 
     @Override
     public List<SearchProductResponse> searchProductForCategory(final String code,
@@ -46,7 +47,7 @@ public class SearchProductAdapter implements SearchProductRepository {
         request.setRequest(request.getRequest() + " " + converter.converter(request.getRequest()));
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
-                        new SearchProductForCategory<>(code, sort, request)), this.buildHeaders());
+                        new SearchRequestBodyForBool<>(code, sort, request)), this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }
@@ -59,7 +60,7 @@ public class SearchProductAdapter implements SearchProductRepository {
         Map<String, String> sort = this.buildProductSort(type);
         HttpEntity<String> requestEntity =
                 new HttpEntity<>(objectMapper.writeValueAsString(
-                        new SearchProduct<>(sort, request)), this.buildHeaders());
+                        new SearchRequestBody<>(sort, request)), this.buildHeaders());
 
         return this.parsingResponseBody(this.doRequest(requestEntity).getBody());
     }

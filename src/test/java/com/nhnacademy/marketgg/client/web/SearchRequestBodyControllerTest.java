@@ -28,7 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(SearchProductController.class)
-class SearchProductControllerTest {
+class SearchRequestBodyControllerTest {
 
     @Autowired
     MockMvc mockMvc;
