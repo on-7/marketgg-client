@@ -43,12 +43,5 @@ public class DefaultSearchService implements SearchService {
         return searchRepository.searchBoardWithOption(optionCode, request, option);
     }
 
-    @Override
-    public List<SearchBoardResponse> searchBoardForKeyword(final SearchRequest request)
-            throws ParseException, JsonProcessingException {
-
-        return searchRepository.searchBoardWithKeyword(request);
-    }
-
 }
 

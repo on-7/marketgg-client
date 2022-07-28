@@ -18,9 +18,6 @@ public class SearchRequestBody<T> {
             List.of("productName", "productName.forSyno", "content", "content.forSyno",
                     "description", "description.forSyno");
 
-    private static final List<String> DEFAULT_BOARD_FIELD =
-            List.of("title", "title.forSyno");
-
     /**
      * 검색 결과 목록의 정렬 기준을 지정합니다.
      *
@@ -49,15 +46,11 @@ public class SearchRequestBody<T> {
      */
     private final Query query;
 
-    public SearchRequestBody(T sortMap, SearchRequest request, String document) {
+    public SearchRequestBody(final T sortMap, final SearchRequest request) {
         this.sort = Collections.singletonList(sortMap);
         this.from = request.getPageRequest().getPageNumber();
         this.size = request.getPageRequest().getPageSize();
-        if (document.compareTo("product") == 0) {
-            this.query = new Query(new MultiMatch(request.getRequest(), DEFAULT_PRODUCT_FIELD));
-        } else {
-            this.query = new Query(new MultiMatch(request.getRequest(), DEFAULT_BOARD_FIELD));
-        }
+        this.query = new Query(new MultiMatch(request.getRequest(), DEFAULT_PRODUCT_FIELD));
     }
 
 }

@@ -105,18 +105,8 @@ class SearchServiceTest {
         searchService.searchBoardForOption("공지사항", searchRequest, "categoryCode");
 
         then(searchRepository).should()
-                .searchBoardWithOption(anyString(), any(SearchRequest.class), anyString());
-    }
-
-    @Test
-    @DisplayName("게시판 전체 목록 내 검색")
-    void testSearchBoardForKeyword() throws Exception {
-        given(searchRepository.searchBoardWithKeyword(any(SearchRequest.class))).willReturn(
-                List.of(searchBoardResponse));
-
-        searchService.searchBoardForKeyword(searchRequest);
-
-        then(searchRepository).should().searchBoardWithKeyword(any(SearchRequest.class));
+                              .searchBoardWithOption(anyString(), any(SearchRequest.class),
+                                                     anyString());
     }
 
 }

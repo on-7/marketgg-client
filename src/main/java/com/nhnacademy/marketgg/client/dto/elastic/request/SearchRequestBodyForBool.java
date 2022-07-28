@@ -53,8 +53,7 @@ public class SearchRequestBodyForBool<T> {
     private final BoolQuery query;
 
     public SearchRequestBodyForBool(final String optionCode, final T sortMap,
-                                    final SearchRequest request,
-                                    final String option) {
+                                    final SearchRequest request, final String option) {
 
         this.sort = Collections.singletonList(sortMap);
         this.from = request.getPageRequest().getPageNumber();

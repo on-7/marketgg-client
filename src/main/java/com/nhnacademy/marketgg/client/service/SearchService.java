@@ -60,17 +60,4 @@ public interface SearchService {
                                                    final String option)
             throws ParseException, JsonProcessingException;
 
-    /**
-     * 전체 목록에서 게시판에 대한 검색 후 반환 할 수 있는 메소드입니다.
-     *
-     * @param request - 검색을 진행 할 조건을 담은 객체입니다.
-     * @return 검색어를 통한 게시판 검색 결과 목록을 반환합니다.
-     * @throws JsonProcessingException JSON 콘텐츠를 처리(파싱, 생성)할 때 발생하는 모든 문제시 예외를 던집니다.
-     * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
-     * @since 1.0.0
-     */
-    List<SearchBoardResponse> searchBoardForKeyword(final SearchRequest request)
-            throws ParseException, JsonProcessingException;
-
-
 }

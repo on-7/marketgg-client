@@ -59,27 +59,7 @@ class SearchBoardControllerTest {
                 List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}", "공지사항")
-                                        .param("keyword", "안녕")
-                                        .param("page", "0")
-                                        .param("size", "1"))
-                       .andExpect(status().isOk())
-                       .andExpect(view().name(SEARCH_RESULT))
-                       .andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
-                          .getModel()
-                          .get("response")).isNotNull();
-    }
-
-    @Test
-    @DisplayName("전체 목록 내 게시글 검색")
-    void searchForKeyword() throws Exception {
-        given(searchService.searchBoardForKeyword(any(SearchRequest.class))).willReturn(
-                List.of(searchBoardResponse));
-
-        MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH)
+                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}", "11")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
@@ -100,7 +80,8 @@ class SearchBoardControllerTest {
                 List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/reason/{reasonCode}", "환불")
+                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/reason", "11")
+                                        .param("reason", "환불")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
@@ -121,7 +102,8 @@ class SearchBoardControllerTest {
                 List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/status/{statusCode}", "종료")
+                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
+                                        .param("status", "종료")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
