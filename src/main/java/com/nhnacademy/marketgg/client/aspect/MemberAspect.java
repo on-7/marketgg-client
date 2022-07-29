@@ -51,7 +51,7 @@ public class MemberAspect {
      * @return 메서드 정보
      * @throws Throwable 메서드를 실행시킬 때 발생할 수 있는 예외입니다.
      */
-    @Around("execution(* com.nhnacademy.marketgg.client.web.*.*(.., @com.nhnacademy.marketgg.client.annotation.Member (*), ..))")
+    @Around("execution(* com.nhnacademy.marketgg.client.web.*.*(.., com.nhnacademy.marketgg.client.dto.MemberInfo, ..))")
     public Object injectMember(ProceedingJoinPoint pjp) throws Throwable {
         log.info("Method: {}", pjp.getSignature().getName());
 
@@ -74,7 +74,6 @@ public class MemberAspect {
 
         SingleResponse<AuthResponse> authEntity = getEntity("/auth/info");
         SingleResponse<MemberResponse> memberEntity = getEntity("/shop/v1/members");
-
 
         MemberInfo memberInfo =
             new MemberInfo(authEntity.getData(), memberEntity.getData());

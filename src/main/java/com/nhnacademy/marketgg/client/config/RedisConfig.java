@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -78,11 +81,15 @@ public class RedisConfig {
     }
 
     private String[] getRedisInfo(String infoUrl) {
-        Map<String, Map<String, String>> response =
-            restTemplate.getForObject(infoUrl, Map.class);
+        // Map<String, Map<String, String>> response =
+        //     restTemplate.getForObject(infoUrl, Map.class);
 
-        String connectInfo = Optional.ofNullable(response)
-                                     .orElseThrow(IllegalArgumentException::new)
+        ResponseEntity<Map<String, Map<String, String>>> response =
+            restTemplate.exchange(infoUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+            });
+
+        String connectInfo = Optional.ofNullable(response.getBody())
+                                     .orElseThrow(SecureManagerException::new)
                                      .get("body")
                                      .get("secret");
 
@@ -96,11 +103,15 @@ public class RedisConfig {
     }
 
     private String getRedisPassword(String passwordUrl) {
-        Map<String, Map<String, String>> response =
-            restTemplate.getForObject(passwordUrl, Map.class);
+        // Map<String, Map<String, String>> response =
+        //     restTemplate.getForObject(passwordUrl, Map.class);
 
-        return Optional.ofNullable(response)
-                       .orElseThrow(IllegalArgumentException::new)
+        ResponseEntity<Map<String, Map<String, String>>> response =
+            restTemplate.exchange(passwordUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+            });
+
+        return Optional.ofNullable(response.getBody())
+                       .orElseThrow(SecureManagerException::new)
                        .get("body")
                        .get("secret");
     }
