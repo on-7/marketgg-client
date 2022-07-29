@@ -40,7 +40,7 @@ class SearchBoardControllerTest {
     private SearchBoardResponse searchBoardResponse;
 
     private static final String DEFAULT_SEARCH = "/shop/v1/search/boards";
-    private static final String SEARCH_RESULT = "search/board-search-list";
+    private static final String SEARCH_RESULT = "/search/board-search-list";
 
     @BeforeEach
     void setUp(@Autowired WebApplicationContext applicationContext) {

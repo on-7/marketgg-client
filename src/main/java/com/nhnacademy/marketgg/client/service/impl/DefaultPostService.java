@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
@@ -18,12 +19,12 @@ public class DefaultPostService implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public void createPost(final PostRequest postRequest, final String type) {
+    public void createPost(final PostRequest postRequest, final String type) throws JsonProcessingException {
         postRepository.createPost(postRequest, type);
     }
 
     @Override
-    public List<PostResponse> retrievesPosts(final Pageable pageable, final String type) {
+    public List<PostResponse> retrievesPosts(final Pageable pageable, final String type) throws JsonProcessingException {
         return postRepository.retrievesPosts(pageable, type);
     }
 
@@ -33,8 +34,8 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type) {
-        return postRepository.retrievePostForOtoInquiry(boardNo, type);
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type, final Pageable pageable) throws JsonProcessingException {
+        return postRepository.retrievePostForOtoInquiry(boardNo, type, pageable);
     }
 
     @Override

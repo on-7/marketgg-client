@@ -39,7 +39,7 @@ class SearchProductControllerTest {
     private SearchProductResponse searchProductResponse;
 
     private static final String DEFAULT_SEARCH = "/shop/v1/search/products";
-    private static final String SEARCH_RESULT = "search/product-search-list";
+    private static final String SEARCH_RESULT = "/search/product-search-list";
 
     @BeforeEach
     void setUp(@Autowired WebApplicationContext applicationContext) {

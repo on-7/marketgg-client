@@ -16,7 +16,7 @@ public interface PostRepository {
 
     PostResponse retrievePost(final Long boardNo, final String type);
 
-    PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type);
+    PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type, final Pageable pageable) throws JsonProcessingException;
 
     void updatePost(final Long boardNo, final PostRequest postRequest, final String type);
 

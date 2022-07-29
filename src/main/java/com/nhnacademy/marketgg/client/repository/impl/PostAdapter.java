@@ -73,8 +73,9 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type, final Pageable pageable) throws JsonProcessingException {
+        String request = objectMapper.writeValueAsString(pageable);
+        HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<PostResponseForOtoInquiry> response = restTemplate.exchange(
                 gateWayIp + DEFAULT + "/" + type + "/" + boardNo,
                 HttpMethod.GET,

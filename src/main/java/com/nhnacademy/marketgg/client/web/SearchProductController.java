@@ -28,7 +28,7 @@ public class SearchProductController {
 
     private final SearchService searchService;
 
-    private static final String SEARCH_RESULT = "search/product-search-list";
+    private static final String SEARCH_RESULT = "/search/product-search-list";
 
     /**
      * 카테고리 내에서 검색어를 통한 검색 후, 검색 결과 목록을 담은 후 검색 목록 조회페이지로 이동합니다.
