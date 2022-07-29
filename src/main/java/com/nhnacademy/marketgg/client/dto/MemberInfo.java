@@ -1,11 +1,20 @@
 package com.nhnacademy.marketgg.client.dto;
 
-import com.nhnacademy.marketgg.client.dto.response.AuthResponse;
-import com.nhnacademy.marketgg.client.dto.response.MemberResponse;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@Getter
 public class MemberInfo {
 
-    public MemberInfo(AuthResponse auth, MemberResponse member) {
-    }
+    private String email;
+    private String name;
+    private String phoneNumber;
+    private String memberGrade;
+    private Character gender;
+    private LocalDate birthDay;
+    private LocalDateTime ggpassUpdatedAt;
 
 }
