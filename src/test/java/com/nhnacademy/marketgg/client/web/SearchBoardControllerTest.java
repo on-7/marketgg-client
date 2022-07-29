@@ -10,8 +10,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
-import com.nhnacademy.marketgg.client.dto.elastic.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.elastic.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.SearchService;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,8 +28,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @AutoConfigureMockMvc(addFilters = false)
-@WebMvcTest(SearchProductController.class)
-class SearchProductControllerTest {
+@WebMvcTest(SearchBoardController.class)
+class SearchBoardControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -36,27 +37,26 @@ class SearchProductControllerTest {
     @MockBean
     SearchService searchService;
 
-    private SearchProductResponse searchProductResponse;
+    private SearchBoardResponse searchBoardResponse;
 
-    private static final String DEFAULT_SEARCH = "/shop/v1/search/products";
-    private static final String SEARCH_RESULT = "search/product-search-list";
+    private static final String DEFAULT_SEARCH = "/shop/v1/search/boards";
+    private static final String SEARCH_RESULT = "search/board-search-list";
 
     @BeforeEach
     void setUp(@Autowired WebApplicationContext applicationContext) {
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext)
                                  .alwaysDo(print())
                                  .build();
-        searchProductResponse = new SearchProductResponse(1L, "z", "zz",
-                                                          "zzz", "hello",
-                                                          1000L, 50L, "hello");
+        searchBoardResponse =
+                new SearchBoardResponse(1L, "hello", "hi", "ho", "he", LocalDateTime.now());
     }
 
     @Test
-    @DisplayName("카테고리 목록에서 검색")
-    void testSearchForCategory() throws Exception {
-        given(searchService.searchProductForCategory(anyString(),
-                                                     any(SearchRequest.class), any())).willReturn(
-                List.of(searchProductResponse));
+    @DisplayName("카테고리 내 게시글 검색")
+    void searchForCategory() throws Exception {
+        given(searchService.searchBoardForCategory(anyString(), any(SearchRequest.class),
+                                                   anyString()))
+                .willReturn(List.of(searchBoardResponse));
 
         MvcResult mvcResult =
                 mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}", "11")
@@ -69,17 +69,20 @@ class SearchProductControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response")).isNotNull();
+                          .get("response"))
+                .isNotNull();
     }
 
     @Test
-    @DisplayName("전체 목록에서 검색")
-    void testSearchForKeyword() throws Exception {
-        given(searchService.searchProductForKeyword(any(SearchRequest.class), any())).willReturn(
-                List.of(searchProductResponse));
+    @DisplayName("사유 별 검색")
+    void searchForReason() throws Exception {
+        given(searchService.searchBoardForOption(anyString(), anyString(),
+                                                 any(SearchRequest.class), anyString())).willReturn(
+                List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH)
+                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/reason", "11")
+                                        .param("reason", "환불")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
@@ -89,41 +92,20 @@ class SearchProductControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response")).isNotNull();
+                          .get("response"))
+                .isNotNull();
     }
 
     @Test
-    @DisplayName("카테고리 내 검색 중 가격 필터 적용 검색")
-    void testSearchForCategorySortPrice() throws Exception {
-        given(searchService.searchProductForCategory(anyString(), any(SearchRequest.class),
-                                                     anyString())).willReturn(
-                List.of(searchProductResponse));
+    @DisplayName("상태 별 검색")
+    void searchForStatus() throws Exception {
+        given(searchService.searchBoardForOption(anyString(), anyString(),
+                                                 any(SearchRequest.class), anyString())).willReturn(
+                List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(
-                               get(DEFAULT_SEARCH + "/categories/{categoryCode}/price/{type}",
-                                   "11", "desc")
-                                       .param("keyword", "안녕")
-                                       .param("page", "0")
-                                       .param("size", "1"))
-                       .andExpect(status().isOk())
-                       .andExpect(view().name(SEARCH_RESULT))
-                       .andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
-                          .getModel()
-                          .get("response")).isNotNull();
-    }
-
-    @Test
-    @DisplayName("전체 목록 검색 중 가격 필터 적용 검색")
-    void testSearchForKeywordSortPrice() throws Exception {
-        given(searchService.searchProductForKeyword(any(SearchRequest.class),
-                                                    anyString())).willReturn(
-                List.of(searchProductResponse));
-
-        MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/price/{type}", "desc")
+                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
+                                        .param("status", "종료")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
@@ -133,7 +115,8 @@ class SearchProductControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response")).isNotNull();
+                          .get("response"))
+                .isNotNull();
     }
 
 }
