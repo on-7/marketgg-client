@@ -50,7 +50,7 @@ public class SearchBoardController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchBoardResponse> response =
-                searchService.searchBoardForOption(categoryCode, request, "categoryCode");
+                searchService.searchBoardForCategory(categoryCode, request, "categoryCode");
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
@@ -60,7 +60,7 @@ public class SearchBoardController {
     }
 
     /**
-     * 선택한 사유 내에서 검색을 한 후, 검색 결과 목록을 담은 후 검색 목록 조회페이지로 이동합니다.
+     * 선택한 카테고리의 선택한 사유 내에서 검색을 한 후, 검색 결과 목록을 담은 후 검색 목록 조회페이지로 이동합니다.
      * 
      * @param reason - 선택한 사유입니다.
      * @param keyword - 선택한 키워드입니다.
@@ -80,7 +80,7 @@ public class SearchBoardController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchBoardResponse> response =
-                searchService.searchBoardForOption(reason, request, "reason");
+                searchService.searchBoardForOption(categoryCode, reason, request, "reason");
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
@@ -89,7 +89,7 @@ public class SearchBoardController {
     }
 
     /**
-     * 선택한 상태 내에서 검색을 한 후, 검색 결과 목록을 담은 후 검색 목록 조회페이지로 이동합니다.
+     * 선택한 카테고리의 선택한 상태 내에서 검색을 한 후, 검색 결과 목록을 담은 후 검색 목록 조회페이지로 이동합니다.
      * 
      * @param status - 선택한 상태입니다.
      * @param keyword - 선택한 키워드입니다.
@@ -109,7 +109,7 @@ public class SearchBoardController {
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchBoardResponse> response =
-                searchService.searchBoardForOption(status, request, "status");
+                searchService.searchBoardForOption(categoryCode, status, request, "status");
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);

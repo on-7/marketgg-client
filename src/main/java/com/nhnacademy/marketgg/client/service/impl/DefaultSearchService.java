@@ -35,12 +35,22 @@ public class DefaultSearchService implements SearchService {
     }
 
     @Override
-    public List<SearchBoardResponse> searchBoardForOption(final String optionCode,
+    public List<SearchBoardResponse> searchBoardForCategory(final String categoryCode,
+                                                            final SearchRequest request,
+                                                            final String option)
+            throws ParseException, JsonProcessingException {
+
+        return searchRepository.searchBoardWithCategoryCode(categoryCode, request, option);
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchBoardForOption(final String categoryCode,
+                                                          final String optionCode,
                                                           final SearchRequest request,
                                                           final String option)
             throws ParseException, JsonProcessingException {
 
-        return searchRepository.searchBoardWithOption(optionCode, request, option);
+        return searchRepository.searchBoardWithOption(categoryCode, optionCode, request, option);
     }
 
 }

@@ -54,9 +54,8 @@ class SearchBoardControllerTest {
     @Test
     @DisplayName("카테고리 내 게시글 검색")
     void searchForCategory() throws Exception {
-        given(searchService.searchBoardForOption(anyString(),
-                                                 any(SearchRequest.class), anyString())).willReturn(
-                List.of(searchBoardResponse));
+        given(searchService.searchBoardForCategory(anyString(), any(SearchRequest.class), anyString()))
+                .willReturn(List.of(searchBoardResponse));
 
         MvcResult mvcResult =
                 mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}", "11")
@@ -75,7 +74,7 @@ class SearchBoardControllerTest {
     @Test
     @DisplayName("사유 별 검색")
     void searchForReason() throws Exception {
-        given(searchService.searchBoardForOption(anyString(),
+        given(searchService.searchBoardForOption(anyString(), anyString(),
                                                  any(SearchRequest.class), anyString())).willReturn(
                 List.of(searchBoardResponse));
 
@@ -97,7 +96,7 @@ class SearchBoardControllerTest {
     @Test
     @DisplayName("상태 별 검색")
     void searchForStatus() throws Exception {
-        given(searchService.searchBoardForOption(anyString(),
+        given(searchService.searchBoardForOption(anyString(), anyString(),
                                                  any(SearchRequest.class), anyString())).willReturn(
                 List.of(searchBoardResponse));
 
@@ -115,4 +114,5 @@ class SearchBoardControllerTest {
                           .getModel()
                           .get("response")).isNotNull();
     }
+
 }

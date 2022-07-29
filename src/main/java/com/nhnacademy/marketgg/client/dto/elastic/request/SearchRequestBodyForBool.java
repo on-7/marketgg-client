@@ -55,22 +55,30 @@ public class SearchRequestBodyForBool<T> {
     public SearchRequestBodyForBool(final String optionCode, final T sortMap,
                                     final SearchRequest request, final String option) {
 
+        List<String> requestOption = DEFAULT_PRODUCT_FIELD;
+
         this.sort = Collections.singletonList(sortMap);
         this.from = request.getPageRequest().getPageNumber();
         this.size = request.getPageRequest().getPageSize();
-        if (option.contains("product")) {
-            this.query =
-                    new BoolQuery(new Bool(
-                            new Must(List.of(new MultiMatch(optionCode, CATEGORY_FIELD),
-                                             new MultiMatch(request.getRequest(),
-                                                            DEFAULT_PRODUCT_FIELD)))));
-        } else {
-            this.query =
-                    new BoolQuery(
-                            new Bool(new Must(List.of(new MultiMatch(optionCode, List.of(option)),
-                                                      new MultiMatch(request.getRequest(),
-                                                                     DEFAULT_BOARD_FIELD)))));
+        if (option.compareTo("board") == 0) {
+            requestOption = DEFAULT_BOARD_FIELD;
         }
+        this.query = new BoolQuery(
+                        new Bool(new Must(List.of(new MultiMatch(optionCode, CATEGORY_FIELD),
+                                                  new MultiMatch(request.getRequest(),
+                                                                 requestOption)))));
+    }
+
+    public SearchRequestBodyForBool(final String categoryCode, final T sortMap,
+                                    final SearchRequest request, final String optionCode,
+                                    final String option) {
+        this.sort = Collections.singletonList(sortMap);
+        this.from = request.getPageRequest().getPageNumber();
+        this.size = request.getPageRequest().getPageSize();
+        this.query = new BoolQuery(new Bool(new Must(List.of(new MultiMatch(categoryCode, CATEGORY_FIELD),
+                                          new MultiMatch(optionCode, List.of(option)),
+                                          new MultiMatch(request.getRequest(),
+                                                         DEFAULT_PRODUCT_FIELD)))));
     }
 
 }

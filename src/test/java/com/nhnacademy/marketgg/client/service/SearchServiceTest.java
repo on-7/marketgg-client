@@ -54,7 +54,8 @@ class SearchServiceTest {
         searchService.searchProductForCategory("11", searchRequest, null);
 
         then(searchRepository).should()
-                              .searchProductForCategory(anyString(), any(SearchRequest.class), any());
+                              .searchProductForCategory(anyString(), any(SearchRequest.class),
+                                                        any());
     }
 
     @Test
@@ -79,7 +80,7 @@ class SearchServiceTest {
         searchService.searchProductForCategory("11", searchRequest, "desc");
 
         then(searchRepository).should().searchProductForCategory(
-                                      anyString(), any(SearchRequest.class), anyString());
+                anyString(), any(SearchRequest.class), anyString());
     }
 
     @Test
@@ -96,16 +97,32 @@ class SearchServiceTest {
     }
 
     @Test
-    @DisplayName("옵션 별 검색")
+    @DisplayName("게시판 카테고리 별 검색")
+    void testSearchBoardForCategory() throws Exception {
+        given(searchRepository.searchBoardWithCategoryCode(anyString(), any(SearchRequest.class),
+                                                           anyString()))
+                .willReturn(List.of(searchBoardResponse));
+
+        searchService.searchBoardForCategory("11", searchRequest, "환불");
+
+        then(searchRepository).should()
+                              .searchBoardWithCategoryCode(anyString(), any(SearchRequest.class),
+                                                           anyString());
+    }
+
+    @Test
+    @DisplayName("게시판 카테고리 내 옵션 별 검색")
     void testSearchBoardForOption() throws Exception {
-        given(searchRepository.searchBoardWithOption(anyString(), any(SearchRequest.class),
+        given(searchRepository.searchBoardWithOption(anyString(), anyString(),
+                                                     any(SearchRequest.class),
                                                      anyString())).willReturn(
                 List.of(searchBoardResponse));
 
-        searchService.searchBoardForOption("공지사항", searchRequest, "categoryCode");
+        searchService.searchBoardForOption("11", "공지사항", searchRequest, "categoryCode");
 
         then(searchRepository).should()
-                              .searchBoardWithOption(anyString(), any(SearchRequest.class),
+                              .searchBoardWithOption(anyString(), anyString(),
+                                                     any(SearchRequest.class),
                                                      anyString());
     }
 
