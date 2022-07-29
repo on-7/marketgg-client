@@ -60,7 +60,7 @@ public class SearchRequestBodyForBool<T> {
         this.sort = Collections.singletonList(sortMap);
         this.from = request.getPageRequest().getPageNumber();
         this.size = request.getPageRequest().getPageSize();
-        if (option.compareTo("board") == 0) {
+        if (Boolean.TRUE.equals(this.isBoard(option))) {
             requestOption = DEFAULT_BOARD_FIELD;
         }
         this.query = new BoolQuery(
@@ -80,5 +80,10 @@ public class SearchRequestBodyForBool<T> {
                                           new MultiMatch(request.getRequest(),
                                                          DEFAULT_PRODUCT_FIELD)))));
     }
+
+    private Boolean isBoard(final String document){
+        return document.compareTo("board") == 0;
+    }
+
 
 }
