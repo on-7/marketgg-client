@@ -32,7 +32,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Slf4j
 @Aspect
-@Order(10)
+@Order
 @Component
 @RequiredArgsConstructor
 public class MemberAspect {
