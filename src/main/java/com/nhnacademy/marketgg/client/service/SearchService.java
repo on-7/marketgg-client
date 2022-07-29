@@ -48,25 +48,23 @@ public interface SearchService {
      * 카테고리 별 게시판에 대한 검색 후 반환할 수 있는 메소드입니다.
      *
      * @param categoryCode - 검색을 진행 할 카테고리의 식별값입니다.
-     * @param request    - 검색을 진행 할 조건을 담은 객체입니다.
-     * @param option     - 검색을 진행 할 옵션입니다.
+     * @param request      - 검색을 진행 할 조건을 담은 객체입니다.
+     * @param option       - 검색을 진행 할 옵션입니다.
      * @return 지정한 카테고리 내의 검색어를 통한 게시판 검색 결과 목록을 반환합니다.
      * @throws JsonProcessingException JSON 콘텐츠를 처리(파싱, 생성)할 때 발생하는 모든 문제시 예외를 던집니다.
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
     List<SearchBoardResponse> searchBoardForCategory(final String categoryCode,
-                                                   final SearchRequest request,
-                                                   final String option)
+                                                     final SearchRequest request,
+                                                     final String option)
             throws ParseException, JsonProcessingException;
 
     /**
-     *
-     *
      * @param categoryCode - 검색을 진행 할 카테고리의 식별 값입니다.
-     * @param optionCode - 검색을 진행 할 옵션의 값입니다.
-     * @param request - 검색을 진행 할 조건을 담은 객체입니다.
-     * @param option - 검색을 진행 할 옵션입니다.
+     * @param optionCode   - 검색을 진행 할 옵션의 값입니다.
+     * @param request      - 검색을 진행 할 조건을 담은 객체입니다.
+     * @param option       - 검색을 진행 할 옵션입니다.
      * @return 지정한 카테고리 내의 지정한 옵션의 검색어를 통한 게시판 검색 결과 목록을 반환합니다.
      * @throws JsonProcessingException JSON 콘텐츠를 처리(파싱, 생성)할 때 발생하는 모든 문제시 예외를 던집니다.
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
@@ -76,6 +74,6 @@ public interface SearchService {
                                                    final String optionCode,
                                                    final SearchRequest request,
                                                    final String option)
-        throws ParseException, JsonProcessingException;
+            throws ParseException, JsonProcessingException;
 
 }

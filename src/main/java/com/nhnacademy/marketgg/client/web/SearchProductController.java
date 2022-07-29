@@ -68,7 +68,6 @@ public class SearchProductController {
      * @return 지정한 카테고리 내의 검색어를 통한 검색 결과 목록을 반환합니다.
      * @throws JsonProcessingException JSON 콘텐츠를 처리(파싱, 생성)할 때 발생하는 모든 문제시 예외를 던집니다.
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
-     * @since 1.0.0essingException
      * @since 1.0.0
      */
     @GetMapping

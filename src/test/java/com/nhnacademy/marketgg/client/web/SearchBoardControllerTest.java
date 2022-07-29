@@ -54,7 +54,8 @@ class SearchBoardControllerTest {
     @Test
     @DisplayName("카테고리 내 게시글 검색")
     void searchForCategory() throws Exception {
-        given(searchService.searchBoardForCategory(anyString(), any(SearchRequest.class), anyString()))
+        given(searchService.searchBoardForCategory(anyString(), any(SearchRequest.class),
+                                                   anyString()))
                 .willReturn(List.of(searchBoardResponse));
 
         MvcResult mvcResult =
@@ -68,7 +69,8 @@ class SearchBoardControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response")).isNotNull();
+                          .get("response"))
+                .isNotNull();
     }
 
     @Test
@@ -90,7 +92,8 @@ class SearchBoardControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response")).isNotNull();
+                          .get("response"))
+                .isNotNull();
     }
 
     @Test
@@ -112,7 +115,8 @@ class SearchBoardControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response")).isNotNull();
+                          .get("response"))
+                .isNotNull();
     }
 
 }
