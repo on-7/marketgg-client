@@ -19,9 +19,21 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * RestTemplate 으로 응답받은 값을 처리할 때 사용되는 Util 클래스입니다.
+ */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ResponseUtils {
 
+    /**
+     * List 타입으로 응답받을 때 사용됩니다.
+     *
+     * @param response - 응답결과
+     * @param mapper   - Json 을 자바로 매핑할 때 사용됩니다.
+     * @param <T>      - 응답 결과의 타입
+     * @return - 응답 결과
+     * @throws JsonProcessingException - Json 을 파싱 시 발생할 수 있는 예외입니다.
+     */
     public static <T> List<T> getListData(String response, ObjectMapper mapper) throws JsonProcessingException {
         ListResponse<T> listResponse = mapper.readValue(response, new TypeReference<>() {
         });
@@ -29,6 +41,15 @@ public final class ResponseUtils {
         return listResponse.getData();
     }
 
+    /**
+     * 단일 타입으로 응답받을 때 사용됩니다.
+     *
+     * @param response - 응답결과
+     * @param mapper   - Json 을 자바로 매핑할 때 사용됩니다.
+     * @param <T>      - 응답 결과의 타입
+     * @return - 응답 결과
+     * @throws JsonProcessingException - Json 을 파싱 시 발생할 수 있는 예외입니다.
+     */
     public static <T> T getData(String response, ObjectMapper mapper) throws JsonProcessingException {
         SingleResponse<T> singleResponse = mapper.readValue(response, new TypeReference<>() {
         });
@@ -36,6 +57,13 @@ public final class ResponseUtils {
         return singleResponse.getData();
     }
 
+    /**
+     * 예외를 확인합니다.
+     *
+     * @param response - 응답결과
+     * @param mapper   - Json 을 자바로 매핑할 때 사용됩니다.
+     * @throws JsonProcessingException - Json 을 파싱 시 발생할 수 있는 예외입니다.
+     */
     public static void checkError(ResponseEntity<String> response, ObjectMapper mapper)
         throws JsonProcessingException, UnAuthorizationException, UnAuthenticException {
 

@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web.advice;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.exception.SecureManagerException;
@@ -26,9 +27,9 @@ public class GlobalControllerAdvice {
      */
     @ExceptionHandler(ClientException.class)
     public ModelAndView clientException(ClientException e) {
-        ModelAndView mav = new ModelAndView();
-
-        return mav;
+        log.error(e.toString());
+        // TODO: Error 페이지 제작
+        return new ModelAndView();
     }
 
     /**
@@ -39,12 +40,13 @@ public class GlobalControllerAdvice {
      */
     @ExceptionHandler({
         ServerException.class,
-        SecureManagerException.class
+        SecureManagerException.class,
+        JsonProcessingException.class
     })
     public ModelAndView serverException(ServerException e) {
-        ModelAndView mav = new ModelAndView();
-
-        return mav;
+        log.error(e.toString());
+        // TODO: Error 페이지 제작
+        return new ModelAndView();
     }
 
     /**
@@ -55,9 +57,24 @@ public class GlobalControllerAdvice {
      */
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView notFoundException(NotFoundException e) {
-        ModelAndView mav = new ModelAndView();
+        log.error(e.toString());
+        // TODO: Error 페이지 제작
+        return new ModelAndView();
+    }
 
-        return mav;
+    /**
+     * 기타 발생할 수 있는 예외를 처리합니다.
+     *
+     * @param t - 기타 예외
+     * @return 예외 처리 페이지
+     */
+    @ExceptionHandler({
+        Throwable.class
+    })
+    public ModelAndView serverErrorHandle(Throwable t) {
+        log.error("", t);
+        // TODO: Error 페이지 제작
+        return new ModelAndView("");
     }
 
 }
