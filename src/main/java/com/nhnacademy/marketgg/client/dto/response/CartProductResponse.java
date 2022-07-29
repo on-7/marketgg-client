@@ -5,8 +5,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class CommonResponse<T> {
+public class CartProductResponse {
 
-    protected boolean success;
-    protected T data;
+    private Long id;
+    private String name;
+    private Integer amount;
+    private Long price;
+
 }
