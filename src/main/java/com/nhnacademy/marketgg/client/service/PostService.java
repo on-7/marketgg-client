@@ -16,7 +16,7 @@ public interface PostService {
 
     PostResponse retrievePost(final Long boardNo, final String type);
 
-    PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type, final Pageable pageable) throws JsonProcessingException;
+    PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type);
 
     void updatePost(final Long boardNo, final PostRequest postRequest, final String type);
 

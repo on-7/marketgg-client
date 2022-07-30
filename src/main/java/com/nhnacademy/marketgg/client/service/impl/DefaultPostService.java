@@ -34,8 +34,8 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type, final Pageable pageable) throws JsonProcessingException {
-        return postRepository.retrievePostForOtoInquiry(boardNo, type, pageable);
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type) {
+        return postRepository.retrievePostForOtoInquiry(boardNo, type);
     }
 
     @Override

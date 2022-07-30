@@ -58,16 +58,13 @@ public class PostController {
     }
 
     @GetMapping("/{type}/{boardNo}/retrieve")
-    public ModelAndView retrievePost(@PathVariable final String type, @PathVariable final Long boardNo,
-                                     @RequestParam @DefaultValue(value = "0") final Integer page) throws JsonProcessingException {
+    public ModelAndView retrievePost(@PathVariable final String type, @PathVariable final Long boardNo) {
 
         ModelAndView mav = new ModelAndView("board/" + type + "/detail");
 
         if (type.compareTo("oto-inquiries") == 0) {
-            PostResponseForOtoInquiry response = postService.retrievePostForOtoInquiry(boardNo, type,
-                                                                                       PageRequest.of(page, 10));
+            PostResponseForOtoInquiry response = postService.retrievePostForOtoInquiry(boardNo, type);
             mav.addObject("response", response);
-            mav.addObject("page", page);
             mav.addObject("isEnd", this.checkPageEnd(response.getCommentList()));
         } else {
             mav.addObject("response", postService.retrievePost(boardNo, type));

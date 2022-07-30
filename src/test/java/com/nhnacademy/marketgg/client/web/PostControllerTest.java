@@ -115,7 +115,7 @@ class PostControllerTest {
     void testRetrievePostForOtoInquiries() throws Exception {
         ReflectionTestUtils.setField(postResponseForOtoInquiry, "commentList", List.of(commentResponse));
 
-        given(postService.retrievePostForOtoInquiry(anyLong(), anyString(), any(PageRequest.class))).willReturn(
+        given(postService.retrievePostForOtoInquiry(anyLong(), anyString())).willReturn(
                 postResponseForOtoInquiry);
 
         this.mockMvc.perform(get(DEFAULT + "/{type}/{boardNo}/retrieve", "oto-inquiries", 1L)
