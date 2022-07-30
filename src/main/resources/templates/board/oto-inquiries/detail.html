@@ -35,5 +35,11 @@
                 </tr>
             </table>
         </div>
+        <!-- FIXME: memberInfo 에노테이션 해결 -->
+        <div style="text-align: center; display: flex; justify-content: center">
+            <form th:method="post" th:action="'/shop/v1/customer-services/oto-inquiries/'+${response.id}+'members/1'">
+                <input type="submit" value="답글 등록">
+            </form>
+        </div>
     </body>
 </html>

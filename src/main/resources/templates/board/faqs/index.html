@@ -9,7 +9,9 @@
             <input type="text" name="keyword" value="검색어를 입력하세요">
             <input type="submit" value="검색"><br />
         </form>
-        <a href="/shop/v1/custom-services/faq/create">FAQ 등록</a>
+        <form th:method="get" th:action="'/shop/v1/customer-services/faqs/create'">
+            <input type="submit" value="FAQ 등록">
+        </form>
         <table>
             <thead>
                 <tr>
@@ -17,6 +19,7 @@
                     <th>제목</th>
                     <th>등록일자</th>
                     <th>수정</th>
+                    <th>삭제</th>
                 </tr>
             </thead>
             <tbody>
@@ -24,7 +27,17 @@
                     <td th:text="${board.id}"></td>
                     <td th:text="${board.title}"></td>
                     <td th:text="${board.createdAt}"></td>
-                    <td><a th:href="'/shop/v1/custom-services/faqs/'+${board.id}+'/update'">수정</a></td>
+                    <td>
+                        <form th:method="get" th:action="'/shop/v1/customer-services/faqs/'+${board.id}+'/update'">
+                            <input type="submit" value="수정">
+                        </form>
+                    </td>
+                    <td>
+                        <form th:method="post" th:action="'/shop/v1/customer-services/faqs/'+${board.id}+'/delete'">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <input type="submit" value="삭제">
+                        </form>
+                    </td>
                 </tr>
             </tbody>
         </table>
