@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ProductToCartRequest {
 
+    // 상품 ID
     @NotNull
     private Long id;
 
     @NotNull
     @Max(value = 999)
-    @Min(value = 0)
+    @Min(value = 1)
     private Integer amount;
 
 }
