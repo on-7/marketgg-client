@@ -38,6 +38,9 @@ public class PostController {
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
+        mav.addObject("isDefaultSearch", 0);
+        mav.addObject("isReasonSearch", 0);
+        mav.addObject("isStatusSearch", 0);
 
         return mav;
     }

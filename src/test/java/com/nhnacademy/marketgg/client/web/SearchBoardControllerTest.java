@@ -40,7 +40,6 @@ class SearchBoardControllerTest {
     private SearchBoardResponse searchBoardResponse;
 
     private static final String DEFAULT_SEARCH = "/shop/v1/search/boards";
-    private static final String SEARCH_RESULT = "/search/board-search-list";
 
     @BeforeEach
     void setUp(@Autowired WebApplicationContext applicationContext) {
@@ -59,12 +58,12 @@ class SearchBoardControllerTest {
                 .willReturn(List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}", "11")
+                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/types/{type}", "11", "faqs")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
                        .andExpect(status().isOk())
-                       .andExpect(view().name(SEARCH_RESULT))
+                       .andExpect(view().name("board/faqs/index"))
                        .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
@@ -87,7 +86,7 @@ class SearchBoardControllerTest {
                                         .param("page", "0")
                                         .param("size", "1"))
                        .andExpect(status().isOk())
-                       .andExpect(view().name(SEARCH_RESULT))
+                       .andExpect(view().name("board/oto-inquiries/index"))
                        .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
@@ -110,7 +109,7 @@ class SearchBoardControllerTest {
                                         .param("page", "0")
                                         .param("size", "1"))
                        .andExpect(status().isOk())
-                       .andExpect(view().name(SEARCH_RESULT))
+                       .andExpect(view().name("board/oto-inquiries/index"))
                        .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())

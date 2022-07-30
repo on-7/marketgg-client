@@ -1,10 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org" lang="ko">
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>1:1문의 게시판</title>
     </head>
     <body>
-
+        <details>
+            <summary>[전체 검색]</summary>
+                <form th:action="'/shop/v1/search/boards/categories/702/types/oto-inquiries?page=0&size=10'" th:method="post">
+                    <input type="text" name="keyword" value="검색어를 입력하세요">
+                    <input type="submit" value="검색"><br />
+                </form>
+        </details>
+        <details>
+            <summary>[사유 검색]</summary>
+            <form th:action="'/shop/v1/search/boards/categories/702/reason?page=0&size=10'" th:method="post">
+                <input type="text" name="keyword" value="검색어를 입력하세요">
+                <input type="submit" value="검색"><br />
+            </form>
+        </details>
+        <details>
+            <summary>[상태 검색]</summary>
+            <form th:action="'/shop/v1/search/boards/categories/702/status?page=0&size=10'" th:method="post">
+                <input type="text" name="keyword" value="검색어를 입력하세요">
+                <input type="submit" value="검색"><br />
+            </form>
+        </details>
+        <table>
+            <thead>
+                <tr>
+                    <th>게시글 번호</th>
+                    <th>제목</th>
+                    <th>사유</th>
+                    <th>상태</th>
+                    <th>등록일자</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="board : ${response}">
+                    <td th:text="${board.id}"></td>
+                    <td th:text="${board.title}"></td>
+                    <td th:text="${board.reason}"></td>
+                    <td th:text="${board.status}"></td>
+                    <td th:text="${board.createdAt}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <a th:href="'/project/detail/'+ ${projectNo} + '?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+        <span th:text="'('+ ${page} + 'page)'"></span>
+        <a th:href="'/project/detail/'+ ${projectNo} + '?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
     </body>
 </html>

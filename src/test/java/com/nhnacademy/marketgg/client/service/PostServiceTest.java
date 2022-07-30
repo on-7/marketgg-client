@@ -47,7 +47,7 @@ class PostServiceTest {
         postResponseForOtoInquiry = new PostResponseForOtoInquiry();
         CommentResponse commentResponse = new CommentResponse();
 
-        ReflectionTestUtils.setField(postResponse, "postNo", 1L);
+        ReflectionTestUtils.setField(postResponse, "id", 1L);
         ReflectionTestUtils.setField(commentResponse, "content", "hello");
         ReflectionTestUtils.setField(postResponseForOtoInquiry, "commentList", List.of(commentResponse));
     }
@@ -69,7 +69,7 @@ class PostServiceTest {
 
         List<PostResponse> list = postService.retrievesPosts(PageRequest.of(0, 1), "oto-inquiries");
 
-        assertThat(list.get(0).getPostNo()).isEqualTo(1L);
+        assertThat(list.get(0).getId()).isEqualTo(1L);
     }
 
     @Test
@@ -79,7 +79,7 @@ class PostServiceTest {
 
         PostResponse response = postService.retrievePost(1L, "faqs");
 
-        assertThat(response.getPostNo()).isEqualTo(1L);
+        assertThat(response.getId()).isEqualTo(1L);
     }
 
     @Test

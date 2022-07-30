@@ -2,28 +2,27 @@
 <html xmlns:th="https://www.thymeleaf.org" lang="ko">
     <head>
         <meta charset="UTF-8">
-        <title>검색 결과</title>
+        <title>FAQ 게시판</title>
     </head>
     <body>
+        <form th:action="'/shop/v1/search/boards/categories/703?page=0&size=10'" th:method="post">
+            <span>[검색]</span>
+            <input type="text" name="keyword" value="검색어를 입력하세요">
+            <input type="submit" value="검색"><br />
+        </form>
         <table>
             <thead>
                 <tr>
                     <th>게시글 번호</th>
                     <th>카테고리번호</th>
                     <th>제목</th>
-                    <th>사유</th>
-                    <th>상태</th>
                     <th>등록일자</th>
                 </tr>
             </thead>
-
             <tbody>
                 <tr th:each="board : ${response}">
                     <td th:text="${board.id}"></td>
-                    <td th:text="${board.categoryCode}"></td>
                     <td th:text="${board.title}"></td>
-                    <td th:text="${board.reason}"></td>
-                    <td th:text="${board.status}"></td>
                     <td th:text="${board.createdAt}"></td>
                 </tr>
             </tbody>

@@ -28,8 +28,6 @@ public class SearchBoardController {
 
     private final SearchService searchService;
 
-    private static final String SEARCH_RESULT = "search/board-search-list";
-
     /**
      * 카테고리 내에서 검색어를 통한 검색 후, 검색 결과 목록을 담은 후 검색 목록 조회페이지로 이동합니다.
      *
@@ -41,13 +39,13 @@ public class SearchBoardController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}")
-    public ModelAndView searchForCategory(@PathVariable final String categoryCode,
+    @GetMapping("/categories/{categoryCode}/types/{type}")
+    public ModelAndView searchForCategory(@PathVariable final String categoryCode, @PathVariable final String type,
                                           @RequestParam final String keyword,
                                           final Pageable pageable)
             throws ParseException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
+        ModelAndView mav = new ModelAndView("board/" + type + "/index");
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchBoardResponse> response =
@@ -56,6 +54,9 @@ public class SearchBoardController {
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isDefaultSearch", 1);
+        mav.addObject("isReasonSearch", 0);
+        mav.addObject("isStatusSearch", 0);
 
         return mav;
     }
@@ -77,7 +78,7 @@ public class SearchBoardController {
                                         @RequestParam final String keyword, final Pageable pageable)
             throws ParseException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
+        ModelAndView mav = new ModelAndView("board/oto-inquiries/index");
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchBoardResponse> response =
@@ -85,6 +86,10 @@ public class SearchBoardController {
 
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
+        mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isDefaultSearch", 0);
+        mav.addObject("isReasonSearch", 1);
+        mav.addObject("isStatusSearch", 0);
 
         return mav;
     }
@@ -106,7 +111,7 @@ public class SearchBoardController {
                                         @RequestParam final String keyword, final Pageable pageable)
             throws ParseException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView(SEARCH_RESULT);
+        ModelAndView mav = new ModelAndView("board/oto-inquiries/index");
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchBoardResponse> response =
@@ -115,6 +120,9 @@ public class SearchBoardController {
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isDefaultSearch", 0);
+        mav.addObject("isReasonSearch", 0);
+        mav.addObject("isStatusSearch", 1);
 
         return mav;
     }

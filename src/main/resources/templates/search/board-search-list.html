@@ -9,7 +9,6 @@
             <thead>
                 <tr>
                     <th>게시글 번호</th>
-                    <th>카테고리번호</th>
                     <th>제목</th>
                     <th>사유</th>
                     <th>상태</th>
@@ -20,7 +19,6 @@
             <tbody>
                 <tr th:each="board : ${response}">
                     <td th:text="${board.id}"></td>
-                    <td th:text="${board.categoryCode}"></td>
                     <td th:text="${board.title}"></td>
                     <td th:text="${board.reason}"></td>
                     <td th:text="${board.status}"></td>
