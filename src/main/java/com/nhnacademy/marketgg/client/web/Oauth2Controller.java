@@ -28,4 +28,5 @@ public class Oauth2Controller {
         String name = oAuth2Service.getToken(code);
         return new ModelAndView("index").addObject("name", name);
     }
+
 }
