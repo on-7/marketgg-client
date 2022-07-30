@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 public class PostResponseForOtoInquiry {
 
-    private Long postNo;
+    private Long id;
 
     private String title;
 
