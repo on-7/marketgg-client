@@ -76,7 +76,7 @@ public class CartAdapter implements CartRepository {
 
         HttpEntity<List<Long>> httpEntity = new HttpEntity<>(products, getJsonHeader());
         ResponseEntity<String> response =
-            restTemplate.exchange(gatewayIp + CART, HttpMethod.PATCH, httpEntity, String.class);
+            restTemplate.exchange(gatewayIp + CART, HttpMethod.DELETE, httpEntity, String.class);
 
         ResponseUtils.checkError(response, mapper);
     }
