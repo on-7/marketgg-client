@@ -26,6 +26,7 @@
                 <input type="submit" value="검색"><br />
             </form>
         </details>
+        <a href="/shop/v1/custom-services/oto-inquiries/create">1:1 문의 등록</a>
         <table>
             <thead>
                 <tr>
@@ -34,6 +35,7 @@
                     <th>사유</th>
                     <th>상태</th>
                     <th>등록일자</th>
+                    <th>수정</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +45,7 @@
                     <td th:text="${board.reason}"></td>
                     <td th:text="${board.status}"></td>
                     <td th:text="${board.createdAt}"></td>
+                    <td><a th:href="'/shop/v1/custom-services/oto-inquiries/'+${board.id}+'/update'">수정</a></td>
                 </tr>
             </tbody>
         </table>

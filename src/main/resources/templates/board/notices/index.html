@@ -9,19 +9,22 @@
             <input type="text" name="keyword" value="검색어를 입력하세요">
             <input type="submit" value="검색"><br />
         </form>
+        <a href="/shop/v1/custom-services/notices/create">공지사항 등록</a>
         <table>
             <thead>
                 <tr>
                     <th>게시글 번호</th>
                     <th>제목</th>
                     <th>등록일자</th>
+                    <th>수정</th>
                 </tr>
             </thead>
             <tbody>
                 <tr th:each="board : ${responses}">
                     <td th:text="${board.id}"></td>
                     <td th:text="${board.title}"></td>
-                    <td th:text="${board.createdAt}"></td>
+                    <td th:text="${board.createdAt}">
+                    <td><a th:href="'/shop/v1/custom-services/notices/'+${board.id}+'/update'">수정</a></td>
                 </tr>
             </tbody>
         </table>

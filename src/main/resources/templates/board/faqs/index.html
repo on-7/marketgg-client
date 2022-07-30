@@ -9,12 +9,14 @@
             <input type="text" name="keyword" value="검색어를 입력하세요">
             <input type="submit" value="검색"><br />
         </form>
+        <a href="/shop/v1/custom-services/faq/create">FAQ 등록</a>
         <table>
             <thead>
                 <tr>
                     <th>게시글 번호</th>
                     <th>제목</th>
                     <th>등록일자</th>
+                    <th>수정</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +24,7 @@
                     <td th:text="${board.id}"></td>
                     <td th:text="${board.title}"></td>
                     <td th:text="${board.createdAt}"></td>
+                    <td><a th:href="'/shop/v1/custom-services/faqs/'+${board.id}+'/update'">수정</a></td>
                 </tr>
             </tbody>
         </table>
