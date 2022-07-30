@@ -54,9 +54,7 @@ public class SearchBoardController {
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
-        mav.addObject("isDefaultSearch", 1);
-        mav.addObject("isReasonSearch", 0);
-        mav.addObject("isStatusSearch", 0);
+        mav.addObject("searchType", "default");
 
         return mav;
     }
@@ -87,9 +85,7 @@ public class SearchBoardController {
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
-        mav.addObject("isDefaultSearch", 0);
-        mav.addObject("isReasonSearch", 1);
-        mav.addObject("isStatusSearch", 0);
+        mav.addObject("searchType", "reason");
 
         return mav;
     }
@@ -120,9 +116,7 @@ public class SearchBoardController {
         mav.addObject("response", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
-        mav.addObject("isDefaultSearch", 0);
-        mav.addObject("isReasonSearch", 0);
-        mav.addObject("isStatusSearch", 1);
+        mav.addObject("searchType", "status");
 
         return mav;
     }
