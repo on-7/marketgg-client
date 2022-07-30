@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>공지 수정</title>
+    </head>
+    <body>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <form th:method="post" th:action="'/shop/v1/customer-services/notices/update'">
+                <span>공지 제목: </span><input type="text" name="title" th:value="${response.title}"><br /><br />
+                <span>[공지 내용]</span><br />
+                <textarea cols = "50" rows = "10" name="content" th:value="${response.content}"></textarea><br/>
+                <input type="hidden" name="_method" value="put"/>
+                <input type="submit" value="수정">
+            </form>
+        </div>
+    </body>
+</html>

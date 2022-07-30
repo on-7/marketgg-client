@@ -5,31 +5,35 @@
         <title>1:1문의 게시판</title>
     </head>
     <body>
-        <form th:action="'/shop/v1/search/boards/categories/702?page=0&size=10'" th:method="post">
-            <span>[검색]</span>
-            <input type="text" name="keyword" value="검색어를 입력하세요">
-            <input type="submit" value="검색"><br />
-        </form>
-        <table>
-            <thead>
-                <tr>
-                    <th>게시글 번호</th>
-                    <th>제목</th>
-                    <th>사유</th>
-                    <th>상태</th>
-                    <th>등록일자</th>
-                </tr>
-            </thead>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <h4>[1:1문의 제목]</h4>
+            <div style="border: 1px dashed;  width: 300px; height: 30px; padding: 10px">
+                <span th:text="${response.title}"></span>
+            </div>
+        </div>
+        <div style="text-align: center; display: flex; justify-content: center">
+            [등록일자] <span th:text="${response.createdAt}"></span>
+            [수정일자] <span th:text="${response.updatedAt}"></span>
+        </div>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <h4>[1:1문의 내용]</h4>
+            <div style="border: 1px dashed;  width: 500px; height: 300px; padding: 10px">
+                <span th:text="${response.content}"></span>
+            </div>
+        </div>
+        <h2 style="text-align: center">[답변 목록]</h2>
 
-            <tbody>
-                <tr th:each="board : ${response}">
-                    <td th:text="${board.id}"></td>
-                    <td th:text="${board.title}"></td>
-                    <td th:text="${board.reason}"></td>
-                    <td th:text="${board.status}"></td>
-                    <td th:text="${board.createdAt}"></td>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <table>
+                <tr>
+                    <th>답변 내용</th>
+                    <th>답변 작성일자</th>
                 </tr>
-            </tbody>
-        </table>
+                <tr th:each="comment : ${response.commentList}">
+                    <td th:text="${comment.content}"></td>
+                    <td th:text="${comment.createdAt}"></td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>

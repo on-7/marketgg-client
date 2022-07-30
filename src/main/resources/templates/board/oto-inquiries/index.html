@@ -37,7 +37,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="board : ${response}">
+                <tr th:each="board : ${responses}">
                     <td th:text="${board.id}"></td>
                     <td th:text="${board.title}"></td>
                     <td th:text="${board.reason}"></td>

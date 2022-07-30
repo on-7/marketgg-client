@@ -45,7 +45,7 @@ public class PostController {
 
     @GetMapping("/{type}/create")
     public ModelAndView doCreatePost(@PathVariable String type) {
-        return new ModelAndView("board/" + type + "/input-form");
+        return new ModelAndView("board/" + type + "/create-form");
     }
 
     @PostMapping("/{type}/create")
@@ -77,7 +77,7 @@ public class PostController {
 
     @GetMapping("/{type}/{boardNo}/update")
     public ModelAndView doUpdatePost(@PathVariable final String type, @PathVariable final Long boardNo) {
-        ModelAndView mav = new ModelAndView("board/" + type + "/input-form");
+        ModelAndView mav = new ModelAndView("board/" + type + "/update-form");
         mav.addObject("response", postService.retrievePost(boardNo, type));
 
         return mav;

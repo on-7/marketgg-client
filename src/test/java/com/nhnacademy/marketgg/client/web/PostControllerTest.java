@@ -84,7 +84,7 @@ class PostControllerTest {
     void testDoCreatePost() throws Exception {
         this.mockMvc.perform(get(DEFAULT + "/{type}/create", "faqs"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("board/faqs/input-form"));
+                    .andExpect(view().name("board/faqs/create-form"));
     }
 
     @Test
@@ -115,8 +115,7 @@ class PostControllerTest {
     void testRetrievePostForOtoInquiries() throws Exception {
         ReflectionTestUtils.setField(postResponseForOtoInquiry, "commentList", List.of(commentResponse));
 
-        given(postService.retrievePostForOtoInquiry(anyLong(), anyString())).willReturn(
-                postResponseForOtoInquiry);
+        given(postService.retrievePostForOtoInquiry(anyLong(), anyString())).willReturn(postResponseForOtoInquiry);
 
         this.mockMvc.perform(get(DEFAULT + "/{type}/{boardNo}/retrieve", "oto-inquiries", 1L)
                                      .param("page", "0"))
@@ -127,9 +126,11 @@ class PostControllerTest {
     @Test
     @DisplayName("게시글 수정 준비")
     void testDoUpdatePost() throws Exception {
+        given(postService.retrievePost(anyLong(), anyString())).willReturn(postResponse);
+
         this.mockMvc.perform(get(DEFAULT + "/{type}/{boardNo}/update", "faqs", 1L))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("board/faqs/input-form"));
+                    .andExpect(view().name("board/faqs/update-form"));
     }
 
     @Test
