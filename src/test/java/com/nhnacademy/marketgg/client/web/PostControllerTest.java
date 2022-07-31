@@ -58,7 +58,7 @@ class PostControllerTest {
     @Test
     @DisplayName("전체 목록 조회")
     void testIndex() throws Exception {
-        given(postService.retrievesPosts(any(PageRequest.class), anyString())).willReturn(List.of());
+        given(postService.retrievesPostList(any(PageRequest.class), anyString())).willReturn(List.of());
 
         this.mockMvc.perform(get(DEFAULT + "/{type}", "faqs")
                                      .param("page", "0"))
@@ -69,7 +69,7 @@ class PostControllerTest {
     @Test
     @DisplayName("전체 목록 조회(페이지 마지막 X)")
     void testIndexPageNoEnd() throws Exception {
-        given(postService.retrievesPosts(any(PageRequest.class), anyString())).willReturn(
+        given(postService.retrievesPostList(any(PageRequest.class), anyString())).willReturn(
                 List.of(postResponse, postResponse, postResponse, postResponse, postResponse, postResponse,
                         postResponse, postResponse, postResponse, postResponse, postResponse));
 

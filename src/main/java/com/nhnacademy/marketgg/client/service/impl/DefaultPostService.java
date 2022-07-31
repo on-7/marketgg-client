@@ -24,8 +24,8 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> retrievesPosts(final Pageable pageable, final String type) throws JsonProcessingException {
-        return postRepository.retrievesPosts(pageable, type);
+    public List<PostResponse> retrievesPostList(final Pageable pageable, final String type) throws JsonProcessingException {
+        return postRepository.retrievesPostList(pageable, type);
     }
 
     @Override

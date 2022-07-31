@@ -12,9 +12,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.SearchService;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -101,6 +103,31 @@ class SearchBoardControllerTest {
         given(searchService.searchBoardForOption(anyString(), anyString(),
                                                  any(SearchRequest.class), anyString())).willReturn(
                 List.of(searchBoardResponse));
+
+        MvcResult mvcResult =
+                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
+                                        .param("status", "종료")
+                                        .param("keyword", "안녕")
+                                        .param("page", "0")
+                                        .param("size", "1"))
+                       .andExpect(status().isOk())
+                       .andExpect(view().name("board/oto-inquiries/index"))
+                       .andReturn();
+
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
+                          .getModel()
+                          .get("response"))
+                .isNotNull();
+    }
+
+    @Test
+    @DisplayName("상태 별 검색 (페이지 끝 X)")
+    void searchForStatusNotPageEnd() throws Exception {
+        given(searchService.searchBoardForOption(anyString(), anyString(),
+                                                 any(SearchRequest.class), anyString())).willReturn(
+                List.of(searchBoardResponse, searchBoardResponse, searchBoardResponse, searchBoardResponse,
+                        searchBoardResponse, searchBoardResponse, searchBoardResponse, searchBoardResponse,
+                        searchBoardResponse, searchBoardResponse, searchBoardResponse));
 
         MvcResult mvcResult =
                 mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")

@@ -65,9 +65,9 @@ class PostServiceTest {
     @Test
     @DisplayName("게시글 전체 조회")
     void testRetrievesPosts() throws JsonProcessingException {
-        given(postRepository.retrievesPosts(any(PageRequest.class), anyString())).willReturn(List.of(postResponse));
+        given(postRepository.retrievesPostList(any(PageRequest.class), anyString())).willReturn(List.of(postResponse));
 
-        List<PostResponse> list = postService.retrievesPosts(PageRequest.of(0, 1), "oto-inquiries");
+        List<PostResponse> list = postService.retrievesPostList(PageRequest.of(0, 1), "oto-inquiries");
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }

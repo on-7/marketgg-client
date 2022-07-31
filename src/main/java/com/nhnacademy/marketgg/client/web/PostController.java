@@ -47,7 +47,7 @@ public class PostController {
     @GetMapping("/{type}")
     public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page) throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
-        List<PostResponse> responses = postService.retrievesPosts(PageRequest.of(page, 10), type);
+        List<PostResponse> responses = postService.retrievesPostList(PageRequest.of(page, 10), type);
         mav.addObject("type", type);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));

@@ -55,6 +55,7 @@ public class SearchBoardController {
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "default");
+        mav.addObject("isEnd", this.checkPageEnd(response));
 
         return mav;
     }
@@ -86,6 +87,7 @@ public class SearchBoardController {
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "reason");
+        mav.addObject("isEnd", this.checkPageEnd(response));
 
         return mav;
     }
@@ -117,8 +119,16 @@ public class SearchBoardController {
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "status");
+        mav.addObject("isEnd", this.checkPageEnd(response));
 
         return mav;
+    }
+
+    private <T> Integer checkPageEnd(List<T> list) {
+        if (list.size() < 11) {
+            return 1;
+        }
+        return 0;
     }
 
 }

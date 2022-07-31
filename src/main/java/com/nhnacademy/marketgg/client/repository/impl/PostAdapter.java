@@ -45,7 +45,7 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> retrievesPosts(final Pageable pageable, final String type) throws JsonProcessingException {
+    public List<PostResponse> retrievesPostList(final Pageable pageable, final String type) throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(pageable);
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
