@@ -33,14 +33,7 @@ jobs:
       with:
         arguments: build
 
-  sonarqube:
-      needs: build
-      name: SonarQube
-      runs-on: ubuntu-20.04
-      steps:
-      - name: SonarQube Scan
-        uses: kitabisa/sonarqube-action@master
-        with:
-          projectKey: ${{ secrets.SONARQUBE_PROJECT_KEY }}
-          host: ${{ secrets.SONARQUBE_HOST }}
-          login: ${{ secrets.SONARQUBE_TOKEN }}
+    - name: Run SonarQube
+      run: mvn sonar:sonar -Dsonar.projectKey=${{ secrets.SONARQUBE_PROJECT_KEY }}
+                           -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
+                           -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
