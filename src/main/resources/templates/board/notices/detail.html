@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>공지 사항</title>
+    </head>
+    <body>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <h4>[공지 제목]</h4>
+            <div style="border: 1px dashed;  width: 300px; height: 30px; padding: 10px">
+                <span th:text="${response.title}"></span>
+            </div>
+        </div>
+        <div style="text-align: center; display: flex; justify-content: center">
+            [등록일자] <span th:text="${response.createdAt}"></span>
+            [수정일자] <span th:text="${response.updatedAt}"></span>
+        </div>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <h4>[공지 내용]</h4>
+            <div style="border: 1px dashed;  width: 500px; height: 300px; padding: 10px">
+                <span th:text="${response.content}"></span>
+            </div>
+        </div>
+    </body>
+</html>

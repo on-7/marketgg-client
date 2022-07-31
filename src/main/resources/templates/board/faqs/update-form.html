@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>FAQ 수정</title>
+    </head>
+    <body>
+        <div style="text-align: center; display: flex; justify-content: center">
+            <form th:method="post" th:action="'/shop/v1/customer-services/faqs/update'">
+                <span>FAQ 질문 내용: </span>
+                <textarea cols = "50" rows = "10" name="title" th:value="${response.title}"></textarea><br/>
+                <span>FAQ 답변 내용: </span><br />
+                <textarea cols = "50" rows = "10" name="content" th:value="${response.content}"></textarea><br/>
+                <input type="hidden" name="_method" value="put"/>
+                <input type="submit" value="수정">
+            </form>
+        </div>
+    </body>
+</html>
