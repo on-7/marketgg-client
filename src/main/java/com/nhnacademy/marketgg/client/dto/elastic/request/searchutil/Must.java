@@ -13,6 +13,6 @@ import lombok.Getter;
 @Getter
 public class Must {
 
-    List<MultiMatch> match;
+    MultiMatch multi_match;
 
 }
