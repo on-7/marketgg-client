@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -28,17 +29,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class SearchAdapter implements SearchRepository {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    private final String gatewayIp;
     private final KoreanToEnglishTranslator koreanTranslator;
     private final JSONParser jsonParser;
-    private static final String DEFAULT_ELASTIC_PRODUCT = "/elastic/products/_search";
-    private static final String DEFAULT_ELASTIC_BOARD = "/elastic/boards/_search";
+    private static final String DEFAULT_ELASTIC_PRODUCT = "/products/_search";
+    private static final String DEFAULT_ELASTIC_BOARD =  "/boards/_search";
     private static final String PRODUCT = "product";
     private static final String BOARD = "board";
 
@@ -119,11 +120,13 @@ public class SearchAdapter implements SearchRepository {
 
     private ResponseEntity<String> doRequest(final HttpEntity<String> request,
                                              final String document) {
+        log.error(request.toString());
         String requestUri = DEFAULT_ELASTIC_PRODUCT;
         if (document.compareTo(PRODUCT) != 0) {
             requestUri = DEFAULT_ELASTIC_BOARD;
         }
-        return restTemplate.exchange(gatewayIp + requestUri,
+        // FIXME: data 파일 연결해서 사용 (path 제대로 잡기)
+        return restTemplate.exchange("http://133.186.153.181:9200" + requestUri,
                                      HttpMethod.POST,
                                      request,
                                      String.class);

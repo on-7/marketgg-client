@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -12,9 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.SearchService;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -40,7 +43,6 @@ class SearchBoardControllerTest {
     private SearchBoardResponse searchBoardResponse;
 
     private static final String DEFAULT_SEARCH = "/shop/v1/search/boards";
-    private static final String SEARCH_RESULT = "search/board-search-list";
 
     @BeforeEach
     void setUp(@Autowired WebApplicationContext applicationContext) {
@@ -59,17 +61,17 @@ class SearchBoardControllerTest {
                 .willReturn(List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}", "11")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/types/{type}", "11", "faqs")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
                        .andExpect(status().isOk())
-                       .andExpect(view().name(SEARCH_RESULT))
+                       .andExpect(view().name("board/faqs/index"))
                        .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response"))
+                          .get("responses"))
                 .isNotNull();
     }
 
@@ -81,18 +83,18 @@ class SearchBoardControllerTest {
                 List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/reason", "11")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/reason", "11")
                                         .param("reason", "환불")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
                        .andExpect(status().isOk())
-                       .andExpect(view().name(SEARCH_RESULT))
+                       .andExpect(view().name("board/oto-inquiries/index"))
                        .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response"))
+                          .get("responses"))
                 .isNotNull();
     }
 
@@ -104,18 +106,43 @@ class SearchBoardControllerTest {
                 List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
                                         .param("status", "종료")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
                        .andExpect(status().isOk())
-                       .andExpect(view().name(SEARCH_RESULT))
+                       .andExpect(view().name("board/oto-inquiries/index"))
                        .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response"))
+                          .get("responses"))
+                .isNotNull();
+    }
+
+    @Test
+    @DisplayName("상태 별 검색 (페이지 끝 X)")
+    void searchForStatusNotPageEnd() throws Exception {
+        given(searchService.searchBoardForOption(anyString(), anyString(),
+                                                 any(SearchRequest.class), anyString())).willReturn(
+                List.of(searchBoardResponse, searchBoardResponse, searchBoardResponse, searchBoardResponse,
+                        searchBoardResponse, searchBoardResponse, searchBoardResponse, searchBoardResponse,
+                        searchBoardResponse, searchBoardResponse, searchBoardResponse));
+
+        MvcResult mvcResult =
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
+                                        .param("status", "종료")
+                                        .param("keyword", "안녕")
+                                        .param("page", "0")
+                                        .param("size", "1"))
+                       .andExpect(status().isOk())
+                       .andExpect(view().name("board/oto-inquiries/index"))
+                       .andReturn();
+
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
+                          .getModel()
+                          .get("responses"))
                 .isNotNull();
     }
 

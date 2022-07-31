@@ -64,9 +64,8 @@ public class SearchRequestBodyForBool<T> {
             requestOption = DEFAULT_BOARD_FIELD;
         }
         this.query = new BoolQuery(
-                        new Bool(new Must(List.of(new MultiMatch(optionCode, CATEGORY_FIELD),
-                                                  new MultiMatch(request.getRequest(),
-                                                                 requestOption)))));
+                new Bool(List.of(new Must(new MultiMatch(optionCode, CATEGORY_FIELD)),
+                                 new Must(new MultiMatch(request.getRequest(), requestOption)))));
     }
 
     public SearchRequestBodyForBool(final String categoryCode, final T sortMap,
@@ -75,10 +74,9 @@ public class SearchRequestBodyForBool<T> {
         this.sort = Collections.singletonList(sortMap);
         this.from = request.getPageRequest().getPageNumber();
         this.size = request.getPageRequest().getPageSize();
-        this.query = new BoolQuery(new Bool(new Must(List.of(new MultiMatch(categoryCode, CATEGORY_FIELD),
-                                          new MultiMatch(optionCode, List.of(option)),
-                                          new MultiMatch(request.getRequest(),
-                                                         DEFAULT_PRODUCT_FIELD)))));
+        this.query = new BoolQuery(new Bool(List.of(new Must(new MultiMatch(categoryCode, CATEGORY_FIELD)),
+                                                    new Must(new MultiMatch(optionCode, List.of(option))),
+                                                    new Must(new MultiMatch(request.getRequest(), DEFAULT_BOARD_FIELD)))));
     }
 
     private Boolean isBoard(final String document){
