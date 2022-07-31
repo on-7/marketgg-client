@@ -38,7 +38,7 @@ public class SearchAdapter implements SearchRepository {
     private final KoreanToEnglishTranslator koreanTranslator;
     private final JSONParser jsonParser;
     private static final String DEFAULT_ELASTIC_PRODUCT = "/elastic/products/_search";
-    private static final String DEFAULT_ELASTIC_BOARD = "/elastic/boards/_search";
+    private static final String DEFAULT_ELASTIC_BOARD =  "/elastic/boards/_search";
     private static final String PRODUCT = "product";
     private static final String BOARD = "board";
 
