@@ -54,6 +54,7 @@ public class AdminPostController {
         mav.addObject("responses", responses);
         mav.addObject("searchType", "no");
         mav.addObject("isAdmin", "yes");
+        mav.addObject("reasons", postService.retrieveOtoReason());
 
         return mav;
     }

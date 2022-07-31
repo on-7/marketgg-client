@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchBoardResponse;
+import com.nhnacademy.marketgg.client.service.PostService;
 import com.nhnacademy.marketgg.client.service.SearchService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class SearchBoardController {
 
+    private final PostService postService;
     private final SearchService searchService;
 
     /**
@@ -56,6 +58,7 @@ public class SearchBoardController {
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "default");
         mav.addObject("isEnd", this.checkPageEnd(response));
+        mav.addObject("reasons", postService.retrieveOtoReason());
 
         return mav;
     }
@@ -88,6 +91,7 @@ public class SearchBoardController {
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "reason");
         mav.addObject("isEnd", this.checkPageEnd(response));
+        mav.addObject("reasons", postService.retrieveOtoReason());
 
         return mav;
     }
@@ -120,6 +124,7 @@ public class SearchBoardController {
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "status");
         mav.addObject("isEnd", this.checkPageEnd(response));
+        mav.addObject("reasons", postService.retrieveOtoReason());
 
         return mav;
     }

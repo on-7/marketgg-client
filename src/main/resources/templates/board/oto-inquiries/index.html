@@ -15,7 +15,11 @@
         <details>
             <summary>[사유 검색]</summary>
             <form th:method="post" th:action="'/shop/v1/search/boards/categories/702/reason?page=0&size=10'">
-                <input type="text" name="reason" value="사유를 입력하세요">
+                <span>1:1 문의 사유 : </span>
+                <select name="reason">
+                    <option th:each="reason : ${reasons}"></option>
+                    <option th:text="${reason}"></option>
+                </select><br />
                 <input type="text" name="keyword" value="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>

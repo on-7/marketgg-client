@@ -60,6 +60,7 @@ public class PostController {
         mav.addObject("responses", responses);
         mav.addObject("searchType", "no");
         mav.addObject("isAdmin", "no");
+        mav.addObject("reasons", postService.retrieveOtoReason());
 
         return mav;
     }
@@ -73,7 +74,7 @@ public class PostController {
     @GetMapping("/oto-inquiries/create")
     public ModelAndView doCreatePost() {
         ModelAndView mav = new ModelAndView("board/oto-inquiries/create-form");
-        mav.addObject("reason", postService.retrieveOtoReason());
+        mav.addObject("reasons", postService.retrieveOtoReason());
         return mav;
     }
 
@@ -130,7 +131,7 @@ public class PostController {
     public ModelAndView doUpdatePost(@PathVariable final Long boardNo) {
         ModelAndView mav = new ModelAndView("board/oto-inquiries/update-form");
         mav.addObject("response", postService.retrievePost(boardNo, "oto-inquiries"));
-        mav.addObject("reason", postService.retrieveOtoReason());
+        mav.addObject("reasons", postService.retrieveOtoReason());
 
         return mav;
     }
