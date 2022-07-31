@@ -6,7 +6,6 @@ import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 /**
- * 고객센터와 관련된 Controller 입니다.
+ * 고객센터의 관리자 매핑과 관련된 Controller 입니다.
  *
  * @version 1.0.0
  */
@@ -72,7 +71,7 @@ public class AdminPostController {
     }
 
     /**
-     * 1:1문의글을 등록 후 다시 1:1문의 목록으로 이동합니다.
+     * 게시글을 등록 후 다시 게시글 목록으로 이동합니다.
      *
      * @param type - 등록을 진행할 고객센터 게시판의 타입입니다.
      * @param postRequest - 등록할 게시글의 정보를 담은 객체입니다.

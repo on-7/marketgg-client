@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchBoardResponse;
+import com.nhnacademy.marketgg.client.service.PostService;
 import com.nhnacademy.marketgg.client.service.SearchService;
 
 import java.time.LocalDateTime;
@@ -39,6 +40,8 @@ class SearchBoardControllerTest {
 
     @MockBean
     SearchService searchService;
+    @MockBean
+    PostService postService;
 
     private SearchBoardResponse searchBoardResponse;
 
@@ -59,6 +62,7 @@ class SearchBoardControllerTest {
         given(searchService.searchBoardForCategory(anyString(), any(SearchRequest.class),
                                                    anyString()))
                 .willReturn(List.of(searchBoardResponse));
+        given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
 
         MvcResult mvcResult =
                 mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/types/{type}", "11", "faqs")
@@ -81,6 +85,7 @@ class SearchBoardControllerTest {
         given(searchService.searchBoardForOption(anyString(), anyString(),
                                                  any(SearchRequest.class), anyString())).willReturn(
                 List.of(searchBoardResponse));
+        given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
 
         MvcResult mvcResult =
                 mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/reason", "11")
@@ -104,6 +109,7 @@ class SearchBoardControllerTest {
         given(searchService.searchBoardForOption(anyString(), anyString(),
                                                  any(SearchRequest.class), anyString())).willReturn(
                 List.of(searchBoardResponse));
+        given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
 
         MvcResult mvcResult =
                 mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
@@ -129,6 +135,7 @@ class SearchBoardControllerTest {
                 List.of(searchBoardResponse, searchBoardResponse, searchBoardResponse, searchBoardResponse,
                         searchBoardResponse, searchBoardResponse, searchBoardResponse, searchBoardResponse,
                         searchBoardResponse, searchBoardResponse, searchBoardResponse));
+        given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
 
         MvcResult mvcResult =
                 mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")

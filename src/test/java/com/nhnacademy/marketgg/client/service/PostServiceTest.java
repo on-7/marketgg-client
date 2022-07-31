@@ -1,8 +1,11 @@
 package com.nhnacademy.marketgg.client.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.response.AuthResponse;
 import com.nhnacademy.marketgg.client.dto.response.CommentResponse;
+import com.nhnacademy.marketgg.client.dto.response.MemberResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
@@ -40,12 +43,14 @@ class PostServiceTest {
     private static PostRequest postRequest;
     private static PostResponse postResponse;
     private static PostResponseForOtoInquiry postResponseForOtoInquiry;
+    private static MemberInfo memberInfo;
 
     @BeforeEach
     void setUp() {
         postRequest = new PostRequest("111", "안녕", "디지몬", "환불", "종료");
         postResponse = new PostResponse();
         postResponseForOtoInquiry = new PostResponseForOtoInquiry();
+        memberInfo = new MemberInfo(new AuthResponse(), new MemberResponse());
         CommentResponse commentResponse = new CommentResponse();
 
         ReflectionTestUtils.setField(postResponse, "id", 1L);
@@ -65,10 +70,20 @@ class PostServiceTest {
 
     @Test
     @DisplayName("게시글 전체 조회")
-    void testRetrievesPosts() throws JsonProcessingException {
+    void testRetrievesPosts() {
         given(postRepository.retrievesPostList(anyInt(), anyString())).willReturn(List.of(postResponse));
 
         List<PostResponse> list = postService.retrievesPostList(0, "oto-inquiries");
+
+        assertThat(list.get(0).getId()).isEqualTo(1L);
+    }
+
+    @Test
+    @DisplayName("로그인 한 회원 1:1 문의 전체 조회")
+    void testRetrievePostsForMe() throws JsonProcessingException {
+        given(postRepository.retrievesPostListForMe(anyInt(), anyString(), any(MemberInfo.class))).willReturn(List.of(postResponse));
+
+        List<PostResponse> list = postService.retrievesPostListForMe(1, "oto-inquiries", memberInfo);
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }
@@ -111,6 +126,16 @@ class PostServiceTest {
         postService.deletePost(1L, "oto-inquiries");
 
         then(postRepository).should().deletePost(anyLong(), anyString());
+    }
+
+    @Test
+    @DisplayName("사유 조회")
+    void testRetrieveOtoReason() {
+        given(postRepository.retrieveReason()).willReturn(List.of("hi"));
+
+        List<String> reasons = postService.retrieveOtoReason();
+
+        assertThat(reasons).hasSize(1);
     }
 
 }

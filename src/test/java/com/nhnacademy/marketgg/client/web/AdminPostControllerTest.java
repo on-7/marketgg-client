@@ -1,6 +1,5 @@
 package com.nhnacademy.marketgg.client.web;
 
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.response.CommentResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -32,10 +30,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-
 @AutoConfigureMockMvc(addFilters = false)
-@WebMvcTest(PostController.class)
-class PostControllerTest {
+@WebMvcTest(AdminPostController.class)
+class AdminPostControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -43,7 +40,7 @@ class PostControllerTest {
     @MockBean
     PostService postService;
 
-    private static final String DEFAULT = "/shop/v1/customer-services";
+    private static final String DEFAULT_ADMIN = "/shop/v1/admin/customer-services";
 
     private PostResponseForOtoInquiry postResponseForOtoInquiry;
     private PostResponse postResponse;
@@ -61,7 +58,7 @@ class PostControllerTest {
     void testIndex() throws Exception {
         given(postService.retrievesPostList(anyInt(), anyString())).willReturn(List.of());
 
-        this.mockMvc.perform(get(DEFAULT + "/{type}", "faqs")
+        this.mockMvc.perform(get(DEFAULT_ADMIN + "/{type}", "faqs")
                                      .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("board/faqs/index"));
@@ -74,22 +71,10 @@ class PostControllerTest {
                 List.of(postResponse, postResponse, postResponse, postResponse, postResponse, postResponse,
                         postResponse, postResponse, postResponse, postResponse, postResponse));
 
-        this.mockMvc.perform(get(DEFAULT + "/{type}", "faqs")
+        this.mockMvc.perform(get(DEFAULT_ADMIN + "/{type}", "faqs")
                                      .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("board/faqs/index"));
-    }
-
-    @Test
-    @DisplayName("전체 목록 조회(1:1 문의)")
-    void testIndexPageNoEndForOto() throws Exception {
-        given(postService.retrievesPostListForMe(anyInt(), anyString(), any(MemberInfo.class))).willReturn(
-                List.of(postResponse));
-
-        this.mockMvc.perform(get(DEFAULT + "/{type}", "oto-inquiries")
-                                     .param("page", "0"))
-                    .andExpect(status().isOk())
-                    .andExpect(view().name("board/oto-inquiries/index"));
     }
 
     @Test
@@ -97,9 +82,9 @@ class PostControllerTest {
     void testDoCreatePost() throws Exception {
         given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
 
-        this.mockMvc.perform(get(DEFAULT + "/oto-inquiries/create"))
+        this.mockMvc.perform(get(DEFAULT_ADMIN + "/{type}/create", "faqs"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("board/oto-inquiries/create-form"));
+                    .andExpect(view().name("board/faqs/create-form"));
     }
 
     @Test
@@ -107,35 +92,11 @@ class PostControllerTest {
     void testCreatePost() throws Exception {
         willDoNothing().given(postService).createPost(any(PostRequest.class), anyString());
 
-        this.mockMvc.perform(post(DEFAULT + "/oto-inquiries/create"))
+        this.mockMvc.perform(post(DEFAULT_ADMIN + "/{type}/create", "faqs"))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN + "/faqs"));
 
         then(postService).should().createPost(any(PostRequest.class), anyString());
-    }
-
-    @Test
-    @DisplayName("게시글 상세 조회")
-    void testRetrievePost() throws Exception {
-        given(postService.retrievePost(anyLong(), anyString())).willReturn(postResponse);
-
-        this.mockMvc.perform(get(DEFAULT + "/{type}/{boardNo}/retrieve", "faqs", 1L)
-                                     .param("page", "0"))
-                    .andExpect(status().isOk())
-                    .andExpect(view().name("board/faqs/detail"));
-    }
-
-    @Test
-    @DisplayName("1:1 문의 게시글 상세 조회")
-    void testRetrievePostForOtoInquiries() throws Exception {
-        ReflectionTestUtils.setField(postResponseForOtoInquiry, "commentList", List.of(commentResponse));
-
-        given(postService.retrievePostForOtoInquiry(anyLong(), anyString())).willReturn(postResponseForOtoInquiry);
-
-        this.mockMvc.perform(get(DEFAULT + "/{type}/{boardNo}/retrieve", "oto-inquiries", 1L)
-                                     .param("page", "0"))
-                    .andExpect(status().isOk())
-                    .andExpect(view().name("board/oto-inquiries/detail"));
     }
 
     @Test
@@ -144,19 +105,20 @@ class PostControllerTest {
         given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
         given(postService.retrievePost(anyLong(), anyString())).willReturn(postResponse);
 
-        this.mockMvc.perform(get(DEFAULT + "/oto-inquiries/{boardNo}/update", 1L))
+        this.mockMvc.perform(get(DEFAULT_ADMIN + "/{type}/{boardNo}/update", "faqs", 1L))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("board/oto-inquiries/update-form"));
+                    .andExpect(view().name("board/faqs/update-form"));
     }
+
 
     @Test
     @DisplayName("게시글 수정")
     void testUpdatePost() throws Exception {
         willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString());
 
-        this.mockMvc.perform(put(DEFAULT + "/oto-inquiries/{boardNo}/update", 1L))
+        this.mockMvc.perform(put(DEFAULT_ADMIN + "/{types}/{boardNo}/update", "faqs", 1L))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN + "/faqs"));
 
         then(postService).should().updatePost(anyLong(), any(PostRequest.class), anyString());
     }
@@ -166,9 +128,9 @@ class PostControllerTest {
     void testDeletePost() throws Exception {
         willDoNothing().given(postService).deletePost(anyLong(), anyString());
 
-        this.mockMvc.perform(delete(DEFAULT + "/oto-inquiries/{boardNo}/delete", 1L))
+        this.mockMvc.perform(delete(DEFAULT_ADMIN + "/{type}/{boardNo}/delete", "faqs", 1L))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN + "/faqs"));
 
         then(postService).should().deletePost(anyLong(), anyString());
     }
