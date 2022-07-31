@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -59,7 +60,7 @@ class SearchProductControllerTest {
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}", "11")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}", "11")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
@@ -79,7 +80,7 @@ class SearchProductControllerTest {
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH)
+                mockMvc.perform(post(DEFAULT_SEARCH)
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
@@ -101,7 +102,7 @@ class SearchProductControllerTest {
 
         MvcResult mvcResult =
                 mockMvc.perform(
-                               get(DEFAULT_SEARCH + "/categories/{categoryCode}/price/{type}",
+                               post(DEFAULT_SEARCH + "/categories/{categoryCode}/price/{type}",
                                    "11", "desc")
                                        .param("keyword", "안녕")
                                        .param("page", "0")
@@ -123,7 +124,7 @@ class SearchProductControllerTest {
                 List.of(searchProductResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/price/{type}", "desc")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/price/{type}", "desc")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))

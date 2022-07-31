@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,7 +42,7 @@ public class SearchProductController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}")
+    @PostMapping("/categories/{categoryCode}")
     public ModelAndView searchForCategory(@PathVariable final String categoryCode,
                                           @RequestParam final String keyword,
                                           final Pageable pageable)
@@ -70,7 +71,7 @@ public class SearchProductController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping
+    @PostMapping
     public ModelAndView searchForKeyword(@RequestParam final String keyword,
                                          final Pageable pageable)
             throws ParseException, JsonProcessingException {
@@ -99,7 +100,7 @@ public class SearchProductController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/price/{type}")
+    @PostMapping("/categories/{categoryCode}/price/{type}")
     public ModelAndView searchForCategorySortPrice(@PathVariable final String categoryCode,
                                                    @PathVariable final String type,
                                                    @RequestParam final String keyword,
@@ -130,7 +131,7 @@ public class SearchProductController {
      * @since 1.0.0essingException
      * @since 1.0.0
      */
-    @GetMapping("/price/{type}")
+    @PostMapping("/price/{type}")
     public ModelAndView searchForKeywordSortPrice(@RequestParam final String keyword,
                                                   @PathVariable final String type,
                                                   final Pageable pageable)

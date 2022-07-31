@@ -7,21 +7,23 @@
     <body>
         <details>
             <summary>[전체 검색]</summary>
-                <form th:action="'/shop/v1/search/boards/categories/702/types/oto-inquiries?page=0&size=10'" th:method="post">
+                <form th:method="post" th:action="'/shop/v1/search/boards/categories/702/types/oto-inquiries?page=0&size=10'">
                     <input type="text" name="keyword" value="검색어를 입력하세요">
                     <input type="submit" value="검색"><br />
                 </form>
         </details>
         <details>
             <summary>[사유 검색]</summary>
-            <form th:action="'/shop/v1/search/boards/categories/702/reason?page=0&size=10'" th:method="post">
+            <form th:method="post" th:action="'/shop/v1/search/boards/categories/702/reason?page=0&size=10'">
+                <input type="text" name="reason" value="사유를 입력하세요">
                 <input type="text" name="keyword" value="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>
         </details>
         <details>
             <summary>[상태 검색]</summary>
-            <form th:action="'/shop/v1/search/boards/categories/702/status?page=0&size=10'" th:method="post">
+            <form th:method="post" th:action="'/shop/v1/search/boards/categories/702/status?page=0&size=10'">
+                <input type="text" name="status" value="상태를 입력하세요">
                 <input type="text" name="keyword" value="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>

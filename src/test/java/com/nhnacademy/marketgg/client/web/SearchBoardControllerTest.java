@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -60,7 +61,7 @@ class SearchBoardControllerTest {
                 .willReturn(List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/types/{type}", "11", "faqs")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/types/{type}", "11", "faqs")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))
@@ -70,7 +71,7 @@ class SearchBoardControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response"))
+                          .get("responses"))
                 .isNotNull();
     }
 
@@ -82,7 +83,7 @@ class SearchBoardControllerTest {
                 List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/reason", "11")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/reason", "11")
                                         .param("reason", "환불")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
@@ -93,7 +94,7 @@ class SearchBoardControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response"))
+                          .get("responses"))
                 .isNotNull();
     }
 
@@ -105,7 +106,7 @@ class SearchBoardControllerTest {
                 List.of(searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
                                         .param("status", "종료")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
@@ -116,7 +117,7 @@ class SearchBoardControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response"))
+                          .get("responses"))
                 .isNotNull();
     }
 
@@ -130,7 +131,7 @@ class SearchBoardControllerTest {
                         searchBoardResponse, searchBoardResponse, searchBoardResponse));
 
         MvcResult mvcResult =
-                mockMvc.perform(get(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/status", "11")
                                         .param("status", "종료")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
@@ -141,7 +142,7 @@ class SearchBoardControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())
                           .getModel()
-                          .get("response"))
+                          .get("responses"))
                 .isNotNull();
     }
 

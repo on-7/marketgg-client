@@ -10,8 +10,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -39,7 +39,7 @@ public class SearchBoardController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/types/{type}")
+    @PostMapping("/categories/{categoryCode}/types/{type}")
     public ModelAndView searchForCategory(@PathVariable final String categoryCode, @PathVariable final String type,
                                           @RequestParam final String keyword,
                                           final Pageable pageable)
@@ -71,7 +71,7 @@ public class SearchBoardController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/reason")
+    @PostMapping("/categories/{categoryCode}/reason")
     public ModelAndView searchForReason(@PathVariable final String categoryCode,
                                         @RequestParam final String reason,
                                         @RequestParam final String keyword, final Pageable pageable)
@@ -103,7 +103,7 @@ public class SearchBoardController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/status")
+    @PostMapping("/categories/{categoryCode}/status")
     public ModelAndView searchForStatus(@PathVariable final String categoryCode,
                                         @RequestParam final String status,
                                         @RequestParam final String keyword, final Pageable pageable)
