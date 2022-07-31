@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
@@ -45,11 +46,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> retrievesPostList(final Pageable pageable, final String type) throws JsonProcessingException {
-        String request = objectMapper.writeValueAsString(pageable);
-        HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
+    public List<PostResponse> retrievesPostList(final Integer page, final String type) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type,
+                gateWayIp + DEFAULT + "/" + type + "?page=" + page,
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<>() {

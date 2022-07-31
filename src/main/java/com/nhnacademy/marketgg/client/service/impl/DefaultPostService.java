@@ -1,13 +1,13 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +24,13 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> retrievesPostList(final Pageable pageable, final String type) throws JsonProcessingException {
-        return postRepository.retrievesPostList(pageable, type);
+    public List<PostResponse> retrievesPostList(final Integer page, final String type) {
+        return postRepository.retrievesPostList(page, type);
+    }
+
+    @Override
+    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) {
+        return null;
     }
 
     @Override

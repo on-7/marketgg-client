@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -58,7 +59,7 @@ class PostControllerTest {
     @Test
     @DisplayName("전체 목록 조회")
     void testIndex() throws Exception {
-        given(postService.retrievesPostList(any(PageRequest.class), anyString())).willReturn(List.of());
+        given(postService.retrievesPostList(anyInt(), anyString())).willReturn(List.of());
 
         this.mockMvc.perform(get(DEFAULT + "/{type}", "faqs")
                                      .param("page", "0"))
@@ -69,7 +70,7 @@ class PostControllerTest {
     @Test
     @DisplayName("전체 목록 조회(페이지 마지막 X)")
     void testIndexPageNoEnd() throws Exception {
-        given(postService.retrievesPostList(any(PageRequest.class), anyString())).willReturn(
+        given(postService.retrievesPostList(anyInt(), anyString())).willReturn(
                 List.of(postResponse, postResponse, postResponse, postResponse, postResponse, postResponse,
                         postResponse, postResponse, postResponse, postResponse, postResponse));
 

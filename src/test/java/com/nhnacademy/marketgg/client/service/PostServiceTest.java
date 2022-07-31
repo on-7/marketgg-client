@@ -21,6 +21,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -65,9 +66,9 @@ class PostServiceTest {
     @Test
     @DisplayName("게시글 전체 조회")
     void testRetrievesPosts() throws JsonProcessingException {
-        given(postRepository.retrievesPostList(any(PageRequest.class), anyString())).willReturn(List.of(postResponse));
+        given(postRepository.retrievesPostList(anyInt(), anyString())).willReturn(List.of(postResponse));
 
-        List<PostResponse> list = postService.retrievesPostList(PageRequest.of(0, 1), "oto-inquiries");
+        List<PostResponse> list = postService.retrievesPostList(0, "oto-inquiries");
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }
