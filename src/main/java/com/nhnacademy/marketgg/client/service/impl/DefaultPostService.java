@@ -29,8 +29,8 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) {
-        return null;
+    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException {
+        return postRepository.retrievesPostListForMe(page, type, memberInfo);
     }
 
     @Override
@@ -51,6 +51,11 @@ public class DefaultPostService implements PostService {
     @Override
     public void deletePost(final Long boardNo, final String type) {
         postRepository.deletePost(boardNo, type);
+    }
+
+    @Override
+    public List<String> retrieveOtoReason() {
+        return postRepository.retrieveReason();
     }
 
 }

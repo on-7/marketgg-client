@@ -36,6 +36,8 @@ public interface PostRepository {
      */
     List<PostResponse> retrievesPostList(final Integer page, final String type);
 
+    List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException;
+
     /**
      * 게시판 타입에 맞는 지정한 게시글의 상세정보를 반환하는 Adapter 입니다.
      *
@@ -74,5 +76,7 @@ public interface PostRepository {
      * @since 1.0.0
      */
     void deletePost(final Long boardNo, final String type);
+
+    List<String> retrieveReason();
 
 }

@@ -37,7 +37,7 @@ public interface PostService {
      */
     List<PostResponse> retrievesPostList(final Integer page, final String type);
 
-    List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo);
+    List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException;
 
     /**
      * 지정한 게시글의 상세정보를 조회할 수 있는 메소드입니다.
@@ -77,5 +77,7 @@ public interface PostService {
      * @since 1.0.0
      */
     void deletePost(final Long boardNo, final String type);
+
+    List<String> retrieveOtoReason();
 
 }

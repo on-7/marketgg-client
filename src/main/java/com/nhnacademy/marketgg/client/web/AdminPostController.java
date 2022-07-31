@@ -53,6 +53,7 @@ public class AdminPostController {
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
         mav.addObject("searchType", "no");
+        mav.addObject("isAdmin", "yes");
 
         return mav;
     }
@@ -84,30 +85,6 @@ public class AdminPostController {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
         postService.createPost(postRequest, type);
-
-        return mav;
-    }
-
-    /**
-     * 선택한 게시글의 상세 정보를 조회 할 수 있습니다.
-     *
-     * @param type - 조회를 진행할 고객센터 게시판의 타입입니다.
-     * @param boardNo - 조회를 진행할 게시글의 식별번호입니다.
-     * @return 지정한 식별번호의 게시글 상세조회 페이지로 이동합니다.
-     * @since 1.0.0
-     */
-    @GetMapping("/{type}/{boardNo}/retrieve")
-    public ModelAndView retrievePost(@PathVariable final String type, @PathVariable final Long boardNo) {
-
-        ModelAndView mav = new ModelAndView("board/" + type + "/detail");
-
-        if (type.compareTo("oto-inquiries") == 0) {
-            mav.addObject("response", postService.retrievePostForOtoInquiry(boardNo, type));
-        } else {
-            mav.addObject("response", postService.retrievePost(boardNo, type));
-        }
-        mav.addObject("type", type)
-        ;
 
         return mav;
     }

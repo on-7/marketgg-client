@@ -10,7 +10,6 @@ import com.nhnacademy.marketgg.client.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -48,6 +47,21 @@ public class PostAdapter implements PostRepository {
     @Override
     public List<PostResponse> retrievesPostList(final Integer page, final String type) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
+                gateWayIp + DEFAULT + "/" + type + "?page=" + page,
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        this.checkResponseUri(response);
+        return response.getBody();
+    }
+
+    @Override
+    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException {
+        String request = objectMapper.writeValueAsString(memberInfo);
+        HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
                 gateWayIp + DEFAULT + "/" + type + "?page=" + page,
                 HttpMethod.GET,
@@ -107,6 +121,19 @@ public class PostAdapter implements PostRepository {
                 Void.class);
 
         this.checkResponseUri(response);
+    }
+
+    @Override
+    public List<String> retrieveReason() {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<List<String>> response = restTemplate.exchange(
+                gateWayIp + DEFAULT + "/reason",
+                HttpMethod.PUT,
+                requestEntity,
+                new ParameterizedTypeReference<>() {});
+
+        this.checkResponseUri(response);
+        return response.getBody();
     }
 
     private HttpHeaders buildHeaders() {

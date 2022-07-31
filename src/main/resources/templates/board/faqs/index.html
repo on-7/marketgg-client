@@ -9,7 +9,7 @@
             <input type="text" name="keyword" value="검색어를 입력하세요">
             <input type="submit" value="검색"><br />
         </form>
-        <form th:method="get" th:action="'/shop/v1/customer-services/faqs/create'">
+        <form th:method="get" th:action="'/shop/v1/admin/customer-services/faqs/create'">
             <input type="submit" value="FAQ 등록">
         </form>
         <table>
@@ -28,15 +28,19 @@
                     <td th:text="${board.title}"></td>
                     <td th:text="${board.createdAt}"></td>
                     <td>
-                        <form th:method="get" th:action="'/shop/v1/customer-services/faqs/'+${board.id}+'/update'">
-                            <input type="submit" value="수정">
-                        </form>
+                        <div th:if="${isAdmin == 'yes'}">
+                            <form th:method="get" th:action="'/shop/v1/admin/customer-services/faqs/'+${board.id}+'/update'">
+                                <input type="submit" value="수정">
+                            </form>
+                        </div>
                     </td>
                     <td>
-                        <form th:method="post" th:action="'/shop/v1/customer-services/faqs/'+${board.id}+'/delete'">
-                            <input type="hidden" name="_method" value="delete"/>
-                            <input type="submit" value="삭제">
-                        </form>
+                        <div th:if="${isAdmin == 'yes'}">
+                            <form th:method="post" th:action="'/shop/v1/admin/customer-services/faqs/'+${board.id}+'/delete'">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <input type="submit" value="삭제">
+                            </form>
+                        </div>
                     </td>
                 </tr>
             </tbody>

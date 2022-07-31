@@ -7,7 +7,6 @@ import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +45,7 @@ public class PostController {
      */
     @GetMapping("/{type}")
     public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page,
-                              final MemberInfo memberInfo) {
+                              final MemberInfo memberInfo) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
         List<PostResponse> responses;
@@ -61,20 +59,22 @@ public class PostController {
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
         mav.addObject("searchType", "no");
+        mav.addObject("isAdmin", "no");
 
         return mav;
     }
 
     /**
-     * 고객센터의 타입에 맞는 게시글 등록을 할 수 있는 페이지로 이동합니다.
+     * 고객센터의 1:1문의 게시글 등록을 할 수 있는 페이지로 이동합니다.
      *
-     * @param type - 등록을 진행할 고객센터의 게시판의 타입입니다.
-     * @return 고객센터의 타입에 맞는 게시글 등록을 할 수 있는 페이지로 이동합니다.
+     * @return 고객센터의 1:1문의 게시글 등록을 할 수 있는 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @GetMapping("/{type}/create")
-    public ModelAndView doCreatePost(@PathVariable String type) {
-        return new ModelAndView("board/" + type + "/create-form");
+    @GetMapping("/oto-inquiries/create")
+    public ModelAndView doCreatePost() {
+        ModelAndView mav = new ModelAndView("board/oto-inquiries/create-form");
+        mav.addObject("reason", postService.retrieveOtoReason());
+        return mav;
     }
 
     /**
@@ -114,24 +114,23 @@ public class PostController {
         } else {
             mav.addObject("response", postService.retrievePost(boardNo, type));
         }
-        mav.addObject("type", type)
-        ;
+        mav.addObject("type", type);
 
         return mav;
     }
 
     /**
-     * 고객센터의 타입에 맞는 게시글을 수정할 수 있는 페이지로 이동합니다.
+     * 고객센터의 1:1문의 게시글을 수정할 수 있는 페이지로 이동합니다.
      *
-     * @param type    - 수정할 게시글의 게시판 타입입니다.
      * @param boardNo - 수정할 게시글의 식별번호입니다.
      * @return 지정한 게시글을 수정할 수 있는 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @GetMapping("/{type}/{boardNo}/update")
-    public ModelAndView doUpdatePost(@PathVariable final String type, @PathVariable final Long boardNo) {
-        ModelAndView mav = new ModelAndView("board/" + type + "/update-form");
-        mav.addObject("response", postService.retrievePost(boardNo, type));
+    @GetMapping("/oto-inquiries/{boardNo}/update")
+    public ModelAndView doUpdatePost(@PathVariable final Long boardNo) {
+        ModelAndView mav = new ModelAndView("board/oto-inquiries/update-form");
+        mav.addObject("response", postService.retrievePost(boardNo, "oto-inquiries"));
+        mav.addObject("reason", postService.retrieveOtoReason());
 
         return mav;
     }
@@ -139,36 +138,31 @@ public class PostController {
     /**
      * 받은 정보로 타입에 맞는 게시글을 수정 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param type        - 수정할 게시글의 게시판 타입입니다.
      * @param boardNo     - 수정할 게시글의 식별번호입니다.
      * @param postRequest - 수정할 정보를 담은 객체입니다.
      * @return 게시글을 수정한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @PutMapping("/{type}/{boardNo}/update")
-    public ModelAndView updatePost(@PathVariable final String type, @PathVariable final Long boardNo,
-                                   @ModelAttribute final PostRequest postRequest) {
+    @PutMapping("/oto-inquiries/{boardNo}/update")
+    public ModelAndView updatePost(@PathVariable final Long boardNo, @ModelAttribute final PostRequest postRequest) {
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/" + type);
-        postService.updatePost(boardNo, postRequest, type);
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/oto-inquiries");
+        postService.updatePost(boardNo, postRequest, "oto-inquiries");
 
         return mav;
     }
 
     /**
-     * 지정한 게시글을 삭제 한 후 다시 게시글 목록으로 이동합니다.
+     * 1:1문의 게시글을 삭제 한 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param type    - 삭제할 게시글의 게시판 타입입니다.
      * @param boardNo - 삭제할 게시글의 식별번호입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @DeleteMapping("/{type}/{boardNo}/delete")
-    public ModelAndView deletePost(@PathVariable final String type,
-                                   @PathVariable final Long boardNo) {
-
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/" + type);
-        postService.deletePost(boardNo, type);
+    @DeleteMapping("/oto-inquiries/{boardNo}/delete")
+    public ModelAndView deletePost(@PathVariable final Long boardNo) {
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/oto-inquiries");
+        postService.deletePost(boardNo, "oto-inquiries");
 
         return mav;
     }
