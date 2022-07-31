@@ -51,7 +51,7 @@ public class SearchBoardController {
         List<SearchBoardResponse> response =
                 searchService.searchBoardForCategory(categoryCode, request, "categoryCode");
 
-        mav.addObject("response", response);
+        mav.addObject("responses", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "default");
@@ -83,7 +83,7 @@ public class SearchBoardController {
         List<SearchBoardResponse> response =
                 searchService.searchBoardForOption(categoryCode, reason, request, "reason");
 
-        mav.addObject("response", response);
+        mav.addObject("responses", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "reason");
@@ -115,7 +115,7 @@ public class SearchBoardController {
         List<SearchBoardResponse> response =
                 searchService.searchBoardForOption(categoryCode, status, request, "status");
 
-        mav.addObject("response", response);
+        mav.addObject("responses", response);
         mav.addObject("keyword", keyword);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("searchType", "status");
