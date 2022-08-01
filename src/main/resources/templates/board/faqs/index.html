@@ -5,13 +5,24 @@
         <title>FAQ 게시판</title>
     </head>
     <body>
-        <form th:action="'/shop/v1/search/boards/categories/703?page=0&size=10'" th:method="post">
-            <input type="text" name="keyword" value="검색어를 입력하세요">
-            <input type="submit" value="검색"><br />
-        </form>
-        <form th:method="get" th:action="'/shop/v1/admin/customer-services/faqs/create'">
-            <input type="submit" value="FAQ 등록">
-        </form>
+        <div th:if="${isAdmin == 'no'}">
+            <form th:action="'/shop/v1/search/boards/categories/703?page=0&size=10'" th:method="post">
+                <input type="text" name="keyword" value="검색어를 입력하세요">
+                <input type="submit" value="검색"><br />
+            </form>
+            <form th:method="get" th:action="'/shop/v1/admin/customer-services/faqs/create'">
+                <input type="submit" value="FAQ 등록">
+            </form>
+        </div>
+        <div th:if="${isAdmin == 'yes'}">
+            <form th:action="'/shop/v1/admin/search/boards/categories/703?page=0&size=10'" th:method="post">
+                <input type="text" name="keyword" value="검색어를 입력하세요">
+                <input type="submit" value="검색"><br />
+            </form>
+            <form th:method="get" th:action="'/shop/v1/admin/customer-services/faqs/create'">
+                <input type="submit" value="FAQ 등록">
+            </form>
+        </div>
         <table>
             <thead>
                 <tr>
