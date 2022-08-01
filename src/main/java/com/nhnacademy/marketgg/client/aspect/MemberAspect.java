@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.response.AuthResponse;
-import com.nhnacademy.marketgg.client.dto.response.MemberResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.exception.ClientException;
@@ -32,7 +30,7 @@ import org.springframework.web.client.RestTemplate;
  */
 @Slf4j
 @Aspect
-@Order(10)
+@Order
 @Component
 @RequiredArgsConstructor
 public class MemberAspect {
@@ -72,11 +70,9 @@ public class MemberAspect {
             return pjp.proceed();
         }
 
-        SingleResponse<AuthResponse> authEntity = getEntity("/auth/info");
-        SingleResponse<MemberResponse> memberEntity = getEntity("/shop/v1/members");
+        SingleResponse<MemberInfo> memberEntity = getEntity();
+        MemberInfo memberInfo = memberEntity.getData();
 
-        MemberInfo memberInfo =
-            new MemberInfo(authEntity.getData(), memberEntity.getData());
         Object[] args = Arrays.stream(pjp.getArgs())
                               .map(arg -> {
                                   if (arg instanceof MemberInfo) {
@@ -88,16 +84,14 @@ public class MemberAspect {
         return pjp.proceed(args);
     }
 
-    private <T> SingleResponse<T> getEntity(String path) throws JsonProcessingException {
+    private <T> SingleResponse<T> getEntity() throws JsonProcessingException {
         ResponseEntity<String> exchange =
-            restTemplate.getForEntity(gatewayOrigin + path, String.class);
+            restTemplate.getForEntity(gatewayOrigin + "/shop/v1/members", String.class);
 
         log.info("response object: {}", mapper.readValue(exchange.getBody(), String.class));
 
         if (exchange.getStatusCode().is4xxClientError()) {
-            ErrorEntity error =
-                mapper.readValue(exchange.getBody(), ErrorEntity.class);
-
+            ErrorEntity error = mapper.readValue(exchange.getBody(), ErrorEntity.class);
             throw new ClientException(error.getMessage());
         }
 
