@@ -41,13 +41,13 @@ public class SearchBoardController {
      * @throws ParseException          파싱 오류 발생 시 예외를 던집니다.
      * @since 1.0.0
      */
-    @PostMapping("/categories/{categoryCode}/types/{type}")
-    public ModelAndView searchForCategory(@PathVariable final String categoryCode, @PathVariable final String type,
+    @PostMapping("/categories/{categoryCode}")
+    public ModelAndView searchForCategory(@PathVariable final String categoryCode,
                                           @RequestParam final String keyword,
                                           final Pageable pageable)
             throws ParseException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("board/" + type + "/index");
+        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
         SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(),
                                                                           pageable.getPageSize()));
         List<SearchBoardResponse> response =
@@ -129,7 +129,24 @@ public class SearchBoardController {
         return mav;
     }
 
-    private <T> Integer checkPageEnd(List<T> list) {
+    private String checkType(final String categoryCode) {
+        switch (categoryCode) {
+            case "701": {
+                return "notices";
+            }
+            case "702": {
+                return "oto-inquiries";
+            }
+            case "703": {
+                return "faqs";
+            }
+            default: {
+                throw new IllegalArgumentException("잘못된 요청입니다.");
+            }
+        }
+    }
+
+    private <T> Integer checkPageEnd(final List<T> list) {
         if (list.size() < 11) {
             return 1;
         }

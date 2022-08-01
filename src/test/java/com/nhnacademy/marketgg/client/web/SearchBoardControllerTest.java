@@ -65,7 +65,7 @@ class SearchBoardControllerTest {
         given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
 
         MvcResult mvcResult =
-                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}/types/{type}", "11", "faqs")
+                mockMvc.perform(post(DEFAULT_SEARCH + "/categories/{categoryCode}", "703")
                                         .param("keyword", "안녕")
                                         .param("page", "0")
                                         .param("size", "1"))

@@ -7,7 +7,7 @@
     <body>
         <details>
             <summary>[전체 검색]</summary>
-                <form th:method="post" th:action="'/shop/v1/search/boards/categories/702/types/oto-inquiries?page=0&size=10'">
+                <form th:method="post" th:action="'/shop/v1/search/boards/categories/702?page=0&size=10'">
                     <input type="text" name="keyword" value="검색어를 입력하세요">
                     <input type="submit" value="검색"><br />
                 </form>
@@ -69,9 +69,9 @@
             </tbody>
         </table>
         <div th:if="${searchType == 'default'}">
-            <a th:href="'/shop/v1/search/boards/categories/702/types/oto-inquiries?page=' + ${page - 1} + '&size=10&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
+            <a th:href="'/shop/v1/search/boards/categories/702?page=' + ${page - 1} + '&size=10&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
             <span th:text="'('+ ${page} + 'page)'"></span>
-            <a th:href="'/shop/v1/search/boards/categories/702/types/oto-inquiries?page=' + ${page + 1} + '&size=10&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+            <a th:href="'/shop/v1/search/boards/categories/702?page=' + ${page + 1} + '&size=10&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
         </div>
         <div th:if="${searchType == 'reason'}">
             <a th:href="'/shop/v1/search/boards/categories/702/reason?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
