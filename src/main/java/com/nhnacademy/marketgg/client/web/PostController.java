@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.PostService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.PageRequest;
@@ -21,8 +22,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 /**
  * 고객센터와 관련된 Controller 입니다.
@@ -48,7 +47,8 @@ public class PostController {
      * @since 1.0.0
      */
     @GetMapping("/{type}")
-    public ModelAndView index(@PathVariable final String type, @RequestParam @DefaultValue(value = "0") final Integer page,
+    public ModelAndView index(@PathVariable final String type,
+                              @RequestParam @DefaultValue(value = "0") final Integer page,
                               final MemberInfo memberInfo) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
@@ -123,13 +123,25 @@ public class PostController {
         return mav;
     }
 
-    @GetMapping("/search/categories/{categoryCode}")
+    /**
+     * 지정한 카테고리에서 게시판을 검색합니다.
+     *
+     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
+     * @param keyword      - 검색을 진행할 검색어입니다.
+     * @param pageable     - 조회할 페이지의 페이지 정보입니다.
+     * @return 검색 결과 목록을 반환합니다.
+     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
+     * @since 1.0.0
+     */
+    @PostMapping("/search/categories/{categoryCode}")
     public ModelAndView searchForCategory(@PathVariable final String categoryCode,
-                                          @RequestParam final String keyword, final Pageable pageable) {
+                                          @RequestParam final String keyword, final Pageable pageable)
+            throws JsonProcessingException {
 
-        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        SearchRequest request =
+                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
-        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
         List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -140,13 +152,26 @@ public class PostController {
         return mav;
     }
 
-    @GetMapping("/search/categories/{categoryCode}/reason")
+    /**
+     * 지정한 카테고리의 게시판에서 사유를 지정해 검색합니다.
+     *
+     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
+     * @param keyword      - 검색을 진행할 검색어입니다.
+     * @param pageable     - 조회할 페이지의 페이지 정보입니다.
+     * @param reason       - 지정한 사유의 값입니다.
+     * @return 지정한 상태내의 검색 결과 목록을 반환합니다.
+     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
+     * @since 1.0.0
+     */
+    @PostMapping("/search/categories/{categoryCode}/reason")
     public ModelAndView searchForReason(@PathVariable final String categoryCode, @RequestParam final String keyword,
-                                        final Pageable pageable, @RequestParam final String reason) {
+                                        final Pageable pageable, @RequestParam final String reason)
+            throws JsonProcessingException {
 
-        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        SearchRequest request =
+                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
-        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
         List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -158,13 +183,26 @@ public class PostController {
         return mav;
     }
 
-    @GetMapping("/search/categories/{categoryCode}/status")
+    /**
+     * 지정한 카테고리의 게시판에서 상태를 지정해 검색합니다.
+     *
+     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
+     * @param keyword      - 검색을 진행할 검색어입니다.
+     * @param pageable     - 조회할 페이지의 페이지 정보입니다.
+     * @param status       - 지정한 상태의 값입니다.
+     * @return 지정한 상태내의 검색 결과 목록을 반환합니다.
+     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
+     * @since 1.0.0
+     */
+    @PostMapping("/search/categories/{categoryCode}/status")
     public ModelAndView searchForStatus(@PathVariable final String categoryCode, @RequestParam final String keyword,
-                                        final Pageable pageable, @RequestParam final String status) {
+                                        final Pageable pageable, @RequestParam final String status)
+            throws JsonProcessingException {
 
-        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+        SearchRequest request =
+                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
-        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
         List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -224,7 +262,7 @@ public class PostController {
         return mav;
     }
 
-    private String checkType (final String categoryCode) {
+    static String checkType(String categoryCode) {
         switch (categoryCode) {
             case "701": {
                 return "notices";
@@ -235,8 +273,10 @@ public class PostController {
             case "703": {
                 return "faqs";
             }
+            default: {
+                return null;
+            }
         }
-        return null;
     }
 
     private <T> Integer checkPageEnd(List<T> list) {

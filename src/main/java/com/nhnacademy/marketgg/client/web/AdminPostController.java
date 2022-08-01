@@ -1,11 +1,17 @@
 package com.nhnacademy.marketgg.client.web;
 
+import static org.springframework.data.domain.PageRequest.of;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.PostService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +22,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 /**
  * 고객센터의 관리자 매핑과 관련된 Controller 입니다.
@@ -44,7 +48,8 @@ public class AdminPostController {
      * @since 1.0.0
      */
     @GetMapping("/{type}")
-    public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page) throws JsonProcessingException {
+    public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page)
+            throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
         List<PostResponseForDetail> responses = postService.retrievesPostList(page, type);
         mav.addObject("page", page);
@@ -72,7 +77,7 @@ public class AdminPostController {
     /**
      * 게시글을 등록 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param type - 등록을 진행할 고객센터 게시판의 타입입니다.
+     * @param type        - 등록을 진행할 고객센터 게시판의 타입입니다.
      * @param postRequest - 등록할 게시글의 정보를 담은 객체입니다.
      * @return 해당 정보로 게시글을 등록 후 다시 Index 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
@@ -89,9 +94,98 @@ public class AdminPostController {
     }
 
     /**
+     * 지정한 카테고리에서 게시판을 검색합니다.
+     *
+     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
+     * @param keyword      - 검색을 진행할 검색어입니다.
+     * @param pageable     - 조회할 페이지의 페이지 정보입니다.
+     * @return 검색 결과 목록을 반환합니다.
+     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
+     * @since 1.0.0
+     */
+    @PostMapping("/search/categories/{categoryCode}")
+    public ModelAndView searchForCategory(@PathVariable final String categoryCode,
+                                          @RequestParam final String keyword, final Pageable pageable)
+            throws JsonProcessingException {
+
+        SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
+
+        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
+        List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request);
+        mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isEnd", this.checkPageEnd(responses));
+        mav.addObject("responses", responses);
+        mav.addObject("searchType", "default");
+        mav.addObject("isAdmin", "yes");
+        mav.addObject("keyword", keyword);
+        return mav;
+    }
+
+    /**
+     * 지정한 카테고리의 게시판에서 사유를 지정해 검색합니다.
+     *
+     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
+     * @param keyword      - 검색을 진행할 검색어입니다.
+     * @param pageable     - 조회할 페이지의 페이지 정보입니다.
+     * @param reason       - 지정한 사유의 값입니다.
+     * @return 지정한 상태내의 검색 결과 목록을 반환합니다.
+     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
+     * @since 1.0.0
+     */
+    @PostMapping("/search/categories/{categoryCode}/reason")
+    public ModelAndView searchForReason(@PathVariable final String categoryCode, @RequestParam final String keyword,
+                                        final Pageable pageable, @RequestParam final String reason)
+            throws JsonProcessingException {
+
+        SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
+
+        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
+        List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason);
+        mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isEnd", this.checkPageEnd(responses));
+        mav.addObject("responses", responses);
+        mav.addObject("searchType", "reason");
+        mav.addObject("isAdmin", "yes");
+        mav.addObject("reason", reason);
+        mav.addObject("keyword", keyword);
+        return mav;
+    }
+
+    /**
+     * 지정한 카테고리의 게시판에서 상태를 지정해 검색합니다.
+     *
+     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
+     * @param keyword      - 검색을 진행할 검색어입니다.
+     * @param pageable     - 조회할 페이지의 페이지 정보입니다.
+     * @param status       - 지정한 상태의 값입니다.
+     * @return 지정한 상태내의 검색 결과 목록을 반환합니다.
+     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
+     * @since 1.0.0
+     */
+    @PostMapping("/search/categories/{categoryCode}/status")
+    public ModelAndView searchForStatus(@PathVariable final String categoryCode, @RequestParam final String keyword,
+                                        final Pageable pageable, @RequestParam final String status)
+            throws JsonProcessingException {
+
+        SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
+
+        ModelAndView mav;
+        mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
+        List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status);
+        mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isEnd", this.checkPageEnd(responses));
+        mav.addObject("responses", responses);
+        mav.addObject("searchType", "status");
+        mav.addObject("isAdmin", "yes");
+        mav.addObject("status", status);
+        mav.addObject("keyword", keyword);
+        return mav;
+    }
+
+    /**
      * 고객센터의 타입에 맞는 게시글을 수정할 수 있는 페이지로 이동합니다.
      *
-     * @param type - 수정할 게시글의 게시판 타입입니다.
+     * @param type    - 수정할 게시글의 게시판 타입입니다.
      * @param boardNo - 수정할 게시글의 식별번호입니다.
      * @return 지정한 게시글을 수정할 수 있는 페이지로 이동합니다.
      * @since 1.0.0
@@ -107,8 +201,8 @@ public class AdminPostController {
     /**
      * 받은 정보로 타입에 맞는 게시글을 수정 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param type - 수정할 게시글의 게시판 타입입니다.
-     * @param boardNo - 수정할 게시글의 식별번호입니다.
+     * @param type        - 수정할 게시글의 게시판 타입입니다.
+     * @param boardNo     - 수정할 게시글의 식별번호입니다.
      * @param postRequest - 수정할 정보를 담은 객체입니다.
      * @return 게시글을 수정한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
@@ -126,7 +220,7 @@ public class AdminPostController {
     /**
      * 지정한 게시글을 삭제 한 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param type - 삭제할 게시글의 게시판 타입입니다.
+     * @param type    - 삭제할 게시글의 게시판 타입입니다.
      * @param boardNo - 삭제할 게시글의 식별번호입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
@@ -146,6 +240,10 @@ public class AdminPostController {
             return 1;
         }
         return 0;
+    }
+
+    private String checkType(final String categoryCode) {
+        return checkType(categoryCode);
     }
 
 }

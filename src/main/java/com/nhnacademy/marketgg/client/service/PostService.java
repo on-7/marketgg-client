@@ -68,13 +68,14 @@ public interface PostService {
      */
     PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type);
 
-    List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest);
+    List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest)
+            throws JsonProcessingException;
 
     List<SearchBoardResponse> searchForReason(final String categoryCode, final SearchRequest searchRequest,
-                                              final String reason);
+                                              final String reason) throws JsonProcessingException;
 
     List<SearchBoardResponse> searchForStatus(final String categoryCode, final SearchRequest searchRequest,
-                                              final String status);
+                                              final String status) throws JsonProcessingException;
 
     /**
      * 지정한 게시글을 수정할 수 있는 메소드입니다.
