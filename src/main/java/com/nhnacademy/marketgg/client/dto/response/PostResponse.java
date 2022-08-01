@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class PostResponse {
 
-    private Long boardNo;
+    private Long id;
 
     private String categoryCode;
 

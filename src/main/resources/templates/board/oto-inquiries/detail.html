@@ -35,9 +35,9 @@
                 </tr>
             </table>
         </div>
-        <!-- FIXME: memberInfo 에노테이션 해결 -->
         <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/shop/v1/customer-services/oto-inquiries/'+${response.id}+'members/1'">
+            <form th:method="post" th:action="'/shop/v1/customer-services/oto-inquiries/'+${response.id}">
+                <textarea cols = "50" rows = "10" name="content"></textarea><br/>
                 <input type="submit" value="답글 등록">
             </form>
         </div>
