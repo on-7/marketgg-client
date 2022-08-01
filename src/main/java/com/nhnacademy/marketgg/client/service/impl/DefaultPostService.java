@@ -3,8 +3,10 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
+import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,23 @@ public class DefaultPostService implements PostService {
     @Override
     public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type) {
         return postRepository.retrievePostForOtoInquiry(postNo, type);
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest) {
+        return postRepository.searchForCategory(categoryCode, searchRequest);
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchForReason(final String categoryCode, final SearchRequest searchRequest,
+                                                     final String reason) {
+        return postRepository.searchForOption(categoryCode, searchRequest, reason, "reason");
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchForStatus(final String categoryCode, final SearchRequest searchRequest,
+                                                     final String status) {
+        return postRepository.searchForOption(categoryCode, searchRequest, status, "status");
     }
 
     @Override

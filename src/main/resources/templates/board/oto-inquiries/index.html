@@ -7,14 +7,14 @@
     <body>
         <details>
             <summary>[전체 검색]</summary>
-                <form th:method="post" th:action="'/shop/v1/customer-services/search/categories/702?page=0'">
+                <form th:method="post" th:action="'/shop/v1/customer-services/search/categories/702?page=0&size=10'">
                     <input type="text" name="keyword" value="검색어를 입력하세요">
                     <input type="submit" value="검색"><br />
                 </form>
         </details>
         <details>
             <summary>[사유 검색]</summary>
-            <form th:method="post" th:action="'/shop/v1/customer-services/search/categories/702/reason?page=0'">
+            <form th:method="post" th:action="'/shop/v1/customer-services/search/categories/702/reason?page=0&size=10'">
                 <span>1:1 문의 사유 : </span>
                 <select name="reason">
                     <option th:each="reason : ${reasons}"></option>
@@ -26,7 +26,7 @@
         </details>
         <details>
             <summary>[상태 검색]</summary>
-            <form th:method="post" th:action="'/shop/v1/customer-services/search/categories/702/status?page=0'">
+            <form th:method="post" th:action="'/shop/v1/customer-services/search/categories/702/status?page=0&size=10'">
                 <input type="text" name="status" value="상태를 입력하세요">
                 <input type="text" name="keyword" value="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
@@ -71,19 +71,19 @@
             </tbody>
         </table>
         <div th:if="${searchType == 'default'}">
-            <a th:href="'/shop/v1/customer-services/search/categories/702?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
+            <a th:href="'/shop/v1/customer-services/search/categories/702?page='+${page - 1}+'&size=10&keyword='+${keyword}" th:if="${page} != 0" th:text="prev"></a>
             <span th:text="'('+ ${page} + 'page)'"></span>
-            <a th:href="'/shop/v1/customer-services/search/categories/702?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+            <a th:href="'/shop/v1/customer-services/search/categories/702?page='+${page + 1}+'&size=10&keyword='+${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
         </div>
         <div th:if="${searchType == 'reason'}">
-            <a th:href="'/shop/v1/customer-services/search/categories/702/reason?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+            <a th:href="'/shop/v1/customer-services/search/categories/702/reason?page='+${page - 1}+'&size=10&keyword='+${keyword}+'&reason='+${reason}" th:if="${page} != 0" th:text="prev"></a>
             <span th:text="'('+ ${page} + 'page)'"></span>
-            <a th:href="'/shop/v1/customer-services/search/categories/702/reason?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+            <a th:href="'/shop/v1/customer-services/search/categories/702/reason?page='+${page + 1}+'&size=10&keyword='+${keyword}+'&reason='+${reason}" th:if="${isEnd} == 0" th:text="next"></a>
         </div>
         <div th:if="${searchType == 'status'}">
-            <a th:href="'/shop/v1/customer-services/search/categories/702/status?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
+            <a th:href="'/shop/v1/customer-services/search/categories/702/status?page='+${page - 1}+'&size=10&keyword='+${keyword}+'&status='+${status}" th:if="${page} != 0" th:text="prev"></a>
             <span th:text="'('+ ${page} + 'page)'"></span>
-            <a th:href="'/shop/v1/customer-services/search/categories/702/status?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+            <a th:href="'/shop/v1/customer-services/search/categories/702/status?page='+${page + 1}+'&size=10&keyword='+${keyword}+'&status='+${status}" th:if="${isEnd} == 0" th:text="next"></a>
         </div>
         <div th:if="${searchType == 'no'}">
             <a th:href="'/shop/v1/customer-services/oto-inquiries?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>

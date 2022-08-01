@@ -5,7 +5,7 @@
         <title>공지 게시판</title>
     </head>
     <body>
-        <form th:action="'/shop/v1/customer-services/search/categories/701?page=0'" th:method="post">
+        <form th:action="'/shop/v1/customer-services/search/categories/701?page=0&size=10'" th:method="post">
             <input type="text" name="keyword" value="검색어를 입력하세요">
             <input type="submit" value="검색"><br />
         </form>
@@ -48,9 +48,9 @@
             </tbody>
         </table>
         <div th:if="${searchType == 'default'}">
-            <a th:href="'/shop/v1/customer-services/search/categories/701?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
+            <a th:href="'/shop/v1/customer-services/search/categories/701?page=' + ${page - 1} + '&size=10&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
             <span th:text="'('+ ${page} + 'page)'"></span>
-            <a th:href="'/shop/v1/customer-services/search/categories/701?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+            <a th:href="'/shop/v1/customer-services/search/categories/701?page=' + ${page + 1} + '&size=10&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
         </div>
         <div th:if="${searchType == 'no'}">
             <a th:href="'/shop/v1/customer-services/notices?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>

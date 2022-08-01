@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
+import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -60,8 +62,8 @@ public class PostAdapter implements PostRepository {
 
     @Override
     public List<PostResponseForDetail> retrievesPostListForMe(final Integer page, final String type,
-                                                              final MemberInfo memberInfo)
-            throws JsonProcessingException {
+                                                              final MemberInfo memberInfo) throws JsonProcessingException {
+
         String request = objectMapper.writeValueAsString(memberInfo);
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<List<PostResponseForDetail>> response = restTemplate.exchange(
@@ -89,14 +91,49 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo,
-                                                               final String type) {
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<PostResponseForOtoInquiry> response = restTemplate.exchange(
                 gateWayIp + DEFAULT + "/" + type + "/" + postNo,
                 HttpMethod.GET,
                 requestEntity,
                 PostResponseForOtoInquiry.class);
+
+        this.checkResponseUri(response);
+        return response.getBody();
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest)
+            throws JsonProcessingException {
+
+        String requestBody = objectMapper.writeValueAsString(searchRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
+        ResponseEntity<List<SearchBoardResponse>> response = restTemplate.exchange(
+                gateWayIp + DEFAULT + "/categories/" + categoryCode + "/search",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        this.checkResponseUri(response);
+        return response.getBody();
+    }
+
+    @Override
+    public List<SearchBoardResponse> searchForOption(final String categoryCode, SearchRequest searchRequest,
+                                                     String optionValue, String option) throws JsonProcessingException {
+
+        String requestBody = objectMapper.writeValueAsString(searchRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
+        ResponseEntity<List<SearchBoardResponse>> response = restTemplate.exchange(
+                gateWayIp + DEFAULT + "/categories" + categoryCode + "/search/" + option +"/" + optionValue,
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
         return response.getBody();

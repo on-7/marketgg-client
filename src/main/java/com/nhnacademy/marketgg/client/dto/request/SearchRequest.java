@@ -2,13 +2,14 @@ package com.nhnacademy.marketgg.client.dto.request;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 
 @RequiredArgsConstructor
 @Getter
 public class SearchRequest {
 
-    private final String keyword;
+    private final String request;
 
-    private final Integer page;
+    private final PageRequest pageRequest;
 
 }

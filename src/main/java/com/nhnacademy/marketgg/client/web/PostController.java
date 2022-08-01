@@ -5,9 +5,12 @@ import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -122,22 +125,55 @@ public class PostController {
 
     @GetMapping("/search/categories/{categoryCode}")
     public ModelAndView searchForCategory(@PathVariable final String categoryCode,
-                                          @ModelAttribute final SearchRequest searchRequest) {
+                                          @RequestParam final String keyword, final Pageable pageable) {
 
+        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+
+        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
+        List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request);
+        mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isEnd", this.checkPageEnd(responses));
+        mav.addObject("responses", responses);
+        mav.addObject("searchType", "default");
+        mav.addObject("isAdmin", "no");
+        mav.addObject("keyword", keyword);
+        return mav;
     }
 
     @GetMapping("/search/categories/{categoryCode}/reason")
-    public ModelAndView searchForReason(@PathVariable final String categoryCode,
-                                        @ModelAttribute final SearchRequest searchRequest,
-                                        @RequestParam final String reason) {
+    public ModelAndView searchForReason(@PathVariable final String categoryCode, @RequestParam final String keyword,
+                                        final Pageable pageable, @RequestParam final String reason) {
 
+        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+
+        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
+        List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason);
+        mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isEnd", this.checkPageEnd(responses));
+        mav.addObject("responses", responses);
+        mav.addObject("searchType", "reason");
+        mav.addObject("isAdmin", "no");
+        mav.addObject("reason", reason);
+        mav.addObject("keyword", keyword);
+        return mav;
     }
 
     @GetMapping("/search/categories/{categoryCode}/status")
-    public ModelAndView searchForStatus(@PathVariable final String categoryCode,
-                                        @ModelAttribute final SearchRequest searchRequest,
-                                        @RequestParam final String status) {
+    public ModelAndView searchForStatus(@PathVariable final String categoryCode, @RequestParam final String keyword,
+                                        final Pageable pageable, @RequestParam final String status) {
 
+        SearchRequest request = new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+
+        ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
+        List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status);
+        mav.addObject("page", pageable.getPageNumber());
+        mav.addObject("isEnd", this.checkPageEnd(responses));
+        mav.addObject("responses", responses);
+        mav.addObject("searchType", "status");
+        mav.addObject("isAdmin", "no");
+        mav.addObject("status", status);
+        mav.addObject("keyword", keyword);
+        return mav;
     }
 
     /**
@@ -186,6 +222,21 @@ public class PostController {
         postService.deletePost(boardNo, "oto-inquiries");
 
         return mav;
+    }
+
+    private String checkType (final String categoryCode) {
+        switch (categoryCode) {
+            case "701": {
+                return "notices";
+            }
+            case "702": {
+                return "oto-inquiries";
+            }
+            case "703": {
+                return "faqs";
+            }
+        }
+        return null;
     }
 
     private <T> Integer checkPageEnd(List<T> list) {
