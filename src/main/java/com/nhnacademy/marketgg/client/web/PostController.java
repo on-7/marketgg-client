@@ -54,7 +54,6 @@ public class PostController {
         } else {
             responses = postService.retrievesPostList(page, type);
         }
-        mav.addObject("type", type);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);

@@ -50,7 +50,9 @@
             <tbody>
                 <tr th:each="board : ${responses}">
                     <td th:text="${board.id}"></td>
-                    <td th:text="${board.title}"></td>
+                    <td>
+                        <a th:href="'shop/v1/oto-inquiries/'+${board.id}+'/retrieve'" th:text="${board.title}"></a>
+                    </td>
                     <td th:text="${board.reason}"></td>
                     <td th:text="${board.status}"></td>
                     <td th:text="${board.createdAt}"></td>

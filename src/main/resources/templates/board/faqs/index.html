@@ -36,7 +36,9 @@
             <tbody>
                 <tr th:each="board : ${responses}">
                     <td th:text="${board.id}"></td>
-                    <td th:text="${board.title}"></td>
+                    <td>
+                        <a th:href="'shop/v1/faqs/'+${board.id}+'/retrieve'" th:text="${board.title}"></a>
+                    </td>
                     <td th:text="${board.createdAt}"></td>
                     <td>
                         <div th:if="${isAdmin == 'yes'}">
