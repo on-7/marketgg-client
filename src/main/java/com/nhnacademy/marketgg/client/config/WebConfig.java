@@ -7,6 +7,7 @@ import java.security.KeyStore;
 import java.time.Duration;
 import java.util.Optional;
 import javax.net.ssl.SSLContext;
+import javax.servlet.Filter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.client.HttpClient;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
@@ -22,6 +23,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
@@ -132,6 +134,11 @@ public class WebConfig {
     @Bean(name = "clientCertificateAuthenticationRestTemplate")
     public RestTemplate clientCertificationRestTemplate(final HttpComponentsClientHttpRequestFactory requestFactory) {
         return new RestTemplate(requestFactory);
+    }
+
+    @Bean
+    public Filter characterEncodingFilter() {
+        return new CharacterEncodingFilter("UTF-8", true);
     }
 
 }
