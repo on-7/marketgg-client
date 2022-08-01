@@ -21,6 +21,7 @@ public interface PostRepository {
      *
      * @param postRequest - 등록할 게시글의 정보를 담은 객체입니다.
      * @param type        - 등록할 게시글의 게시판 타입입니다.
+     * @param role - 권한정보입니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
@@ -31,6 +32,7 @@ public interface PostRepository {
      *
      * @param page - 반환받을 게시글 목록의 페이지 정보입니다.
      * @param type - 반환받을 게시글 목록의 게시판 타입입니다.
+     * @param role - 권한정보입니다.
      * @return 게시판 타입에 맞는 게시글 목록을 반환합니다.
      * @since 1.0.0
      */
@@ -54,6 +56,7 @@ public interface PostRepository {
      *
      * @param postNo - 지정한 게시글의 식별번호입니다.
      * @param type   - 지정한 게시글의 게시판 타입입니다.
+     * @param role - 권한정보입니다.
      * @return 지정한 게시글의 상세정보를 반환합니다.
      * @since 1.0.0
      */
@@ -64,14 +67,37 @@ public interface PostRepository {
      *
      * @param postNo - 지정한 1:1문의의 식별번호입니다.
      * @param type   - 지정한 1:1문의의 게시판 타입입니다.
+     * @param role - 권한정보입니다.
      * @return 지정한 1:1문의의 상세정보를 반환합니다.
      * @since 1.0.0
      */
     PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type, final String role);
 
+    /**
+     * 지정한 카테고리 내에서 검색한 결과 목록을 반환합니다.
+     *
+     * @param categoryCode - 지정한 카테고리의 식별번호입니다.
+     * @param searchRequest - 검색을 진행할 검색 정보를 담은 객체입니다.
+     * @param role - 권한정보입니다.
+     * @return 지정한 카테고리 내에서 검색한 결과 목록을 반환합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @since 1.0.0
+     */
     List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest, final String role)
             throws JsonProcessingException;
 
+    /**
+     * 지정한 카테고리내에서 지정한 옵션으로 검색한 결과 목록을 반환합니다.
+     *
+     * @param categoryCode - 지정한 카테고리의 식별번호입니다.
+     * @param searchRequest - 검색을 진행할 검색 정보를 담은 객체입니다.
+     * @param optionValue - 검색을 진행할 옵션을 지정한 값입니다.
+     * @param option - 검색을 진행할 옵션입니다.
+     * @param role - 권한정보입니다.
+     * @return 지정한 카테고리내에서 지정한 옵션으로 검색한 결과 목록을 반환합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @since 1.0.0
+     */
     List<SearchBoardResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
                                               final String optionValue, final String option, final String role)
             throws JsonProcessingException;
@@ -82,6 +108,7 @@ public interface PostRepository {
      * @param postNo      - 수정할 게시글의 식별번호입니다.
      * @param postRequest - 수정할 게시글의 정보를 담은 객체입니다.
      * @param type        - 수정할 게시글의 게시판 타입입니다.
+     * @param role - 권한정보입니다.
      * @since 1.0.0
      */
     void updatePost(final Long postNo, final PostRequest postRequest, final String type, final String role);
@@ -91,6 +118,7 @@ public interface PostRepository {
      *
      * @param postNo - 삭제한 게시글의 식별번호입니다.
      * @param type   - 삭제할 게시글의 게시판 타입입니다.
+     * @param role - 권한정보입니다.
      * @since 1.0.0
      */
     void deletePost(final Long postNo, final String type, final String role);
