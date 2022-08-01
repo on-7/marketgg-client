@@ -17,10 +17,6 @@ import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.AuthRepository;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -56,7 +52,8 @@ public class AuthAdapter implements AuthRepository {
     @NoAuth
     @Override
     public void doLogin(final LoginRequest loginRequest, final String sessionId) {
-        log.info("login start");
+        log.debug("login start");
+
         HttpHeaders httpHeaders = getHttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
@@ -77,7 +74,7 @@ public class AuthAdapter implements AuthRepository {
         String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
-        Date expireDate = localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
+        Date expireDate = jwtInfo.localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
 
         log.info("login success: {}", jwtInfo.getJwt());
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
@@ -176,7 +173,7 @@ public class AuthAdapter implements AuthRepository {
         redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
-        Date expireDate = localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
+        Date expireDate = jwtInfo.localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
 
         log.info("login success: {}", jwtInfo.getJwt());
 
@@ -230,14 +227,4 @@ public class AuthAdapter implements AuthRepository {
 
         redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
     }
-
-    private Date localDateTimeToDateForRenewToken(LocalDateTime expiredTime) {
-        Instant instant = expiredTime
-            .plus(6, ChronoUnit.DAYS)
-            .plus(30, ChronoUnit.MINUTES)
-            .atZone(ZoneId.systemDefault())
-            .toInstant();
-        return Date.from(instant);
-    }
-
 }

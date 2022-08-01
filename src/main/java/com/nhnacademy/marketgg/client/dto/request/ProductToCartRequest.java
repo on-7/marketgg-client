@@ -14,9 +14,7 @@ public class ProductToCartRequest {
     @NotNull
     private Long id;
 
-    @NotNull
-    @Max(value = 999)
-    @Min(value = 1)
+    @Max(value = 999) @Min(value = 1)
     private Integer amount;
 
 }
