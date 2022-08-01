@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,8 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @Slf4j
 @Component
@@ -32,7 +31,8 @@ public class PostAdapter implements PostRepository {
     private static final String DEFAULT = "/shop/v1/customer-services";
 
     @Override
-    public void createPost(final PostRequest postRequest, final String type) throws JsonProcessingException {
+    public void createPost(final PostRequest postRequest, final String type)
+            throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(postRequest);
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
@@ -59,7 +59,9 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException {
+    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type,
+                                                     final MemberInfo memberInfo)
+            throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(memberInfo);
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
@@ -74,10 +76,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public PostResponse retrievePost(final Long boardNo, final String type) {
+    public PostResponse retrievePost(final Long postNo, final String type) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<PostResponse> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "/" + boardNo,
+                gateWayIp + DEFAULT + "/" + type + "/" + postNo,
                 HttpMethod.GET,
                 requestEntity,
                 PostResponse.class);
@@ -87,10 +89,11 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type) {
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo,
+                                                               final String type) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<PostResponseForOtoInquiry> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "/" + boardNo,
+                gateWayIp + DEFAULT + "/" + type + "/" + postNo,
                 HttpMethod.GET,
                 requestEntity,
                 PostResponseForOtoInquiry.class);
@@ -100,10 +103,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void updatePost(final Long boardNo, final PostRequest postRequest, final String type) {
+    public void updatePost(final Long postNo, final PostRequest postRequest, final String type) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "/" + boardNo,
+                gateWayIp + DEFAULT + "/" + type + "/" + postNo,
                 HttpMethod.PUT,
                 requestEntity,
                 Void.class);
@@ -112,10 +115,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void deletePost(final Long boardNo, final String type) {
+    public void deletePost(final Long postNo, final String type) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "/" + boardNo,
+                gateWayIp + DEFAULT + "/" + type + "/" + postNo,
                 HttpMethod.DELETE,
                 requestEntity,
                 Void.class);
@@ -130,7 +133,8 @@ public class PostAdapter implements PostRepository {
                 gateWayIp + DEFAULT + "/reason",
                 HttpMethod.PUT,
                 requestEntity,
-                new ParameterizedTypeReference<>() {});
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
         return response.getBody();

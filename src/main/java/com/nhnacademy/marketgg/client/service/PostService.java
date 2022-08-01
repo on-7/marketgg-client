@@ -51,41 +51,41 @@ public interface PostService {
     /**
      * 지정한 게시글의 상세정보를 조회할 수 있는 메소드입니다.
      *
-     * @param boardNo - 지정한 게시글의 식별번호입니다.
+     * @param postNo - 지정한 게시글의 식별번호입니다.
      * @param type - 지정한 게시글의 게시판 타입입니다.
      * @return 지정한 게시글의 상세정보를 반환합니다.
      * @since 1.0.0
      */
-    PostResponse retrievePost(final Long boardNo, final String type);
+    PostResponse retrievePost(final Long postNo, final String type);
 
     /**
      * 지정한 1:1 문의의 상세정보를 조회 할 수 있는 메소드입니다.
      *
-     * @param boardNo - 지정한 1:1문의의 식별번호입니다.
+     * @param postNo - 지정한 1:1문의의 식별번호입니다.
      * @param type - 지정한 1:1문의의 게시판 타입입니다.
      * @return 지정한 1:1 문의의 상세정보를 반환합니다.
      * @since 1.0.0
      */
-    PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type);
+    PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type);
 
     /**
      * 지정한 게시글을 수정할 수 있는 메소드입니다.
      *
-     * @param boardNo - 수정할 게시글의 식별번호입니다.
+     * @param postNo - 수정할 게시글의 식별번호입니다.
      * @param postRequest - 수정할 게시글의 정보를 담은 객체입니다.
      * @param type - 수정할 게시글의 게시판 타입입니다.
      * @since 1.0.0
      */
-    void updatePost(final Long boardNo, final PostRequest postRequest, final String type);
+    void updatePost(final Long postNo, final PostRequest postRequest, final String type);
 
     /**
      * 지정한 게시글을 삭제할 수 있는 메소드입니다.
      *
-     * @param boardNo - 삭제할 게시글의 식별번호입니다.
+     * @param postNo - 삭제할 게시글의 식별번호입니다.
      * @param type - 삭제할 게시글의 게시판 타입입니다.
      * @since 1.0.0
      */
-    void deletePost(final Long boardNo, final String type);
+    void deletePost(final Long postNo, final String type);
 
     /**
      * 1:1 문의에서 사용되는 사유목록을 반환합니다.

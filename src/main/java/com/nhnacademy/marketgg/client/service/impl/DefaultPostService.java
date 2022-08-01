@@ -34,23 +34,23 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public PostResponse retrievePost(final Long boardNo, final String type) {
-        return postRepository.retrievePost(boardNo, type);
+    public PostResponse retrievePost(final Long postNo, final String type) {
+        return postRepository.retrievePost(postNo, type);
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long boardNo, final String type) {
-        return postRepository.retrievePostForOtoInquiry(boardNo, type);
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type) {
+        return postRepository.retrievePostForOtoInquiry(postNo, type);
     }
 
     @Override
-    public void updatePost(final Long boardNo, final PostRequest postRequest, final String type) {
-        postRepository.updatePost(boardNo, postRequest, type);
+    public void updatePost(final Long postNo, final PostRequest postRequest, final String type) {
+        postRepository.updatePost(postNo, postRequest, type);
     }
 
     @Override
-    public void deletePost(final Long boardNo, final String type) {
-        postRepository.deletePost(boardNo, type);
+    public void deletePost(final Long postNo, final String type) {
+        postRepository.deletePost(postNo, type);
     }
 
     @Override
