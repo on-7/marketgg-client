@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.elastic.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.elastic.response.SearchBoardResponse;
+import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import com.nhnacademy.marketgg.client.service.SearchService;
 import java.util.List;
@@ -59,6 +60,7 @@ public class SearchBoardController {
         mav.addObject("searchType", "default");
         mav.addObject("isEnd", this.checkPageEnd(response));
         mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("isAdmin", "no");
 
         return mav;
     }
@@ -92,6 +94,7 @@ public class SearchBoardController {
         mav.addObject("searchType", "reason");
         mav.addObject("isEnd", this.checkPageEnd(response));
         mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("isAdmin", "no");
 
         return mav;
     }
@@ -125,6 +128,7 @@ public class SearchBoardController {
         mav.addObject("searchType", "status");
         mav.addObject("isEnd", this.checkPageEnd(response));
         mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("isAdmin", "no");
 
         return mav;
     }
@@ -141,7 +145,7 @@ public class SearchBoardController {
                 return "faqs";
             }
             default: {
-                throw new IllegalArgumentException("잘못된 요청입니다.");
+                throw new NotFoundException("해당 카테고리 타입을 찾을 수 없습니다.");
             }
         }
     }
