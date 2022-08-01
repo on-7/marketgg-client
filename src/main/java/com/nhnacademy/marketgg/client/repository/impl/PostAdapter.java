@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
@@ -48,9 +49,9 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponseForDetail> retrievesPostList(final Integer page, final String type, final String role) {
+    public List<PostResponse> retrievesPostList(final Integer page, final String type, final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<PostResponseForDetail>> response = restTemplate.exchange(
+        ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
                 gateWayIp + this.checkAdmin(role) + "/" + type + "?page=" + page,
                 HttpMethod.GET,
                 requestEntity,
@@ -62,13 +63,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponseForDetail> retrievesPostListForMe(final Integer page, final String type,
-                                                              final MemberInfo memberInfo)
-            throws JsonProcessingException {
+    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type) {
 
-        String request = objectMapper.writeValueAsString(memberInfo);
-        HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<List<PostResponseForDetail>> response = restTemplate.exchange(
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
                 gateWayIp + USER + "/" + type + "?page=" + page,
                 HttpMethod.GET,
                 requestEntity,

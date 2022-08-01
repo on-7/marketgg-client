@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.PostService;
@@ -49,13 +50,12 @@ public class PostController {
      */
     @GetMapping("/{type}")
     public ModelAndView index(@PathVariable final String type,
-                              @RequestParam @DefaultValue(value = "0") final Integer page,
-                              final MemberInfo memberInfo) throws JsonProcessingException {
+                              @RequestParam @DefaultValue(value = "0") final Integer page) {
 
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
-        List<PostResponseForDetail> responses;
+        List<PostResponse> responses;
         if (type.compareTo("oto-inquiries") == 0) {
-            responses = postService.retrievesPostListForMe(page, type, memberInfo);
+            responses = postService.retrievesPostListForMe(page, type);
         } else {
             responses = postService.retrievesPostList(page, type, USER);
         }

@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(AdminCouponController.class)
-public class AdminCouponControllerTest {
+class AdminCouponControllerTest {
 
     @Autowired
     MockMvc mockMvc;

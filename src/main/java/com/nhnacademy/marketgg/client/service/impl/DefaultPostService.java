@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
@@ -26,13 +27,13 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponseForDetail> retrievesPostList(final Integer page, final String type, final String role) {
+    public List<PostResponse> retrievesPostList(final Integer page, final String type, final String role) {
         return postRepository.retrievesPostList(page, type, role);
     }
 
     @Override
-    public List<PostResponseForDetail> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException {
-        return postRepository.retrievesPostListForMe(page, type, memberInfo);
+    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type) {
+        return postRepository.retrievesPostListForMe(page, type);
     }
 
     @Override

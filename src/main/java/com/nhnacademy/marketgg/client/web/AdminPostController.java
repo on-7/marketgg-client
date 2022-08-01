@@ -5,6 +5,7 @@ import static org.springframework.data.domain.PageRequest.of;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.PostService;
@@ -52,7 +53,7 @@ public class AdminPostController {
     public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page)
             throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
-        List<PostResponseForDetail> responses = postService.retrievesPostList(page, type, ADMIN);
+        List<PostResponse> responses = postService.retrievesPostList(page, type, ADMIN);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
