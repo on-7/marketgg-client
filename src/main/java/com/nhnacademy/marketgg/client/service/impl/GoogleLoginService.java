@@ -9,9 +9,7 @@ import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.oauth2.TokenRequest;
 import com.nhnacademy.marketgg.client.service.OAuth2Service;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -31,16 +29,16 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class GoogleLoginService implements OAuth2Service {
 
-    @Value("${google.client-id}")
+    @Value("${gg.google.client-id}")
     private String clientId;
 
-    @Value("${google.client-key}")
+    @Value("${gg.google.client-key}")
     private String clientSecret;
 
-    @Value("${google.redirect-uri}")
+    @Value("${gg.google.redirect-uri}")
     private String redirectUri;
 
-    @Value("${google.login-request-url}")
+    @Value("${gg.google.login-request-url}")
     private String loginRequestUrl;
 
     private final RestTemplate restTemplate;
@@ -90,8 +88,8 @@ public class GoogleLoginService implements OAuth2Service {
             return googleProfile;
         }
 
-        String jwt = headers.get(AUTHORIZATION).get(0);
-        String expire = headers.get(JwtInfo.JWT_EXPIRE).get(0);
+        String jwt = Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0);
+        String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
         Date expireDate = jwtInfo.localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
@@ -105,9 +103,9 @@ public class GoogleLoginService implements OAuth2Service {
 
     private boolean isInvalidHeader(HttpHeaders headers) {
         return Objects.isNull(headers.get(AUTHORIZATION))
-            || Objects.isNull(headers.get(AUTHORIZATION).get(0))
+            || Objects.isNull(Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0))
             || Objects.isNull(headers.get(JwtInfo.JWT_EXPIRE))
-            || Objects.isNull(headers.get(JwtInfo.JWT_EXPIRE).get(0));
+            || Objects.isNull(Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0));
     }
 
 }
