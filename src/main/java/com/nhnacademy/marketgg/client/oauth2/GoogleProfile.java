@@ -11,8 +11,6 @@ public class GoogleProfile {
 
     private String email;
     private String name;
-    private String gender;
-    private String address;
-    private String birthday;
+    private String provider;
 
 }

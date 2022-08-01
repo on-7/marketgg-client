@@ -1,6 +1,11 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
+import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.service.OAuth2Service;
+import java.util.Optional;
+import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -24,9 +29,14 @@ public class Oauth2Controller {
     }
 
     @GetMapping("/oauth2/code/google")
-    public ModelAndView googleRedirect(@RequestParam String code) {
-        String name = oAuth2Service.getToken(code);
-        return new ModelAndView("index").addObject("name", name);
+    public ModelAndView googleRedirect(@RequestParam String code, HttpSession httpSession)
+        throws JsonProcessingException {
+
+        Optional<GoogleProfile> token = oAuth2Service.getToken(code, (String) httpSession.getAttribute(JwtInfo.SESSION_ID));
+        if (token.isPresent()) {
+            return new ModelAndView("index");
+        }
+        return new ModelAndView();  // 회원가입 폼
     }
 
 }

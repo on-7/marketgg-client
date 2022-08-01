@@ -22,10 +22,10 @@
                     <h3>회원가입</h3>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/marketgg/members/signup}" method="post" onsubmit="return formValidation()">
+                    <form th:action="@{/marketgg/members/signup}" method="post" onsubmit="return formValidation()" th:object="member">
 
                         <div class="form-group">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="이메일"
+                            <input type="email" class="form-control" th:field="*{email}" placeholder="이메일"
                                    maxlength="30" required oninput="">
                             <!-- id ajax 중복체크 -->
                             <span id="email-ok" hidden>
@@ -54,7 +54,7 @@
                         <input type="hidden" id="use-password" value="false">
                         <br>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="이름" maxlength="15" required>
+                            <input type="text" class="form-control" th:field="*{name}" placeholder="이름" maxlength="15" required>
                         </div>
                         <br>
                         <div class="form-group">
