@@ -24,7 +24,7 @@ public interface PostRepository {
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void createPost(final PostRequest postRequest, final String type) throws JsonProcessingException;
+    void createPost(final PostRequest postRequest, final String type, final String role) throws JsonProcessingException;
 
     /**
      * 게시판 타입에 맞는 게시글 목록을 반환하는 Adapter 입니다.
@@ -34,7 +34,7 @@ public interface PostRepository {
      * @return 게시판 타입에 맞는 게시글 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<PostResponseForDetail> retrievesPostList(final Integer page, final String type);
+    List<PostResponseForDetail> retrievesPostList(final Integer page, final String type, final String role);
 
     /**
      * 로그인 한 회원이 등록한 1:1 문의 게시글 목록만을 반환합니다.
@@ -57,7 +57,7 @@ public interface PostRepository {
      * @return 지정한 게시글의 상세정보를 반환합니다.
      * @since 1.0.0
      */
-    PostResponseForDetail retrievePost(final Long postNo, final String type);
+    PostResponseForDetail retrievePost(final Long postNo, final String type, final String role);
 
     /**
      * 1:1문의의 상세정보를 반환하는 Adapter 입니다.
@@ -67,13 +67,13 @@ public interface PostRepository {
      * @return 지정한 1:1문의의 상세정보를 반환합니다.
      * @since 1.0.0
      */
-    PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type);
+    PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type, final String role);
 
-    List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest)
+    List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest, final String role)
             throws JsonProcessingException;
 
     List<SearchBoardResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
-                                              final String optionValue, final String option)
+                                              final String optionValue, final String option, final String role)
             throws JsonProcessingException;
 
     /**
@@ -84,7 +84,7 @@ public interface PostRepository {
      * @param type        - 수정할 게시글의 게시판 타입입니다.
      * @since 1.0.0
      */
-    void updatePost(final Long postNo, final PostRequest postRequest, final String type);
+    void updatePost(final Long postNo, final PostRequest postRequest, final String type, final String role);
 
     /**
      * 지정한 게시글을 삭제할 수 있는 Adapter 입니다.
@@ -93,7 +93,7 @@ public interface PostRepository {
      * @param type   - 삭제할 게시글의 게시판 타입입니다.
      * @since 1.0.0
      */
-    void deletePost(final Long postNo, final String type);
+    void deletePost(final Long postNo, final String type, final String role);
 
     /**
      * 1:1 문의의 사유목록을 반환합니다.

@@ -21,13 +21,13 @@ public class DefaultPostService implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public void createPost(final PostRequest postRequest, final String type) throws JsonProcessingException {
-        postRepository.createPost(postRequest, type);
+    public void createPost(final PostRequest postRequest, final String type, final String role) throws JsonProcessingException {
+        postRepository.createPost(postRequest, type, role);
     }
 
     @Override
-    public List<PostResponseForDetail> retrievesPostList(final Integer page, final String type) {
-        return postRepository.retrievesPostList(page, type);
+    public List<PostResponseForDetail> retrievesPostList(final Integer page, final String type, final String role) {
+        return postRepository.retrievesPostList(page, type, role);
     }
 
     @Override
@@ -36,44 +36,44 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public PostResponseForDetail retrievePost(final Long postNo, final String type) {
-        return postRepository.retrievePost(postNo, type);
+    public PostResponseForDetail retrievePost(final Long postNo, final String type, final String role) {
+        return postRepository.retrievePost(postNo, type, role);
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type) {
-        return postRepository.retrievePostForOtoInquiry(postNo, type);
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type, final String role) {
+        return postRepository.retrievePostForOtoInquiry(postNo, type, role);
     }
 
     @Override
-    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest)
+    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest, final String role)
             throws JsonProcessingException {
 
-        return postRepository.searchForCategory(categoryCode, searchRequest);
+        return postRepository.searchForCategory(categoryCode, searchRequest, role);
     }
 
     @Override
     public List<SearchBoardResponse> searchForReason(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String reason) throws JsonProcessingException {
+                                                     final String reason, final String role) throws JsonProcessingException {
 
-        return postRepository.searchForOption(categoryCode, searchRequest, reason, "reason");
+        return postRepository.searchForOption(categoryCode, searchRequest, reason, "reason", role);
     }
 
     @Override
     public List<SearchBoardResponse> searchForStatus(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String status) throws JsonProcessingException {
+                                                     final String status, final String role) throws JsonProcessingException {
 
-        return postRepository.searchForOption(categoryCode, searchRequest, status, "status");
+        return postRepository.searchForOption(categoryCode, searchRequest, status, "status", role);
     }
 
     @Override
-    public void updatePost(final Long postNo, final PostRequest postRequest, final String type) {
-        postRepository.updatePost(postNo, postRequest, type);
+    public void updatePost(final Long postNo, final PostRequest postRequest, final String type, final String role) {
+        postRepository.updatePost(postNo, postRequest, type, role);
     }
 
     @Override
-    public void deletePost(final Long postNo, final String type) {
-        postRepository.deletePost(postNo, type);
+    public void deletePost(final Long postNo, final String type, final String role) {
+        postRepository.deletePost(postNo, type, role);
     }
 
     @Override

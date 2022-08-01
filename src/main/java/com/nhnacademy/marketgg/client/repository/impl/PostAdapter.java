@@ -30,15 +30,16 @@ public class PostAdapter implements PostRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    private static final String DEFAULT = "/shop/v1/customer-services";
+    private static final String USER = "/shop/v1/customer-services";
+    private static final String ADMIN = "/shop/v1/admin/customer-services";
 
     @Override
-    public void createPost(final PostRequest postRequest, final String type)
+    public void createPost(final PostRequest postRequest, final String type, final String role)
             throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(postRequest);
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type,
+                gateWayIp + this.checkAdmin(role) + "/" + type,
                 HttpMethod.POST,
                 requestEntity,
                 Void.class);
@@ -47,10 +48,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponseForDetail> retrievesPostList(final Integer page, final String type) {
+    public List<PostResponseForDetail> retrievesPostList(final Integer page, final String type, final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponseForDetail>> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "?page=" + page,
+                gateWayIp + this.checkAdmin(role) + "/" + type + "?page=" + page,
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
@@ -62,12 +63,13 @@ public class PostAdapter implements PostRepository {
 
     @Override
     public List<PostResponseForDetail> retrievesPostListForMe(final Integer page, final String type,
-                                                              final MemberInfo memberInfo) throws JsonProcessingException {
+                                                              final MemberInfo memberInfo)
+            throws JsonProcessingException {
 
         String request = objectMapper.writeValueAsString(memberInfo);
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<List<PostResponseForDetail>> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "?page=" + page,
+                gateWayIp + USER + "/" + type + "?page=" + page,
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
@@ -78,10 +80,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public PostResponseForDetail retrievePost(final Long postNo, final String type) {
+    public PostResponseForDetail retrievePost(final Long postNo, final String type, final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<PostResponseForDetail> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "/" + postNo,
+                gateWayIp + this.checkAdmin(role) + "/" + type + "/" + postNo,
                 HttpMethod.GET,
                 requestEntity,
                 PostResponseForDetail.class);
@@ -91,10 +93,11 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type) {
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type,
+                                                               final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<PostResponseForOtoInquiry> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "/" + postNo,
+                gateWayIp + this.checkAdmin(role) + "/" + type + "/" + postNo,
                 HttpMethod.GET,
                 requestEntity,
                 PostResponseForOtoInquiry.class);
@@ -104,14 +107,15 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest)
+    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest,
+                                                       final String role)
             throws JsonProcessingException {
 
         String requestBody = objectMapper.writeValueAsString(searchRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<List<SearchBoardResponse>> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/categories/" + categoryCode + "/search",
+                gateWayIp + this.checkAdmin(role) + "/categories/" + categoryCode + "/search",
                 HttpMethod.POST,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
@@ -122,14 +126,15 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<SearchBoardResponse> searchForOption(final String categoryCode, SearchRequest searchRequest,
-                                                     String optionValue, String option) throws JsonProcessingException {
+    public List<SearchBoardResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
+                                                     final String optionValue, final String option, final String role)
+            throws JsonProcessingException {
 
         String requestBody = objectMapper.writeValueAsString(searchRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<List<SearchBoardResponse>> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/categories" + categoryCode + "/search/" + option +"/" + optionValue,
+                gateWayIp + this.checkAdmin(role) + "/categories" + categoryCode + "/search/" + option + "/" + optionValue,
                 HttpMethod.POST,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
@@ -140,10 +145,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void updatePost(final Long postNo, final PostRequest postRequest, final String type) {
+    public void updatePost(final Long postNo, final PostRequest postRequest, final String type, final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "/" + postNo,
+                gateWayIp + this.checkAdmin(role) + "/" + type + "/" + postNo,
                 HttpMethod.PUT,
                 requestEntity,
                 Void.class);
@@ -152,10 +157,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void deletePost(final Long postNo, final String type) {
+    public void deletePost(final Long postNo, final String type, final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/" + type + "/" + postNo,
+                gateWayIp + this.checkAdmin(role) + "/" + type + "/" + postNo,
                 HttpMethod.DELETE,
                 requestEntity,
                 Void.class);
@@ -167,7 +172,7 @@ public class PostAdapter implements PostRepository {
     public List<String> retrieveReason() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<String>> response = restTemplate.exchange(
-                gateWayIp + DEFAULT + "/reason",
+                gateWayIp + USER + "/reason",
                 HttpMethod.PUT,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
@@ -175,6 +180,13 @@ public class PostAdapter implements PostRepository {
 
         this.checkResponseUri(response);
         return response.getBody();
+    }
+
+    private String checkAdmin(final String role) {
+        if(role.compareTo("admin") == 0) {
+            return ADMIN;
+        }
+        return USER;
     }
 
     private HttpHeaders buildHeaders() {

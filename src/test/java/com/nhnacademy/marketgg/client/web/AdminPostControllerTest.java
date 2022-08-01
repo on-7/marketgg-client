@@ -56,7 +56,7 @@ class AdminPostControllerTest {
     @Test
     @DisplayName("전체 목록 조회")
     void testIndex() throws Exception {
-        given(postService.retrievesPostList(anyInt(), anyString())).willReturn(List.of());
+        given(postService.retrievesPostList(anyInt(), anyString(), anyString())).willReturn(List.of());
 
         this.mockMvc.perform(get(DEFAULT_ADMIN + "/{type}", "faqs")
                                      .param("page", "0"))
@@ -67,7 +67,7 @@ class AdminPostControllerTest {
     @Test
     @DisplayName("전체 목록 조회(페이지 마지막 X)")
     void testIndexPageNoEnd() throws Exception {
-        given(postService.retrievesPostList(anyInt(), anyString())).willReturn(
+        given(postService.retrievesPostList(anyInt(), anyString(), anyString())).willReturn(
                 List.of(postResponseForDetail, postResponseForDetail, postResponseForDetail, postResponseForDetail,
                         postResponseForDetail, postResponseForDetail,
                         postResponseForDetail, postResponseForDetail, postResponseForDetail, postResponseForDetail,
@@ -92,20 +92,20 @@ class AdminPostControllerTest {
     @Test
     @DisplayName("게시글 등록")
     void testCreatePost() throws Exception {
-        willDoNothing().given(postService).createPost(any(PostRequest.class), anyString());
+        willDoNothing().given(postService).createPost(any(PostRequest.class), anyString(), anyString());
 
         this.mockMvc.perform(post(DEFAULT_ADMIN + "/{type}/create", "faqs"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN + "/faqs"));
 
-        then(postService).should().createPost(any(PostRequest.class), anyString());
+        then(postService).should().createPost(any(PostRequest.class), anyString(), anyString());
     }
 
     @Test
     @DisplayName("게시글 수정 준비")
     void testDoUpdatePost() throws Exception {
         given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
-        given(postService.retrievePost(anyLong(), anyString())).willReturn(postResponseForDetail);
+        given(postService.retrievePost(anyLong(), anyString(), anyString())).willReturn(postResponseForDetail);
 
         this.mockMvc.perform(get(DEFAULT_ADMIN + "/{type}/{boardNo}/update", "faqs", 1L))
                     .andExpect(status().isOk())
@@ -116,25 +116,25 @@ class AdminPostControllerTest {
     @Test
     @DisplayName("게시글 수정")
     void testUpdatePost() throws Exception {
-        willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString());
+        willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString(), anyString());
 
         this.mockMvc.perform(put(DEFAULT_ADMIN + "/{types}/{boardNo}/update", "faqs", 1L))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN + "/faqs"));
 
-        then(postService).should().updatePost(anyLong(), any(PostRequest.class), anyString());
+        then(postService).should().updatePost(anyLong(), any(PostRequest.class), anyString(), anyString());
     }
 
     @Test
     @DisplayName("게시글 삭제")
     void testDeletePost() throws Exception {
-        willDoNothing().given(postService).deletePost(anyLong(), anyString());
+        willDoNothing().given(postService).deletePost(anyLong(), anyString(), anyString());
 
         this.mockMvc.perform(delete(DEFAULT_ADMIN + "/{type}/{boardNo}/delete", "faqs", 1L))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN + "/faqs"));
 
-        then(postService).should().deletePost(anyLong(), anyString());
+        then(postService).should().deletePost(anyLong(), anyString(), anyString());
     }
 
 }

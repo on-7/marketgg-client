@@ -37,6 +37,7 @@ public class AdminPostController {
 
     private static final String DEFAULT_ADMIN_POST = "/shop/v1/admin/customer-services";
     private static final Integer PAGE_SIZE = 10;
+    private static final String ADMIN = "admin";
 
     /**
      * 고객센터의 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
@@ -51,7 +52,7 @@ public class AdminPostController {
     public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page)
             throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
-        List<PostResponseForDetail> responses = postService.retrievesPostList(page, type);
+        List<PostResponseForDetail> responses = postService.retrievesPostList(page, type, ADMIN);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -88,7 +89,7 @@ public class AdminPostController {
                                    @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
-        postService.createPost(postRequest, type);
+        postService.createPost(postRequest, type, ADMIN);
 
         return mav;
     }
@@ -111,7 +112,7 @@ public class AdminPostController {
         SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
 
         ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request);
+        List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request, ADMIN);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -140,7 +141,7 @@ public class AdminPostController {
         SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
 
         ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason);
+        List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason, ADMIN);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -171,7 +172,7 @@ public class AdminPostController {
 
         ModelAndView mav;
         mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status);
+        List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status, ADMIN);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -193,7 +194,7 @@ public class AdminPostController {
     @GetMapping("/{type}/{boardNo}/update")
     public ModelAndView doUpdatePost(@PathVariable final String type, @PathVariable final Long boardNo) {
         ModelAndView mav = new ModelAndView("board/" + type + "/update-form");
-        mav.addObject("response", postService.retrievePost(boardNo, type));
+        mav.addObject("response", postService.retrievePost(boardNo, type, ADMIN));
 
         return mav;
     }
@@ -212,7 +213,7 @@ public class AdminPostController {
                                    @ModelAttribute final PostRequest postRequest) {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
-        postService.updatePost(boardNo, postRequest, type);
+        postService.updatePost(boardNo, postRequest, type, ADMIN);
 
         return mav;
     }
@@ -230,7 +231,7 @@ public class AdminPostController {
                                    @PathVariable final Long boardNo) {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
-        postService.deletePost(boardNo, type);
+        postService.deletePost(boardNo, type, ADMIN);
 
         return mav;
     }

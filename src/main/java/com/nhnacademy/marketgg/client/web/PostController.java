@@ -37,6 +37,7 @@ public class PostController {
 
     private static final String DEFAULT_POST = "/shop/v1/customer-services";
     private static final Integer PAGE_SIZE = 10;
+    private static final String USER = "user";
 
     /**
      * 고객센터의 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
@@ -56,7 +57,7 @@ public class PostController {
         if (type.compareTo("oto-inquiries") == 0) {
             responses = postService.retrievesPostListForMe(page, type, memberInfo);
         } else {
-            responses = postService.retrievesPostList(page, type);
+            responses = postService.retrievesPostList(page, type, USER);
         }
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -95,7 +96,7 @@ public class PostController {
                                    @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/" + type);
-        postService.createPost(postRequest, type);
+        postService.createPost(postRequest, type, USER);
 
         return mav;
     }
@@ -114,9 +115,9 @@ public class PostController {
         ModelAndView mav = new ModelAndView("board/" + type + "/detail");
 
         if (type.compareTo("oto-inquiries") == 0) {
-            mav.addObject("response", postService.retrievePostForOtoInquiry(boardNo, type));
+            mav.addObject("response", postService.retrievePostForOtoInquiry(boardNo, type, USER));
         } else {
-            mav.addObject("response", postService.retrievePost(boardNo, type));
+            mav.addObject("response", postService.retrievePost(boardNo, type, USER));
         }
         mav.addObject("type", type);
 
@@ -142,7 +143,7 @@ public class PostController {
                 new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
         ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request);
+        List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request, USER);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -172,7 +173,8 @@ public class PostController {
                 new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
         ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason);
+        List<SearchBoardResponse> responses;
+        responses = postService.searchForReason(categoryCode, request, reason, USER);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -203,7 +205,8 @@ public class PostController {
                 new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
         ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status);
+        List<SearchBoardResponse> responses;
+        responses = postService.searchForStatus(categoryCode, request, status, USER);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -224,7 +227,7 @@ public class PostController {
     @GetMapping("/oto-inquiries/{boardNo}/update")
     public ModelAndView doUpdatePost(@PathVariable final Long boardNo) {
         ModelAndView mav = new ModelAndView("board/oto-inquiries/update-form");
-        mav.addObject("response", postService.retrievePost(boardNo, "oto-inquiries"));
+        mav.addObject("response", postService.retrievePost(boardNo, "oto-inquiries", USER));
         mav.addObject("reasons", postService.retrieveOtoReason());
 
         return mav;
@@ -242,7 +245,7 @@ public class PostController {
     public ModelAndView updatePost(@PathVariable final Long boardNo, @ModelAttribute final PostRequest postRequest) {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/oto-inquiries");
-        postService.updatePost(boardNo, postRequest, "oto-inquiries");
+        postService.updatePost(boardNo, postRequest, "oto-inquiries", USER);
 
         return mav;
     }
@@ -257,7 +260,7 @@ public class PostController {
     @DeleteMapping("/oto-inquiries/{boardNo}/delete")
     public ModelAndView deletePost(@PathVariable final Long boardNo) {
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/oto-inquiries");
-        postService.deletePost(boardNo, "oto-inquiries");
+        postService.deletePost(boardNo, "oto-inquiries", USER);
 
         return mav;
     }
