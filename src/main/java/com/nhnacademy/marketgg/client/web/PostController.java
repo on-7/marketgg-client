@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -117,6 +118,26 @@ public class PostController {
         mav.addObject("type", type);
 
         return mav;
+    }
+
+    @GetMapping("/search/categories/{categoryCode}")
+    public ModelAndView searchForCategory(@PathVariable final String categoryCode,
+                                          @ModelAttribute final SearchRequest searchRequest) {
+
+    }
+
+    @GetMapping("/search/categories/{categoryCode}/reason")
+    public ModelAndView searchForReason(@PathVariable final String categoryCode,
+                                        @ModelAttribute final SearchRequest searchRequest,
+                                        @RequestParam final String reason) {
+
+    }
+
+    @GetMapping("/search/categories/{categoryCode}/status")
+    public ModelAndView searchForStatus(@PathVariable final String categoryCode,
+                                        @ModelAttribute final SearchRequest searchRequest,
+                                        @RequestParam final String status) {
+
     }
 
     /**

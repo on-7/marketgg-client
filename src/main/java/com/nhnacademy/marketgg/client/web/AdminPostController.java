@@ -47,7 +47,6 @@ public class AdminPostController {
     public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page) throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
         List<PostResponseForDetail> responses = postService.retrievesPostList(page, type);
-        mav.addObject("type", type);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
