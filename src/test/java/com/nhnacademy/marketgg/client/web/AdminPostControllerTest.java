@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.response.CommentResponse;
-import com.nhnacademy.marketgg.client.dto.response.PostResponse;
+import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.service.PostService;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,13 +43,13 @@ class AdminPostControllerTest {
     private static final String DEFAULT_ADMIN = "/shop/v1/admin/customer-services";
 
     private PostResponseForOtoInquiry postResponseForOtoInquiry;
-    private PostResponse postResponse;
+    private PostResponseForDetail postResponseForDetail;
     private CommentResponse commentResponse;
 
     @BeforeEach
     void setUp() {
         postResponseForOtoInquiry = new PostResponseForOtoInquiry();
-        postResponse = new PostResponse();
+        postResponseForDetail = new PostResponseForDetail();
         commentResponse = new CommentResponse();
     }
 
@@ -68,8 +68,10 @@ class AdminPostControllerTest {
     @DisplayName("전체 목록 조회(페이지 마지막 X)")
     void testIndexPageNoEnd() throws Exception {
         given(postService.retrievesPostList(anyInt(), anyString())).willReturn(
-                List.of(postResponse, postResponse, postResponse, postResponse, postResponse, postResponse,
-                        postResponse, postResponse, postResponse, postResponse, postResponse));
+                List.of(postResponseForDetail, postResponseForDetail, postResponseForDetail, postResponseForDetail,
+                        postResponseForDetail, postResponseForDetail,
+                        postResponseForDetail, postResponseForDetail, postResponseForDetail, postResponseForDetail,
+                        postResponseForDetail));
 
         this.mockMvc.perform(get(DEFAULT_ADMIN + "/{type}", "faqs")
                                      .param("page", "0"))
@@ -103,7 +105,7 @@ class AdminPostControllerTest {
     @DisplayName("게시글 수정 준비")
     void testDoUpdatePost() throws Exception {
         given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
-        given(postService.retrievePost(anyLong(), anyString())).willReturn(postResponse);
+        given(postService.retrievePost(anyLong(), anyString())).willReturn(postResponseForDetail);
 
         this.mockMvc.perform(get(DEFAULT_ADMIN + "/{type}/{boardNo}/update", "faqs", 1L))
                     .andExpect(status().isOk())

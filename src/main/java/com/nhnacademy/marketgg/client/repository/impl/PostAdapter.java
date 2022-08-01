@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.response.PostResponse;
+import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import java.util.List;
@@ -45,9 +45,9 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> retrievesPostList(final Integer page, final String type) {
+    public List<PostResponseForDetail> retrievesPostList(final Integer page, final String type) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
+        ResponseEntity<List<PostResponseForDetail>> response = restTemplate.exchange(
                 gateWayIp + DEFAULT + "/" + type + "?page=" + page,
                 HttpMethod.GET,
                 requestEntity,
@@ -59,12 +59,12 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type,
-                                                     final MemberInfo memberInfo)
+    public List<PostResponseForDetail> retrievesPostListForMe(final Integer page, final String type,
+                                                              final MemberInfo memberInfo)
             throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(memberInfo);
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
+        ResponseEntity<List<PostResponseForDetail>> response = restTemplate.exchange(
                 gateWayIp + DEFAULT + "/" + type + "?page=" + page,
                 HttpMethod.GET,
                 requestEntity,
@@ -76,13 +76,13 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public PostResponse retrievePost(final Long postNo, final String type) {
+    public PostResponseForDetail retrievePost(final Long postNo, final String type) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<PostResponse> response = restTemplate.exchange(
+        ResponseEntity<PostResponseForDetail> response = restTemplate.exchange(
                 gateWayIp + DEFAULT + "/" + type + "/" + postNo,
                 HttpMethod.GET,
                 requestEntity,
-                PostResponse.class);
+                PostResponseForDetail.class);
 
         this.checkResponseUri(response);
         return response.getBody();

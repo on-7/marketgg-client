@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.response.PostResponse;
+import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.PostService;
@@ -24,17 +24,17 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> retrievesPostList(final Integer page, final String type) {
+    public List<PostResponseForDetail> retrievesPostList(final Integer page, final String type) {
         return postRepository.retrievesPostList(page, type);
     }
 
     @Override
-    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException {
+    public List<PostResponseForDetail> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException {
         return postRepository.retrievesPostListForMe(page, type, memberInfo);
     }
 
     @Override
-    public PostResponse retrievePost(final Long postNo, final String type) {
+    public PostResponseForDetail retrievePost(final Long postNo, final String type) {
         return postRepository.retrievePost(postNo, type);
     }
 

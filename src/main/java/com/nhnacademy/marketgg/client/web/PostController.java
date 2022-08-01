@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.response.PostResponse;
+import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -44,11 +44,11 @@ public class PostController {
      * @since 1.0.0
      */
     @GetMapping("/{type}")
-    public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page,
+    public ModelAndView index(@PathVariable final String type, @RequestParam @DefaultValue(value = "0") final Integer page,
                               final MemberInfo memberInfo) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
-        List<PostResponse> responses;
+        List<PostResponseForDetail> responses;
         if (type.compareTo("oto-inquiries") == 0) {
             responses = postService.retrievesPostListForMe(page, type, memberInfo);
         } else {

@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.response.PostResponse;
+import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -46,7 +46,7 @@ public class AdminPostController {
     @GetMapping("/{type}")
     public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page) throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
-        List<PostResponse> responses = postService.retrievesPostList(page, type);
+        List<PostResponseForDetail> responses = postService.retrievesPostList(page, type);
         mav.addObject("type", type);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));

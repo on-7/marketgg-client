@@ -1,23 +1,26 @@
 package com.nhnacademy.marketgg.client.dto.response;
 
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @Getter
-public class PostResponse {
+public class PostResponseForDetail {
 
     private Long boardNo;
 
-    private String categoryCode;
-
     private String title;
+
+    private String content;
 
     private String reason;
 
     private String status;
 
     private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
 }

@@ -3,10 +3,8 @@ package com.nhnacademy.marketgg.client.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.response.PostResponse;
+import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -35,7 +33,7 @@ public interface PostService {
      * @return 게시판 타입에 맞는 게시글 목록들을 반환합니다.
      * @since 1.0.0
      */
-    List<PostResponse> retrievesPostList(final Integer page, final String type);
+    List<PostResponseForDetail> retrievesPostList(final Integer page, final String type);
 
     /**
      * 로그인 한 회원이 작성한 1:1 문의 게시글 목록을 조회합니다.
@@ -46,7 +44,7 @@ public interface PostService {
      * @return 로그인한 회원이 작성한 1:1 문의 게시글 목록을 반환합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      */
-    List<PostResponse> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException;
+    List<PostResponseForDetail> retrievesPostListForMe(final Integer page, final String type, final MemberInfo memberInfo) throws JsonProcessingException;
 
     /**
      * 지정한 게시글의 상세정보를 조회할 수 있는 메소드입니다.
@@ -56,7 +54,7 @@ public interface PostService {
      * @return 지정한 게시글의 상세정보를 반환합니다.
      * @since 1.0.0
      */
-    PostResponse retrievePost(final Long postNo, final String type);
+    PostResponseForDetail retrievePost(final Long postNo, final String type);
 
     /**
      * 지정한 1:1 문의의 상세정보를 조회 할 수 있는 메소드입니다.
