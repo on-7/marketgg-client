@@ -3,18 +3,20 @@ package com.nhnacademy.marketgg.client.dto.request;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class ProductToCartRequest {
 
+    // 상품 ID
     @NotNull
-    private final Long id;
+    private Long id;
 
     @NotNull
-    @Max(value = 999) @Min(value = 0)
-    private final Integer amount;
+    @Max(value = 999)
+    @Min(value = 1)
+    private Integer amount;
 
 }
