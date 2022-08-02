@@ -51,7 +51,7 @@ public class AdminPostController {
      */
     @GetMapping("/{type}")
     public ModelAndView index(@PathVariable final String type,
-                              @RequestParam @DefaultValue(value = "0") final Integer page)
+                              @RequestParam final Integer page)
             throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
         List<PostResponse> responses = postService.retrievesPostList(page, this.checkTypeToCategoryCode(type), ADMIN);

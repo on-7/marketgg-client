@@ -8,7 +8,7 @@
         <details>
             <summary>[전체 검색]</summary>
                 <form th:method="post" th:action="'/customer-services/search/categories/702?page=0&size=10'">
-                    <input type="text" name="keyword" value="검색어를 입력하세요">
+                    <input type="text" name="keyword" placeholder="검색어를 입력하세요">
                     <input type="submit" value="검색"><br />
                 </form>
         </details>
@@ -17,18 +17,17 @@
             <form th:method="post" th:action="'/customer-services/search/categories/702/reason?page=0&size=10'">
                 <span>1:1 문의 사유 : </span>
                 <select name="reason">
-                    <option th:each="reason : ${reasons}"></option>
-                    <option th:text="${reason}"></option>
+                    <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
                 </select><br />
-                <input type="text" name="keyword" value="검색어를 입력하세요">
+                <input type="text" name="keyword" placeholder="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>
         </details>
         <details>
             <summary>[상태 검색]</summary>
             <form th:method="post" th:action="'/customer-services/search/categories/702/status?page=0&size=10'">
-                <input type="text" name="status" value="상태를 입력하세요">
-                <input type="text" name="keyword" value="검색어를 입력하세요">
+                <input type="text" name="status" placeholder="상태를 입력하세요">
+                <input type="text" name="keyword" placeholder="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>
         </details>
@@ -56,7 +55,7 @@
                     </td>
                     <td th:text="${board.reason}"></td>
                     <td th:text="${board.status}"></td>
-                    <td th:text="${board.createdAt}"></td>
+                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                     <td>
                         <form th:method="get" th:action="'/customer-services/oto-inquiries/'+${board.id}+'/update'">
                             <input type="submit" value="수정">

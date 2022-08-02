@@ -32,8 +32,8 @@ public class PostAdapter implements PostRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    private static final String USER = "/customer-services";
-    private static final String ADMIN = "/admin/customer-services";
+    private static final String USER = "/shop/v1/customer-services";
+    private static final String ADMIN = "/shop/v1/admin/customer-services";
 
     @Override
     public void createPost(final PostRequest postRequest, final String role)
@@ -52,6 +52,7 @@ public class PostAdapter implements PostRepository {
     @Override
     public List<PostResponse> retrievesPostList(final Integer page, final String type, final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        log.error(gateWayIp + this.checkAdmin(role) + "/categories/" + type + "?page=" + page);
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
                 gateWayIp + this.checkAdmin(role) + "/categories/" + type + "?page=" + page,
                 HttpMethod.GET,
@@ -171,8 +172,8 @@ public class PostAdapter implements PostRepository {
     public List<String> retrieveReason() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<String>> response = restTemplate.exchange(
-                gateWayIp + USER + "/reason",
-                HttpMethod.PUT,
+                gateWayIp + USER + "/reasons",
+                HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
                 });
