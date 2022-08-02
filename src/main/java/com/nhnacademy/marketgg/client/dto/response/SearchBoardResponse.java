@@ -1,12 +1,14 @@
 package com.nhnacademy.marketgg.client.dto.response;
 
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class PostResponse {
+public class SearchBoardResponse {
 
     private Long id;
 

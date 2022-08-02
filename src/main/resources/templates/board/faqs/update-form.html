@@ -1,17 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <title>FAQ 수정</title>
     </head>
     <body>
         <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/shop/v1/customer-services/faqs/update'">
+            <form th:method="post" th:action="'/admin/customer-services/faqs/'+${response.id}+'/update'">
                 <span>FAQ 질문 내용: </span>
                 <textarea cols = "50" rows = "10" name="title" th:value="${response.title}"></textarea><br/>
                 <span>FAQ 답변 내용: </span><br />
                 <textarea cols = "50" rows = "10" name="content" th:value="${response.content}"></textarea><br/>
                 <input type="hidden" name="_method" value="put"/>
+                <input type="hidden" name="categoryCode" value="703">
                 <input type="submit" value="수정">
             </form>
         </div>

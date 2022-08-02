@@ -15,6 +15,4 @@ public class PostRequest {
 
     private final String reason;
 
-    private final String status;
-
 }

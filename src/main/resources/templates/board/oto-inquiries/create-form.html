@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <title>1:1문의 등록</title>
     </head>
     <body>
         <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/shop/v1/customer-services/oto-requiries/create'">
+            <form th:method="post" th:action="'/customer-services/oto-requiries/create'">
                 <span>1:1 문의 제목 : </span><input type="text" name="title"><br /><br />
-                <span>1:1 문의 사유 : </span><input type="text" name="reason"><br /><br />
+                <span>1:1 문의 사유 : </span>
+                <select name="reason">
+                    <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
+                </select><br />
                 <span>[1:1 문의 내용]</span><br />
                 <textarea cols = "50" rows = "10" name="content"></textarea><br/>
+                <input type="hidden" name="categoryCode" value="702">
                 <input type="submit" value="등록">
             </form>
         </div>
