@@ -240,6 +240,15 @@ public class AdminPostController {
         return mav;
     }
 
+    /**
+     * 지정한 1:1 문의의 상태를 입력해 변경 할 수 있습니다.
+     *
+     * @param boardNo - 상태를 변경할 게시판의 식별번호입니다.
+     * @param postRequest - 게시판의 상태를 변경 할 정보를 담은 객체입니다.
+     * @return 다시 게시판의 Index 페이지로 이동합니다.
+     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
+     * @since 1.0.0
+     */
     @PatchMapping("/oto-inquiries/{boardNo}/status/change")
     public ModelAndView changeStatus(@PathVariable final Long boardNo,
                                      @ModelAttribute final PostStatusUpdateRequest postRequest)
