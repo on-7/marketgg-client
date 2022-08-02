@@ -11,6 +11,7 @@
                 <span>[공지 내용]</span><br />
                 <textarea cols = "50" rows = "10" name="content" th:value="${response.content}"></textarea><br/>
                 <input type="hidden" name="_method" value="put"/>
+                <input type="hidden" name="categoryCode" value="701">
                 <input type="submit" value="수정">
             </form>
         </div>
