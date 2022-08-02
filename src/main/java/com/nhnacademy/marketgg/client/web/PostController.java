@@ -9,7 +9,6 @@ import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,9 +46,7 @@ public class PostController {
      * @since 1.0.0
      */
     @GetMapping("/{type}")
-    public ModelAndView index(@PathVariable final String type,
-                              @RequestParam @DefaultValue(value = "0") final Integer page) {
-
+    public ModelAndView index(@PathVariable final String type, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
         List<PostResponse> responses;
         if (type.compareTo("oto-inquiries") == 0) {
@@ -93,7 +90,7 @@ public class PostController {
     public ModelAndView createPost(@PathVariable String type,
                                    @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/" + type);
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/" + type + "?page=0");
         postService.createPost(postRequest, USER);
 
         return mav;
@@ -241,7 +238,7 @@ public class PostController {
     @PutMapping("/oto-inquiries/{boardNo}/update")
     public ModelAndView updatePost(@PathVariable final Long boardNo, @ModelAttribute final PostRequest postRequest) {
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/oto-inquiries");
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/oto-inquiries?page=0");
         postService.updatePost(boardNo, postRequest, "oto-inquiries", USER);
 
         return mav;
@@ -256,7 +253,7 @@ public class PostController {
      */
     @DeleteMapping("/oto-inquiries/{boardNo}/delete")
     public ModelAndView deletePost(@PathVariable final Long boardNo) {
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/oto-inquiries");
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/oto-inquiries?page=0");
         postService.deletePost(boardNo, "oto-inquiries", USER);
 
         return mav;

@@ -10,7 +10,6 @@ import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -93,7 +92,7 @@ public class AdminPostController {
     public ModelAndView createPost(@PathVariable final String type,
                                    @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type + "?page=0");
         postService.createPost(postRequest, ADMIN);
 
         return mav;
@@ -218,7 +217,7 @@ public class AdminPostController {
     public ModelAndView updatePost(@PathVariable final String type, @PathVariable final Long boardNo,
                                    @ModelAttribute final PostRequest postRequest) {
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type + "?page=0");
         postService.updatePost(boardNo, postRequest, type, ADMIN);
 
         return mav;
@@ -234,7 +233,7 @@ public class AdminPostController {
      */
     @DeleteMapping("/{type}/{boardNo}/delete")
     public ModelAndView deletePost(@PathVariable final String type, @PathVariable final Long boardNo) {
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type + "?page=0");
         postService.deletePost(boardNo, type, ADMIN);
 
         return mav;
@@ -243,7 +242,7 @@ public class AdminPostController {
     /**
      * 지정한 1:1 문의의 상태를 입력해 변경 할 수 있습니다.
      *
-     * @param boardNo - 상태를 변경할 게시판의 식별번호입니다.
+     * @param boardNo     - 상태를 변경할 게시판의 식별번호입니다.
      * @param postRequest - 게시판의 상태를 변경 할 정보를 담은 객체입니다.
      * @return 다시 게시판의 Index 페이지로 이동합니다.
      * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
@@ -255,7 +254,7 @@ public class AdminPostController {
             throws JsonProcessingException {
 
         postService.changeStatus(boardNo, postRequest);
-        return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries");
+        return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries?page=0");
     }
 
     private <T> Integer checkPageEnd(List<T> list) {
