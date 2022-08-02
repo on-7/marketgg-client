@@ -133,7 +133,7 @@ class AdminPostControllerTest {
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries?page=0"));
     }
 
     @Test
@@ -246,7 +246,7 @@ class AdminPostControllerTest {
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries?page=0"));
 
         then(postService).should(times(1)).updatePost(anyLong(), any(PostRequest.class), anyString(), anyString());
     }
@@ -258,7 +258,7 @@ class AdminPostControllerTest {
 
         this.mockMvc.perform(delete(DEFAULT_ADMIN_POST + "/oto-inquiries/{boardNo}/delete", 1L))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries?page=0"));
 
         then(postService).should(times(1)).deletePost(anyLong(), anyString(), anyString());
     }
@@ -270,7 +270,7 @@ class AdminPostControllerTest {
 
         this.mockMvc.perform(patch(DEFAULT_ADMIN_POST + "/oto-inquiries/{boardNo}/status/change", 1L))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries?page=0"));
 
         then(postService).should(times(1)).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
     }

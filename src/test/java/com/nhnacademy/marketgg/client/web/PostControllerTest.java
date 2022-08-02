@@ -145,7 +145,7 @@ class PostControllerTest {
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries?page=0"));
     }
 
     @Test
@@ -286,7 +286,7 @@ class PostControllerTest {
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries?page=0"));
     }
 
     @Test
@@ -296,7 +296,7 @@ class PostControllerTest {
 
         this.mockMvc.perform(delete(DEFAULT_POST + "/oto-inquiries/{boardNo}/delete", 1L))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries"));
+                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries?page=0"));
     }
 
 }
