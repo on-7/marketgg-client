@@ -17,7 +17,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 
 @ExtendWith(MockitoExtension.class)
-public class DibServiceTest {
+class DibServiceTest {
 
     @InjectMocks
     private DefaultDibService dibService;

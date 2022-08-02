@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 public class PostResponseForDetail {
 
-    private Long boardNo;
+    private Long id;
 
     private String title;
 

@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
+import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,7 @@ public class AdminPostController {
      * @since 1.0.0
      */
     @GetMapping("/{type}")
-    public ModelAndView index(@PathVariable String type, @RequestParam @DefaultValue(value = "0") final Integer page)
+    public ModelAndView index(@PathVariable final String type, @RequestParam @DefaultValue(value = "0") final Integer page)
             throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
         List<PostResponse> responses = postService.retrievesPostList(page, type, ADMIN);
@@ -71,8 +72,11 @@ public class AdminPostController {
      * @since 1.0.0
      */
     @GetMapping("/{type}/create")
-    public ModelAndView doCreatePost(@PathVariable String type) {
-        return new ModelAndView("board/" + type + "/create-form");
+    public ModelAndView doCreatePost(@PathVariable final String type) {
+        ModelAndView mav = new ModelAndView("board/" + type + "/create-form");
+        mav.addObject("reasons", postService.retrieveOtoReason());
+
+        return mav;
     }
 
     /**
@@ -85,7 +89,7 @@ public class AdminPostController {
      * @since 1.0.0
      */
     @PostMapping("/{type}/create")
-    public ModelAndView createPost(@PathVariable String type,
+    public ModelAndView createPost(@PathVariable final String type,
                                    @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
@@ -171,7 +175,7 @@ public class AdminPostController {
         SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
 
         ModelAndView mav;
-        mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
+        mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
         List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status, ADMIN);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -195,6 +199,7 @@ public class AdminPostController {
     public ModelAndView doUpdatePost(@PathVariable final String type, @PathVariable final Long boardNo) {
         ModelAndView mav = new ModelAndView("board/" + type + "/update-form");
         mav.addObject("response", postService.retrievePost(boardNo, type, ADMIN));
+        mav.addObject("reasons", postService.retrieveOtoReason());
 
         return mav;
     }
@@ -243,8 +248,17 @@ public class AdminPostController {
         return 0;
     }
 
-    private String checkType(final String categoryCode) {
-        return checkType(categoryCode);
+    private String checkType(String categoryCode) {
+        if (categoryCode.compareTo("701") == 0) {
+            return "notices";
+        }
+        if (categoryCode.compareTo("702") == 0) {
+            return "oto-inquiries";
+        }
+        if (categoryCode.compareTo("703") == 0) {
+            return "faqs";
+        }
+        throw new NotFoundException("카테고리 분류를 찾을 수 없습니다.");
     }
 
 }

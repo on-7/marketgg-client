@@ -1,12 +1,11 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
-import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
+import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +56,7 @@ public class PostController {
         if (type.compareTo("oto-inquiries") == 0) {
             responses = postService.retrievesPostListForMe(page, type);
         } else {
-            responses = postService.retrievesPostList(page, checkType(type), USER);
+            responses = postService.retrievesPostList(page, this.checkTypeToCategoryCode(type), USER);
         }
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -141,7 +140,7 @@ public class PostController {
         SearchRequest request =
                 new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
-        ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView("board/" + this.checkCategoryCodeToType(categoryCode) + "/index");
         List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request, USER);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -171,7 +170,7 @@ public class PostController {
         SearchRequest request =
                 new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
-        ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView("board/" + this.checkCategoryCodeToType(categoryCode) + "/index");
         List<SearchBoardResponse> responses;
         responses = postService.searchForReason(categoryCode, request, reason, USER);
         mav.addObject("page", pageable.getPageNumber());
@@ -203,7 +202,7 @@ public class PostController {
         SearchRequest request =
                 new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
 
-        ModelAndView mav = new ModelAndView("board/" + checkType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView("board/" + this.checkCategoryCodeToType(categoryCode) + "/index");
         List<SearchBoardResponse> responses;
         responses = postService.searchForStatus(categoryCode, request, status, USER);
         mav.addObject("page", pageable.getPageNumber());
@@ -264,7 +263,7 @@ public class PostController {
         return mav;
     }
 
-    static String checkType(String categoryCode) {
+    private String checkCategoryCodeToType(final String categoryCode) {
         switch (categoryCode) {
             case "701": {
                 return "notices";
@@ -276,9 +275,16 @@ public class PostController {
                 return "faqs";
             }
             default: {
-                return null;
+                throw new NotFoundException("카테고리 분류를 찾을 수 없습니다.");
             }
         }
+    }
+
+    private String checkTypeToCategoryCode(final String type) {
+        if(type.compareTo("notices") == 0) {
+            return "701";
+        }
+        return "703";
     }
 
     private <T> Integer checkPageEnd(List<T> list) {

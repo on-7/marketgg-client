@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 
 @ExtendWith(MockitoExtension.class)
-public class LabelServiceTest {
+class LabelServiceTest {
 
     @InjectMocks
     private DefaultLabelService labelService;
