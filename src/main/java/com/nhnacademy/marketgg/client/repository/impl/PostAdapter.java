@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
@@ -178,6 +179,19 @@ public class PostAdapter implements PostRepository {
 
         this.checkResponseUri(response);
         return response.getBody();
+    }
+
+    @Override
+    public void changeStatus(Long boardNo, PostStatusUpdateRequest postRequest) throws JsonProcessingException {
+        String requestBody = objectMapper.writeValueAsString(postRequest);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
+        ResponseEntity<Void> response = restTemplate.exchange(
+                gateWayIp + ADMIN + "/oto-inquiries/" + boardNo,
+                HttpMethod.PATCH,
+                requestEntity,
+                Void.class);
+
+        this.checkResponseUri(response);
     }
 
     private String checkAdmin(final String role) {

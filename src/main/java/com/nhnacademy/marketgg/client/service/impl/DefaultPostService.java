@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
@@ -82,6 +83,11 @@ public class DefaultPostService implements PostService {
     @Override
     public List<String> retrieveOtoReason() {
         return postRepository.retrieveReason();
+    }
+
+    @Override
+    public void changeStatus(Long boardNo, PostStatusUpdateRequest postRequest) throws JsonProcessingException {
+        postRepository.changeStatus(boardNo, postRequest);
     }
 
 }

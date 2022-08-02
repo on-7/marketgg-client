@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -231,13 +233,20 @@ public class AdminPostController {
      * @since 1.0.0
      */
     @DeleteMapping("/{type}/{boardNo}/delete")
-    public ModelAndView deletePost(@PathVariable final String type,
-                                   @PathVariable final Long boardNo) {
-
+    public ModelAndView deletePost(@PathVariable final String type, @PathVariable final Long boardNo) {
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
         postService.deletePost(boardNo, type, ADMIN);
 
         return mav;
+    }
+
+    @PatchMapping("/oto-inquiries/{boardNo}/status/change")
+    public ModelAndView changeStatus(@PathVariable final Long boardNo,
+                                     @ModelAttribute final PostStatusUpdateRequest postRequest)
+            throws JsonProcessingException {
+
+        postService.changeStatus(boardNo, postRequest);
+        return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries");
     }
 
     private <T> Integer checkPageEnd(List<T> list) {

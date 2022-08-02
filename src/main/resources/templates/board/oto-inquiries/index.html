@@ -45,6 +45,7 @@
                     <th>등록일자</th>
                     <th>수정</th>
                     <th>삭제</th>
+                    <th>상태변경</th>
                 </tr>
             </thead>
             <tbody>
@@ -66,6 +67,15 @@
                             <input type="hidden" name="_method" value="delete"/>
                             <input type="submit" value="삭제">
                         </form>
+                    </td>
+                    <td>
+                        <div th:if="${isAdmin == 'yes'}">
+                            <form th:method="post" th:action="'/adnmin/customer-services/oto-inquiries/'+${board.id}+'/status/change'">
+                                <input type="text" name="status">
+                                <input type="hidden" name="_method" value="patch"/>
+                                <input type="submit" value="상태변경">
+                            </form>
+                        </div>
                     </td>
                 </tr>
             </tbody>

@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
@@ -127,5 +128,7 @@ public interface PostRepository {
      * @since 1.0.0
      */
     List<String> retrieveReason();
+
+    void changeStatus(final Long boardNo, final PostStatusUpdateRequest postRequest) throws JsonProcessingException;
 
 }

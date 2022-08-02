@@ -7,9 +7,12 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,6 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
@@ -243,6 +247,8 @@ class AdminPostControllerTest {
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries"));
+
+        then(postService).should(times(1)).updatePost(anyLong(), any(PostRequest.class), anyString(), anyString());
     }
 
     @Test
@@ -253,6 +259,20 @@ class AdminPostControllerTest {
         this.mockMvc.perform(delete(DEFAULT_ADMIN_POST + "/oto-inquiries/{boardNo}/delete", 1L))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries"));
+
+        then(postService).should(times(1)).deletePost(anyLong(), anyString(), anyString());
+    }
+
+    @Test
+    @DisplayName("게시글 상태 변경")
+    void testChangeStatus() throws Exception {
+        willDoNothing().given(postService).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
+
+        this.mockMvc.perform(patch(DEFAULT_ADMIN_POST + "/oto-inquiries/{boardNo}/status/change", 1L))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/oto-inquiries"));
+
+        then(postService).should(times(1)).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
     }
 
 }

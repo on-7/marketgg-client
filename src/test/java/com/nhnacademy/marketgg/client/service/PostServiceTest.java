@@ -11,6 +11,7 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
+import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
@@ -172,6 +173,16 @@ class PostServiceTest {
         List<String> list = postService.retrieveOtoReason();
 
         assertThat(list.get(0)).isEqualTo("hello");
+    }
+
+    @Test
+    @DisplayName("1:1 문의 상태 변경")
+    void testChangeStatus() throws Exception {
+        willDoNothing().given(postRepository).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
+
+        postService.changeStatus(1L, new PostStatusUpdateRequest("안녕"));
+
+        then(postRepository).should(times(1)).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
     }
 
 }
