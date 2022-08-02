@@ -134,7 +134,7 @@ public class PostAdapter implements PostRepository {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<List<SearchBoardResponse>> response = restTemplate.exchange(
-                gateWayIp + this.checkAdmin(role) + "/categories" + categoryCode + "/search/" + option + "/" + optionValue,
+                gateWayIp + this.checkAdmin(role) + "/categories/" + categoryCode + "/search/" + option + "?option=" + optionValue,
                 HttpMethod.POST,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
