@@ -32,8 +32,8 @@ public class PostAdapter implements PostRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    private static final String USER = "/shop/v1/customer-services";
-    private static final String ADMIN = "/shop/v1/admin/customer-services";
+    private static final String USER = "/customer-services";
+    private static final String ADMIN = "/admin/customer-services";
 
     @Override
     public void createPost(final PostRequest postRequest, final String role)

@@ -54,7 +54,7 @@ public class AdminPostController {
                               @RequestParam @DefaultValue(value = "0") final Integer page)
             throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
-        List<PostResponse> responses = postService.retrievesPostList(page, type, ADMIN);
+        List<PostResponse> responses = postService.retrievesPostList(page, this.checkTypeToCategoryCode(type), ADMIN);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -276,6 +276,13 @@ public class AdminPostController {
             return "faqs";
         }
         throw new NotFoundException("카테고리 분류를 찾을 수 없습니다.");
+    }
+
+    private String checkTypeToCategoryCode(final String type) {
+        if (type.compareTo("notices") == 0) {
+            return "701";
+        }
+        return "703";
     }
 
 }
