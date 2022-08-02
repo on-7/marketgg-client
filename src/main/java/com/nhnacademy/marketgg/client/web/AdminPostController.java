@@ -145,7 +145,7 @@ public class AdminPostController {
         SearchRequest request = new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
 
         ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason, ADMIN);
+        List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -176,7 +176,7 @@ public class AdminPostController {
 
         ModelAndView mav;
         mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status, ADMIN);
+        List<SearchBoardResponse> responses = postService.searchForStatus(categoryCode, request, status);
         mav.addObject("page", pageable.getPageNumber());
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);

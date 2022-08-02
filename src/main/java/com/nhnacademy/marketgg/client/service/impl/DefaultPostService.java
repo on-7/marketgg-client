@@ -56,18 +56,18 @@ public class DefaultPostService implements PostService {
 
     @Override
     public List<SearchBoardResponse> searchForReason(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String reason, final String role)
+                                                     final String reason)
             throws JsonProcessingException {
 
-        return postRepository.searchForOption(categoryCode, searchRequest, reason, "reason", role);
+        return postRepository.searchForOption(categoryCode, searchRequest, reason, "reason");
     }
 
     @Override
     public List<SearchBoardResponse> searchForStatus(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String status, final String role)
+                                                     final String status)
             throws JsonProcessingException {
 
-        return postRepository.searchForOption(categoryCode, searchRequest, status, "status", role);
+        return postRepository.searchForOption(categoryCode, searchRequest, status, "status");
     }
 
     @Override

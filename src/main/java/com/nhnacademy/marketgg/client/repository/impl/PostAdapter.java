@@ -127,14 +127,14 @@ public class PostAdapter implements PostRepository {
 
     @Override
     public List<SearchBoardResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String optionValue, final String option, final String role)
+                                                     final String optionValue, final String option)
             throws JsonProcessingException {
 
         String requestBody = objectMapper.writeValueAsString(searchRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<List<SearchBoardResponse>> response = restTemplate.exchange(
-                gateWayIp + this.checkAdmin(role) + "/categories/" + categoryCode + "/search/" + option + "?option=" + optionValue,
+                gateWayIp + ADMIN + "/categories/" + categoryCode + "/search/" + option + "?option=" + optionValue,
                 HttpMethod.POST,
                 requestEntity,
                 new ParameterizedTypeReference<>() {

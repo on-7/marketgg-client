@@ -148,70 +148,6 @@ public class PostController {
     }
 
     /**
-     * 지정한 카테고리의 게시판에서 사유를 지정해 검색합니다.
-     *
-     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
-     * @param keyword      - 검색을 진행할 검색어입니다.
-     * @param pageable     - 조회할 페이지의 페이지 정보입니다.
-     * @param reason       - 지정한 사유의 값입니다.
-     * @return 지정한 상태내의 검색 결과 목록을 반환합니다.
-     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
-     * @since 1.0.0
-     */
-    @PostMapping("/search/categories/{categoryCode}/reason")
-    public ModelAndView searchForReason(@PathVariable final String categoryCode, @RequestParam final String keyword,
-                                        final Pageable pageable, @RequestParam final String reason)
-            throws JsonProcessingException {
-
-        SearchRequest request =
-                new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
-
-        ModelAndView mav = new ModelAndView("board/" + this.checkCategoryCodeToType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses;
-        responses = postService.searchForReason(categoryCode, request, reason, USER);
-        mav.addObject("page", pageable.getPageNumber());
-        mav.addObject("isEnd", this.checkPageEnd(responses));
-        mav.addObject("responses", responses);
-        mav.addObject("searchType", "reason");
-        mav.addObject("isAdmin", "no");
-        mav.addObject("reason", reason);
-        mav.addObject("keyword", keyword);
-        return mav;
-    }
-
-    /**
-     * 지정한 카테고리의 게시판에서 상태를 지정해 검색합니다.
-     *
-     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
-     * @param keyword      - 검색을 진행할 검색어입니다.
-     * @param pageable     - 조회할 페이지의 페이지 정보입니다.
-     * @param status       - 지정한 상태의 값입니다.
-     * @return 지정한 상태내의 검색 결과 목록을 반환합니다.
-     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
-     * @since 1.0.0
-     */
-    @PostMapping("/search/categories/{categoryCode}/status")
-    public ModelAndView searchForStatus(@PathVariable final String categoryCode, @RequestParam final String keyword,
-                                        final Pageable pageable, @RequestParam final String status)
-            throws JsonProcessingException {
-
-        SearchRequest request =
-                new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
-
-        ModelAndView mav = new ModelAndView("board/" + this.checkCategoryCodeToType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses;
-        responses = postService.searchForStatus(categoryCode, request, status, USER);
-        mav.addObject("page", pageable.getPageNumber());
-        mav.addObject("isEnd", this.checkPageEnd(responses));
-        mav.addObject("responses", responses);
-        mav.addObject("searchType", "status");
-        mav.addObject("isAdmin", "no");
-        mav.addObject("status", status);
-        mav.addObject("keyword", keyword);
-        return mav;
-    }
-
-    /**
      * 고객센터의 1:1문의 게시글을 수정할 수 있는 페이지로 이동합니다.
      *
      * @param boardNo - 수정할 게시글의 식별번호입니다.
@@ -263,9 +199,6 @@ public class PostController {
         switch (categoryCode) {
             case "701": {
                 return "notices";
-            }
-            case "702": {
-                return "oto-inquiries";
             }
             case "703": {
                 return "faqs";

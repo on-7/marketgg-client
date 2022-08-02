@@ -226,44 +226,6 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("카테고리 및 사유별 검색")
-    void testSearchForReason() throws Exception {
-        given(postService.searchForReason(anyString(), any(SearchRequest.class), anyString(), anyString())).willReturn(
-                List.of(boardResponse));
-
-        MvcResult mvcResult =
-                this.mockMvc.perform(post(DEFAULT_POST + "/search/categories/{categoryCode}/reason", "702")
-                                             .param("keyword", "hi")
-                                             .param("page", "0")
-                                             .param("size", "1")
-                                             .param("reason", "환불"))
-                            .andExpect(status().isOk())
-                            .andExpect(view().name("board/oto-inquiries/index"))
-                            .andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
-    }
-
-    @Test
-    @DisplayName("카테고리 및 상태별 검색")
-    void testSearchForStatus() throws Exception {
-        given(postService.searchForStatus(anyString(), any(SearchRequest.class), anyString(), anyString())).willReturn(
-                List.of(boardResponse));
-
-        MvcResult mvcResult =
-                this.mockMvc.perform(post(DEFAULT_POST + "/search/categories/{categoryCode}/status", "702")
-                                             .param("keyword", "hi")
-                                             .param("page", "0")
-                                             .param("size", "1")
-                                             .param("status", "종료"))
-                            .andExpect(status().isOk())
-                            .andExpect(view().name("board/oto-inquiries/index"))
-                            .andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
-    }
-
-    @Test
     @DisplayName("게시글 수정 준비")
     void testDoUpdatePost() throws Exception {
         given(postService.retrievePost(anyLong(), anyString(), anyString())).willReturn(responseForDetail);

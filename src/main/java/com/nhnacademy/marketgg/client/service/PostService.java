@@ -89,12 +89,11 @@ public interface PostService {
      * @param categoryCode  - 지정한 카테고리의 식별번호입니다.
      * @param searchRequest - 검색을 진행할 검색 정보를 담은 객체입니다.
      * @param reason        - 검색을 진행 할 사유를 지정한 값입니다.
-     * @param role          - 권한을 표시합니다.
      * @return 검색한 결과 목록을 반환합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      */
     List<SearchBoardResponse> searchForReason(final String categoryCode, final SearchRequest searchRequest,
-                                              final String reason, final String role) throws JsonProcessingException;
+                                              final String reason) throws JsonProcessingException;
 
     /**
      * 지정한 카테고리 내에서 지정한 상태내로 검색합니다.
@@ -102,12 +101,11 @@ public interface PostService {
      * @param categoryCode  - 지정한 카테고리의 식별번호입니다.
      * @param searchRequest - 검색을 진행할 검색 정보를 담은 객체입니다.
      * @param status        - 검색을 진행 할 상태를 지정한 값입니다.
-     * @param role          - 권한을 표시합니다.
      * @return 검색한 결과 목록을 반환합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      */
     List<SearchBoardResponse> searchForStatus(final String categoryCode, final SearchRequest searchRequest,
-                                              final String status, final String role) throws JsonProcessingException;
+                                              final String status) throws JsonProcessingException;
 
     /**
      * 지정한 게시글을 수정할 수 있는 메소드입니다.

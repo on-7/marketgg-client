@@ -19,7 +19,9 @@ import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultPostService;
+
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -126,10 +128,10 @@ class PostServiceTest {
     @Test
     @DisplayName("카테고리 내 사유별 게시글 검색")
     void testSearchForReason() throws Exception {
-        given(postRepository.searchForOption(anyString(), any(SearchRequest.class), anyString(), anyString(),
+        given(postRepository.searchForOption(anyString(), any(SearchRequest.class), anyString(),
                                              anyString())).willReturn(List.of(searchBoardResponse));
 
-        List<SearchBoardResponse> list = postService.searchForReason("702", searchRequest, "환불", USER);
+        List<SearchBoardResponse> list = postService.searchForReason("702", searchRequest, "환불");
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }
@@ -137,10 +139,10 @@ class PostServiceTest {
     @Test
     @DisplayName("카테고리 내 상태별 게시글 검색")
     void testSearchForStatus() throws Exception {
-        given(postRepository.searchForOption(anyString(), any(SearchRequest.class), anyString(), anyString(),
+        given(postRepository.searchForOption(anyString(), any(SearchRequest.class), anyString(),
                                              anyString())).willReturn(List.of(searchBoardResponse));
 
-        List<SearchBoardResponse> list = postService.searchForStatus("702", searchRequest, "종료", USER);
+        List<SearchBoardResponse> list = postService.searchForStatus("702", searchRequest, "종료");
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }

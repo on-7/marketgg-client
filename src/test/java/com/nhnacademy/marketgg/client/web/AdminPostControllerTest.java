@@ -27,8 +27,10 @@ import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
+
 import java.util.List;
 import java.util.Objects;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -99,14 +101,28 @@ class AdminPostControllerTest {
     }
 
     @Test
-    @DisplayName("인덱스 조회 (1:1문의 X)")
-    void testIndexNotOto() throws Exception {
+    @DisplayName("인덱스 조회 (faq)")
+    void testIndexFaqs() throws Exception {
         given(postService.retrievesPostListForMe(anyInt(), anyString())).willReturn(List.of(response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/{type}", "faqs")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name("board/faqs/index"))
+                                          .andReturn();
+
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
+    }
+
+    @Test
+    @DisplayName("인덱스 조회 (공지사항")
+    void testIndexNotices() throws Exception {
+        given(postService.retrievesPostListForMe(anyInt(), anyString())).willReturn(List.of(response));
+
+        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/{type}", "notices")
+                                                           .param("page", "0"))
+                                          .andExpect(status().isOk())
+                                          .andExpect(view().name("board/notices/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -188,7 +204,7 @@ class AdminPostControllerTest {
     @Test
     @DisplayName("카테고리 및 사유별 검색")
     void testSearchForReason() throws Exception {
-        given(postService.searchForReason(anyString(), any(SearchRequest.class), anyString(), anyString())).willReturn(
+        given(postService.searchForReason(anyString(), any(SearchRequest.class), anyString())).willReturn(
                 List.of(boardResponse));
 
         MvcResult mvcResult =
@@ -207,7 +223,7 @@ class AdminPostControllerTest {
     @Test
     @DisplayName("카테고리 및 상태별 검색")
     void testSearchForStatus() throws Exception {
-        given(postService.searchForStatus(anyString(), any(SearchRequest.class), anyString(), anyString())).willReturn(
+        given(postService.searchForStatus(anyString(), any(SearchRequest.class), anyString())).willReturn(
                 List.of(boardResponse));
 
         MvcResult mvcResult =
