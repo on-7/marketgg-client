@@ -137,7 +137,7 @@ public class WebConfig {
     }
 
     @Bean
-    public Filter characterEncodingFilter() {
+    public Filter utfCharacterEncodingFilter() {
         return new CharacterEncodingFilter("UTF-8", true);
     }
 
