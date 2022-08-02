@@ -7,12 +7,14 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
@@ -29,7 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -43,12 +45,14 @@ class PostControllerTest {
     @MockBean
     PostService postService;
 
-    private static final String DEFAULT_POST = "/shop/v1/customer-services";
+    @Autowired
+    private ObjectMapper mapper;
+
+    private static final String DEFAULT_POST = "/customer-services";
 
     private PostResponseForDetail responseForDetail;
     private PostResponseForOtoInquiry responseForOtoInquiry;
     private PostResponse response;
-    private SearchRequest searchRequest;
     private SearchBoardResponse boardResponse;
     private PostRequest request;
 
@@ -58,7 +62,6 @@ class PostControllerTest {
         responseForOtoInquiry = new PostResponseForOtoInquiry();
         response = new PostResponse();
         boardResponse = new SearchBoardResponse();
-        searchRequest = new SearchRequest("hi", PageRequest.of(0, 1));
         request = new PostRequest("701", "hi", "hello", "환불");
     }
 
@@ -102,9 +105,11 @@ class PostControllerTest {
     @Test
     @DisplayName("게시글 생성하기")
     void testCreatePost() throws Exception {
-        willDoNothing().given(postService).createPost(any(PostRequest.class), anyString(), anyString());
+        willDoNothing().given(postService).createPost(any(PostRequest.class), anyString());
 
-        this.mockMvc.perform(post(DEFAULT_POST + "/oto-inquiries/create"))
+        this.mockMvc.perform(post(DEFAULT_POST + "/oto-inquiries/create")
+                                     .contentType(MediaType.APPLICATION_JSON)
+                                     .content(mapper.writeValueAsString(request)))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries"));
     }
@@ -219,16 +224,20 @@ class PostControllerTest {
         willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString(), anyString());
 
         this.mockMvc.perform(put(DEFAULT_POST + "/oto-inquiries/{boardNo}/update", 1L)
-                                     .param()
-                                     .param()
-                                     .param()
-                                     .param())
+                                     .contentType(MediaType.APPLICATION_JSON)
+                                     .content(mapper.writeValueAsString(request)))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries"));
     }
 
     @Test
     @DisplayName("게시글 삭제")
     void testDeletePost() throws Exception {
+        willDoNothing().given(postService).deletePost(anyLong(), anyString(), anyString());
 
+        this.mockMvc.perform(delete(DEFAULT_POST + "oto/inquiries/{boardNo}/delete", 1L))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries"));
     }
 
 }

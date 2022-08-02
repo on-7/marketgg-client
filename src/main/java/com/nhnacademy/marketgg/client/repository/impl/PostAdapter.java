@@ -35,12 +35,12 @@ public class PostAdapter implements PostRepository {
     private static final String ADMIN = "/shop/v1/admin/customer-services";
 
     @Override
-    public void createPost(final PostRequest postRequest, final String type, final String role)
+    public void createPost(final PostRequest postRequest, final String role)
             throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(postRequest);
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + this.checkAdmin(role) + "/" + type,
+                gateWayIp + this.checkAdmin(role),
                 HttpMethod.POST,
                 requestEntity,
                 Void.class);
@@ -52,7 +52,7 @@ public class PostAdapter implements PostRepository {
     public List<PostResponse> retrievesPostList(final Integer page, final String type, final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-                gateWayIp + this.checkAdmin(role) + "/" + type + "?page=" + page,
+                gateWayIp + this.checkAdmin(role) + "/categories/" + type + "?page=" + page,
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
@@ -81,7 +81,7 @@ public class PostAdapter implements PostRepository {
     public PostResponseForDetail retrievePost(final Long postNo, final String type, final String role) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<PostResponseForDetail> response = restTemplate.exchange(
-                gateWayIp + this.checkAdmin(role) + "/" + type + "/" + postNo,
+                gateWayIp + this.checkAdmin(role) + "/" + postNo,
                 HttpMethod.GET,
                 requestEntity,
                 PostResponseForDetail.class);

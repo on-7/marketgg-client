@@ -22,8 +22,8 @@ public class DefaultPostService implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public void createPost(final PostRequest postRequest, final String type, final String role) throws JsonProcessingException {
-        postRepository.createPost(postRequest, type, role);
+    public void createPost(final PostRequest postRequest, final String role) throws JsonProcessingException {
+        postRepository.createPost(postRequest, role);
     }
 
     @Override

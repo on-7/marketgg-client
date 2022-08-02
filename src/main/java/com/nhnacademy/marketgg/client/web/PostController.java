@@ -30,13 +30,13 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/customer-services")
+@RequestMapping("/customer-services")
 @RequiredArgsConstructor
 public class PostController {
 
     private final PostService postService;
 
-    private static final String DEFAULT_POST = "/shop/v1/customer-services";
+    private static final String DEFAULT_POST = "/customer-services";
     private static final Integer PAGE_SIZE = 10;
     private static final String USER = "user";
 
@@ -57,7 +57,7 @@ public class PostController {
         if (type.compareTo("oto-inquiries") == 0) {
             responses = postService.retrievesPostListForMe(page, type);
         } else {
-            responses = postService.retrievesPostList(page, type, USER);
+            responses = postService.retrievesPostList(page, checkType(type), USER);
         }
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -96,7 +96,7 @@ public class PostController {
                                    @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/" + type);
-        postService.createPost(postRequest, type, USER);
+        postService.createPost(postRequest, USER);
 
         return mav;
     }
@@ -119,7 +119,6 @@ public class PostController {
         } else {
             mav.addObject("response", postService.retrievePost(boardNo, type, USER));
         }
-        mav.addObject("type", type);
 
         return mav;
     }

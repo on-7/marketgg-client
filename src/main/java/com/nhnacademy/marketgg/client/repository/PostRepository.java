@@ -21,12 +21,11 @@ public interface PostRepository {
      * 입력받은 정보로 게시글을 등록할 수 있는 Adapter 입니다.
      *
      * @param postRequest - 등록할 게시글의 정보를 담은 객체입니다.
-     * @param type        - 등록할 게시글의 게시판 타입입니다.
      * @param role - 권한정보입니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void createPost(final PostRequest postRequest, final String type, final String role) throws JsonProcessingException;
+    void createPost(final PostRequest postRequest, final String role) throws JsonProcessingException;
 
     /**
      * 게시판 타입에 맞는 게시글 목록을 반환하는 Adapter 입니다.

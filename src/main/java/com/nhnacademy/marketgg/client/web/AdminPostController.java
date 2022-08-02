@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
-import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
@@ -30,13 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/admin/customer-services")
+@RequestMapping("/admin/customer-services")
 @RequiredArgsConstructor
 public class AdminPostController {
 
     private final PostService postService;
 
-    private static final String DEFAULT_ADMIN_POST = "/shop/v1/admin/customer-services";
+    private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
     private static final Integer PAGE_SIZE = 10;
     private static final String ADMIN = "admin";
 
@@ -90,7 +89,7 @@ public class AdminPostController {
                                    @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/" + type);
-        postService.createPost(postRequest, type, ADMIN);
+        postService.createPost(postRequest, ADMIN);
 
         return mav;
     }
