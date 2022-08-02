@@ -36,7 +36,7 @@
                     <td>
                         <a th:href="'/customer-services/notices/'+${board.id}+'/retrieve'" th:text="${board.title}"></a>
                     </td>
-                    <td th:text="${board.createdAt}">
+                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                     <td>
                         <div th:if="${isAdmin == 'yes'}">
                             <form th:method="get" th:action="'/admin/customer-services/notices/'+${board.id}+'/update'">

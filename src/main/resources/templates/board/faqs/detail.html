@@ -12,8 +12,8 @@
             </div>
         </div>
         <div style="text-align: center; display: flex; justify-content: center">
-            [등록일자] <span th:text="${response.createdAt}"></span>
-            [수정일자] <span th:text="${response.updatedAt}"></span>
+            [등록일자] <span th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
+            [수정일자] <span th:text="${#temporals.format(response.updatedAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
         </div>
         <div style="text-align: center; display: flex; justify-content: center">
             <h4>[FAQ 답변]</h4>
@@ -23,3 +23,6 @@
         </div>
     </body>
 </html>
+
+
+<td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
