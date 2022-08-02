@@ -15,6 +15,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class DibServiceTest {
@@ -32,7 +33,7 @@ class DibServiceTest {
 
         dibService.createDib(1L, 1L);
 
-        then(dibRepository).should().createDib(anyLong(), anyLong());
+        then(dibRepository).should(times(1)).createDib(anyLong(), anyLong());
     }
 
     @Test
@@ -42,7 +43,7 @@ class DibServiceTest {
 
         dibService.retrieveDibs(1L);
 
-        then(dibRepository).should().retrieveDibs(anyLong());
+        then(dibRepository).should(times(1)).retrieveDibs(anyLong());
     }
 
     @Test
@@ -52,7 +53,7 @@ class DibServiceTest {
 
         dibService.deleteDib(1L, 1L);
 
-        then(dibRepository).should().deleteDib(anyLong(), anyLong());
+        then(dibRepository).should(times(1)).deleteDib(anyLong(), anyLong());
     }
     
 }

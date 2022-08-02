@@ -21,6 +21,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryServiceTest {
@@ -47,7 +48,7 @@ class CategoryServiceTest {
 
         categoryService.createCategory(categoryCreateRequest);
 
-        then(categoryRepository).should().createCategory(any(CategoryCreateRequest.class));
+        then(categoryRepository).should(times(1)).createCategory(any(CategoryCreateRequest.class));
     }
 
     @Test
@@ -57,7 +58,7 @@ class CategoryServiceTest {
 
         categoryService.retrieveCategory("101");
 
-        then(categoryRepository).should().retrieveCategory(anyString());
+        then(categoryRepository).should(times(1)).retrieveCategory(anyString());
     }
 
     @Test
@@ -67,7 +68,7 @@ class CategoryServiceTest {
 
         categoryService.retrieveCategories();
 
-        then(categoryRepository).should().retrieveCategories();
+        then(categoryRepository).should(times(1)).retrieveCategories();
     }
 
     @Test
@@ -77,7 +78,7 @@ class CategoryServiceTest {
 
         categoryService.retrieveCategorizations();
 
-        then(categoryRepository).should().retrieveCategorizations();
+        then(categoryRepository).should(times(1)).retrieveCategorizations();
     }
 
     @Test
@@ -87,7 +88,7 @@ class CategoryServiceTest {
 
         categoryService.updateCategory("101", categoryUpdateRequest);
 
-        then(categoryRepository).should().updateCategory(anyString(), any(CategoryUpdateRequest.class));
+        then(categoryRepository).should(times(1)).updateCategory(anyString(), any(CategoryUpdateRequest.class));
     }
 
     @Test
@@ -97,7 +98,7 @@ class CategoryServiceTest {
 
         categoryService.deleteCategory("101");
 
-        then(categoryRepository).should().deleteCategory(anyString());
+        then(categoryRepository).should(times(1)).deleteCategory(anyString());
     }
 
 }

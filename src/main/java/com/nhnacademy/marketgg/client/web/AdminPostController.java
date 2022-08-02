@@ -1,7 +1,5 @@
 package com.nhnacademy.marketgg.client.web;
 
-import static org.springframework.data.domain.PageRequest.of;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
@@ -50,7 +48,8 @@ public class AdminPostController {
      * @since 1.0.0
      */
     @GetMapping("/{type}")
-    public ModelAndView index(@PathVariable final String type, @RequestParam @DefaultValue(value = "0") final Integer page)
+    public ModelAndView index(@PathVariable final String type,
+                              @RequestParam @DefaultValue(value = "0") final Integer page)
             throws JsonProcessingException {
         ModelAndView mav = new ModelAndView("board/" + type + "/index");
         List<PostResponse> responses = postService.retrievesPostList(page, type, ADMIN);
@@ -113,7 +112,7 @@ public class AdminPostController {
                                           @RequestParam final String keyword, final Pageable pageable)
             throws JsonProcessingException {
 
-        SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
+        SearchRequest request = new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
 
         ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
         List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request, ADMIN);
@@ -142,7 +141,7 @@ public class AdminPostController {
                                         final Pageable pageable, @RequestParam final String reason)
             throws JsonProcessingException {
 
-        SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
+        SearchRequest request = new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
 
         ModelAndView mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");
         List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, reason, ADMIN);
@@ -172,7 +171,7 @@ public class AdminPostController {
                                         final Pageable pageable, @RequestParam final String status)
             throws JsonProcessingException {
 
-        SearchRequest request = new SearchRequest(keyword, of(pageable.getPageNumber(), pageable.getPageSize()));
+        SearchRequest request = new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
 
         ModelAndView mav;
         mav = new ModelAndView("board/" + this.checkType(categoryCode) + "/index");

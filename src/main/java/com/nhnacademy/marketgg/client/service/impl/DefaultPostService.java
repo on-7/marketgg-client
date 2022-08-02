@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
@@ -10,10 +9,9 @@ import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
 import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.PostService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -42,12 +40,14 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type, final String role) {
+    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type,
+                                                               final String role) {
         return postRepository.retrievePostForOtoInquiry(postNo, type, role);
     }
 
     @Override
-    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest, final String role)
+    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest,
+                                                       final String role)
             throws JsonProcessingException {
 
         return postRepository.searchForCategory(categoryCode, searchRequest, role);
@@ -55,14 +55,16 @@ public class DefaultPostService implements PostService {
 
     @Override
     public List<SearchBoardResponse> searchForReason(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String reason, final String role) throws JsonProcessingException {
+                                                     final String reason, final String role)
+            throws JsonProcessingException {
 
         return postRepository.searchForOption(categoryCode, searchRequest, reason, "reason", role);
     }
 
     @Override
     public List<SearchBoardResponse> searchForStatus(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String status, final String role) throws JsonProcessingException {
+                                                     final String status, final String role)
+            throws JsonProcessingException {
 
         return postRepository.searchForOption(categoryCode, searchRequest, status, "status", role);
     }

@@ -10,7 +10,6 @@ import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -138,7 +137,7 @@ public class PostController {
             throws JsonProcessingException {
 
         SearchRequest request =
-                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+                new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
 
         ModelAndView mav = new ModelAndView("board/" + this.checkCategoryCodeToType(categoryCode) + "/index");
         List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request, USER);
@@ -168,7 +167,7 @@ public class PostController {
             throws JsonProcessingException {
 
         SearchRequest request =
-                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+                new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
 
         ModelAndView mav = new ModelAndView("board/" + this.checkCategoryCodeToType(categoryCode) + "/index");
         List<SearchBoardResponse> responses;
@@ -200,7 +199,7 @@ public class PostController {
             throws JsonProcessingException {
 
         SearchRequest request =
-                new SearchRequest(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize()));
+                new SearchRequest(keyword, pageable.getPageNumber(), pageable.getPageSize());
 
         ModelAndView mav = new ModelAndView("board/" + this.checkCategoryCodeToType(categoryCode) + "/index");
         List<SearchBoardResponse> responses;
@@ -281,7 +280,7 @@ public class PostController {
     }
 
     private String checkTypeToCategoryCode(final String type) {
-        if(type.compareTo("notices") == 0) {
+        if (type.compareTo("notices") == 0) {
             return "701";
         }
         return "703";

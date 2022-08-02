@@ -18,6 +18,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class LabelServiceTest {
@@ -37,7 +38,7 @@ class LabelServiceTest {
 
         labelService.createLabel(labelRegisterRequest);
 
-        then(labelRepository).should().createLabel(any(LabelRegisterRequest.class));
+        then(labelRepository).should(times(1)).createLabel(any(LabelRegisterRequest.class));
     }
 
     @Test
@@ -47,7 +48,7 @@ class LabelServiceTest {
 
         labelService.retrieveLabels();
 
-        then(labelRepository).should().retrieveResponse();
+        then(labelRepository).should(times(1)).retrieveResponse();
     }
 
     @Test
@@ -57,7 +58,7 @@ class LabelServiceTest {
 
         labelService.deleteLabel(1L);
 
-        then(labelRepository).should().deleteLabel(anyLong());
+        then(labelRepository).should(times(1)).deleteLabel(anyLong());
     }
 
 }
