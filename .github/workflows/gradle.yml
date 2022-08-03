@@ -33,7 +33,7 @@ jobs:
       with:
         arguments: build
 
-    - name: Run SonarQube
-      run: mvn sonar:sonar -Dsonar.projectKey=${{ secrets.SONARQUBE_PROJECT_KEY }}
-                           -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
-                           -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
+#     - name: Run SonarQube
+#       run: mvn sonar:sonar -Dsonar.projectKey=${{ secrets.SONARQUBE_PROJECT_KEY }}
+#                            -Dsonar.host.url=${{ secrets.SONARQUBE_HOST }}
+#                            -Dsonar.login=${{ secrets.SONARQUBE_TOKEN }}
