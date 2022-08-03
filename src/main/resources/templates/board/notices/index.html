@@ -6,17 +6,17 @@
     </head>
     <body>
         <div th:if="${isAdmin == 'no'}">
-            <form th:action="'/customer-services/search/categories/701?page=0&size=10'" th:method="post">
+            <form th:action="'/customer-services/categories/701/search?page=0'" th:method="post">
                 <input type="text" name="keyword" value="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>
         </div>
         <div th:if="${isAdmin == 'yes'}">
-            <form th:action="'/admin/customer-services/search/categories/701?page=0&size=10'" th:method="post">
+            <form th:action="'/admin/customer-services/categories/701/search?page=0'" th:method="post">
                 <input type="text" name="keyword" value="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>
-            <form th:method="get" th:action="'/admin/customer-services/notices/create'">
+            <form th:method="get" th:action="'/admin/customer-services/categories/701/create'">
                 <input type="submit" value="공지사항 등록">
             </form>
         </div>
@@ -34,19 +34,19 @@
                 <tr th:each="board : ${responses}">
                     <td th:text="${board.id}"></td>
                     <td>
-                        <a th:href="'/customer-services/notices/'+${board.id}+'/retrieve'" th:text="${board.title}"></a>
+                        <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
                     </td>
                     <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                     <td>
                         <div th:if="${isAdmin == 'yes'}">
-                            <form th:method="get" th:action="'/admin/customer-services/notices/'+${board.id}+'/update'">
+                            <form th:method="get" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update?page='+${page}">
                                 <input type="submit" value="수정">
                             </form>
                         </div>
                     </td>
                     <td>
                         <div th:if="${isAdmin == 'yes'}">
-                            <form th:method="post" th:action="'/admin/customer-services/notices/'+${board.id}+'/delete'">
+                            <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
                                 <input type="hidden" name="_method" value="delete"/>
                                 <input type="submit" value="삭제">
                             </form>
@@ -57,26 +57,26 @@
         </table>
         <div th:if="${isAdmin == 'no'}">
             <div th:if="${searchType == 'default'}">
-                <a th:href="'/customer-services/search/categories/701?page=' + ${page - 1} + '&size=10&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/customer-services/categories/701/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/customer-services/search/categories/701?page=' + ${page + 1} + '&size=10&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/customer-services/categories/701/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
             <div th:if="${searchType == 'no'}">
-                <a th:href="'/customer-services/notices?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/customer-services/categories/701?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/customer-services/notices?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/customer-services/categories/701?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
         </div>
         <div th:if="${isAdmin == 'yes'}">
             <div th:if="${searchType == 'default'}">
-                <a th:href="'/admin/customer-services/search/categories/701?page=' + ${page - 1} + '&size=10&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/admin/customer-services/categories/701/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/admin/customer-services/search/categories/701?page=' + ${page + 1} + '&size=10&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/admin/customer-services/categories/701/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
             <div th:if="${searchType == 'no'}">
-                <a th:href="'/admin/customer-services/notices?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/admin/customer-services/categories/701?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/admin/customer-services/notices?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/admin/customer-services/categories/701?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
         </div>
     </body>

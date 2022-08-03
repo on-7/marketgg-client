@@ -66,6 +66,18 @@ public class AdminPostController {
     }
 
     /**
+     * 게시글을 등록할 수 있는 입력양식 페이지로 이동합니다.
+     *
+     * @param categoryCode - 등록을 진행 할 게시글의 게시판 카테고리 식별번호입니다.
+     * @return 게시글을 등록할 수 있는 페이지로 이동합니다.
+     * @since 1.0.0
+     */
+    @GetMapping("/categories/{categoryCode}/create")
+    public ModelAndView doCreate(@PathVariable final String categoryCode) {
+        return new ModelAndView("board/" + this.convertToType(categoryCode) + "/create-form");
+    }
+
+    /**
      * 게시글을 등록 후 다시 게시글 목록으로 이동합니다.
      *
      * @param categoryCode - 등록을 진행할 고객센터 게시판의 타입입니다.
@@ -153,7 +165,7 @@ public class AdminPostController {
      * @return 지정한 게시글을 수정할 수 있는 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/{postNo}")
+    @GetMapping("/categories/{categoryCode}/{postNo}/update")
     public ModelAndView doUpdatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/update-form");
         mav.addObject("response", postService.retrievePost(postNo, categoryCode));
@@ -173,7 +185,7 @@ public class AdminPostController {
      * @return 게시글을 수정한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @PutMapping("/categories/{categoryCode}/{postNo}")
+    @PutMapping("/categories/{categoryCode}/{postNo}/update")
     public ModelAndView updatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo,
                                    @ModelAttribute final PostRequest postRequest, @RequestParam final Integer page) {
 

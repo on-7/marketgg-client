@@ -127,6 +127,14 @@ class AdminPostControllerTest {
     }
 
     @Test
+    @DisplayName("게시글 생성 준비")
+    void testDoCreatePost() throws Exception {
+        this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/create", "703"))
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("board/faqs/create-form"));
+    }
+
+    @Test
     @DisplayName("게시글 생성하기")
     void testCreatePost() throws Exception {
         willDoNothing().given(postService).createPost(any(PostRequest.class));
@@ -178,12 +186,12 @@ class AdminPostControllerTest {
                 List.of(response));
 
         this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", "710")
-                                                           .param("keyword", "hi")
-                                                           .param("page", "0"))
-                                          .andExpect(result -> assertTrue(
-                                                  Objects.requireNonNull(result.getResolvedException())
-                                                         .getClass().isAssignableFrom(NotFoundException.class)))
-                                          .andReturn();
+                                     .param("keyword", "hi")
+                                     .param("page", "0"))
+                    .andExpect(result -> assertTrue(
+                            Objects.requireNonNull(result.getResolvedException())
+                                   .getClass().isAssignableFrom(NotFoundException.class)))
+                    .andReturn();
     }
 
     @Test
@@ -209,11 +217,13 @@ class AdminPostControllerTest {
                 List.of(response));
 
         MvcResult mvcResult =
-                this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{optionType}/search", "702", "reason")
-                                             .param("keyword", "hi")
-                                             .param("page", "0")
-                                             .param("optionType", "reason")
-                                             .param("option", "환불"))
+                this.mockMvc.perform(
+                            post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{optionType}/search", "702",
+                                 "reason")
+                                    .param("keyword", "hi")
+                                    .param("page", "0")
+                                    .param("optionType", "reason")
+                                    .param("option", "환불"))
                             .andExpect(status().isOk())
                             .andExpect(view().name("board/oto-inquiries/index"))
                             .andReturn();
@@ -228,11 +238,12 @@ class AdminPostControllerTest {
                 List.of(response));
 
         MvcResult mvcResult =
-                this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{option}/search", "702", "status")
-                                             .param("keyword", "hi")
-                                             .param("page", "0")
-                                             .param("optionType", "status")
-                                             .param("option", "종료"))
+                this.mockMvc.perform(
+                            post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{option}/search", "702", "status")
+                                    .param("keyword", "hi")
+                                    .param("page", "0")
+                                    .param("optionType", "status")
+                                    .param("option", "종료"))
                             .andExpect(status().isOk())
                             .andExpect(view().name("board/oto-inquiries/index"))
                             .andReturn();
@@ -246,8 +257,9 @@ class AdminPostControllerTest {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
         given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
 
-        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}", "701", 1L)
-                                                           .param("page", "0"))
+        MvcResult mvcResult = this.mockMvc.perform(
+                                          get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "701", 1L)
+                                                  .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name("board/notices/update-form"))
                                           .andReturn();
@@ -260,7 +272,7 @@ class AdminPostControllerTest {
     void testUpdatePost() throws Exception {
         willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString());
 
-        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}", "701", 1L)
+        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "701", 1L)
                                      .param("page", "0")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))

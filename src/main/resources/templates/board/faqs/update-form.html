@@ -6,7 +6,7 @@
     </head>
     <body>
         <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/admin/customer-services/faqs/'+${response.id}+'/update'">
+            <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update?page='+${page}">
                 <span>FAQ 질문 내용: </span>
                 <textarea cols = "50" rows = "10" name="title" th:value="${response.title}"></textarea><br/>
                 <span>FAQ 답변 내용: </span><br />
