@@ -33,7 +33,7 @@ class AdminPointControllerTest {
     void testAdminRetrieveMembersPoints() throws Exception {
         given(pointService.adminRetrievePointHistories()).willReturn(List.of(new PointRetrieveResponse()));
 
-        mockMvc.perform(get("/shop/v1/admin/points"))
+        mockMvc.perform(get("/admin/points"))
                .andExpect(status().isOk())
                .andExpect(view().name("/points/admin-retrieve-members"));
     }

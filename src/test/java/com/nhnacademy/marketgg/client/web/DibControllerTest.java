@@ -32,7 +32,7 @@ class DibControllerTest {
     @MockBean
     DibService dibService;
 
-    private static final String DEFAULT_DIB = "/shop/v1/members/1/dibs";
+    private static final String DEFAULT_DIB = "/members/1/dibs";
 
     @Test
     @DisplayName("찜 목록 조회")

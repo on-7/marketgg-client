@@ -29,7 +29,7 @@ class CommentControllerTest {
     @MockBean
     CommentService commentService;
 
-    private static final String DEFAULT_POST = "/shop/v1/customer-services";
+    private static final String DEFAULT_POST = "/customer-services";
 
     @Test
     @DisplayName("1:1 문의 답글 등록")

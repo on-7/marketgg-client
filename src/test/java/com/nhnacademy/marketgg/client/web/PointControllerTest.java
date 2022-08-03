@@ -32,7 +32,7 @@ class PointControllerTest {
         Long id = 1L;
         BDDMockito.given(pointService.retrievePointHistories(id)).willReturn(new PointRetrieveResponse());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/shop/v1/members/" + id + "/points"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/members/" + id + "/points"))
             .andExpect(status().isOk())
             .andExpect(view().name("/points/index"));
     }

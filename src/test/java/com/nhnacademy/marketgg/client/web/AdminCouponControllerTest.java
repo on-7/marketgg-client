@@ -44,7 +44,7 @@ class AdminCouponControllerTest {
     @MockBean
     CouponService couponService;
 
-    private static final String DEFAULT_COUPON = "/shop/v1/admin/coupons";
+    private static final String DEFAULT_COUPON = "/admin/coupons";
 
     @Test
     @DisplayName("쿠폰 등록 페이지 이동")

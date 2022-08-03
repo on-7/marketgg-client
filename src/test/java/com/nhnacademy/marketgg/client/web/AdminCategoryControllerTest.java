@@ -44,7 +44,7 @@ class AdminCategoryControllerTest {
     @MockBean
     CategoryService categoryService;
 
-    private static final String DEFAULT_CATEGORY = "/shop/v1/admin/categories";
+    private static final String DEFAULT_CATEGORY = "/admin/categories";
 
     @Test
     @DisplayName("카테고리 등록 페이지 이동")

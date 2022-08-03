@@ -36,7 +36,7 @@ class AdminLabelControllerTest {
     @MockBean
     LabelService labelService;
 
-    private static final String DEFAULT_LABEL = "/shop/v1/admin/labels";
+    private static final String DEFAULT_LABEL = "/admin/labels";
 
     @Test
     @DisplayName("라벨 등록")
