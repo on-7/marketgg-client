@@ -52,4 +52,5 @@ public class MemberAjaxController {
                              .contentType(MediaType.APPLICATION_JSON)
                              .body(memberService.useEmail(emailRequest));
     }
+
 }
