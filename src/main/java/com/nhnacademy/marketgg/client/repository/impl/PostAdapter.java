@@ -162,6 +162,20 @@ public class PostAdapter implements PostRepository {
         this.checkResponseUri(response);
     }
 
+    @Override
+    public List<String> retrieveStatus() {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<List<String>> response = restTemplate.exchange(
+                gateWayIp + ADMIN + "/status",
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        this.checkResponseUri(response);
+        return response.getBody();
+    }
+
     private HttpHeaders buildHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);

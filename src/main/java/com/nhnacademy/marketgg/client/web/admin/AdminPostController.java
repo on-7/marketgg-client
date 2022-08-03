@@ -38,7 +38,6 @@ public class AdminPostController {
 
     private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
     private static final Integer PAGE_SIZE = 10;
-    private static final String ADMIN = "admin";
 
     /**
      * 고객센터의 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
@@ -61,6 +60,7 @@ public class AdminPostController {
         mav.addObject("searchType", "no");
         mav.addObject("isAdmin", "yes");
         mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("statusList", postService.retrieveOtoStatus());
 
         return mav;
     }
@@ -122,6 +122,8 @@ public class AdminPostController {
         mav.addObject("searchType", "default");
         mav.addObject("isAdmin", "yes");
         mav.addObject("keyword", keyword);
+        mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("statusList", postService.retrieveOtoStatus());
         return mav;
     }
 
@@ -151,6 +153,8 @@ public class AdminPostController {
         mav.addObject("searchType", optionType);
         mav.addObject("isAdmin", "yes");
         mav.addObject("keyword", keyword);
+        mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("statusList", postService.retrieveOtoStatus());
         mav.addObject(optionType, option);
 
         return mav;

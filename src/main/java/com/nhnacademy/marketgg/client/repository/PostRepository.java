@@ -110,4 +110,12 @@ public interface PostRepository {
      */
     void changeStatus(final Long boardNo, final PostStatusUpdateRequest postRequest) throws JsonProcessingException;
 
+    /**
+     * 1:1 문의의 상태목록을 반환합니다.
+     *
+     * @return 상태 목록을 반환합니다.
+     * @since 1.0.0
+     */
+    List<String> retrieveStatus();
+
 }

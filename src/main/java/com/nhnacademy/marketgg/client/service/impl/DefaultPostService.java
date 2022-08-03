@@ -70,4 +70,9 @@ public class DefaultPostService implements PostService {
         postRepository.changeStatus(postNo, postRequest);
     }
 
+    @Override
+    public List<String> retrieveOtoStatus() {
+        return postRepository.retrieveStatus();
+    }
+
 }

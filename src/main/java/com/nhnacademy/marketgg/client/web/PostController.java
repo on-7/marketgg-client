@@ -35,7 +35,6 @@ public class PostController {
 
     private static final String DEFAULT_POST = "/customer-services";
     private static final Integer PAGE_SIZE = 10;
-    private static final String USER = "user";
 
     /**
      * 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
@@ -56,6 +55,7 @@ public class PostController {
         mav.addObject("searchType", "no");
         mav.addObject("isAdmin", "no");
         mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("statusList", postService.retrieveOtoStatus());
 
         return mav;
     }
@@ -136,6 +136,8 @@ public class PostController {
         mav.addObject("searchType", "default");
         mav.addObject("isAdmin", "no");
         mav.addObject("keyword", keyword);
+        mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("statusList", postService.retrieveOtoStatus());
         return mav;
     }
 

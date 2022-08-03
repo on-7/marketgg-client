@@ -145,4 +145,14 @@ class PostServiceTest {
         then(postRepository).should(times(1)).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
     }
 
+    @Test
+    @DisplayName("1:1 문의 상태 목록 조회")
+    void testRetrieveOtoStatus() {
+        given(postRepository.retrieveStatus()).willReturn(List.of("hello"));
+
+        List<String> list = postService.retrieveOtoStatus();
+
+        assertThat(list.get(0)).isEqualTo("hello");
+    }
+
 }

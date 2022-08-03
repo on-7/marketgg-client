@@ -107,4 +107,12 @@ public interface PostService {
      */
     void changeStatus(final Long postNo, final PostStatusUpdateRequest postRequest) throws JsonProcessingException;
 
+    /**
+     * 1:1 문의에서 사용되는 상태 목록을 반환합니다.
+     *
+     * @return 상태 목록을 반환합니다.
+     * @since 1.0.0
+     */
+    List<String> retrieveOtoStatus();
+
 }

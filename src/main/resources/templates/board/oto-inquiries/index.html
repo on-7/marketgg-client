@@ -75,7 +75,9 @@
                     <td>
                         <div th:if="${isAdmin == 'yes'}">
                             <form th:method="post" th:action="'/adnmin/customer-services/categories/702/'+${board.id}+'/status?page='+${page}">
-                                <input type="text" name="status">
+                                <select name="status">
+                                    <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
+                                </select><br />
                                 <input type="hidden" name="_method" value="patch"/>
                                 <input type="submit" value="상태변경">
                             </form>
