@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
         <title>공지 등록</title>
     </head>
     <body>
         <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/shop/v1/customer-services/notices/create'">
+            <form th:method="post" th:action="'/admin/customer-services/notices/create'">
                 <span>공지 제목: </span><input type="text" name="title"><br /><br />
                 <span>[공지 내용]</span><br />
                 <textarea cols = "50" rows = "10" name="content"></textarea><br/>
+                <input type="hidden" name="categoryCode" value="701">
                 <input type="submit" value="등록">
             </form>
         </div>

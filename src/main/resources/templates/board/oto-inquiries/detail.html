@@ -12,8 +12,8 @@
             </div>
         </div>
         <div style="text-align: center; display: flex; justify-content: center">
-            [등록일자] <span th:text="${response.createdAt}"></span>
-            [수정일자] <span th:text="${response.updatedAt}"></span>
+            [등록일자] <span th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
+            [수정일자] <span th:text="${#temporals.format(response.updatedAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
         </div>
         <div style="text-align: center; display: flex; justify-content: center">
             <h4>[1:1문의 내용]</h4>
@@ -27,17 +27,19 @@
             <table>
                 <tr>
                     <th>답변 내용</th>
+                    <th>답변 작성자</th>
                     <th>답변 작성일자</th>
                 </tr>
                 <tr th:each="comment : ${response.commentList}">
                     <td th:text="${comment.content}"></td>
-                    <td th:text="${comment.createdAt}"></td>
+                    <td th:text="${comment.email}"></td>
+                    <td th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                 </tr>
             </table>
         </div>
-        <!-- FIXME: memberInfo 에노테이션 해결 -->
         <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/shop/v1/customer-services/oto-inquiries/'+${response.id}+'members/1'">
+            <form th:method="post" th:action="'/customer-services/oto-inquiries/'+${response.id}">
+                <textarea cols = "50" rows = "10" name="content"></textarea><br/>
                 <input type="submit" value="답글 등록">
             </form>
         </div>

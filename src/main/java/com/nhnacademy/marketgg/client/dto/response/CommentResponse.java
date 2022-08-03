@@ -11,6 +11,8 @@ public class CommentResponse {
 
     private String content;
 
+    private Long email;
+
     private LocalDateTime createdAt;
 
 }
