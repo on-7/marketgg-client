@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
@@ -23,7 +23,7 @@ import java.util.List;
  * @since 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/admin/coupons")
+@RequestMapping("/admin/coupons")
 @RequiredArgsConstructor
 public class AdminCouponController {
 

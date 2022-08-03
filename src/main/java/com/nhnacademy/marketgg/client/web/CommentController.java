@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/customer-services/oto-inquiries")
+@RequestMapping("/customer-services/oto-inquiries")
 @RequiredArgsConstructor
 public class CommentController {
 

@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.admin;
 
 import com.nhnacademy.marketgg.client.dto.response.PointRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.PointService;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/shop/v1/admin/points")
+@RequestMapping("/admin/points")
 @RequiredArgsConstructor
 public class AdminPointController {
 

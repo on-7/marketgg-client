@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.Alert;

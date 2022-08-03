@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.admin;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
@@ -27,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/admin/v1/products")
+@RequestMapping("/admin/products")
 @RequiredArgsConstructor
 public class ProductController {
 

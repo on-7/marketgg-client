@@ -5,6 +5,7 @@ import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
+import com.nhnacademy.marketgg.client.web.admin.AdminCategoryController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

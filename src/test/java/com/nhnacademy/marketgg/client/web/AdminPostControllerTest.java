@@ -31,6 +31,7 @@ import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
 import java.util.Objects;
 
+import com.nhnacademy.marketgg.client.web.admin.AdminPostController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

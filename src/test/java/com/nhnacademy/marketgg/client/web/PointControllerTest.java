@@ -1,11 +1,11 @@
 package com.nhnacademy.marketgg.client.web;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.nhnacademy.marketgg.client.dto.response.PointRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.PointService;
+import com.nhnacademy.marketgg.client.web.member.PointController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;

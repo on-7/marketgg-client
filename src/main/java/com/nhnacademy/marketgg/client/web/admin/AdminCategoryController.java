@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
@@ -26,7 +26,7 @@ import java.util.List;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/admin/categories")
+@RequestMapping("/admin/categories")
 @RequiredArgsConstructor
 public class AdminCategoryController {
 

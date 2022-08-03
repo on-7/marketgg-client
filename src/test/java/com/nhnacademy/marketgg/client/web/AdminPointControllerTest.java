@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.nhnacademy.marketgg.client.dto.response.PointRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.PointService;
 import java.util.List;
+
+import com.nhnacademy.marketgg.client.web.admin.AdminPointController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

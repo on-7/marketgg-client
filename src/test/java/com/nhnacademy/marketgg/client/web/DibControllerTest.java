@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.service.DibService;
+import com.nhnacademy.marketgg.client.web.member.DibController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
