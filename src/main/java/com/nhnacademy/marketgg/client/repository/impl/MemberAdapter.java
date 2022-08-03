@@ -62,7 +62,7 @@ public class MemberAdapter implements MemberRepository {
     public void signup(final MemberSignupToShopMember signupRequestToShopMember) {
         HttpEntity<MemberSignupToShopMember> response = new HttpEntity<>(signupRequestToShopMember, buildHeaders());
         ResponseEntity<Void> exchange =
-            restTemplate.exchange(gateWayIp + "/auth/v1/signup", HttpMethod.POST, response, Void.class);
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.POST, response, Void.class);
 
         this.checkResponseUri(exchange);
     }
@@ -71,7 +71,7 @@ public class MemberAdapter implements MemberRepository {
     public void withdraw(final MemberWithdrawRequest deletedAt) {
         HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(deletedAt, buildHeaders());
         ResponseEntity<Void> exchange =
-            restTemplate.exchange(gateWayIp + "/auth/v1/info", HttpMethod.DELETE, response, Void.class);
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.DELETE, response, Void.class);
 
         this.checkResponseUri(exchange);
     }
@@ -80,7 +80,7 @@ public class MemberAdapter implements MemberRepository {
     public void update(final MemberUpdateToAuthResponse memberUpdateToAuthResponse, String sessionId) {
         HttpEntity<MemberUpdateToAuthResponse> response = new HttpEntity<>(memberUpdateToAuthResponse, buildHeaders());
         ResponseEntity<Void> exchange =
-            restTemplate.exchange(gateWayIp + "/auth/v1/info/", HttpMethod.PUT, response, Void.class);
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.PUT, response, Void.class);
 
         this.checkResponseUri(exchange);
     }
