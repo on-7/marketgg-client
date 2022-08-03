@@ -26,6 +26,7 @@ public interface MemberService {
      * @param id - 갱신일시를 반환할 회원의 식별번호입니다.
      * @return 회원의 갱신일시를 반환합니다.
      * @since 1.0.0
+     * @author 박세완
      */
     LocalDateTime retrievePassUpdatedAt(final Long id);
 
@@ -34,6 +35,7 @@ public interface MemberService {
      *
      * @param id - GG Pass 구독을 진행 할 회원의 식별번호입니다.
      * @since 1.0.0
+     * @author 박세완
      */
     void subscribePass(final Long id);
 
@@ -42,6 +44,7 @@ public interface MemberService {
      *
      * @param id - GG Pass 구독해지를 진행 할 회원의 식별번호입니다.
      * @since 1.0.0
+     * @author 박세완
      */
     void withdrawPass(final Long id);
 

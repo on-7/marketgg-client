@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 /**
  * AOP 를 처리하기 위한 클래스입니다.
  *
+ * @author 박세완
  * @version 1.0.0
  */
 @Slf4j

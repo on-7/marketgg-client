@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * 1:1 문의의 답글에 관련된 Controller 입니다.
  *
+ * @author 박세완
  * @version 1.0.0
  */
 @Controller

@@ -33,13 +33,14 @@ public class MemberController {
     private final MemberService memberService;
     private final GivenCouponService givenCouponService;
 
-    private static final String DEFAULT_MEMBER = "/shop/v1/members";
+    private static final String DEFAULT_MEMBER = "/members";
 
     /**
      * 선택한 회원의 GG 패스 화면으로 이동합니다.
      *
      * @param memberId - GG 패스 페이지를 조회할 회원의 식별번호입니다.
      * @return 회원의 식별번호를 담고, GG 패스의 index 페이지로 이동합니다.
+     * @author 박세완
      * @since 1.0.0
      */
     @GetMapping("/{memberId}/ggpass")
@@ -57,6 +58,7 @@ public class MemberController {
      * @param memberId - GG 패스를 구독할 회원의 식별번호입니다.
      * @return 갱신일자가 지금 시간보다 늦을 시, ERROR 메세지와 함께 다시 Index 페이지로 이동합니다.
      * 갱신일자가 지금 시간보다 빠를 시, 구독하는 메소드를 실행한 후, 다시 Index 페이지로 이동합니다.
+     * @author 박세완
      * @since 1.0.0
      */
     @PostMapping("/{memberId}/ggpass/subscribe")
@@ -77,6 +79,7 @@ public class MemberController {
      *
      * @param memberId - GG 패스를 구독해지할 회원의 식별번호입니다.
      * @return GG 패스 구독을 해지하는 메소드 실행 후, 다시 Index 페이지로 이동합니다.
+     * @author 박세완
      * @since 1.0.0
      */
     @PostMapping("/{memberId}/ggpass/withdraw")

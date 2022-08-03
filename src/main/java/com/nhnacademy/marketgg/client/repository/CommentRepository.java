@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
  * 1:1문의 답글과 관련된 Repository 입니다.
  *
  * @version 1.0.0
+ * @author 박세완
  */
 public interface CommentRepository {
 

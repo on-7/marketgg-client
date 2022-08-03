@@ -20,6 +20,7 @@ import java.util.List;
 /**
  * 라벨 관리에 관련된 Controller 입니다.
  *
+ * @author 박세완
  * @version 1.0.0
  */
 @Controller
@@ -43,7 +44,7 @@ public class AdminLabelController {
 
         labelService.createLabel(labelRequest);
 
-        return new ModelAndView("redirect:/shop/v1/admin/labels");
+        return new ModelAndView("redirect:/admin/labels");
     }
 
     /**
@@ -73,7 +74,7 @@ public class AdminLabelController {
     public ModelAndView deleteLabel(@PathVariable final Long labelId) {
         labelService.deleteLabel(labelId);
 
-        return new ModelAndView("redirect:/shop/v1/admin/labels/index");
+        return new ModelAndView("redirect:/admin/labels/index");
     }
 
 }

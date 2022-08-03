@@ -35,7 +35,7 @@ public class ProductController {
     private final CategoryService categoryService;
     private final LabelService labelService;
 
-    private final static String DEFAULT_PRODUCT_URI = "/admin/v1/products";
+    private final static String DEFAULT_PRODUCT_URI = "/admin/products";
 
     /**
      * 기본 상품 index 페이지 GetMapping을 지원합니다.
@@ -54,7 +54,7 @@ public class ProductController {
      * @param image          - 사진은 MultipartFile 타입입니다.
      * @param productRequest - 상품 생성을 위한 DTO 입니다.
      * @return - 기본 뷰 페이지를 리턴합니다.
-     * @throws IOException
+     * @throws IOException 파일 입출력에 대한 에러처리입니다.
      * @since 1.0.0
      */
     @PostMapping("/create")
@@ -173,7 +173,7 @@ public class ProductController {
      * @param productRequest - 상품 수정을 위한 DTO 입니다.
      * @param id             - 상품의 PK 입니다.
      * @return - index 페이지를 리턴합니다.
-     * @throws IOException
+     * @throws IOException 파일 입출력에서 발생하는 에러입니다.
      * @since 1.0.0
      */
 

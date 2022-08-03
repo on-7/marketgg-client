@@ -39,6 +39,7 @@ public class WebConfig {
      *
      * @param builder - RestTemplate 의 설정을 변경할 수 있는 Builder 객체입니다.
      * @return 원하는 값으로 설정한 RestTemplate 객체를 반환합니다.
+     * @author 박세완
      * @since 1.0.0
      */
     @Bean
@@ -54,6 +55,7 @@ public class WebConfig {
      *
      * @param ip - GATEWAY 의 URI 입니다.
      * @return GATEWAY 의 IP 와 PORT 번호를 반환합니다.
+     * @author 박세완
      * @since 1.0.0
      */
 
@@ -66,6 +68,7 @@ public class WebConfig {
      * Html 의 Form 태그를 Get, Post 맵핑 이외릐 메소드로 ACTION 할 수 있게 해줍니다.
      *
      * @return HiddenHttpMethodFilter 객체를 반환합니다.
+     * @author 박세완
      * @since 1.0.0
      */
     @Bean

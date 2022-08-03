@@ -18,6 +18,7 @@ import java.util.Objects;
 /**
  * 찜의 비동기 처리를 위한 Controller 입니다.
  *
+ * @author 박세완
  * @version 1.0.0
  */
 @Controller

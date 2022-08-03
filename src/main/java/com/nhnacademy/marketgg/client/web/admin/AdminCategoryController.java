@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * 카테고리에 관련된 Controller 입니다.
  *
+ * @author 박세완, 김정민
  * @version 1.0.0
  */
 @Controller
