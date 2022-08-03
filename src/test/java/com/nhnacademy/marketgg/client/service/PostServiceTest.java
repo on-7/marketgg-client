@@ -15,8 +15,6 @@ import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
-import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
-import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultPostService;
 
@@ -40,25 +38,17 @@ class PostServiceTest {
     @Mock
     PostRepository postRepository;
 
-    private SearchBoardResponse searchBoardResponse;
     private PostResponse postResponse;
     private PostResponseForDetail postResponseForDetail;
-    private PostResponseForOtoInquiry postResponseForOtoInquiry;
     private PostRequest postRequest;
     private SearchRequest searchRequest;
 
-    private static final String USER = "user";
-
     @BeforeEach
     void setUp() {
-        searchBoardResponse = new SearchBoardResponse();
         postResponse = new PostResponse();
         postResponseForDetail = new PostResponseForDetail();
-        postResponseForOtoInquiry = new PostResponseForOtoInquiry();
-        ReflectionTestUtils.setField(searchBoardResponse, "id", 1L);
         ReflectionTestUtils.setField(postResponse, "id", 1L);
         ReflectionTestUtils.setField(postResponseForDetail, "id", 1L);
-        ReflectionTestUtils.setField(postResponseForOtoInquiry, "id", 1L);
         postRequest = new PostRequest("701", "hi", "hello", "환불");
         searchRequest = new SearchRequest("hi", 0, 1);
     }
@@ -66,29 +56,19 @@ class PostServiceTest {
     @Test
     @DisplayName("게시글 생성")
     void testCreatePost() throws Exception {
-        willDoNothing().given(postRepository).createPost(any(PostRequest.class), anyString());
+        willDoNothing().given(postRepository).createPost(any(PostRequest.class));
 
-        postService.createPost(postRequest, USER);
+        postService.createPost(postRequest);
 
-        then(postRepository).should(times(1)).createPost(any(PostRequest.class), anyString());
+        then(postRepository).should(times(1)).createPost(any(PostRequest.class));
     }
 
     @Test
     @DisplayName("게시글 목록 조회")
     void testRetrievesPostList() {
-        given(postRepository.retrievesPostList(anyInt(), anyString(), anyString())).willReturn(List.of(postResponse));
+        given(postRepository.retrievesPostList(anyString(), anyInt())).willReturn(List.of(postResponse));
 
-        List<PostResponse> list = postService.retrievesPostList(1, "oto-inquiries", USER);
-
-        assertThat(list.get(0).getId()).isEqualTo(1L);
-    }
-
-    @Test
-    @DisplayName("회원의 1:1 문의 게시글 조회")
-    void testRetrievesPostListForMe() {
-        given(postRepository.retrievesPostListForMe(anyInt(), anyString())).willReturn(List.of(postResponse));
-
-        List<PostResponse> list = postService.retrievesPostListForMe(1, "oto-inquiries");
+        List<PostResponse> list = postService.retrievesPostList("702", 0);
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }
@@ -96,20 +76,9 @@ class PostServiceTest {
     @Test
     @DisplayName("게시글 단건 조회")
     void testRetrievePost() {
-        given(postRepository.retrievePost(anyLong(), anyString(), anyString())).willReturn(postResponseForDetail);
+        given(postRepository.retrievePost(anyLong(), anyString())).willReturn(postResponseForDetail);
 
-        PostResponseForDetail response = postService.retrievePost(1L, "faqs", USER);
-
-        assertThat(response.getId()).isEqualTo(1L);
-    }
-
-    @Test
-    @DisplayName("1:1 문의 게시글 단건 조회")
-    void testRetrievePostForOtoInquiry() {
-        given(postRepository.retrievePostForOtoInquiry(anyLong(), anyString(), anyString())).willReturn(
-                postResponseForOtoInquiry);
-
-        PostResponseForOtoInquiry response = postService.retrievePostForOtoInquiry(1L, "oto-inquiries", USER);
+        PostResponseForDetail response = postService.retrievePost(1L, "703");
 
         assertThat(response.getId()).isEqualTo(1L);
     }
@@ -117,10 +86,10 @@ class PostServiceTest {
     @Test
     @DisplayName("카테고리 별 게시글 검색")
     void testSearchForCategory() throws Exception {
-        given(postRepository.searchForCategory(anyString(), any(SearchRequest.class), anyString())).willReturn(
-                List.of(searchBoardResponse));
+        given(postRepository.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
+                List.of(postResponse));
 
-        List<SearchBoardResponse> list = postService.searchForCategory("701", searchRequest, USER);
+        List<PostResponse> list = postService.searchForCategory("701", searchRequest);
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }
@@ -129,20 +98,9 @@ class PostServiceTest {
     @DisplayName("카테고리 내 사유별 게시글 검색")
     void testSearchForReason() throws Exception {
         given(postRepository.searchForOption(anyString(), any(SearchRequest.class), anyString(),
-                                             anyString())).willReturn(List.of(searchBoardResponse));
+                                             anyString())).willReturn(List.of(postResponse));
 
-        List<SearchBoardResponse> list = postService.searchForReason("702", searchRequest, "환불");
-
-        assertThat(list.get(0).getId()).isEqualTo(1L);
-    }
-
-    @Test
-    @DisplayName("카테고리 내 상태별 게시글 검색")
-    void testSearchForStatus() throws Exception {
-        given(postRepository.searchForOption(anyString(), any(SearchRequest.class), anyString(),
-                                             anyString())).willReturn(List.of(searchBoardResponse));
-
-        List<SearchBoardResponse> list = postService.searchForStatus("702", searchRequest, "종료");
+        List<PostResponse> list = postService.searchForOption("702", searchRequest, "reason", "환불");
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }
@@ -150,21 +108,21 @@ class PostServiceTest {
     @Test
     @DisplayName("게시글 수정")
     void testUpdatePost() {
-        willDoNothing().given(postRepository).updatePost(anyLong(), any(PostRequest.class), anyString(), anyString());
+        willDoNothing().given(postRepository).updatePost(anyLong(), any(PostRequest.class), anyString());
 
-        postService.updatePost(1L, postRequest, "oto-inquiries", USER);
+        postService.updatePost(1L, postRequest, "702");
 
-        then(postRepository).should(times(1)).updatePost(anyLong(), any(PostRequest.class), anyString(), anyString());
+        then(postRepository).should(times(1)).updatePost(anyLong(), any(PostRequest.class), anyString());
     }
 
     @Test
     @DisplayName("게시글 삭제")
     void testDeletePost() {
-        willDoNothing().given(postRepository).deletePost(anyLong(), anyString(), anyString());
+        willDoNothing().given(postRepository).deletePost(anyLong(), anyString());
 
-        postService.deletePost(1L, "oto-inquiries", USER);
+        postService.deletePost(1L, "oto-inquiries");
 
-        then(postRepository).should(times(1)).deletePost(anyLong(), anyString(), anyString());
+        then(postRepository).should(times(1)).deletePost(anyLong(), anyString());
     }
 
     @Test

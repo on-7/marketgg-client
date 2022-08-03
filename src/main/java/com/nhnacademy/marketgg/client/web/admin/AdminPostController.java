@@ -5,14 +5,12 @@ import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
-import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,7 +54,7 @@ public class AdminPostController {
             throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
-        List<PostResponse> responses = postService.retrievesPostList(page, categoryCode, ADMIN);
+        List<PostResponse> responses = postService.retrievesPostList(categoryCode, page);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -82,7 +80,7 @@ public class AdminPostController {
 
         ModelAndView mav = new ModelAndView(
                 "redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=0");
-        postService.createPost(postRequest, ADMIN);
+        postService.createPost(postRequest);
 
         return mav;
     }
@@ -105,7 +103,7 @@ public class AdminPostController {
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
 
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request, ADMIN);
+        List<PostResponse> responses = postService.searchForCategory(categoryCode, request);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -134,7 +132,7 @@ public class AdminPostController {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
-        List<SearchBoardResponse> responses = postService.searchForReason(categoryCode, request, option);
+        List<PostResponse> responses = postService.searchForOption(categoryCode, request, optionType, option);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -158,7 +156,7 @@ public class AdminPostController {
     @GetMapping("/categories/{categoryCode}/{postNo}")
     public ModelAndView doUpdatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/update-form");
-        mav.addObject("response", postService.retrievePost(postNo, categoryCode, ADMIN));
+        mav.addObject("response", postService.retrievePost(postNo, categoryCode));
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("page", page);
 
@@ -180,7 +178,7 @@ public class AdminPostController {
                                    @ModelAttribute final PostRequest postRequest, @RequestParam final Integer page) {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
-        postService.updatePost(postNo, postRequest, categoryCode, ADMIN);
+        postService.updatePost(postNo, postRequest, categoryCode);
 
         return mav;
     }
@@ -197,7 +195,7 @@ public class AdminPostController {
     @DeleteMapping("/categories/{categoryCode}/{postNo}/delete")
     public ModelAndView deletePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
-        postService.deletePost(postNo, categoryCode, ADMIN);
+        postService.deletePost(postNo, categoryCode);
 
         return mav;
     }

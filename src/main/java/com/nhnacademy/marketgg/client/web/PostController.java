@@ -4,21 +4,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
-import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,13 +47,9 @@ public class PostController {
      */
     @GetMapping("/categories/{categoryCode}")
     public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page) {
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
-        List<PostResponse> responses;
-        if (categoryCode.compareTo("702") == 0) {
-            responses = postService.retrievesPostListForMe(page, categoryCode);
-        } else {
-            responses = postService.retrievesPostList(page, categoryCode, USER);
-        }
+        ModelAndView mav = new ModelAndView(String.format("board/%s/index", this.convertToType(categoryCode)));
+        List<PostResponse> responses = postService.retrievesPostList(categoryCode, page);
+
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -96,7 +89,7 @@ public class PostController {
 
         ModelAndView mav = new ModelAndView(
                 "redirect:" + DEFAULT_POST + "/" + this.convertToType(categoryCode) + "?page=0");
-        postService.createPost(postRequest, USER);
+        postService.createPost(postRequest);
 
         return mav;
     }
@@ -114,11 +107,8 @@ public class PostController {
 
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/detail");
 
-        if (categoryCode.compareTo("702") == 0) {
-            mav.addObject("response", postService.retrievePostForOtoInquiry(postNo, categoryCode, USER));
-        } else {
-            mav.addObject("response", postService.retrievePost(postNo, categoryCode, USER));
-        }
+        mav.addObject("response", postService.retrievePost(postNo, categoryCode));
+
         return mav;
     }
 
@@ -134,12 +124,12 @@ public class PostController {
      */
     @PostMapping("/categories/{categoryCode}/search")
     public ModelAndView searchForCategory(@PathVariable final String categoryCode,
-                                          @RequestParam final String keyword, final Integer page)
+                                          @RequestParam final String keyword, @RequestParam final Integer page)
             throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
-        List<SearchBoardResponse> responses = postService.searchForCategory(categoryCode, request, USER);
+        List<PostResponse> responses = postService.searchForCategory(categoryCode, request);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -153,15 +143,16 @@ public class PostController {
      * 지정한 게시글을 삭제 한 후 다시 게시글 목록으로 이동합니다.
      *
      * @param categoryCode - 삭제할 게시글의 게시판 카테고리 식별번호입니다.
-     * @param postNo - 삭제할 게시글의 식별번호입니다.
-     * @param page - Redirect 할 페이지 정보입니다.
+     * @param postNo       - 삭제할 게시글의 식별번호입니다.
+     * @param page         - Redirect 할 페이지 정보입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
     @DeleteMapping("/categories/{categoryCode}/{postNo}/delete")
     public ModelAndView deletePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + this.convertToType(categoryCode) + "?page=" + page);
-        postService.deletePost(postNo, categoryCode, USER);
+        ModelAndView mav = new ModelAndView(
+                "redirect:" + DEFAULT_POST + "/categories/" + categoryCode + "?page=" + page);
+        postService.deletePost(postNo, categoryCode);
 
         return mav;
     }
