@@ -34,14 +34,14 @@ class CommentControllerTest {
     @Test
     @DisplayName("1:1 문의 답글 등록")
     void testCreateComment() throws Exception {
-        willDoNothing().given(commentService).createComment(anyLong(), anyLong(), any(CommentRequest.class));
+        willDoNothing().given(commentService).createComment(anyLong(), any(CommentRequest.class));
 
         this.mockMvc.perform(post(DEFAULT_POST + "/oto-inquiries/{csPostNo}/members/{memberId}", 1L, 1L)
                                      .param("comment", "hello"))
                             .andExpect(status().is3xxRedirection())
                             .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries/1/retrieve"));
 
-        then(commentService).should().createComment(anyLong(), anyLong(), any(CommentRequest.class));
+        then(commentService).should().createComment(anyLong(), any(CommentRequest.class));
     }
 
 }

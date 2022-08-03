@@ -35,11 +35,11 @@ class CommentServiceTest {
     @Test
     @DisplayName("1:1 문의 답글 등록")
     void testCreateComment() throws Exception {
-        willDoNothing().given(commentRepository).createComment(anyLong(), anyLong(), any(CommentRequest.class));
+        willDoNothing().given(commentRepository).createComment(anyLong(), any(CommentRequest.class));
 
-        commentService.createComment(1L, 1L, commentRequest);
+        commentService.createComment(1L, commentRequest);
 
-        then(commentRepository).should().createComment(anyLong(), anyLong(), any(CommentRequest.class));
+        then(commentRepository).should().createComment(anyLong(), any(CommentRequest.class));
     }
 
 }
