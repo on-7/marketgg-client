@@ -26,12 +26,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 인증을 처리하기 위해 사용되는 AOP 입니다.
  *
+ * @author 윤동열
  * @version 1.0.0
  */
 @Slf4j
@@ -81,8 +80,8 @@ public class JwtAspect {
         HttpEntity<Void> httpEntity = new HttpEntity<>(null, headers);
 
         ResponseEntity<Void> response
-                = restTemplate.exchange(gatewayOrigin + "/auth/refresh", HttpMethod.GET, httpEntity,
-                                        Void.class);
+            = restTemplate.exchange(gatewayOrigin + "/auth/refresh", HttpMethod.GET, httpEntity,
+            Void.class);
 
         if (this.isValid(response)) {
             log.info("Token Refresh");
@@ -116,7 +115,7 @@ public class JwtAspect {
         }
 
         if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
-                || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
+            || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
             log.info("Empty header");
             return false;
         }

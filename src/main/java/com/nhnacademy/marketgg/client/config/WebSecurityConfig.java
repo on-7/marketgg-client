@@ -16,6 +16,7 @@ import org.springframework.web.multipart.support.MultipartFilter;
 /**
  * Spring Security 기본 설정을 진행합니다.
  *
+ * @author 윤동열
  * @version 1.0.0
  */
 @Configuration
@@ -41,7 +42,6 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http.csrf();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

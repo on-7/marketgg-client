@@ -26,6 +26,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * 구글 로그인을 처리합니다.
+ *
+ * @author 윤동열
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor

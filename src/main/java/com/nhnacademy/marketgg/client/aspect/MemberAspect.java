@@ -26,6 +26,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Controller 클래스에서 메소드 파라미터에 @Member 어노테이션 사용시 Member 정보 주입하는 AOP.
  *
+ * @author 윤동열
  * @version 1.0.0
  */
 @Slf4j

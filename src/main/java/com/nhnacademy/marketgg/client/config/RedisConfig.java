@@ -22,6 +22,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Redis 설정을 담당합니다.
  *
+ * @author 윤동열
  * @version 1.0.0
  */
 @Configuration
@@ -81,9 +82,6 @@ public class RedisConfig {
     }
 
     private String[] getRedisInfo(String infoUrl) {
-        // Map<String, Map<String, String>> response =
-        //     restTemplate.getForObject(infoUrl, Map.class);
-
         ResponseEntity<Map<String, Map<String, String>>> response =
             restTemplate.exchange(infoUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
             });
@@ -103,9 +101,6 @@ public class RedisConfig {
     }
 
     private String getRedisPassword(String passwordUrl) {
-        // Map<String, Map<String, String>> response =
-        //     restTemplate.getForObject(passwordUrl, Map.class);
-
         ResponseEntity<Map<String, Map<String, String>>> response =
             restTemplate.exchange(passwordUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
             });

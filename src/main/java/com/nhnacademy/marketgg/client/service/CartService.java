@@ -11,6 +11,7 @@ import java.util.List;
  * 장바구니 관련 비즈니스 로직을 처리합니다.
  *
  * @version 1.0.0
+ * @author 윤동열
  */
 public interface CartService {
 

@@ -1,9 +1,9 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.repository.LabelRepository;
 import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.repository.LabelRepository;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class DefaultLabelService implements LabelService {
 
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         labelRepository.createLabel(labelRequest);
     }
