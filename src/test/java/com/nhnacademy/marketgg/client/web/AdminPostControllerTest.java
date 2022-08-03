@@ -170,6 +170,23 @@ class AdminPostControllerTest {
     }
 
     @Test
+    @DisplayName("카테고리 별 검색 (1:1 문의)")
+    void testSearchForCategoryForOto() throws Exception {
+        given(postService.searchForCategory(anyString(), any(SearchRequest.class), anyString())).willReturn(
+            List.of(boardResponse));
+
+        MvcResult mvcResult = this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/search/categories/{categoryCode}", "702")
+                                      .param("keyword", "hi")
+                                      .param("page", "0")
+                                      .param("size", "1"))
+                                          .andExpect(status().isOk())
+                                          .andExpect(view().name("board/oto-inquiries/index"))
+                                          .andReturn();
+
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
+    }
+
+    @Test
     @DisplayName("카테고리 별 검색 (카테고리 X)")
     void testSearchForCategoryCheckNotFoundType() throws Exception {
         given(postService.searchForCategory(anyString(), any(SearchRequest.class), anyString())).willReturn(

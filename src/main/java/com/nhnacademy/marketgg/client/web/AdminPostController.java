@@ -280,6 +280,8 @@ public class AdminPostController {
     private String checkTypeToCategoryCode(final String type) {
         if (type.compareTo("notices") == 0) {
             return "701";
+        } else if (type.compareTo("oto-inquiries") == 0) {
+            return "702";
         }
         return "703";
     }
