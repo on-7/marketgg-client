@@ -3,22 +3,14 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.Alert;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
-import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,7 +28,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private static final String INDEX = "index";
     private static final String REDIRECT = "redirect:";
 
     private final MemberService memberService;
@@ -94,75 +85,6 @@ public class MemberController {
 
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
     }
-
-    // /**
-    //  * 회원가입 View.
-    //  *
-    //  * @return 회원가입 폼
-    //  * @since 1.0.0
-    //  */
-    // @GetMapping("/signup")
-    // public ModelAndView signup(@ModelAttribute MemberSignupRequest memberSignupRequest) {
-    //     return new ModelAndView("member/signup");
-    // }
-    //
-    // /**
-    //  * 회원가입 요청을 받아 회원가입을 진행합니다.
-    //  *
-    //  * @param memberSignupRequest - 회원가입에 필요한 요청 정보 객체입니다.
-    //  * @return 회원가입 실행 후, 다시 Index 페이지로 이동합니다.
-    //  * @since 1.0.0
-    //  */
-    // @PostMapping("")
-    // public ModelAndView doSignup(final @Valid @ModelAttribute MemberSignupRequest memberSignupRequest,
-    //                              BindingResult bindingResult) {
-    //
-    //     if (bindingResult.hasErrors()) {
-    //         return new ModelAndView("member/signup");
-    //     }
-    //
-    //     memberService.doSignup(memberSignupRequest);
-    //     return new ModelAndView("redirect:/");
-    // }
-
-    // /**
-    //  * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
-    //  *
-    //  * @param memberUpdateToAuth - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
-    //  * @param session            - session 이 없는 회원의 접근을 막기위한 파라미터 입니다.
-    //  * @return 회원수정 실행 후, 다시 Index 페이지로 이동합니다.
-    //  * @since 1.0.0
-    //  */
-    // @PostMapping("/update")
-    // public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth, HttpSession session)
-    //     throws UnAuthenticException {
-    //
-    //     String sessionId = (String) session.getAttribute(JwtInfo.SESSION_ID);
-    //
-    //     if (Objects.isNull(sessionId)) {
-    //         throw new UnAuthenticException();
-    //     }
-    //     memberService.update(memberUpdateToAuth, sessionId);
-    //     return new ModelAndView(INDEX);
-    // }
-
-    // /**
-    //  * 회원탈퇴 요청을 받아 회원탈퇴 프로세스를 진행합니다.
-    //  *
-    //  * @param session - session 이 없는 회원의 접근을 막기위한 파라미터 입니다.
-    //  * @return 회원탈퇴 실행 후, 다시 Index 페이지로 이동합니다.
-    //  */
-    // @GetMapping("/withdraw")
-    // public ModelAndView doWithdraw(HttpSession session) throws UnAuthenticException {
-    //     String sessionId = (String) session.getAttribute(JwtInfo.SESSION_ID);
-    //
-    //     if (Objects.isNull(sessionId)) {
-    //         throw new UnAuthenticException();
-    //     }
-    //
-    //     memberService.withdraw(sessionId);
-    //     return new ModelAndView(INDEX);
-    // }
 
     /**
      * 회원이 쿠폰을 등록할 수 있는 POST Mapping 을 지원합니다.
