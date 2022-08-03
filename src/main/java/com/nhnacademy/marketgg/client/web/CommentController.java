@@ -29,7 +29,7 @@ public class CommentController {
     /**
      * 입력한 정보로 1:1 문의의 답변을 등록하는 메소드를 실행하고 다시 1:1 문의 페이지로 이동합니다.
      *
-     * @param postNo - 답변을 작성할 1:1문의의 식별번호입니다.
+     * @param postNo         - 답변을 작성할 1:1문의의 식별번호입니다.
      * @param commentRequest - 답변의 정보를 담은 객체입니다.
      * @return 답변을 등록하는 메소드를 실행하고 다시 1:1 문의 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.

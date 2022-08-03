@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.repository.ImageRepository;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +34,10 @@ public class ImageAdapter implements ImageRepository {
         HttpEntity<ImageResponse> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ImageResponse> response =
             this.restTemplate.exchange(gatewayIp + IMAGE_DEFAULT_URI + "/" + id,
-                                       HttpMethod.GET,
-                                       httpEntity,
-                                       new ParameterizedTypeReference<>() {
-                                       });
+                HttpMethod.GET,
+                httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         return response.getBody();
     }
@@ -59,10 +58,10 @@ public class ImageAdapter implements ImageRepository {
 
         ResponseEntity<ImageResponse> response =
             this.restTemplate.exchange(gatewayIp + IMAGE_DEFAULT_URI,
-                                       HttpMethod.POST,
-                                       httpEntity,
-                                       new ParameterizedTypeReference<>() {
-                                       });
+                HttpMethod.POST,
+                httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         return response.getBody().getImageAddress() + response.getBody().getName();
     }
@@ -74,7 +73,7 @@ public class ImageAdapter implements ImageRepository {
 
         LinkedMultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
         headerMap.add("Content-disposition",
-                      "form-data; name=image; filename=" + image.getOriginalFilename());
+            "form-data; name=image; filename=" + image.getOriginalFilename());
         headerMap.add("Content-type", "application/octet-stream");
         HttpEntity<byte[]> imageBytes = new HttpEntity<>(image.getBytes(), headerMap);
 

@@ -31,6 +31,7 @@ import org.springframework.web.multipart.support.MultipartFilter;
 /**
  * Web Configuration 을 설정할 수 있습니다.
  *
+ * @author 윤동열, 이제훈
  * @version 1.0.0
  */
 @Slf4j

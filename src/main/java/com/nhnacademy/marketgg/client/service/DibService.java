@@ -1,22 +1,21 @@
 package com.nhnacademy.marketgg.client.service;
 
 import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
-
 import java.util.List;
 
 /**
  * 찜 Service 입니다.
  * 찜한 목록에 대해서 추가/삭제 만 가능하며 수정 불가 합니다.
  *
- * @version 1.0.0
  * @author 박세완
+ * @version 1.0.0
  */
 public interface DibService {
 
     /**
      * 지정한 회원의 찜 목록에 지정한 상품을 추가할 수 있는 메소드입니다.
      *
-     * @param memberId - 지정한 회원의 식별번호입니다.
+     * @param memberId  - 지정한 회원의 식별번호입니다.
      * @param productId - 지정한 상품의 식별번호입니다.
      * @since 1.0.0
      */
@@ -34,7 +33,7 @@ public interface DibService {
     /**
      * 지정한 회원의 찜 목록에서 지정한 상품을 삭제시키는 메소드입니다.
      *
-     * @param memberId - 지정한 회원의 식별번호입니다.
+     * @param memberId  - 지정한 회원의 식별번호입니다.
      * @param productId - 지정한 상품의 식별번호입니다.
      * @since 1.0.0
      */

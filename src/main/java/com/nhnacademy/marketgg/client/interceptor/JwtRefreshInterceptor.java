@@ -16,9 +16,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 /**
  * RestTemplate 을 이용한 요청 시 자동으로 헤더에 JWT 를 추가하기 위한 클래스입니다.
  *
+ * @author 윤동열
  * @version 1.0.0
  * @see <a href="https://www.baeldung.com/spring-rest-template-interceptor">RestTemplate Interceptor</a>
- * @author 윤동열
  */
 @Slf4j
 @RequiredArgsConstructor

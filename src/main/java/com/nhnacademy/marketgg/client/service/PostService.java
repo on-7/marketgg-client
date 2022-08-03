@@ -6,7 +6,6 @@ import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
-
 import java.util.List;
 
 /**
@@ -67,7 +66,7 @@ public interface PostService {
      * @since 1.0.0
      */
     List<PostResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
-                                              final String optionType, final String option);
+                                       final String optionType, final String option);
 
     /**
      * 지정한 게시글을 수정할 수 있는 메소드입니다.

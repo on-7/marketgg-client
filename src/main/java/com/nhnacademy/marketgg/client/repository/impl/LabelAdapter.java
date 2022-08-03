@@ -30,14 +30,14 @@ public class LabelAdapter implements LabelRepository {
 
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(labelRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
-                                                              HttpMethod.POST,
-                                                              requestEntity,
-                                                              Void.class);
+            HttpMethod.POST,
+            requestEntity,
+            Void.class);
 
         this.checkResponseUri(response);
     }
@@ -46,11 +46,11 @@ public class LabelAdapter implements LabelRepository {
     public List<LabelRetrieveResponse> retrieveResponse() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<LabelRetrieveResponse>>
-                response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
-                                                 HttpMethod.GET,
-                                                 requestEntity,
-                                                 new ParameterizedTypeReference<>() {
-                                                 });
+            response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
+            HttpMethod.GET,
+            requestEntity,
+            new ParameterizedTypeReference<>() {
+            });
 
         this.checkResponseUri(response);
         return response.getBody();
@@ -60,9 +60,9 @@ public class LabelAdapter implements LabelRepository {
     public void deleteLabel(final Long id) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL + "/" + id,
-                                                              HttpMethod.DELETE,
-                                                              requestEntity,
-                                                              Void.class);
+            HttpMethod.DELETE,
+            requestEntity,
+            Void.class);
 
         this.checkResponseUri(response);
     }

@@ -1,11 +1,11 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.repository.CategoryRepository;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.repository.CategoryRepository;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class DefaultCategoryService implements CategoryService {
 
     @Override
     public void createCategory(final CategoryCreateRequest categoryRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         categoryRepository.createCategory(categoryRequest);
     }
@@ -41,7 +41,7 @@ public class DefaultCategoryService implements CategoryService {
 
     @Override
     public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         categoryRepository.updateCategory(id, categoryRequest);
     }

@@ -6,16 +6,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.web.multipart.support.MultipartFilter;
 
 /**
  * Spring Security 기본 설정을 진행합니다.
  *
+ * @author 윤동열
  * @version 1.0.0
  */
 @Configuration
@@ -42,9 +40,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        //FIXME Dave가 해결했는데.. Toast UI Image 업로드 과정에서 또 에러 발생.. 나중에 해결해보겠음
-        http.csrf()
-            .disable();
+        // FIXME Dave가 해결했는데.. Toast UI Image 업로드 과정에서 또 에러 발생.. 나중에 해결해보겠음
+        http.csrf();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

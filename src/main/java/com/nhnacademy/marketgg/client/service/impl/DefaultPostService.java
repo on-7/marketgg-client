@@ -8,9 +8,7 @@ import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.PostService;
-
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +40,7 @@ public class DefaultPostService implements PostService {
 
     @Override
     public List<PostResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String optionType, final String option) {
+                                              final String optionType, final String option) {
 
         return postRepository.searchForOption(categoryCode, searchRequest, optionType, option);
     }

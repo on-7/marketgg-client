@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class MemberUpdateToAuthResponse {
 
-     private String uuid;
+    private String uuid;
 
 }

@@ -2,9 +2,9 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.repository.CommentRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -14,8 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @Slf4j
 @Component
@@ -30,15 +28,15 @@ public class CommentAdapter implements CommentRepository {
 
     @Override
     public void createComment(final Long postNo, final CommentRequest commentRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(commentRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + DEFAULT_COMMENT + "/" + postNo,
-                HttpMethod.POST,
-                requestEntity,
-                Void.class);
+            gateWayIp + DEFAULT_COMMENT + "/" + postNo,
+            HttpMethod.POST,
+            requestEntity,
+            Void.class);
 
         this.checkResponseUri(response);
     }
