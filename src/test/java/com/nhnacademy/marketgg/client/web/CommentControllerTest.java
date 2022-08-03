@@ -36,10 +36,10 @@ class CommentControllerTest {
     void testCreateComment() throws Exception {
         willDoNothing().given(commentService).createComment(anyLong(), any(CommentRequest.class));
 
-        this.mockMvc.perform(post(DEFAULT_POST + "/oto-inquiries/{csPostNo}/members/{memberId}", 1L, 1L)
+        this.mockMvc.perform(post(DEFAULT_POST + "/{postNo}", 1L)
                                      .param("comment", "hello"))
                             .andExpect(status().is3xxRedirection())
-                            .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries/1/retrieve"));
+                            .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/1"));
 
         then(commentService).should().createComment(anyLong(), any(CommentRequest.class));
     }
