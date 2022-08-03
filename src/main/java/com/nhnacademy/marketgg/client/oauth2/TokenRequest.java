@@ -10,4 +10,5 @@ public class TokenRequest {
     private final String clientId;
     private final String clientSecret;
     private final String code;
+
 }
