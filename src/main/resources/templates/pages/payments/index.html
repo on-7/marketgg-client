@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <!-- 토스 결제창을 띄우기 위해 넣어줘야 한다. requestPayment() 메서드를 이용해서 토스에서 제공하는 결제창을 띄울 수 있다. -->
+        <script src="https://js.tosspayments.com/v1"></script>
+        <title></title>
+    </head>
+    <body>
+        <section>
+            <!-- ... -->
+            <span>총 주문금액</span>
+            <span>4,760 원</span>
+            <button id="payment-button">4,760원 결제하기</button>
+        </section>
+        <script src="/static/plugins/tosspayments/payment.js"></script>
+    </body>
+</html>
