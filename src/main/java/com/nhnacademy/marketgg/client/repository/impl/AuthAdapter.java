@@ -37,6 +37,7 @@ import org.springframework.web.client.RestTemplate;
  * Client Server 와 Auth Server 사이에서 데이터를 주고 받습니다.
  *
  * @version 1.0.0
+ * @author 윤동열
  */
 @Slf4j
 @Component

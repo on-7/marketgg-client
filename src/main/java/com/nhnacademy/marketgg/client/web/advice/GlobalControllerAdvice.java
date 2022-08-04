@@ -27,7 +27,7 @@ public class GlobalControllerAdvice {
      */
     @ExceptionHandler(ClientException.class)
     public ModelAndView clientException(ClientException e) {
-        log.error(e.toString());
+        log.error("", e);
         // TODO: Error 페이지 제작
         return new ModelAndView();
     }
@@ -44,7 +44,7 @@ public class GlobalControllerAdvice {
         JsonProcessingException.class
     })
     public ModelAndView serverException(ServerException e) {
-        log.error(e.toString());
+        log.error("", e);
         // TODO: Error 페이지 제작
         return new ModelAndView();
     }
