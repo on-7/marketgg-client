@@ -6,11 +6,16 @@ import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
+import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,6 +39,7 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final LabelService labelService;
+    private final ImageService imageService;
 
     private final static String DEFAULT_PRODUCT_URI = "/admin/products";
 
@@ -100,6 +106,14 @@ public class ProductController {
 
         ModelAndView mav = new ModelAndView("products/retrieve-products");
         mav.addObject("products", products);
+
+        List<String> images = new ArrayList<>();
+        for (ProductResponse product : products) {
+            byte[] bytes = imageService.retrieveImage(product.getAssetNo());
+             images.add(Base64.getEncoder().encodeToString(bytes));
+        }
+
+        mav.addObject("images", images);
 
         return mav;
     }

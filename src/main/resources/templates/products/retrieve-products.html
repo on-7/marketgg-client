@@ -36,6 +36,10 @@
                         th:onclick="'location.href=\''+ @{|/admin/v1/products/update/${product.id}|} + '\''" style="color: dodgerblue">상품 수정
                     </td>
                 </tr>
+
+                <th:block th:each="image : ${images}">
+                    <img th:src="'data:image/jpeg;base64,'+${image}">
+                </th:block>
             </tbody>
 
         </table>
