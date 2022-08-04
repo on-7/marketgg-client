@@ -6,11 +6,11 @@ import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
-import com.nhnacademy.marketgg.client.dto.response.PostResponseForOtoInquiry;
-import com.nhnacademy.marketgg.client.dto.response.SearchBoardResponse;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.PostService;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,63 +21,43 @@ public class DefaultPostService implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public void createPost(final PostRequest postRequest, final String role) throws JsonProcessingException {
-        postRepository.createPost(postRequest, role);
+    public void createPost(final PostRequest postRequest) throws JsonProcessingException {
+        postRepository.createPost(postRequest);
     }
 
     @Override
-    public List<PostResponse> retrievesPostList(final Integer page, final String type, final String role) {
-        return postRepository.retrievesPostList(page, type, role);
+    public List<PostResponse> retrievePostList(final String categoryCode, final Integer page) {
+        return postRepository.retrievePostList(categoryCode, page);
     }
 
     @Override
-    public List<PostResponse> retrievesPostListForMe(final Integer page, final String type) {
-        return postRepository.retrievesPostListForMe(page, type);
+    public PostResponseForDetail retrievePost(final Long postNo, final String categoryCode) {
+        return postRepository.retrievePost(postNo, categoryCode);
     }
 
     @Override
-    public PostResponseForDetail retrievePost(final Long postNo, final String type, final String role) {
-        return postRepository.retrievePost(postNo, type, role);
-    }
-
-    @Override
-    public PostResponseForOtoInquiry retrievePostForOtoInquiry(final Long postNo, final String type,
-                                                               final String role) {
-        return postRepository.retrievePostForOtoInquiry(postNo, type, role);
-    }
-
-    @Override
-    public List<SearchBoardResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest,
-                                                       final String role)
+    public List<PostResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest)
             throws JsonProcessingException {
 
-        return postRepository.searchForCategory(categoryCode, searchRequest, role);
+        return postRepository.searchForCategory(categoryCode, searchRequest);
     }
 
     @Override
-    public List<SearchBoardResponse> searchForReason(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String reason)
+    public List<PostResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
+                                                     final String optionType, final String option)
             throws JsonProcessingException {
 
-        return postRepository.searchForOption(categoryCode, searchRequest, reason, "reason");
+        return postRepository.searchForOption(categoryCode, searchRequest, optionType, option);
     }
 
     @Override
-    public List<SearchBoardResponse> searchForStatus(final String categoryCode, final SearchRequest searchRequest,
-                                                     final String status)
-            throws JsonProcessingException {
-
-        return postRepository.searchForOption(categoryCode, searchRequest, status, "status");
+    public void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode) {
+        postRepository.updatePost(postNo, postRequest, categoryCode);
     }
 
     @Override
-    public void updatePost(final Long postNo, final PostRequest postRequest, final String type, final String role) {
-        postRepository.updatePost(postNo, postRequest, type, role);
-    }
-
-    @Override
-    public void deletePost(final Long postNo, final String type, final String role) {
-        postRepository.deletePost(postNo, type, role);
+    public void deletePost(final Long postNo, final String categoryCode) {
+        postRepository.deletePost(postNo, categoryCode);
     }
 
     @Override
@@ -86,8 +66,13 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public void changeStatus(Long boardNo, PostStatusUpdateRequest postRequest) throws JsonProcessingException {
-        postRepository.changeStatus(boardNo, postRequest);
+    public void changeStatus(final Long postNo, final PostStatusUpdateRequest postRequest) throws JsonProcessingException {
+        postRepository.changeStatus(postNo, postRequest);
+    }
+
+    @Override
+    public List<String> retrieveOtoStatus() {
+        return postRepository.retrieveStatus();
     }
 
 }

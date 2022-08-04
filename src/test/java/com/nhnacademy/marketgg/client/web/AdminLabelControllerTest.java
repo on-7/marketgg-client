@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
+import com.nhnacademy.marketgg.client.web.admin.AdminLabelController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ class AdminLabelControllerTest {
     @MockBean
     LabelService labelService;
 
-    private static final String DEFAULT_LABEL = "/shop/v1/admin/labels";
+    private static final String DEFAULT_LABEL = "/admin/labels";
 
     @Test
     @DisplayName("라벨 등록")

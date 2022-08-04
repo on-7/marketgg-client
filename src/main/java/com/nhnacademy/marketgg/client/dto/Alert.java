@@ -5,6 +5,7 @@ import lombok.Getter;
 /**
  * 팝업창을 띄울 때 보여줄 메세지와 이후 이동할 페이지를 받는 객체입니다.
  *
+ * @author 박세완
  * @version 1.0.0
  */
 @Getter

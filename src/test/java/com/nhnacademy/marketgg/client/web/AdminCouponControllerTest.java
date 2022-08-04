@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.CouponService;
+import com.nhnacademy.marketgg.client.web.admin.AdminCouponController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ class AdminCouponControllerTest {
     @MockBean
     CouponService couponService;
 
-    private static final String DEFAULT_COUPON = "/shop/v1/admin/coupons";
+    private static final String DEFAULT_COUPON = "/admin/coupons";
 
     @Test
     @DisplayName("쿠폰 등록 페이지 이동")

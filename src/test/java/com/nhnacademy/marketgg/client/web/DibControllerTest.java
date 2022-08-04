@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.service.DibService;
+import com.nhnacademy.marketgg.client.web.member.DibController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ class DibControllerTest {
     @MockBean
     DibService dibService;
 
-    private static final String DEFAULT_DIB = "/shop/v1/members/1/dibs";
+    private static final String DEFAULT_DIB = "/members/1/dibs";
 
     @Test
     @DisplayName("찜 목록 조회")

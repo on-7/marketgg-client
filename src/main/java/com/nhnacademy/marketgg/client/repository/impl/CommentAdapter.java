@@ -26,16 +26,16 @@ public class CommentAdapter implements CommentRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    private static final String DEFAULT_COMMENT = "/shop/v1/customer-services/oto-inquiries";
+    private static final String DEFAULT_COMMENT = "/shop/v1/customer-services";
 
     @Override
-    public void createComment(final Long csPostNo, final Long memberId, final CommentRequest commentRequest)
+    public void createComment(final Long postNo, final CommentRequest commentRequest)
             throws JsonProcessingException {
         String request = objectMapper.writeValueAsString(commentRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + DEFAULT_COMMENT + csPostNo + "/members" + memberId + "/comments",
+                gateWayIp + DEFAULT_COMMENT + "/" + postNo,
                 HttpMethod.POST,
                 requestEntity,
                 Void.class);

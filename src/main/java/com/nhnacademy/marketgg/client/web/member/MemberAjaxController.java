@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.member;
 
 import static org.springframework.http.HttpStatus.OK;
 

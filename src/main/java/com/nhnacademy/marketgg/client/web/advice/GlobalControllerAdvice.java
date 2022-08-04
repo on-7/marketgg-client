@@ -13,6 +13,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 전역 예외 처리 클래스입니다.
+ *
+ * @version 1.0.0
  */
 @Slf4j
 @Order

@@ -4,12 +4,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
 public class PostResponseForDetail {
 
     private Long id;
+
+    private String categoryCode;
 
     private String title;
 
@@ -22,5 +25,7 @@ public class PostResponseForDetail {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private List<String> commentList;
 
 }

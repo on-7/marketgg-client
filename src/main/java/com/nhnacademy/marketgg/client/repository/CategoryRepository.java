@@ -11,6 +11,7 @@ import java.util.List;
  * 카테고리 Repository 입니다.
  *
  * @version 1.0.0
+ * @author 박세완, 김정민
  */
 public interface CategoryRepository {
 

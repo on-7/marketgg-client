@@ -9,6 +9,7 @@ import java.util.List;
  * 찜한 목록에 대해서 추가/삭제 만 가능하며 수정 불가 합니다.
  *
  * @version 1.0.0
+ * @author 박세완
  */
 public interface DibService {
 

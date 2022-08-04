@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.member;
 
 import com.nhnacademy.marketgg.client.service.DibService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/members/{memberId}/dibs")
+@RequestMapping("/members/{memberId}/dibs")
 @RequiredArgsConstructor
 public class DibController {
 
@@ -50,7 +50,7 @@ public class DibController {
                                   @PathVariable final Long productId) {
 
         dibService.deleteDib(memberId, productId);
-        return new ModelAndView("redirect:/shop/v1/members/" + memberId + "/dibs/");
+        return new ModelAndView("redirect:/members/" + memberId + "/dibs/");
     }
 
 }

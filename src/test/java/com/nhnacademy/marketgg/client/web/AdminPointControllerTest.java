@@ -8,6 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.nhnacademy.marketgg.client.dto.response.PointRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.PointService;
 import java.util.List;
+
+import com.nhnacademy.marketgg.client.web.admin.AdminPointController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ class AdminPointControllerTest {
     void testAdminRetrieveMembersPoints() throws Exception {
         given(pointService.adminRetrievePointHistories()).willReturn(List.of(new PointRetrieveResponse()));
 
-        mockMvc.perform(get("/shop/v1/admin/points"))
+        mockMvc.perform(get("/admin/points"))
                .andExpect(status().isOk())
                .andExpect(view().name("/points/admin-retrieve-members"));
     }

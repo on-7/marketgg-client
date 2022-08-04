@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class SearchRequest {
 
-    private final String request;
+    private final String keyword;
 
     private final Integer page;
 

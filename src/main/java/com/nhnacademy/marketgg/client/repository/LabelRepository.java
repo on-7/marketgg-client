@@ -9,6 +9,7 @@ import java.util.List;
  * 라벨 Repository 입니다.
  *
  * @version 1.0.0
+ * @author 박세완
  */
 public interface LabelRepository {
 

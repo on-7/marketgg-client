@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
@@ -23,14 +23,17 @@ import java.util.List;
 /**
  * 카테고리에 관련된 Controller 입니다.
  *
+ * @author 박세완, 김정민
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/shop/v1/admin/categories")
+@RequestMapping("/admin/categories")
 @RequiredArgsConstructor
 public class AdminCategoryController {
 
     private final CategoryService categoryService;
+
+    private static final String DEFAULT_CATEGORY = "/admin/categories";
 
     /**
      * 카테고리 분류표 목록을 담은 후, 카테고리 등록 FORM 으로 이동하는 메소드입니다.
@@ -60,7 +63,7 @@ public class AdminCategoryController {
     public ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/shop/v1/admin/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
         categoryService.createCategory(categoryRequest);
 
@@ -115,7 +118,7 @@ public class AdminCategoryController {
                                        @ModelAttribute final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/shop/v1/admin/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
         categoryService.updateCategory(categoryId, categoryRequest);
 
@@ -131,7 +134,7 @@ public class AdminCategoryController {
      */
     @DeleteMapping("/{categoryId}")
     public ModelAndView deleteCategory(@PathVariable final String categoryId) {
-        ModelAndView mav = new ModelAndView("redirect:/shop/v1/admin/categories/index");
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
         categoryService.deleteCategory(categoryId);
 
