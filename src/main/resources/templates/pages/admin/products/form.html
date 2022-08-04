@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/form-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}">
+
+    <head>
+        <title>Market GG | 파일 업로드</title>
+
+        <!-- TOAST UI Editor -->
+        <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+        <!-- TOAST UI Editor -->
+        <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+        <script src="/js/tui/toast.js" defer></script>
+    </head>
+
+    <!-- TODO: 등록과 수정 하나로 -->
+    <section th:replace="fragments/products/create-form">
+        <!-- will be replaced -->
+    </section>
+</html>

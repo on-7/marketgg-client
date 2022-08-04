@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/default-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::main})}">
+
+    <head>
+        <title>Market GG | 메인 페이지</title>
+
+        <!-- TODO: 기본 레이아웃에서 추가로 필요한 link 태그 포함 가능 -->
+        <!-- autoComplete.css -->
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
+
+        <!-- TODO: 기본 레이아웃에서 추가로 필요한 script 태그 포함 가능 -->
+        <!-- autoComplete.js -->
+        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
+        <script src="../static/js/autocomplete/autoComplete.js" th:src="@{/plugins/autocomplete/js/autoComplete.js}"></script>
+    </head>
+
+    <body>
+        <main role="main">
+            <section class="jumbotron text-center">
+                <div class="container" id="main__title">
+                    <h1 class="main__title">Market GG</h1>
+                    <p class="lead text-muted main__description">밀키트 중심의 사용자 친화적 쇼핑몰에 오신 것을 환영합니다.</p>
+                </div>
+
+                <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"
+                       spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
+            </section>
+
+
+        </main>
+    </body>
+
+</html>
