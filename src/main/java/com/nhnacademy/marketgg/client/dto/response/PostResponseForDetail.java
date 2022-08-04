@@ -26,6 +26,6 @@ public class PostResponseForDetail {
 
     private LocalDateTime updatedAt;
 
-    private List<String> commentList;
+    private List<CommentResponse> commentList;
 
 }
