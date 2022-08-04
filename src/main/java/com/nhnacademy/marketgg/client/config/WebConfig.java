@@ -65,7 +65,7 @@ public class WebConfig {
     }
 
     /**
-     * Html 의 Form 태그를 Get, Post 맵핑 이외릐 메소드로 ACTION 할 수 있게 해줍니다.
+     * Html 의 Form 태그를 Get, Post 맵핑 이외의 메소드로 ACTION 할 수 있게 해줍니다.
      *
      * @return HiddenHttpMethodFilter 객체를 반환합니다.
      * @author 박세완

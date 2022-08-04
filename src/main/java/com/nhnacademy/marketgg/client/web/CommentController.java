@@ -23,8 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class CommentController {
 
     private final CommentService commentService;
-
     private static final String DEFAULT_POST = "/customer-services";
+    private static final String OTO_CODE = "702";
 
     /**
      * 입력한 정보로 1:1 문의의 답변을 등록하는 메소드를 실행하고 다시 1:1 문의 페이지로 이동합니다.
@@ -39,7 +39,7 @@ public class CommentController {
     public ModelAndView createComment(@PathVariable final Long postNo,
                                       @ModelAttribute final CommentRequest commentRequest) throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/categories/702/" + postNo);
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/" + postNo);
         commentService.createComment(postNo, commentRequest);
 
         return mav;

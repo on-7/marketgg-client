@@ -74,7 +74,7 @@ class AdminPostControllerTest {
     @ValueSource(strings = {"701", "702", "703"})
     @DisplayName("인덱스 조회 (1:1 문의)")
     void testIndex(String categoryCode) throws Exception {
-        given(postService.retrievesPostList(anyString(), anyInt())).willReturn(List.of(response));
+        given(postService.retrievePostList(anyString(), anyInt())).willReturn(List.of(response));
 
         String type = "";
 
@@ -102,7 +102,7 @@ class AdminPostControllerTest {
     @Test
     @DisplayName("인덱스 조회 (1:1 문의, 페이지 끝 X)")
     void testIndexIsPageEnd() throws Exception {
-        given(postService.retrievesPostList(anyString(), anyInt())).willReturn(
+        given(postService.retrievePostList(anyString(), anyInt())).willReturn(
                 List.of(response, response, response, response, response, response, response, response, response,
                         response, response, response));
 

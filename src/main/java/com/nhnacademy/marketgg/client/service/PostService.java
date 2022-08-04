@@ -34,7 +34,7 @@ public interface PostService {
      * @return 게시판 타입에 맞는 게시글 목록들을 반환합니다.
      * @since 1.0.0
      */
-    List<PostResponse> retrievesPostList(final String categoryCode, final Integer page);
+    List<PostResponse> retrievePostList(final String categoryCode, final Integer page);
 
     /**
      * 지정한 게시글의 상세정보를 조회할 수 있는 메소드입니다.

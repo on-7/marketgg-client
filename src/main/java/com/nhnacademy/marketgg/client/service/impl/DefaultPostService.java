@@ -26,7 +26,7 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> retrievesPostList(final String categoryCode, final Integer page) {
+    public List<PostResponse> retrievePostList(final String categoryCode, final Integer page) {
         return postRepository.retrievesPostList(categoryCode, page);
     }
 

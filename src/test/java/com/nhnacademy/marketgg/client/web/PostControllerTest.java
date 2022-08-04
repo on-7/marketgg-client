@@ -70,7 +70,7 @@ class PostControllerTest {
     @ValueSource(strings = {"701", "702", "703"})
     @DisplayName("인덱스 조회")
     void testIndex(String categoryCode) throws Exception {
-        given(postService.retrievesPostList(anyString(), anyInt())).willReturn(List.of(response));
+        given(postService.retrievePostList(anyString(), anyInt())).willReturn(List.of(response));
 
         String type = "";
 
@@ -98,7 +98,7 @@ class PostControllerTest {
     @Test
     @DisplayName("인덱스 조회 (1:1 문의, 페이지 끝 X)")
     void testIndexIsPageEnd() throws Exception {
-        given(postService.retrievesPostList(anyString(), anyInt())).willReturn(List.of(response, response, response
+        given(postService.retrievePostList(anyString(), anyInt())).willReturn(List.of(response, response, response
                 , response, response, response, response, response, response, response, response, response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}", OTO_CODE)

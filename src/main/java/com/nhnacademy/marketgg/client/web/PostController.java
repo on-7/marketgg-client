@@ -48,7 +48,7 @@ public class PostController {
     @GetMapping("/categories/{categoryCode}")
     public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView(String.format("board/%s/index", this.convertToType(categoryCode)));
-        List<PostResponse> responses = postService.retrievesPostList(categoryCode, page);
+        List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
 
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -57,6 +57,7 @@ public class PostController {
         mav.addObject("isAdmin", "no");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
+        mav.addObject("code", categoryCode);
 
         return mav;
     }
@@ -71,6 +72,7 @@ public class PostController {
     public ModelAndView doCreatePost() {
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(OTO_CODE) + "/create-form");
         mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("code", OTO_CODE);
         return mav;
     }
 
@@ -135,6 +137,8 @@ public class PostController {
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
+        mav.addObject("code", categoryCode);
+
         return mav;
     }
 

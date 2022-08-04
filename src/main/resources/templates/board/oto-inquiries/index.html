@@ -8,14 +8,14 @@
         <div th:if="${isAdmin == 'yes'}">
             <details>
                 <summary>[전체 검색]</summary>
-                        <form th:method="post" th:action="'/admin/customer-services/categories/702/search?page=0'">
+                        <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/search?page=0'">
                             <input type="text" name="keyword" placeholder="검색어를 입력하세요">
                             <input type="submit" value="검색"><br />
                         </form>
             </details>
             <details>
                 <summary>[사유 검색]</summary>
-                <form th:method="post" th:action="'/admin/customer-services/categories/702/options/reason/search?page=0'">
+                <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/options/reason/search?page=0'">
                     <span>1:1 문의 사유 : </span>
                     <select name="option">
                         <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
@@ -26,7 +26,7 @@
             </details>
             <details>
                 <summary>[상태 검색]</summary>
-                <form th:method="post" th:action="'/admin/customer-services/categories/702/options/status/search?page=0'">
+                <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/options/status/search?page=0'">
                     <select name="option">
                         <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
                     </select><br />
@@ -36,7 +36,7 @@
             </details>
         </div>
         <div th:if="${isAdmin == 'no'}">
-            <form th:method="get" th:action="'/customer-services/categories/702/create'">
+            <form th:method="get" th:action="'/customer-services/categories/'+${code}+'/create'">
                 <input type="submit" value="1:1문의 등록">
             </form>
         </div>
@@ -109,31 +109,31 @@
         </div>
         <div th:if="${isAdmin == 'no'}">
             <div th:if="${searchType == 'no'}">
-                <a th:href="'/customer-services/categories/702?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/customer-services/categories/702?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
         </div>
         <div th:if="${isAdmin == 'yes'}">
             <div th:if="${searchType == 'default'}">
-                <a th:href="'/admin/customer-services/categories/702/search?page='+${page - 1}+'&keyword='+${keyword}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'/search?page='+${page - 1}+'&keyword='+${keyword}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/admin/customer-services/categories/702/search?page='+${page + 1}+'&keyword='+${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'/search?page='+${page + 1}+'&keyword='+${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
             <div th:if="${searchType == 'reason'}">
-                <a th:href="'/admin/customer-services/categories/702/option/reason/search?page='+${page - 1}+'&keyword='+${keyword}+'&reason='+${reason}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'/option/reason/search?page='+${page - 1}+'&keyword='+${keyword}+'&reason='+${reason}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/admin/customer-services/categories/702/option/reason/search?page='+${page + 1}+'&keyword='+${keyword}+'&reason='+${reason}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'/option/reason/search?page='+${page + 1}+'&keyword='+${keyword}+'&reason='+${reason}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
             <div th:if="${searchType == 'status'}">
-                <a th:href="'/admin/customer-services/categories/702/option/status/search?page='+${page - 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'/option/status/search?page='+${page - 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/admin/customer-services/categories/702/option/status/search?page='+${page + 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'/option/status/search?page='+${page + 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
             <div th:if="${searchType == 'no'}">
-                <a th:href="'/admin/customer-services/categories/702?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/admin/customer-services/categories/702?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
         </div>
     </body>

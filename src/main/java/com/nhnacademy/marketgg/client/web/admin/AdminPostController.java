@@ -54,7 +54,7 @@ public class AdminPostController {
             throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
-        List<PostResponse> responses = postService.retrievesPostList(categoryCode, page);
+        List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -62,6 +62,7 @@ public class AdminPostController {
         mav.addObject("isAdmin", "yes");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
+        mav.addObject("code", categoryCode);
 
         return mav;
     }
@@ -75,7 +76,10 @@ public class AdminPostController {
      */
     @GetMapping("/categories/{categoryCode}/create")
     public ModelAndView doCreate(@PathVariable final String categoryCode) {
-        return new ModelAndView("board/" + this.convertToType(categoryCode) + "/create-form");
+        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/create-form");
+        mav.addObject("code", OTO_CODE);
+
+        return mav;
     }
 
     /**
@@ -125,6 +129,8 @@ public class AdminPostController {
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
+        mav.addObject("code", categoryCode);
+
         return mav;
     }
 
@@ -155,6 +161,7 @@ public class AdminPostController {
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
+        mav.addObject("code", OTO_CODE);
         mav.addObject(optionType, option);
 
         return mav;
@@ -180,6 +187,7 @@ public class AdminPostController {
         mav.addObject("response", postService.retrievePost(postNo, categoryCode));
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("page", page);
+        mav.addObject("code", categoryCode);
 
         return mav;
     }

@@ -48,7 +48,7 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> retrievesPostList(final String categoryCode, final Integer page) {
+    public List<PostResponse> retrievePostList(final String categoryCode, final Integer page) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
                 gateWayIp + USER + "/categories/" + categoryCode + "?page=" + page,
@@ -150,11 +150,11 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void changeStatus(Long boardNo, PostStatusUpdateRequest postRequest) throws JsonProcessingException {
+    public void changeStatus(Long postNo, PostStatusUpdateRequest postRequest) throws JsonProcessingException {
         String requestBody = objectMapper.writeValueAsString(postRequest);
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-                gateWayIp + ADMIN + "/" + boardNo,
+                gateWayIp + ADMIN + "/" + postNo,
                 HttpMethod.PATCH,
                 requestEntity,
                 Void.class);

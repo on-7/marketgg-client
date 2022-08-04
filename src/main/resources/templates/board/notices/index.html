@@ -6,17 +6,17 @@
     </head>
     <body>
         <div th:if="${isAdmin == 'no'}">
-            <form th:action="'/customer-services/categories/701/search?page=0'" th:method="post">
+            <form th:action="'/customer-services/categories/'+${code}+'/search?page=0'" th:method="post">
                 <input type="text" name="keyword" value="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>
         </div>
         <div th:if="${isAdmin == 'yes'}">
-            <form th:action="'/admin/customer-services/categories/701/search?page=0'" th:method="post">
+            <form th:action="'/admin/customer-services/categories/'+${code}+'/search?page=0'" th:method="post">
                 <input type="text" name="keyword" value="검색어를 입력하세요">
                 <input type="submit" value="검색"><br />
             </form>
-            <form th:method="get" th:action="'/admin/customer-services/categories/701/create'">
+            <form th:method="get" th:action="'/admin/customer-services/categories/'+${code}+'/create'">
                 <input type="submit" value="공지사항 등록">
             </form>
         </div>
@@ -75,26 +75,26 @@
         </div>
         <div th:if="${isAdmin == 'no'}">
             <div th:if="${searchType == 'default'}">
-                <a th:href="'/customer-services/categories/701/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/customer-services/categories/'+${code}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/customer-services/categories/701/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/customer-services/categories/'+${code}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
             <div th:if="${searchType == 'no'}">
-                <a th:href="'/customer-services/categories/701?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/customer-services/categories/701?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
         </div>
         <div th:if="${isAdmin == 'yes'}">
             <div th:if="${searchType == 'default'}">
-                <a th:href="'/admin/customer-services/categories/701/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/admin/customer-services/categories/701/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
             <div th:if="${searchType == 'no'}">
-                <a th:href="'/admin/customer-services/categories/701?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
                 <span th:text="'('+ ${page} + 'page)'"></span>
-                <a th:href="'/admin/customer-services/categories/701?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                <a th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
             </div>
         </div>
     </body>

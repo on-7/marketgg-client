@@ -65,10 +65,10 @@ class PostServiceTest {
 
     @Test
     @DisplayName("게시글 목록 조회")
-    void testRetrievesPostList() {
-        given(postRepository.retrievesPostList(anyString(), anyInt())).willReturn(List.of(postResponse));
+    void testRetrievePostList() {
+        given(postRepository.retrievePostList(anyString(), anyInt())).willReturn(List.of(postResponse));
 
-        List<PostResponse> list = postService.retrievesPostList("702", 0);
+        List<PostResponse> list = postService.retrievePostList("702", 0);
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }
