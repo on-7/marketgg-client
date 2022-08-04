@@ -45,12 +45,12 @@ public class RoleCheckAspect {
      * @throws UnAuthenticException     인증되지 않은 사용자일 때 발생한다.
      * @throws UnAuthorizationException 권한이 부족할 때 발생한다.
      */
-    @Before(value = "@annotation(roleCheck)", argNames = "roleCheck,jp")
-    public void checkRole(RoleCheck roleCheck, JoinPoint jp)
+    @Before(value = "@annotation(roleCheck) || @within(roleCheck)")
+    public void checkRole(JoinPoint jp, RoleCheck roleCheck)
         throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         log.debug("Method: {}", jp.getSignature().getName());
-        log.debug("Need Role: {}", roleCheck.accessLevel());
+        log.debug("Authorization: {}", roleCheck.accessLevel());
 
         HttpServletRequest httpRequest = AspectUtils.getHttpRequest();
         String sessionId = Optional.ofNullable((String) httpRequest.getSession().getAttribute(JwtInfo.SESSION_ID))
