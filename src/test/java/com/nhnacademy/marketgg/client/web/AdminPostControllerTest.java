@@ -70,15 +70,30 @@ class AdminPostControllerTest {
         request = new PostRequest("701", "hi", "hello", "환불");
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"701", "702", "703"})
     @DisplayName("인덱스 조회 (1:1 문의)")
-    void testIndex() throws Exception {
+    void testIndex(String categoryCode) throws Exception {
         given(postService.retrievesPostList(anyString(), anyInt())).willReturn(List.of(response));
 
-        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}", "702")
+        String type = "";
+
+        switch (categoryCode) {
+            case "701":
+                type = "notices";
+                break;
+            case "702":
+                type = "oto-inquiries";
+                break;
+            case "703":
+                type = "faqs";
+                break;
+        }
+
+        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}", categoryCode)
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("board/oto-inquiries/index"))
+                                          .andExpect(view().name("board/" + type + "/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -95,34 +110,6 @@ class AdminPostControllerTest {
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name("board/oto-inquiries/index"))
-                                          .andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
-    }
-
-    @Test
-    @DisplayName("인덱스 조회 (faq)")
-    void testIndexFaqs() throws Exception {
-        given(postService.retrievesPostList(anyString(), anyInt())).willReturn(List.of(response));
-
-        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}", "703")
-                                                           .param("page", "0"))
-                                          .andExpect(status().isOk())
-                                          .andExpect(view().name("board/faqs/index"))
-                                          .andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
-    }
-
-    @Test
-    @DisplayName("인덱스 조회 (공지사항")
-    void testIndexNotices() throws Exception {
-        given(postService.retrievesPostList(anyString(), anyInt())).willReturn(List.of(response));
-
-        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}", "701")
-                                                           .param("page", "0"))
-                                          .andExpect(status().isOk())
-                                          .andExpect(view().name("board/notices/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
