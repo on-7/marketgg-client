@@ -8,6 +8,7 @@ import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +26,8 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<ProductResponse> retrieveProducts() {
-        return this.productRepository.retrieveProducts();
+        List<ProductResponse> productResponses = productRepository.retrieveProducts();
+        return productResponses;
     }
 
     @Override
