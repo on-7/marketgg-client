@@ -54,4 +54,8 @@ public class ProductResponse {
 
     private LocalDateTime deletedAt;
 
+    private String thumbnail;
+    public void updateThumbnail(String s) {
+        this.thumbnail = s;
+    }
 }

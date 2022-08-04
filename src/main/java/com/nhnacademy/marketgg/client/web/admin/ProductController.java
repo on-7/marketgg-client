@@ -107,13 +107,11 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("products/retrieve-products");
         mav.addObject("products", products);
 
-        List<String> images = new ArrayList<>();
         for (ProductResponse product : products) {
             byte[] bytes = imageService.retrieveImage(product.getAssetNo());
-             images.add(Base64.getEncoder().encodeToString(bytes));
+            String s = Base64.getEncoder().encodeToString(bytes);
+            product.updateThumbnail(s);
         }
-
-        mav.addObject("images", images);
 
         return mav;
     }
