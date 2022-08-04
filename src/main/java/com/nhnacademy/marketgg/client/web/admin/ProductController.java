@@ -58,7 +58,7 @@ public class ProductController {
      * @since 1.0.0
      */
     @PostMapping("/create")
-    public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
+    public ModelAndView createProduct(@RequestPart(value = "image") MultipartFile image,
                                       @ModelAttribute final ProductCreateRequest productRequest)
         throws IOException {
 
@@ -75,7 +75,7 @@ public class ProductController {
      */
     @GetMapping("/create")
     public ModelAndView createProduct() {
-        ModelAndView mav = new ModelAndView("products/product-form");
+        ModelAndView mav = new ModelAndView("products/product-create-form");
 
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
         mav.addObject("categories", categories);

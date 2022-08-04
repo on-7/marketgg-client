@@ -24,11 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class ProductAdapter implements ProductRepository {
 
-    // TODO: @Value로 고치기
-    private static final String BASE_URL = "http://localhost:7080";
+    private final String gatewayIp;
     private static final String ADMIN_DEFAULT_PRODUCT = "/shop/v1/admin/products";
-
-    // TODO: AdapterTemplate 만들어서 공통 코드 분리하기
     private final RestTemplate restTemplate;
 
     @Override
@@ -39,8 +36,8 @@ public class ProductAdapter implements ProductRepository {
             getLinkedMultiValueMapHttpEntity(image, productRequest);
 
         ResponseEntity<Void> response =
-            this.restTemplate.exchange(BASE_URL + ADMIN_DEFAULT_PRODUCT, HttpMethod.POST, httpEntity,
-                new ParameterizedTypeReference<>() {
+            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT, HttpMethod.POST, httpEntity,
+                                       new ParameterizedTypeReference<>() {
                 });
 
         log.info(getResponseURI(response.getHeaders()));
@@ -53,9 +50,9 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<List<ProductResponse>> response =
-            this.restTemplate.exchange(BASE_URL + ADMIN_DEFAULT_PRODUCT, HttpMethod.GET, request,
+            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT, HttpMethod.GET, request,
 
-                new ParameterizedTypeReference<>() {
+                                       new ParameterizedTypeReference<>() {
                 });
 
         return (List<ProductResponse>) response.getBody();
@@ -68,8 +65,8 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            this.restTemplate.exchange(BASE_URL + ADMIN_DEFAULT_PRODUCT + "/" + productId, HttpMethod.GET,
-                httpEntity, new ParameterizedTypeReference<>() {
+            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId, HttpMethod.GET,
+                                       httpEntity, new ParameterizedTypeReference<>() {
                 });
 
         return response.getBody();
@@ -84,7 +81,7 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<List<ProductResponse>> response = this.restTemplate.exchange(
-            BASE_URL + ADMIN_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryCode, HttpMethod.GET,
+            gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryCode, HttpMethod.GET,
             httpEntity, new ParameterizedTypeReference<>() {
             });
 
@@ -99,8 +96,8 @@ public class ProductAdapter implements ProductRepository {
             getLinkedMultiValueMapHttpEntity(image, productRequest);
 
         ResponseEntity<Void> response =
-            this.restTemplate.exchange(BASE_URL + ADMIN_DEFAULT_PRODUCT + "/" + productId, HttpMethod.PUT,
-                httpEntity, new ParameterizedTypeReference<>() {
+            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId, HttpMethod.PUT,
+                                       httpEntity, new ParameterizedTypeReference<>() {
                 });
 
         log.info(getResponseURI(response.getHeaders()));
@@ -114,8 +111,8 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            this.restTemplate.exchange(BASE_URL + ADMIN_DEFAULT_PRODUCT + "/" + productId + "/deleted",
-                HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
+            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId + "/deleted",
+                                       HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
                 });
 
         log.info(getResponseURI(response.getHeaders()));
