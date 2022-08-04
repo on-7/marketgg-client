@@ -35,57 +35,78 @@
                 </form>
             </details>
         </div>
-        <form th:method="get" th:action="'/customer-services/categories/702/create'">
-            <input type="submit" value="1:1문의 등록">
-        </form>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>게시글 번호</th>
-                    <th>제목</th>
-                    <th>사유</th>
-                    <th>상태</th>
-                    <th>등록일자</th>
-                    <th>수정</th>
-                    <th>삭제</th>
-                    <th>상태변경</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="board : ${responses}">
-                    <td th:text="${board.id}"></td>
-                    <td>
-                        <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
-                    </td>
-                    <td th:text="${board.reason}"></td>
-                    <td th:text="${board.status}"></td>
-                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
-                    <td>
-                        <form th:method="get" th:action="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update?page='+${page}">
-                            <input type="submit" value="수정">
-                        </form>
-                    </td>
-                    <td>
-                        <form th:method="post" th:action="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
-                            <input type="hidden" name="_method" value="delete"/>
-                            <input type="submit" value="삭제">
-                        </form>
-                    </td>
-                    <td>
-                        <div th:if="${isAdmin == 'yes'}">
-                            <form th:method="post" th:action="'/adnmin/customer-services/categories/702/'+${board.id}+'/status?page='+${page}">
-                                <select name="status">
-                                    <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
-                                </select><br />
-                                <input type="hidden" name="_method" value="patch"/>
-                                <input type="submit" value="상태변경">
+        <div th:if="${isAdmin == 'no'}">
+            <form th:method="get" th:action="'/customer-services/categories/702/create'">
+                <input type="submit" value="1:1문의 등록">
+            </form>
+        </div>
+        <div th:if="${isAdmin == 'yes'}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>게시글 번호</th>
+                        <th>제목</th>
+                        <th>사유</th>
+                        <th>상태</th>
+                        <th>등록일자</th>
+                        <th>상태변경</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="board : ${responses}">
+                        <td th:text="${board.id}"></td>
+                        <td>
+                            <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
+                        </td>
+                        <td th:text="${board.reason}"></td>
+                        <td th:text="${board.status}"></td>
+                        <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                        <td>
+                            <div th:if="${isAdmin == 'yes'}">
+                                <form th:method="post" th:action="'/adnmin/customer-services/categories/702/'+${board.id}+'/status?page='+${page}">
+                                    <select name="status">
+                                        <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
+                                    </select><br />
+                                    <input type="hidden" name="_method" value="patch"/>
+                                    <input type="submit" value="상태변경">
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div th:if="${isAdmin == 'no'}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>게시글 번호</th>
+                        <th>제목</th>
+                        <th>사유</th>
+                        <th>상태</th>
+                        <th>등록일자</th>
+                        <th>삭제</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="board : ${responses}">
+                        <td th:text="${board.id}"></td>
+                        <td>
+                            <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
+                        </td>
+                        <td th:text="${board.reason}"></td>
+                        <td th:text="${board.status}"></td>
+                        <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                        <td>
+                            <form th:method="post" th:action="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <input type="submit" value="삭제">
                             </form>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div th:if="${isAdmin == 'no'}">
             <div th:if="${searchType == 'no'}">
                 <a th:href="'/customer-services/categories/702?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>

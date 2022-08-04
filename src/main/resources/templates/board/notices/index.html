@@ -20,6 +20,7 @@
                 <input type="submit" value="공지사항 등록">
             </form>
         </div>
+        <div th:if="${isAdmin == 'yes'}">
         <table>
             <thead>
                 <tr>
@@ -38,23 +39,40 @@
                     </td>
                     <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                     <td>
-                        <div th:if="${isAdmin == 'yes'}">
-                            <form th:method="get" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update?page='+${page}">
-                                <input type="submit" value="수정">
-                            </form>
-                        </div>
+                        <form th:method="get" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update?page='+${page}">
+                            <input type="submit" value="수정">
+                        </form>
                     </td>
                     <td>
-                        <div th:if="${isAdmin == 'yes'}">
-                            <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <input type="submit" value="삭제">
-                            </form>
-                        </div>
+                        <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <input type="submit" value="삭제">
+                        </form>
                     </td>
                 </tr>
             </tbody>
         </table>
+        </div>
+        <div th:if="${isAdmin == 'no'}">
+            <table>
+                <thead>
+                    <tr>
+                        <th>게시글 번호</th>
+                        <th>제목</th>
+                        <th>등록일자</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="board : ${responses}">
+                        <td th:text="${board.id}"></td>
+                        <td>
+                            <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
+                        </td>
+                        <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div th:if="${isAdmin == 'no'}">
             <div th:if="${searchType == 'default'}">
                 <a th:href="'/customer-services/categories/701/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
