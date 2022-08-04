@@ -39,7 +39,8 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // FIXME: th:action 적용 후 주석 해제
-        http.csrf();
+        // FIXME: multipart csrf 토큰으로 인해 잠시 disable
+        http.csrf().disable();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

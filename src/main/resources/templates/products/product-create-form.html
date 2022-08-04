@@ -17,14 +17,27 @@
     <body>
         <section>
             <h2>상품 등록하기</h2>
-            <form>
+            <form name="productRequest" method="post" th:action="@{/admin/v1/products/create}" enctype="multipart/form-data">
+
                 <!-- formItem('for|name|id', 'textContent', 'inputType', 'defaultValue') -->
-                <div th:replace="fragments/input-group :: formItem('name', '상품 이름', 'text', '다시다맛 젤리')"></div>
-                <div th:replace="fragments/input-group :: formItem('categoryCode', '카테고리 코드', 'text', '101')"></div>
+                <!-- <div th:replace="fragments/input-group :: formItem('name', '상품 이름', 'text', '다시다맛 젤리')"></div> -->
+                <!-- <div th:replace="fragments/input-group :: formItem('categoryCode', '카테고리 코드', 'text', '101')"></div> -->
+                <!-- <div th:replace="fragments/input-group :: formItem('labelNo', '라벨 번호', 'number', 1)"></div> -->
+
+                <div th:each="category : ${categories}" class="form-check form-check-inline">
+                    <input type="checkbox" th:value="${category.categoryCode}" name="categoryCode" class="form-check-input">
+                    <label th:text="${category.categoryName}" class="form-check-label">서울</label>
+                </div>
+                <br>
+                <div th:each="label : ${labels}" class="form-check form-check-inline">
+                    <input type="checkbox" th:value="${label.labelNo}" name="labelNo" class="form-check-input">
+                    <label th:text="${label.name}" class="form-check-label">서울</label>
+                </div>
+
                 <div th:replace="fragments/input-group :: formItem('content', '상품 설명', 'text', '북해도에서 온 다시마 젤리')"></div>
                 <div th:replace="fragments/input-group :: formItem('totalStock', '총 수량', 'number', 1)"></div>
                 <div th:replace="fragments/input-group :: formItem('price', '가격', 'number', 5900)"></div>
-                <div th:replace="fragments/input-group :: formItem('unit', '판매 단위', 'text', 5900)"></div>
+                <div th:replace="fragments/input-group :: formItem('unit', '판매 단위', 'text', '한 개')"></div>
                 <div th:replace="fragments/input-group :: formItem('deliveryType', '배송 구분', 'text', '택배 배송')"></div>
                 <div th:replace="fragments/input-group :: formItem('origin', '원산지', 'text', '일본')"></div>
                 <div th:replace="fragments/input-group :: formItem('packageType', '포장 유형', 'text', '스티로폼')"></div>
