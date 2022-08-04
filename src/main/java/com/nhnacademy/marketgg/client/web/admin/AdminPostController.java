@@ -37,6 +37,7 @@ public class AdminPostController {
     private final PostService postService;
 
     private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
+    private static final String OTO_CODE = "702";
     private static final Integer PAGE_SIZE = 10;
 
     /**
@@ -130,7 +131,6 @@ public class AdminPostController {
     /**
      * 지정한 카테고리의 게시판에서 사유 또는 상태를 지정해 검색합니다.
      *
-     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
      * @param optionType   - 검색을 진행할 옵션의 타입입니다.
      * @param keyword      - 검색을 진행할 검색어입니다.
      * @param option       - 지정한 옵션의 값입니다.
@@ -139,14 +139,14 @@ public class AdminPostController {
      * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
      * @since 1.0.0
      */
-    @PostMapping("/categories/{categoryCode}/options/{optionType}/search")
-    public ModelAndView searchForOption(@PathVariable final String categoryCode, @PathVariable final String optionType,
+    @PostMapping("/categories/" + OTO_CODE + "/options/{optionType}/search")
+    public ModelAndView searchForOption(@PathVariable final String optionType,
                                         @RequestParam final String keyword, @RequestParam final String option, @RequestParam final Integer page)
             throws JsonProcessingException {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
-        List<PostResponse> responses = postService.searchForOption(categoryCode, request, optionType, option);
+        ModelAndView mav = new ModelAndView("board/" + this.convertToType(OTO_CODE) + "/index");
+        List<PostResponse> responses = postService.searchForOption(OTO_CODE, request, optionType, option);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -171,6 +171,11 @@ public class AdminPostController {
      */
     @GetMapping("/categories/{categoryCode}/{postNo}/update")
     public ModelAndView doUpdatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
+
+        if(categoryCode.compareTo(OTO_CODE) == 0) {
+            return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
+        }
+
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/update-form");
         mav.addObject("response", postService.retrievePost(postNo, categoryCode));
         mav.addObject("reasons", postService.retrieveOtoReason());
@@ -192,6 +197,10 @@ public class AdminPostController {
     @PutMapping("/categories/{categoryCode}/{postNo}/update")
     public ModelAndView updatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo,
                                    @ModelAttribute final PostRequest postRequest, @RequestParam final Integer page) {
+
+        if(categoryCode.compareTo(OTO_CODE) == 0) {
+            return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
+        }
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
         postService.updatePost(postNo, postRequest, categoryCode);
@@ -219,7 +228,6 @@ public class AdminPostController {
     /**
      * 지정한 1:1 문의의 상태를 입력해 변경 할 수 있습니다.
      *
-     * @param categoryCode - 수정할 게시글의 게시판 카테고리 식별번호입니다.
      * @param postNo       - 수정할 게시글의 식별번호입니다.
      * @param postRequest - 게시판의 상태를 변경 할 정보를 담은 객체입니다.
      * @param page - Redirect 할 페이지 정보입니다.
@@ -227,13 +235,13 @@ public class AdminPostController {
      * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
      * @since 1.0.0
      */
-    @PatchMapping("/categories/{categoryCode}/{postNo}/status")
-    public ModelAndView changeStatus(@PathVariable final String categoryCode, @PathVariable final Long postNo,
+    @PatchMapping("/categories/" + OTO_CODE + "/{postNo}/status")
+    public ModelAndView changeStatus(@PathVariable final Long postNo,
                                      @ModelAttribute final PostStatusUpdateRequest postRequest, @RequestParam final Integer page)
             throws JsonProcessingException {
 
         postService.changeStatus(postNo, postRequest);
-        return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
+        return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
     }
 
     private <T> Integer checkPageEnd(List<T> list) {
@@ -247,7 +255,7 @@ public class AdminPostController {
         if (categoryCode.compareTo("701") == 0) {
             return "notices";
         }
-        if (categoryCode.compareTo("702") == 0) {
+        if (categoryCode.compareTo(OTO_CODE) == 0) {
             return "oto-inquiries";
         }
         if (categoryCode.compareTo("703") == 0) {

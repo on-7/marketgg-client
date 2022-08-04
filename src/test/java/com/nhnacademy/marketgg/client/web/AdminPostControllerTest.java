@@ -34,6 +34,8 @@ import com.nhnacademy.marketgg.client.web.admin.AdminPostController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -148,32 +150,31 @@ class AdminPostControllerTest {
         then(postService).should(times(1)).createPost(any(PostRequest.class));
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(strings = {"701", "702", "703"})
     @DisplayName("카테고리 별 검색")
-    void testSearchForCategory() throws Exception {
+    void testSearchForCategory(String categoryCode) throws Exception {
         given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
 
-        MvcResult mvcResult = this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", "701")
+        String type = "";
+
+        switch (categoryCode) {
+            case "701":
+                type = "notices";
+                break;
+            case "702":
+                type = "oto-inquiries";
+                break;
+            case "703":
+                type = "faqs";
+                break;
+        }
+
+        MvcResult mvcResult = this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", categoryCode)
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("board/notices/index"))
-                                          .andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
-    }
-
-    @Test
-    @DisplayName("카테고리 별 검색 (1:1 문의)")
-    void testSearchForCategoryForOto() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
-                List.of(response));
-
-        MvcResult mvcResult = this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", "702")
-                                                           .param("keyword", "hi")
-                                                           .param("page", "0"))
-                                          .andExpect(status().isOk())
-                                          .andExpect(view().name("board/oto-inquiries/index"))
+                                          .andExpect(view().name("board/" + type + "/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -192,22 +193,6 @@ class AdminPostControllerTest {
                             Objects.requireNonNull(result.getResolvedException())
                                    .getClass().isAssignableFrom(NotFoundException.class)))
                     .andReturn();
-    }
-
-    @Test
-    @DisplayName("카테고리 별 검색 (FAQ)")
-    void testSearchForCategoryForFaq() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
-                List.of(response));
-
-        MvcResult mvcResult = this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", "703")
-                                                           .param("keyword", "hi")
-                                                           .param("page", "0"))
-                                          .andExpect(status().isOk())
-                                          .andExpect(view().name("board/faqs/index"))
-                                          .andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
     }
 
     @Test
@@ -268,6 +253,37 @@ class AdminPostControllerTest {
     }
 
     @Test
+    @DisplayName("1:1 문의 게시글 수정 준비 시도")
+    void testDoUpdatePostForOto() throws Exception {
+        given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
+        given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
+
+        MvcResult mvcResult = this.mockMvc.perform(
+                                          get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "702", 1L)
+                                                  .param("page", "0"))
+                                          .andExpect(status().is3xxRedirection())
+                                          .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702?page=0"))
+                                          .andReturn();
+
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("reasons")).isNull();
+    }
+
+    @Test
+    @DisplayName("1:1 문의 게시글 수정 시도")
+    void testUpdatePostForOto() throws Exception {
+        willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString());
+
+        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "702", 1L)
+                                     .param("page", "0")
+                                     .contentType(MediaType.APPLICATION_JSON)
+                                     .content(mapper.writeValueAsString(request)))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702?page=0"));
+
+        then(postService).should(times(0)).updatePost(anyLong(), any(PostRequest.class), anyString());
+    }
+
+    @Test
     @DisplayName("게시글 수정")
     void testUpdatePost() throws Exception {
         willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString());
@@ -300,10 +316,10 @@ class AdminPostControllerTest {
     void testChangeStatus() throws Exception {
         willDoNothing().given(postService).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
 
-        this.mockMvc.perform(patch(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/status", "701", 1L)
+        this.mockMvc.perform(patch(DEFAULT_ADMIN_POST + "/categories/702/{postNo}/status", 1L)
                                      .param("page", "0"))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/701?page=0"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702?page=0"));
 
         then(postService).should(times(1)).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
     }

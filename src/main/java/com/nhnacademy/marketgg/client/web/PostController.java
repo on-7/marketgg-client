@@ -34,6 +34,7 @@ public class PostController {
     private final PostService postService;
 
     private static final String DEFAULT_POST = "/customer-services";
+    private static final String OTO_CODE = "702";
     private static final Integer PAGE_SIZE = 10;
 
     /**
@@ -61,15 +62,14 @@ public class PostController {
     }
 
     /**
-     * 게시글 등록을 할 수 있는 페이지로 이동합니다.
+     * 1:1 문의 게시글 등록을 할 수 있는 페이지로 이동합니다.
      *
-     * @param categoryCode - 등록을 진행할 게시판의 카테고리 식별번호입니다.
-     * @return 게시글 등록을 할 수 있는 페이지로 이동합니다.
+     * @return 1:1 문의 게시글 등록을 할 수 있는 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/create")
-    public ModelAndView doCreatePost(@PathVariable final String categoryCode) {
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/create-form");
+    @GetMapping("/categories/" + OTO_CODE + "/create")
+    public ModelAndView doCreatePost() {
+        ModelAndView mav = new ModelAndView("board/" + this.convertToType(OTO_CODE) + "/create-form");
         mav.addObject("reasons", postService.retrieveOtoReason());
         return mav;
     }
@@ -77,18 +77,15 @@ public class PostController {
     /**
      * 게시글을 등록 후 다시 게시글의 목록으로 이동합니다.
      *
-     * @param categoryCode - 등록을 진행할 게시판 타입의 식별번호입니다.
      * @param postRequest  - 등록할 게시글의 정보를 담은 객체입니다.
      * @return 해당 정보로 게시글을 등록 후 다시 Index 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    @PostMapping("/categories/{categoryCode}/create")
-    public ModelAndView createPost(@PathVariable String categoryCode,
-                                   @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
+    @PostMapping("/categories/" + OTO_CODE + "/create")
+    public ModelAndView createPost(@ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView(
-                "redirect:" + DEFAULT_POST + "/" + this.convertToType(categoryCode) + "?page=0");
+        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/" + this.convertToType(OTO_CODE) + "?page=0");
         postService.createPost(postRequest);
 
         return mav;
@@ -144,17 +141,16 @@ public class PostController {
     /**
      * 지정한 게시글을 삭제 한 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param categoryCode - 삭제할 게시글의 게시판 카테고리 식별번호입니다.
      * @param postNo       - 삭제할 게시글의 식별번호입니다.
      * @param page         - Redirect 할 페이지 정보입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @DeleteMapping("/categories/{categoryCode}/{postNo}/delete")
-    public ModelAndView deletePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
+    @DeleteMapping("/categories/" + OTO_CODE + "/{postNo}/delete")
+    public ModelAndView deletePost(@PathVariable final Long postNo, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView(
-                "redirect:" + DEFAULT_POST + "/categories/" + categoryCode + "?page=" + page);
-        postService.deletePost(postNo, categoryCode);
+                "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
+        postService.deletePost(postNo, OTO_CODE);
 
         return mav;
     }
@@ -164,7 +160,7 @@ public class PostController {
             case "701": {
                 return "notices";
             }
-            case "702": {
+            case OTO_CODE: {
                 return "oto-inquiries";
             }
             case "703": {
