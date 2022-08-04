@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
  * 인증 관련 처리를 진행하는 컨트롤러입니다.
  *
  * @version 1.0.0
+ * @author 윤동열
  */
 @Controller
 @RequiredArgsConstructor
@@ -76,6 +77,7 @@ public class AuthController {
     @GetMapping("/logout")
     public ModelAndView logout(HttpSession session) {
         authService.logout(session.getId());
+
         return new ModelAndView("redirect:/");
     }
 
