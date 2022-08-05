@@ -24,7 +24,7 @@
             <tbody>
                 <tr th:each="product : ${products}">
                     <div>
-                        <img th:src="'data:image/jpeg;base64,'+${product.thumbnail}">
+                        <img th:href="${product.thumbnail}">
                     </div>
 
                     <td th:text="${product.id}"></td>

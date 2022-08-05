@@ -108,11 +108,9 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
 
-        List<ImageResponse> list = new ArrayList<>();
         for (ProductResponse product : products) {
             ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-            list.add(imageResponse);
-            // product.updateThumbnail(s);
+            product.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
         }
 
         return mav;
