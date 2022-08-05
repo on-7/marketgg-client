@@ -1,3 +1,6 @@
+<!--
+ NOTE: 해당 공통 컴포넌트를 사용한 곳에서 받아온 매개변수로 속성 값을 설정한다.
+ -->
 <div class="form-item" th:fragment="formItem(name, textContent, inputType, defaultValue)">
     <label th:for="${name}" th:text="${textContent}"></label>
     <input th:type="${inputType}" th:name="${name}" th:id="${name}"
