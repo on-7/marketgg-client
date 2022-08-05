@@ -1,6 +1,10 @@
 package com.nhnacademy.marketgg.client.service;
 
+import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
+
 public interface ImageService {
 
-    byte[] retrieveImage(final Long id);
+    ImageResponse retrieveImage(final Long id);
+
+    String downloadImage(final String url);
 }

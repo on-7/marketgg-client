@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="https://www.thymeleaf.org" th:fragment="layout (title, link, script, section)">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org" th:fragment="layout(title, link, script, section)">
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,16 +10,16 @@
 
         <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
         <link rel="stylesheet" href="../static/plugins/fontawesome/css/all.min.css" th:href="@{/plugins/fontawesome/css/all.min.css}" />
-        <link rel="stylesheet" href="../static/css/clicky-menus.css" th:href="@{/css/clickymenus/clicky-menus.css}">
+        <link rel="stylesheet" href="../static/css/clicky-menus.css" th:href="@{/plugins/clickymenus/css/clicky-menus.css}">
 
-        <link rel="stylesheet" href="../static/css/font.css" th:href="@{/css/font.css}">
-        <link rel="stylesheet" th:href="@{/css/marketgg.common.css}">
-        <link rel="stylesheet" th:href="@{/css/marketgg.form.css}">
+        <link rel="stylesheet" href="../static/css/font.css" th:href="@{/plugins/marketgg/css/font.css}">
+        <link rel="stylesheet" th:href="@{/plugins/marketgg/css/marketgg.common.css}">
+        <link rel="stylesheet" th:href="@{/plugins/marketgg/css/marketgg.form.css}">
 
         <!-- NOTE: Custom links will be here -->
         <link th:replace="${link}"></link>
 
-        <script src="../static/js/nav.js" th:src="@{/js/clikcymenus/clickyMenus.js}"></script>
+        <script src="../static/js/nav.js" th:src="@{/plugins/clickymenus/js/clickyMenus.js}"></script>
 
         <!-- NOTE: Custom scripts will be here -->
         <script th:replace="${script}"></script>

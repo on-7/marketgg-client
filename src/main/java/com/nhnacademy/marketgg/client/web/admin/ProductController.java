@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web.admin;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
@@ -107,10 +108,11 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
 
+        List<ImageResponse> list = new ArrayList<>();
         for (ProductResponse product : products) {
-            byte[] bytes = imageService.retrieveImage(product.getAssetNo());
-            String s = Base64.getEncoder().encodeToString(bytes);
-            product.updateThumbnail(s);
+            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
+            list.add(imageResponse);
+            // product.updateThumbnail(s);
         }
 
         return mav;

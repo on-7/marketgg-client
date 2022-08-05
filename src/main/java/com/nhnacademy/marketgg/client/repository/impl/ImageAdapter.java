@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +24,13 @@ public class ImageAdapter implements ImageRepository {
     private final RestTemplate restTemplate;
 
     @Override
-    public byte[] retrieveImage(final Long id) {
+    public ImageResponse retrieveImage(final Long id) {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<byte[]> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<byte[]> response =
+        HttpEntity<ImageResponse> httpEntity = new HttpEntity<>(headers);
+        ResponseEntity<ImageResponse> response =
             this.restTemplate.exchange(gatewayIp + IMAGE_DEFAULT_URI + "/" + id,
                                        HttpMethod.GET,
                                        httpEntity,
@@ -38,4 +39,10 @@ public class ImageAdapter implements ImageRepository {
 
         return response.getBody();
     }
+
+    @Override
+    public String downloadImage(String url) {
+        return null;
+    }
+
 }
