@@ -7,16 +7,18 @@
 
         <!-- NOTE: 기본 레이아웃에서 추가로 필요한 link 태그 포함 가능 -->
         <!-- autoComplete.css -->
-        <link rel="stylesheet"
-              href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css">
-        <!-- <link rel="stylesheet" href="../static/plugins/autocomplete/css/autoComplete.css" -->
-        <!--       th:href="@{/plugins/autocomplete/css/autoComplete.css}"> -->
+        <!-- <link rel="stylesheet" -->
+        <!--       href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/css/autoComplete.min.css"> -->
+        <link rel="stylesheet" href="../static/plugins/autocomplete/css/autoComplete.css"
+              th:href="@{/plugins/autocomplete/css/autoComplete.css}">
 
         <!-- NOTE: 기본 레이아웃에서 추가로 필요한 script 태그 포함 가능 -->
         <!-- autoComplete.js -->
-        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script>
-        <!-- <script src="../static/plugins/autocomplete/js/autoComplete.min.js" -->
-        <!--         th:src="@{/plugins/autocomplete/js/autoComplete.min.js}"></script> -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"></script> -->
+        <script src="../static/plugins/autocomplete/js/autoComplete.min.js"
+                th:src="@{/plugins/autocomplete/js/autoComplete.min.js}" defer></script>
+        <script src="../static/plugins/autocomplete/js/index.js"
+                th:src="@{/plugins/autocomplete/js/index.js}" defer></script>
     </head>
 
     <body>
@@ -90,7 +92,8 @@
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                    <div class="row">
                         <!-- FIXME: thymeleaf 를 이용하여 아이템 정보 불러오기 -->
                         <div class="col-md-4">
                             <div class="card mb-4 shadow-sm">
@@ -143,65 +146,6 @@
                                             <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                                         </div>
                                         <small class="text-muted">9 mins</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- FIXME: thymeleaf 를 이용하여 아이템 정보 불러오기 -->
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                <img src="https://via.placeholder.com/100x100" background="#55595c" color="#eceeef"
-                                     class="card-img-top" text="Thumbnail">
-                                <div class="card-body">
-                                    <p class="card-text">This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit longer.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                        </div>
-                                        <small class="text-muted">9 mins</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- FIXME: thymeleaf 를 이용하여 아이템 정보 불러오기 -->
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                <img src="https://via.placeholder.com/100x100" background="#55595c" color="#eceeef"
-                                     class="card-img-top" text="Thumbnail">
-                                <div class="card-body">
-                                    <p class="card-text">This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit longer.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                        </div>
-                                        <small class="text-muted">9 mins</small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- FIXME: thymeleaf 를 이용하여 아이템 정보 불러오기 -->
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm">
-                                <img src="https://via.placeholder.com/100x100" background="#55595c" color="#eceeef"
-                                     class="card-img-top" text="Thumbnail">
-                                <div class="card-body">
-                                    <p class="card-text">This is a wider card with supporting text below as a natural
-                                        lead-in to additional content. This content is a little bit longer.</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                                        </div>
-                                        <small class="text-muted">5,000 원</small>
                                     </div>
                                 </div>
                             </div>
