@@ -7,9 +7,7 @@ import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
-
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin/customer-services")
 @RequiredArgsConstructor
-public class AdminPostController {
+public class AdminCsPostController {
 
     private final PostService postService;
 
@@ -51,7 +49,7 @@ public class AdminPostController {
      */
     @GetMapping("/categories/{categoryCode}")
     public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
@@ -96,7 +94,7 @@ public class AdminPostController {
                                    @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView(
-                "redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=0");
+            "redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=0");
         postService.createPost(postRequest);
 
         return mav;
@@ -107,15 +105,13 @@ public class AdminPostController {
      *
      * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
      * @param keyword      - 검색을 진행할 검색어입니다.
-     * @param page     - 조회할 페이지의 페이지 정보입니다.
+     * @param page         - 조회할 페이지의 페이지 정보입니다.
      * @return 검색 결과 목록을 반환합니다.
-     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
      * @since 1.0.0
      */
-    @PostMapping("/categories/{categoryCode}/search")
+    @GetMapping("/categories/{categoryCode}/search")
     public ModelAndView searchForCategory(@PathVariable final String categoryCode,
-                                          @RequestParam final String keyword, @RequestParam final Integer page)
-            throws JsonProcessingException {
+                                          @RequestParam final String keyword, @RequestParam final Integer page) {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
 
@@ -137,18 +133,16 @@ public class AdminPostController {
     /**
      * 지정한 카테고리의 게시판에서 사유 또는 상태를 지정해 검색합니다.
      *
-     * @param optionType   - 검색을 진행할 옵션의 타입입니다.
-     * @param keyword      - 검색을 진행할 검색어입니다.
-     * @param option       - 지정한 옵션의 값입니다.
-     * @param page         - 조회할 페이지의 페이지 정보입니다.
+     * @param optionType - 검색을 진행할 옵션의 타입입니다.
+     * @param keyword    - 검색을 진행할 검색어입니다.
+     * @param option     - 지정한 옵션의 값입니다.
+     * @param page       - 조회할 페이지의 페이지 정보입니다.
      * @return 지정한 상태내의 검색 결과 목록을 반환합니다.
-     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
      * @since 1.0.0
      */
-    @PostMapping("/categories/" + OTO_CODE + "/options/{optionType}/search")
-    public ModelAndView searchForOption(@PathVariable final String optionType,
-                                        @RequestParam final String keyword, @RequestParam final String option, @RequestParam final Integer page)
-            throws JsonProcessingException {
+    @GetMapping("/categories/" + OTO_CODE + "/options/{optionType}/search")
+    public ModelAndView searchForOption(@PathVariable final String optionType, @RequestParam final String keyword,
+                                        @RequestParam final String option, @RequestParam final Integer page) {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(OTO_CODE) + "/index");
@@ -172,14 +166,14 @@ public class AdminPostController {
      *
      * @param categoryCode - 수정할 게시글의 게시판 카테고리 식별번호입니다.
      * @param postNo       - 수정할 게시글의 식별번호입니다.
-     * @param page - Redirect 할 페이지 정보입니다.
+     * @param page         - Redirect 할 페이지 정보입니다.
      * @return 지정한 게시글을 수정할 수 있는 페이지로 이동합니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/{postNo}/update")
     public ModelAndView doUpdatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
 
-        if(categoryCode.compareTo(OTO_CODE) == 0) {
+        if (categoryCode.compareTo(OTO_CODE) == 0) {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
         }
 
@@ -197,8 +191,8 @@ public class AdminPostController {
      *
      * @param categoryCode - 수정할 게시글의 게시판 카테고리 식별번호입니다.
      * @param postNo       - 수정할 게시글의 식별번호입니다.
-     * @param postRequest - 수정할 정보를 담은 객체입니다.
-     * @param page - Redirect 할 페이지 정보입니다.
+     * @param postRequest  - 수정할 정보를 담은 객체입니다.
+     * @param page         - Redirect 할 페이지 정보입니다.
      * @return 게시글을 수정한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
@@ -206,7 +200,7 @@ public class AdminPostController {
     public ModelAndView updatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo,
                                    @ModelAttribute final PostRequest postRequest, @RequestParam final Integer page) {
 
-        if(categoryCode.compareTo(OTO_CODE) == 0) {
+        if (categoryCode.compareTo(OTO_CODE) == 0) {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
         }
 
@@ -221,7 +215,7 @@ public class AdminPostController {
      *
      * @param categoryCode - 수정할 게시글의 게시판 카테고리 식별번호입니다.
      * @param postNo       - 수정할 게시글의 식별번호입니다.
-     * @param page - Redirect 할 페이지 정보입니다.
+     * @param page         - Redirect 할 페이지 정보입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
@@ -236,9 +230,9 @@ public class AdminPostController {
     /**
      * 지정한 1:1 문의의 상태를 입력해 변경 할 수 있습니다.
      *
-     * @param postNo       - 수정할 게시글의 식별번호입니다.
+     * @param postNo      - 수정할 게시글의 식별번호입니다.
      * @param postRequest - 게시판의 상태를 변경 할 정보를 담은 객체입니다.
-     * @param page - Redirect 할 페이지 정보입니다.
+     * @param page        - Redirect 할 페이지 정보입니다.
      * @return 다시 게시판의 Index 페이지로 이동합니다.
      * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
      * @since 1.0.0
@@ -246,7 +240,7 @@ public class AdminPostController {
     @PatchMapping("/categories/" + OTO_CODE + "/{postNo}/status")
     public ModelAndView changeStatus(@PathVariable final Long postNo,
                                      @ModelAttribute final PostStatusUpdateRequest postRequest, @RequestParam final Integer page)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         postService.changeStatus(postNo, postRequest);
         return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);

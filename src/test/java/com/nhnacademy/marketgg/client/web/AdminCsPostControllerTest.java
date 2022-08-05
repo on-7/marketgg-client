@@ -30,7 +30,7 @@ import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
 import java.util.Objects;
 
-import com.nhnacademy.marketgg.client.web.admin.AdminPostController;
+import com.nhnacademy.marketgg.client.web.admin.AdminCsPostController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,8 +45,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 @AutoConfigureMockMvc(addFilters = false)
-@WebMvcTest(AdminPostController.class)
-class AdminPostControllerTest {
+@WebMvcTest(AdminCsPostController.class)
+class AdminCsPostControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -157,7 +157,7 @@ class AdminPostControllerTest {
                 break;
         }
 
-        MvcResult mvcResult = this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", categoryCode)
+        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", categoryCode)
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
@@ -173,7 +173,7 @@ class AdminPostControllerTest {
         given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
                 List.of(response));
 
-        this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", "710")
+        this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", "710")
                                      .param("keyword", "hi")
                                      .param("page", "0"))
                     .andExpect(result -> assertTrue(
@@ -190,7 +190,7 @@ class AdminPostControllerTest {
 
         MvcResult mvcResult =
                 this.mockMvc.perform(
-                            post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{optionType}/search", "702",
+                            get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{optionType}/search", "702",
                                  "reason")
                                     .param("keyword", "hi")
                                     .param("page", "0")
@@ -211,7 +211,7 @@ class AdminPostControllerTest {
 
         MvcResult mvcResult =
                 this.mockMvc.perform(
-                            post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{option}/search", "702", "status")
+                            get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{option}/search", "702", "status")
                                     .param("keyword", "hi")
                                     .param("page", "0")
                                     .param("optionType", "status")

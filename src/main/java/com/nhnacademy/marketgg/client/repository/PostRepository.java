@@ -51,11 +51,9 @@ public interface PostRepository {
      * @param categoryCode  - 지정한 카테고리의 식별번호입니다.
      * @param searchRequest - 검색을 진행할 검색 정보를 담은 객체입니다.
      * @return 지정한 카테고리 내에서 검색한 결과 목록을 반환합니다.
-     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    List<PostResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest)
-            throws JsonProcessingException;
+    List<PostResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest);
 
     /**
      * 지정한 카테고리내에서 지정한 옵션으로 검색한 결과 목록을 반환합니다.
@@ -65,12 +63,10 @@ public interface PostRepository {
      * @param optionType    - 검색을 진행할 옵션입니다.
      * @param option        - 검색을 진행할 옵션의 값입니다.
      * @return 지정한 카테고리내에서 지정한 옵션으로 검색한 결과 목록을 반환합니다.
-     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     List<PostResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
-                                       final String optionType, final String option)
-            throws JsonProcessingException;
+                                       final String optionType, final String option);
 
     /**
      * 입력받은 정보로 지정한 게시글을 수정할 수 있는 Adapter 입니다.

@@ -6,9 +6,7 @@ import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
-
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,11 +27,12 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/customer-services")
 @RequiredArgsConstructor
-public class PostController {
+public class CsPostController {
 
     private final PostService postService;
 
     private static final String DEFAULT_POST = "/customer-services";
+    private static final String BOARD = "board/";
     private static final String OTO_CODE = "702";
     private static final Integer PAGE_SIZE = 10;
 
@@ -70,7 +69,7 @@ public class PostController {
      */
     @GetMapping("/categories/" + OTO_CODE + "/create")
     public ModelAndView doCreatePost() {
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(OTO_CODE) + "/create-form");
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("code", OTO_CODE);
         return mav;
@@ -79,7 +78,7 @@ public class PostController {
     /**
      * 게시글을 등록 후 다시 게시글의 목록으로 이동합니다.
      *
-     * @param postRequest  - 등록할 게시글의 정보를 담은 객체입니다.
+     * @param postRequest - 등록할 게시글의 정보를 담은 객체입니다.
      * @return 해당 정보로 게시글을 등록 후 다시 Index 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
@@ -104,7 +103,7 @@ public class PostController {
     @GetMapping("/categories/{categoryCode}/{postNo}")
     public ModelAndView retrievePost(@PathVariable final String categoryCode, @PathVariable final Long postNo) {
 
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/detail");
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
         mav.addObject("response", postService.retrievePost(postNo, categoryCode));
 
@@ -118,15 +117,13 @@ public class PostController {
      * @param keyword      - 검색을 진행할 검색어입니다.
      * @param page         - 조회할 페이지의 페이지 정보입니다.
      * @return 검색 결과 목록을 반환합니다.
-     * @throws JsonProcessingException JSON 과 관련한 파싱 예외처리입니다.
      * @since 1.0.0
      */
-    @PostMapping("/categories/{categoryCode}/search")
+    @GetMapping("/categories/{categoryCode}/search")
     public ModelAndView searchForCategory(@PathVariable final String categoryCode,
-                                          @RequestParam final String keyword, @RequestParam final Integer page)
-            throws JsonProcessingException {
+                                          @RequestParam final String keyword, @RequestParam final Integer page) {
 
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/index");
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
         List<PostResponse> responses = postService.searchForCategory(categoryCode, request);
         mav.addObject("page", page);
@@ -145,15 +142,15 @@ public class PostController {
     /**
      * 지정한 게시글을 삭제 한 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param postNo       - 삭제할 게시글의 식별번호입니다.
-     * @param page         - Redirect 할 페이지 정보입니다.
+     * @param postNo - 삭제할 게시글의 식별번호입니다.
+     * @param page   - Redirect 할 페이지 정보입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
     @DeleteMapping("/categories/" + OTO_CODE + "/{postNo}/delete")
     public ModelAndView deletePost(@PathVariable final Long postNo, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView(
-                "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
+            "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
         postService.deletePost(postNo, OTO_CODE);
 
         return mav;
