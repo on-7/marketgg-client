@@ -104,7 +104,7 @@ public class ProductController {
     public ModelAndView retrieveProducts() {
         List<ProductResponse> products = this.productService.retrieveProducts();
 
-        ModelAndView mav = new ModelAndView("products/retrieve-products");
+        ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
 
         for (ProductResponse product : products) {
