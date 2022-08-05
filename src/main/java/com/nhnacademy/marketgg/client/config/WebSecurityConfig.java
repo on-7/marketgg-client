@@ -6,9 +6,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.web.multipart.support.MultipartFilter;
 
 /**
  * Spring Security 기본 설정을 진행합니다.
@@ -38,7 +41,7 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // FIXME: th:action 적용 후 주석 해제
+
         http.csrf();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
