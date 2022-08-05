@@ -15,7 +15,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -24,6 +26,7 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.MultipartFilter;
 
 /**
  * Web Configuration 을 설정할 수 있습니다.
@@ -133,6 +136,25 @@ public class WebConfig {
     @Bean(name = "clientCertificateAuthenticationRestTemplate")
     public RestTemplate clientCertificationRestTemplate(final HttpComponentsClientHttpRequestFactory requestFactory) {
         return new RestTemplate(requestFactory);
+    }
+
+    @Bean
+    public CommonsMultipartResolver filterMultipartResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setDefaultEncoding("utf-8");
+        resolver.setMaxUploadSize(1_000_000);
+        return resolver;
+    }
+
+    @Bean
+    public FilterRegistrationBean<MultipartFilter> multipartFilter() {
+        FilterRegistrationBean<MultipartFilter> registrationBean
+            = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new MultipartFilter());
+        registrationBean.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER - 1);
+
+        return registrationBean;
     }
 
 }
