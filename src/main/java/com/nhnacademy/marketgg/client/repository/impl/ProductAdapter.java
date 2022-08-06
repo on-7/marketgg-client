@@ -72,14 +72,14 @@ public class ProductAdapter implements ProductRepository {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<ProductResponse> response =
+        ResponseEntity<SingleResponse<ProductResponse>> response =
             this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
                                        HttpMethod.GET,
                                        httpEntity,
                                        new ParameterizedTypeReference<>() {
                                        });
 
-        return response.getBody();
+        return response.getBody().getData();
     }
 
     @Override

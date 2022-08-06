@@ -128,7 +128,7 @@ public class ProductController {
     public ModelAndView retrieveProductDetails(@PathVariable final Long id) {
 
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
-        ModelAndView mav = new ModelAndView("products/product-details");
+        ModelAndView mav = new ModelAndView("products/product-view");
         mav.addObject("productDetails", productDetails);
 
         return mav;

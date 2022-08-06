@@ -1,10 +1,132 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/form-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}">
+
     <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
+        <title>Market GG | 파일 업로드</title>
+
+        <!-- TOAST UI Editor -->
+        <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+        <!-- TOAST UI Editor -->
+        <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+        <script src="/plugins/tui/toast.js" defer></script>
     </head>
+
     <body>
-        상품 조회 페이지 입니다.
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>찜</th>
+                        <th>상품 번호</th>
+                        <th>카테고리</th>
+                        <th>자원</th>
+                        <th>상품 이름</th>
+                        <th>상품 내용</th>
+                        <th>재고량</th>
+                        <th>가격</th>
+                        <th>상품 단위</th>
+                        <th>배송 타입</th>
+                        <th>원산지</th>
+                        <th>포장 종류</th>
+                        <th>유효기간</th>
+                        <th>알러지 정보</th>
+                        <th>용량</th>
+                        <th>생성 일시</th>
+                        <th>수정 일시</th>
+                        <th>삭제 일시</th>
+                    </tr>
+                    <tr>
+                        <th>상품 설명</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="product : ${productDetails}">
+                        <td>
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                                    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                                    crossorigin="anonymous"></script>
+                            <script defer>
+                                $(document).ready(function () {
+                                    dibView();
+                                });
+                                // FIXME : @조현진 @민아영 Product Detail Retrieve Controller 아래두개 값 넣어주세요.(넣으면 잘됨^^)
+                                let memberId = '1';
+                                let productId = '4';
+
+                                function dibView() {
+                                    $.ajax({
+                                        url: 'http://localhost:5050/dibs',
+                                        type: 'post',
+                                        async: true,
+                                        data: {
+                                            'memberId': memberId,
+                                            'productId': productId
+                                        },
+                                        dataType: "json",
+                                        success: function (data) {
+                                            let htmlBody = '';
+                                            if (data.exist === 1) {
+                                                htmlBody += '<button onclick="dibDelete(memberId, productId);"'
+                                                    + '>찜제거</button>'
+                                            } else {
+                                                htmlBody += '<button onclick="dibInsert(memberId, productId);"'
+                                                    + '>찜</button>'
+                                            }
+                                            $('#dib').html(htmlBody);
+                                        }
+                                    })
+                                }
+
+                                function dibInsert(memberId, productId) {
+                                    $.ajax({
+                                        url: 'http://localhost:5050/dibs/insert/' + memberId + '/' + productId,
+                                        type: 'get',
+                                        success: function (data) {
+                                            if (data === 1)
+                                                dibView();
+                                        }
+                                    });
+                                }
+
+                                function dibDelete(memberId, productId) {
+                                    $.ajax({
+                                        url: 'http://localhost:5050/dibs/delete/' + memberId + '/' + productId,
+                                        type: 'get',
+                                        success: function (data) {
+                                            if (data === 1)
+                                                dibView();
+                                        }
+                                    });
+                                }
+                            </script>
+                            <div th:id="dib"></div>
+                        </td>
+                        <td th:text="${productDetails.id}"></td>
+                        <td th:text="${productDetails.categoryCode}"></td>
+                        <td th:text="${productDetails.assetNo}"></td>
+                        <td th:text="${productDetails.name}"></td>
+                        <td th:text="${productDetails.content}"></td>
+                        <td th:text="${productDetails.totalStock}"></td>
+                        <td th:text="${productDetails.price}"></td>
+                        <td th:text="${productDetails.unit}"></td>
+                        <td th:text="${productDetails.deliveryType}"></td>
+                        <td th:text="${productDetails.origin}"></td>
+                        <td th:text="${productDetails.packageType}"></td>
+                        <td th:text="${productDetails.expirationDate}"></td>
+                        <td th:text="${productDetails.allergyInfo}"></td>
+                        <td th:text="${productDetails.capacity}"></td>
+                        <td th:text="${productDetails.createdAt}"></td>
+                        <td th:text="${productDetails.updatedAt}"></td>
+                        <td th:text="${productDetails.deletedAt}"></td>
+                    </tr>
+                    <div id="viewer">
+                        <input type="hidden" id="editor-viewer" th:value="${productDetails.description}">
+                    </div>
+                </tbody>
+            </table>
+        </section>
     </body>
+
 </html>
