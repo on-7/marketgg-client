@@ -1,9 +1,11 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.ListResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
@@ -21,8 +23,10 @@ import org.springframework.web.client.RestTemplate;
 
 /**
  * 장바구니 데이터를 처리하는 구현체입니다.
- *
+ * 
  * {@link com.nhnacademy.marketgg.client.repository.CartRepository}
+ *
+ * @author 윤동열
  */
 @Component
 @RequiredArgsConstructor
@@ -56,7 +60,10 @@ public class CartAdapter implements CartRepository {
 
         ResponseUtils.checkError(response, mapper);
 
-        return ResponseUtils.getListData(response.getBody(), mapper);
+        ListResponse<CartProductResponse> listResponse = mapper.readValue(response.getBody(), new TypeReference<>() {
+        });
+
+        return listResponse.getData();
     }
 
     @Override

@@ -9,7 +9,8 @@ import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.oauth2.TokenRequest;
-import com.nhnacademy.marketgg.client.service.OAuth2Service;
+import com.nhnacademy.marketgg.client.repository.OauthRepository;
+import com.nhnacademy.marketgg.client.service.Oauth2Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class GoogleLoginService implements OAuth2Service {
+public class GoogleLoginService implements Oauth2Service {
 
     @Value("${gg.google.client-id}")
     private String clientId;
@@ -43,9 +43,9 @@ public class GoogleLoginService implements OAuth2Service {
     @Value("${gg.google.login-request-url}")
     private String loginRequestUrl;
 
-    private final RestTemplate restTemplate;
     private final RedisTemplate<String, JwtInfo> redisTemplate;
     private final ObjectMapper objectMapper;
+    private final OauthRepository oauthRepository;
 
     @Override
     public String getRedirectUrl() {
@@ -67,8 +67,7 @@ public class GoogleLoginService implements OAuth2Service {
         HttpEntity<TokenRequest> httpEntity =
             new HttpEntity<>(parameters, headers);
 
-        ResponseEntity<String> profileResponse =
-            restTemplate.exchange(loginRequestUrl, HttpMethod.POST, httpEntity, String.class);
+        ResponseEntity<String> profileResponse = oauthRepository.getProfile(loginRequestUrl, httpEntity);
 
         return setLogin(profileResponse, sessionId);
     }
