@@ -131,6 +131,9 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("products/product-view");
         mav.addObject("productDetails", productDetails);
 
+        ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
+        productDetails.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
+
         return mav;
     }
 
