@@ -27,7 +27,7 @@ const editor = new Toast({
                 success: function (data) {
                     console.log("ajax 성공");
                     url += data;
-                    callback(url, '사진 대체 텍스트 입력');
+                    callback(url);
                     console.log(url);
                 },
                 error: function (e) {

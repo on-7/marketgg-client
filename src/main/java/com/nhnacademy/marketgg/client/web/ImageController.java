@@ -22,11 +22,4 @@ public class ImageController {
         return s;
     }
 
-    // @PostMapping("/editor")
-    // public ModelAndView uploadImage(@RequestPart(value = "image") MultipartFile image) throws IOException {
-    //     ModelAndView mav = new ModelAndView("/admin/products/create");
-    //     String s = imageService.uploadImage(image);
-    //     mav.addObject("s", s);
-    //     return mav;
-    // }
 }
