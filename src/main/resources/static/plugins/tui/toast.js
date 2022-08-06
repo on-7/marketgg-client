@@ -19,29 +19,28 @@ const editor = new Toast({
                 enctype: 'multipart/form-data',
                 url: '/editor',
                 data: formData,
-                dataType: 'json',
+                dataType: 'text',
                 processData: false,
                 contentType: false,
                 cache: false,
                 timeout: 600000,
                 success: function (data) {
                     console.log("ajax 성공");
-                    url += data.filename;
+                    url += data;
                     callback(url, '사진 대체 텍스트 입력');
                     console.log(url);
                 },
                 error: function (e) {
-                    callback('image_load_fail', '사진 대체 텍스트 입력');
+                    console.log("ajax 업로드 실패!")
+                    console.log(e.abort([statusText]));
+                    callback('image_load_fail', '실패용');
                     console.log(url);
+                    console.log(e)
                 }
             });
         }
     }
 });
-
-
-// document.querySelector('#contents').insertAdjacentHTML('afterbegin' ,editor.getHTML());
-// console.log(editor.getHTML());
 
 const submitButton = document.getElementById('btn-submit');
 
@@ -51,10 +50,3 @@ submitButton.addEventListener('click', (event) => {
     document.getElementById('toast-content').value = description;
 })
 
-// const imageButton = document.getElementById('btn-button');
-//
-// imageButton.addEventListener('click', (event) => {
-//     const description = editor.getHTML();
-//     console.log(description);
-//     document.getElementById('toast-content').value = description;
-// })

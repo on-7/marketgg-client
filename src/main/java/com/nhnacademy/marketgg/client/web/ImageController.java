@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,9 +24,9 @@ public class ImageController {
 
     // @PostMapping("/editor")
     // public ModelAndView uploadImage(@RequestPart(value = "image") MultipartFile image) throws IOException {
-    //     ModelAndView mav = new ModelAndView("image_Url_Json");
+    //     ModelAndView mav = new ModelAndView("/admin/products/create");
     //     String s = imageService.uploadImage(image);
-    //     mav.addObject("url", s);
+    //     mav.addObject("s", s);
     //     return mav;
     // }
 }
