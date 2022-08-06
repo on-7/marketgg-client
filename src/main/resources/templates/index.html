@@ -35,9 +35,9 @@
 
             <div class="album py-5 bg-light">
                 <div class="container">
-                    <div class="row" th:each="product : ${products}">
+                    <div class="row">
                         <!-- FIXME: thymeleaf 를 이용하여 아이템 정보 불러오기 -->
-                        <div class="col-md-4">
+                        <div class="col-md-4" th:each="product : ${products}">
                             <div class="card mb-4 shadow-sm">
                                 <img th:src="${product.thumbnail}" background="#55595c" color="#eceeef"
                                      class="card-img-top" text="Thumbnail">
