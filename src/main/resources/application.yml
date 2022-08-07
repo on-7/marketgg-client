@@ -1,6 +1,3 @@
-server:
-  port: 5050
-
 spring:
   application:
     name: marketgg-client
