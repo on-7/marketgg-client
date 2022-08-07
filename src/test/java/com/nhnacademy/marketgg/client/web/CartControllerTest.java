@@ -5,7 +5,9 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -78,6 +80,8 @@ class CartControllerTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.success", equalTo(true)))
                .andExpect(jsonPath("$.data", equalTo(true)));
+
+        then(cartService).should(times(1)).addProduct(any(ProductToCartRequest.class));
     }
 
     @Test
@@ -92,6 +96,8 @@ class CartControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("cart"))
             .isNotNull();
+
+        then(cartService).should(times(1)).retrieveCarts();
     }
 
     @Test
@@ -107,6 +113,8 @@ class CartControllerTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.success", equalTo(true)))
                .andExpect(jsonPath("$.data", equalTo(true)));
+
+        then(cartService).should(times(1)).updateAmount(any(ProductToCartRequest.class));
     }
 
     @Test
@@ -122,6 +130,8 @@ class CartControllerTest {
                .andExpect(status().isOk())
                .andExpect(jsonPath("$.success", equalTo(true)))
                .andExpect(jsonPath("$.data", equalTo(true)));
+
+        then(cartService).should(times(1)).deleteProducts(anyList());
     }
 
 }
