@@ -85,7 +85,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("카테고리 별 게시글 검색")
-    void testSearchForCategory() throws Exception {
+    void testSearchForCategory() {
         given(postRepository.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
                 List.of(postResponse));
 
@@ -96,7 +96,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("카테고리 내 사유별 게시글 검색")
-    void testSearchForReason() throws Exception {
+    void testSearchForReason() {
         given(postRepository.searchForOption(anyString(), any(SearchRequest.class), anyString(),
                                              anyString())).willReturn(List.of(postResponse));
 

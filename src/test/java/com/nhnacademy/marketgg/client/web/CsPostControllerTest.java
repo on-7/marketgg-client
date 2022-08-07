@@ -40,8 +40,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 @AutoConfigureMockMvc(addFilters = false)
-@WebMvcTest(PostController.class)
-class PostControllerTest {
+@WebMvcTest(CsPostController.class)
+class CsPostControllerTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -166,7 +166,7 @@ class PostControllerTest {
     void testSearchForCategory() throws Exception {
         given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
 
-        MvcResult mvcResult = this.mockMvc.perform(post(DEFAULT_POST + "/categories/{categoryCode}/search", "701")
+        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "701")
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
@@ -182,7 +182,7 @@ class PostControllerTest {
         given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
                 List.of(response));
 
-        this.mockMvc.perform(post(DEFAULT_POST + "/categories/{categoryCode}/search", "710")
+        this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "710")
                                      .param("keyword", "hi")
                                      .param("page", "0"))
                     .andExpect(result -> assertTrue(Objects.requireNonNull(result.getResolvedException())
@@ -195,7 +195,7 @@ class PostControllerTest {
     void testSearchForCategoryForFaq() throws Exception {
         given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
 
-        MvcResult mvcResult = this.mockMvc.perform(post(DEFAULT_POST + "/categories/{categoryCode}/search", "703")
+        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "703")
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
