@@ -36,7 +36,7 @@ public class AuthController {
     @NoAuth
     @GetMapping("/login")
     public ModelAndView login(@ModelAttribute LoginRequest loginRequest) {
-        return new ModelAndView("/members/login");
+        return new ModelAndView("members/login");
     }
 
     /**
