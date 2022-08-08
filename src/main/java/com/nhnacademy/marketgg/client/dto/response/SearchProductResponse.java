@@ -16,9 +16,13 @@ public class SearchProductResponse {
 
     private Long id;
 
+    private String categoryCode;
+
     private String productName;
 
-    private String categoryCode;
+    private String content;
+
+    private String description;
 
     private String labelName;
 
@@ -27,7 +31,5 @@ public class SearchProductResponse {
     private Long price;
 
     private Long amount;
-
-    private String content;
 
 }

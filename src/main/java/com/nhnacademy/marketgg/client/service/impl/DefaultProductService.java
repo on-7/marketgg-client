@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
@@ -51,6 +52,21 @@ public class DefaultProductService implements ProductService {
     @Override
     public void deleteProduct(final Long id) {
         this.productRepository.deleteProduct(id);
+    }
+
+    @Override
+    public List<SearchProductResponse> searchProductList(final String keyword, final String page) {
+        return productRepository.searchProductList(keyword, page);
+    }
+
+    @Override
+    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final String page) {
+        return productRepository.searchProductListByCategory(categoryId, keyword, page);
+    }
+
+    @Override
+    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option, final String keyword, final String page) {
+        return productRepository.searchProductListByPrice(categoryId, option, keyword, page);
     }
 
 }
