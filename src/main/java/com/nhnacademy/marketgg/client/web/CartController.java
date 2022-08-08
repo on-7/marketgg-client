@@ -3,11 +3,17 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.CartService;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,12 +46,14 @@ public class CartController {
     // 비동기로 처리 예정
     @PostMapping
     @ResponseBody
-    public boolean addToProduct(@RequestBody @Validated ProductToCartRequest productAddRequest)
+    public ResponseEntity<CommonResponse> addToProduct(@RequestBody @Validated ProductToCartRequest productAddRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.addProduct(productAddRequest);
 
-        return true;
+        return ResponseEntity.status(HttpStatus.OK)
+                             .contentType(MediaType.APPLICATION_JSON)
+                             .body(new SingleResponse<>(true));
     }
 
     /**
@@ -59,7 +67,7 @@ public class CartController {
     @GetMapping
     public ModelAndView retrieveCart() throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView(/* TODO: form 추가 */);
+        ModelAndView mav = new ModelAndView("carts/index");
 
         List<CartProductResponse> cart = cartService.retrieveCarts();
         mav.addObject("cart", cart);
@@ -77,12 +85,14 @@ public class CartController {
     // 비동기로 처리 예정
     @PatchMapping
     @ResponseBody
-    public boolean updateAmount(@RequestBody @Validated ProductToCartRequest productUpdateRequest)
+    public ResponseEntity<CommonResponse> updateAmount(@RequestBody @Valid ProductToCartRequest productUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.updateAmount(productUpdateRequest);
 
-        return true;
+        return ResponseEntity.status(HttpStatus.OK)
+                             .contentType(MediaType.APPLICATION_JSON)
+                             .body(new SingleResponse<>(true));
     }
 
     /**
@@ -96,11 +106,14 @@ public class CartController {
     // 비동기로 처리 예정
     @DeleteMapping
     @ResponseBody
-    public boolean deleteProduct(@RequestBody List<Long> products)
+    public ResponseEntity<CommonResponse> deleteProduct(@RequestBody List<Long> products)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.deleteProducts(products);
 
-        return true;
+        return ResponseEntity.status(HttpStatus.OK)
+                             .contentType(MediaType.APPLICATION_JSON)
+                             .body(new SingleResponse<>(true));
     }
+
 }

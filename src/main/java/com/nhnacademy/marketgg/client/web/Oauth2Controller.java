@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
-import com.nhnacademy.marketgg.client.service.OAuth2Service;
+import com.nhnacademy.marketgg.client.service.Oauth2Service;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +24,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RequiredArgsConstructor
 public class Oauth2Controller {
 
-    private final OAuth2Service oAuth2Service;
+    private final Oauth2Service oAuth2Service;
 
     @GetMapping("/google")
     public RedirectView googleLogin() {
