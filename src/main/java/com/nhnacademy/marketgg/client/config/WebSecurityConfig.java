@@ -42,7 +42,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf();
+        //FIXME Dave가 해결했는데.. Toast UI Image 업로드 과정에서 또 에러 발생.. 나중에 해결해보겠음
+        http.csrf()
+            .disable();
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 

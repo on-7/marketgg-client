@@ -3,14 +3,20 @@ package com.nhnacademy.marketgg.client.web.admin;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.service.CategoryService;
+import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,6 +40,7 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final LabelService labelService;
+    private final ImageService imageService;
 
     private final static String DEFAULT_PRODUCT_URI = "/admin/products";
 
@@ -75,7 +82,7 @@ public class ProductController {
      */
     @GetMapping("/create")
     public ModelAndView createProduct() {
-        ModelAndView mav = new ModelAndView("products/product-form");
+        ModelAndView mav = new ModelAndView("products/product-create-form");
 
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
         mav.addObject("categories", categories);
@@ -98,8 +105,13 @@ public class ProductController {
     public ModelAndView retrieveProducts() {
         List<ProductResponse> products = this.productService.retrieveProducts();
 
-        ModelAndView mav = new ModelAndView("products/retrieve-products");
+        ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
+
+        for (ProductResponse product : products) {
+            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
+            product.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
+        }
 
         return mav;
     }
@@ -116,8 +128,11 @@ public class ProductController {
     public ModelAndView retrieveProductDetails(@PathVariable final Long id) {
 
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
-        ModelAndView mav = new ModelAndView("products/product-details");
+        ModelAndView mav = new ModelAndView("products/product-view");
         mav.addObject("productDetails", productDetails);
+
+        ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
+        productDetails.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
 
         return mav;
     }

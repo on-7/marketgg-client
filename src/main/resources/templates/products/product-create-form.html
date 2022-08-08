@@ -10,44 +10,14 @@
 
         <!-- TOAST UI Editor -->
         <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-        <script src="/js/tui/toast.js" defer></script>
+        <script src="/plugins/tui/toast.js" defer></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
     </head>
 
     <!-- TODO: 등록과 수정 하나로 -->
     <body>
-        <section>
-            <h2>상품 등록하기</h2>
-            <form>
-                <!-- formItem('for|name|id', 'textContent', 'inputType', 'defaultValue') -->
-                <div th:replace="fragments/input-group :: formItem('name', '상품 이름', 'text', '다시다맛 젤리')"></div>
-                <div th:replace="fragments/input-group :: formItem('categoryCode', '카테고리 코드', 'text', '101')"></div>
-                <div th:replace="fragments/input-group :: formItem('content', '상품 설명', 'text', '북해도에서 온 다시마 젤리')"></div>
-                <div th:replace="fragments/input-group :: formItem('totalStock', '총 수량', 'number', 1)"></div>
-                <div th:replace="fragments/input-group :: formItem('price', '가격', 'number', 5900)"></div>
-                <div th:replace="fragments/input-group :: formItem('unit', '판매 단위', 'text', 5900)"></div>
-                <div th:replace="fragments/input-group :: formItem('deliveryType', '배송 구분', 'text', '택배 배송')"></div>
-                <div th:replace="fragments/input-group :: formItem('origin', '원산지', 'text', '일본')"></div>
-                <div th:replace="fragments/input-group :: formItem('packageType', '포장 유형', 'text', '스티로폼')"></div>
-                <div th:replace="fragments/input-group :: formItem('expirationDate', '유효기간', 'date', '2018-07-22')"></div>
-                <div th:replace="fragments/input-group :: formItem('capacity', '중량/용량', 'text', '520g')"></div>
-                <div th:replace="fragments/input-group :: formItem('allergyInfo', '알러지 정보', 'text', '바닷물, 다시마, 소금')"></div>
-                <div class="form-item">
-                    <label>대표 이미지</label>
-                    <input type="file" name="image" multiple="multiple">
-                </div>
-
-                <div class="product-details">
-                    <h2>상품 상세 설명</h2>
-                    <div id="editor"></div>
-                    <input type="hidden" id="toast-content" name="description" value="">
-                </div>
-
-                <div class="btn-wrapper">
-                    <button type="submit" class="btn btn-primary" id="btn-submit">등록</button>
-                    <button type="button" class="btn btn-secondary">취소</button>
-                </div>
-            </form>
-        </section>
+        <section th:replace="~{/fragments/products/create-form}"></section>
     </body>
 
 </html>

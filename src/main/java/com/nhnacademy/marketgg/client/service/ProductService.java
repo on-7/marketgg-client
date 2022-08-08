@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * 상품 서비스 입니다.
  *
+ * @author 조현진
  * @version 1.0.0
  */
 public interface ProductService {
@@ -19,7 +20,8 @@ public interface ProductService {
      *
      * @param image          - MultipartFile 타입 입니다.
      * @param productRequest - 상품 생성을 위한 DTO 입니다.
-     * @throws IOException
+     * @throws IOException - IOException을 발생시킵니다.
+     * @author 조현진, 민아영
      * @since 1.0.0
      */
     void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
@@ -59,7 +61,7 @@ public interface ProductService {
      * @param id             - 상품의 PK 입니다.
      * @param image          - MultiparttFile 타입 입니다.
      * @param productRequest - 상품 수정을 위한 DTO 입니다.
-     * @throws IOException
+     * @throws IOException - IOException을 발생시킵니다.
      * @since 1.0.0
      */
     void updateProduct(final Long id, final MultipartFile image, final ProductModifyRequest productRequest)
