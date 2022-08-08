@@ -65,7 +65,7 @@ public class ProductController {
      * @since 1.0.0
      */
     @PostMapping("/create")
-    public ModelAndView createProduct(@RequestPart(value = "image") MultipartFile image,
+    public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute final ProductCreateRequest productRequest)
         throws IOException {
 

@@ -63,10 +63,8 @@ public class ImageAdapter implements ImageRepository {
                                        httpEntity,
                                        new ParameterizedTypeReference<>() {
                                        });
-        String url = "";
-        url += response.getBody().getImageAddress();
-        url += response.getBody().getName();
-        return url;
+
+        return response.getBody().getImageAddress() + response.getBody().getName();
     }
 
     private <T> HttpEntity<LinkedMultiValueMap<String, Object>> getLinkedMultiValueMapHttpEntity(

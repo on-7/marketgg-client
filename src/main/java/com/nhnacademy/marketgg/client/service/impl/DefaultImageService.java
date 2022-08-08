@@ -15,12 +15,12 @@ public class DefaultImageService implements ImageService {
     private final ImageRepository imageRepository;
 
     @Override
-    public ImageResponse retrieveImage(Long id) {
+    public ImageResponse retrieveImage(final Long id) {
         return imageRepository.retrieveImage(id);
     }
 
     @Override
-    public String downloadImage(String url) {
+    public String downloadImage(final String url) {
         return imageRepository.downloadImage(url);
     }
 

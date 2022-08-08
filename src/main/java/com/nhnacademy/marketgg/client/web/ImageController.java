@@ -17,9 +17,8 @@ public class ImageController {
 
     @PostMapping("/editor")
     public String uploadImage(@RequestPart(value = "image") MultipartFile image) throws IOException {
-        String s = imageService.uploadImage(image);
 
-        return s;
+        return imageService.uploadImage(image);
     }
 
 }
