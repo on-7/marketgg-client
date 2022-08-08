@@ -134,7 +134,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductList(final String keyword, final String page) {
+    public List<SearchProductResponse> searchProductList(final String keyword, final Integer page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 
@@ -150,7 +150,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final String page) {
+    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final Integer page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 
@@ -167,7 +167,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option, final String keyword, final String page) {
+    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option, final String keyword, final Integer page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 

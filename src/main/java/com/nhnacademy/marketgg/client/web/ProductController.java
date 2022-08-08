@@ -29,12 +29,12 @@ public class ProductController {
      */
     @GetMapping("/search")
     public ModelAndView searchProductList(@RequestParam final String keyword,
-                                          @RequestParam final String page) {
+                                          @RequestParam final Integer page) {
 
         List<SearchProductResponse> responses = productService.searchProductList(keyword, page);
 
         // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
-        ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView("products/index");
         mav.addObject("keyword", keyword);
         mav.addObject("responses", responses);
         mav.addObject("page", page);
@@ -54,12 +54,12 @@ public class ProductController {
     @GetMapping("/categories/{categoryId}/search")
     public ModelAndView searchProductListByCategory(@PathVariable final String categoryId,
                                                     @RequestParam final String keyword,
-                                                    @RequestParam final String page) {
+                                                    @RequestParam final Integer page) {
 
         List<SearchProductResponse> responses = productService.searchProductListByCategory(categoryId, keyword, page);
 
         // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
-        ModelAndView mav = new ModelAndView();
+        ModelAndView mav = new ModelAndView("products/index");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);
         mav.addObject("responses", responses);
@@ -82,12 +82,13 @@ public class ProductController {
     public ModelAndView searchProductListByPrice(@PathVariable final String categoryId,
                                                  @PathVariable final String option,
                                                  @RequestParam final String keyword,
-                                                 @RequestParam final String page) {
+                                                 @RequestParam final Integer page) {
 
         List<SearchProductResponse> responses = productService.searchProductListByPrice(categoryId, option, keyword, page);
 
-        // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자
-        ModelAndView mav = new ModelAndView();
+        // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
+        // FIXME: Pathvariable 에 option 에는 (asc, desc) 만 들어갑니다! 매핑 잡으실 때 참고해주세요.
+        ModelAndView mav = new ModelAndView("products/index");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);
         mav.addObject("responses", responses);

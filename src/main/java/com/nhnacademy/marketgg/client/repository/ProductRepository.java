@@ -86,7 +86,7 @@ public interface ProductRepository {
      * @return 전체 목록에서 검색한 상품 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductList(final String keyword, final String page);
+    List<SearchProductResponse> searchProductList(final String keyword, final Integer page);
 
     /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 반환합니다.
@@ -97,7 +97,7 @@ public interface ProductRepository {
      * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final String page);
+    List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final Integer page);
 
     /**
      * 지정한 카테고리 번호 내에서 선택한 옵션으로 가격이 정렬된 상품 목록을 반환합니다.
@@ -109,6 +109,6 @@ public interface ProductRepository {
      * @return 선택한 카테고리 번호내에서 선택한 정렬옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option, final String keyword, final String page);
+    List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option, final String keyword, final Integer page);
 
 }
