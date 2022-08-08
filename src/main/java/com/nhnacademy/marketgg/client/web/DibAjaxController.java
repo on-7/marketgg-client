@@ -2,6 +2,10 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.DibService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,11 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * 찜의 비동기 처리를 위한 Controller 입니다.

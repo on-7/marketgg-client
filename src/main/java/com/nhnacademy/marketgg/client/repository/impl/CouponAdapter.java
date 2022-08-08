@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.repository.CouponRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,8 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @Slf4j
 @Component
@@ -37,9 +36,9 @@ public class CouponAdapter implements CouponRepository {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
-                                                              HttpMethod.POST,
-                                                              requestEntity,
-                                                              Void.class);
+            HttpMethod.POST,
+            requestEntity,
+            Void.class);
 
         this.checkResponseUri(response);
     }
@@ -48,10 +47,10 @@ public class CouponAdapter implements CouponRepository {
     public CouponRetrieveResponse retrieveCoupon(Long couponId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CouponRetrieveResponse>
-                response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
-                                                 HttpMethod.GET, requestEntity,
-                                                 new ParameterizedTypeReference<>() {
-                                                 });
+            response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+            HttpMethod.GET, requestEntity,
+            new ParameterizedTypeReference<>() {
+            });
 
         this.checkResponseUri(response);
         return response.getBody();
@@ -61,10 +60,10 @@ public class CouponAdapter implements CouponRepository {
     public List<CouponRetrieveResponse> retrieveCoupons() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<CouponRetrieveResponse>>
-                response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
-                                                 HttpMethod.GET, requestEntity,
-                                                 new ParameterizedTypeReference<>() {
-                                                 });
+            response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+            HttpMethod.GET, requestEntity,
+            new ParameterizedTypeReference<>() {
+            });
 
         this.checkResponseUri(response);
         return response.getBody();
@@ -76,9 +75,9 @@ public class CouponAdapter implements CouponRepository {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
-                                                              HttpMethod.PUT,
-                                                              requestEntity,
-                                                              Void.class);
+            HttpMethod.PUT,
+            requestEntity,
+            Void.class);
 
         this.checkResponseUri(response);
     }
@@ -87,10 +86,10 @@ public class CouponAdapter implements CouponRepository {
     public void deleteCoupon(Long couponId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
-                                      HttpMethod.DELETE,
-                                      requestEntity,
-                                      Void.class);
+            restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+                HttpMethod.DELETE,
+                requestEntity,
+                Void.class);
 
         this.checkResponseUri(response);
     }

@@ -15,7 +15,7 @@ public class DefaultCommentService implements CommentService {
 
     @Override
     public void createComment(final Long postNo, final CommentRequest commentRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         commentRepository.createComment(postNo, commentRequest);
     }

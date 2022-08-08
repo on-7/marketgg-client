@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.request;
 
 import java.time.LocalDate;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;

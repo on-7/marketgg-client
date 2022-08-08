@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.repository.GivenCouponRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,8 +16,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 @Slf4j
 @Component
@@ -35,9 +34,9 @@ public class GivenCouponAdapter implements GivenCouponRepository {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
-                                                              HttpMethod.POST,
-                                                              requestEntity,
-                                                              Void.class);
+            HttpMethod.POST,
+            requestEntity,
+            Void.class);
 
         this.checkResponseUri(response);
     }
@@ -47,11 +46,11 @@ public class GivenCouponAdapter implements GivenCouponRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         // memo url 원래 /shop/v1 이었는데 없어짐 오류나면 바꿔보도록..
         ResponseEntity<List<GivenCouponRetrieveResponse>> response =
-                restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
-                                      HttpMethod.GET,
-                                      requestEntity,
-                                      new ParameterizedTypeReference<>() {
-                                      });
+            restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
         return response.getBody();

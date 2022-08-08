@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 
 /**
@@ -40,7 +39,7 @@ public class AdminLabelController {
      */
     @PostMapping
     public ModelAndView createLabel(@ModelAttribute final LabelRegisterRequest labelRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         labelService.createLabel(labelRequest);
 

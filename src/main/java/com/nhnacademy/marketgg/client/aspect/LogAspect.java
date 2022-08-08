@@ -41,8 +41,6 @@ public class LogAspect {
     }
 
     /**
-     *
-     *
      * @param joinPoint - AOP 에 접근된 메소드의 위치입니다.
      * @return JoinPoint 에 접근한 메소드 명을 반환합니다.
      * @since 1.0.0

@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  *
  * @author 윤동열
  */
-@Target({ ElementType.METHOD, ElementType.TYPE })
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface RoleCheck {
 

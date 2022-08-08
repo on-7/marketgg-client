@@ -1,10 +1,9 @@
 package com.nhnacademy.marketgg.client.dto.response;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
