@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org" th:fragment="layout(title, main)">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Bootstrap -->
+        <link rel="stylesheet"
+              href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+              th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
+
+        <!-- FontAwesome -->
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+              th:href="@{/plugins/fontawesome/css/all.min.css}" />
+
+        <link rel="stylesheet" href="../../static/plugins/clickymenus/css/clicky-menus.css"
+              th:href="@{/plugins/clickymenus/css/clicky-menus.css}">
+
+        <link rel="stylesheet" href="../../static/plugins/marketgg/css/font.css"
+              th:href="@{/plugins/marketgg/css/font.css}">
+        <link rel="stylesheet" th:href="@{/plugins/marketgg/css/marketgg.common.css}">
+
+        <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 title 태그로 대체됩니다. -->
+        <title th:replace="${title}"></title>
+
+        <script src="../../static/plugins/clickymenus/js/clickyMenus.js"
+                th:src="@{/plugins/clickymenus/js/clickyMenus.js}"></script>
+    </head>
+    <body>
+        <header th:replace="fragments/header"></header>
+        <nav th:replace="fragments/gnb"></nav>
+
+        <main th:replace="${main}">
+            <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 main 태그로 대체됩니다. -->
+        </main>
+
+        <footer th:replace="fragments/footer"></footer>
+    </body>
+</html>

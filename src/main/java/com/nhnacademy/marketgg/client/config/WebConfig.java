@@ -62,7 +62,6 @@ public class WebConfig {
      * @author 박세완
      * @since 1.0.0
      */
-
     @Bean
     public String gatewayIp(@Value("${gg.gateway-origin}") String ip) {
         return ip;
@@ -88,6 +87,18 @@ public class WebConfig {
         return commonsMultipartResolver;
     }
 
+    /**
+     * {@link HttpClient} 인터페이스의 구현 클래스 빈을 생성합니다.
+     * 단, 커넥션 풀을 사용하려면 호출하는 API 서버가 Keep-Alive 를 지원해야 합니다.
+     *
+     * @param keystoreType     - 인증서 종류
+     * @param keystorePath     - 인증서 경로
+     * @param keystorePassword - 인증서 비밀번호
+     * @param protocol         - 인증 프로토콜
+     * @return {@link org.apache.http.impl.client.DefaultHttpClient} 와 달리 커넥션 풀 지원이 가능한 CloseableHttpClient
+     * @author 윤동열
+     * @author 이제훈
+     */
     @Bean
     CloseableHttpClient httpClient(final @Value("${gg.keystore.type}") String keystoreType,
                                    final @Value("${gg.keystore.path}") String keystorePath,
@@ -126,6 +137,13 @@ public class WebConfig {
                           .build();
     }
 
+    /**
+     * {@link org.springframework.http.client.ClientHttpRequestFactory} 의 구현 클래스 빈을 생성합니다.
+     *
+     * @param httpClient - HTTP 통신에 필요한 인스턴스
+     * @return {@link org.springframework.http.client.ClientHttpRequestFactory} 구현 클래스
+     * @author 이제훈
+     */
     @Bean
     HttpComponentsClientHttpRequestFactory requestFactory(final HttpClient httpClient) {
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(httpClient);
@@ -137,6 +155,13 @@ public class WebConfig {
         return requestFactory;
     }
 
+    /**
+     * 클라이언트 인증서 및 커넥션 풀에서 관리하는 RestTemplate 인스턴스를 생성합니다.
+     *
+     * @param requestFactory - SSL 클라이언트 인증 및 연결 관련 설정 정보가 담긴 요청 팩토리
+     * @return SSL 클라이언트 인증을 통한 RestTemplate 빈
+     * @author 이제훈
+     */
     @Bean(name = "clientCertificateAuthenticationRestTemplate")
     public RestTemplate clientCertificationRestTemplate(final HttpComponentsClientHttpRequestFactory requestFactory) {
         return new RestTemplate(requestFactory);
