@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -80,5 +81,19 @@ public class OrderController {
 
         return mav;
     }
+
+    /**
+     * 주문 취소를 처리합니다.
+     *
+     * @param orderId - 주문 번호
+     * @return 주문 취소 이후 이동할 페이지를 포함한 객체
+     */
+    @PutMapping("/orders/{orderId}")
+    public ModelAndView cancelOrders(@PathVariable final Long orderId) {
+        orderService.cancelOrder(orderId);
+
+        return new ModelAndView("redirect:/");
+    }
+
 
 }
