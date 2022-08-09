@@ -51,4 +51,9 @@ public class GgOrderService implements OrderService {
         return orderRepository.retrieveOrder(orderId);
     }
 
+    @Override
+    public void cancelOrder(final Long orderId) {
+        orderRepository.cancelOrder(orderId);
+    }
+
 }
