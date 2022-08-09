@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.web.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
-import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
 import java.util.List;
 import javax.validation.Valid;
@@ -10,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -53,17 +53,32 @@ public class OrderController {
     /**
      * 주문 목록을 조회합니다.
      *
-     * @return 주문 목록 페이지
+     * @return 주문 목록과 페이지를 포함한 객체
      */
     @GetMapping("/orders")
     public ModelAndView retrieveOrders() {
-        ModelAndView mav = new ModelAndView("/pages/orders/order-list");
-
         List<OrderResponse> orders = orderService.retrieveOrders();
+
+        ModelAndView mav = new ModelAndView("/pages/orders/order-list");
         mav.addObject("orders", orders);
 
         return mav;
     }
 
+    /**
+     * 주문 상세 조회를 처리합니다.
+     *
+     * @param orderId - 주문 번호
+     * @return 주문 상세 정보와 페이지를 포함한 객체
+     */
+    @GetMapping("/orders/{orderId}")
+    public ModelAndView retrieveOrders(@PathVariable final Long orderId) {
+        OrderResponse order = orderService.retrieveOrder(orderId);
+
+        ModelAndView mav = new ModelAndView("/pages/orders/order-details");
+        mav.addObject("order", order);
+
+        return mav;
+    }
 
 }
