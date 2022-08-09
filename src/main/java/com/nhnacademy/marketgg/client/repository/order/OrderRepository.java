@@ -20,6 +20,19 @@ public interface OrderRepository {
      */
     void createOrder(final OrderCreateRequest orderRequest);
 
+    /**
+     * 주문 목록을 조회합니다.
+     *
+     * @return 주문 목록 응답 객체
+     */
     List<OrderResponse> retrieveOrders();
+
+    /**
+     * 주문 상세 정보를 조회합니다.
+     *
+     * @param orderId - 주문 번호
+     * @return 특정한 주문에 대한 상세 정보 응답 객체
+     */
+    OrderResponse retrieveOrder(Long orderId);
 
 }

@@ -4,6 +4,7 @@ import static java.util.Collections.singletonList;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.repository.GgUrl;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,7 @@ public class OrderAdapter implements OrderRepository {
                                     .build();
 
         client.post()
-              .uri("/shop/v1/orders")
+              .uri(GgUrl.SHOP_SERVICE_PREFIX_V1 + GgUrl.ORDERS_PATH_PREFIX)
               .bodyValue(orderRequest)
               .retrieve();
     }
@@ -59,10 +60,32 @@ public class OrderAdapter implements OrderRepository {
                                     .build();
 
         return client.get()
-                     .uri("/shop/v1/orders")
+                     .uri(GgUrl.SHOP_SERVICE_PREFIX_V1 + GgUrl.ORDERS_PATH_PREFIX)
                      .retrieve()
                      .bodyToMono(new ParameterizedTypeReference<List<OrderResponse>>() {
                      })
+                     .blockOptional().orElseThrow();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param orderId - 주문 번호
+     * @return 특정한 주문에 대한 상세 정보 응답 객체
+     */
+    @Override
+    public OrderResponse retrieveOrder(Long orderId) {
+        WebClient client = WebClient.builder()
+                                    .baseUrl(gatewayIp)
+                                    .defaultHeaders(
+                                        headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
+                                    )
+                                    .build();
+
+        return client.get()
+                     .uri(GgUrl.SHOP_SERVICE_PREFIX_V1 + GgUrl.ORDERS_PATH_PREFIX + "/" + orderId)
+                     .retrieve()
+                     .bodyToMono(OrderResponse.class)
                      .blockOptional().orElseThrow();
     }
 
