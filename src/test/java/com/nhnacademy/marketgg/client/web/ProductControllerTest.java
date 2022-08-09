@@ -46,7 +46,8 @@ class ProductControllerTest {
         given(productService.searchProductListByCategory(anyString(), anyString(), anyInt())).willReturn(
                 List.of(response));
 
-        this.mockMvc.perform(get(DEFAULT_PRODUCT + "/categories/{categoryId}/search", "100")
+        this.mockMvc.perform(get(DEFAULT_PRODUCT + "/search", "100")
+                                     .param("categoryId", "001")
                                      .param("keyword", "안녕")
                                      .param("page", "0"))
                     .andExpect(status().isOk())
