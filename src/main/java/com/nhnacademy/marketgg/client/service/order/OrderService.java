@@ -13,6 +13,8 @@ public interface OrderService {
 
     /**
      * 주문을 생성합니다.
+     *
+     * @param orderRequest - 주문 생성 시 필요한 요청 정보 객체
      */
     void createOrder(final OrderCreateRequest orderRequest);
 
