@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" th:href="@{/css/orders/order-form.css}">
+
+        <title>Market GG | 주문서 작성</title>
+    </head>
+
+    <body>
+        <main>
+            <form method="post" th:action="@{/orders}">
+                <h1>주문서</h1>
+                <section class="order-products">
+                    <h2>주문 상품</h2>
+                    <hr>
+                    <ul>
+                        <li>
+                            <div style="width: 100px; height: 100px; background: url('https://img-cf.kurly.com/shop/data/goods/1653037091448l0.jpeg')"></div>
+                            <div><a href="#"><p>[Kim's Butcher] 미국산 우삼겹 돌돌말이 500g (냉동)</p></a></div>
+                        </li>
+                        <li>
+                            <div style="width: 100px; height: 100px; background: url('https://img-cf.kurly.com/shop/data/goods/1653037091448l0.jpeg')"></div>
+                            <div><a href="#"><p>[자이글] 캠핑그리들 30cm</p></a></div>
+                        </li>
+                        <li>
+                            <div style="width: 100px; height: 100px; background: url('https://img-cf.kurly.com/shop/data/goods/1653037091448l0.jpeg')"></div>
+                            <div><a href="#"><p>[닥터지] 로얄 블랙 스네일 크림 50ml</p></a></div>
+                        </li>
+                    </ul>
+                </section>
+
+                <section class="customer-information">
+                    <h2>주문자 정보</h2>
+                    <hr>
+                    <div>
+                        <p>보내는 분</p>
+                        <p>강태풍</p>
+                    </div>
+                    <div>
+                        <p>휴대폰</p>
+                        <p>010-8765-4321</p>
+                    </div>
+                    <div>
+                        <p>이메일</p>
+                        <p>on7.marketgg@gmail.com</p>
+                    </div>
+                </section>
+
+                <section class="delivery-information">
+                    <h2>배송지</h2>
+                    <hr>
+                    <p>상세 정보</p>
+                </section>
+
+                <section class="benefits">
+                    <h2>쿠폰 / 적립금</h2>
+                    <hr>
+                    <div>
+                        <p>쿠폰 적용</p>
+                        <input type="text">
+                    </div>
+                    <div>
+                        <p>적립금 적용</p>
+                        <input type="number">
+                    </div>
+                </section>
+
+                <section class="payment-type">
+                    <h2>결제 수단</h2>
+                    <hr>
+                    <div>
+                        <p>결제 수단 선택</p>
+                        <div th:replace="fragments/orders/radio-button :: formCheck('card', '카드')"></div>
+                        <div th:replace="fragments/orders/radio-button :: formCheck('virtual-account', '가상계좌')"></div>
+                        <div th:replace="fragments/orders/radio-button :: formCheck('transfer', '계좌이체')"></div>
+                        <div th:replace="fragments/orders/radio-button :: formCheck('mobile-phone', '휴대폰')"></div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>개인정보 수집/제공</h2>
+                    <hr>
+                </section>
+
+                <!-- <aside>
+                    결제 금액
+                </aside> -->
+
+                <!-- FIXME: 유효성 검사 반영되어 있음. 필요한 값 수정 필요 -->
+                <input type="hidden" name="totalAmount" value="6750" />
+                <input type="hidden" name="usedPoint" value="0" />
+                <!-- <input type="hidden" name="orderId" value="58209b22-e25a-47b4-9434-020c0f46c5c6" /> -->
+                <input type="hidden" name="orderName" value="[Kim's Butcher] 미국산 우삼겹 돌돌말이 500g (냉동) 외 2건" />
+                <input type="hidden" name="customerName" value="강태풍" />
+                <input type="hidden" name="customerEmail" value="on7.marketgg@gmail.com" />
+
+                <button type="submit" id="payment-button" class="btn btn-primary my-2">6,750원 결제하기</button>
+            </form>
+        </main>
+    </body>
+
+</html>

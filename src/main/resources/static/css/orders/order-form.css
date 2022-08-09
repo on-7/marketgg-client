@@ -1,0 +1,96 @@
+main {
+    display: flex;
+    border: 1px solid #000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 70vw;
+    margin: 0 auto;
+    padding: 3rem;
+}
+
+p {
+    margin: 0;
+}
+
+section {
+    padding: 3rem;
+    width: inherit;
+    /* border: 1px solid crimson; */
+}
+
+.order-products div {
+    /* border: 1px solid #000; */
+    margin: 1rem 1rem 1rem 0;
+}
+
+ul {
+    border: 1px solid #000;
+    padding: 0;
+    margin: 0;
+}
+
+.order-products li {
+    display: flex;
+}
+
+
+.customer-information div {
+    display: flex;
+    /* border: 1px solid #000; */
+}
+
+.customer-information p {
+    /* border: 1px solid blue; */
+    font-size: 1.2rem;
+}
+
+.customer-information p:first-child {
+    display: flex;
+    flex: 0.3;
+}
+
+.customer-information p:last-child {
+    display: flex;
+    flex: 0.7;
+}
+
+.benefits div {
+    display: flex;
+    margin: 1rem 1rem 1rem 0;
+    /* border: 1px solid gold; */
+}
+
+.benefits div p:first-child {
+    display: flex;
+    flex: 0.3;
+    /* border: 1px solid red; */
+}
+
+.benefits div input {
+    display: flex;
+    flex: 0.7;
+    /* border: 1px solid red; */
+}
+
+.payment-type div {
+    display: flex;
+}
+
+.payment-type div p:first-child {
+    display: flex;
+    flex: 0.3;
+    /* border: 1px solid red; */
+    align-items: center;
+}
+
+.payment-type div:last-child {
+    display: flex;
+    flex: 0.7;
+    /* border: 1px solid red; */
+    justify-content: space-between;
+}
+
+.payment-type div:last-child a {
+    margin: 1rem;
+}
