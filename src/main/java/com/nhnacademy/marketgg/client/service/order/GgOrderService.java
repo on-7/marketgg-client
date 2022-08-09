@@ -32,7 +32,7 @@ public class GgOrderService implements OrderService {
 
     @Override
     public List<OrderResponse> retrieveOrders() {
-        return null;
+        return orderRepository.retrieveOrders();
     }
 
 }

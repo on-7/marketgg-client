@@ -1,8 +1,13 @@
 package com.nhnacademy.marketgg.client.repository.order;
 
+import static java.util.Collections.singletonList;
+
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
+import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
 import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -33,9 +38,32 @@ public class OrderAdapter implements OrderRepository {
                                     })
                                     .build();
 
-        client.post().uri("/shop/v1/orders")
+        client.post()
+              .uri("/shop/v1/orders")
               .bodyValue(orderRequest)
               .retrieve();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return - 주문 목록
+     */
+    @Override
+    public List<OrderResponse> retrieveOrders() {
+        WebClient client = WebClient.builder()
+                                    .baseUrl(gatewayIp)
+                                    .defaultHeaders(
+                                        headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
+                                    )
+                                    .build();
+
+        return client.get()
+                     .uri("/shop/v1/orders")
+                     .retrieve()
+                     .bodyToMono(new ParameterizedTypeReference<List<OrderResponse>>() {
+                     })
+                     .blockOptional().orElseThrow();
     }
 
 }
