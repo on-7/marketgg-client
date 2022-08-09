@@ -20,6 +20,19 @@ public interface OrderService {
      */
     void createOrder(final OrderCreateRequest orderRequest);
 
+    /**
+     * 주문 목록을 조회합니다.
+     *
+     * @return 주문 목록이 담긴 응답 객체
+     */
     List<OrderResponse> retrieveOrders();
+
+    /**
+     * 주문 상세 조회를 처리합니다.
+     *
+     * @param orderId - 주문 번호
+     * @return 주문 상세 정보 응답 객체
+     */
+    OrderResponse retrieveOrder(final Long orderId);
 
 }

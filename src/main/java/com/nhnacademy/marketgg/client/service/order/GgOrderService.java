@@ -30,9 +30,25 @@ public class GgOrderService implements OrderService {
         orderRepository.createOrder(orderRequest);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @return 주문 목록이 담긴 응답 객체
+     */
     @Override
     public List<OrderResponse> retrieveOrders() {
         return orderRepository.retrieveOrders();
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param orderId - 주문 번호
+     * @return 주문 상세 정보 응답 객체
+     */
+    @Override
+    public OrderResponse retrieveOrder(final Long orderId) {
+        return orderRepository.retrieveOrder(orderId);
     }
 
 }
