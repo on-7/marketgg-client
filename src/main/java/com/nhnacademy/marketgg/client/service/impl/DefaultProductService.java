@@ -55,11 +55,6 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductList(final String keyword, final Integer page) {
-        return productRepository.searchProductList(keyword, page);
-    }
-
-    @Override
     public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final Integer page) {
         return productRepository.searchProductListByCategory(categoryId, keyword, page);
     }

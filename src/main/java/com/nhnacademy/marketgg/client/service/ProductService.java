@@ -80,16 +80,6 @@ public interface ProductService {
     void deleteProduct(final Long id);
 
     /**
-     * 전체 목록에서 검색한 상품 목록을 반환합니다.
-     *
-     * @param keyword - 검색어입니다.
-     * @param page - 조회 할 페이지 정보입니다.
-     * @return 전체 목록에서 검색한 상품 목록을 반환합니다.
-     * @since 1.0.0
-     */
-    List<SearchProductResponse> searchProductList(final String keyword, final Integer page);
-
-    /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 반환합니다.
      *
      * @param categoryId - 지정한 카테고리의 식별번호입니다.

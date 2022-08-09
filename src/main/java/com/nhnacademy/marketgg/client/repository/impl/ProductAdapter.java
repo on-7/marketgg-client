@@ -134,29 +134,19 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductList(final String keyword, final Integer page) {
-        HttpHeaders headers = new HttpHeaders(this.buildHeaders());
-        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-
-        ResponseEntity<List<SearchProductResponse>> response =
-                this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + "/search?keyword=" + keyword + "&page=" + page,
-                                           HttpMethod.GET,
-                                           httpEntity,
-                                           new ParameterizedTypeReference<>() {
-                                           });
-
-        this.checkResponseUri(response);
-        return response.getBody();
-    }
-
-    @Override
     public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final Integer page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 
+        String requestUri = gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/search?keyword=" + keyword + "&page=" + page;
+
+        if(categoryId.compareTo("001") == 0) {
+            requestUri = gatewayIp + DEFAULT_PRODUCT + "/search?keyword=" + keyword + "&page=" + page;
+        }
+
         ResponseEntity<List<SearchProductResponse>> response =
                 this.restTemplate.exchange(
-                        gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/search?keyword=" + keyword + "&page=" + page,
+                        requestUri,
                         HttpMethod.GET,
                         httpEntity,
                         new ParameterizedTypeReference<>() {
