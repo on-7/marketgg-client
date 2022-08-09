@@ -4,7 +4,7 @@ import static java.util.Collections.singletonList;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
-import com.nhnacademy.marketgg.client.repository.GgUrl;
+import com.nhnacademy.marketgg.client.util.GgUrlUtils;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class OrderAdapter implements OrderRepository {
                                     .build();
 
         client.post()
-              .uri(GgUrl.SHOP_SERVICE_PREFIX_V1 + GgUrl.ORDERS_PATH_PREFIX)
+              .uri(GgUrlUtils.SHOP_SERVICE_PREFIX_V1 + GgUrlUtils.ORDERS_PATH_PREFIX)
               .bodyValue(orderRequest)
               .retrieve();
     }
@@ -60,7 +60,7 @@ public class OrderAdapter implements OrderRepository {
                                     .build();
 
         return client.get()
-                     .uri(GgUrl.SHOP_SERVICE_PREFIX_V1 + GgUrl.ORDERS_PATH_PREFIX)
+                     .uri(GgUrlUtils.SHOP_SERVICE_PREFIX_V1 + GgUrlUtils.ORDERS_PATH_PREFIX)
                      .retrieve()
                      .bodyToMono(new ParameterizedTypeReference<List<OrderResponse>>() {
                      })
@@ -83,7 +83,7 @@ public class OrderAdapter implements OrderRepository {
                                     .build();
 
         return client.get()
-                     .uri(GgUrl.SHOP_SERVICE_PREFIX_V1 + GgUrl.ORDERS_PATH_PREFIX + "/" + orderId)
+                     .uri(GgUrlUtils.SHOP_SERVICE_PREFIX_V1 + GgUrlUtils.ORDERS_PATH_PREFIX + "/" + orderId)
                      .retrieve()
                      .bodyToMono(OrderResponse.class)
                      .blockOptional().orElseThrow();
