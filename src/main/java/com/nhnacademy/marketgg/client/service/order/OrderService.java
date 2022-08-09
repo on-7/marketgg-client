@@ -1,6 +1,8 @@
 package com.nhnacademy.marketgg.client.service.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
+import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import java.util.List;
 
 /**
  * 주문에 대한 서비스 클래스입니다.
@@ -17,5 +19,7 @@ public interface OrderService {
      * @param orderRequest - 주문 생성 시 필요한 요청 정보 객체
      */
     void createOrder(final OrderCreateRequest orderRequest);
+
+    List<OrderResponse> retrieveOrders();
 
 }

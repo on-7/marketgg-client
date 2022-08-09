@@ -1,7 +1,10 @@
 package com.nhnacademy.marketgg.client.web.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
+import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
+import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -30,7 +33,7 @@ public class OrderController {
      *
      * @return 주문서 작성 페이지
      */
-    @GetMapping
+    @GetMapping("/form")
     public ModelAndView goOrderForm() {
         return new ModelAndView("pages/orders/order-form");
     }
@@ -46,5 +49,21 @@ public class OrderController {
 
         return new ModelAndView("redirect:/payments/request-payment");
     }
+
+    /**
+     * 주문 목록을 조회합니다.
+     *
+     * @return 주문 목록 페이지
+     */
+    @GetMapping("/orders")
+    public ModelAndView retrieveOrders() {
+        ModelAndView mav = new ModelAndView("/pages/orders/order-list");
+
+        List<OrderResponse> orders = orderService.retrieveOrders();
+        mav.addObject("orders", orders);
+
+        return mav;
+    }
+
 
 }

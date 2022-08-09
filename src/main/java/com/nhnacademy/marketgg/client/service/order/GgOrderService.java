@@ -1,7 +1,9 @@
 package com.nhnacademy.marketgg.client.service.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
+import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
 import com.nhnacademy.marketgg.client.repository.order.OrderRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,11 @@ public class GgOrderService implements OrderService {
     @Override
     public void createOrder(final OrderCreateRequest orderRequest) {
         orderRepository.createOrder(orderRequest);
+    }
+
+    @Override
+    public List<OrderResponse> retrieveOrders() {
+        return null;
     }
 
 }
