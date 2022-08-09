@@ -35,4 +35,11 @@ public interface OrderRepository {
      */
     OrderResponse retrieveOrder(Long orderId);
 
+    /**
+     * 주문을 취소한 상태로 처리합니다.
+     *
+     * @param orderId - 주문 번호
+     */
+    void cancelOrder(final Long orderId);
+
 }

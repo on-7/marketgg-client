@@ -89,4 +89,23 @@ public class OrderAdapter implements OrderRepository {
                      .blockOptional().orElseThrow();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param orderId - 주문 번호
+     */
+    @Override
+    public void cancelOrder(final Long orderId) {
+        WebClient client = WebClient.builder()
+                                    .baseUrl(gatewayIp)
+                                    .defaultHeaders(
+                                        headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
+                                    )
+                                    .build();
+
+        client.put()
+              .uri(GgUrlUtils.SHOP_SERVICE_PREFIX_V1 + GgUrlUtils.ORDERS_PATH_PREFIX + "/" + orderId)
+              .retrieve();
+    }
+
 }
