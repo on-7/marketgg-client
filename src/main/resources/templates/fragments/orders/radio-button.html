@@ -1,0 +1,7 @@
+<!--
+ NOTE: 해당 공통 컴포넌트를 사용한 곳에서 받아온 매개변수로 속성 값을 설정한다.
+ -->
+<div class="form-check" th:fragment="formCheck(id, text)">
+    <input class="form-check-input" type="radio" th:id="${id}" name="paymentType" th:value="${text}">
+    <label class="form-check-label" th:for="${id}" th:text="${text}"></label>
+</div>
