@@ -77,7 +77,7 @@
                     <input class="btn btn-primary fa-pull-right" type="submit" value="FAQ 등록">
                 </form>
             </div>
-            <div th:if="${isAdmin == 'no'}">
+            <div style="text-align: center" th:if="${isAdmin == 'no'}">
                 <div th:if="${searchType == 'default'}">
                     <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
                     <span class="pagination" th:text="'('+ ${page} + 'page)'"></span>
