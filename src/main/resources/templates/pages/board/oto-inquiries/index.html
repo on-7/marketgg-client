@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main :: layout(~{::title}, ~{::main})}">
+    <head>
+        <meta charset="UTF-8">
+        <title>1:1문의 게시판</title>
+    </head>
+    <body>
+        <main>
+            <div th:if="${isAdmin == 'yes'}">
+                <details>
+                    <summary>[전체 검색]</summary>
+                            <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/search?page=0'">
+                                <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+                                <input type="submit" value="검색"><br />
+                            </form>
+                </details>
+                <details>
+                    <summary>[사유 검색]</summary>
+                    <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/options/reason/search?page=0'">
+                        <span>1:1 문의 사유 : </span>
+                        <select name="option">
+                            <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
+                        </select><br />
+                        <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+                        <input type="submit" value="검색"><br />
+                    </form>
+                </details>
+                <details>
+                    <summary>[상태 검색]</summary>
+                    <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/options/status/search?page=0'">
+                        <select name="option">
+                            <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
+                        </select><br />
+                        <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+                        <input type="submit" value="검색"><br />
+                    </form>
+                </details>
+            </div>
+            <div th:if="${isAdmin == 'yes'}">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>게시글 번호</th>
+                            <th>제목</th>
+                            <th>사유</th>
+                            <th>상태</th>
+                            <th>등록일자</th>
+                            <th>상태변경</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="board : ${responses}">
+                            <td th:text="${board.id}"></td>
+                            <td>
+                                <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
+                            </td>
+                            <td th:text="${board.reason}"></td>
+                            <td th:text="${board.status}"></td>
+                            <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                            <td>
+                                <div th:if="${isAdmin == 'yes'}">
+                                    <form th:method="post" th:action="'/adnmin/customer-services/categories/702/'+${board.id}+'/status?page='+${page}">
+                                        <select name="status">
+                                            <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
+                                        </select><br />
+                                        <input type="hidden" name="_method" value="patch"/>
+                                        <input type="submit" value="상태변경">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${isAdmin == 'no'}">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>게시글 번호</th>
+                            <th>제목</th>
+                            <th>사유</th>
+                            <th>상태</th>
+                            <th>등록일자</th>
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="board : ${responses}">
+                            <td th:text="${board.id}"></td>
+                            <td>
+                                <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
+                            </td>
+                            <td th:text="${board.reason}"></td>
+                            <td th:text="${board.status}"></td>
+                            <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                            <td>
+                                <form th:method="post" th:action="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <input type="submit" value="삭제">
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${isAdmin == 'no'}">
+                <form th:method="get" th:action="'/customer-services/categories/'+${code}+'/create'">
+                    <input class="btn-primary fa-pull-right" type="submit" value="1:1문의 등록">
+                </form>
+            </div>
+            <div style="text-align: center" th:if="${isAdmin == 'no'}">
+                <div th:if="${searchType == 'no'}">
+                    <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+                    <span class="btn-light" th:text="'('+ ${page} + 'page)'"></span>
+                    <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                </div>
+            </div>
+            <div style="text-align: center" th:if="${isAdmin == 'yes'}">
+                <div th:if="${searchType == 'default'}">
+                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/search?page='+${page - 1}+'&keyword='+${keyword}" th:if="${page} != 0" th:text="prev"></a>
+                    <span class="btn-light" th:text="'('+ ${page} + 'page)'"></span>
+                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/search?page='+${page + 1}+'&keyword='+${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+                </div>
+                <div th:if="${searchType == 'reason'}">
+                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/option/reason/search?page='+${page - 1}+'&keyword='+${keyword}+'&reason='+${reason}" th:if="${page} != 0" th:text="prev"></a>
+                    <span class="btn-light" th:text="'('+ ${page} + 'page)'"></span>
+                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/option/reason/search?page='+${page + 1}+'&keyword='+${keyword}+'&reason='+${reason}" th:if="${isEnd} == 0" th:text="next"></a>
+                </div>
+                <div th:if="${searchType == 'status'}">
+                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/option/status/search?page='+${page - 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${page} != 0" th:text="prev"></a>
+                    <span class="btn-light" th:text="'('+ ${page} + 'page)'"></span>
+                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/option/status/search?page='+${page + 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${isEnd} == 0" th:text="next"></a>
+                </div>
+                <div th:if="${searchType == 'no'}">
+                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
+                    <span class="btn-light" th:text="'('+ ${page} + 'page)'"></span>
+                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

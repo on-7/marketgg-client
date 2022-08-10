@@ -93,7 +93,7 @@ class AdminCsPostControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}", categoryCode)
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("board/" + type + "/index"))
+                                          .andExpect(view().name("pages/board/" + type + "/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -109,7 +109,7 @@ class AdminCsPostControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}", "702")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("board/oto-inquiries/index"))
+                                          .andExpect(view().name("pages/board/oto-inquiries/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -120,7 +120,7 @@ class AdminCsPostControllerTest {
     void testDoCreatePost() throws Exception {
         this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/create", "703"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("board/faqs/create-form"));
+                    .andExpect(view().name("pages/board/faqs/create-form"));
     }
 
     @Test
@@ -173,7 +173,7 @@ class AdminCsPostControllerTest {
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("board/" + type + "/index"))
+                                          .andExpect(view().name("pages/board/" + type + "/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -209,7 +209,7 @@ class AdminCsPostControllerTest {
                                     .param("optionType", "reason")
                                     .param("option", "환불"))
                             .andExpect(status().isOk())
-                            .andExpect(view().name("board/oto-inquiries/index"))
+                            .andExpect(view().name("pages/board/oto-inquiries/index"))
                             .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -229,7 +229,7 @@ class AdminCsPostControllerTest {
                                     .param("optionType", "status")
                                     .param("option", "종료"))
                             .andExpect(status().isOk())
-                            .andExpect(view().name("board/oto-inquiries/index"))
+                            .andExpect(view().name("pages/board/oto-inquiries/index"))
                             .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -245,7 +245,7 @@ class AdminCsPostControllerTest {
                                           get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "701", 1L)
                                                   .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("board/notices/update-form"))
+                                          .andExpect(view().name("pages/board/notices/update-form"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("reasons")).isNotNull();
