@@ -99,7 +99,7 @@ public class AdminCsPostController {
     ) throws JsonProcessingException {
 
         if(bindingResult.hasErrors()) {
-            return new ModelAndView(DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/create");
+            return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/create");
         }
 
         ModelAndView mav = new ModelAndView(
@@ -218,7 +218,7 @@ public class AdminCsPostController {
                                    BindingResult bindingResult) {
 
         if(bindingResult.hasErrors()) {
-            return new ModelAndView(DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/" + postNo + "/update?page=" + page);
+            return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/" + postNo + "/update?page=" + page);
         }
 
         if (categoryCode.compareTo(OTO_CODE) == 0) {

@@ -90,11 +90,11 @@ public class CsPostController {
     @PostMapping("/categories/" + OTO_CODE + "/create")
     public ModelAndView createPost(@Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult) throws JsonProcessingException {
         if(bindingResult.hasErrors()) {
-            return new ModelAndView(DEFAULT_POST + "/" + this.convertToType(OTO_CODE) + "/create");
+            return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/create");
         }
         postService.createPost(postRequest);
 
-        return new ModelAndView("redirect:" + DEFAULT_POST + "/" + this.convertToType(OTO_CODE) + "?page=0");
+        return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=0");
     }
 
     /**

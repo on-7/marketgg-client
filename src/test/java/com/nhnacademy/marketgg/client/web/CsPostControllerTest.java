@@ -122,15 +122,28 @@ class CsPostControllerTest {
     }
 
     @Test
-    @DisplayName("게시글 생성하기")
-    void testCreatePost() throws Exception {
+    @DisplayName("게시글 생성하기 성공")
+    void testCreatePostSuccess() throws Exception {
         willDoNothing().given(postService).createPost(any(PostRequest.class));
 
+        this.mockMvc.perform(post(DEFAULT_POST + "/categories/" + OTO_CODE + "/create")
+                                     .param("page", "0")
+                                     .param("categoryCode", "702")
+                                     .param("title", "hello")
+                                     .param("content", "안녕하세요.")
+                                     .param("reason", "환불"))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702?page=0"));
+    }
+
+    @Test
+    @DisplayName("게시글 생성하기 실패")
+    void testCreatePostFail() throws Exception {
         this.mockMvc.perform(post(DEFAULT_POST + "/categories/" + OTO_CODE + "/create")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/oto-inquiries?page=0"));
+                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/create"));
     }
 
     @Test

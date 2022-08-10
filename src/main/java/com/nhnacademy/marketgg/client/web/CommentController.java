@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.service.CommentService;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -38,7 +39,7 @@ public class CommentController {
      * @since 1.0.0
      */
     @PostMapping("/{postNo}")
-    public ModelAndView createComment(@PathVariable final Long postNo,
+    public ModelAndView createComment(@PathVariable @Min(1) final Long postNo,
                                       @Valid @ModelAttribute final CommentRequest commentRequest,
                                       BindingResult bindingResult) throws JsonProcessingException {
 

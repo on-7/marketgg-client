@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.service.CommentService;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -25,6 +28,8 @@ class CommentControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    ObjectMapper objectMapper;
 
     @MockBean
     CommentService commentService;
@@ -37,7 +42,7 @@ class CommentControllerTest {
         willDoNothing().given(commentService).createComment(anyLong(), any(CommentRequest.class));
 
         this.mockMvc.perform(post(DEFAULT_POST + "/{postNo}", 1L)
-                                     .param("comment", "hello"))
+                                     .param("content", "hello!"))
                             .andExpect(status().is3xxRedirection())
                             .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/1"));
 
