@@ -27,13 +27,14 @@ public class Oauth2Controller {
     private final Oauth2Service oAuth2Service;
 
     @GetMapping("/google")
-    public RedirectView googleLogin() {
+    public RedirectView googleLogin(HttpServletResponse response, HttpSession session) {
+        response.addCookie(new Cookie(JwtInfo.SESSION_ID, session.getId()));
+
         return new RedirectView(oAuth2Service.getRedirectUrl());
     }
 
     @GetMapping("/oauth2/code/google")
-    public ModelAndView googleRedirect(@RequestParam String code, HttpSession httpSession,
-                                       HttpSession session, HttpServletResponse response,
+    public ModelAndView googleRedirect(@RequestParam String code, HttpSession session, HttpServletResponse response,
                                        RedirectAttributes redirectAttributes) throws JsonProcessingException {
 
         String sessionId = session.getId();
@@ -42,10 +43,13 @@ public class Oauth2Controller {
 
         if (googleProfile.isPresent()) {
             redirectAttributes.addFlashAttribute("profile", googleProfile.get());
-            response.addCookie(new Cookie(JwtInfo.SESSION_ID, sessionId));
-
             return new ModelAndView("redirect:/signup");  // 회원가입 폼
         }
+        Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 30);
+        cookie.setPath("/");
+        response.addCookie(cookie);
 
         return new ModelAndView("redirect:/");
     }

@@ -36,7 +36,7 @@ public class CsPostController {
     private final PostService postService;
 
     private static final String DEFAULT_POST = "/customer-services";
-    private static final String BOARD = "board/";
+    private static final String BOARD = "pages/board/";
     private static final String OTO_CODE = "702";
     private static final Integer PAGE_SIZE = 10;
 
@@ -49,8 +49,8 @@ public class CsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}")
-    public ModelAndView index(@PathVariable @Size(min = 1, max = 6) final String categoryCode, @RequestParam @Min(0) final Integer page) {
-        ModelAndView mav = new ModelAndView(String.format("board/%s/index", this.convertToType(categoryCode)));
+    public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page) {
+        ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryCode)));
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
 
         mav.addObject("page", page);
@@ -88,8 +88,9 @@ public class CsPostController {
      * @since 1.0.0
      */
     @PostMapping("/categories/" + OTO_CODE + "/create")
-    public ModelAndView createPost(@Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult) throws JsonProcessingException {
-        if(bindingResult.hasErrors()) {
+    public ModelAndView createPost(@Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult)
+        throws JsonProcessingException {
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/create");
         }
         postService.createPost(postRequest);
@@ -106,7 +107,8 @@ public class CsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/{postNo}")
-    public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode, @PathVariable @Min(1) final Long postNo) {
+    public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                     @PathVariable @Min(1) final Long postNo) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
@@ -126,7 +128,8 @@ public class CsPostController {
      */
     @GetMapping("/categories/{categoryCode}/search")
     public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
-                                          @RequestParam @Size(min = 1, max = 30) final String keyword, @RequestParam @Min(0) final Integer page) {
+                                          @RequestParam @Size(min = 1, max = 30) final String keyword,
+                                          @RequestParam @Min(0) final Integer page) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/index");
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);

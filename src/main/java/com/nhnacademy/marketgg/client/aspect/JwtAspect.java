@@ -130,7 +130,7 @@ public class JwtAspect {
      * @return 메서드를 실행시킵니다.
      * @throws Throwable 메서드를 실행시킬 때 발생할 수 있는 예외입니다.
      */
-    @Around("execution(* com.nhnacademy.marketgg.client.web.*.*(..))"
+    @Around("execution(* com.nhnacademy.marketgg.client.web..*.*(..))"
         + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
     public Object session(ProceedingJoinPoint pjp) throws Throwable {
         log.info("Method process: {}", pjp.getSignature().getName());
