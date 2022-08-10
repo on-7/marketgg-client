@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.web.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.Alert;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
@@ -38,16 +39,15 @@ public class MemberController {
     /**
      * 선택한 회원의 GG 패스 화면으로 이동합니다.
      *
-     * @param memberId - GG 패스 페이지를 조회할 회원의 식별번호입니다.
+     * @param memberInfo - GG 패스 페이지를 조회할 회원의 입니다.
      * @return 회원의 식별번호를 담고, GG 패스의 index 페이지로 이동합니다.
      * @author 박세완
      * @since 1.0.0
      */
-    @GetMapping("/{memberId}/ggpass")
-    public ModelAndView index(@PathVariable final Long memberId) {
+    @GetMapping("/ggpass")
+    public ModelAndView index(final MemberInfo memberInfo) {
         ModelAndView mav = new ModelAndView("/ggpass/index");
-        mav.addObject("id", memberId);
-        mav.addObject("time", LocalDate.from(memberService.retrievePassUpdatedAt(memberId)));
+        mav.addObject("time", LocalDate.from(memberInfo.getGgpassUpdatedAt()));
 
         return mav;
     }
@@ -55,38 +55,37 @@ public class MemberController {
     /**
      * 선택한 회원을 GG 패스에 구독시키는 Mapping 을 지원합니다.
      *
-     * @param memberId - GG 패스를 구독할 회원의 식별번호입니다.
+     * @param memberInfo - GG 패스를 구독할 회원입니다.
      * @return 갱신일자가 지금 시간보다 늦을 시, ERROR 메세지와 함께 다시 Index 페이지로 이동합니다.
      * 갱신일자가 지금 시간보다 빠를 시, 구독하는 메소드를 실행한 후, 다시 Index 페이지로 이동합니다.
      * @author 박세완
      * @since 1.0.0
      */
-    @PostMapping("/{memberId}/ggpass/subscribe")
-    public ModelAndView subscribePass(@PathVariable final Long memberId) {
-        if (memberService.retrievePassUpdatedAt(memberId).isAfter(LocalDateTime.now())) {
+    @PostMapping("/ggpass/subscribe")
+    public ModelAndView subscribePass(final MemberInfo memberInfo) {
+        if (memberInfo.getGgpassUpdatedAt().isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
-                DEFAULT_MEMBER + "/" + memberId + "/ggpass"));
+                DEFAULT_MEMBER + "/ggpass"));
             return mav;
         }
-        memberService.subscribePass(memberId);
+        memberService.subscribePass();
 
-        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
+        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/ggpass");
     }
 
     /**
      * 선택한 회원을 GG 패스에 구독해지시키는 Mapping 을 지원합니다.
      *
-     * @param memberId - GG 패스를 구독해지할 회원의 식별번호입니다.
      * @return GG 패스 구독을 해지하는 메소드 실행 후, 다시 Index 페이지로 이동합니다.
      * @author 박세완
      * @since 1.0.0
      */
-    @PostMapping("/{memberId}/ggpass/withdraw")
-    public ModelAndView withdrawPass(@PathVariable final Long memberId) {
-        memberService.withdrawPass(memberId);
+    @PostMapping("/ggpass/withdraw")
+    public ModelAndView withdrawPass() {
+        memberService.withdrawPass();
 
-        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/" + memberId + "/ggpass");
+        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/ggpass");
     }
 
     /**
