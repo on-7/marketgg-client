@@ -27,6 +27,18 @@ public class MemberAdapter implements MemberRepository {
     private static final String DEFAULT_MEMBER = "/shop/v1/members/";
 
     @Override
+    public LocalDateTime retrievePassUpdatedAt() {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<LocalDateTime> response =
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/ggpass", HttpMethod.GET, requestEntity,
+                LocalDateTime.class);
+
+        this.checkResponseUri(response);
+
+        return response.getBody();
+    }
+
+    @Override
     public void subscribePass() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response =

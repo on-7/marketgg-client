@@ -37,33 +37,31 @@ public class MemberController {
     private static final String DEFAULT_MEMBER = "/members";
 
     /**
-     * 선택한 회원의 GG 패스 화면으로 이동합니다.
+     * 회원의 GG 패스 화면으로 이동합니다.
      *
-     * @param memberInfo - GG 패스 페이지를 조회할 회원의 입니다.
      * @return 회원의 식별번호를 담고, GG 패스의 index 페이지로 이동합니다.
      * @author 박세완
      * @since 1.0.0
      */
     @GetMapping("/ggpass")
-    public ModelAndView index(final MemberInfo memberInfo) {
+    public ModelAndView index() {
         ModelAndView mav = new ModelAndView("/ggpass/index");
-        mav.addObject("time", LocalDate.from(memberInfo.getGgpassUpdatedAt()));
+        mav.addObject("time", LocalDate.from(memberService.retrievePassUpdatedAt()));
 
         return mav;
     }
 
     /**
-     * 선택한 회원을 GG 패스에 구독시키는 Mapping 을 지원합니다.
+     * 회원을 GG 패스에 구독시키는 Mapping 을 지원합니다.
      *
-     * @param memberInfo - GG 패스를 구독할 회원입니다.
      * @return 갱신일자가 지금 시간보다 늦을 시, ERROR 메세지와 함께 다시 Index 페이지로 이동합니다.
      * 갱신일자가 지금 시간보다 빠를 시, 구독하는 메소드를 실행한 후, 다시 Index 페이지로 이동합니다.
      * @author 박세완
      * @since 1.0.0
      */
     @PostMapping("/ggpass/subscribe")
-    public ModelAndView subscribePass(final MemberInfo memberInfo) {
-        if (memberInfo.getGgpassUpdatedAt().isAfter(LocalDateTime.now())) {
+    public ModelAndView subscribePass() {
+        if (memberService.retrievePassUpdatedAt().isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
                 DEFAULT_MEMBER + "/ggpass"));

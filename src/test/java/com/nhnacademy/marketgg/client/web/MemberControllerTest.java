@@ -6,9 +6,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,6 +20,7 @@ import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import com.nhnacademy.marketgg.client.web.member.MemberAjaxController;
 import com.nhnacademy.marketgg.client.web.member.MemberController;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -45,22 +44,20 @@ class MemberControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
     @Autowired
     ObjectMapper objectMapper;
 
     @MockBean
     MemberService memberService;
-
     @MockBean
     RestTemplate restTemplate;
-
     @MockBean
     GivenCouponService givenCouponService;
 
     @Test
     @DisplayName("GG 패스 메인 페이지")
     void testIndex() throws Exception {
+        given(memberService.retrievePassUpdatedAt()).willReturn(LocalDateTime.now());
         mockMvc.perform(get("/members/ggpass"))
                .andExpect(status().isOk())
                .andExpect(view().name("/ggpass/index"));
@@ -69,34 +66,36 @@ class MemberControllerTest {
     @Test
     @DisplayName("GG 패스 구독 성공")
     void testSubscribePassSuccess() throws Exception {
-        doNothing().when(memberService).subscribePass();
+        given(memberService.retrievePassUpdatedAt()).willReturn(LocalDateTime.now());
+        willDoNothing().given(memberService).subscribePass();
 
         mockMvc.perform(post("/members/ggpass/subscribe"))
                .andExpect(status().is3xxRedirection());
 
-        verify(memberService, times(1)).subscribePass();
+        then(memberService).should(times(1)).subscribePass();
     }
 
     @Test
     @DisplayName("GG 패스 구독 실패")
     void testSubscribePassFail() throws Exception {
-        doNothing().when(memberService).subscribePass();
+        given(memberService.retrievePassUpdatedAt()).willReturn(LocalDateTime.of(2033, 12, 1, 12, 30));
+        willDoNothing().given(memberService).subscribePass();
 
         mockMvc.perform(post("/members/ggpass/subscribe"))
                .andExpect(view().name("message"));
 
-        verify(memberService, times(0)).subscribePass();
+        then(memberService).should(times(0)).subscribePass();
     }
 
     @Test
     @DisplayName("GG 패스 구독해지")
     void testWithdrawPass() throws Exception {
-        doNothing().when(memberService).withdrawPass();
+        willDoNothing().given(memberService).withdrawPass();
 
         mockMvc.perform(post("/members/ggpass/withdraw"))
                .andExpect(status().is3xxRedirection());
 
-        verify(memberService, times(1)).withdrawPass();
+        then(memberService).should(times(1)).withdrawPass();
     }
 
     @Test

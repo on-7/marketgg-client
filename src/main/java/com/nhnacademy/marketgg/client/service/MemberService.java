@@ -5,6 +5,7 @@ import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
+import java.time.LocalDateTime;
 
 /**
  * 회원 서비스 입니다.
@@ -18,6 +19,15 @@ public interface MemberService {
     EmailExistResponse checkEmail(EmailRequest emailRequest);
 
     EmailUseResponse useEmail(EmailRequest emailRequest);
+
+    /**
+     * 회원의 GG Pass 갱신일시를 반환하는 메소드입니다.
+     *
+     * @return 회원의 갱신일시를 반환합니다.
+     * @author 박세완
+     * @since 1.0.0
+     */
+    LocalDateTime retrievePassUpdatedAt();
 
     /**
      * 회원의 GG Pass 구독처리를 위한 메소드입니다.
