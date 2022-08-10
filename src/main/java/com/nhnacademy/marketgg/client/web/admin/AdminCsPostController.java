@@ -51,7 +51,7 @@ public class AdminCsPostController {
     public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page)
         throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/index");
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -74,7 +74,7 @@ public class AdminCsPostController {
      */
     @GetMapping("/categories/{categoryCode}/create")
     public ModelAndView doCreate(@PathVariable final String categoryCode) {
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/create-form");
+        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/create-form");
         mav.addObject("code", OTO_CODE);
 
         return mav;
@@ -115,7 +115,7 @@ public class AdminCsPostController {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
 
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/index");
         List<PostResponse> responses = postService.searchForCategory(categoryCode, request);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -145,7 +145,7 @@ public class AdminCsPostController {
                                         @RequestParam final String option, @RequestParam final Integer page) {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(OTO_CODE) + "/index");
+        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(OTO_CODE) + "/index");
         List<PostResponse> responses = postService.searchForOption(OTO_CODE, request, optionType, option);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -177,7 +177,7 @@ public class AdminCsPostController {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
         }
 
-        ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/update-form");
+        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/update-form");
         mav.addObject("response", postService.retrievePost(postNo, categoryCode));
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("page", page);

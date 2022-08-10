@@ -32,7 +32,7 @@ public class CsPostController {
     private final PostService postService;
 
     private static final String DEFAULT_POST = "/customer-services";
-    private static final String BOARD = "board/";
+    private static final String BOARD = "pages/board/";
     private static final String OTO_CODE = "702";
     private static final Integer PAGE_SIZE = 10;
 
@@ -46,7 +46,7 @@ public class CsPostController {
      */
     @GetMapping("/categories/{categoryCode}")
     public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page) {
-        ModelAndView mav = new ModelAndView(String.format("board/%s/index", this.convertToType(categoryCode)));
+        ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryCode)));
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
 
         mav.addObject("page", page);
