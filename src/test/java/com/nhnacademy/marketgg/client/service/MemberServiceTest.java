@@ -33,7 +33,7 @@ class MemberServiceTest {
 
         LocalDateTime memberUpdateDate = memberService.retrievePassUpdatedAt();
 
-        assertThat(memberUpdateDate.isEqual(LocalDateTime.now())).isFalse();
+        assertThat(memberUpdateDate.isAfter(LocalDateTime.now())).isFalse();
     }
 
     @Test
