@@ -27,18 +27,18 @@ public class DefaultMemberService implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public LocalDateTime retrievePassUpdatedAt(final Long id) {
-        return memberRepository.retrievePassUpdatedAt(id);
+    public LocalDateTime retrievePassUpdatedAt() {
+        return memberRepository.retrievePassUpdatedAt();
     }
 
     @Override
-    public void subscribePass(final Long id) {
-        memberRepository.subscribePass(id);
+    public void subscribePass() {
+        memberRepository.subscribePass();
     }
 
     @Override
-    public void withdrawPass(final Long id) {
-        memberRepository.withdrawPass(id);
+    public void withdrawPass() {
+        memberRepository.withdrawPass();
     }
 
     @Override

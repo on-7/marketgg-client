@@ -124,13 +124,25 @@ class AdminCsPostControllerTest {
     }
 
     @Test
-    @DisplayName("게시글 생성하기")
-    void testCreatePost() throws Exception {
-        willDoNothing().given(postService).createPost(any(PostRequest.class));
-
+    @DisplayName("게시글 생성하기 실패")
+    void testCreatePostFail() throws Exception {
         this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/create", "703")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/703/create"));
+    }
+
+    @Test
+    @DisplayName("게시글 생성하기 성공")
+    void testCreatePostSuccess() throws Exception {
+        willDoNothing().given(postService).createPost(any(PostRequest.class));
+
+        this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/create", "703")
+                                     .param("categoryCode", "703")
+                                     .param("title", "hello")
+                                     .param("content", "안녕하세요.")
+                                     .param("reason", "환불"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/703?page=0"));
 
@@ -256,14 +268,27 @@ class AdminCsPostControllerTest {
     }
 
     @Test
-    @DisplayName("1:1 문의 게시글 수정 시도")
-    void testUpdatePostForOto() throws Exception {
-        willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString());
-
+    @DisplayName("1:1 문의 게시글 수정 실패")
+    void testUpdatePostForOtoFail() throws Exception {
         this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "702", 1L)
                                      .param("page", "0")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702/1/update?page=0"));
+    }
+
+    @Test
+    @DisplayName("1:1 문의 게시글 수정 성공")
+    void testUpdatePostForOtoSuccess() throws Exception {
+        willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString());
+
+        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "702", 1L)
+                                     .param("page", "0")
+                                     .param("categoryCode", "702")
+                                     .param("title", "hello")
+                                     .param("content", "안녕하세요.")
+                                     .param("reason", "환불"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702?page=0"));
 
@@ -277,8 +302,10 @@ class AdminCsPostControllerTest {
 
         this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "701", 1L)
                                      .param("page", "0")
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .content(mapper.writeValueAsString(request)))
+                                     .param("categoryCode", "701")
+                                     .param("title", "hello")
+                                     .param("content", "안녕하세요.")
+                                     .param("reason", "환불"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/701?page=0"));
 
@@ -304,7 +331,8 @@ class AdminCsPostControllerTest {
         willDoNothing().given(postService).changeStatus(anyLong(), any(PostStatusUpdateRequest.class));
 
         this.mockMvc.perform(patch(DEFAULT_ADMIN_POST + "/categories/702/{postNo}/status", 1L)
-                                     .param("page", "0"))
+                                     .param("page", "0")
+                                     .param("status", "종료"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702?page=0"));
 

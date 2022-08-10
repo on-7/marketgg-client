@@ -5,8 +5,11 @@ import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,10 +41,13 @@ public class AdminLabelController {
      * @since 1.0.0
      */
     @PostMapping
-    public ModelAndView createLabel(@ModelAttribute final LabelRegisterRequest labelRequest)
+    public ModelAndView createLabel(@Valid @ModelAttribute final LabelRegisterRequest labelRequest,
+                                    BindingResult bindingResult)
         throws JsonProcessingException {
 
-        labelService.createLabel(labelRequest);
+        if(!bindingResult.hasErrors()) {
+            labelService.createLabel(labelRequest);
+        }
 
         return new ModelAndView("redirect:/admin/labels");
     }
@@ -70,7 +76,7 @@ public class AdminLabelController {
      * @since 1.0.0
      */
     @DeleteMapping("/{labelId}")
-    public ModelAndView deleteLabel(@PathVariable final Long labelId) {
+    public ModelAndView deleteLabel(@PathVariable @Min(1) final Long labelId) {
         labelService.deleteLabel(labelId);
 
         return new ModelAndView("redirect:/admin/labels/index");

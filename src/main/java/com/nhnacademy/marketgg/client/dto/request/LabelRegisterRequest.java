@@ -1,5 +1,7 @@
 package com.nhnacademy.marketgg.client.dto.request;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,6 +9,8 @@ import lombok.Getter;
 @Getter
 public class LabelRegisterRequest {
 
+    @NotBlank
+    @Size(min = 1, max = 30)
     private String name;
 
 }

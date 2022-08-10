@@ -7,8 +7,12 @@ import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -45,7 +49,7 @@ public class CsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}")
-    public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page) {
+    public ModelAndView index(@PathVariable @Size(min = 1, max = 6) final String categoryCode, @RequestParam @Min(0) final Integer page) {
         ModelAndView mav = new ModelAndView(String.format("board/%s/index", this.convertToType(categoryCode)));
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
 
@@ -84,12 +88,13 @@ public class CsPostController {
      * @since 1.0.0
      */
     @PostMapping("/categories/" + OTO_CODE + "/create")
-    public ModelAndView createPost(@ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
-
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/" + this.convertToType(OTO_CODE) + "?page=0");
+    public ModelAndView createPost(@Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult) throws JsonProcessingException {
+        if(bindingResult.hasErrors()) {
+            return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/create");
+        }
         postService.createPost(postRequest);
 
-        return mav;
+        return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=0");
     }
 
     /**
@@ -101,7 +106,7 @@ public class CsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/{postNo}")
-    public ModelAndView retrievePost(@PathVariable final String categoryCode, @PathVariable final Long postNo) {
+    public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode, @PathVariable @Min(1) final Long postNo) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
@@ -120,8 +125,8 @@ public class CsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/search")
-    public ModelAndView searchForCategory(@PathVariable final String categoryCode,
-                                          @RequestParam final String keyword, @RequestParam final Integer page) {
+    public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                          @RequestParam @Size(min = 1, max = 30) final String keyword, @RequestParam @Min(0) final Integer page) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/index");
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
@@ -148,7 +153,7 @@ public class CsPostController {
      * @since 1.0.0
      */
     @DeleteMapping("/categories/" + OTO_CODE + "/{postNo}/delete")
-    public ModelAndView deletePost(@PathVariable final Long postNo, @RequestParam final Integer page) {
+    public ModelAndView deletePost(@PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
         ModelAndView mav = new ModelAndView(
             "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
         postService.deletePost(postNo, OTO_CODE);
