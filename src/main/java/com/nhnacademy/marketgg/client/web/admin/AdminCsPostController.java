@@ -8,8 +8,12 @@ import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,7 +52,7 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}")
-    public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page)
+    public ModelAndView index(@PathVariable @Size(min = 1, max = 6) final String categoryCode, @RequestParam @Min(0) final Integer page)
         throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/index");
@@ -73,7 +77,7 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/create")
-    public ModelAndView doCreate(@PathVariable final String categoryCode) {
+    public ModelAndView doCreate(@PathVariable @Size(min = 1, max = 6) final String categoryCode) {
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(categoryCode) + "/create-form");
         mav.addObject("code", OTO_CODE);
 
@@ -90,8 +94,13 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @PostMapping("/categories/{categoryCode}/create")
-    public ModelAndView createPost(@PathVariable final String categoryCode,
-                                   @ModelAttribute final PostRequest postRequest) throws JsonProcessingException {
+    public ModelAndView createPost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                   @Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult
+    ) throws JsonProcessingException {
+
+        if(bindingResult.hasErrors()) {
+            return new ModelAndView(DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/create");
+        }
 
         ModelAndView mav = new ModelAndView(
             "redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=0");
@@ -110,8 +119,9 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/search")
-    public ModelAndView searchForCategory(@PathVariable final String categoryCode,
-                                          @RequestParam final String keyword, @RequestParam final Integer page) {
+    public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                          @RequestParam @Size(min = 1, max = 30) final String keyword,
+                                          @RequestParam @Min(0) final Integer page) {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
 
@@ -141,8 +151,10 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/" + OTO_CODE + "/options/{optionType}/search")
-    public ModelAndView searchForOption(@PathVariable final String optionType, @RequestParam final String keyword,
-                                        @RequestParam final String option, @RequestParam final Integer page) {
+    public ModelAndView searchForOption(@PathVariable @Min(1) final String optionType,
+                                        @RequestParam @Size(min = 1, max = 30) final String keyword,
+                                        @RequestParam @Min(1) final String option,
+                                        @RequestParam @Min(0) final Integer page) {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
         ModelAndView mav = new ModelAndView("board/" + this.convertToType(OTO_CODE) + "/index");
@@ -171,7 +183,9 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/{postNo}/update")
-    public ModelAndView doUpdatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
+    public ModelAndView doUpdatePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                     @PathVariable @Min(1) final Long postNo,
+                                     @RequestParam @Min(0) final Integer page) {
 
         if (categoryCode.compareTo(OTO_CODE) == 0) {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
@@ -197,8 +211,15 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @PutMapping("/categories/{categoryCode}/{postNo}/update")
-    public ModelAndView updatePost(@PathVariable final String categoryCode, @PathVariable final Long postNo,
-                                   @ModelAttribute final PostRequest postRequest, @RequestParam final Integer page) {
+    public ModelAndView updatePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                   @PathVariable @Min(1) final Long postNo,
+                                   @RequestParam @Min(0) final Integer page,
+                                   @Valid @ModelAttribute final PostRequest postRequest,
+                                   BindingResult bindingResult) {
+
+        if(bindingResult.hasErrors()) {
+            return new ModelAndView(DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/" + postNo + "/update?page=" + page);
+        }
 
         if (categoryCode.compareTo(OTO_CODE) == 0) {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
@@ -220,7 +241,10 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @DeleteMapping("/categories/{categoryCode}/{postNo}/delete")
-    public ModelAndView deletePost(@PathVariable final String categoryCode, @PathVariable final Long postNo, @RequestParam final Integer page) {
+    public ModelAndView deletePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                   @PathVariable @Min(1) final Long postNo,
+                                   @RequestParam @Min(0) final Integer page) {
+
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
         postService.deletePost(postNo, categoryCode);
 
@@ -238,15 +262,20 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @PatchMapping("/categories/" + OTO_CODE + "/{postNo}/status")
-    public ModelAndView changeStatus(@PathVariable final Long postNo,
-                                     @ModelAttribute final PostStatusUpdateRequest postRequest, @RequestParam final Integer page)
+    public ModelAndView changeStatus(@PathVariable @Min(1) final Long postNo,
+                                     @RequestParam @Min(0) final Integer page,
+                                     @Valid @ModelAttribute final PostStatusUpdateRequest postRequest,
+                                     BindingResult bindingResult)
         throws JsonProcessingException {
 
-        postService.changeStatus(postNo, postRequest);
+        if(!bindingResult.hasErrors()) {
+            postService.changeStatus(postNo, postRequest);
+        }
+
         return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
     }
 
-    private <T> Integer checkPageEnd(List<T> list) {
+    private <T> Integer checkPageEnd(final List<T> list) {
         if (list.size() <= PAGE_SIZE) {
             return 1;
         }

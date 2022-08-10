@@ -3,8 +3,10 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.service.CommentService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,12 +39,14 @@ public class CommentController {
      */
     @PostMapping("/{postNo}")
     public ModelAndView createComment(@PathVariable final Long postNo,
-                                      @ModelAttribute final CommentRequest commentRequest) throws JsonProcessingException {
+                                      @Valid @ModelAttribute final CommentRequest commentRequest,
+                                      BindingResult bindingResult) throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/" + postNo);
-        commentService.createComment(postNo, commentRequest);
+        if(!bindingResult.hasErrors()) {
+            commentService.createComment(postNo, commentRequest);
+        }
 
-        return mav;
+        return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/" + postNo);
     }
 
 }
