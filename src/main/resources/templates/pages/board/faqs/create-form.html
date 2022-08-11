@@ -13,10 +13,10 @@
             <div style="text-align: center; display: flex; justify-content: center">
                 <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/create'">
                     <span style="background-color: #abdde5; border: 2px solid black">FAQ 질문 내용 </span><br /><br />
-                    <textarea style="text-align: center" class="form-control" cols="50" rows="6" name="title"
+                    <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="6" name="title"
                               placeholder="FAQ 질문을 입력하세요."></textarea><br />
                     <span style="background-color: #abdde5; border: 2px solid black">FAQ 답변 내용 </span><br /><br />
-                    <textarea style="text-align: center" class="form-control" cols="50" rows="6" name="content"
+                    <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="6" name="content"
                               placeholder="FAQ 답변을 입력하세요."></textarea><br />
                     <input type="hidden" name="categoryCode" value="703">
                     <input type="hidden" name="reason" value="FAQ">

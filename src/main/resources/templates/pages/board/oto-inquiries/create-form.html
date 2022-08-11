@@ -35,7 +35,7 @@
                         <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
                     </select><br />
                     <span style="background-color: #abdde5; border: 2px solid black">[1:1 문의 내용]</span><br /><br />
-                    <textarea style="text-align: center" class="form-control" cols="50" rows="10" name="content"
+                    <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="10" name="content"
                               placeholder="1:1 문의 내용을 입력하세요"></textarea><br />
                     <input type="hidden" name="categoryCode" th:value="${code}">
                     <input class="btn-primary fa-pull-right" type="submit" value="등록">

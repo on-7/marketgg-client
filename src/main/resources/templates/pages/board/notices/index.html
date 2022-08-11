@@ -10,7 +10,6 @@
             <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
                 <h2 style="background-color: white; border: 1px outset black; padding: 5px" th:text="#{공지사항게시판}"></h2>
             </div>
-<<<<<<< HEAD
             <div style="display: flex">
                 <nav style="display: flex; flex: 0.1; padding-left: 30px">
                     <div class="list-group" th:if="${isAdmin == 'yes'}">
@@ -126,97 +125,6 @@
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${NOTICE_CODE}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
-=======
-            <div th:if="${isAdmin == 'yes'}">
-                <form th:action="'/admin/customer-services/categories/'+${code}+'/search'" th:method="get">
-                    <input type="text" name="keyword" value="검색어를 입력하세요">
-                    <input type="hidden" name="page" value="0">
-                    <input type="submit" value="검색"><br />
-                </form>
-            </div>
-            <div th:if="${isAdmin == 'yes'}" style="background-color: white">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>게시글 번호</th>
-                        <th>제목</th>
-                        <th>등록일자</th>
-                        <th>수정</th>
-                        <th>삭제</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="board : ${responses}">
-                        <td th:text="${board.id}"></td>
-                        <td>
-                            <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
-                        </td>
-                        <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
-                        <td>
-                            <form th:method="get" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update'">
-                                <input type="hidden" name="page" th:value="${page}">
-                                <input type="submit" value="수정">
-                            </form>
-                        </td>
-                        <td>
-                            <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
-                                <input type="hidden" name="page" th:value="${page}">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <input type="submit" value="삭제">
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-            <div th:if="${isAdmin == 'no'}" style="background-color: white">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>게시글 번호</th>
-                            <th>제목</th>
-                            <th>등록일자</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="board : ${responses}">
-                            <td th:text="${board.id}"></td>
-                            <td>
-                                <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}" th:text="${board.title}"></a>
-                            </td>
-                            <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div th:if="${isAdmin == 'yes'}">
-                <form th:method="get" th:action="'/admin/customer-services/categories/'+${code}+'/create'">
-                    <input class="btn btn-primary fa-pull-right" type="submit" value="공지사항 등록">
-                </form>
-            </div>
-            <div style="text-align: center" th:if="${isAdmin == 'no'}">
-                <div th:if="${searchType == 'default'}">
-                    <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
-                    <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
-                    <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
-                </div>
-                <div th:if="${searchType == 'no'}">
-                    <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
-                    <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
-                    <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
-                </div>
-            </div>
-            <div style="text-align: center" th:if="${isAdmin == 'yes'}">
-                <div th:if="${searchType == 'default'}">
-                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
-                    <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
-                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
-                </div>
-                <div th:if="${searchType == 'no'}">
-                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
-                    <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
-                    <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
->>>>>>> 4606f8d (Fix: fix typo #132)
                 </div>
             </div>
         </main>
