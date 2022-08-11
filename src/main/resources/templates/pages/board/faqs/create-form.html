@@ -8,17 +8,22 @@
     <body>
         <main>
             <div style="text-align: center; display: flex; justify-content: center">
+                <h2 style="background-color: white; border: 2px solid black">FAQ 등록</h2>
+            </div>
+            <br /><br />
+            <div style="text-align: center; display: flex; justify-content: center">
                 <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/create'">
-                    <span>FAQ 질문 내용: </span><br />
-                    <textarea cols = "50" rows = "10" name="title"></textarea><br/>
-                    <span>FAQ 답변 내용: </span><br />
-                    <textarea cols = "50" rows = "10" name="content"></textarea><br/>
+                    <span style="background-color: #abdde5; border: 2px solid black">FAQ 질문 내용 </span><br /><br />
+                    <textarea style="text-align: center" class="form-control" cols="50" rows="6" name="title"
+                              placeholder="FAQ 질문을 입력하세요."></textarea><br />
+                    <span style="background-color: #abdde5; border: 2px solid black">FAQ 답변 내용 </span><br /><br />
+                    <textarea style="text-align: center" class="form-control" cols="50" rows="6" name="content"
+                              placeholder="FAQ 답변을 입력하세요."></textarea><br />
                     <input type="hidden" name="categoryCode" value="703">
                     <input type="hidden" name="reason" value="FAQ">
-                    <input type="submit" value="등록">
+                    <input class="btn-primary fa-pull-right" type="submit" value="등록">
                 </form>
             </div>
         </main>
     </body>
 </html>
-
