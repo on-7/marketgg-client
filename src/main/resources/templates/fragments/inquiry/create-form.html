@@ -1,0 +1,13 @@
+<main>
+    <form th:method="post" th:action="'/products/' + ${productId} + '/inquiry'">
+        <fieldset>
+            <legend>상품 문의</legend>
+            <input type = "text" name = "title" minlength="1" maxlength="50" placeholder="제목을 입력해주세요"/> <br>
+            <textarea cols="50" rows="5" name = "content" minlength="1" maxlength="200" PLACEHOLDER="상품문의를 작성해주세요"></textarea> <br>
+            비밀글 <input type="checkbox" id="isSecret" name="isSecret"/>
+            <input type="hidden" name="_isSecret" value="on"/> <br>
+            <input type='button' value="취소" onClick='window.close()'>
+            <button type="submit"> 등록 </button>
+        </fieldset>
+    </form>
+</main>
