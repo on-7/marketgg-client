@@ -62,7 +62,7 @@ public class AdminLabelController {
     public ModelAndView retrieveLabels() {
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
 
-        ModelAndView mav = new ModelAndView("/labels/index");
+        ModelAndView mav = new ModelAndView("pages/labels/index");
         mav.addObject("labels", responses);
 
         return mav;

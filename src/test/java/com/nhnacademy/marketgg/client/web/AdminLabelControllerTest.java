@@ -57,7 +57,7 @@ class AdminLabelControllerTest {
 
         mockMvc.perform(get(DEFAULT_LABEL))
                .andExpect(status().isOk())
-               .andExpect(view().name("/labels/index"));
+               .andExpect(view().name("pages/labels/index"));
     }
 
     @Test

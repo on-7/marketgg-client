@@ -1,25 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="ko">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main :: layout(~{::title}, ~{::main})}">
     <head>
         <meta charset="UTF-8">
         <title>공지 사항</title>
     </head>
     <body>
-        <div style="text-align: center; display: flex; justify-content: center">
-            <h4>[공지 제목]</h4>
-            <div style="border: 1px dashed;  width: 300px; height: 30px; padding: 10px">
-                <span th:text="${response.title}"></span>
+        <main>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <h4>[공지 제목]</h4>
+                <div style="border: 1px dashed;  width: 300px; height: 30px; padding: 10px">
+                    <span th:text="${response.title}"></span>
+                </div>
             </div>
-        </div>
-        <div style="text-align: center; display: flex; justify-content: center">
-            [등록일자] <span th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
-            [수정일자] <span th:text="${#temporals.format(response.updatedAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
-        </div>
-        <div style="text-align: center; display: flex; justify-content: center">
-            <h4>[공지 내용]</h4>
-            <div style="border: 1px dashed;  width: 500px; height: 300px; padding: 10px">
-                <span th:text="${response.content}"></span>
+            <div style="text-align: center; display: flex; justify-content: center">
+                [등록일자] <span th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
+                [수정일자] <span th:text="${#temporals.format(response.updatedAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
             </div>
-        </div>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <h4>[공지 내용]</h4>
+                <div style="border: 1px dashed;  width: 500px; height: 300px; padding: 10px">
+                    <span th:text="${response.content}"></span>
+                </div>
+            </div>
+        </main>
     </body>
 </html>

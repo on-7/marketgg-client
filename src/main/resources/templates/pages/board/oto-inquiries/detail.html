@@ -1,47 +1,50 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org" lang="ko">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main :: layout(~{::title}, ~{::main})}">
     <head>
         <meta charset="UTF-8">
         <title>1:1문의 게시판</title>
     </head>
     <body>
-        <div style="text-align: center; display: flex; justify-content: center">
-            <h4>[1:1문의 제목]</h4>
-            <div style="border: 1px dashed;  width: 300px; height: 30px; padding: 10px">
-                <span th:text="${response.title}"></span>
+        <main>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <h4>[1:1문의 제목]</h4>
+                <div style="border: 1px dashed;  width: 300px; height: 30px; padding: 10px">
+                    <span th:text="${response.title}"></span>
+                </div>
             </div>
-        </div>
-        <div style="text-align: center; display: flex; justify-content: center">
-            [등록일자] <span th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
-            [수정일자] <span th:text="${#temporals.format(response.updatedAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
-        </div>
-        <div style="text-align: center; display: flex; justify-content: center">
-            <h4>[1:1문의 내용]</h4>
-            <div style="border: 1px dashed;  width: 500px; height: 300px; padding: 10px">
-                <span th:text="${response.content}"></span>
+            <div style="text-align: center; display: flex; justify-content: center">
+                [등록일자] <span th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
+                [수정일자] <span th:text="${#temporals.format(response.updatedAt, 'yyyy/MM/dd hh:mm:ss')}"></span>
             </div>
-        </div>
-        <h2 style="text-align: center">[답변 목록]</h2>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <h4>[1:1문의 내용]</h4>
+                <div style="border: 1px dashed;  width: 500px; height: 300px; padding: 10px">
+                    <span th:text="${response.content}"></span>
+                </div>
+            </div>
+            <h2 style="text-align: center">[답변 목록]</h2>
 
-        <div style="text-align: center; display: flex; justify-content: center">
-            <table>
-                <tr>
-                    <th>답변 내용</th>
-                    <th>답변 작성자</th>
-                    <th>답변 작성일자</th>
-                </tr>
-                <tr th:each="comment : ${response.commentList}">
-                    <td th:text="${comment.content}"></td>
-                    <td th:text="${comment.email}"></td>
-                    <td th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
-                </tr>
-            </table>
-        </div>
-        <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/customer-services/'+${response.id}">
-                <textarea cols = "50" rows = "10" name="content"></textarea><br/>
-                <input type="submit" value="답글 등록">
-            </form>
-        </div>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <table>
+                    <tr>
+                        <th>답변 내용</th>
+                        <th>답변 작성자</th>
+                        <th>답변 작성일자</th>
+                    </tr>
+                    <tr th:each="comment : ${response.commentList}">
+                        <td th:text="${comment.content}"></td>
+                        <td th:text="${comment.email}"></td>
+                        <td th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <form th:method="post" th:action="'/customer-services/'+${response.id}">
+                    <textarea cols = "50" rows = "10" name="content"></textarea><br/>
+                    <input type="submit" value="답글 등록">
+                </form>
+            </div>
+        </main>
     </body>
 </html>

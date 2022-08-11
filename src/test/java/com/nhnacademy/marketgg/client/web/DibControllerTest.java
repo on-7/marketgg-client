@@ -40,7 +40,7 @@ class DibControllerTest {
         given(dibService.retrieveDibs(anyLong())).willReturn(List.of());
         mockMvc.perform(get(DEFAULT_DIB))
                 .andExpect(status().isOk())
-                .andExpect(view().name("/mygg/dibs/index"));
+                .andExpect(view().name("/pages/dibs/index"));
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.web.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.Alert;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
@@ -45,7 +44,7 @@ public class MemberController {
      */
     @GetMapping("/ggpass")
     public ModelAndView index() {
-        ModelAndView mav = new ModelAndView("/ggpass/index");
+        ModelAndView mav = new ModelAndView("pages/ggpass/index");
         mav.addObject("time", LocalDate.from(memberService.retrievePassUpdatedAt()));
 
         return mav;
@@ -64,7 +63,7 @@ public class MemberController {
         if (memberService.retrievePassUpdatedAt().isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
-                DEFAULT_MEMBER + "/ggpass"));
+                                               DEFAULT_MEMBER + "/ggpass"));
             return mav;
         }
         memberService.subscribePass();
@@ -98,7 +97,7 @@ public class MemberController {
     @PostMapping("/{memberId}/coupons")
     public ModelAndView registerCoupon(@PathVariable final Long memberId,
                                        @ModelAttribute final GivenCouponCreateRequest givenCouponRequest)
-        throws JsonProcessingException {
+            throws JsonProcessingException {
         givenCouponService.registerCoupon(memberId, givenCouponRequest);
 
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/" + memberId + "/coupons");
