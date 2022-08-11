@@ -18,6 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+/**
+ * Google 로그인을 진행하는 Controller.
+ *
+ * @author 윤동열
+ */
 @Slf4j
 @Controller
 @RequestMapping("/login")
@@ -27,8 +32,7 @@ public class Oauth2Controller {
     private final Oauth2Service oAuth2Service;
 
     @GetMapping("/google")
-    public RedirectView googleLogin(HttpServletResponse response, HttpSession session) {
-        response.addCookie(new Cookie(JwtInfo.SESSION_ID, session.getId()));
+    public RedirectView googleLogin() {
 
         return new RedirectView(oAuth2Service.getRedirectUrl());
     }
@@ -45,9 +49,10 @@ public class Oauth2Controller {
             redirectAttributes.addFlashAttribute("profile", googleProfile.get());
             return new ModelAndView("redirect:/signup");  // 회원가입 폼
         }
+
         Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(60 * 30);
+        cookie.setMaxAge(60 * 30);  // 30분
         cookie.setPath("/");
         response.addCookie(cookie);
 

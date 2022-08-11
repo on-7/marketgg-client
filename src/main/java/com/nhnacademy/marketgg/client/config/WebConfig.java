@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.config;
 
+import com.nhnacademy.marketgg.client.interceptor.CookieInterceptor;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.security.GeneralSecurityException;
@@ -27,6 +28,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * Web Configuration 을 설정할 수 있습니다.
@@ -36,7 +39,7 @@ import org.springframework.web.multipart.support.MultipartFilter;
  */
 @Slf4j
 @Configuration
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer {
 
     /**
      * RestTemplate 을 원하는 값으로 설정 후 반환합니다.
@@ -184,6 +187,12 @@ public class WebConfig {
         registrationBean.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER - 1);
 
         return registrationBean;
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new CookieInterceptor())
+                .excludePathPatterns("**/login/**");
     }
 
 }

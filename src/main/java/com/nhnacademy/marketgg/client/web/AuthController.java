@@ -1,9 +1,11 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.AuthService;
+import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,6 +27,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
+
+    private static final String REDIRECT_TO_INDEX = "redirect:/";
 
     private final AuthService authService;
 
@@ -60,13 +64,13 @@ public class AuthController {
 
         Cookie cookie = new Cookie(JwtInfo.SESSION_ID, httpSession.getId());
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(30);
+        cookie.setMaxAge(60 * 60 * 24 * 7); // 일주일
 
         response.addCookie(cookie);
 
         authService.doLogin(loginRequest, httpSession.getId());
 
-        return new ModelAndView("redirect:/");
+        return new ModelAndView(REDIRECT_TO_INDEX);
     }
 
     /**
@@ -75,10 +79,16 @@ public class AuthController {
      * @return 메인페이지로 리다이렉트합니다.
      */
     @GetMapping("/logout")
-    public ModelAndView logout(HttpSession session) {
-        authService.logout(session.getId());
+    public ModelAndView logout() {
+        Optional<String> sessionId = SessionContext.get();
 
-        return new ModelAndView("redirect:/");
+        if (sessionId.isEmpty()) {
+            return new ModelAndView(REDIRECT_TO_INDEX);
+        }
+
+        authService.logout(sessionId.get());
+
+        return new ModelAndView(REDIRECT_TO_INDEX);
     }
 
 }

@@ -1,8 +1,11 @@
 package com.nhnacademy.marketgg.client.interceptor;
 
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -10,6 +13,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -29,18 +33,19 @@ public class JwtRefreshInterceptor implements ClientHttpRequestInterceptor {
     @Override
     public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
-        ServletRequestAttributes requestAttributes
-            = Objects.requireNonNull(
-            (ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        log.info("path = {}", httpRequest.getURI().getPath());
 
-        Object session
-            = requestAttributes.getRequest().getSession(true).getAttribute(JwtInfo.SESSION_ID);
-
-        if (Objects.isNull(session)) {
+        if (httpRequest.getURI().getPath().contains("login")) {
             return execution.execute(httpRequest, body);
         }
 
-        String sessionId = (String) session;
+        Optional<String> opSessionId = SessionContext.get();
+
+        if (opSessionId.isEmpty()) {
+            return execution.execute(httpRequest, body);
+        }
+
+        String sessionId = opSessionId.get();
 
         JwtInfo jwtInfo = (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
 

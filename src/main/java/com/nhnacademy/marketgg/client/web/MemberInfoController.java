@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -68,20 +69,16 @@ public class MemberInfoController {
      * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
      *
      * @param memberUpdateToAuth - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
-     * @param session            - session 이 없는 회원의 접근을 막기위한 파라미터 입니다.
      * @return 회원수정 실행 후, 다시 Index 페이지로 이동합니다.
      * @author 김훈민
      * @since 1.0.0
      */
     @PostMapping("/update")
-    public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth, HttpSession session)
+    public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth)
         throws UnAuthenticException {
+        String sessionId = SessionContext.get()
+                                         .orElseThrow(UnAuthenticException::new);
 
-        String sessionId = (String) session.getAttribute(JwtInfo.SESSION_ID);
-
-        if (Objects.isNull(sessionId)) {
-            throw new UnAuthenticException();
-        }
         memberService.update(memberUpdateToAuth, sessionId);
         return new ModelAndView(INDEX);
     }
@@ -89,17 +86,13 @@ public class MemberInfoController {
     /**
      * 회원탈퇴 요청을 받아 회원탈퇴 프로세스를 진행합니다.
      *
-     * @param session - session 이 없는 회원의 접근을 막기위한 파라미터 입니다.
      * @return 회원탈퇴 실행 후, 다시 Index 페이지로 이동합니다.
      * @author 김훈민
      */
     @GetMapping("/withdraw")
-    public ModelAndView doWithdraw(HttpSession session) throws UnAuthenticException {
-        String sessionId = (String) session.getAttribute(JwtInfo.SESSION_ID);
-
-        if (Objects.isNull(sessionId)) {
-            throw new UnAuthenticException();
-        }
+    public ModelAndView doWithdraw() throws UnAuthenticException {
+        String sessionId = SessionContext.get()
+                                         .orElseThrow(UnAuthenticException::new);
 
         memberService.withdraw(sessionId);
         return new ModelAndView(INDEX);

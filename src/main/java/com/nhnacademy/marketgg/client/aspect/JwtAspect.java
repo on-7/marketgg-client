@@ -123,34 +123,6 @@ public class JwtAspect {
         return true;
     }
 
-    /**
-     * 클라이언트가 보관중인 쿠키에 있는 세션아이디를 통해 Redis 에 저장된 JWT 에 접근하기 위한 메서드입니다.
-     *
-     * @param pjp - 메서드 원본 실행시킬 수 있는 객체입니다.
-     * @return 메서드를 실행시킵니다.
-     * @throws Throwable 메서드를 실행시킬 때 발생할 수 있는 예외입니다.
-     */
-    @Around("execution(* com.nhnacademy.marketgg.client.web..*.*(..))"
-        + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
-    public Object session(ProceedingJoinPoint pjp) throws Throwable {
-        log.info("Method process: {}", pjp.getSignature().getName());
-
-        Cookie cookie = this.getSessionIdCookie();
-
-        if (Objects.isNull(cookie)) {
-            return pjp.proceed();
-        }
-
-        HttpSession session = AspectUtils.getHttpRequest().getSession(true);
-        session.setAttribute(JwtInfo.SESSION_ID, cookie.getValue());
-
-        Object proceed = pjp.proceed();
-
-        session.invalidate();
-
-        return proceed;
-    }
-
     private Cookie getSessionIdCookie() {
 
         HttpServletRequest request = AspectUtils.getHttpRequest();
