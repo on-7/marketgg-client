@@ -104,8 +104,12 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+    public void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode)
+            throws JsonProcessingException {
+
+        String requestBody = objectMapper.writeValueAsString(postRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
             gateWayIp + ADMIN + CATEGORIES + categoryCode + "/" + postNo,
             HttpMethod.PUT,

@@ -107,7 +107,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("게시글 수정")
-    void testUpdatePost() {
+    void testUpdatePost() throws Exception {
         willDoNothing().given(postRepository).updatePost(anyLong(), any(PostRequest.class), anyString());
 
         postService.updatePost(1L, postRequest, "702");
