@@ -67,6 +67,11 @@
                             </tr>
                         </tbody>
                     </table>
+                    <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/delete'">
+                        <input type="hidden" name="page" th:value="${page}">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <input class="btn btn-danger" type="submit" value="삭제">
+                    </form>
                 </div>
             </div>
             <div style="text-align: center; display: flex; justify-content: center">
