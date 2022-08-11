@@ -15,10 +15,10 @@
                 <form th:method="post"
                       th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
                     <span style="background-color: #abdde5; border: 2px solid black">[공지 제목] </span>
-                    <input style="text-align: center" class="form-control" type="text" name="title" th:text="${response.title}" placeholder="공지 제목을 입력하세요"><br /><br />
+                    <input style="text-align: center" class="form-control" type="text" name="title" th:value="${response.title}" th:placeholder="${response.title}"><br /><br />
                     <span style="background-color: #abdde5; border: 2px solid black">[공지 내용]</span><br />
                     <textarea style="text-align: center" class="form-control" cols="50" rows="10" name="content"
-                              th:text="${response.content}" placeholder="공지 내용을 입력하세요."></textarea><br />
+                              th:text="${response.content}" th:placeholder="${response.content}"></textarea><br />
                     <input type="hidden" name="categoryCode" th:value="${code}">
                     <input type="hidden" name="page" th:value="${page}">
                     <input type="hidden" name="reason" value="NOTICE">
