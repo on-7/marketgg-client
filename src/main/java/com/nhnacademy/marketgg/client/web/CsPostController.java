@@ -108,11 +108,12 @@ public class CsPostController {
      */
     @GetMapping("/categories/{categoryCode}/{postNo}")
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
-                                     @PathVariable @Min(1) final Long postNo) {
+                                     @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
         mav.addObject("response", postService.retrievePost(postNo, categoryCode));
+        mav.addObject("page", page);
 
         return mav;
     }
