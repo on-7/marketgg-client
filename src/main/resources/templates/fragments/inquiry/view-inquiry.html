@@ -1,0 +1,21 @@
+<main>
+    <table class = "table">
+        <thead>
+            <tr>
+                <th>문의 제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>답변 상태</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="inquiry : ${inquiries}">
+                <td th:text="${inquiry.title}"></td>
+                <td th:text="${inquiry.name}"></td>
+                <td th:text="${inquiry.createdAt}"></td>
+                <td th:text="${inquiry.adminReply}"></td>
+            </tr>
+        </tbody>
+    </table>
+</main>
