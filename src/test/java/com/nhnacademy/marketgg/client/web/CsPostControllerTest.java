@@ -151,7 +151,8 @@ class CsPostControllerTest {
     void testRetrievePost() throws Exception {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
 
-        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postNo}", "703", 1L))
+        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postNo}", "703", 1L)
+                                                           .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name("pages/board/faqs/detail"))
                                           .andReturn();

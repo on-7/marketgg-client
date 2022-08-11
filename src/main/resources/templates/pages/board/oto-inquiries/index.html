@@ -7,6 +7,9 @@
     </head>
     <body>
         <main>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <h2 style="background-color: white; border: 2px solid black">1:1 문의 게시판</h2>
+            </div>
             <div th:if="${isAdmin == 'yes'}">
                 <details>
                     <summary>[전체 검색]</summary>
@@ -31,6 +34,7 @@
                 <details>
                     <summary>[상태 검색]</summary>
                     <form th:method="get" th:action="'/admin/customer-services/categories/'+${code}+'/options/status/search'">
+                        <span>1:1 문의 상태</span>
                         <select name="option">
                             <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
                         </select><br />
