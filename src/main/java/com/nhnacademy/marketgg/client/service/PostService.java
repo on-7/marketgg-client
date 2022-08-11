@@ -76,7 +76,8 @@ public interface PostService {
      * @param categoryCode - 수정할 게시글의 게시판 카테고리 식별번호입니다.
      * @since 1.0.0
      */
-    void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode);
+    void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode)
+            throws JsonProcessingException;
 
     /**
      * 지정한 게시글을 삭제할 수 있는 메소드입니다.

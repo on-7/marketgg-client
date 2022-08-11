@@ -209,6 +209,7 @@ public class AdminCsPostController {
      * @param postRequest  - 수정할 정보를 담은 객체입니다.
      * @param page         - Redirect 할 페이지 정보입니다.
      * @return 게시글을 수정한 후, 다시 게시글 목록 페이지로 이동합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     @PutMapping("/categories/{categoryCode}/{postNo}/update")
@@ -216,7 +217,7 @@ public class AdminCsPostController {
                                    @PathVariable @Min(1) final Long postNo,
                                    @RequestParam @Min(0) final Integer page,
                                    @Valid @ModelAttribute final PostRequest postRequest,
-                                   BindingResult bindingResult) {
+                                   BindingResult bindingResult) throws JsonProcessingException {
 
         if(bindingResult.hasErrors()) {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/" + postNo + "/update?page=" + page);

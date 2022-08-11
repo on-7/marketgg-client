@@ -6,12 +6,14 @@
     </head>
     <body>
         <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update?page='+${page}">
+            <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
                 <span>공지 제목: </span><input type="text" name="title" th:value="${response.title}"><br /><br />
                 <span>[공지 내용]</span><br />
                 <textarea cols = "50" rows = "10" name="content" th:value="${response.content}"></textarea><br/>
+                <input type="hidden" name="categoryCode" th:value="${code}">
+                <input type="hidden" name="page" th:value="${page}">
+                <input type="hidden" name="reason" value="NOTICE">
                 <input type="hidden" name="_method" value="put"/>
-                <input type="hidden" name="categoryCode" value="701">
                 <input type="submit" value="수정">
             </form>
         </div>

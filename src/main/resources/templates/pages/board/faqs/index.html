@@ -47,6 +47,7 @@
                             </td>
                             <td>
                                 <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
+                                    <input type="hidden" name="page" th:value="${page}">
                                     <input type="hidden" name="_method" value="delete"/>
                                     <input type="submit" value="삭제">
                                 </form>
