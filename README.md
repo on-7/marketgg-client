@@ -153,7 +153,7 @@ Market GG 클라이언트는 애플리케이션 이용에 필요한 정보를 �
 여러 장의 사진 + 글이 섞여 있는 경우 이걸 서버에서 어떻게 처리할까? (순서, 해상도, 용량, etc…)  
 → Toast Editor 기능 고도화 ([@조현진](https://github.com/Com-Sun)) + 스토리지 연동
 
-TUI 내의 hook 옵션을 사용하여 비동기로 Shop 서버 요청 → 클라우드에 사진 저장 → 해당 사진의 URL 만 반환  
+Toast UI Editor 내의 hook 옵션을 사용하여 비동기로 Shop 서버 요청 → 클라우드에 사진 저장 → 해당 사진의 URL 만 반환  
 즉, 데이터베이스의 `content` 컬럼엔 `String` 형태의 text + URL 만 저장된다.
 
 ![file-upload-sequence](https://user-images.githubusercontent.com/38161720/183850177-712bf2d5-0197-434c-beea-f316b324dd1c.png)
