@@ -60,7 +60,7 @@ class MemberControllerTest {
         given(memberService.retrievePassUpdatedAt()).willReturn(LocalDateTime.now());
         mockMvc.perform(get("/members/ggpass"))
                .andExpect(status().isOk())
-               .andExpect(view().name("/ggpass/index"));
+               .andExpect(view().name("pages/ggpass/index"));
     }
 
     @Test

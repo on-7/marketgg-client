@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main :: layout(~{::title}, ~{::main})}">
     <head>
         <meta charset="UTF-8">
         <title>FAQ 등록</title>
     </head>
     <body>
-        <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/create'">
-                <span>FAQ 질문 내용: </span><br />
-                <textarea cols = "50" rows = "10" name="title"></textarea><br/>
-                <span>FAQ 답변 내용: </span><br />
-                <textarea cols = "50" rows = "10" name="content"></textarea><br/>
-                <input type="hidden" name="categoryCode" value="703">
-                <input type="hidden" name="reason" value="FAQ">
-                <input type="submit" value="등록">
-            </form>
-        </div>
+        <main>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/create'">
+                    <span>FAQ 질문 내용: </span><br />
+                    <textarea cols = "50" rows = "10" name="title"></textarea><br/>
+                    <span>FAQ 답변 내용: </span><br />
+                    <textarea cols = "50" rows = "10" name="content"></textarea><br/>
+                    <input type="hidden" name="categoryCode" value="703">
+                    <input type="hidden" name="reason" value="FAQ">
+                    <input type="submit" value="등록">
+                </form>
+            </div>
+        </main>
     </body>
 </html>
 
