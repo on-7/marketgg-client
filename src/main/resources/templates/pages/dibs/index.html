@@ -9,7 +9,7 @@
         <main>
             <h2 style="text-align: center">[찜 목록]</h2>
             <div style="text-align: center; display: flex; justify-content: center">
-                <table style="text-align: center; border: 1px solid black">
+                <table class="table table-hover" style="text-align: center; border: 1px solid black; background-color: navajowhite">
                     <tr>
                         <th>-</th>
                         <th>이름</th>
@@ -27,7 +27,7 @@
                         <td>
                             <form th:method="delete" th:action="'/shop/v1/member/' + ${id} + '/dibs/' + ${dib.productNo}">
                                 <input type="hidden" name="_method" value="delete"/>
-                                <input type="submit" value="제거">
+                                <input class="btn-primary" type="submit" value="제거">
                             </form>
                         </td>
                     </tr>
