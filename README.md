@@ -100,11 +100,10 @@ Market GG 클라이언트는 애플리케이션 이용에 필요한 정보를 �
 
 - **사용자 관리**
     - 로그인
-    - 로그아웃
+    - 권한 관리
+    - 모든 요청에 대해 JWT 관리
 - **장바구니 관리**
-    1. 장바구니 추가
-    2. 장바구니 조회
-    3. 장바구니 삭제
+    - 장바구니 상품 추가, 조회, 수량 수정, 상품 삭제
 
 ### [@이제훈](https://github.com/corock)
 
@@ -179,6 +178,7 @@ TUI 내의 hook 옵션을 사용하여 비동기로 Shop 서버 요청 → 클�
 
 ### DevOps
 
+![NHN Cloud](https://img.shields.io/badge/-NHN%20Cloud-blue?style=flat&logo=iCloud&logoColor=white)
 ![GitHubActions](https://img.shields.io/badge/GitHub%20Actions-2088FF?style=flat&logo=GitHubActions&logoColor=white)
 ![SonarQube](https://img.shields.io/badge/SonarQube-4E98CD?style=flat&logo=SonarQube&logoColor=white)
 
