@@ -80,7 +80,7 @@ public class AdminCsPostController {
 
     public ModelAndView doCreate(@PathVariable final String categoryCode) {
         ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/create-form");
-        mav.addObject("code", OTO_CODE);
+        mav.addObject("code", categoryCode);
 
         return mav;
     }
