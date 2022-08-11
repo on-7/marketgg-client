@@ -10,29 +10,32 @@
             <div th:if="${isAdmin == 'yes'}">
                 <details>
                     <summary>[전체 검색]</summary>
-                            <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/search?page=0'">
+                            <form th:method="get" th:action="'/admin/customer-services/categories/'+${code}+'/search'">
                                 <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+                                <input type="hidden" name="page" value="0">
                                 <input type="submit" value="검색"><br />
                             </form>
                 </details>
                 <details>
                     <summary>[사유 검색]</summary>
-                    <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/options/reason/search?page=0'">
+                    <form th:method="get" th:action="'/admin/customer-services/categories/'+${code}+'/options/reason/search'">
                         <span>1:1 문의 사유 : </span>
                         <select name="option">
                             <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
                         </select><br />
                         <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+                        <input type="hidden" name="page" value="0">
                         <input type="submit" value="검색"><br />
                     </form>
                 </details>
                 <details>
                     <summary>[상태 검색]</summary>
-                    <form th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/options/status/search?page=0'">
+                    <form th:method="get" th:action="'/admin/customer-services/categories/'+${code}+'/options/status/search'">
                         <select name="option">
                             <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
                         </select><br />
                         <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+                        <input type="hidden" name="page" value="0">
                         <input type="submit" value="검색"><br />
                     </form>
                 </details>
@@ -60,11 +63,12 @@
                             <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                             <td>
                                 <div th:if="${isAdmin == 'yes'}">
-                                    <form th:method="post" th:action="'/adnmin/customer-services/categories/702/'+${board.id}+'/status?page='+${page}">
+                                    <form th:method="post" th:action="'/adnmin/customer-services/categories/702/'+${board.id}+'/status'">
                                         <select name="status">
                                             <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
                                         </select><br />
                                         <input type="hidden" name="_method" value="patch"/>
+                                        <input type="hidden" name="page" th:value="${page}">
                                         <input type="submit" value="상태변경">
                                     </form>
                                 </div>
