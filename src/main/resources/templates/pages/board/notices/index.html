@@ -7,6 +7,9 @@
     </head>
     <body>
         <main>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <h2 style="background-color: white; border: 2px solid black">공지사항 게시판</h2>
+            </div>
             <div th:if="${isAdmin == 'no'}">
                 <form th:action="'/customer-services/categories/'+${code}+'/search'" th:method="get">
                     <input type="text" name="keyword" value="검색어를 입력하세요">
@@ -22,39 +25,39 @@
                 </form>
             </div>
             <div th:if="${isAdmin == 'yes'}" style="background-color: white">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>게시글 번호</th>
-                        <th>제목</th>
-                        <th>등록일자</th>
-                        <th>수정</th>
-                        <th>삭제</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="board : ${responses}">
-                        <td th:text="${board.id}"></td>
-                        <td>
-                            <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'?page='+${page}" th:text="${board.title}"></a>
-                        </td>
-                        <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
-                        <td>
-                            <form th:method="get" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update'">
-                                <input type="hidden" name="page" th:value="${page}">
-                                <input class="btn btn-warning" type="submit" value="수정">
-                            </form>
-                        </td>
-                        <td>
-                            <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
-                                <input type="hidden" name="page" th:value="${page}">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <input class="btn btn-danger" type="submit" value="삭제">
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>게시글 번호</th>
+                            <th>제목</th>
+                            <th>등록일자</th>
+                            <th>수정</th>
+                            <th>삭제</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="board : ${responses}">
+                            <td th:text="${board.id}"></td>
+                            <td>
+                                <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'?page='+${page}" th:text="${board.title}"></a>
+                            </td>
+                            <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                            <td>
+                                <form th:method="get" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update'">
+                                    <input type="hidden" name="page" th:value="${page}">
+                                    <input class="btn btn-warning" type="submit" value="수정">
+                                </form>
+                            </td>
+                            <td>
+                                <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
+                                    <input type="hidden" name="page" th:value="${page}">
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <input class="btn btn-danger" type="submit" value="삭제">
+                                </form>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div th:if="${isAdmin == 'no'}" style="background-color: white">
                 <table class="table table-hover">
