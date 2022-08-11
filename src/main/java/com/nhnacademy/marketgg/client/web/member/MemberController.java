@@ -52,7 +52,7 @@ public class MemberController {
      */
     @GetMapping("/{memberId}/ggpass")
     public ModelAndView index(@PathVariable final Long memberId) {
-        ModelAndView mav = new ModelAndView("/ggpass/index");
+        ModelAndView mav = new ModelAndView("ggpass/index");
         mav.addObject("id", memberId);
         mav.addObject("time", LocalDate.from(memberService.retrievePassUpdatedAt(memberId)));
 
@@ -125,7 +125,7 @@ public class MemberController {
     public ModelAndView retrieveOwnCoupons(@PathVariable final Long memberId) {
         List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(memberId);
 
-        ModelAndView mav = new ModelAndView("pages/mygg/coupons/index");
+        ModelAndView mav = new ModelAndView("mygg/coupons/index");
         mav.addObject("coupons", responses);
         mav.addObject("memberId", memberId);
 
@@ -145,7 +145,7 @@ public class MemberController {
 
         List<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByMember();
 
-        ModelAndView mav = new ModelAndView("pages/mygg/inquiries/index");
+        ModelAndView mav = new ModelAndView("mygg/inquiries/index");
         mav.addObject("inquiries", inquiries);
 
         return mav;
