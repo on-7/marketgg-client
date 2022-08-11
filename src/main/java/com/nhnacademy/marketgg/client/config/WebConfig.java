@@ -39,7 +39,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Slf4j
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class WebConfig  {
 
     /**
      * RestTemplate 을 원하는 값으로 설정 후 반환합니다.
@@ -187,12 +187,6 @@ public class WebConfig implements WebMvcConfigurer {
         registrationBean.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER - 1);
 
         return registrationBean;
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new CookieInterceptor())
-                .excludePathPatterns("**/login/**");
     }
 
 }
