@@ -114,17 +114,17 @@
                     <input class="btn-primary fa-pull-right" type="submit" value="1:1문의 등록">
                 </form>
             </div>
-            <div style="text-align: center; background-color: navajowhite; border: 2px solid black;" th:if="${isAdmin == 'no'}">
+            <div style="text-align: center" th:if="${isAdmin == 'no'}">
                 <div th:if="${searchType == 'no'}">
                     <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
-                    <span class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                    <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
                     <a class="btn-primary" th:href="'/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
                 </div>
             </div>
-            <div style="text-align: center; background-color: navajowhite; border: 2px solid black;" th:if="${isAdmin == 'yes'}">
+            <div style="text-align: center" th:if="${isAdmin == 'yes'}">
                 <div th:if="${searchType == 'default'}">
                     <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/search?page='+${page - 1}+'&keyword='+${keyword}" th:if="${page} != 0" th:text="prev"></a>
-                    <span class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                    <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
                     <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/search?page='+${page + 1}+'&keyword='+${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
                 </div>
                 <div th:if="${searchType == 'reason'}">
@@ -134,12 +134,12 @@
                 </div>
                 <div th:if="${searchType == 'status'}">
                     <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/option/status/search?page='+${page - 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${page} != 0" th:text="prev"></a>
-                    <span class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                    <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
                     <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'/option/status/search?page='+${page + 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${isEnd} == 0" th:text="next"></a>
                 </div>
                 <div th:if="${searchType == 'no'}">
                     <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
-                    <span class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                    <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
                     <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${code}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
                 </div>
             </div>
