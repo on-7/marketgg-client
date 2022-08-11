@@ -11,14 +11,14 @@
                 <form th:action="'/customer-services/categories/'+${code}+'/search'" th:method="get">
                     <input type="text" name="keyword" value="검색어를 입력하세요">
                     <input type="hidden" name="page" value="0">
-                    <input type="submit" value="검색"><br />
+                    <input class="btn btn-primary" type="submit" value="검색"><br />
                 </form>
             </div>
             <div th:if="${isAdmin == 'yes'}">
                 <form th:action="'/admin/customer-services/categories/'+${code}+'/search'" th:method="get">
                     <input type="text" name="keyword" value="검색어를 입력하세요">
                     <input type="hidden" name="page" value="0">
-                    <input type="submit" value="검색"><br />
+                    <input class="btn btn-primary" type="submit" value="검색"><br />
                 </form>
             </div>
             <div th:if="${isAdmin == 'yes'}" style="background-color: white">
@@ -42,14 +42,14 @@
                             <td>
                                 <form th:method="get" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update'">
                                     <input type="hidden" name="page" th:value="${page}">
-                                    <input type="submit" value="수정">
+                                    <input class="btn btn-warning" type="submit" value="수정">
                                 </form>
                             </td>
                             <td>
                                 <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
                                     <input type="hidden" name="page" th:value="${page}">
                                     <input type="hidden" name="_method" value="delete"/>
-                                    <input type="submit" value="삭제">
+                                    <input class="btn btn-danger" type="submit" value="삭제">
                                 </form>
                             </td>
                         </tr>
