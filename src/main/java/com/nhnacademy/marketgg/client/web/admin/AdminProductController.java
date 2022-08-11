@@ -1,25 +1,34 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.LabelService;
+import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,6 +46,7 @@ public class AdminProductController {
     private final CategoryService categoryService;
     private final LabelService labelService;
     private final ImageService imageService;
+    private final ProductInquiryService inquiryService;
 
     private final static String DEFAULT_PRODUCT_URI = "/admin/products";
 
@@ -166,7 +176,7 @@ public class AdminProductController {
     @GetMapping("/update/{id}")
     public ModelAndView updateProduct(@PathVariable final Long id) {
 
-        ModelAndView mav = new ModelAndView("products/product-modify-form");
+        ModelAndView mav = new ModelAndView("pages/products/product-modify-form");
 
         ProductResponse product = this.productService.retrieveProductDetails(id);
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
@@ -211,6 +221,25 @@ public class AdminProductController {
         this.productService.deleteProduct(productId);
 
         return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
+    }
+
+    /**
+     * 관리자가 상품 문의에 답글을 남기는 PutMapping 을 지원합니다.
+     *
+     * @param replyRequest - 답글을 남길 상품 문의 정보와 답글이 들어있는 DTO 입니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
+     * @throws JsonProcessingException  - 응답으로 온 Json 데이터를 역직렬화 시 발생하는 예외입니다.
+     * @author 민아영
+     */
+    @PostMapping("/inquiry-reply")
+    @ResponseBody
+    public ModelAndView replyInquiry(@RequestBody @Valid final ProductInquiryReplyRequest replyRequest)
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+
+        this.inquiryService.updateReply(replyRequest);
+
+        return new ModelAndView("redirect:/products/" + replyRequest.getProductId() + "/inquiries");
     }
 
 }

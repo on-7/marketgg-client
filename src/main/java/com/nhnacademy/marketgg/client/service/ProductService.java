@@ -1,13 +1,17 @@
 package com.nhnacademy.marketgg.client.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductInquiryRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-
+import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.io.IOException;
 import java.util.List;
-
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -28,7 +32,7 @@ public interface ProductService {
      * @since 1.0.0
      */
     void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
-            throws IOException;
+        throws IOException;
 
     /**
      * 모든 상품을 조회합니다.
@@ -68,7 +72,7 @@ public interface ProductService {
      * @since 1.0.0
      */
     void updateProduct(final Long id, final MultipartFile image, final ProductModifyRequest productRequest)
-            throws IOException;
+        throws IOException;
 
     /**
      * productId에 해당하는 상품을 삭제합니다.
@@ -83,8 +87,8 @@ public interface ProductService {
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 반환합니다.
      *
      * @param categoryId - 지정한 카테고리의 식별번호입니다.
-     * @param keyword - 검색어입니다.
-     * @param page - 조회 할 페이지 정보입니다.
+     * @param keyword    - 검색어입니다.
+     * @param page       - 조회 할 페이지 정보입니다.
      * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 반환합니다.
      * @since 1.0.0
      */
@@ -94,9 +98,9 @@ public interface ProductService {
      * 지정한 카테고리 번호 내에서 선택한 옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      *
      * @param categoryId - 지정한 카테고리의 식별번호입니다.
-     * @param option - 지정한 검색 옵션입니다.
-     * @param keyword - 검색어입니다.
-     * @param page - 조회 할 페이지 정보입니다.
+     * @param option     - 지정한 검색 옵션입니다.
+     * @param keyword    - 검색어입니다.
+     * @param page       - 조회 할 페이지 정보입니다.
      * @return 선택한 카테고리 번호내에서 선택한 정렬옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      * @since 1.0.0
      */
