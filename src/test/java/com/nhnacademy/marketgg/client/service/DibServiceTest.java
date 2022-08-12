@@ -29,31 +29,31 @@ class DibServiceTest {
     @Test
     @DisplayName("찜 등록")
     void testCreateDib() {
-        willDoNothing().given(dibRepository).createDib(anyLong(), anyLong());
+        willDoNothing().given(dibRepository).createDib(anyLong());
 
-        dibService.createDib(1L, 1L);
+        dibService.createDib(1L);
 
-        then(dibRepository).should(times(1)).createDib(anyLong(), anyLong());
+        then(dibRepository).should(times(1)).createDib(anyLong());
     }
 
     @Test
     @DisplayName("회원의 모든 찜 목록 조회")
     void testRetrieveDibs() {
-        given(dibRepository.retrieveDibs(anyLong())).willReturn(List.of());
+        given(dibRepository.retrieveDibs()).willReturn(List.of());
 
-        dibService.retrieveDibs(1L);
+        dibService.retrieveDibs();
 
-        then(dibRepository).should(times(1)).retrieveDibs(anyLong());
+        then(dibRepository).should(times(1)).retrieveDibs();
     }
 
     @Test
     @DisplayName("찜 삭제")
     void testDeleteDib() {
-        willDoNothing().given(dibRepository).deleteDib(anyLong(), anyLong());
+        willDoNothing().given(dibRepository).deleteDib(anyLong());
 
-        dibService.deleteDib(1L, 1L);
+        dibService.deleteDib(1L);
 
-        then(dibRepository).should(times(1)).deleteDib(anyLong(), anyLong());
+        then(dibRepository).should(times(1)).deleteDib(anyLong());
     }
     
 }
