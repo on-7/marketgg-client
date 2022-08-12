@@ -1,5 +1,8 @@
 package com.nhnacademy.marketgg.client.web;
 
+import static com.nhnacademy.marketgg.client.util.GgUrlUtils.REDIRECT_TO_INDEX;
+import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
+
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
@@ -27,8 +30,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
-
-    private static final String REDIRECT_TO_INDEX = "redirect:/";
 
     private final AuthService authService;
 
@@ -64,7 +65,7 @@ public class AuthController {
 
         Cookie cookie = new Cookie(JwtInfo.SESSION_ID, httpSession.getId());
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(60 * 60 * 24 * 7); // 일주일
+        cookie.setMaxAge(WEEK_SECOND); // 일주일을 초단위로 나타냄
 
         response.addCookie(cookie);
 

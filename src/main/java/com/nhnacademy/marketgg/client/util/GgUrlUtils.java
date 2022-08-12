@@ -9,11 +9,15 @@ package com.nhnacademy.marketgg.client.util;
  */
 public interface GgUrlUtils {
 
+    int WEEK_SECOND = 60 * 60 * 24 * 7;
+
     String GATEWAY_HORT_URL = "http://127.0.0.1:6060";
 
     String SHOP_SERVICE_PREFIX_V1 = "/shop/v1";
     String AUTH_SERVICE_PREFIX_V1 = "/auth/v1";
 
     String ORDERS_PATH_PREFIX = "/orders";
+    String REDIRECT_TO_INDEX = "redirect:/";
+
 
 }

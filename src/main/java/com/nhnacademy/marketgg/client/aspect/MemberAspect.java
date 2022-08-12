@@ -58,7 +58,7 @@ public class MemberAspect {
             return pjp.proceed();
         }
 
-        String sessionId = SessionContext.get().orElse("");
+        String sessionId = SessionContext.get().get();
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -91,20 +91,5 @@ public class MemberAspect {
 
         return pjp.proceed(args);
     }
-
-    // private <T> SingleResponse<T> getEntity() throws JsonProcessingException {
-    //     ResponseEntity<String> exchange =
-    //         restTemplate.getForEntity(gatewayOrigin + "/shop/v1/members", String.class);
-    //
-    //     log.info("response object: {}", mapper.writeValueAsString(exchange.getBody()));
-    //
-    //     if (exchange.getStatusCode().is4xxClientError()) {
-    //         ErrorEntity error = mapper.readValue(exchange.getBody(), ErrorEntity.class);
-    //         throw new ClientException(error.getMessage());
-    //     }
-    //
-    //     mapper.readValue(exchange.getBody(), new TypeReference<>() {
-    //     });
-    // }
 
 }

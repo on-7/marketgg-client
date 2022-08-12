@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.aspect;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -10,11 +11,8 @@ import java.util.Date;
 import java.util.Objects;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,13 +52,12 @@ public class JwtAspect {
     public void tokenRefresh() {
         log.info("Jwt Aspect");
 
-        Cookie cookie = this.getSessionIdCookie();
-
-        if (Objects.isNull(cookie)) {
+        if (SessionContext.get().isEmpty()) {
             return;
         }
 
-        String sessionId = cookie.getValue();
+        String sessionId = SessionContext.get().get();
+
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
 
@@ -121,24 +118,6 @@ public class JwtAspect {
         }
 
         return true;
-    }
-
-    private Cookie getSessionIdCookie() {
-
-        HttpServletRequest request = AspectUtils.getHttpRequest();
-        if (Objects.isNull(request.getCookies())) {
-            return null;
-        }
-
-        Cookie cookie = null;
-        for (Cookie c : request.getCookies()) {
-            if (Objects.equals(c.getName(), JwtInfo.SESSION_ID)) {
-                cookie = c;
-                break;
-            }
-        }
-
-        return cookie;
     }
 
 }

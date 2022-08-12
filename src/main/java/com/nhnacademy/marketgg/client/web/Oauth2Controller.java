@@ -1,9 +1,12 @@
 package com.nhnacademy.marketgg.client.web;
 
+import static com.nhnacademy.marketgg.client.util.GgUrlUtils.*;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.service.Oauth2Service;
+import com.nhnacademy.marketgg.client.util.GgUrlUtils;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -52,7 +55,7 @@ public class Oauth2Controller {
 
         Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(60 * 30);  // 30분
+        cookie.setMaxAge(WEEK_SECOND);  // 30분
         cookie.setPath("/");
         response.addCookie(cookie);
 
