@@ -39,7 +39,9 @@ public class AdminCsPostController {
     private final PostService postService;
 
     private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
+    private static final String NOTICE_CODE = "701";
     private static final String OTO_CODE = "702";
+    private static final String FAQ_CODE = "703";
     private static final Integer PAGE_SIZE = 10;
 
     /**
@@ -64,7 +66,9 @@ public class AdminCsPostController {
         mav.addObject("isAdmin", "yes");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("code", categoryCode);
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
 
         return mav;
     }
@@ -157,7 +161,9 @@ public class AdminCsPostController {
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("code", categoryCode);
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
 
         return mav;
     }
@@ -189,7 +195,9 @@ public class AdminCsPostController {
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("code", OTO_CODE);
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
         mav.addObject(optionType, option);
 
         return mav;
@@ -306,13 +314,13 @@ public class AdminCsPostController {
     }
 
     private String convertToType(final String categoryCode) {
-        if (categoryCode.compareTo("701") == 0) {
+        if (categoryCode.compareTo(NOTICE_CODE) == 0) {
             return "notices";
         }
         if (categoryCode.compareTo(OTO_CODE) == 0) {
             return "oto-inquiries";
         }
-        if (categoryCode.compareTo("703") == 0) {
+        if (categoryCode.compareTo(FAQ_CODE) == 0) {
             return "faqs";
         }
         throw new NotFoundException("카테고리 분류를 찾을 수 없습니다.");
