@@ -8,15 +8,15 @@
     <body>
         <main>
             <div style="text-align: center; display: flex; justify-content: center">
-                <h2 style="background-color: white; border: 2px solid black">공지 수정</h2>
+                <h2 style="background-color: white; border: 1px solid black; padding: 5px">공지 수정</h2>
             </div>
             <br /><br />
             <div style="text-align: center; display: flex; justify-content: center">
                 <form th:method="post"
                       th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
-                    <span style="background-color: #abdde5; border: 2px solid black">[공지 제목] </span>
+                    <span style="background-color: #abdde5; border: 2px solid black;">[공지 제목] </span>
                     <input style="text-align: center" class="form-control" type="text" name="title" th:value="${response.title}" th:placeholder="${response.title}"><br /><br />
-                    <span style="background-color: #abdde5; border: 2px solid black">[공지 내용]</span><br />
+                    <span style="background-color: #abdde5; border: 2px solid black;">[공지 내용]</span><br />
                     <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="10" name="content"
                               th:text="${response.content}" th:placeholder="${response.content}"></textarea><br />
                     <input type="hidden" name="categoryCode" th:value="${code}">

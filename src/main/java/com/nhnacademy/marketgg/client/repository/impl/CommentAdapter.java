@@ -29,6 +29,7 @@ public class CommentAdapter implements CommentRepository {
     @Override
     public void createComment(final Long postNo, final CommentRequest commentRequest)
         throws JsonProcessingException {
+
         String request = objectMapper.writeValueAsString(commentRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
