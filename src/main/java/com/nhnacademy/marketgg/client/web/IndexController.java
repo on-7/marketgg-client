@@ -15,7 +15,7 @@ public class IndexController {
         log.info("MemberInfo = {}", memberInfo);
 
         ModelAndView mav = new ModelAndView("index");
-        
+
         if (!memberInfo.isNull()) {
             mav.addObject("memberInfo", memberInfo);
         }

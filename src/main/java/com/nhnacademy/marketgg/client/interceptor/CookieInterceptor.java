@@ -6,6 +6,7 @@ import java.util.Objects;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
@@ -13,11 +14,13 @@ import org.springframework.web.servlet.HandlerInterceptor;
  *
  * @author 윤동열
  */
+@Slf4j
 public class CookieInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
         throws Exception {
+        log.info("Cookie Interceptor Path = {}", request.getRequestURI());
 
         SessionContext.set(this.getSessionId(request.getCookies()));
 
@@ -27,6 +30,7 @@ public class CookieInterceptor implements HandlerInterceptor {
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
         throws Exception {
+        log.info("Session Context remove");
 
         SessionContext.remove();
     }

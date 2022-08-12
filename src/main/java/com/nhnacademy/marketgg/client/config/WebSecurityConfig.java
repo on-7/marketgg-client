@@ -50,7 +50,8 @@ public class WebSecurityConfig {
 
         http.authorizeRequests()
             .antMatchers("/admin/**").hasRole("ADMIN")
-            .antMatchers("/logout", "/cart/**", "경로3").authenticated()
+            // TODO: 로그인이 필요한 경로 추가 해야합니다.
+            .antMatchers("/logout", "/cart/**").authenticated()
             .anyRequest().permitAll();
 
         http.headers()
