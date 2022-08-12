@@ -5,6 +5,7 @@ import java.io.UncheckedIOException;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.time.Duration;
+import java.util.Locale;
 import java.util.Optional;
 import javax.net.ssl.SSLContext;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.MultipartFilter;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+import org.springframework.web.servlet.LocaleResolver;
 
 /**
  * Web Configuration 을 설정할 수 있습니다.
@@ -184,6 +187,21 @@ public class WebConfig {
         registrationBean.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER - 1);
 
         return registrationBean;
+    }
+
+    /**
+     * 사용자 언어 환경을 설정해주기 위한 Resolver 입니다.
+     *
+     * @return 사용자 언어환경을 설정해주고 초기값을 지닌 SessionLocalResolver 를 반환합니다.
+     * @author 박세완
+     * @since 1.0.0
+     */
+    @Bean
+    public LocaleResolver localeResolver() {
+        SessionLocaleResolver sessionLocaleResolver = new SessionLocaleResolver();
+        sessionLocaleResolver.setDefaultLocale(Locale.KOREA);
+
+        return sessionLocaleResolver;
     }
 
 }
