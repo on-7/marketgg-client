@@ -14,17 +14,17 @@ public class DefaultDibService implements DibService {
     private final DibRepository dibRepository;
 
     @Override
-    public void createDib(final Long memberId, final Long productId) {
-        dibRepository.createDib(memberId, productId);
+    public void createDib(final Long productId) {
+        dibRepository.createDib(productId);
     }
 
     @Override
-    public List<DibRetrieveResponse> retrieveDibs(final Long id) {
-        return dibRepository.retrieveDibs(id);
+    public List<DibRetrieveResponse> retrieveDibs() {
+        return dibRepository.retrieveDibs();
     }
 
     @Override
-    public void deleteDib(final Long memberId, final Long productId) {
-        dibRepository.deleteDib(memberId, productId);
+    public void deleteDib(final Long productId) {
+        dibRepository.deleteDib(productId);
     }
 }

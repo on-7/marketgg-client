@@ -7,31 +7,38 @@
     </head>
     <body>
         <main>
-            <h2 style="text-align: center">[찜 목록]</h2>
-            <div style="text-align: center; display: flex; justify-content: center">
-                <table class="table table-hover" style="text-align: center; border: 1px solid black; background-color: navajowhite">
-                    <tr>
-                        <th>-</th>
-                        <th>이름</th>
-                        <th>가격</th>
-                        <th>찜 상태</th>
-                    </tr>
-                    <tr th:each="dib : ${dibs}">
-                        <td>
-                            <img th:src="${dib.thumbnail}" alt="null"/>
-                        </td>
-                        <td>
-                            <a th:href="'/shop/v1/products/' + ${dib.productNo}" th:text="${dib.productName}"></a>
-                        </td>
-                        <td th:text="${dib.productPrice}"></td>
-                        <td>
-                            <form th:method="delete" th:action="'/shop/v1/member/' + ${id} + '/dibs/' + ${dib.productNo}">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <input class="btn-primary" type="submit" value="제거">
-                            </form>
-                        </td>
-                    </tr>
-                </table>
+            <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
+                <h2 style="background-color: white; border: 1px outset black; padding: 5px">찜 목록 관리</h2>
+            </div>
+            <div style="display: flex">
+                <nav style="display: flex; flex: 0.1; padding-left: 30px"></nav>
+                <div style="display: flex; flex: 0.7; flex-direction: column;">
+                    <div style="text-align: center; display: flex; justify-content: center">
+                        <table class="table table-hover" style="text-align: center; border: 1px solid black; background-color: navajowhite">
+                            <tr>
+                                <th>상품 이미지</th>
+                                <th>상품 이름</th>
+                                <th>가격</th>
+                                <th>찜 상태</th>
+                            </tr>
+                            <tr th:each="dib : ${dibs}">
+                                <td>
+                                    <img th:src="${dib.thumbnail}" alt="null"/>
+                                </td>
+                                <td>
+                                    <a th:href="'/products/' + ${dib.productNo}" th:text="${dib.productName}"></a>
+                                </td>
+                                <td th:text="${dib.productPrice}"></td>
+                                <td>
+                                    <form th:method="delete" th:action="'/member/dibs/' + ${dib.productNo}">
+                                        <input type="hidden" name="_method" value="delete"/>
+                                        <input class="btn-primary" type="submit" value="제거">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
         </main>
     </body>

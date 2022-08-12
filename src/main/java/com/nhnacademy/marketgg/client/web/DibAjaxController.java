@@ -31,16 +31,15 @@ public class DibAjaxController {
     /**
      * 지정한 상품을 지정한 회원의 찜 목록에 존재하는지 판단하는 Mapping 을 지원합니다.
      *
-     * @param memberId  - 지정한 회원의 식별변호입니다.
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 찜 목록에 상품이 존재하면 1, 없으면 0을 반환합니다.
      * @since 1.0.0
      */
     @PostMapping(produces = "application/json")
     @ResponseBody
-    public Map<String, Object> dibView(final Long memberId, final Long productId) {
+    public Map<String, Object> dibView(final Long productId) {
 
-        List<DibRetrieveResponse> list = dibService.retrieveDibs(memberId);
+        List<DibRetrieveResponse> list = dibService.retrieveDibs();
         Map<String, Object> map = new HashMap<>();
 
         map.put("exist", 0);
@@ -57,16 +56,15 @@ public class DibAjaxController {
     /**
      * 지정한 사용자의 찜 목록에 해당 상품을 추가하는 Mapping 을 지원합니다.
      *
-     * @param memberId  - 지정한 회원의 식별변호입니다.
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 찜 목록에 해당 상품을 추가하는 메소드 실행 후 정상적인 처리가 됐다는 1을 반환합니다.
      * @since 1.0.0
      */
-    @GetMapping("/insert/{memberId}/{productId}")
+    @GetMapping("/insert/{productId}")
     @ResponseBody
-    public Integer dibInsert(@PathVariable final Long memberId, @PathVariable final Long productId) {
+    public Integer dibInsert(@PathVariable final Long productId) {
 
-        dibService.createDib(memberId, productId);
+        dibService.createDib(productId);
 
         return SUCCESS;
     }
@@ -74,16 +72,15 @@ public class DibAjaxController {
     /**
      * 지정한 사용자의 찜 목록에서 해당 상품을 제거하는 Mapping 을 지원합니다.
      *
-     * @param memberId  - 지정한 회원의 식별변호입니다.
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 찜 목록에 해당 상품을 제거하는 메소드 실행 후 정상적인 처리가 됐다는 1을 반환합니다.
      * @since 1.0.0
      */
-    @GetMapping("/delete/{memberId}/{productId}")
+    @GetMapping("/delete/{productId}")
     @ResponseBody
-    public Integer dibDelete(@PathVariable final Long memberId, @PathVariable final Long productId) {
+    public Integer dibDelete(@PathVariable final Long productId) {
 
-        dibService.deleteDib(memberId, productId);
+        dibService.deleteDib(productId);
 
         return SUCCESS;
     }
