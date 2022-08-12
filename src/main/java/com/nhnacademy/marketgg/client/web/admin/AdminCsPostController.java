@@ -111,6 +111,27 @@ public class AdminCsPostController {
     }
 
     /**
+     * 선택한 게시글의 상세 정보를 조회 할 수 있습니다.
+     *
+     * @param categoryCode - 조회를 진행할 고객센터 게시판의 타입입니다.
+     * @param postNo       - 조회를 진행할 게시글의 식별번호입니다.
+     * @return 지정한 식별번호의 게시글 상세조회 페이지로 이동합니다.
+     * @since 1.0.0
+     */
+    @GetMapping("/categories/{categoryCode}/{postNo}")
+    public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                     @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
+
+        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/detail");
+
+        mav.addObject("isAdmin", "yes");
+        mav.addObject("response", postService.retrievePost(postNo, categoryCode));
+        mav.addObject("page", page);
+
+        return mav;
+    }
+
+    /**
      * 지정한 카테고리에서 게시판을 검색합니다.
      *
      * @param categoryCode - 검색을 진행할 게시판의 타입입니다.

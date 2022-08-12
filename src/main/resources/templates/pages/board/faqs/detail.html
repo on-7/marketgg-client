@@ -34,7 +34,6 @@
                             </tr>
                         </tbody>
                     </table>
-<<<<<<< HEAD
                     <div class="row" th:if="${isAdmin == 'yes'}">
                         <form th:method="get" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
                             <input type="hidden" name="page" th:value="${page}">
@@ -46,17 +45,6 @@
                             <input class="btn btn-danger" type="submit" th:value="#{삭제}">
                         </form>
                     </div>
-=======
-                    <form th:method="get" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
-                        <input type="hidden" name="page" th:value="${page}">
-                        <input class="btn btn-warning" type="submit" value="수정">
-                    </form>
-                    <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/delete'">
-                        <input type="hidden" name="page" th:value="${page}">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <input class="btn btn-danger" type="submit" value="삭제">
-                    </form>
->>>>>>> 2c63d2b (Fix: Page RequestParam 추가 #132)
                 </div>
             </div>
         </main>
