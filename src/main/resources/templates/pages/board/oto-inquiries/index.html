@@ -7,8 +7,8 @@
     </head>
     <body>
         <main>
-            <div style="text-align: center; display: flex; justify-content: center">
-                <h2 style="background-color: white; border: 2px solid black">1:1 문의 게시판</h2>
+            <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
+                <h2 style="background-color: white; border: 1px outset black; padding: 5px">1:1 문의 게시판</h2>
             </div>
             <div style="display: flex">
                 <nav style="display: flex; flex: 0.1; padding-left: 30px">
@@ -26,9 +26,9 @@
                     </div>
                 </nav>
                 <div style="display: flex; flex: 0.7; flex-direction: column">
-                    <div th:if="${isAdmin == 'yes'}">
+                    <div th:if="${isAdmin == 'yes'}" class="row row-cols-6">
                         <details>
-                            <summary>[전체 검색]</summary>
+                            <summary class="btn btn-info">[전체 검색]</summary>
                                     <form th:method="get" th:action="'/admin/customer-services/categories/'+${OTO_CODE}+'/search'">
                                         <input type="text" name="keyword" placeholder="검색어를 입력하세요">
                                         <input type="hidden" name="page" value="0">
@@ -36,9 +36,8 @@
                                     </form>
                         </details>
                         <details>
-                            <summary>[사유 검색]</summary>
+                            <summary class="btn btn-info">[사유 검색]</summary>
                             <form th:method="get" th:action="'/admin/customer-services/categories/'+${OTO_CODE}+'/options/reason/search'">
-                                <span>1:1 문의 사유 : </span>
                                 <select name="option">
                                     <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
                                 </select><br />
@@ -48,9 +47,8 @@
                             </form>
                         </details>
                         <details>
-                            <summary>[상태 검색]</summary>
+                            <summary class="btn btn-info">[상태 검색]</summary>
                             <form th:method="get" th:action="'/admin/customer-services/categories/'+${OTO_CODE}+'/options/status/search'">
-                                <span>1:1 문의 상태</span>
                                 <select name="option">
                                     <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
                                 </select><br />
@@ -60,6 +58,7 @@
                             </form>
                         </details>
                     </div>
+                    <br />
                     <div th:if="${isAdmin == 'yes'}" style="background-color: white">
                         <table class="table table-hover">
                             <thead>
@@ -129,6 +128,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <br />
                     <div th:if="${isAdmin == 'no'}">
                         <form th:method="get" th:action="'/customer-services/categories/'+${OTO_CODE}+'/create'">
                             <input class="btn-primary fa-pull-right" type="submit" value="1:1문의 등록">
@@ -137,29 +137,29 @@
                     <div style="text-align: center" th:if="${isAdmin == 'no'}">
                         <div th:if="${searchType == 'no'}">
                             <a class="btn-primary" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
-                            <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
                             <a class="btn-primary" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
                     <div style="text-align: center" th:if="${isAdmin == 'yes'}">
                         <div th:if="${searchType == 'default'}">
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'/search?page='+${page - 1}+'&keyword='+${keyword}" th:if="${page} != 0" th:text="prev"></a>
-                            <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'/search?page='+${page + 1}+'&keyword='+${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                         <div th:if="${searchType == 'reason'}">
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'/option/reason/search?page='+${page - 1}+'&keyword='+${keyword}+'&reason='+${reason}" th:if="${page} != 0" th:text="prev"></a>
-                            <span class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'/option/reason/search?page='+${page + 1}+'&keyword='+${keyword}+'&reason='+${reason}" th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                         <div th:if="${searchType == 'status'}">
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'/option/status/search?page='+${page - 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${page} != 0" th:text="prev"></a>
-                            <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'/option/status/search?page='+${page + 1}+'&keyword='+${keyword}+'&status='+${status}" th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                         <div th:if="${searchType == 'no'}">
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
-                            <span style="background-color: navajowhite; border: 2px solid black;" class="btn-outline-dark" th:text="'('+ ${page} + 'page)'"></span>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
