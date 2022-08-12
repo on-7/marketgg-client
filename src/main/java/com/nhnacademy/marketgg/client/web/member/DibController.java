@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/members/{memberId}/dibs")
+@RequestMapping("/members/dibs")
 @RequiredArgsConstructor
 public class DibController {
 
@@ -24,15 +24,13 @@ public class DibController {
     /**
      * 지정한 회원의 찜 목록을 조회하는 Mapping 을 지원합니다.
      *
-     * @param memberId - 지정한 회원의 식별번호입니다.
      * @return 자신의 찜 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
     @GetMapping
-    public ModelAndView retrieveDibs(@PathVariable final Long memberId) {
+    public ModelAndView retrieveDibs() {
         ModelAndView mav = new ModelAndView("/pages/dibs/index");
-        mav.addObject("dibs", dibService.retrieveDibs(memberId));
-        mav.addObject("id", memberId);
+        mav.addObject("dibs", dibService.retrieveDibs());
 
         return mav;
     }
@@ -40,17 +38,15 @@ public class DibController {
     /**
      * 지정한 상품을 지정한 회원의 찜 목록에서 삭제하는 Mapping 을 지원합니다.
      *
-     * @param memberId  - 지정한 회원의 식별번호입니다.
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 다시 상품 조회 페이지로 이동합니다.
      * @since 1.0.0
      */
     @DeleteMapping("/{productId}")
-    public ModelAndView deleteDib(@PathVariable final Long memberId,
-                                  @PathVariable final Long productId) {
+    public ModelAndView deleteDib(@PathVariable final Long productId) {
 
-        dibService.deleteDib(memberId, productId);
-        return new ModelAndView("redirect:/members/" + memberId + "/dibs/");
+        dibService.deleteDib(productId);
+        return new ModelAndView("redirect:/members/dibs");
     }
 
 }

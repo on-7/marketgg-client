@@ -23,10 +23,10 @@ public class DibAdapter implements DibRepository {
     private final RestTemplate restTemplate;
 
     @Override
-    public void createDib(final Long memberId, final Long productId) {
+    public void createDib(final Long productId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response =
-            restTemplate.exchange(gateWayIp + this.buildUri(memberId) + "/" + productId,
+            restTemplate.exchange(gateWayIp + "/members/dibs/" + productId,
                 HttpMethod.POST,
                 requestEntity,
                 Void.class);
@@ -35,10 +35,10 @@ public class DibAdapter implements DibRepository {
     }
 
     @Override
-    public List<DibRetrieveResponse> retrieveDibs(final Long id) {
+    public List<DibRetrieveResponse> retrieveDibs() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<DibRetrieveResponse>> response =
-            restTemplate.exchange(gateWayIp + this.buildUri(id),
+            restTemplate.exchange(gateWayIp + "/members/dibs",
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
@@ -49,19 +49,15 @@ public class DibAdapter implements DibRepository {
     }
 
     @Override
-    public void deleteDib(final Long memberId, final Long productId) {
+    public void deleteDib(final Long productId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response =
-            restTemplate.exchange(gateWayIp + this.buildUri(memberId) + "/" + productId,
+            restTemplate.exchange(gateWayIp + "/members/dibs/" + productId,
                 HttpMethod.DELETE,
                 requestEntity,
                 Void.class);
 
         this.checkResponseUri(response);
-    }
-
-    private String buildUri(final Long memberId) {
-        return "/shop/v1/members/" + memberId + "/dibs";
     }
 
     private HttpHeaders buildHeaders() {

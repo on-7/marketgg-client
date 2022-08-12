@@ -48,8 +48,6 @@
                             $(document).ready(function () {
                                 dibView();
                             });
-                            // FIXME : memberId, productId 변수로 수정
-                            let memberId = '1';
                             let productId = '4';
 
                             function dibView() {
@@ -58,17 +56,16 @@
                                     type: 'post',
                                     async: true,
                                     data: {
-                                        'memberId': memberId,
                                         'productId': productId
                                     },
                                     dataType: "json",
                                     success: function (data) {
                                         let htmlBody = '';
                                         if (data.exist === 1) {
-                                            htmlBody += '<button onclick="dibDelete(memberId, productId);"'
+                                            htmlBody += '<button onclick="dibDelete(productId);"'
                                                 + '>찜제거</button>'
                                         } else {
-                                            htmlBody += '<button onclick="dibInsert(memberId, productId);"'
+                                            htmlBody += '<button onclick="dibInsert(productId);"'
                                                 + '>찜</button>'
                                         }
                                         $('#dib').html(htmlBody);
@@ -76,9 +73,9 @@
                                 })
                             }
 
-                            function dibInsert(memberId, productId) {
+                            function dibInsert(productId) {
                                 $.ajax({
-                                    url: 'http://localhost:5050/dibs/insert/' + memberId + '/' + productId,
+                                    url: 'http://localhost:5050/dibs/insert/' + productId,
                                     type: 'get',
                                     success: function (data) {
                                         if (data === 1)
@@ -87,9 +84,9 @@
                                 });
                             }
 
-                            function dibDelete(memberId, productId) {
+                            function dibDelete(productId) {
                                 $.ajax({
-                                    url: 'http://localhost:5050/dibs/delete/' + memberId + '/' + productId,
+                                    url: 'http://localhost:5050/dibs/delete/' + productId,
                                     type: 'get',
                                     success: function (data) {
                                         if (data === 1)
