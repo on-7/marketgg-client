@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.web.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.Alert;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
