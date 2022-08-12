@@ -12,24 +12,24 @@
                     <table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
                         <thead>
                             <tr>
-                                <th colspan="3" style="background-color: #eeeeee; text-align: center;">FAQ</th>
+                                <th colspan="3" style="background-color: #eeeeee; text-align: center;" th:text="#{FAQ}"></th>
                             </tr>
                         </thead>
                         <tbody style="background-color: white; border: 1px solid black;">
                             <tr>
-                                <td style="width: 20%"><span style="text-align: center" th:text="'[FAQ 제목]'"></span></td>
+                                <td style="width: 20%"><span style="text-align: center" th:text="#{FAQ질문내용}"></span></td>
                                 <td colspan="2"><span style="text-align: center" th:text="${response.title}"></span></td>
                             </tr>
                             <tr>
-                                <td><span style="text-align: center" th:text="'[등록일자]'"></span></td>
+                                <td><span style="text-align: center" th:text="#{등록일자}"></span></td>
                                 <td colspan="2"><span style="text-align: center" th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span></td>
                             </tr>
                             <tr>
-                                <td><span style="text-align: center" th:text="'[수정일자]'"></span></td>
+                                <td><span style="text-align: center" th:text="#{수정일자}"></span></td>
                                 <td colspan="2"><span style="text-align: center" th:text="${#temporals.format(response.updatedAt, 'yyyy/MM/dd hh:mm:ss')}"></span></td>
                             </tr>
                             <tr>
-                                <td><span style="text-align: center" th:text="'[FAQ 답변]'"></span></td>
+                                <td><span style="text-align: center" th:text="#{FAQ답변내용}"></span></td>
                                 <td colspan="2" style="min-height: 200px; text-align: left"><div style="text-align: center; white-space: pre;" th:utext="${response.content}"></div></td>
                             </tr>
                         </tbody>
@@ -37,12 +37,12 @@
                     <div class="row" th:if="${isAdmin == 'yes'}">
                         <form th:method="get" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
                             <input type="hidden" name="page" th:value="${page}">
-                            <input class="btn btn-warning" type="submit" value="수정">
+                            <input class="btn btn-warning" type="submit" th:value="#{수정}">
                         </form>
                         <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/delete'">
                             <input type="hidden" name="page" th:value="${page}">
                             <input type="hidden" name="_method" value="delete"/>
-                            <input class="btn btn-danger" type="submit" value="삭제">
+                            <input class="btn btn-danger" type="submit" th:value="#{삭제}">
                         </form>
                     </div>
                 </div>
