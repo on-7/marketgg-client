@@ -58,7 +58,7 @@ public class MemberAspect {
             return pjp.proceed();
         }
 
-        String sessionId = SessionContext.get().get();
+        String sessionId = SessionContext.get().orElse("");
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);

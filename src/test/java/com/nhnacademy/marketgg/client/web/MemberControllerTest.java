@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import com.nhnacademy.marketgg.client.web.member.MemberAjaxController;
@@ -30,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -37,22 +39,28 @@ import org.springframework.web.client.RestTemplate;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest({
-        MemberController.class,
-        MemberAjaxController.class
+    MemberController.class,
+    MemberAjaxController.class
 })
 class MemberControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
     @Autowired
     ObjectMapper objectMapper;
 
     @MockBean
     MemberService memberService;
+
     @MockBean
     RestTemplate restTemplate;
+
     @MockBean
     GivenCouponService givenCouponService;
+
+    @MockBean
+    RedisTemplate<String, JwtInfo> redisTemplate;
 
     @Test
     @DisplayName("GG 패스 메인 페이지")
@@ -103,16 +111,16 @@ class MemberControllerTest {
     void testUseEmail() throws Exception {
 
         given(memberService.useEmail(any()))
-                .willReturn(new EmailUseResponse(false));
+            .willReturn(new EmailUseResponse(false));
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         boolean hasNotReferrer = false;
 
         mockMvc.perform(post("/marketgg/members/use/email")
-                                .content(objectMapper.writeValueAsString(
-                                        new EmailRequest("aaa@naver.com", hasNotReferrer)))
-                                .contentType(MediaType.APPLICATION_JSON))
+                   .content(objectMapper.writeValueAsString(
+                       new EmailRequest("aaa@naver.com", hasNotReferrer)))
+                   .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
     }
 
@@ -126,8 +134,8 @@ class MemberControllerTest {
         willDoNothing().given(givenCouponService).registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
 
         mockMvc.perform(post("/members/{memberId}/coupons", 1L)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(content))
+                   .contentType(MediaType.APPLICATION_JSON)
+                   .content(content))
                .andExpect(status().is3xxRedirection());
 
         then(givenCouponService).should().registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));

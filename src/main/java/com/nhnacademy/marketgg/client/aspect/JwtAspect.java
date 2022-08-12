@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.aspect;
 
+import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.context.SessionContext;
@@ -10,7 +11,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
@@ -24,6 +25,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletWebRequest;
 
 /**
  * 인증을 처리하기 위해 사용되는 AOP 입니다.
@@ -56,7 +59,7 @@ public class JwtAspect {
             return;
         }
 
-        String sessionId = SessionContext.get().get();
+        String sessionId = SessionContext.get().orElse("");
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -80,44 +83,57 @@ public class JwtAspect {
             = restTemplate.exchange(gatewayOrigin + "/auth/refresh", HttpMethod.GET, httpEntity,
             Void.class);
 
-        if (this.isValid(response)) {
-            log.info("Token Refresh");
-            HttpHeaders responseHeaders = response.getHeaders();
-
-            String jwt = Objects.requireNonNull(responseHeaders.get(AUTHORIZATION)).get(0);
-            String expire = Objects.requireNonNull(responseHeaders.get(JwtInfo.JWT_EXPIRE)).get(0);
-
-            JwtInfo newJwtInfo = new JwtInfo(jwt, expire);
-            Instant instant = newJwtInfo.getJwtExpireDate()
-                                        .atZone(ZoneId.systemDefault())
-                                        .toInstant();
-            Date expireDate = Date.from(instant);
-
-            redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
-            redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, newJwtInfo);
-            redisTemplate.expireAt(sessionId, expireDate);
+        if (this.isInvalid(response)) {
+            return;
         }
 
+        log.info("Token Refresh");
+        HttpHeaders responseHeaders = response.getHeaders();
+
+        String jwt = Objects.requireNonNull(responseHeaders.get(AUTHORIZATION)).get(0);
+        String expire = Objects.requireNonNull(responseHeaders.get(JwtInfo.JWT_EXPIRE)).get(0);
+
+        JwtInfo newJwtInfo = new JwtInfo(jwt, expire);
+        Instant instant = newJwtInfo.getJwtExpireDate()
+                                    .atZone(ZoneId.systemDefault())
+                                    .toInstant();
+        Date expireDate = Date.from(instant);
+
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
+        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, newJwtInfo);
+        redisTemplate.expireAt(sessionId, expireDate);
+
+        try {
+            ServletWebRequest servletContainer =
+                Objects.requireNonNull((ServletWebRequest) RequestContextHolder.getRequestAttributes());
+            HttpServletResponse httpResponse = Objects.requireNonNull(servletContainer.getResponse());
+            Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
+            cookie.setHttpOnly(true);
+            cookie.setMaxAge(WEEK_SECOND);
+            httpResponse.addCookie(cookie);
+        } catch (NullPointerException e) {
+            log.error("JwtAspect Response is Null, {}", e.toString());
+        }
     }
 
-    private boolean isValid(ResponseEntity<?> response) {
+    private boolean isInvalid(ResponseEntity<?> response) {
         if (response.getStatusCode().is4xxClientError()) {
             log.info("Login Fail - http status: {}", response.getStatusCode());
-            return false;
+            return true;
         }
 
         if (response.getStatusCode().is5xxServerError()) {
             log.info("Login Fail - http status: {}", response.getStatusCode());
-            return false;
+            return true;
         }
 
         if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
             || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
             log.info("Empty header");
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
 }

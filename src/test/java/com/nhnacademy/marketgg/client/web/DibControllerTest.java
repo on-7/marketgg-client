@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.DibService;
 import com.nhnacademy.marketgg.client.web.member.DibController;
 import org.junit.jupiter.api.DisplayName;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -31,6 +33,9 @@ class DibControllerTest {
 
     @MockBean
     DibService dibService;
+
+    @MockBean
+    RedisTemplate<String, JwtInfo> redisTemplate;
 
     private static final String DEFAULT_DIB = "/members/1/dibs";
 

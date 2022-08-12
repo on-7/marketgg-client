@@ -1,14 +1,11 @@
 package com.nhnacademy.marketgg.client.config;
 
-import com.nhnacademy.marketgg.client.interceptor.CookieInterceptor;
 import com.nhnacademy.marketgg.client.interceptor.JwtRefreshInterceptor;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * RestTemplate Interceptor 를 RestTemplate 에 추가 설정하는 클래스입니다.
@@ -26,7 +23,7 @@ public class RestTemplateInterceptorConfig {
      * @param redisTemplate - Interceptor 가 JWT 를 참조 시 필요한 Redis
      */
     public RestTemplateInterceptorConfig(RestTemplate restTemplate,
-                             RedisTemplate<String, JwtInfo> redisTemplate) {
+                                         RedisTemplate<String, JwtInfo> redisTemplate) {
         restTemplate.setInterceptors(List.of(new JwtRefreshInterceptor(redisTemplate)));
     }
 

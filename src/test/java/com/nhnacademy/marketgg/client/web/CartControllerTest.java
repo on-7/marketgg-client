@@ -4,9 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,26 +21,38 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.CartService;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-// @WebMvcTest(CartController.class)
 @SpringBootTest
+@Import({
+    // WebSecurityConfig.class
+})
 class CartControllerTest {
 
     MockMvc mockMvc;
@@ -49,8 +63,14 @@ class CartControllerTest {
     @Autowired
     ObjectMapper mapper;
 
+    @Autowired
+    RedisTemplate<String, JwtInfo> redisTemplate;
+
     @MockBean
     CartService cartService;
+
+    @Value("${gg.jwt.test.user}")
+    String jwt;
 
     static ProductToCartRequest productToCartRequest;
 
@@ -62,8 +82,8 @@ class CartControllerTest {
     }
 
     @BeforeEach
-    void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(controller)
+    void setUp(WebApplicationContext wac) {
+        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
                                  .alwaysDo(print())
                                  .build();
     }
@@ -72,11 +92,15 @@ class CartControllerTest {
     @DisplayName("장바구니에 상품 추가")
     void addToProduct() throws Exception {
 
+        String request = mapper.writeValueAsString(productToCartRequest);
+        String sessionId = UUID.randomUUID().toString();
+        JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().plus(1, ChronoUnit.DAYS).toString());
+        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
+
         willDoNothing().given(cartService).addProduct(any(ProductToCartRequest.class));
 
-        String request = mapper.writeValueAsString(productToCartRequest);
-
         mockMvc.perform(post("/cart")
+                   .cookie(new Cookie(JwtInfo.SESSION_ID, sessionId))
                    .contentType(MediaType.APPLICATION_JSON)
                    .content(request))
                .andExpect(status().isOk())
@@ -84,6 +108,7 @@ class CartControllerTest {
                .andExpect(jsonPath("$.data", equalTo(true)));
 
         then(cartService).should(times(1)).addProduct(any(ProductToCartRequest.class));
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
     }
 
     @Test
