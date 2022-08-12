@@ -38,7 +38,7 @@ public class AdminProductController {
     private final LabelService labelService;
     private final ImageService imageService;
 
-    private final static String DEFAULT_PRODUCT_URI = "/admin/products";
+    private static final String DEFAULT_PRODUCT_URI = "/admin/products";
 
     /**
      * 기본 상품 index 페이지 GetMapping을 지원합니다.

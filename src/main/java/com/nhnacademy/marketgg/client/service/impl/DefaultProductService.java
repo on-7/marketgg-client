@@ -26,8 +26,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<ProductResponse> retrieveProducts() {
-        List<ProductResponse> productResponses = productRepository.retrieveProducts();
-        return productResponses;
+        return productRepository.retrieveProducts();
     }
 
     @Override
@@ -55,12 +54,14 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final Integer page) {
+    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword,
+                                                                   final Integer page) {
         return productRepository.searchProductListByCategory(categoryId, keyword, page);
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option, final String keyword, final Integer page) {
+    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option,
+                                                                final String keyword, final Integer page) {
         return productRepository.searchProductListByPrice(categoryId, option, keyword, page);
     }
 
