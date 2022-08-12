@@ -3,9 +3,11 @@ package com.nhnacademy.marketgg.client.service;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 회원 서비스 입니다.
@@ -53,4 +55,6 @@ public interface MemberService {
     void update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId);
 
     void withdraw(final String sessionId);
+
+    List<DeliveryAddressResponse> retrieveDeliveryAddresses();
 }

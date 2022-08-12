@@ -5,6 +5,7 @@ import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.Alert;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 <<<<<<< HEAD
 import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
@@ -188,6 +189,19 @@ public class MemberController {
         memberService.withdraw(sessionId);
         return new ModelAndView(REDIRECT);
 >>>>>>> f6eadbd (refactor: 회원정보 메서드 이전)
+    }
+
+    /**
+     * 회원이 보유한 배송지 목록 리스트를 보여줍니다.
+     *
+     * @return 회원이 보유한 배송지 목록 리스트 입니다.
+     */
+    @GetMapping("/delivery-addresses")
+    public ModelAndView deliveryAddresses() {
+        List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("deliveryAddressList", deliveryAddressResponseList);
+        return modelAndView;
     }
 
 }
