@@ -27,8 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class MemberInfoController {
 
-    private static final String INDEX = "index";
-
     private final MemberService memberService;
 
     /**
@@ -63,39 +61,6 @@ public class MemberInfoController {
 
         memberService.doSignup(member);
         return new ModelAndView("redirect:/");
-    }
-
-    /**
-     * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
-     *
-     * @param memberUpdateToAuth - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
-     * @return 회원수정 실행 후, 다시 Index 페이지로 이동합니다.
-     * @author 김훈민
-     * @since 1.0.0
-     */
-    @PostMapping("/update")
-    public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth)
-        throws UnAuthenticException {
-        String sessionId = SessionContext.get()
-                                         .orElseThrow(UnAuthenticException::new);
-
-        memberService.update(memberUpdateToAuth, sessionId);
-        return new ModelAndView(INDEX);
-    }
-
-    /**
-     * 회원탈퇴 요청을 받아 회원탈퇴 프로세스를 진행합니다.
-     *
-     * @return 회원탈퇴 실행 후, 다시 Index 페이지로 이동합니다.
-     * @author 김훈민
-     */
-    @GetMapping("/withdraw")
-    public ModelAndView doWithdraw() throws UnAuthenticException {
-        String sessionId = SessionContext.get()
-                                         .orElseThrow(UnAuthenticException::new);
-
-        memberService.withdraw(sessionId);
-        return new ModelAndView(INDEX);
     }
 
 }

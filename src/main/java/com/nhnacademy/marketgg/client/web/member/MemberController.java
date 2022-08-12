@@ -1,10 +1,12 @@
 package com.nhnacademy.marketgg.client.web.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.Alert;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.time.LocalDate;
@@ -32,6 +34,7 @@ public class MemberController {
     private static final String REDIRECT = "redirect:";
 
     private final MemberService memberService;
+
     private final GivenCouponService givenCouponService;
 
     private static final String DEFAULT_MEMBER = "/members";
@@ -120,6 +123,40 @@ public class MemberController {
         mav.addObject("memberId", memberId);
 
         return mav;
+    }
+
+
+    /**
+     * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
+     *
+     * @param memberUpdateToAuth - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
+     * @return 회원수정 실행 후, 다시 Index 페이지로 이동합니다.
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    @PostMapping("/update")
+    public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth)
+        throws UnAuthenticException {
+        String sessionId = SessionContext.get()
+                                         .orElseThrow(UnAuthenticException::new);
+
+        memberService.update(memberUpdateToAuth, sessionId);
+        return new ModelAndView(REDIRECT);
+    }
+
+    /**
+     * 회원탈퇴 요청을 받아 회원탈퇴 프로세스를 진행합니다.
+     *
+     * @return 회원탈퇴 실행 후, 다시 Index 페이지로 이동합니다.
+     * @author 김훈민
+     */
+    @GetMapping("/withdraw")
+    public ModelAndView doWithdraw() throws UnAuthenticException {
+        String sessionId = SessionContext.get()
+                                         .orElseThrow(UnAuthenticException::new);
+
+        memberService.withdraw(sessionId);
+        return new ModelAndView(REDIRECT);
     }
 
 }
