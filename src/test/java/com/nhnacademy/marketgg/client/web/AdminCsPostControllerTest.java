@@ -149,6 +149,20 @@ class AdminCsPostControllerTest {
         then(postService).should(times(1)).createPost(any(PostRequest.class));
     }
 
+    @Test
+    @DisplayName("게시글 단건조회")
+    void testRetrievePost() throws Exception {
+        given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
+
+        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}", "703", 1L)
+                                                           .param("page", "0"))
+                                          .andExpect(status().isOk())
+                                          .andExpect(view().name("pages/board/faqs/detail"))
+                                          .andReturn();
+
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("response")).isNotNull();
+    }
+
     @ParameterizedTest
     @ValueSource(strings = {"701", "702", "703"})
     @DisplayName("카테고리 별 검색")

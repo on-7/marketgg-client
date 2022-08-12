@@ -34,7 +34,7 @@
                             </tr>
                             <tr>
                                 <td><span style="text-align: center" th:text="'[1:1 문의 내용]'"></span></td>
-                                <td colspan="2" style="min-height: 200px; text-align: left"><div style="text-align: center" th:utext="${response.content}"></div></td>
+                                <td colspan="2" style="min-height: 200px; text-align: left"><div style="text-align: center; white-space: pre;" th:utext="${response.content}"></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -46,7 +46,6 @@
                 </div>
             </div>
             <h2 style="text-align: center">[답변 목록]</h2>
-
             <div style="text-align: center; display: flex; justify-content: center">
                 <table>
                     <tr>
