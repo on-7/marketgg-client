@@ -49,7 +49,9 @@ public class WebSecurityConfig {
             .logout().disable();
 
         http.authorizeRequests()
-            .antMatchers("/**").permitAll();
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            .antMatchers("/logout", "/cart/**", "경로3").authenticated()
+            .anyRequest().permitAll();
 
         http.headers()
             .defaultsDisabled()
