@@ -6,20 +6,22 @@ import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_USER;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.annotation.RoleCheck;
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.jwt.Payload;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -52,9 +54,8 @@ public class RoleCheckAspect {
         log.debug("Method: {}", jp.getSignature().getName());
         log.debug("Authorization: {}", roleCheck.accessLevel());
 
-        HttpServletRequest httpRequest = AspectUtils.getHttpRequest();
-        String sessionId = Optional.ofNullable((String) httpRequest.getSession().getAttribute(JwtInfo.SESSION_ID))
-                                   .orElseThrow(UnAuthenticException::new);
+        String sessionId = SessionContext.get()
+                                         .orElseThrow(UnAuthenticException::new);
 
         JwtInfo jwtInfo =
             Optional.ofNullable((JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY))
@@ -69,11 +70,17 @@ public class RoleCheckAspect {
 
         log.info("role = {}", payload.getAuthorities().toString());
 
-        if (Objects.equals(roleCheck.accessLevel(), ROLE_USER)) {
+        MethodSignature methodSignature = (MethodSignature) jp.getSignature();
+        Method method = methodSignature.getMethod();
+
+        RoleCheck check = method.getAnnotation(RoleCheck.class);
+        log.info("accessLevel = {}", check.accessLevel());
+
+        if (Objects.equals(check.accessLevel(), ROLE_USER)) {
             checkUser(payload);
         }
 
-        if (Objects.equals(roleCheck.accessLevel(), ROLE_ADMIN)) {
+        if (Objects.equals(check.accessLevel(), ROLE_ADMIN)) {
             checkAdmin(payload);
         }
 

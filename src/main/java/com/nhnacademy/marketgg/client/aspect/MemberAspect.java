@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.aspect;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
@@ -10,7 +10,6 @@ import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.util.Arrays;
 import java.util.Objects;
-import javax.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -21,6 +20,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -50,19 +50,15 @@ public class MemberAspect {
      * @return 메서드 정보
      * @throws Throwable 메서드를 실행시킬 때 발생할 수 있는 예외입니다.
      */
-    @Around("execution(* com.nhnacademy.marketgg.client.web..*.*(.., com.nhnacademy.marketgg.client.dto.MemberInfo, ..))")
-    public Object injectMember(ProceedingJoinPoint pjp) throws Throwable {
+    @Around("@within(controller) && execution(* *.*(.., com.nhnacademy.marketgg.client.dto.MemberInfo, ..))")
+    public Object injectMember(ProceedingJoinPoint pjp, Controller controller) throws Throwable {
         log.info("Method: {}", pjp.getSignature().getName());
 
-        HttpSession session = AspectUtils.getHttpRequest().getSession(false);
-        if (Objects.isNull(session)) {
+        if (SessionContext.get().isEmpty()) {
             return pjp.proceed();
         }
 
-        String sessionId = (String) session.getAttribute(JwtInfo.SESSION_ID);
-        if (Objects.isNull(sessionId)) {
-            return pjp.proceed();
-        }
+        String sessionId = SessionContext.get().get();
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -71,7 +67,18 @@ public class MemberAspect {
             return pjp.proceed();
         }
 
-        SingleResponse<MemberInfo> memberEntity = getEntity();
+        ResponseEntity<String> exchange =
+            restTemplate.getForEntity(gatewayOrigin + "/shop/v1/members", String.class);
+
+        log.info("response object: {}", mapper.writeValueAsString(exchange.getBody()));
+
+        if (exchange.getStatusCode().is4xxClientError()) {
+            ErrorEntity error = mapper.readValue(exchange.getBody(), ErrorEntity.class);
+            throw new ClientException(error.getMessage());
+        }
+
+        SingleResponse<MemberInfo> memberEntity = mapper.readValue(exchange.getBody(), new TypeReference<>() {
+        });
         MemberInfo memberInfo = memberEntity.getData();
 
         Object[] args = Arrays.stream(pjp.getArgs())
@@ -83,21 +90,6 @@ public class MemberAspect {
                               }).toArray();
 
         return pjp.proceed(args);
-    }
-
-    private <T> SingleResponse<T> getEntity() throws JsonProcessingException {
-        ResponseEntity<String> exchange =
-            restTemplate.getForEntity(gatewayOrigin + "/shop/v1/members", String.class);
-
-        log.info("response object: {}", mapper.readValue(exchange.getBody(), String.class));
-
-        if (exchange.getStatusCode().is4xxClientError()) {
-            ErrorEntity error = mapper.readValue(exchange.getBody(), ErrorEntity.class);
-            throw new ClientException(error.getMessage());
-        }
-
-        return mapper.readValue(exchange.getBody(), new TypeReference<>() {
-        });
     }
 
 }
