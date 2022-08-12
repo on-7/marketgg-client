@@ -32,12 +32,12 @@ class DibControllerTest {
     @MockBean
     DibService dibService;
 
-    private static final String DEFAULT_DIB = "/members/1/dibs";
+    private static final String DEFAULT_DIB = "/members/dibs";
 
     @Test
     @DisplayName("찜 목록 조회")
     void testRetrieveDibs() throws Exception {
-        given(dibService.retrieveDibs(anyLong())).willReturn(List.of());
+        given(dibService.retrieveDibs()).willReturn(List.of());
         mockMvc.perform(get(DEFAULT_DIB))
                 .andExpect(status().isOk())
                 .andExpect(view().name("/pages/dibs/index"));
@@ -46,11 +46,11 @@ class DibControllerTest {
     @Test
     @DisplayName("찜 목록에서 찜 제거")
     void testDeleteDib() throws Exception {
-        willDoNothing().given(dibService).deleteDib(anyLong(), anyLong());
+        willDoNothing().given(dibService).deleteDib(anyLong());
         mockMvc.perform(delete(DEFAULT_DIB + "/{productId}", 1L))
                 .andExpect(status().is3xxRedirection());
 
-        verify(dibService, times(1)).deleteDib(anyLong(), anyLong());
+        verify(dibService, times(1)).deleteDib(anyLong());
     }
 
 }
