@@ -30,19 +30,21 @@
                             </tr>
                             <tr>
                                 <td><span style="text-align: center" th:text="'[FAQ 답변]'"></span></td>
-                                <td colspan="2" style="min-height: 200px; text-align: left"><div style="text-align: center" th:utext="${response.content}"></div></td>
+                                <td colspan="2" style="min-height: 200px; text-align: left"><div style="text-align: center; white-space: pre;" th:utext="${response.content}"></div></td>
                             </tr>
                         </tbody>
                     </table>
-                    <form th:method="get" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
-                        <input type="hidden" name="page" th:value="${page}">
-                        <input class="btn btn-warning" type="submit" value="수정">
-                    </form>
-                    <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/delete'">
-                        <input type="hidden" name="page" th:value="${page}">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <input class="btn btn-danger" type="submit" value="삭제">
-                    </form>
+                    <div class="row" th:if="${isAdmin == 'yes'}">
+                        <form th:method="get" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
+                            <input type="hidden" name="page" th:value="${page}">
+                            <input class="btn btn-warning" type="submit" value="수정">
+                        </form>
+                        <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/delete'">
+                            <input type="hidden" name="page" th:value="${page}">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <input class="btn btn-danger" type="submit" value="삭제">
+                        </form>
+                    </div>
                 </div>
             </div>
         </main>
