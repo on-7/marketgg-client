@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
@@ -37,11 +38,12 @@ public class ReviewAdapter implements ReviewRepository {
                              final ReviewCreateRequest reviewRequest) throws JsonProcessingException {
 
         String request = this.objectMapper.writeValueAsString(reviewRequest);
-        ResponseEntity<Void> response = this.restTemplate.exchange(
-            gatewayIp + DEFAULT_PRODUCT + productId + "/reviews",
-            HttpMethod.POST,
-            new HttpEntity<>(request, buildHeaders()),
-            Void.class);
+
+        ResponseEntity<Void> response =
+            this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/reviews",
+                                       HttpMethod.POST,
+                                       new HttpEntity<>(request, buildHeaders()),
+                                       Void.class);
 
         checkResponseUri(response);
     }
@@ -80,6 +82,34 @@ public class ReviewAdapter implements ReviewRepository {
 
         this.checkResponseUri(response);
         return Objects.requireNonNull(response.getBody()).getData();
+    }
+
+    @Override
+    public void updateReview(Long productId, Long reviewId, MemberInfo memberInfo,
+                             ReviewUpdateRequest reviewRequest) throws JsonProcessingException {
+
+        String request = this.objectMapper.writeValueAsString(reviewRequest);
+
+        ResponseEntity<Void> response =
+            this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/reviews/" + reviewId,
+                                       HttpMethod.PUT,
+                                       new HttpEntity<>(request, buildHeaders()),
+                                       Void.class);
+
+        checkResponseUri(response);
+    }
+
+    @Override
+    public void deleteReview(final Long productId, final Long reviewId, final MemberInfo memberInfo) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+
+        ResponseEntity<Void> response =
+            restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/reviews/" + reviewId,
+                                  HttpMethod.DELETE,
+                                  requestEntity,
+                                  Void.class);
+
+        this.checkResponseUri(response);
     }
 
     private HttpHeaders buildHeaders() {
