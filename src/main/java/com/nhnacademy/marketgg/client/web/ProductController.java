@@ -35,6 +35,7 @@ public class ProductController {
         List<SearchProductResponse> responses = productService.searchProductListByCategory(categoryId, keyword, page);
 
         // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
+        // FIXME: Pathvariable 에 option 에는 (asc, desc) 만 들어갑니다! 매핑 잡으실 때 참고해주세요.
         ModelAndView mav = new ModelAndView("products/index");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);

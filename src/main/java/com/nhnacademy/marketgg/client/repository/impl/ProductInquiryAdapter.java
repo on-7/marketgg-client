@@ -26,11 +26,11 @@ import org.springframework.web.client.RestTemplate;
 public class ProductInquiryAdapter implements ProductInquiryRepository {
 
     private final RestTemplate restTemplate;
-    private final ObjectMapper mapper;
+    private final ObjectMapper objectMapper;
 
     private final String gatewayIp;
     private static final String ADMIN_DEFAULT_PRODUCT = "/shop/v1/admin/products/inquiry-reply";
-    private static final String EFAULT_PRODUCT = "/shop/v1/products/";
+    private static final String DEFAULT_PRODUCT = "/shop/v1/products/";
 
 
     @Override
@@ -42,7 +42,7 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
         ResponseEntity<String> response = restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT, HttpMethod.PUT,
             httpEntity, String.class);
 
-        ResponseUtils.checkError(response, mapper);
+        ResponseUtils.checkError(response, objectMapper);
     }
 
     @Override
@@ -51,10 +51,10 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
         HttpEntity<ProductInquiryRequest> httpEntity = new HttpEntity<>(inquiryRequest, buildHeaders());
 
-        ResponseEntity<String> response = restTemplate.exchange(gatewayIp + EFAULT_PRODUCT + productId + "/inquiry",
+        ResponseEntity<String> response = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiry",
             HttpMethod.POST, httpEntity, String.class);
 
-        ResponseUtils.checkError(response, mapper);
+        ResponseUtils.checkError(response, objectMapper);
 
     }
 
@@ -65,11 +65,11 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<String> response
-            = restTemplate.exchange(gatewayIp + EFAULT_PRODUCT + productId + "/inquiries",
+            = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiries",
             HttpMethod.GET, httpEntity, String.class);
 
-        ResponseUtils.checkError(response, mapper);
-        ListResponse<ProductInquiryResponse> listResponse = mapper.readValue(response.getBody(), new TypeReference<>() {
+        ResponseUtils.checkError(response, objectMapper);
+        ListResponse<ProductInquiryResponse> listResponse = objectMapper.readValue(response.getBody(), new TypeReference<>() {
         });
 
         return listResponse.getData();
@@ -84,8 +84,8 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
         ResponseEntity<String> response
             = restTemplate.exchange(gatewayIp + "/shop/v1/members/product-inquiries", HttpMethod.GET, httpEntity, String.class);
 
-        ResponseUtils.checkError(response, mapper);
-        ListResponse<ProductInquiryResponse> listResponse = mapper.readValue(response.getBody(), new TypeReference<>() {
+        ResponseUtils.checkError(response, objectMapper);
+        ListResponse<ProductInquiryResponse> listResponse = objectMapper.readValue(response.getBody(), new TypeReference<>() {
         });
 
         return listResponse.getData();
@@ -98,10 +98,10 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
         HttpEntity<Void> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<String> response
-            = restTemplate.exchange(gatewayIp + EFAULT_PRODUCT + productId + "/inquiry/" + inquiryId,
+            = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiry/" + inquiryId,
             HttpMethod.DELETE, httpEntity, String.class);
 
-        ResponseUtils.checkError(response, mapper);
+        ResponseUtils.checkError(response, objectMapper);
     }
 
     private HttpHeaders buildHeaders() {

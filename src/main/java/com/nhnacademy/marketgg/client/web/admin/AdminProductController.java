@@ -231,8 +231,9 @@ public class AdminProductController {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @throws JsonProcessingException  - 응답으로 온 Json 데이터를 역직렬화 시 발생하는 예외입니다.
      * @author 민아영
+     * @since 1.0.0
      */
-    @PostMapping("/inquiry-reply")
+    @PutMapping("/inquiry-reply")
     @ResponseBody
     public ModelAndView replyInquiry(@RequestBody @Valid final ProductInquiryReplyRequest replyRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
