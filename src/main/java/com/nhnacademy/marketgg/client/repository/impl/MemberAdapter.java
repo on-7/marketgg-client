@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
@@ -8,7 +9,6 @@ import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -103,6 +103,16 @@ public class MemberAdapter implements MemberRepository {
         this.checkResponseUri(response);
 
         return Collections.singletonList(response.getBody());
+    }
+
+    @Override
+    public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest) {
+        HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(addressRequest, buildHeaders());
+        ResponseEntity<Void> exchange =
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/delivery-address", HttpMethod.POST, response,
+                Void.class);
+
+        this.checkResponseUri(exchange);
     }
 
     private HttpHeaders buildHeaders() {

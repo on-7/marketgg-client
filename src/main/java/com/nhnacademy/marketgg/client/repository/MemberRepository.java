@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.repository;
 
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
@@ -67,4 +68,7 @@ public interface MemberRepository {
      * @since 1.0.0
      */
     List<DeliveryAddressResponse> retrieveDeliveryAddresses();
+
+    void createDeliveryAddress(DeliveryAddressCreateRequest addressRequest);
+
 }
