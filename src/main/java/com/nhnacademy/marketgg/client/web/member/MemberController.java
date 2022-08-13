@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web.member;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.Alert;
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
@@ -13,6 +14,7 @@ import com.nhnacademy.marketgg.client.service.MemberService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -150,6 +152,7 @@ public class MemberController {
      *
      * @return 회원탈퇴 실행 후, 다시 Index 페이지로 이동합니다.
      * @author 김훈민
+     * @since 1.0.0
      */
     @GetMapping("/withdraw")
     public ModelAndView doWithdraw() throws UnAuthenticException {
@@ -164,13 +167,24 @@ public class MemberController {
      * 회원이 보유한 배송지 목록 리스트를 보여줍니다.
      *
      * @return 회원이 보유한 배송지 목록 리스트 입니다.
+     * @author 김훈민
+     * @since 1.0.0
      */
     @GetMapping("/delivery-addresses")
     public ModelAndView deliveryAddresses() {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
+        // TODO : 페이지 돌입지점에서 바로 보여줘야함. 페이지 필요.
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("deliveryAddressList", deliveryAddressResponseList);
         return modelAndView;
+    }
+
+    @PostMapping("/delivery-address")
+    public ModelAndView createDeliveryAddress(
+        @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest) {
+
+        memberService.createDeliveryAddress(addressRequest);
+        return new ModelAndView(REDIRECT);
     }
 
 }
