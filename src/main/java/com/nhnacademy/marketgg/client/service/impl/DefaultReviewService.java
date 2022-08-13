@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.repository.ReviewRepository;
 import com.nhnacademy.marketgg.client.service.ReviewService;
@@ -33,5 +34,18 @@ public class DefaultReviewService implements ReviewService {
                                          final MemberInfo memberInfo) {
 
         return reviewRepository.retrieveReview(productId, reviewId, memberInfo);
+    }
+
+    @Override
+    public void updateReview(final Long productId, final Long reviewId, final MemberInfo memberInfo,
+                             final ReviewUpdateRequest reviewRequest) throws JsonProcessingException {
+
+        reviewRepository.updateReview(productId, reviewId, memberInfo, reviewRequest);
+    }
+
+    @Override
+    public void deleteReview(final Long productId, final Long reviewId, final MemberInfo memberInfo) {
+
+        reviewRepository.deleteReview(productId, reviewId, memberInfo);
     }
 }
