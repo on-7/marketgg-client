@@ -5,6 +5,7 @@
         <title>1:1문의 등록</title>
     </head>
     <body>
+<<<<<<< HEAD
         <div style="text-align: center; display: flex; justify-content: center">
             <form th:method="post" th:action="'/customer-services/categories/'+${code}+'/create'">
                 <span>1:1 문의 제목 : </span><input type="text" name="title"><br /><br />
@@ -18,5 +19,29 @@
                 <input type="submit" value="등록">
             </form>
         </div>
+=======
+        <main>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <h2 style="background-color: white; border: 2px solid black">1:1 문의 등록</h2>
+            </div>
+            <br /><br />
+            <div style="text-align: center; display: flex; justify-content: center">
+                <form th:method="post" th:action="'/customer-services/categories/'+${code}+'/create'">
+                    <span style="background-color: #abdde5; border: 2px solid black">[1:1 문의 제목] </span>
+                    <input style="text-align: center" class="form-control" type="text" name="title"
+                           placeholder="1:1 문의 제목을 입력하세요"><br /><br />
+                    <span style="background-color: #abdde5; border: 2px solid black">[1:1 문의 사유] </span>
+                    <select name="reason">
+                        <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
+                    </select><br />
+                    <span style="background-color: #abdde5; border: 2px solid black">[1:1 문의 내용]</span><br /><br />
+                    <textarea style="text-align: center" class="form-control" cols="50" rows="10" name="content"
+                              placeholder="1:1 문의 내용을 입력하세요"></textarea><br />
+                    <input type="hidden" name="categoryCode" th:value="${code}">
+                    <input class="btn-primary fa-pull-right" type="submit" value="등록">
+                </form>
+            </div>
+        </main>
+>>>>>>> 6ed517f (Fix: 고객센터 ui 마무리 #132)
     </body>
 </html>

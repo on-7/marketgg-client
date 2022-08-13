@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main :: layout(~{::title}, ~{::main})}">
+    <head>
+        <meta charset="UTF-8">
+        <title>LabelIndex</title>
+    </head>
+    <body>
+        <main>
+            <div style="text-align: center; display: flex; justify-content: center">
+            <details><summary>라벨 등록하기</summary>
+                <form th:method="post" th:acthion="'/admin/v1/labels'">
+                    라벨 이름 : <input type="text" name="name">
+                    <input class="btn-primary" type="submit" value="등록">
+                </form>
+            </details>
+            </div>
+            <h2 style="text-align: center">[라벨 목록]</h2>
+            <div style="text-align: center; display: flex; justify-content: center">
+                <table class="table table-hover" style="text-align: center; border: 1px solid black; background-color: navajowhite">
+                    <tr>
+                        <th>번호</th>
+                        <th>이름</th>
+                        <th></th>
+                    </tr>
+                    <tr th:each="label : ${labels}">
+                        <td th:text="${label.labelNo}"></td>
+                        <td th:text="${label.name}"></td>
+                        <td>
+                            <form th:method="delete" th:action="'/admin/v1/labels/' + ${label.labelNo}">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <input class="btn-primary" type="submit" value="삭제">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </main>
+    </body>
+</html>
