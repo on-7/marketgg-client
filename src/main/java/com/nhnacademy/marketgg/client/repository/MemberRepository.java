@@ -74,5 +74,5 @@ public interface MemberRepository {
 
     void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest);
 
-    void deleteDeliveryAddress(final Long deliveryAddressNo);
+    void deleteDeliveryAddress(final Long deliveryAddressId);
 }

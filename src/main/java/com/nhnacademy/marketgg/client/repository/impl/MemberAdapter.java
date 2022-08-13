@@ -21,6 +21,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ * Client Server 와 Shop Server 사이에서 데이터를 주고 받습니다.
+ *
+ * @author 김훈민, 박세완
+ * @version 1.0.0
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -30,6 +36,7 @@ public class MemberAdapter implements MemberRepository {
     private final RestTemplate restTemplate;
 
     private static final String DEFAULT_MEMBER = "/shop/v1/members/";
+    private static final String DELIVERY_ADDRESS = "/delivery-address";
 
     @Override
     public LocalDateTime retrievePassUpdatedAt() {
@@ -95,7 +102,7 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<DeliveryAddressResponse> requestEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<DeliveryAddressResponse> response = this.restTemplate.exchange(
-            gateWayIp + DEFAULT_MEMBER + "/delivery-addresses",
+            gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS,
             HttpMethod.GET,
             requestEntity,
             new ParameterizedTypeReference<>() {
@@ -110,7 +117,7 @@ public class MemberAdapter implements MemberRepository {
     public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest) {
         HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(addressRequest, buildHeaders());
         ResponseEntity<Void> exchange =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/delivery-address", HttpMethod.POST, response,
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.POST, response,
                 Void.class);
 
         this.checkResponseUri(exchange);
@@ -120,17 +127,17 @@ public class MemberAdapter implements MemberRepository {
     public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest) {
         HttpEntity<DeliveryAddressUpdateRequest> response = new HttpEntity<>(updateRequest, buildHeaders());
         ResponseEntity<Void> exchange =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/delivery-address", HttpMethod.PUT, response,
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.PUT, response,
                 Void.class);
 
         this.checkResponseUri(exchange);
     }
 
     @Override
-    public void deleteDeliveryAddress(final Long deliveryAddressNo) {
-        HttpEntity<Long> response = new HttpEntity<>(deliveryAddressNo, buildHeaders());
+    public void deleteDeliveryAddress(final Long deliveryAddressId) {
+        HttpEntity<Long> response = new HttpEntity<>(deliveryAddressId, buildHeaders());
         ResponseEntity<Void> exchange =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/delivery-address" + "/" + deliveryAddressNo,
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS + "/" + deliveryAddressId,
                 HttpMethod.DELETE, response,
                 Void.class);
 

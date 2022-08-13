@@ -85,5 +85,12 @@ public interface MemberService {
      */
     void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest);
 
-    void deleteDeliveryAddress(final Long deliveryAddressNo);
+    /**
+     * 회원이 가진 배송지 정보를 삭제하는 메소드 입니다.
+     *
+     * @param deliveryAddressId - 삭제하는 배송지의 식별번호
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    void deleteDeliveryAddress(final Long deliveryAddressId);
 }
