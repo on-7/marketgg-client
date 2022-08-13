@@ -21,6 +21,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/**
+ * 회원정보를 담당하는 처리하는 서비스 클래스 입니다.
+ *
+ * @author 김훈민, 박세완
+ * @since 1.0.0
+ */
 @Service
 @RequiredArgsConstructor
 public class DefaultMemberService implements MemberService {

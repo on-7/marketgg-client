@@ -57,7 +57,21 @@ public interface MemberService {
 
     void withdraw(final String sessionId);
 
+    /**
+     * 회원이 보유한 배송지 목록 리스트를 보여줍니다.
+     *
+     * @return 회원이 보유한 배송지 목록 리스트 입니다.
+     * @author 김훈민
+     * @since 1.0.0
+     */
     List<DeliveryAddressResponse> retrieveDeliveryAddresses();
 
+    /**
+     * 회원이 회원가입시 입력했던 배송지외에 배송지를 추가하는 메소드 입니다.
+     *
+     * @param addressRequest - 추가하는 배송지의 정보를 담고있는 DTO 입니다.
+     * @author 김훈민
+     * @since 1.0.0
+     */
     void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest);
 }

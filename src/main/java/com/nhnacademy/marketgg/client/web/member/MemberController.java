@@ -179,6 +179,14 @@ public class MemberController {
         return modelAndView;
     }
 
+    /**
+     * 회원이 기본 배송지 이외에 다른 배송지를 추가합니다.
+     *
+     * @param addressRequest - 추가하는 배송지의 정보를 담고있는 DTO 입니다.
+     * @return 배송지 추가하고있는 페이지 redirect
+     * @author 김훈민
+     * @since 1.0.0
+     */
     @PostMapping("/delivery-address")
     public ModelAndView createDeliveryAddress(
         @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest) {
