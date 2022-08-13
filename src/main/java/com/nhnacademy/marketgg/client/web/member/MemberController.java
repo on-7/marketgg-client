@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.Alert;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -224,6 +226,20 @@ public class MemberController {
 
         memberService.createDeliveryAddress(addressRequest);
         return new ModelAndView(REDIRECT);
+    }
+
+    /**
+     * 회원이 가진 배송지 정보를 수정하는 PutMapping 메소드 입니다.
+     *
+     * @param updateRequest - 수정하는 배송지의 정보를 담고있는 DTO 입니다.
+     * @return 배송지 수정하고있는 페이지 redirect
+     */
+    @PutMapping("/delivery-address")
+    public ModelAndView updateDeliveryAddress(@ModelAttribute @Valid final DeliveryAddressUpdateRequest updateRequest) {
+
+        memberService.updateDeliveryAddress(updateRequest);
+        return new ModelAndView(REDIRECT);
+
     }
 
 }

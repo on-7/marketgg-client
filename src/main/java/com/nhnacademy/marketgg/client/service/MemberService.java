@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service;
 
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
@@ -74,4 +75,6 @@ public interface MemberService {
      * @since 1.0.0
      */
     void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest);
+
+    void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest);
 }

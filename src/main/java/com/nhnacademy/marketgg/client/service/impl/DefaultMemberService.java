@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
@@ -71,6 +72,11 @@ public class DefaultMemberService implements MemberService {
     @Override
     public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest) {
         memberRepository.createDeliveryAddress(addressRequest);
+    }
+
+    @Override
+    public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest) {
+        memberRepository.updateDeliveryAddress(updateRequest);
     }
 
     @Override

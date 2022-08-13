@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
@@ -110,6 +111,16 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(addressRequest, buildHeaders());
         ResponseEntity<Void> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/delivery-address", HttpMethod.POST, response,
+                Void.class);
+
+        this.checkResponseUri(exchange);
+    }
+
+    @Override
+    public void updateDeliveryAddress(DeliveryAddressUpdateRequest updateRequest) {
+        HttpEntity<DeliveryAddressUpdateRequest> response = new HttpEntity<>(updateRequest, buildHeaders());
+        ResponseEntity<Void> exchange =
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/delivery-address", HttpMethod.PUT, response,
                 Void.class);
 
         this.checkResponseUri(exchange);
