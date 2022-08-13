@@ -202,13 +202,14 @@ public class MemberController {
      *
      * @param updateRequest - 수정하는 배송지의 정보를 담고있는 DTO 입니다.
      * @return 배송지 수정하고있는 페이지 redirect
+     * @author 김훈민
+     * @since 1.0.0
      */
     @PutMapping("/delivery-address")
     public ModelAndView updateDeliveryAddress(@ModelAttribute @Valid final DeliveryAddressUpdateRequest updateRequest) {
 
         memberService.updateDeliveryAddress(updateRequest);
         return new ModelAndView(REDIRECT);
-
     }
 
 }
