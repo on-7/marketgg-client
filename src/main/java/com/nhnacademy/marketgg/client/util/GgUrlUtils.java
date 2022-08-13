@@ -15,14 +15,12 @@ public final class GgUrlUtils {
 
     public static final int WEEK_SECOND = 60 * 60 * 24 * 7;
 
-    public static final String GATEWAY_HORT_URL = "http://127.0.0.1:6060";
+    public static final String GATEWAY_HOST_URL = "http://127.0.0.1:6060";
 
     public static final String SHOP_SERVICE_PREFIX_V1 = "/shop/v1";
     public static final String AUTH_SERVICE_PREFIX_V1 = "/auth/v1";
 
     public static final String ORDERS_PATH_PREFIX = "/orders";
     public static final String REDIRECT_TO_INDEX = "redirect:/";
-
-
 
 }

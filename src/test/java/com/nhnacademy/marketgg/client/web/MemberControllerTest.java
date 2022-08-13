@@ -110,7 +110,7 @@ class MemberControllerTest {
     @DisplayName("사용할 수 있는 이메일 검증 테스트")
     void testUseEmail() throws Exception {
 
-        given(memberService.useEmail(any()))
+        given(memberService.useEmail(any(EmailRequest.class)))
             .willReturn(new EmailUseResponse(false));
 
         ObjectMapper objectMapper = new ObjectMapper();
