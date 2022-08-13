@@ -1,22 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main :: layout(~{::title}, ~{::main})}">
     <head>
         <meta charset="UTF-8">
-        <title>1:1문의 등록</title>
+        <title th:text="#{일대일문의등록}"></title>
     </head>
     <body>
-        <div style="text-align: center; display: flex; justify-content: center">
-            <form th:method="post" th:action="'/customer-services/categories/'+${code}+'/create'">
-                <span>1:1 문의 제목 : </span><input type="text" name="title"><br /><br />
-                <span>1:1 문의 사유 : </span>
-                <select name="reason">
-                    <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
-                </select><br />
-                <span>[1:1 문의 내용]</span><br />
-                <textarea cols = "50" rows = "10" name="content"></textarea><br/>
-                <input type="hidden" name="categoryCode" value="702">
-                <input type="submit" value="등록">
-            </form>
-        </div>
+        <main>
+            <div style="text-align: center; display: flex; justify-content: center; padding-top: 50px;">
+                <h2 style="background-color: white; border: 1px solid black; padding: 5px" th:text="#{일대일문의등록}"></h2>
+            </div>
+            <br /><br />
+            <div style="text-align: center; display: flex; justify-content: center">
+                <form th:method="post" th:action="'/customer-services/categories/'+${code}+'/create'">
+                    <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{일대일문의제목}"></span>
+                    <input style="text-align: center" class="form-control" type="text" name="title"
+                           th:placeholder="#{일대일문의제목을입력하세요}"><br /><br />
+                    <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{일대일문의사유}"></span>
+                    <select name="reason">
+                        <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
+                    </select><br /><br />
+                    <span style="background-color: #abdde5; border: 2px solid black" th:text="#{일대일문의내용}"></span><br /><br />
+                    <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="10" name="content"
+                              th:placeholder="#{일대일문의내용을입력하세요}"></textarea><br />
+                    <input type="hidden" name="categoryCode" th:value="${code}">
+                    <input class="btn-primary fa-pull-right" type="submit" th:value="#{등록}">
+                </form>
+            </div>
+        </main>
     </body>
 </html>

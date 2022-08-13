@@ -37,7 +37,9 @@ public class CsPostController {
 
     private static final String DEFAULT_POST = "/customer-services";
     private static final String BOARD = "pages/board/";
+    private static final String NOTICE_CODE = "701";
     private static final String OTO_CODE = "702";
+    private static final String FAQ_CODE = "703";
     private static final Integer PAGE_SIZE = 10;
 
     /**
@@ -60,7 +62,9 @@ public class CsPostController {
         mav.addObject("isAdmin", "no");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("code", categoryCode);
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
 
         return mav;
     }
@@ -108,11 +112,12 @@ public class CsPostController {
      */
     @GetMapping("/categories/{categoryCode}/{postNo}")
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
-                                     @PathVariable @Min(1) final Long postNo) {
+                                     @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
         mav.addObject("response", postService.retrievePost(postNo, categoryCode));
+        mav.addObject("page", page);
 
         return mav;
     }
@@ -142,7 +147,9 @@ public class CsPostController {
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("code", categoryCode);
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
 
         return mav;
     }
@@ -166,13 +173,13 @@ public class CsPostController {
 
     private String convertToType(final String categoryCode) {
         switch (categoryCode) {
-            case "701": {
+            case NOTICE_CODE: {
                 return "notices";
             }
             case OTO_CODE: {
                 return "oto-inquiries";
             }
-            case "703": {
+            case FAQ_CODE: {
                 return "faqs";
             }
             default: {

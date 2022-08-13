@@ -46,7 +46,9 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode) {
+    public void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode)
+            throws JsonProcessingException {
+
         postRepository.updatePost(postNo, postRequest, categoryCode);
     }
 

@@ -1,12 +1,11 @@
 package com.nhnacademy.marketgg.client.web;
 
-import static com.nhnacademy.marketgg.client.util.GgUrlUtils.*;
+import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.service.Oauth2Service;
-import com.nhnacademy.marketgg.client.util.GgUrlUtils;
 import java.util.Optional;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;

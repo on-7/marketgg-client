@@ -42,7 +42,7 @@ class DibAjaxControllerTest {
     void testDibViewPresent() throws Exception {
         DibRetrieveResponse response = new DibRetrieveResponse();
         ReflectionTestUtils.setField(response, "productNo", 1L);
-        given(dibService.retrieveDibs(anyLong())).willReturn(List.of(response));
+        given(dibService.retrieveDibs()).willReturn(List.of(response));
         mockMvc.perform(post("/dibs")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .param("productId", "1")
@@ -53,7 +53,7 @@ class DibAjaxControllerTest {
     @Test
     @DisplayName("사용자 찜 여부 확인 (존재 X)")
     void testDibViewEmpty() throws Exception {
-        given(dibService.retrieveDibs(anyLong())).willReturn(List.of());
+        given(dibService.retrieveDibs()).willReturn(List.of());
         mockMvc.perform(post("/dibs")
                                 .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
@@ -62,21 +62,21 @@ class DibAjaxControllerTest {
     @Test
     @DisplayName("사용자 찜 추가")
     void testDibInsert() throws Exception {
-        willDoNothing().given(dibService).createDib(anyLong(), anyLong());
-        mockMvc.perform(get("/dibs/insert/{memberId}/{productId}", 1L, 1L)
+        willDoNothing().given(dibService).createDib(anyLong());
+        mockMvc.perform(get("/dibs/insert/{productId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
-        verify(dibService, times(1)).createDib(anyLong(), anyLong());
+        verify(dibService, times(1)).createDib(anyLong());
     }
 
     @Test
     @DisplayName("사용자 찜 제거")
     void testDibDelete() throws Exception {
-        willDoNothing().given(dibService).deleteDib(anyLong(), anyLong());
-        mockMvc.perform(get("/dibs/delete/{memberId}/{productId}", 1L, 1L)
+        willDoNothing().given(dibService).deleteDib(anyLong());
+        mockMvc.perform(get("/dibs/delete/{productId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
-        verify(dibService, times(1)).deleteDib(anyLong(), anyLong());
+        verify(dibService, times(1)).deleteDib(anyLong());
     }
 
 }

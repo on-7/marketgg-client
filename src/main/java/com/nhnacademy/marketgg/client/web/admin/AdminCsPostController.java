@@ -39,7 +39,9 @@ public class AdminCsPostController {
     private final PostService postService;
 
     private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
+    private static final String NOTICE_CODE = "701";
     private static final String OTO_CODE = "702";
+    private static final String FAQ_CODE = "703";
     private static final Integer PAGE_SIZE = 10;
 
     /**
@@ -64,7 +66,9 @@ public class AdminCsPostController {
         mav.addObject("isAdmin", "yes");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("code", categoryCode);
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
 
         return mav;
     }
@@ -80,7 +84,7 @@ public class AdminCsPostController {
 
     public ModelAndView doCreate(@PathVariable final String categoryCode) {
         ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/create-form");
-        mav.addObject("code", OTO_CODE);
+        mav.addObject("code", categoryCode);
 
         return mav;
     }
@@ -111,6 +115,27 @@ public class AdminCsPostController {
     }
 
     /**
+     * 선택한 게시글의 상세 정보를 조회 할 수 있습니다.
+     *
+     * @param categoryCode - 조회를 진행할 고객센터 게시판의 타입입니다.
+     * @param postNo       - 조회를 진행할 게시글의 식별번호입니다.
+     * @return 지정한 식별번호의 게시글 상세조회 페이지로 이동합니다.
+     * @since 1.0.0
+     */
+    @GetMapping("/categories/{categoryCode}/{postNo}")
+    public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                                     @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
+
+        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/detail");
+
+        mav.addObject("isAdmin", "yes");
+        mav.addObject("response", postService.retrievePost(postNo, categoryCode));
+        mav.addObject("page", page);
+
+        return mav;
+    }
+
+    /**
      * 지정한 카테고리에서 게시판을 검색합니다.
      *
      * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
@@ -136,7 +161,9 @@ public class AdminCsPostController {
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("code", categoryCode);
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
 
         return mav;
     }
@@ -168,7 +195,9 @@ public class AdminCsPostController {
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("code", OTO_CODE);
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
         mav.addObject(optionType, option);
 
         return mav;
@@ -209,6 +238,7 @@ public class AdminCsPostController {
      * @param postRequest  - 수정할 정보를 담은 객체입니다.
      * @param page         - Redirect 할 페이지 정보입니다.
      * @return 게시글을 수정한 후, 다시 게시글 목록 페이지로 이동합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     @PutMapping("/categories/{categoryCode}/{postNo}/update")
@@ -216,7 +246,7 @@ public class AdminCsPostController {
                                    @PathVariable @Min(1) final Long postNo,
                                    @RequestParam @Min(0) final Integer page,
                                    @Valid @ModelAttribute final PostRequest postRequest,
-                                   BindingResult bindingResult) {
+                                   BindingResult bindingResult) throws JsonProcessingException {
 
         if(bindingResult.hasErrors()) {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/" + postNo + "/update?page=" + page);
@@ -284,13 +314,13 @@ public class AdminCsPostController {
     }
 
     private String convertToType(final String categoryCode) {
-        if (categoryCode.compareTo("701") == 0) {
+        if (categoryCode.compareTo(NOTICE_CODE) == 0) {
             return "notices";
         }
         if (categoryCode.compareTo(OTO_CODE) == 0) {
             return "oto-inquiries";
         }
-        if (categoryCode.compareTo("703") == 0) {
+        if (categoryCode.compareTo(FAQ_CODE) == 0) {
             return "faqs";
         }
         throw new NotFoundException("카테고리 분류를 찾을 수 없습니다.");

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main :: layout(~{::title}, ~{::main})}">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="#{라벨관리}"></title>
+    </head>
+    <body>
+        <main>
+            <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
+                <h2 style="background-color: white; border: 1px outset black; padding: 5px" th:text="#{라벨관리}"></h2>
+            </div>
+            <div style="display: flex">
+                <nav style="display: flex; flex: 0.1; padding-left: 30px"></nav>
+                <div style="display: flex; flex: 0.7; flex-direction: column">
+                    <details>
+                        <summary class="btn btn-info" th:text="#{라벨등록}"></summary>
+                            <form th:method="post" th:acthion="'/admin/labels'">
+                                <input type="text" name="name" th:placeholder="#{라벨이름을입력하세요}">
+                                <input class="btn btn-primary" type="submit" th:value="#{등록}">
+                            </form>
+                    </details>
+                    <div style="text-align: center; display: flex; justify-content: center">
+                        <table class="table table-hover" style="text-align: center; border: 1px solid black; background-color: white">
+                            <thead>
+                                <tr>
+                                    <th th:text="#{번호}"></th>
+                                    <th th:text="#{이름}"></th>
+                                    <th th:text="#{삭제}"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="label : ${labels}">
+                                    <td th:text="${label.labelNo}"></td>
+                                    <td th:text="${label.name}"></td>
+                                    <td>
+                                        <form th:method="delete" th:action="'/admin/labels/' + ${label.labelNo}">
+                                            <input type="hidden" name="_method" value="delete"/>
+                                            <input class="btn-primary" type="submit" th:value="#{삭제}">
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
