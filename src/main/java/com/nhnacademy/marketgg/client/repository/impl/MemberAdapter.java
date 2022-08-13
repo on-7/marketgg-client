@@ -117,10 +117,21 @@ public class MemberAdapter implements MemberRepository {
     }
 
     @Override
-    public void updateDeliveryAddress(DeliveryAddressUpdateRequest updateRequest) {
+    public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest) {
         HttpEntity<DeliveryAddressUpdateRequest> response = new HttpEntity<>(updateRequest, buildHeaders());
         ResponseEntity<Void> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/delivery-address", HttpMethod.PUT, response,
+                Void.class);
+
+        this.checkResponseUri(exchange);
+    }
+
+    @Override
+    public void deleteDeliveryAddress(final Long deliveryAddressNo) {
+        HttpEntity<Long> response = new HttpEntity<>(deliveryAddressNo, buildHeaders());
+        ResponseEntity<Void> exchange =
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/delivery-address" + "/" + deliveryAddressNo,
+                HttpMethod.DELETE, response,
                 Void.class);
 
         this.checkResponseUri(exchange);
