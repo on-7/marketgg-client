@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface ReviewService {
 
-    void createReview(final Long productId, final Long reviewId, final MemberInfo memberInfo,
+    void createReview(final Long productId, final MemberInfo memberInfo,
                       final ReviewCreateRequest reviewRequest) throws JsonProcessingException;
 
-    List<ReviewResponse> retrieveReviews(final Long productId, final MemberInfo memberInfo);
+    List<ReviewResponse> retrieveReviews(final Long productId);
 
     ReviewResponse retrieveReview(final Long productId, final Long reviewId, final MemberInfo memberInfo);
 

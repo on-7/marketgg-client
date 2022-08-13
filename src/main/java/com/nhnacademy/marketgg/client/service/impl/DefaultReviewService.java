@@ -18,15 +18,15 @@ public class DefaultReviewService implements ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Override
-    public void createReview(final Long productId, final Long reviewId, final MemberInfo memberInfo,
+    public void createReview(final Long productId, final MemberInfo memberInfo,
                              final ReviewCreateRequest reviewRequest) throws JsonProcessingException {
 
-        reviewRepository.createReview(productId, reviewId, memberInfo, reviewRequest);
+        reviewRepository.createReview(productId, memberInfo, reviewRequest);
     }
 
     @Override
-    public List<ReviewResponse> retrieveReviews(final Long productId, final MemberInfo memberInfo) {
-        return reviewRepository.retrieveReviews(productId, memberInfo);
+    public List<ReviewResponse> retrieveReviews(final Long productId) {
+        return reviewRepository.retrieveReviews(productId);
     }
 
     @Override

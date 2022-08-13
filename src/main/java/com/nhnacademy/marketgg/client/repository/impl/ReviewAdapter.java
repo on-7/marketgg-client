@@ -34,7 +34,7 @@ public class ReviewAdapter implements ReviewRepository {
     private final ObjectMapper objectMapper;
 
     @Override
-    public void createReview(final Long productId, final Long reviewId, final MemberInfo memberInfo,
+    public void createReview(final Long productId, final MemberInfo memberInfo,
                              final ReviewCreateRequest reviewRequest) throws JsonProcessingException {
 
         String request = this.objectMapper.writeValueAsString(reviewRequest);
@@ -49,7 +49,7 @@ public class ReviewAdapter implements ReviewRepository {
     }
 
     @Override
-    public List<ReviewResponse> retrieveReviews(Long productId, MemberInfo memberInfo) {
+    public List<ReviewResponse> retrieveReviews(final Long productId) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
