@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web.product;
+package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.annotation.RoleCheck;
@@ -29,29 +29,27 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @RoleCheck
-    @PostMapping("/{reviewId}")
+    @PostMapping
     public ModelAndView createReview(@PathVariable final Long productId,
-                                     @PathVariable final Long reviewId,
                                      final MemberInfo memberInfo,
                                      @ModelAttribute @Valid final ReviewCreateRequest reviewRequest,
                                      BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:" + "/products/" + productId);
+            return new ModelAndView("redirect:/" + "products/product-view");
         }
 
-        reviewService.createReview(productId, reviewId, memberInfo, reviewRequest);
+        reviewService.createReview(productId, memberInfo, reviewRequest);
 
-        return new ModelAndView("redirect:" + "/products/" + productId);
+        return new ModelAndView("redirect:/" + "products/product-view");
     }
 
     @GetMapping
-    public ModelAndView retrieveReviews(@PathVariable final Long productId,
-                                        final MemberInfo memberInfo) {
+    public ModelAndView retrieveReviews(@PathVariable final Long productId) {
 
-        List<ReviewResponse> reviewResponses = reviewService.retrieveReviews(productId, memberInfo);
+        List<ReviewResponse> reviewResponses = reviewService.retrieveReviews(productId);
 
-        ModelAndView mav = new ModelAndView("/products/" + productId);
+        ModelAndView mav = new ModelAndView("products/reviews/review-view");
         mav.addObject("reviews", reviewResponses);
 
         return mav;
@@ -64,7 +62,7 @@ public class ReviewController {
 
         ReviewResponse reviewResponse = reviewService.retrieveReview(productId, reviewId, memberInfo);
 
-        ModelAndView mav = new ModelAndView("/products/" + productId);
+        ModelAndView mav = new ModelAndView("products/reviews/review-view");
         mav.addObject("reviewDetail", reviewResponse);
 
         return mav;
@@ -78,12 +76,12 @@ public class ReviewController {
                                      BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:" + "/products/" + productId);
+            return new ModelAndView("products/product-view");
         }
 
         reviewService.updateReview(productId, reviewId, memberInfo, reviewRequest);
 
-        return new ModelAndView("redirect:" + "/products/" + productId);
+        return new ModelAndView("redirect:/" + "products/product-view");
     }
 
     @RoleCheck
@@ -93,7 +91,7 @@ public class ReviewController {
 
         reviewService.deleteReview(productId, reviewId, memberInfo);
 
-        return new ModelAndView("redirect:" + "/products/" + productId);
+        return new ModelAndView("redirect:/" + "products/product-view");
     }
 
 }
