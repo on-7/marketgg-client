@@ -23,8 +23,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -240,6 +243,12 @@ public class MemberController {
     public ModelAndView updateDeliveryAddress(@ModelAttribute @Valid final DeliveryAddressUpdateRequest updateRequest) {
 
         memberService.updateDeliveryAddress(updateRequest);
+        return new ModelAndView(REDIRECT);
+    }
+
+    @DeleteMapping("/delivery-address/{deliveryAddressNo}")
+    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) Long deliveryAddressNo) {
+        memberService.deleteDeliveryAddress(deliveryAddressNo);
         return new ModelAndView(REDIRECT);
     }
 

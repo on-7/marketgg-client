@@ -80,6 +80,11 @@ public class DefaultMemberService implements MemberService {
     }
 
     @Override
+    public void deleteDeliveryAddress(final Long deliveryAddressNo) {
+        memberRepository.deleteDeliveryAddress(deliveryAddressNo);
+    }
+
+    @Override
     public void doSignup(final MemberSignupRequest memberSignupRequest) {
         memberSignupRequest.encodePassword(passwordEncoder);
 

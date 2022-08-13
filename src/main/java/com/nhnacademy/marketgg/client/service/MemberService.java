@@ -84,4 +84,6 @@ public interface MemberService {
      * @since 1.0.0
      */
     void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest);
+
+    void deleteDeliveryAddress(final Long deliveryAddressNo);
 }
