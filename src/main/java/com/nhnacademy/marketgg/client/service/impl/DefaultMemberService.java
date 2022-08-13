@@ -80,8 +80,8 @@ public class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public void deleteDeliveryAddress(final Long deliveryAddressNo) {
-        memberRepository.deleteDeliveryAddress(deliveryAddressNo);
+    public void deleteDeliveryAddress(final Long deliveryAddressId) {
+        memberRepository.deleteDeliveryAddress(deliveryAddressId);
     }
 
     @Override

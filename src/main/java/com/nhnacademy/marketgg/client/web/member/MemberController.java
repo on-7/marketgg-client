@@ -26,7 +26,6 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -54,6 +53,7 @@ public class MemberController {
     private final ProductInquiryService inquiryService;
 
     private static final String DEFAULT_MEMBER = "/members";
+    private static final String DEFAULT_DELIVERY_ADDRESSES = "/delivery-addresses";
 
     /**
      * 회원의 GG 패스 화면으로 이동합니다.
@@ -228,7 +228,7 @@ public class MemberController {
         @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest) {
 
         memberService.createDeliveryAddress(addressRequest);
-        return new ModelAndView(REDIRECT);
+        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
     }
 
     /**
@@ -243,13 +243,21 @@ public class MemberController {
     public ModelAndView updateDeliveryAddress(@ModelAttribute @Valid final DeliveryAddressUpdateRequest updateRequest) {
 
         memberService.updateDeliveryAddress(updateRequest);
-        return new ModelAndView(REDIRECT);
+        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
     }
 
-    @DeleteMapping("/delivery-address/{deliveryAddressNo}")
-    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) Long deliveryAddressNo) {
-        memberService.deleteDeliveryAddress(deliveryAddressNo);
-        return new ModelAndView(REDIRECT);
+    /**
+     * 회원이 가진 배송지 정보를 삭제하는 DeleteMapping 메소드 입니다.
+     *
+     * @param deliveryAddressId - 삭제하는 배송지의 식별번호
+     * @return 배송지 수정하고있는 페이지 redirect
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    @DeleteMapping("/delivery-address/{deliveryAddressId}")
+    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId) {
+        memberService.deleteDeliveryAddress(deliveryAddressId);
+        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
     }
 
 }
