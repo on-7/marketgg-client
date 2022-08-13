@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.product;
 
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
