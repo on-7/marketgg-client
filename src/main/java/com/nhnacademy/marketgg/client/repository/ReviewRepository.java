@@ -62,4 +62,14 @@ public interface ReviewRepository {
      * @param memberInfo - 지우려는 회원의 회원 정보입니다.
      */
     void deleteReview(final Long productId, final Long reviewId, final MemberInfo memberInfo);
+
+    /**
+     * 후기를 베스트후기로 선정합니다.
+     * 베스트후기 선정에 성공했을경우 로그를 출력합니다.
+     * 실패했을 경우 실패 로그를 출력합니다.
+     *
+     * @param productId - 후기가 달린 상품의 상품번호입니다.
+     * @param reviewId  - 베스트후기로 선정하려는 후기의 후기번호입니다.
+     */
+    void makeBestReview(final Long productId, final Long reviewId);
 }

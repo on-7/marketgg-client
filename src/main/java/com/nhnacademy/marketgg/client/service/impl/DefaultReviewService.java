@@ -47,4 +47,9 @@ public class DefaultReviewService implements ReviewService {
 
         reviewRepository.deleteReview(productId, reviewId, memberInfo);
     }
+
+    @Override
+    public void makeBestReview(final Long productId, final Long reviewId) {
+        reviewRepository.makeBestReview(productId, reviewId);
+    }
 }
