@@ -52,7 +52,6 @@ class ReviewControllerTest {
 
     private static final String DEFAULT_PRODUCT = "/products";
     private static final String PRODUCT_ID = "/1";
-    private static final String REVIEW_ID = "/1";
 
     private ReviewCreateRequest reviewCreateRequest;
     private ReviewUpdateRequest reviewUpdateRequest;
