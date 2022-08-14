@@ -14,7 +14,7 @@ public interface ReviewRepository {
 
     List<ReviewResponse> retrieveReviews(final Long productId);
 
-    ReviewResponse retrieveReview(final Long productId, final Long reviewId, final MemberInfo memberInfo);
+    ReviewResponse retrieveReview(final Long productId, final Long reviewId);
 
     void updateReview(final Long productId, final Long reviewId, final MemberInfo memberInfo,
                       final ReviewUpdateRequest reviewRequest) throws JsonProcessingException;

@@ -30,10 +30,9 @@ public class DefaultReviewService implements ReviewService {
     }
 
     @Override
-    public ReviewResponse retrieveReview(final Long productId, final Long reviewId,
-                                         final MemberInfo memberInfo) {
+    public ReviewResponse retrieveReview(final Long productId, final Long reviewId) {
 
-        return reviewRepository.retrieveReview(productId, reviewId, memberInfo);
+        return reviewRepository.retrieveReview(productId, reviewId);
     }
 
     @Override

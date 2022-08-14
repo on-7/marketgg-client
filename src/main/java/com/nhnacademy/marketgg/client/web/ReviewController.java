@@ -57,10 +57,9 @@ public class ReviewController {
 
     @GetMapping("/{reviewId}")
     public ModelAndView retrieveReview(@PathVariable final Long productId,
-                                       @PathVariable final Long reviewId,
-                                       final MemberInfo memberInfo) {
+                                       @PathVariable final Long reviewId) {
 
-        ReviewResponse reviewResponse = reviewService.retrieveReview(productId, reviewId, memberInfo);
+        ReviewResponse reviewResponse = reviewService.retrieveReview(productId, reviewId);
 
         ModelAndView mav = new ModelAndView("products/reviews/review-view");
         mav.addObject("reviewDetail", reviewResponse);

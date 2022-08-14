@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.dummy;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,6 +19,16 @@ public class Dummy {
         ReflectionTestUtils.setField(reviewCreateRequest, "rating", 5L);
 
         return reviewCreateRequest;
+    }
+
+    public static ReviewUpdateRequest getDummyReviewUpdateRequest() {
+        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest();
+        ReflectionTestUtils.setField(reviewUpdateRequest, "reviewId", 1L);
+        ReflectionTestUtils.setField(reviewUpdateRequest, "assetId", 1L);
+        ReflectionTestUtils.setField(reviewUpdateRequest, "content", "테스트용 리뷰 수정 DTO입니다");
+        ReflectionTestUtils.setField(reviewUpdateRequest, "rating", 3L);
+
+        return reviewUpdateRequest;
     }
 
     public static MemberInfo getMemberInfo() {
@@ -49,4 +60,5 @@ public class Dummy {
 
         return reviewResponse;
     }
+
 }

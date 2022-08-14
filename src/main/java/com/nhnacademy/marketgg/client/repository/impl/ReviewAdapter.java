@@ -66,8 +66,7 @@ public class ReviewAdapter implements ReviewRepository {
     }
 
     @Override
-    public ReviewResponse retrieveReview(final Long productId, final Long reviewId,
-                                         final MemberInfo memberInfo) {
+    public ReviewResponse retrieveReview(final Long productId, final Long reviewId) {
 
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
