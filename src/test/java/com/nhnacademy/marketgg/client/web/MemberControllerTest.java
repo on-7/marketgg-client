@@ -2,8 +2,10 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
+import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import com.nhnacademy.marketgg.client.web.member.MemberAjaxController;
 import com.nhnacademy.marketgg.client.web.member.MemberController;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -62,13 +65,19 @@ class MemberControllerTest {
     @MockBean
     GivenCouponService givenCouponService;
 
+    @MockBean
+    ProductInquiryService productInquiryService;
+
+    @MockBean
+    RedisTemplate<String, JwtInfo> redisTemplate;
+
     @Test
     @DisplayName("GG 패스 메인 페이지")
     void testIndex() throws Exception {
         when(memberService.retrievePassUpdatedAt(anyLong())).thenReturn(LocalDateTime.now());
         mockMvc.perform(get("/members/{memberId}/ggpass", 1L))
                .andExpect(status().isOk())
-               .andExpect(view().name("/ggpass/index"));
+               .andExpect(view().name("ggpass/index"));
     }
 
     @Test
@@ -148,7 +157,7 @@ class MemberControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(get("/members/{memberId}/coupons", 1L))
                                      .andExpect(status().isOk())
-                                     .andExpect(view().name("/mygg/coupons/index"))
+                                     .andExpect(view().name("mygg/coupons/index"))
                                      .andReturn();
         Map<String, Object> resultModel = Objects.requireNonNull(mvcResult.getModelAndView()).getModel();
 
