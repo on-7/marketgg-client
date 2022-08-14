@@ -111,6 +111,27 @@ public class ReviewAdapter implements ReviewRepository {
         this.checkResponseUri(response);
     }
 
+    @Override
+    public void makeBestReview(Long productId, Long reviewId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+
+        ResponseEntity<Boolean> response =
+            restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/reviews/" + reviewId,
+                                  HttpMethod.DELETE,
+                                  requestEntity,
+                                  Boolean.class);
+
+        if (response.getBody()) {
+            log.info("다음의 상품이 베스트후기로 선정되었습니다:{}", productId);
+        }
+
+        if (!response.getBody()) {
+            log.info("베스트후기 선정 실패");
+        }
+
+        this.checkResponseUri(response);
+    }
+
     private HttpHeaders buildHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
