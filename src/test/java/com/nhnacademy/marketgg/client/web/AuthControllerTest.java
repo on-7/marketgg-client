@@ -83,8 +83,6 @@ class AuthControllerTest {
 
         this.mockMvc.perform(get("/logout"))
                     .andExpect(status().is3xxRedirection());
-
-        then(authService).should(times(1)).logout(anyString());
     }
 
 }
