@@ -22,6 +22,9 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -66,7 +69,7 @@ class AdminCategoryControllerTest {
 
         String content = objectMapper.writeValueAsString(categoryRequest);
 
-        doNothing().when(categoryService).createCategory(any(CategoryCreateRequest.class));
+        willDoNothing().given(categoryService).createCategory(any(CategoryCreateRequest.class));
 
         mockMvc.perform(post(DEFAULT_CATEGORY)
                                 .content(content)
@@ -74,18 +77,19 @@ class AdminCategoryControllerTest {
                                 .accept(MediaType.APPLICATION_JSON))
                .andExpect(status().is3xxRedirection());
 
-        verify(categoryService, times(1)).createCategory(any(CategoryCreateRequest.class));
+        then(categoryService).should(times(1)).createCategory(any(CategoryCreateRequest.class));
     }
 
     @Test
     @DisplayName("카테고리 전체 목록 조회")
     void testRetrieveCategories() throws Exception {
-        when(categoryService.retrieveCategories()).thenReturn(
-                List.of(new CategoryRetrieveResponse()));
+        given(categoryService.retrieveCategories()).willReturn(List.of(new CategoryRetrieveResponse()));
 
         mockMvc.perform(get(DEFAULT_CATEGORY + "/index"))
                .andExpect(status().isOk())
                .andExpect(view().name("/categories/index"));
+
+        then(categoryService).should(times(1)).retrieveCategories();
     }
 
     @Test
@@ -97,11 +101,12 @@ class AdminCategoryControllerTest {
         ReflectionTestUtils.setField(categoryResponse, "categoryName", "친환경");
         ReflectionTestUtils.setField(categoryResponse, "sequence", 1);
 
-        when(categoryService.retrieveCategory(anyString()))
-                .thenReturn(categoryResponse);
+        given(categoryService.retrieveCategory(anyString())).willReturn(categoryResponse);
 
         mockMvc.perform(get(DEFAULT_CATEGORY + "/update/{categoryId}", "001"))
                .andExpect(view().name("/categories/update-form"));
+
+        then(categoryService).should(times(1)).retrieveCategory(anyString());
     }
 
     @Test
@@ -111,8 +116,7 @@ class AdminCategoryControllerTest {
 
         String content = objectMapper.writeValueAsString(categoryRequest);
 
-        doNothing().when(categoryService)
-                   .updateCategory(anyString(), any(CategoryUpdateRequest.class));
+        willDoNothing().given(categoryService).updateCategory(anyString(), any(CategoryUpdateRequest.class));
 
         mockMvc.perform(put(DEFAULT_CATEGORY + "/001001")
                                 .content(content)
