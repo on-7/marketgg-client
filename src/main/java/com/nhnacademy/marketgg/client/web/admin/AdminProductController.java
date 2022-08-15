@@ -52,6 +52,8 @@ public class AdminProductController {
     private final ProductInquiryService inquiryService;
 
     private static final String DEFAULT_PRODUCT_URI = "/admin/products";
+    private static final String DEFAULT_PRODUCT_VIEW = "products/product-view";
+    private static final String REDIRECT_PRODUCT_URI = "redirect:/admin/products/index";
 
     /**
      * 기본 상품 index 페이지 GetMapping을 지원합니다.
@@ -81,12 +83,12 @@ public class AdminProductController {
 
         if (bindingResult.hasErrors()) {
             log.warn(String.valueOf(bindingResult.getAllErrors().get(0)));
-            return new ModelAndView("products/product-view");
+            return new ModelAndView(DEFAULT_PRODUCT_VIEW);
         }
 
         this.productService.createProduct(image, productRequest);
 
-        return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
+        return new ModelAndView(REDIRECT_PRODUCT_URI);
     }
 
     /**
@@ -144,7 +146,7 @@ public class AdminProductController {
     public ModelAndView retrieveProductDetails(@PathVariable final Long id) {
 
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
-        ModelAndView mav = new ModelAndView("products/product-view");
+        ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
 
         ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
@@ -214,12 +216,12 @@ public class AdminProductController {
         throws IOException {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("products/product-view");
+            return new ModelAndView(DEFAULT_PRODUCT_VIEW);
         }
 
         this.productService.updateProduct(productId, image, productRequest);
 
-        return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
+        return new ModelAndView(REDIRECT_PRODUCT_URI);
     }
 
     /**
@@ -233,7 +235,7 @@ public class AdminProductController {
     public ModelAndView deleteProduct(@PathVariable final Long productId) {
         this.productService.deleteProduct(productId);
 
-        return new ModelAndView("redirect:" + DEFAULT_PRODUCT_URI + "/index");
+        return new ModelAndView(REDIRECT_PRODUCT_URI);
     }
 
     /**
