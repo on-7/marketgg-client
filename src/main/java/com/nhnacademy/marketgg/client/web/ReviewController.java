@@ -33,6 +33,9 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    private static final String DEFAULT_PRODUCT_DETAIL_VIEW = "products/product-view";
+    private static final String REDIRECT_PRODUCT_DETAIL_VIEW = "redirect:/products/product-view";
+
     /**
      * 후기를 등록합니다.
      * 권한이 있는 사용자만 후기를 등록할 수 있습니다.
@@ -52,12 +55,12 @@ public class ReviewController {
                                      BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:/" + "products/product-view");
+            return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
         }
 
         reviewService.createReview(productId, memberInfo, reviewRequest);
 
-        return new ModelAndView("redirect:/" + "products/product-view");
+        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
     }
 
     /**
@@ -116,12 +119,12 @@ public class ReviewController {
                                      BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("products/product-view");
+            return new ModelAndView(DEFAULT_PRODUCT_DETAIL_VIEW);
         }
 
         reviewService.updateReview(productId, reviewId, memberInfo, reviewRequest);
 
-        return new ModelAndView("redirect:/" + "products/product-view");
+        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
     }
 
     /**
@@ -139,7 +142,7 @@ public class ReviewController {
 
         reviewService.deleteReview(productId, reviewId, memberInfo);
 
-        return new ModelAndView("redirect:/" + "products/product-view");
+        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
     }
 
 }
