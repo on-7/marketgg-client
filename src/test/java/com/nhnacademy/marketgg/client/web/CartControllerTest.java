@@ -47,7 +47,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @ActiveProfiles({ "local" })
 @SpringBootTest
-@ActiveProfiles({ "local" })
+@ActiveProfiles("local")
 class CartControllerTest {
 
     MockMvc mockMvc;
