@@ -62,8 +62,8 @@ class ReviewControllerTest {
     void setUp() {
         reviewCreateRequest = Dummy.getDummyReviewCreateRequest();
         reviewUpdateRequest = Dummy.getDummyReviewUpdateRequest();
-        memberInfo = Dummy.getMemberInfo();
-        reviewResponse = Dummy.getReviewResponse();
+        memberInfo = Dummy.getDummyMemberInfo();
+        reviewResponse = Dummy.getDummyReviewResponse();
     }
 
     @Test

@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.web.admin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
@@ -201,7 +201,7 @@ public class AdminProductController {
     @PostMapping("/update/{id}")
     public ModelAndView updateProduct(@PathVariable final Long id,
                                       @RequestPart(value = "image") final MultipartFile image,
-                                      @ModelAttribute final ProductModifyRequest productRequest)
+                                      @ModelAttribute final ProductUpdateRequest productRequest)
         throws IOException {
 
         this.productService.updateProduct(id, image, productRequest);

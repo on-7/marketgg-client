@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.ProductRepository;
@@ -43,7 +43,7 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public void updateProduct(final Long id, final MultipartFile image,
-                              final ProductModifyRequest productRequest) throws IOException {
+                              final ProductUpdateRequest productRequest) throws IOException {
 
         this.productRepository.updateProduct(id, image, productRequest);
     }

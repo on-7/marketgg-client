@@ -1,17 +1,11 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
-import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
-import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import java.io.IOException;
 import java.util.List;
@@ -107,7 +101,7 @@ public class ProductAdapter implements ProductRepository {
 
     @Override
     public void updateProduct(final Long productId, final MultipartFile image,
-                              final ProductModifyRequest productRequest) throws IOException {
+                              final ProductUpdateRequest productRequest) throws IOException {
 
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
             getLinkedMultiValueMapHttpEntity(image, productRequest);
@@ -138,11 +132,13 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final Integer page) {
+    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword,
+                                                                   final Integer page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 
-        String requestUri = gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/search?keyword=" + keyword + "&page=" + page;
+        String requestUri =
+            gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/search?keyword=" + keyword + "&page=" + page;
 
         if (categoryId.compareTo("001") == 0) {
             requestUri = gatewayIp + DEFAULT_PRODUCT + "/search?keyword=" + keyword + "&page=" + page;
@@ -161,13 +157,15 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option, final String keyword, final Integer page) {
+    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option,
+                                                                final String keyword, final Integer page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 
         ResponseEntity<List<SearchProductResponse>> response =
             this.restTemplate.exchange(
-                gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/price/" + option + "/search?keyword=" + keyword + "&page=" + page,
+                gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/price/" + option + "/search?keyword=" +
+                    keyword + "&page=" + page,
                 HttpMethod.GET,
                 httpEntity,
                 new ParameterizedTypeReference<>() {
