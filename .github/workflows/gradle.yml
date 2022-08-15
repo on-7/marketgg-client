@@ -64,7 +64,7 @@ jobs:
         username: ${{ secrets.SSH_USERNAME_1 }}
         key: ${{ secrets.SSH_KEY_1 }}
         port: ${{ secrets.SSH_PORT_1 }}
-        source: "target/*.jar"
+        source: "build/libs/*.jar"
         target: "~/"
         rm: false
 
@@ -119,7 +119,7 @@ jobs:
         username: ${{ secrets.SSH_USERNAME_2 }}
         key: ${{ secrets.SSH_KEY_2 }}
         port: ${{ secrets.SSH_PORT_2 }}
-        source: "target/*.jar"
+        source: "build/libs/*.jar"
         target: "~/"
         rm: false
 
