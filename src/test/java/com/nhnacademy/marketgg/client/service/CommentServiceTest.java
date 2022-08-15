@@ -15,6 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
@@ -39,7 +40,7 @@ class CommentServiceTest {
 
         commentService.createComment(1L, commentRequest);
 
-        then(commentRepository).should().createComment(anyLong(), any(CommentRequest.class));
+        then(commentRepository).should(times(1)).createComment(anyLong(), any(CommentRequest.class));
     }
 
 }
