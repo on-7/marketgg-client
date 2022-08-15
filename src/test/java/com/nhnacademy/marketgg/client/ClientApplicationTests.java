@@ -9,7 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.context.WebApplicationContext;
 
 @SpringBootTest
-@ActiveProfiles({ "common", "local" })
+@ActiveProfiles({ "local" })
 class ClientApplicationTests {
 
     @Test
