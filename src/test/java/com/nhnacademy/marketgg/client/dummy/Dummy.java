@@ -1,15 +1,24 @@
 package com.nhnacademy.marketgg.client.dummy;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
+import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
+import java.io.FileInputStream;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -86,6 +95,7 @@ public class Dummy {
 
     public static ProductUpdateRequest getDummyProductUpdateRequest() {
         ProductUpdateRequest productRequest = new ProductUpdateRequest();
+
         ReflectionTestUtils.setField(productRequest, "categoryCode", "001");
         ReflectionTestUtils.setField(productRequest, "labelNo", 1L);
         ReflectionTestUtils.setField(productRequest, "name", "자몽");
@@ -105,5 +115,59 @@ public class Dummy {
         return productRequest;
     }
 
+    public static ProductResponse getDummyProductResponse() {
+        ProductResponse productResponse = new ProductResponse();
 
+        ReflectionTestUtils.setField(productResponse, "id", 1L);
+        ReflectionTestUtils.setField(productResponse, "assetNo", 1L);
+        ReflectionTestUtils.setField(productResponse, "categoryCode", "001");
+        ReflectionTestUtils.setField(productResponse, "categoryName", "상품 Response DTO 카테고리 이름");
+        ReflectionTestUtils.setField(productResponse, "name", "상품 Response DTO name");
+        ReflectionTestUtils.setField(productResponse, "content", "상품 Response DTO content");
+        ReflectionTestUtils.setField(productResponse, "totalStock", 100L);
+        ReflectionTestUtils.setField(productResponse, "price", 100_000L);
+        ReflectionTestUtils.setField(productResponse, "description", "상품 Response DTO description");
+        ReflectionTestUtils.setField(productResponse, "unit", "상품 Response DTO unit");
+        ReflectionTestUtils.setField(productResponse, "deliveryType", "상품 Response DTO deliveryType");
+        ReflectionTestUtils.setField(productResponse, "origin", "상품 Response DTO origin");
+        ReflectionTestUtils.setField(productResponse, "packageType", "상품 Response DTO packageType");
+        ReflectionTestUtils.setField(productResponse, "expirationDate", LocalDate.now());
+        ReflectionTestUtils.setField(productResponse, "allergyInfo", "상품 Response DTO allergyInfo");
+        ReflectionTestUtils.setField(productResponse, "capacity", "상품 Response DTO capacity");
+        ReflectionTestUtils.setField(productResponse, "createdAt", LocalDateTime.now());
+        ReflectionTestUtils.setField(productResponse, "updatedAt", LocalDateTime.now());
+
+        return productResponse;
+    }
+
+    public static ImageResponse getDummyImageResponse() {
+        ImageResponse imageResponse = new ImageResponse();
+
+        ReflectionTestUtils.setField(imageResponse, "name", "name");
+        ReflectionTestUtils.setField(imageResponse, "length", 100L);
+        ReflectionTestUtils.setField(imageResponse, "imageAddress", "imageAddress");
+        ReflectionTestUtils.setField(imageResponse, "imageSequence", 1);
+
+        return imageResponse;
+    }
+
+    public static CategoryRetrieveResponse getDummyCategoryResponse() {
+        CategoryRetrieveResponse categoryResponse = new CategoryRetrieveResponse();
+
+        ReflectionTestUtils.setField(categoryResponse, "categoryCode", "001");
+        ReflectionTestUtils.setField(categoryResponse, "categorizationName", "제품");
+        ReflectionTestUtils.setField(categoryResponse, "categoryName", "친환경");
+        ReflectionTestUtils.setField(categoryResponse, "sequence", 1);
+
+        return categoryResponse;
+    }
+
+    public static LabelRetrieveResponse getDummyLabelResponse() {
+        LabelRetrieveResponse labelRetrieveResponse = new LabelRetrieveResponse();
+
+        ReflectionTestUtils.setField(labelRetrieveResponse, "labelNo", 1L);
+        ReflectionTestUtils.setField(labelRetrieveResponse, "name", "친환경");
+
+        return labelRetrieveResponse;
+    }
 }

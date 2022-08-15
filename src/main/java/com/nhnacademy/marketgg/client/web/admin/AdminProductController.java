@@ -19,11 +19,11 @@ import java.io.IOException;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -39,6 +39,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @version 1.0.0
  */
+@Slf4j
 @Controller
 @RequestMapping("/admin/products")
 @RequiredArgsConstructor
@@ -74,11 +75,12 @@ public class AdminProductController {
      */
     @PostMapping
     public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
-                                      @ModelAttribute @Valid final ProductCreateRequest productRequest,
+                                      @RequestPart @Valid final ProductCreateRequest productRequest,
                                       BindingResult bindingResult)
         throws IOException {
 
         if (bindingResult.hasErrors()) {
+            log.warn(String.valueOf(bindingResult.getAllErrors().get(0)));
             return new ModelAndView("products/product-view");
         }
 
@@ -120,6 +122,7 @@ public class AdminProductController {
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
+
 
         for (ProductResponse product : products) {
             ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
@@ -206,7 +209,7 @@ public class AdminProductController {
     @PutMapping("/{productId}")
     public ModelAndView updateProduct(@PathVariable final Long productId,
                                       @RequestPart(value = "image") final MultipartFile image,
-                                      @ModelAttribute @Valid final ProductUpdateRequest productRequest,
+                                      @RequestPart @Valid final ProductUpdateRequest productRequest,
                                       BindingResult bindingResult)
         throws IOException {
 
