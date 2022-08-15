@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.service;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 
 import java.io.IOException;
@@ -67,7 +67,7 @@ public interface ProductService {
      * @throws IOException - IOException을 발생시킵니다.
      * @since 1.0.0
      */
-    void updateProduct(final Long id, final MultipartFile image, final ProductModifyRequest productRequest)
+    void updateProduct(final Long id, final MultipartFile image, final ProductUpdateRequest productRequest)
             throws IOException;
 
     /**

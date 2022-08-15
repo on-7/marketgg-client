@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.repository;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import java.io.IOException;
 import java.util.List;
@@ -67,7 +67,7 @@ public interface ProductRepository {
      * @since 1.0.0
      */
     void updateProduct(final Long productId, final MultipartFile image,
-                       final ProductModifyRequest productRequest)
+                       final ProductUpdateRequest productRequest)
         throws IOException;
 
     /**

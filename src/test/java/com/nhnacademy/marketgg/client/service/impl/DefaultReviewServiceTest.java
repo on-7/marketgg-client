@@ -39,10 +39,10 @@ class DefaultReviewServiceTest {
 
     @BeforeEach
     void setUp() {
-        memberInfo = Dummy.getMemberInfo();
+        memberInfo = Dummy.getDummyMemberInfo();
         reviewCreateRequest = Dummy.getDummyReviewCreateRequest();
         reviewUpdateRequest = Dummy.getDummyReviewUpdateRequest();
-        reviewResponse = Dummy.getReviewResponse();
+        reviewResponse = Dummy.getDummyReviewResponse();
     }
 
     @Test
@@ -58,7 +58,8 @@ class DefaultReviewServiceTest {
     }
 
     @Test
-    void retrieveReviews() {
+    @DisplayName("리뷰 전체조회 테스트")
+    void testRetrieveReviews() {
         given(reviewRepository.retrieveReviews(anyLong())).willReturn(List.of(reviewResponse));
 
         reviewService.retrieveReviews(1L);
@@ -67,7 +68,8 @@ class DefaultReviewServiceTest {
     }
 
     @Test
-    void retrieveReview() {
+    @DisplayName("리뷰 상세조회 테스트")
+    void testRetrieveReview() {
         given(reviewRepository.retrieveReview(anyLong(), anyLong())).willReturn(reviewResponse);
 
         reviewService.retrieveReview(1L, 1L);
@@ -76,7 +78,8 @@ class DefaultReviewServiceTest {
     }
 
     @Test
-    void updateReview() throws JsonProcessingException {
+    @DisplayName("리뷰 수정 테스트")
+    void testUpdateReview() throws JsonProcessingException {
         willDoNothing().given(reviewRepository).updateReview(anyLong(), anyLong(), any(MemberInfo.class), any(
             ReviewUpdateRequest.class));
 
@@ -89,12 +92,23 @@ class DefaultReviewServiceTest {
     }
 
     @Test
-    void deleteReview() {
+    @DisplayName("리뷰 삭제 테스트")
+    void testDeleteReview() {
         willDoNothing().given(reviewRepository).deleteReview(anyLong(), anyLong(), any(MemberInfo.class));
 
         reviewService.deleteReview(1L, 1L, memberInfo);
 
         then(reviewRepository).should(times(1)).deleteReview(anyLong(), anyLong(), any(MemberInfo.class));
 
+    }
+
+    @Test
+    @DisplayName("베스트 후기 선정 테스트")
+    void testMakeBestReview() {
+        willDoNothing().given(reviewRepository).makeBestReview(anyLong(), anyLong());
+
+        reviewService.makeBestReview(1L, 1L);
+
+        then(reviewRepository).should(times(1)).makeBestReview(anyLong(), anyLong());
     }
 }

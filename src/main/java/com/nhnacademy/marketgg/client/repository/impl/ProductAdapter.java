@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
@@ -103,7 +103,7 @@ public class ProductAdapter implements ProductRepository {
 
     @Override
     public void updateProduct(final Long productId, final MultipartFile image,
-                              final ProductModifyRequest productRequest) throws IOException {
+                              final ProductUpdateRequest productRequest) throws IOException {
 
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
                 getLinkedMultiValueMapHttpEntity(image, productRequest);

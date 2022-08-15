@@ -1,6 +1,8 @@
 package com.nhnacademy.marketgg.client.dummy;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
@@ -31,7 +33,7 @@ public class Dummy {
         return reviewUpdateRequest;
     }
 
-    public static MemberInfo getMemberInfo() {
+    public static MemberInfo getDummyMemberInfo() {
         MemberInfo memberInfo = new MemberInfo();
 
         ReflectionTestUtils.setField(memberInfo, "email", "이메일");
@@ -45,7 +47,7 @@ public class Dummy {
         return memberInfo;
     }
 
-    public static ReviewResponse getReviewResponse() {
+    public static ReviewResponse getDummyReviewResponse() {
         ReviewResponse reviewResponse = new ReviewResponse();
 
         ReflectionTestUtils.setField(reviewResponse, "id", 1L);
@@ -60,5 +62,48 @@ public class Dummy {
 
         return reviewResponse;
     }
+
+    public static ProductCreateRequest getDummyProductCreateRequest() {
+        ProductCreateRequest productRequest = new ProductCreateRequest();
+
+        ReflectionTestUtils.setField(productRequest, "categoryCode", "001");
+        ReflectionTestUtils.setField(productRequest, "labelNo", 1L);
+        ReflectionTestUtils.setField(productRequest, "name", "상품 request DTO 이름");
+        ReflectionTestUtils.setField(productRequest, "content", "상품 request DTO Content");
+        ReflectionTestUtils.setField(productRequest, "totalStock", 100L);
+        ReflectionTestUtils.setField(productRequest, "price", 100_000L);
+        ReflectionTestUtils.setField(productRequest, "description", "상품 request DTO Description");
+        ReflectionTestUtils.setField(productRequest, "unit", "상품 request DTO unit");
+        ReflectionTestUtils.setField(productRequest, "deliveryType", "상품 request DTO deliveryType");
+        ReflectionTestUtils.setField(productRequest, "origin", "상품 request DTO origin");
+        ReflectionTestUtils.setField(productRequest, "packageType", "상품 request DTO packageType");
+        ReflectionTestUtils.setField(productRequest, "expirationDate", LocalDate.now());
+        ReflectionTestUtils.setField(productRequest, "allergyInfo", "상품 request DTO allergyInfo");
+        ReflectionTestUtils.setField(productRequest, "capacity", "상품 request DTO capacity");
+
+        return productRequest;
+    }
+
+    public static ProductUpdateRequest getDummyProductUpdateRequest() {
+        ProductUpdateRequest productRequest = new ProductUpdateRequest();
+        ReflectionTestUtils.setField(productRequest, "categoryCode", "001");
+        ReflectionTestUtils.setField(productRequest, "labelNo", 1L);
+        ReflectionTestUtils.setField(productRequest, "name", "자몽");
+        ReflectionTestUtils.setField(productRequest, "content", "아침에 자몽 쥬스");
+        ReflectionTestUtils.setField(productRequest, "totalStock", 100L);
+        ReflectionTestUtils.setField(productRequest, "price", 2000L);
+        ReflectionTestUtils.setField(productRequest, "description", "자몽주스 설명");
+        ReflectionTestUtils.setField(productRequest, "unit", "1박스");
+        ReflectionTestUtils.setField(productRequest, "deliveryType", "샛별배송");
+        ReflectionTestUtils.setField(productRequest, "origin", "인도네시아");
+        ReflectionTestUtils.setField(productRequest, "packageType", "냉장");
+        ReflectionTestUtils.setField(productRequest, "allergyInfo", "새우알러지");
+        ReflectionTestUtils.setField(productRequest, "expirationDate", LocalDate.now());
+        ReflectionTestUtils.setField(productRequest, "capacity", "20개");
+        ReflectionTestUtils.setField(productRequest, "assetNo", 1L);
+
+        return productRequest;
+    }
+
 
 }
