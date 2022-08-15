@@ -12,7 +12,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.ProductService;
+
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

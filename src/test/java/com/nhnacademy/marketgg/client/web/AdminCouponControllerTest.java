@@ -26,6 +26,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -72,7 +73,7 @@ class AdminCouponControllerTest {
                                      .content(content))
                     .andExpect(status().is3xxRedirection());
 
-        then(couponService).should().createCoupon(any(CouponRequest.class));
+        then(couponService).should(times(1)).createCoupon(any(CouponRequest.class));
     }
 
     @Test
@@ -83,6 +84,8 @@ class AdminCouponControllerTest {
         this.mockMvc.perform(get(DEFAULT_COUPON + "/index"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("/coupons/index"));
+
+        then(couponService).should(times(1)).retrieveCoupons();
     }
 
     @Test
@@ -112,7 +115,7 @@ class AdminCouponControllerTest {
                                      .content(content))
                     .andExpect(status().is3xxRedirection());
 
-        then(couponService).should().updateCoupon(anyLong(), any(CouponRequest.class));
+        then(couponService).should(times(1)).updateCoupon(anyLong(), any(CouponRequest.class));
     }
 
     @Test
@@ -122,6 +125,8 @@ class AdminCouponControllerTest {
 
         this.mockMvc.perform(delete(DEFAULT_COUPON + "/" + 1L))
                     .andExpect(status().is3xxRedirection());
+
+        then(couponService).should(times(1)).deleteCoupon(anyLong());
     }
 
 }

@@ -55,5 +55,5 @@ class DibServiceTest {
 
         then(dibRepository).should(times(1)).deleteDib(anyLong());
     }
-    
+
 }

@@ -2,7 +2,9 @@ package com.nhnacademy.marketgg.client.web;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -44,17 +46,17 @@ class AuthControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(controller)
-                                 .alwaysDo(print())
-                                 .build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(controller)
+                                      .alwaysDo(print())
+                                      .build();
     }
 
     @Test
     @DisplayName("로그인 페이지")
     void login() throws Exception {
 
-        mockMvc.perform(get("/login"))
-               .andExpect(view().name("members/login"));
+        this.mockMvc.perform(get("/login"))
+                    .andExpect(view().name("members/login"));
     }
 
     @Test
@@ -64,12 +66,14 @@ class AuthControllerTest {
 
         willDoNothing().given(authService).doLogin(any(LoginRequest.class), anyString());
 
-        mockMvc.perform(post("/login")
-                   .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                   .param("email", loginRequest.getEmail())
-                   .param("password", loginRequest.getPassword()))
-               .andExpect(cookie().exists(JwtInfo.SESSION_ID))
-               .andExpect(status().is3xxRedirection());
+        this.mockMvc.perform(post("/login")
+                                     .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                     .param("email", loginRequest.getEmail())
+                                     .param("password", loginRequest.getPassword()))
+                    .andExpect(cookie().exists(JwtInfo.SESSION_ID))
+                    .andExpect(status().is3xxRedirection());
+
+        then(authService).should(times(1)).doLogin(any(LoginRequest.class), anyString());
     }
 
     @Test
@@ -77,8 +81,10 @@ class AuthControllerTest {
     void logout() throws Exception {
         willDoNothing().given(authService).logout(anyString());
 
-        mockMvc.perform(get("/logout"))
-               .andExpect(status().is3xxRedirection());
+        this.mockMvc.perform(get("/logout"))
+                    .andExpect(status().is3xxRedirection());
+
+        then(authService).should(times(1)).logout(anyString());
     }
 
 }

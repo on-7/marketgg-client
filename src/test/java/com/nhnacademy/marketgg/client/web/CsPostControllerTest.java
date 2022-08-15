@@ -7,7 +7,9 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -71,7 +73,7 @@ class CsPostControllerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"701", "702", "703"})
+    @ValueSource(strings = { "701", "702", "703" })
     @DisplayName("인덱스 조회")
     void testIndex(String categoryCode) throws Exception {
         given(postService.retrievePostList(anyString(), anyInt())).willReturn(List.of(response));
@@ -139,6 +141,8 @@ class CsPostControllerTest {
                                      .param("reason", "환불"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702?page=0"));
+
+        then(postService).should(times(1)).createPost(any(PostRequest.class));
     }
 
     @Test
@@ -229,10 +233,12 @@ class CsPostControllerTest {
     void testDeletePost() throws Exception {
         willDoNothing().given(postService).deletePost(anyLong(), anyString());
 
-        this.mockMvc.perform(delete(DEFAULT_POST + "/categories/"+  OTO_CODE + "/{postNo}/delete", 1L)
+        this.mockMvc.perform(delete(DEFAULT_POST + "/categories/" + OTO_CODE + "/{postNo}/delete", 1L)
                                      .param("page", "0"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702?page=0"));
+
+        then(postService).should(times(1)).deletePost(anyLong(), anyString());
     }
 
 }

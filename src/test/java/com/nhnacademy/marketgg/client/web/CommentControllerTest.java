@@ -48,8 +48,8 @@ class CommentControllerTest {
 
         this.mockMvc.perform(post(DEFAULT_POST + "/{postNo}", 1L)
                                      .param("content", "hello!"))
-                            .andExpect(status().is3xxRedirection())
-                            .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/1"));
+                    .andExpect(status().is3xxRedirection())
+                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/1"));
 
         then(commentService).should().createComment(anyLong(), any(CommentRequest.class));
     }

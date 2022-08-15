@@ -16,9 +16,9 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -43,19 +43,23 @@ class DibControllerTest {
     @DisplayName("찜 목록 조회")
     void testRetrieveDibs() throws Exception {
         given(dibService.retrieveDibs()).willReturn(List.of());
-        mockMvc.perform(get(DEFAULT_DIB))
-                .andExpect(status().isOk())
-                .andExpect(view().name("/pages/dibs/index"));
+
+        this.mockMvc.perform(get(DEFAULT_DIB))
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("/pages/dibs/index"));
+
+        then(dibService).should(times(1)).retrieveDibs();
     }
 
     @Test
     @DisplayName("찜 목록에서 찜 제거")
     void testDeleteDib() throws Exception {
         willDoNothing().given(dibService).deleteDib(anyLong());
-        mockMvc.perform(delete(DEFAULT_DIB + "/{productId}", 1L))
-                .andExpect(status().is3xxRedirection());
 
-        verify(dibService, times(1)).deleteDib(anyLong());
+        this.mockMvc.perform(delete(DEFAULT_DIB + "/{productId}", 1L))
+                    .andExpect(status().is3xxRedirection());
+
+        then(dibService).should(times(1)).deleteDib(anyLong());
     }
 
 }

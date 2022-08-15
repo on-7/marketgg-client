@@ -9,7 +9,9 @@ import static org.mockito.Mockito.times;
 
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultMemberService;
+
 import java.time.LocalDateTime;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

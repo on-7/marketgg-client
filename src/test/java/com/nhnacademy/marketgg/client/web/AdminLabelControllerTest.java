@@ -18,10 +18,10 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -46,34 +46,36 @@ class AdminLabelControllerTest {
     @Test
     @DisplayName("라벨 등록")
     void testCreateLabel() throws Exception {
-        doNothing().when(labelService).createLabel(any(LabelRegisterRequest.class));
+        willDoNothing().given(labelService).createLabel(any(LabelRegisterRequest.class));
 
-        mockMvc.perform(post(DEFAULT_LABEL)
+        this.mockMvc.perform(post(DEFAULT_LABEL)
                                 .param("name", "hello"))
                .andExpect(status().is3xxRedirection());
 
-        verify(labelService, times(1)).createLabel(any(LabelRegisterRequest.class));
+        then(labelService).should(times(1)).createLabel(any(LabelRegisterRequest.class));
     }
 
     @Test
     @DisplayName("라벨 전체 조회")
     void testRetrieveLabels() throws Exception {
-        when(labelService.retrieveLabels()).thenReturn(List.of(new LabelRetrieveResponse()));
+        given(labelService.retrieveLabels()).willReturn(List.of(new LabelRetrieveResponse()));
 
-        mockMvc.perform(get(DEFAULT_LABEL))
+        this.mockMvc.perform(get(DEFAULT_LABEL))
                .andExpect(status().isOk())
                .andExpect(view().name("pages/labels/index"));
+
+        then(labelService).should(times(1)).retrieveLabels();
     }
 
     @Test
     @DisplayName("라벨 삭제")
     void testDeleteLabel() throws Exception {
-        doNothing().when(labelService).deleteLabel(anyLong());
+        willDoNothing().given(labelService).deleteLabel(anyLong());
 
-        mockMvc.perform(delete(DEFAULT_LABEL + "/{labelId}", 1L))
+        this.mockMvc.perform(delete(DEFAULT_LABEL + "/{labelId}", 1L))
                .andExpect(status().is3xxRedirection());
 
-        verify(labelService, times(1)).deleteLabel(anyLong());
+        then(labelService).should(times(1)).deleteLabel(anyLong());
     }
 
 }
