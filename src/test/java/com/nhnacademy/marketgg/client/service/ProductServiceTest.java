@@ -2,9 +2,11 @@ package com.nhnacademy.marketgg.client.service;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 
@@ -59,6 +61,47 @@ class ProductServiceTest {
 
         then(productRepository).should(times(1))
                                .createProduct(any(MockMultipartFile.class), any(ProductCreateRequest.class));
+    }
+
+    @Test
+    @DisplayName("상품 전체조회 테스트")
+    void testRetrieveProducts() {
+        given(productRepository.retrieveProducts()).willReturn(List.of(productResponse));
+
+        productService.retrieveProducts();
+
+        then(productRepository).should(times(1)).retrieveProducts();
+    }
+
+    @Test
+    @DisplayName("상품 상세조회 테스트")
+    void testRetrieveProductDetails() {
+        given(productRepository.retrieveProductDetails(anyLong())).willReturn(productResponse);
+
+        productService.retrieveProductDetails(1L);
+
+        then(productRepository).should(times(1)).retrieveProductDetails(anyLong());
+    }
+
+    @Test
+    @DisplayName("상품 수정 테스트")
+    void testUpdateProduct() throws IOException {
+        MockMultipartFile image = getImage();
+        willDoNothing().given(productRepository).updateProduct(anyLong(), any(MockMultipartFile.class), any(ProductUpdateRequest.class));
+
+        productService.updateProduct(1L, image, productUpdateRequest);
+
+        then(productRepository).should(times(1)).updateProduct(anyLong(), any(MockMultipartFile.class), any(ProductUpdateRequest.class));
+    }
+
+    @Test
+    @DisplayName("상품 삭제 테스트")
+    void testDeleteProduct() throws IOException {
+        willDoNothing().given(productRepository).deleteProduct(anyLong());
+
+        productService.deleteProduct(1L);
+
+        then(productRepository).should(times(1)).deleteProduct(anyLong());
     }
 
     @Test
