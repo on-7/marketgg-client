@@ -1,5 +1,8 @@
 package com.nhnacademy.marketgg.client.web;
 
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -9,7 +12,6 @@ import com.nhnacademy.marketgg.client.service.PointService;
 import com.nhnacademy.marketgg.client.web.member.PointController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -35,11 +37,13 @@ class PointControllerTest {
     @DisplayName("회원의 자신의 포인트 적립 내역 조회 테스트")
     void testRetrieveMemberPoint() throws Exception {
         Long id = 1L;
-        BDDMockito.given(pointService.retrievePointHistories(id)).willReturn(new PointRetrieveResponse());
+        given(pointService.retrievePointHistories(id)).willReturn(new PointRetrieveResponse());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/members/" + id + "/points"))
-            .andExpect(status().isOk())
-            .andExpect(view().name("/points/index"));
+               .andExpect(status().isOk())
+               .andExpect(view().name("/points/index"));
+
+        then(pointService).should(times(1)).retrievePointHistories(id);
     }
 
 }

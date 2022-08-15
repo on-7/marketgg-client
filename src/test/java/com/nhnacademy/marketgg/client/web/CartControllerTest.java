@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.CartService;
+
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import javax.servlet.http.Cookie;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -77,9 +79,9 @@ class CartControllerTest {
 
     @BeforeEach
     void setUp(WebApplicationContext wac) {
-        mockMvc = MockMvcBuilders.webAppContextSetup(wac)
-                                 .alwaysDo(print())
-                                 .build();
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                                      .alwaysDo(print())
+                                      .build();
     }
 
     @Test
@@ -93,13 +95,13 @@ class CartControllerTest {
 
         willDoNothing().given(cartService).addProduct(any(ProductToCartRequest.class));
 
-        mockMvc.perform(post("/cart")
-                   .cookie(new Cookie(JwtInfo.SESSION_ID, sessionId))
-                   .contentType(MediaType.APPLICATION_JSON)
-                   .content(request))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.success", equalTo(true)))
-               .andExpect(jsonPath("$.data", equalTo(true)));
+        this.mockMvc.perform(post("/cart")
+                                     .cookie(new Cookie(JwtInfo.SESSION_ID, sessionId))
+                                     .contentType(MediaType.APPLICATION_JSON)
+                                     .content(request))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.success", equalTo(true)))
+                    .andExpect(jsonPath("$.data", equalTo(true)));
 
         then(cartService).should(times(1)).addProduct(any(ProductToCartRequest.class));
         redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -110,13 +112,13 @@ class CartControllerTest {
     void retrieveCart() throws Exception {
         given(cartService.retrieveCarts()).willReturn(new ArrayList<>());
 
-        MvcResult mvcResult = mockMvc.perform(get("/cart"))
-                                     .andExpect(status().isOk())
-                                     .andExpect(view().name("carts/index"))
-                                     .andReturn();
+        MvcResult mvcResult = this.mockMvc.perform(get("/cart"))
+                                          .andExpect(status().isOk())
+                                          .andExpect(view().name("carts/index"))
+                                          .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("cart"))
-            .isNotNull();
+                .isNotNull();
 
         then(cartService).should(times(1)).retrieveCarts();
     }
@@ -128,12 +130,12 @@ class CartControllerTest {
 
         String request = mapper.writeValueAsString(productToCartRequest);
 
-        mockMvc.perform(patch("/cart")
-                   .contentType(MediaType.APPLICATION_JSON)
-                   .content(request))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.success", equalTo(true)))
-               .andExpect(jsonPath("$.data", equalTo(true)));
+        this.mockMvc.perform(patch("/cart")
+                                     .contentType(MediaType.APPLICATION_JSON)
+                                     .content(request))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.success", equalTo(true)))
+                    .andExpect(jsonPath("$.data", equalTo(true)));
 
         then(cartService).should(times(1)).updateAmount(any(ProductToCartRequest.class));
     }
@@ -145,12 +147,12 @@ class CartControllerTest {
 
         String request = mapper.writeValueAsString(List.of(1, 2, 3));
 
-        mockMvc.perform(delete("/cart")
-                   .contentType(MediaType.APPLICATION_JSON)
-                   .content(request))
-               .andExpect(status().isOk())
-               .andExpect(jsonPath("$.success", equalTo(true)))
-               .andExpect(jsonPath("$.data", equalTo(true)));
+        this.mockMvc.perform(delete("/cart")
+                                     .contentType(MediaType.APPLICATION_JSON)
+                                     .content(request))
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.success", equalTo(true)))
+                    .andExpect(jsonPath("$.data", equalTo(true)));
 
         then(cartService).should(times(1)).deleteProducts(anyList());
     }

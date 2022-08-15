@@ -19,9 +19,9 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,19 +47,24 @@ class DibAjaxControllerTest {
     void testDibViewPresent() throws Exception {
         DibRetrieveResponse response = new DibRetrieveResponse();
         ReflectionTestUtils.setField(response, "productNo", 1L);
+
         given(dibService.retrieveDibs()).willReturn(List.of(response));
-        mockMvc.perform(post("/dibs")
+
+        this.mockMvc.perform(post("/dibs")
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .param("productId", "1")
                                 .param("memberId", "1"))
                .andExpect(status().isOk());
+
+        then(dibService).should(times(1)).retrieveDibs();
     }
 
     @Test
     @DisplayName("사용자 찜 여부 확인 (존재 X)")
     void testDibViewEmpty() throws Exception {
         given(dibService.retrieveDibs()).willReturn(List.of());
-        mockMvc.perform(post("/dibs")
+
+        this.mockMvc.perform(post("/dibs")
                                 .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
     }
@@ -68,20 +73,24 @@ class DibAjaxControllerTest {
     @DisplayName("사용자 찜 추가")
     void testDibInsert() throws Exception {
         willDoNothing().given(dibService).createDib(anyLong());
-        mockMvc.perform(get("/dibs/insert/{productId}", 1L)
+
+        this.mockMvc.perform(get("/dibs/insert/{productId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
-        verify(dibService, times(1)).createDib(anyLong());
+
+        then(dibService).should(times(1)).createDib(anyLong());
     }
 
     @Test
     @DisplayName("사용자 찜 제거")
     void testDibDelete() throws Exception {
         willDoNothing().given(dibService).deleteDib(anyLong());
-        mockMvc.perform(get("/dibs/delete/{productId}", 1L)
+
+        this.mockMvc.perform(get("/dibs/delete/{productId}", 1L)
                                 .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
-        verify(dibService, times(1)).deleteDib(anyLong());
+
+        then(dibService).should(times(1)).deleteDib(anyLong());
     }
 
 }
