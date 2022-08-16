@@ -10,6 +10,7 @@ import com.nhnacademy.marketgg.client.service.ReviewService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
  *
  * @author 조현진
  */
+@Slf4j
 @Controller
 @RequestMapping("/products/{productId}/reviews")
 @RequiredArgsConstructor
@@ -47,6 +49,7 @@ public class ReviewController {
      * @return - 해당 상품의 view를 반환합니다.
      * @throws JsonProcessingException - Json expeption을 던집니다.
      */
+
     @RoleCheck
     @PostMapping
     public ModelAndView createReview(@PathVariable final Long productId,
@@ -55,6 +58,7 @@ public class ReviewController {
                                      BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
+            log.info(bindingResult.getAllErrors().get(0).toString());
             return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
         }
 
@@ -119,6 +123,7 @@ public class ReviewController {
                                      BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
+            log.info(bindingResult.getAllErrors().get(0).toString());
             return new ModelAndView(DEFAULT_PRODUCT_DETAIL_VIEW);
         }
 
