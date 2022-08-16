@@ -1,5 +1,11 @@
 package com.nhnacademy.marketgg.client.service;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
+
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.repository.CommentRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultCommentService;
@@ -10,11 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.BDDMockito.willDoNothing;
 
 @ExtendWith(MockitoExtension.class)
 class CommentServiceTest {
@@ -39,7 +40,7 @@ class CommentServiceTest {
 
         commentService.createComment(1L, commentRequest);
 
-        then(commentRepository).should().createComment(anyLong(), any(CommentRequest.class));
+        then(commentRepository).should(times(1)).createComment(anyLong(), any(CommentRequest.class));
     }
 
 }

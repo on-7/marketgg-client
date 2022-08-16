@@ -3,4 +3,4 @@ spring:
     name: marketgg-client
 
   config:
-    import: "optional:configserver:http://133.186.209.70:8888"
+    import: "optional:configserver:http://config.marketgg.shop"

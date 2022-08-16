@@ -39,8 +39,8 @@ import org.springframework.web.client.RestTemplate;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest({
-    MemberController.class,
-    MemberAjaxController.class
+        MemberController.class,
+        MemberAjaxController.class
 })
 class MemberControllerTest {
 
@@ -66,9 +66,12 @@ class MemberControllerTest {
     @DisplayName("GG 패스 메인 페이지")
     void testIndex() throws Exception {
         given(memberService.retrievePassUpdatedAt()).willReturn(LocalDateTime.now());
+
         mockMvc.perform(get("/members/ggpass"))
                .andExpect(status().isOk())
                .andExpect(view().name("pages/ggpass/index"));
+
+        then(memberService).should(times(1)).retrievePassUpdatedAt();
     }
 
     @Test
@@ -110,18 +113,19 @@ class MemberControllerTest {
     @DisplayName("사용할 수 있는 이메일 검증 테스트")
     void testUseEmail() throws Exception {
 
-        given(memberService.useEmail(any(EmailRequest.class)))
-            .willReturn(new EmailUseResponse(false));
+        given(memberService.useEmail(any(EmailRequest.class))).willReturn(new EmailUseResponse(false));
 
         ObjectMapper objectMapper = new ObjectMapper();
 
         boolean hasNotReferrer = false;
 
         mockMvc.perform(post("/marketgg/members/use/email")
-                   .content(objectMapper.writeValueAsString(
-                       new EmailRequest("aaa@naver.com", hasNotReferrer)))
-                   .contentType(MediaType.APPLICATION_JSON))
+                                .content(objectMapper.writeValueAsString(
+                                        new EmailRequest("aaa@naver.com", hasNotReferrer)))
+                                .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
+
+        then(memberService).should(times(1)).useEmail(any(EmailRequest.class));
     }
 
     @Test
@@ -134,11 +138,11 @@ class MemberControllerTest {
         willDoNothing().given(givenCouponService).registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
 
         mockMvc.perform(post("/members/{memberId}/coupons", 1L)
-                   .contentType(MediaType.APPLICATION_JSON)
-                   .content(content))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(content))
                .andExpect(status().is3xxRedirection());
 
-        then(givenCouponService).should().registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
+        then(givenCouponService).should(times(1)).registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
     }
 
     @Test
@@ -152,7 +156,7 @@ class MemberControllerTest {
                                      .andReturn();
         Map<String, Object> resultModel = Objects.requireNonNull(mvcResult.getModelAndView()).getModel();
 
-        then(givenCouponService).should().retrieveOwnGivenCoupons(anyLong());
+        then(givenCouponService).should(times(1)).retrieveOwnGivenCoupons(anyLong());
         assertThat(resultModel.get("coupons")).isInstanceOf(List.class);
         assertThat(resultModel.get("memberId")).isInstanceOf(Long.class);
     }

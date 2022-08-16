@@ -1,15 +1,11 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.matches;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
@@ -17,7 +13,6 @@ import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.repository.OauthRepository;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -93,7 +88,7 @@ class GoogleLoginServiceTest {
         ResponseEntity<String> jwt = ResponseEntity.status(HttpStatus.OK)
                                                    .header(HttpHeaders.AUTHORIZATION, "jwt")
                                                    .header(JwtInfo.JWT_EXPIRE,
-                                                       LocalDateTime.now().toString())
+                                                           LocalDateTime.now().toString())
                                                    .body(jsonResponse);
 
         given(oauthRepository.getProfile(any(), any())).willReturn(jwt);

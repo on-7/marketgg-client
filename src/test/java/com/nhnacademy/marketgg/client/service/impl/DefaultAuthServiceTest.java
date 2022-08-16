@@ -125,7 +125,7 @@ class DefaultAuthServiceTest {
         given(authRepository.logout(anyString())).willReturn(resp);
 
         assertThatThrownBy(() -> authService.logout(sessionId))
-            .isInstanceOf(LogoutException.class);
+                .isInstanceOf(LogoutException.class);
     }
 
 }
