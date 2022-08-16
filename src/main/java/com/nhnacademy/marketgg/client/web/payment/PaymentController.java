@@ -41,7 +41,7 @@ public class PaymentController {
     @PostMapping("/payments/verify")
     public ModelAndView verifyPayment(@ModelAttribute @Valid final PaymentVerifyRequest paymentRequest) {
         log.info("verifyPayment: {}", paymentRequest);
-        paymentService.requestPayment(paymentRequest);
+        paymentService.verifyRequest(paymentRequest);
 
         return new ModelAndView("redirect:/payments/request-payment");
     }
