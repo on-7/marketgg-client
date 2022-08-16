@@ -76,7 +76,7 @@ class AdminCsPostControllerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"701", "702", "703"})
+    @ValueSource(strings = { "701", "702", "703" })
     @DisplayName("인덱스 조회 (1:1 문의)")
     void testIndex(String categoryCode) throws Exception {
         given(postService.retrievePostList(anyString(), anyInt())).willReturn(List.of(response));
@@ -159,17 +159,18 @@ class AdminCsPostControllerTest {
     void testRetrievePost() throws Exception {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
 
-        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}", "703", 1L)
-                                                           .param("page", "0"))
-                                          .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/faqs/detail"))
-                                          .andReturn();
+        MvcResult mvcResult =
+                this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}", "703", 1L)
+                                             .param("page", "0"))
+                            .andExpect(status().isOk())
+                            .andExpect(view().name("pages/board/faqs/detail"))
+                            .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("response")).isNotNull();
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"701", "702", "703"})
+    @ValueSource(strings = { "701", "702", "703" })
     @DisplayName("카테고리 별 검색")
     void testSearchForCategory(String categoryCode) throws Exception {
         given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
@@ -188,12 +189,13 @@ class AdminCsPostControllerTest {
                 break;
         }
 
-        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", categoryCode)
-                                                           .param("keyword", "hi")
-                                                           .param("page", "0"))
-                                          .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/" + type + "/index"))
-                                          .andReturn();
+        MvcResult mvcResult =
+                this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", categoryCode)
+                                             .param("keyword", "hi")
+                                             .param("page", "0"))
+                            .andExpect(status().isOk())
+                            .andExpect(view().name("pages/board/" + type + "/index"))
+                            .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
     }
@@ -222,7 +224,7 @@ class AdminCsPostControllerTest {
         MvcResult mvcResult =
                 this.mockMvc.perform(
                             get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/options/{optionType}/search", "702",
-                                 "reason")
+                                "reason")
                                     .param("keyword", "hi")
                                     .param("page", "0")
                                     .param("optionType", "reason")
@@ -280,7 +282,8 @@ class AdminCsPostControllerTest {
                                           get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "702", 1L)
                                                   .param("page", "0"))
                                           .andExpect(status().is3xxRedirection())
-                                          .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702?page=0"))
+                                          .andExpect(view().name(
+                                                  "redirect:" + DEFAULT_ADMIN_POST + "/categories/702?page=0"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("reasons")).isNull();

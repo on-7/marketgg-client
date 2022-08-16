@@ -8,9 +8,7 @@ import static org.mockito.Mockito.times;
 
 import com.nhnacademy.marketgg.client.repository.ProductRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultProductService;
-
 import java.util.List;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

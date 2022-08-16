@@ -49,8 +49,8 @@ class AdminLabelControllerTest {
         willDoNothing().given(labelService).createLabel(any(LabelRegisterRequest.class));
 
         this.mockMvc.perform(post(DEFAULT_LABEL)
-                                .param("name", "hello"))
-               .andExpect(status().is3xxRedirection());
+                                     .param("name", "hello"))
+                    .andExpect(status().is3xxRedirection());
 
         then(labelService).should(times(1)).createLabel(any(LabelRegisterRequest.class));
     }
@@ -61,8 +61,8 @@ class AdminLabelControllerTest {
         given(labelService.retrieveLabels()).willReturn(List.of(new LabelRetrieveResponse()));
 
         this.mockMvc.perform(get(DEFAULT_LABEL))
-               .andExpect(status().isOk())
-               .andExpect(view().name("pages/labels/index"));
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("pages/labels/index"));
 
         then(labelService).should(times(1)).retrieveLabels();
     }
@@ -73,7 +73,7 @@ class AdminLabelControllerTest {
         willDoNothing().given(labelService).deleteLabel(anyLong());
 
         this.mockMvc.perform(delete(DEFAULT_LABEL + "/{labelId}", 1L))
-               .andExpect(status().is3xxRedirection());
+                    .andExpect(status().is3xxRedirection());
 
         then(labelService).should(times(1)).deleteLabel(anyLong());
     }

@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
@@ -11,12 +10,9 @@ import static org.mockito.Mockito.times;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
 import com.nhnacademy.marketgg.client.repository.CartRepository;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

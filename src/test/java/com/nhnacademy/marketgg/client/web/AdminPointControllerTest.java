@@ -39,8 +39,8 @@ class AdminPointControllerTest {
         given(pointService.adminRetrievePointHistories()).willReturn(List.of(new PointRetrieveResponse()));
 
         this.mockMvc.perform(get("/admin/points"))
-               .andExpect(status().isOk())
-               .andExpect(view().name("/points/admin-retrieve-members"));
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("/points/admin-retrieve-members"));
 
         then(pointService).should(times(1)).adminRetrievePointHistories();
     }
