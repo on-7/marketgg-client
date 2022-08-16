@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+
+    <head>
+        <title>Market GG | 결제 취소</title>
+    </head>
+
+    <body>
+        <main>
+            <section>
+                <h1>결제 취소를 진행하시겠습니까?</h1>
+                <form method="post" th:action="@{/payments/EAK6k75XwlOyL0qZ4G1VOP4xk47qOroWb2MQYgmBDPdR9pxz/cancel}">
+                    <input type="hidden" name="cancelReason" value="단순 변심">
+                    <input type="hidden" name="bank" value="신한">
+                    <input type="hidden" name="accountNumber" value="110233045056">
+                    <input type="hidden" name="holderName" value="강태풍">
+                    <button id="payment-button" class="btn btn-primary">취소</button>
+                </form>
+            </section>
+        </main>
+    </body>
+
+</html>
