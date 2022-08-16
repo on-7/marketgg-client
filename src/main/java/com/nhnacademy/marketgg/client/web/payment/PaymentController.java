@@ -85,7 +85,7 @@ public class PaymentController {
         SingleResponse<PaymentFailureResult> result = paymentService.requestFail(paymentResult);
 
         ModelAndView mav = new ModelAndView("redirect:/error");
-        mav.addObject("result", result);
+        mav.addObject("data", result.getData());
 
         return mav;
     }
