@@ -62,7 +62,7 @@ public class MemberAdapter implements MemberRepository {
     public void signup(final MemberSignupToShopMember signupRequestToShopMember) {
         HttpEntity<MemberSignupToShopMember> response = new HttpEntity<>(signupRequestToShopMember, buildHeaders());
         ResponseEntity<Void> exchange =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.POST, response, Void.class);
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/signup", HttpMethod.POST, response, Void.class);
 
         this.checkResponseUri(exchange);
     }

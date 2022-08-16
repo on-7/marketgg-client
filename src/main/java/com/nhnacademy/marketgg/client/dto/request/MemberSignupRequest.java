@@ -52,7 +52,7 @@ public class MemberSignupRequest {
     private final String provider;
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.password);
+        this.password = passwordEncoder.encode(this.email + this.password);
     }
 
     public MemberSignupToAuth getSignupRequestToAuth() {
