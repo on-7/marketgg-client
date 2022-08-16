@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -50,9 +49,10 @@ public class WebSecurityConfig {
             .logout().disable();
 
         http.authorizeRequests()
+            .antMatchers("/", "/index", "/login", "/signup").permitAll()
             .antMatchers("/admin/**").hasRole("ADMIN")
             // TODO: 로그인이 필요한 경로 추가 해야합니다.
-            .antMatchers("/logout", "/cart/**").authenticated()
+            .antMatchers( "/cart/**").authenticated()
             .anyRequest().permitAll();
 
         http.headers()
