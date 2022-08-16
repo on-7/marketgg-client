@@ -1,13 +1,9 @@
 package com.nhnacademy.marketgg.client.repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductModifyRequest;
+import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
-import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -70,7 +66,7 @@ public interface ProductRepository {
      * @since 1.0.0
      */
     void updateProduct(final Long productId, final MultipartFile image,
-                       final ProductModifyRequest productRequest)
+                       final ProductUpdateRequest productRequest)
         throws IOException;
 
     /**
@@ -90,7 +86,8 @@ public interface ProductRepository {
      * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword, final Integer page);
+    List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword,
+                                                            final Integer page);
 
     /**
      * 지정한 카테고리 번호 내에서 선택한 옵션으로 가격이 정렬된 상품 목록을 반환합니다.
@@ -102,6 +99,7 @@ public interface ProductRepository {
      * @return 선택한 카테고리 번호내에서 선택한 정렬옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option, final String keyword, final Integer page);
+    List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option,
+                                                         final String keyword, final Integer page);
 
 }

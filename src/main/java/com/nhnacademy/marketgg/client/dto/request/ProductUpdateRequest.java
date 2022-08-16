@@ -4,19 +4,21 @@ import java.time.LocalDate;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 /**
- * 상품 생성을 위한 DTO 입니다.
+ * 상품 수정을 위한 DTO 입니다.
  *
- * @author 조현진, 민아영
+ * @author 조현진
  */
-
 @RequiredArgsConstructor
 @Getter
-public class ProductCreateRequest {
+public class ProductUpdateRequest {
 
+    @NotNull(message = "자원번호는 null일수 없습니다.")
+    private final Long assetNo;
     @NotBlank(message = "카테고리는 null일수 없습니다.")
     private final String categoryCode;
     @NotNull(message = "라벨번호는 null일수 없습니다.")
@@ -39,8 +41,8 @@ public class ProductCreateRequest {
     private final String origin;
     @NotBlank(message = "제대로된 값을 입력해주세요. 포장 종류는 null, 공백일 수 없습니다.")
     private final String packageType;
-    @NotNull(message = "유통기한은 null일수 없습니다.")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "유통기한은 null일수 없습니다.")
     private final LocalDate expirationDate;
     @NotBlank(message = "제대로된 값을 입력해주세요. 알러지정보는 null, 공백일 수 없습니다.")
     private final String allergyInfo;
