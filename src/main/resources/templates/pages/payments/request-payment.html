@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
+
+    <head>
+        <title>Market GG | 결제 진행</title>
+
+        <!-- 토스 결제창을 띄우기 위해 넣어줘야 한다. requestPayment() 메서드를 이용해서 토스에서 제공하는 결제창을 띄울 수 있다. -->
+        <script src="https://js.tosspayments.com/v1"></script>
+        <script th:src="@{/plugins/tosspayments/js/payment.js}" defer></script>
+    </head>
+
+    <body>
+        <main>
+            <h1>결제 요청이 진행중입니다.</h1>
+        </main>
+    </body>
+
+</html>
