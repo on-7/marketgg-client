@@ -19,6 +19,7 @@ import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
+import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import com.nhnacademy.marketgg.client.web.member.MemberAjaxController;
 import com.nhnacademy.marketgg.client.web.member.MemberController;
 import java.time.LocalDateTime;
@@ -39,8 +40,8 @@ import org.springframework.web.client.RestTemplate;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest({
-        MemberController.class,
-        MemberAjaxController.class
+    MemberController.class,
+    MemberAjaxController.class
 })
 class MemberControllerTest {
 
@@ -58,6 +59,9 @@ class MemberControllerTest {
 
     @MockBean
     GivenCouponService givenCouponService;
+
+    @MockBean
+    ProductInquiryService productInquiryService;
 
     @MockBean
     RedisTemplate<String, JwtInfo> redisTemplate;
@@ -120,9 +124,9 @@ class MemberControllerTest {
         boolean hasNotReferrer = false;
 
         mockMvc.perform(post("/marketgg/members/use/email")
-                                .content(objectMapper.writeValueAsString(
-                                        new EmailRequest("aaa@naver.com", hasNotReferrer)))
-                                .contentType(MediaType.APPLICATION_JSON))
+                   .content(objectMapper.writeValueAsString(
+                       new EmailRequest("aaa@naver.com", hasNotReferrer)))
+                   .contentType(MediaType.APPLICATION_JSON))
                .andExpect(status().isOk());
 
         then(memberService).should(times(1)).useEmail(any(EmailRequest.class));
@@ -138,8 +142,8 @@ class MemberControllerTest {
         willDoNothing().given(givenCouponService).registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
 
         mockMvc.perform(post("/members/{memberId}/coupons", 1L)
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .content(content))
+                   .contentType(MediaType.APPLICATION_JSON)
+                   .content(content))
                .andExpect(status().is3xxRedirection());
 
         then(givenCouponService).should(times(1)).registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
@@ -152,7 +156,7 @@ class MemberControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(get("/members/{memberId}/coupons", 1L))
                                      .andExpect(status().isOk())
-                                     .andExpect(view().name("/mygg/coupons/index"))
+                                     .andExpect(view().name("mygg/coupons/index"))
                                      .andReturn();
         Map<String, Object> resultModel = Objects.requireNonNull(mvcResult.getModelAndView()).getModel();
 

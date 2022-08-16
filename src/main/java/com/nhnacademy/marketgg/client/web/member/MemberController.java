@@ -4,8 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.Alert;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
+import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +36,7 @@ public class MemberController {
 
     private final MemberService memberService;
     private final GivenCouponService givenCouponService;
+    private final ProductInquiryService inquiryService;
 
     private static final String DEFAULT_MEMBER = "/members";
 
@@ -114,9 +119,31 @@ public class MemberController {
     public ModelAndView retrieveOwnCoupons(@PathVariable final Long memberId) {
         List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(memberId);
 
-        ModelAndView mav = new ModelAndView("/mygg/coupons/index");
+        ModelAndView mav = new ModelAndView("mygg/coupons/index");
         mav.addObject("coupons", responses);
         mav.addObject("memberId", memberId);
+
+        return mav;
+    }
+
+    /**
+     * 회원이 작성한 전체 상품 문의 조회할 수 있는 @GetMapping 을 지원합니다.
+     *
+     * @return 회원이 작성한 모든 상품 문의 목록 정보를 가지고 My gg 페이지의 상품 문의 조회 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
+     * @throws JsonProcessingException  - 응답으로 온 Json 데이터를 역직렬화 시 발생하는 예외입니다.
+     * @author 민아영
+     * @since 1.0.0
+     */
+    @GetMapping("/product-inquiries")
+    public ModelAndView retrieveProductInquiry()
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+
+        List<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByMember();
+
+        ModelAndView mav = new ModelAndView("mygg/inquiries/index");
+        mav.addObject("inquiries", inquiries);
 
         return mav;
     }
