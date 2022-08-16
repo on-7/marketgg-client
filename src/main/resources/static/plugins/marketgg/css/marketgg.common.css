@@ -31,6 +31,14 @@ nav {
     flex: 1;
 }
 
+main {
+    height: 100vh;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    padding: 5rem;
+}
+
 footer {
     width: 1050px;
     color: #ddd;
