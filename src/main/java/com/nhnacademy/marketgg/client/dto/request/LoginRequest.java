@@ -18,6 +18,7 @@ public class LoginRequest {
     private String password;
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.password);
+        this.password = passwordEncoder.encode(this.email + this.password);
     }
+
 }
