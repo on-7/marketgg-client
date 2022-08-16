@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -69,7 +70,7 @@ public class AdminProductController {
      */
     @PostMapping
     public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
-                                      @RequestPart @Valid final ProductCreateRequest productRequest,
+                                      @ModelAttribute @Valid final ProductCreateRequest productRequest,
                                       BindingResult bindingResult)
         throws IOException {
 
@@ -203,11 +204,12 @@ public class AdminProductController {
     @PutMapping("/{productId}")
     public ModelAndView updateProduct(@PathVariable final Long productId,
                                       @RequestPart(value = "image") final MultipartFile image,
-                                      @RequestPart @Valid final ProductUpdateRequest productRequest,
+                                      @ModelAttribute @Valid final ProductUpdateRequest productRequest,
                                       BindingResult bindingResult)
         throws IOException {
 
         if (bindingResult.hasErrors()) {
+            log.info(bindingResult.getAllErrors().get(0).toString());
             return new ModelAndView(DEFAULT_PRODUCT_VIEW);
         }
 

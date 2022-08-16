@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
@@ -33,6 +34,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.client.RestTemplate;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(ReviewController.class)
@@ -50,6 +52,9 @@ class ReviewControllerTest {
     @MockBean
     RedisTemplate<String, JwtInfo> redisTemplate;
 
+    @MockBean
+    RestTemplate restTemplate;
+
     private static final String DEFAULT_PRODUCT = "/products";
     private static final String PRODUCT_ID = "/1";
 
@@ -59,7 +64,7 @@ class ReviewControllerTest {
     private ReviewResponse reviewResponse;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws JsonProcessingException {
         reviewCreateRequest = Dummy.getDummyReviewCreateRequest();
         reviewUpdateRequest = Dummy.getDummyReviewUpdateRequest();
         memberInfo = Dummy.getDummyMemberInfo();
@@ -72,14 +77,12 @@ class ReviewControllerTest {
         willDoNothing().given(reviewService)
                        .createReview(anyLong(), any(MemberInfo.class), any(ReviewCreateRequest.class));
 
-        String reviewRequest = objectMapper.writeValueAsString(reviewCreateRequest);
-
         this.mockMvc.perform(post(DEFAULT_PRODUCT + PRODUCT_ID + "/reviews")
-                                 .contentType(MediaType.APPLICATION_JSON)
-                                 .content(reviewRequest)
-                                 .content(objectMapper.writeValueAsString(memberInfo)))
+                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                 .content("content=리뷰 후기 content 입니다.10글자&rating=5"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:/" + "products/product-view"));
+
 
         then(reviewService).should(times(1))
                            .createReview(anyLong(), any(MemberInfo.class), any(ReviewCreateRequest.class));
@@ -118,12 +121,9 @@ class ReviewControllerTest {
         willDoNothing().given(reviewService).updateReview(anyLong(), anyLong(), any(MemberInfo.class), any(
             ReviewUpdateRequest.class));
 
-        String updateRequest = objectMapper.writeValueAsString(reviewUpdateRequest);
-
         this.mockMvc.perform(put(DEFAULT_PRODUCT + PRODUCT_ID + "/reviews" + "/{reviewId}", 1)
-                                 .contentType(MediaType.APPLICATION_JSON)
-                                 .content(objectMapper.writeValueAsString(memberInfo))
-                                 .content(updateRequest))
+                                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                 .content("reviewId=1&assetId=1&content=리뷰 후기 content 입니다.10글자&rating=5"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:/" + "products/product-view"));
 

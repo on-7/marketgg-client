@@ -76,8 +76,6 @@ class AdminProductControllerTest {
     @MockBean
     RedisTemplate<String, JwtInfo> redisTemplate;
 
-    private ProductCreateRequest productCreateRequest;
-    private ProductUpdateRequest productUpdateRequest;
     private ProductResponse productResponse;
     private ImageResponse imageResponse;
     private CategoryRetrieveResponse categoryRetrieveResponse;
@@ -89,8 +87,6 @@ class AdminProductControllerTest {
 
     @BeforeEach
     void setUp() {
-        productCreateRequest = Dummy.getDummyProductCreateRequest();
-        productUpdateRequest = Dummy.getDummyProductUpdateRequest();
         productResponse = Dummy.getDummyProductResponse();
         imageResponse = Dummy.getDummyImageResponse();
         categoryRetrieveResponse = Dummy.getDummyCategoryResponse();
@@ -108,17 +104,13 @@ class AdminProductControllerTest {
                        .createProduct(any(MultipartFile.class), any(ProductCreateRequest.class));
 
         MockMultipartFile image = getImage();
-        String productRequest = objectMapper.writeValueAsString(productCreateRequest);
-
-        MockMultipartFile dto = new MockMultipartFile("productRequest",
-                                                      "jsondata",
-                                                      "application/json",
-                                                      productRequest.getBytes(StandardCharsets.UTF_8));
 
         ResultActions resultActions =
-            this.mockMvc.perform(multipart(DEFAULT_PRODUCT_URI).file(image).file(dto).headers(httpHeaders)
+            this.mockMvc.perform(multipart(DEFAULT_PRODUCT_URI).file(image)
+                                                               .headers(httpHeaders)
                                                                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                                                               .contentType(MediaType.APPLICATION_JSON));
+                                                               .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                     .content(Dummy.getDummyModelAttributeProductCreateRequest()));
 
         MvcResult mvcResult = resultActions.andExpect(status().is3xxRedirection()).andExpect(view().name(
             "redirect:" + DEFAULT_PRODUCT_URI + "/index")).andReturn();
@@ -188,12 +180,6 @@ class AdminProductControllerTest {
                                                             any(ProductUpdateRequest.class));
 
         MockMultipartFile image = getImage();
-        String productRequest = objectMapper.writeValueAsString(productUpdateRequest);
-
-        MockMultipartFile dto = new MockMultipartFile("productRequest",
-                                                      "jsondata",
-                                                      "application/json",
-                                                      productRequest.getBytes(StandardCharsets.UTF_8));
 
         MockMultipartHttpServletRequestBuilder builder = multipart(DEFAULT_PRODUCT_URI + "/{productId}", 1);
         builder.with(request -> {
@@ -201,9 +187,10 @@ class AdminProductControllerTest {
             return request;
         });
 
-        ResultActions resultActions = this.mockMvc.perform(builder.file(image).file(dto).headers(httpHeaders)
+        ResultActions resultActions = this.mockMvc.perform(builder.file(image).headers(httpHeaders)
                                                                   .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-                                                                  .contentType(MediaType.APPLICATION_JSON));
+                                                                  .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                                                               .content(Dummy.getDummyModelAttributeProductUpdateRequest()));
 
         MvcResult mvcResult = resultActions.andExpect(status().is3xxRedirection())
                                            .andExpect(view().name(

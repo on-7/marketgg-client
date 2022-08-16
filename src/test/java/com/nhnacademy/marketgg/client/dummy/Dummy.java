@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.dummy;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
@@ -11,33 +10,23 @@ import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
-import java.io.FileInputStream;
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Dummy {
 
     public static ReviewCreateRequest getDummyReviewCreateRequest() {
-        ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest();
-        ReflectionTestUtils.setField(reviewCreateRequest, "content", "테스트용 리뷰 생성 DTO 입니다");
-        ReflectionTestUtils.setField(reviewCreateRequest, "rating", 5L);
+        ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest("테스트용 리뷰 생성 DTO 입니다", 5L);
 
         return reviewCreateRequest;
     }
 
     public static ReviewUpdateRequest getDummyReviewUpdateRequest() {
-        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest();
-        ReflectionTestUtils.setField(reviewUpdateRequest, "reviewId", 1L);
-        ReflectionTestUtils.setField(reviewUpdateRequest, "assetId", 1L);
-        ReflectionTestUtils.setField(reviewUpdateRequest, "content", "테스트용 리뷰 수정 DTO입니다");
-        ReflectionTestUtils.setField(reviewUpdateRequest, "rating", 3L);
+        ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest(1L, 1L, "테스트용 리뷰 수정 DTO입니다", 3L);
 
         return reviewUpdateRequest;
     }
@@ -73,46 +62,30 @@ public class Dummy {
     }
 
     public static ProductCreateRequest getDummyProductCreateRequest() {
-        ProductCreateRequest productRequest = new ProductCreateRequest();
-
-        ReflectionTestUtils.setField(productRequest, "categoryCode", "001");
-        ReflectionTestUtils.setField(productRequest, "labelNo", 1L);
-        ReflectionTestUtils.setField(productRequest, "name", "상품 request DTO 이름");
-        ReflectionTestUtils.setField(productRequest, "content", "상품 request DTO Content");
-        ReflectionTestUtils.setField(productRequest, "totalStock", 100L);
-        ReflectionTestUtils.setField(productRequest, "price", 100_000L);
-        ReflectionTestUtils.setField(productRequest, "description", "상품 request DTO Description");
-        ReflectionTestUtils.setField(productRequest, "unit", "상품 request DTO unit");
-        ReflectionTestUtils.setField(productRequest, "deliveryType", "상품 request DTO deliveryType");
-        ReflectionTestUtils.setField(productRequest, "origin", "상품 request DTO origin");
-        ReflectionTestUtils.setField(productRequest, "packageType", "상품 request DTO packageType");
-        ReflectionTestUtils.setField(productRequest, "expirationDate", LocalDate.now());
-        ReflectionTestUtils.setField(productRequest, "allergyInfo", "상품 request DTO allergyInfo");
-        ReflectionTestUtils.setField(productRequest, "capacity", "상품 request DTO capacity");
+        ProductCreateRequest productRequest =
+            new ProductCreateRequest("001", 1L, "자몽", "자몽 맛있음", 100L,
+                                     100000L, "자몽설명", "1박스", "냉장", "미국",
+                                     "냉장", LocalDate.now(), "없음", "1개");
 
         return productRequest;
     }
 
-    public static ProductUpdateRequest getDummyProductUpdateRequest() {
-        ProductUpdateRequest productRequest = new ProductUpdateRequest();
+    public static String getDummyModelAttributeProductCreateRequest() {
+        return "categoryCode=001&labelNo=1&name=자몽자몽&content=자몽컨텐트&totalStock=100&price=100000&description=자몽설명&" +
+            "unit=1박스&deliveryType=냉장&origin=미국&packageType=일반&expirationDate=2022-01-02&allergyInfo=없음&capacity=20개";
+    }
 
-        ReflectionTestUtils.setField(productRequest, "categoryCode", "001");
-        ReflectionTestUtils.setField(productRequest, "labelNo", 1L);
-        ReflectionTestUtils.setField(productRequest, "name", "자몽");
-        ReflectionTestUtils.setField(productRequest, "content", "아침에 자몽 쥬스");
-        ReflectionTestUtils.setField(productRequest, "totalStock", 100L);
-        ReflectionTestUtils.setField(productRequest, "price", 2000L);
-        ReflectionTestUtils.setField(productRequest, "description", "자몽주스 설명");
-        ReflectionTestUtils.setField(productRequest, "unit", "1박스");
-        ReflectionTestUtils.setField(productRequest, "deliveryType", "샛별배송");
-        ReflectionTestUtils.setField(productRequest, "origin", "인도네시아");
-        ReflectionTestUtils.setField(productRequest, "packageType", "냉장");
-        ReflectionTestUtils.setField(productRequest, "allergyInfo", "새우알러지");
-        ReflectionTestUtils.setField(productRequest, "expirationDate", LocalDate.now());
-        ReflectionTestUtils.setField(productRequest, "capacity", "20개");
-        ReflectionTestUtils.setField(productRequest, "assetNo", 1L);
+    public static ProductUpdateRequest getDummyProductUpdateRequest() {
+        ProductUpdateRequest productRequest = new ProductUpdateRequest(1L, "001", 1L, "자몽", "자몽 맛있음", 100L,
+                                                                       100000L, "자몽설명", "1박스", "냉장", "미국",
+                                                                       "냉장", LocalDate.now(), "없음", "1개");
 
         return productRequest;
+    }
+
+    public static String getDummyModelAttributeProductUpdateRequest() {
+        return "assetNo=1&categoryCode=001&labelNo=1&name=자몽자몽&content=자몽컨텐트&totalStock=100&price=100000&description=자몽설명&" +
+            "unit=1박스&deliveryType=냉장&origin=미국&packageType=일반&expirationDate=2022-01-02&allergyInfo=없음&capacity=20개";
     }
 
     public static ProductResponse getDummyProductResponse() {

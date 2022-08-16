@@ -5,45 +5,48 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 /**
  * 상품 수정을 위한 DTO 입니다.
  *
  * @author 조현진
  */
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class ProductUpdateRequest {
 
     @NotNull(message = "자원번호는 null일수 없습니다.")
-    private Long assetNo;
+    private final Long assetNo;
     @NotBlank(message = "카테고리는 null일수 없습니다.")
-    private String categoryCode;
+    private final String categoryCode;
     @NotNull(message = "라벨번호는 null일수 없습니다.")
-    private Long labelNo;
-    @NotBlank(message = "상품명은 null일수 없습니다.")
-    private String name;
-    @NotBlank(message = "content는 null일수 없습니다.")
-    private String content;
+    private final Long labelNo;
+    @NotBlank(message = "제대로된 값을 입력해주세요. 상품 이름은 null, 공백일 수 없습니다.")
+    private final String name;
+    @NotBlank(message = "제대로된 값을 입력해주세요. content는 null, 공백일 수 없습니다.")
+    private final String content;
     @NotNull(message = "재고는 null일수 없습니다.")
-    private Long totalStock;
+    private final Long totalStock;
     @NotNull(message = "가격은 null일수 없습니다.")
-    private Long price;
-    @NotBlank(message = "상품 설명은 null일수 없습니다.")
-    private String description;
-    @NotBlank(message = "unit은 null일수 없습니다.")
-    private String unit;
-    @NotBlank(message = "배송 타입은 null일수 없습니다.")
-    private String deliveryType;
-    @NotBlank(message = "원산지는 null일수 없습니다.")
-    private String origin;
-    @NotBlank(message = "포장 타입은 null일수 없습니다.")
-    private String packageType;
+    private final Long price;
+    @NotBlank(message = "제대로된 값을 입력해주세요. 상품설명은 null, 공백일 수 없습니다.")
+    private final String description;
+    @NotBlank(message = "제대로된 값을 입력해주세요. 단위는 null, 공백일 수 없습니다.")
+    private final String unit;
+    @NotBlank(message = "제대로된 값을 입력해주세요. 배송타입은 null, 공백일 수 없습니다.")
+    private final String deliveryType;
+    @NotBlank(message = "제대로된 값을 입력해주세요. 원산지는 null, 공백일 수 없습니다.")
+    private final String origin;
+    @NotBlank(message = "제대로된 값을 입력해주세요. 포장 종류는 null, 공백일 수 없습니다.")
+    private final String packageType;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "유통기한은 null일수 없습니다.")
-    private LocalDate expirationDate;
-    @NotBlank(message = "알러지 정보는 null일수 없습니다.")
-    private String allergyInfo;
-    @NotBlank(message = "capacity는 null일수 없습니다.")
-    private String capacity;
+    private final LocalDate expirationDate;
+    @NotBlank(message = "제대로된 값을 입력해주세요. 알러지정보는 null, 공백일 수 없습니다.")
+    private final String allergyInfo;
+    @NotBlank(message = "제대로된 값을 입력해주세요. 용량은 null, 공백일 수 없습니다.")
+    private final String capacity;
 
 }
