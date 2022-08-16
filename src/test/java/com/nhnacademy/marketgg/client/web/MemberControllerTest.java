@@ -21,12 +21,10 @@ import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import com.nhnacademy.marketgg.client.web.member.MemberAjaxController;
 import com.nhnacademy.marketgg.client.web.member.MemberController;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,25 +1,5 @@
 package com.nhnacademy.marketgg.client.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import com.nhnacademy.marketgg.client.service.CategoryService;
-import com.nhnacademy.marketgg.client.web.admin.AdminCategoryController;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -32,6 +12,25 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
+import com.nhnacademy.marketgg.client.service.CategoryService;
+import com.nhnacademy.marketgg.client.web.admin.AdminCategoryController;
+import java.util.List;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(AdminCategoryController.class)

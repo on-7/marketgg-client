@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -9,9 +8,7 @@ import static org.mockito.Mockito.times;
 
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultMemberService;
-
 import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

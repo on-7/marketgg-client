@@ -1,9 +1,19 @@
 package com.nhnacademy.marketgg.client.web;
 
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.times;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.DibService;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +24,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.then;
-import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.times;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(DibAjaxController.class)
@@ -51,10 +50,10 @@ class DibAjaxControllerTest {
         given(dibService.retrieveDibs()).willReturn(List.of(response));
 
         this.mockMvc.perform(post("/dibs")
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .param("productId", "1")
-                                .param("memberId", "1"))
-               .andExpect(status().isOk());
+                                     .contentType(MediaType.APPLICATION_JSON)
+                                     .param("productId", "1")
+                                     .param("memberId", "1"))
+                    .andExpect(status().isOk());
 
         then(dibService).should(times(1)).retrieveDibs();
     }
@@ -65,8 +64,8 @@ class DibAjaxControllerTest {
         given(dibService.retrieveDibs()).willReturn(List.of());
 
         this.mockMvc.perform(post("/dibs")
-                                .contentType(MediaType.APPLICATION_JSON))
-               .andExpect(status().isOk());
+                                     .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
     }
 
     @Test
@@ -75,8 +74,8 @@ class DibAjaxControllerTest {
         willDoNothing().given(dibService).createDib(anyLong());
 
         this.mockMvc.perform(get("/dibs/insert/{productId}", 1L)
-                                .contentType(MediaType.APPLICATION_JSON))
-               .andExpect(status().isOk());
+                                     .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
 
         then(dibService).should(times(1)).createDib(anyLong());
     }
@@ -87,8 +86,8 @@ class DibAjaxControllerTest {
         willDoNothing().given(dibService).deleteDib(anyLong());
 
         this.mockMvc.perform(get("/dibs/delete/{productId}", 1L)
-                                .contentType(MediaType.APPLICATION_JSON))
-               .andExpect(status().isOk());
+                                     .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isOk());
 
         then(dibService).should(times(1)).deleteDib(anyLong());
     }
