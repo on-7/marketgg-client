@@ -150,7 +150,7 @@ class CsPostControllerTest {
         this.mockMvc.perform(post(DEFAULT_POST + "/categories/" + OTO_CODE + "/create")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
-                    .andExpect(status().is3xxRedirection())
+                    .andExpect(status().isOk())
                     .andExpect(view().name(BOARD + "oto-inquiries/create-form"));
     }
 

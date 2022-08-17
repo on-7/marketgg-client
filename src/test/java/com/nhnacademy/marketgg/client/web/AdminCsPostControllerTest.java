@@ -135,7 +135,7 @@ class AdminCsPostControllerTest {
         this.mockMvc.perform(post(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/create", "703")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
-                    .andExpect(status().is3xxRedirection())
+                    .andExpect(status().isOk())
                     .andExpect(view().name(BOARD + "faqs/create-form"));
     }
 
@@ -274,7 +274,7 @@ class AdminCsPostControllerTest {
     }
 
     @Test
-    @DisplayName("1:1 문의 게시글 수정 준비 시도")
+    @DisplayName("1:1 문의 수정 준비 시도")
     void testDoUpdatePostForOto() throws Exception {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
         given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
@@ -291,31 +291,37 @@ class AdminCsPostControllerTest {
     }
 
     @Test
-    @DisplayName("1:1 문의 게시글 수정 실패")
+    @DisplayName("FAQ 게시글 수정 실패")
     void testUpdatePostForOtoFail() throws Exception {
-        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "702", 1L)
+        given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
+        given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
+
+        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "703", 1L)
                                      .param("page", "0")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().isOk())
-                    .andExpect(view().name(BOARD + "oto-inquiries/update-form"));
+                    .andExpect(view().name(BOARD + "faqs/update-form"));
+
+        then(postService).should(times(1)).retrievePost(anyLong(), anyString());
+        then(postService).should(times(1)).retrieveOtoReason();
     }
 
     @Test
-    @DisplayName("1:1 문의 게시글 수정 성공")
+    @DisplayName("FAQ 수정 성공")
     void testUpdatePostForOtoSuccess() throws Exception {
         willDoNothing().given(postService).updatePost(anyLong(), any(PostRequest.class), anyString());
 
-        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "702", 1L)
+        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "703", 1L)
                                      .param("page", "0")
-                                     .param("categoryCode", "702")
+                                     .param("categoryCode", "703")
                                      .param("title", "hello")
                                      .param("content", "안녕하세요.")
                                      .param("reason", "환불"))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702?page=0"));
+                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/703?page=0"));
 
-        then(postService).should(times(0)).updatePost(anyLong(), any(PostRequest.class), anyString());
+        then(postService).should(times(1)).updatePost(anyLong(), any(PostRequest.class), anyString());
     }
 
     @Test
