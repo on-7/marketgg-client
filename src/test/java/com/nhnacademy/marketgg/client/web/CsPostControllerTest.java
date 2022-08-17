@@ -57,6 +57,7 @@ class CsPostControllerTest {
     RedisTemplate<String, JwtInfo> redisTemplate;
 
     private static final String DEFAULT_POST = "/customer-services";
+    private static final String BOARD = "pages/board/";
     private static final String OTO_CODE = "702";
 
     private PostResponseForDetail responseForDetail;
@@ -108,7 +109,7 @@ class CsPostControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}", OTO_CODE)
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/oto-inquiries/index"))
+                                          .andExpect(view().name(BOARD + "oto-inquiries/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -121,7 +122,7 @@ class CsPostControllerTest {
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/" + OTO_CODE + "/create"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/oto-inquiries/create-form")).andReturn();
+                                          .andExpect(view().name(BOARD + "oto-inquiries/create-form")).andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("reasons")).isNotNull();
     }
@@ -150,7 +151,7 @@ class CsPostControllerTest {
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/create"));
+                    .andExpect(view().name(BOARD + "oto-inquiries/create-form"));
     }
 
     @Test
@@ -161,7 +162,7 @@ class CsPostControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postNo}", "703", 1L)
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/faqs/detail"))
+                                          .andExpect(view().name(BOARD + "faqs/detail"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("response")).isNotNull();
@@ -176,7 +177,7 @@ class CsPostControllerTest {
                 this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postNo}", OTO_CODE, 1L)
                                              .param("page", "0"))
                             .andExpect(status().isOk())
-                            .andExpect(view().name("pages/board/oto-inquiries/detail"))
+                            .andExpect(view().name(BOARD + "oto-inquiries/detail"))
                             .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("response")).isNotNull();
@@ -191,7 +192,7 @@ class CsPostControllerTest {
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/notices/index"))
+                                          .andExpect(view().name(BOARD + "notices/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -220,7 +221,7 @@ class CsPostControllerTest {
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/faqs/index"))
+                                          .andExpect(view().name(BOARD + "faqs/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();

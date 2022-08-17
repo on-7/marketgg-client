@@ -63,6 +63,7 @@ class AdminCsPostControllerTest {
     RedisTemplate<String, JwtInfo> redisTemplate;
 
     private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
+    private static final String BOARD = "pages/board/";
 
     private PostResponseForDetail responseForDetail;
     private PostResponse response;
@@ -98,7 +99,7 @@ class AdminCsPostControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}", categoryCode)
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/" + type + "/index"))
+                                          .andExpect(view().name(BOARD + type + "/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -114,7 +115,7 @@ class AdminCsPostControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}", "702")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/oto-inquiries/index"))
+                                          .andExpect(view().name(BOARD + "oto-inquiries/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -125,7 +126,7 @@ class AdminCsPostControllerTest {
     void testDoCreatePost() throws Exception {
         this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/create", "703"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("pages/board/faqs/create-form"));
+                    .andExpect(view().name(BOARD + "faqs/create-form"));
     }
 
     @Test
@@ -135,7 +136,7 @@ class AdminCsPostControllerTest {
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/703/create"));
+                    .andExpect(view().name(BOARD + "faqs/create-form"));
     }
 
     @Test
@@ -163,7 +164,7 @@ class AdminCsPostControllerTest {
                 this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}", "703", 1L)
                                              .param("page", "0"))
                             .andExpect(status().isOk())
-                            .andExpect(view().name("pages/board/faqs/detail"))
+                            .andExpect(view().name(BOARD + "faqs/detail"))
                             .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("response")).isNotNull();
@@ -194,7 +195,7 @@ class AdminCsPostControllerTest {
                                              .param("keyword", "hi")
                                              .param("page", "0"))
                             .andExpect(status().isOk())
-                            .andExpect(view().name("pages/board/" + type + "/index"))
+                            .andExpect(view().name(BOARD + type + "/index"))
                             .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -230,7 +231,7 @@ class AdminCsPostControllerTest {
                                     .param("optionType", "reason")
                                     .param("option", "환불"))
                             .andExpect(status().isOk())
-                            .andExpect(view().name("pages/board/oto-inquiries/index"))
+                            .andExpect(view().name(BOARD + "oto-inquiries/index"))
                             .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -250,7 +251,7 @@ class AdminCsPostControllerTest {
                                     .param("optionType", "status")
                                     .param("option", "종료"))
                             .andExpect(status().isOk())
-                            .andExpect(view().name("pages/board/oto-inquiries/index"))
+                            .andExpect(view().name(BOARD + "oto-inquiries/index"))
                             .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -266,7 +267,7 @@ class AdminCsPostControllerTest {
                                           get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/{postNo}/update", "701", 1L)
                                                   .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/notices/update-form"))
+                                          .andExpect(view().name(BOARD + "notices/update-form"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("reasons")).isNotNull();
@@ -296,8 +297,8 @@ class AdminCsPostControllerTest {
                                      .param("page", "0")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_ADMIN_POST + "/categories/702/1/update?page=0"));
+                    .andExpect(status().isOk())
+                    .andExpect(view().name(BOARD + "oto-inquiries/update-form"));
     }
 
     @Test
