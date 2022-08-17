@@ -38,7 +38,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/delete'">
+                    <form th:method="post" th:action="'/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/delete'">
                         <input type="hidden" name="page" th:value="${page}">
                         <input type="hidden" name="_method" value="delete"/>
                         <input class="btn btn-danger" type="submit" th:value="#{삭제}">
@@ -70,8 +70,11 @@
                 </div>
             </div>
             <div style="text-align: center; display: flex; justify-content: center">
-                <form th:method="post" th:action="'/customer-services/'+${response.id}">
-                    <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols = "40" rows = "5" name="content" th:placeholder="#{답변을입력해주세요}"></textarea><br/>
+                <form th:object="${commentRequest}" th:method="post" th:action="'/customer-services/'+${response.id}">
+                    <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols = "40" rows = "5" name="content" th:placeholder="#{답변을입력해주세요}"></textarea>
+                    <div class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">답변을 잘못 입력했음</div>
+                    <br/>
+                    <input type="hidden" name="page" th:value="${page}">
                     <input class="btn-primary fa-pull-right" type="submit" th:value="#{답변등록}">
                 </form>
             </div>
