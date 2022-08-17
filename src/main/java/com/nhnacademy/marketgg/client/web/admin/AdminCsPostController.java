@@ -39,6 +39,7 @@ public class AdminCsPostController {
     private final PostService postService;
 
     private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
+    private static final String BOARD = "pages/board/";
     private static final String NOTICE_CODE = "701";
     private static final String OTO_CODE = "702";
     private static final String FAQ_CODE = "703";
@@ -57,7 +58,7 @@ public class AdminCsPostController {
     public ModelAndView index(@PathVariable @Size(min = 1, max = 6) final String categoryCode, @RequestParam @Min(0) final Integer page)
         throws JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/index");
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/index");
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -83,7 +84,7 @@ public class AdminCsPostController {
     @GetMapping("/categories/{categoryCode}/create")
 
     public ModelAndView doCreate(@PathVariable final String categoryCode) {
-        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/create-form");
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/create-form");
         mav.addObject("code", categoryCode);
 
         return mav;
@@ -104,7 +105,7 @@ public class AdminCsPostController {
     ) throws JsonProcessingException {
 
         if(bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/create");
+            return new ModelAndView(BOARD + this.convertToType(categoryCode) + "/create-form");
         }
 
         ModelAndView mav = new ModelAndView(
@@ -126,7 +127,7 @@ public class AdminCsPostController {
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
                                      @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
 
-        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/detail");
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
         mav.addObject("isAdmin", "yes");
         mav.addObject("response", postService.retrievePost(postNo, categoryCode));
@@ -150,20 +151,14 @@ public class AdminCsPostController {
                                           @RequestParam @Min(0) final Integer page) {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
-
-        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/index");
         List<PostResponse> responses = postService.searchForCategory(categoryCode, request);
+
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/index");
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
         mav.addObject("searchType", "default");
-        mav.addObject("isAdmin", "yes");
-        mav.addObject("keyword", keyword);
-        mav.addObject("reasons", postService.retrieveOtoReason());
-        mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("NOTICE_CODE", NOTICE_CODE);
-        mav.addObject("OTO_CODE", OTO_CODE);
-        mav.addObject("FAQ_CODE", FAQ_CODE);
+        this.isAdminAddObject(keyword, mav);
 
         return mav;
     }
@@ -185,19 +180,14 @@ public class AdminCsPostController {
                                         @RequestParam @Min(0) final Integer page) {
 
         SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
-        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(OTO_CODE) + "/index");
         List<PostResponse> responses = postService.searchForOption(OTO_CODE, request, optionType, option);
+
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/index");
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
         mav.addObject("searchType", optionType);
-        mav.addObject("isAdmin", "yes");
-        mav.addObject("keyword", keyword);
-        mav.addObject("reasons", postService.retrieveOtoReason());
-        mav.addObject("statusList", postService.retrieveOtoStatus());
-        mav.addObject("NOTICE_CODE", NOTICE_CODE);
-        mav.addObject("OTO_CODE", OTO_CODE);
-        mav.addObject("FAQ_CODE", FAQ_CODE);
+        this.isAdminAddObject(keyword, mav);
         mav.addObject(optionType, option);
 
         return mav;
@@ -221,13 +211,7 @@ public class AdminCsPostController {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
         }
 
-        ModelAndView mav = new ModelAndView("pages/board/" + this.convertToType(categoryCode) + "/update-form");
-        mav.addObject("response", postService.retrievePost(postNo, categoryCode));
-        mav.addObject("reasons", postService.retrieveOtoReason());
-        mav.addObject("page", page);
-        mav.addObject("code", categoryCode);
-
-        return mav;
+        return this.goUpdateForm(categoryCode, postNo, page);
     }
 
     /**
@@ -249,7 +233,7 @@ public class AdminCsPostController {
                                    BindingResult bindingResult) throws JsonProcessingException {
 
         if(bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "/" + postNo + "/update?page=" + page);
+            return this.goUpdateForm(categoryCode, postNo, page);
         }
 
         if (categoryCode.compareTo(OTO_CODE) == 0) {
@@ -324,6 +308,28 @@ public class AdminCsPostController {
             return "faqs";
         }
         throw new NotFoundException("카테고리 분류를 찾을 수 없습니다.");
+    }
+
+    private void isAdminAddObject(@RequestParam @Size(min = 1, max = 30) final String keyword, final ModelAndView mav) {
+        mav.addObject("isAdmin", "yes");
+        mav.addObject("keyword", keyword);
+        mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("statusList", postService.retrieveOtoStatus());
+        mav.addObject("NOTICE_CODE", NOTICE_CODE);
+        mav.addObject("OTO_CODE", OTO_CODE);
+        mav.addObject("FAQ_CODE", FAQ_CODE);
+    }
+
+    private ModelAndView goUpdateForm(@PathVariable @Size(min = 1, max = 6) String categoryCode,
+                                      @PathVariable @Min(1) Long postNo, @RequestParam @Min(0) Integer page) {
+
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/update-form");
+        mav.addObject("response", postService.retrievePost(postNo, categoryCode));
+        mav.addObject("reasons", postService.retrieveOtoReason());
+        mav.addObject("page", page);
+        mav.addObject("code", categoryCode);
+
+        return mav;
     }
 
 }

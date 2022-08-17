@@ -95,7 +95,7 @@ public class CsPostController {
     public ModelAndView createPost(@Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult)
         throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/create");
+            return new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         }
         postService.createPost(postRequest);
 
