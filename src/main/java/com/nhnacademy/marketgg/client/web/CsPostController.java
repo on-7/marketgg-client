@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
@@ -76,7 +77,7 @@ public class CsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/" + OTO_CODE + "/create")
-    public ModelAndView doCreatePost() {
+    public ModelAndView doCreatePost(@ModelAttribute PostRequest postRequest) {
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("code", OTO_CODE);
@@ -112,7 +113,8 @@ public class CsPostController {
      */
     @GetMapping("/categories/{categoryCode}/{postNo}")
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
-                                     @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
+                                     @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page,
+                                     @ModelAttribute CommentRequest commentRequest) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 

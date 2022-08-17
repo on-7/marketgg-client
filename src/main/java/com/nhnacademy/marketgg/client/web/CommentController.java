@@ -51,7 +51,7 @@ public class CommentController {
                                       BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
-            ModelAndView mav = new ModelAndView("pages/board/oto-inquiries/details");
+            ModelAndView mav = new ModelAndView("pages/board/oto-inquiries/detail");
             mav.addObject("response", postService.retrievePost(postNo, OTO_CODE));
             mav.addObject("page", page);
             return mav;

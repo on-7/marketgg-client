@@ -65,10 +65,10 @@ class CommentControllerTest {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(new PostResponseForDetail());
 
         this.mockMvc.perform(post(DEFAULT_POST + "/{postNo}", 1L)
-                                     .param("content", "hello!")
+                                     .param("content", "")
                                      .param("page", "0"))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("pages/board/oto-inquiries/details"));
+                    .andExpect(status().isOk())
+                    .andExpect(view().name("pages/board/oto-inquiries/detail"));
 
         then(postService).should(times(1)).retrievePost(anyLong(), anyString());
     }
