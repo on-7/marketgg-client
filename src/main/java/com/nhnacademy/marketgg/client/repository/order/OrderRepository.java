@@ -42,4 +42,11 @@ public interface OrderRepository {
      */
     void cancelOrder(final Long orderId);
 
+    /**
+     * 관리자가 운송장 번호를 만듭니다.
+     *
+     * @param orderId - 주문 번호
+     */
+    void createTrackingNo(final Long orderId);
+
 }

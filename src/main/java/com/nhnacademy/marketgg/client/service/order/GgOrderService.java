@@ -56,4 +56,14 @@ public class GgOrderService implements OrderService {
         orderRepository.cancelOrder(orderId);
     }
 
+    /**
+     * 관리자가 운송장 번호 만들기를 요청합니다.
+     *
+     * @param orderNo - 주문 번호
+     */
+    @Override
+    public void createTrackingNo(final Long orderNo) {
+        orderRepository.createTrackingNo(orderNo);
+    }
+
 }

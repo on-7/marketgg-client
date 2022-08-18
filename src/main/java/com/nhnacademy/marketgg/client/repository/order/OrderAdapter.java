@@ -108,4 +108,25 @@ public class OrderAdapter implements OrderRepository {
               .retrieve();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param orderId - 주문 번호
+     */
+    @Override
+    public void createTrackingNo(final Long orderId) {
+
+        WebClient client = WebClient.builder()
+                                    .baseUrl(gatewayIp)
+                                    .defaultHeaders(httpHeaders -> {
+                                        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                                        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+                                    })
+                                    .build();
+
+        client.patch()
+              .uri(GgUrlUtils.SHOP_SERVICE_PREFIX_V1 + GgUrlUtils.ORDERS_PATH_PREFIX + "/" + orderId)
+              .retrieve();
+    }
+
 }

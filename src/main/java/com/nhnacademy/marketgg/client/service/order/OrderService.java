@@ -42,4 +42,5 @@ public interface OrderService {
      */
     void cancelOrder(final Long orderId);
 
+    void createTrackingNo(final Long orderNo);
 }
