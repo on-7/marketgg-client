@@ -12,7 +12,7 @@ import static org.mockito.Mockito.times;
 
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
@@ -39,7 +39,7 @@ class PostServiceTest {
     private PostResponse postResponse;
     private PostResponseForDetail postResponseForDetail;
     private PostRequest postRequest;
-    private SearchRequest searchRequest;
+    private SearchRequestForCategory searchRequest;
 
     @BeforeEach
     void setUp() {
@@ -48,7 +48,7 @@ class PostServiceTest {
         ReflectionTestUtils.setField(postResponse, "id", 1L);
         ReflectionTestUtils.setField(postResponseForDetail, "id", 1L);
         postRequest = new PostRequest("701", "hi", "hello", "환불");
-        searchRequest = new SearchRequest("hi", 0, 1);
+        searchRequest = new SearchRequestForCategory("702", "hi", 0, 1);
     }
 
     @Test
@@ -84,10 +84,10 @@ class PostServiceTest {
     @Test
     @DisplayName("카테고리 별 게시글 검색")
     void testSearchForCategory() {
-        given(postRepository.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
+        given(postRepository.searchForCategory(any(SearchRequestForCategory.class))).willReturn(
                 List.of(postResponse));
 
-        List<PostResponse> list = postService.searchForCategory("701", searchRequest);
+        List<PostResponse> list = postService.searchForCategory(searchRequest);
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }
@@ -95,10 +95,10 @@ class PostServiceTest {
     @Test
     @DisplayName("카테고리 내 사유별 게시글 검색")
     void testSearchForReason() {
-        given(postRepository.searchForOption(anyString(), any(SearchRequest.class), anyString(),
+        given(postRepository.searchForOption(any(SearchRequestForCategory.class), anyString(),
                                              anyString())).willReturn(List.of(postResponse));
 
-        List<PostResponse> list = postService.searchForOption("702", searchRequest, "reason", "환불");
+        List<PostResponse> list = postService.searchForOption(searchRequest, "reason", "환불");
 
         assertThat(list.get(0).getId()).isEqualTo(1L);
     }

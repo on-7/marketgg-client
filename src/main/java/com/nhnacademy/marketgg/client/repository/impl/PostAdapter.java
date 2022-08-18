@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
@@ -74,11 +74,11 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> searchForCategory(final String categoryId, final SearchRequest searchRequest) {
+    public List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryId + "/search?keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
-            HttpMethod.GET,
+            gateWayIp + USER + CATEGORIES + searchRequest.getCategoryCode() + "/search?keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
+            HttpMethod.POST,
             requestEntity,
             new ParameterizedTypeReference<>() {
             });
@@ -88,13 +88,13 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> searchForOption(final String categoryId, final SearchRequest searchRequest,
+    public List<PostResponse> searchForOption(final SearchRequestForCategory searchRequest,
                                               final String optionType, final String option) {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + ADMIN + CATEGORIES + categoryId + "/options/" + optionType + "/search?option=" + option + "&keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
-            HttpMethod.GET,
+            gateWayIp + ADMIN + CATEGORIES + searchRequest.getCategoryCode() + "/options/" + optionType + "/search?option=" + option + "&keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
+            HttpMethod.POST,
             requestEntity,
             new ParameterizedTypeReference<>() {
             });

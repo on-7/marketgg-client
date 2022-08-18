@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
@@ -174,7 +174,7 @@ class AdminCsPostControllerTest {
     @ValueSource(strings = { "701", "702", "703" })
     @DisplayName("카테고리 별 검색")
     void testSearchForCategory(String categoryCode) throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
+        given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(List.of(response));
 
         String type = "";
 
@@ -204,7 +204,7 @@ class AdminCsPostControllerTest {
     @Test
     @DisplayName("카테고리 별 검색 (카테고리 X)")
     void testSearchForCategoryCheckNotFoundType() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
+        given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(
                 List.of(response));
 
         this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryCode}/search", "710")
@@ -219,7 +219,7 @@ class AdminCsPostControllerTest {
     @Test
     @DisplayName("카테고리 및 사유별 검색")
     void testSearchForReason() throws Exception {
-        given(postService.searchForOption(anyString(), any(SearchRequest.class), anyString(), anyString())).willReturn(
+        given(postService.searchForOption(any(SearchRequestForCategory.class), anyString(), anyString())).willReturn(
                 List.of(response));
 
         MvcResult mvcResult =
@@ -240,7 +240,7 @@ class AdminCsPostControllerTest {
     @Test
     @DisplayName("카테고리 및 상태별 검색")
     void testSearchForStatus() throws Exception {
-        given(postService.searchForOption(anyString(), any(SearchRequest.class), anyString(), anyString())).willReturn(
+        given(postService.searchForOption(any(SearchRequestForCategory.class), anyString(), anyString())).willReturn(
                 List.of(response));
 
         MvcResult mvcResult =

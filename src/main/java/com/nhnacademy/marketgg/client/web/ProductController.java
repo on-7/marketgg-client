@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
 
     private final ProductService productService;
-    private static final Integer PAGE_SIZE = "10";
+    private static final Integer PAGE_SIZE = 10;
 
     /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 조회 한 후 이동하는 GET Mapping 을 지원합니다.

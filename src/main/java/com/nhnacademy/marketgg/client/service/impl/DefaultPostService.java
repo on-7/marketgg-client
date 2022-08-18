@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
@@ -34,15 +34,15 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> searchForCategory(final String categoryId, final SearchRequest searchRequest) {
-        return postRepository.searchForCategory(categoryId, searchRequest);
+    public List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest) {
+        return postRepository.searchForCategory(searchRequest);
     }
 
     @Override
-    public List<PostResponse> searchForOption(final String categoryId, final SearchRequest searchRequest,
+    public List<PostResponse> searchForOption(final SearchRequestForCategory searchRequest,
                                               final String optionType, final String option) {
 
-        return postRepository.searchForOption(categoryId, searchRequest, optionType, option);
+        return postRepository.searchForOption(searchRequest, optionType, option);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
@@ -132,8 +133,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword,
-                                                                   final Integer page) {
+    public List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 
@@ -147,7 +147,7 @@ public class ProductAdapter implements ProductRepository {
         ResponseEntity<List<SearchProductResponse>> response =
             this.restTemplate.exchange(
                 requestUri,
-                HttpMethod.GET,
+                HttpMethod.POST,
                 httpEntity,
                 new ParameterizedTypeReference<>() {
                 });
@@ -157,8 +157,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option,
-                                                                final String keyword, final Integer page) {
+    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
 
@@ -166,7 +165,7 @@ public class ProductAdapter implements ProductRepository {
             this.restTemplate.exchange(
                 gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/price/" + option + "/search?keyword=" +
                     keyword + "&page=" + page,
-                HttpMethod.GET,
+                HttpMethod.POST,
                 httpEntity,
                 new ParameterizedTypeReference<>() {
                 });

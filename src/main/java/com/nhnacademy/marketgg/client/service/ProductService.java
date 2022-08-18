@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service;
 
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import java.io.IOException;
@@ -80,26 +81,20 @@ public interface ProductService {
     /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 반환합니다.
      *
-     * @param categoryId - 지정한 카테고리의 식별번호입니다.
-     * @param keyword    - 검색어입니다.
-     * @param page       - 조회 할 페이지 정보입니다.
+     * @param searchRequest - 검색을 진행 할 정보입니다.
      * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword,
-                                                            final Integer page);
+    List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest);
 
     /**
      * 지정한 카테고리 번호 내에서 선택한 옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      *
-     * @param categoryId - 지정한 카테고리의 식별번호입니다.
+     * @param searchRequest - 검색을 진행 할 정보입니다.
      * @param option     - 지정한 검색 옵션입니다.
-     * @param keyword    - 검색어입니다.
-     * @param page       - 조회 할 페이지 정보입니다.
      * @return 선택한 카테고리 번호내에서 선택한 정렬옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option,
-                                                         final String keyword, final Integer page);
+    List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option);
 
 }

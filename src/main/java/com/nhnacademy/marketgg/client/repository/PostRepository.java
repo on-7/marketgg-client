@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.repository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import java.util.List;
@@ -48,24 +48,22 @@ public interface PostRepository {
     /**
      * 지정한 카테고리 내에서 검색한 결과 목록을 반환합니다.
      *
-     * @param categoryId  - 지정한 카테고리의 식별번호입니다.
      * @param searchRequest - 검색을 진행할 검색 정보를 담은 객체입니다.
      * @return 지정한 카테고리 내에서 검색한 결과 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<PostResponse> searchForCategory(final String categoryId, final SearchRequest searchRequest);
+    List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest);
 
     /**
      * 지정한 카테고리내에서 지정한 옵션으로 검색한 결과 목록을 반환합니다.
      *
-     * @param categoryId  - 지정한 카테고리의 식별번호입니다.
      * @param searchRequest - 검색을 진행할 검색 정보를 담은 객체입니다.
      * @param optionType    - 검색을 진행할 옵션입니다.
      * @param option        - 검색을 진행할 옵션의 값입니다.
      * @return 지정한 카테고리내에서 지정한 옵션으로 검색한 결과 목록을 반환합니다.
      * @since 1.0.0
      */
-    List<PostResponse> searchForOption(final String categoryId, final SearchRequest searchRequest,
+    List<PostResponse> searchForOption(final SearchRequestForCategory searchRequest,
                                        final String optionType, final String option);
 
     /**

@@ -3,7 +3,6 @@ package com.nhnacademy.marketgg.client.web;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
@@ -53,9 +52,9 @@ public class CsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}")
-    public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page) {
-        ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryCode)));
-        List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
+    public ModelAndView index(@PathVariable final String categoryId, @RequestParam final Integer page) {
+        ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryId)));
+        List<PostResponse> responses = postService.retrievePostList(categoryId, page);
 
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -128,20 +127,22 @@ public class CsPostController {
     /**
      * 지정한 카테고리에서 게시판을 검색합니다.
      *
-     * @param categoryCode - 검색을 진행할 게시판의 타입입니다.
+     * @param categoryId - 검색을 진행할 게시판의 타입입니다.
      * @param keyword      - 검색을 진행할 검색어입니다.
      * @param page         - 조회할 페이지의 페이지 정보입니다.
      * @return 검색 결과 목록을 반환합니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/search")
-    public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+    @GetMapping("/categories/{categoryId}/search")
+    public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                           @RequestParam @Size(min = 1, max = 30) final String keyword,
                                           @RequestParam @Min(0) final Integer page) {
 
-        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/index");
-        SearchRequestForCategory request = new SearchRequestForCategory(categoryCode, keyword, page, PAGE_SIZE);
-        List<PostResponse> responses = postService.searchForCategory(categoryCode, request);
+        ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/index");
+
+        SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
+        List<PostResponse> responses = postService.searchForCategory(request);
+
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
@@ -174,8 +175,8 @@ public class CsPostController {
         return mav;
     }
 
-    private String convertToType(final String categoryCode) {
-        switch (categoryCode) {
+    private String convertToType(final String categoryId) {
+        switch (categoryId) {
             case NOTICE_CODE: {
                 return "notices";
             }

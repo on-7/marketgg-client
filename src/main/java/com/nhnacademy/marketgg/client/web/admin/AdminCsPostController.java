@@ -3,7 +3,6 @@ package com.nhnacademy.marketgg.client.web.admin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
@@ -154,7 +153,7 @@ public class AdminCsPostController {
                                           @RequestParam @Min(0) final Integer page) {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
-        List<PostResponse> responses = postService.searchForCategory(categoryId, request);
+        List<PostResponse> responses = postService.searchForCategory(request);
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/index");
         mav.addObject("page", page);
@@ -182,8 +181,8 @@ public class AdminCsPostController {
                                         @RequestParam @Min(1) final String option,
                                         @RequestParam @Min(0) final Integer page) {
 
-        SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
-        List<PostResponse> responses = postService.searchForOption(OTO_CODE, request, optionType, option);
+        SearchRequestForCategory request = new SearchRequestForCategory(OTO_CODE, keyword, page, PAGE_SIZE);
+        List<PostResponse> responses = postService.searchForOption(request, optionType, option);
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/index");
         mav.addObject("page", page);

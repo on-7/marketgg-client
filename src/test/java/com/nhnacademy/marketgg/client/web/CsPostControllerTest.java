@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
@@ -37,7 +37,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -187,7 +186,7 @@ class CsPostControllerTest {
     @Test
     @DisplayName("카테고리 별 검색")
     void testSearchForCategory() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
+        given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(List.of(response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "701")
                                                            .param("keyword", "hi")
@@ -202,7 +201,7 @@ class CsPostControllerTest {
     @Test
     @DisplayName("카테고리 별 검색 (카테고리 X)")
     void testSearchForCategoryCheckNotFoundType() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
+        given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(
                 List.of(response));
 
         this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "710")
@@ -216,7 +215,7 @@ class CsPostControllerTest {
     @Test
     @DisplayName("카테고리 별 검색 (FAQ)")
     void testSearchForCategoryForFaq() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
+        given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(List.of(response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "703")
                                                            .param("keyword", "hi")
