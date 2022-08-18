@@ -3,7 +3,7 @@
       th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
     <head>
         <meta charset="UTF-8">
-        <title th:text="#{공지사항}"></title>
+        <title th:text="#{NOTICE}"></title>
     </head>
     <body>
         <main>
@@ -12,24 +12,24 @@
                     <table class="table table-striped" style="text-align: center; border: 1px solid #dddddd">
                         <thead>
                             <tr>
-                                <th colspan="3" style="background-color: #eeeeee; text-align: center;" th:text="#{공지사항}"></th>
+                                <th colspan="3" style="background-color: #eeeeee; text-align: center;" th:text="#{NOTICE}"></th>
                             </tr>
                         </thead>
                         <tbody style="background-color: white; border: 1px solid black;">
                             <tr>
-                                <td style="width: 20%"><span style="text-align: center" th:text="#{공지제목}"></span></td>
+                                <td style="width: 20%"><span style="text-align: center" th:text="#{NOTICE_TITLE}"></span></td>
                                 <td colspan="2"><span style="text-align: center" th:text="${response.title}"></span></td>
                             </tr>
                             <tr>
-                                <td><span style="text-align: center" th:text="#{등록일자}"></span></td>
+                                <td><span style="text-align: center" th:text="#{CREATED_AT}"></span></td>
                                 <td colspan="2"><span style="text-align: center" th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span></td>
                             </tr>
                             <tr>
-                                <td><span style="text-align: center" th:text="#{수정일자}"></span></td>
+                                <td><span style="text-align: center" th:text="#{UPDATED_AT}"></span></td>
                                 <td colspan="2"><span style="text-align: center" th:text="${#temporals.format(response.updatedAt, 'yyyy/MM/dd hh:mm:ss')}"></span></td>
                             </tr>
                             <tr>
-                                <td><span style="text-align: center" th:text="#{공지내용}"></span></td>
+                                <td><span style="text-align: center" th:text="#{NOTICE_CONTENT}"></span></td>
                                 <td colspan="2" style="min-height: 200px; text-align: left"><div style="text-align: center; white-space: pre;" th:utext="${response.content}"></div></td>
                             </tr>
                         </tbody>
@@ -37,12 +37,12 @@
                     <div class="row" th:if="${isAdmin == 'yes'}">
                         <form th:method="get" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
                             <input type="hidden" name="page" th:value="${page}">
-                            <input class="btn btn-warning" type="submit" th:value="#{수정}">
+                            <input class="btn btn-warning" type="submit" th:value="#{UPDATE}">
                         </form>
                         <form th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/delete'">
                             <input type="hidden" name="page" th:value="${page}">
                             <input type="hidden" name="_method" value="delete"/>
-                            <input class="btn btn-danger" type="submit" th:value="#{삭제}">
+                            <input class="btn btn-danger" type="submit" th:value="#{DELETE}">
                         </form>
                     </div>
                 </div>

@@ -3,29 +3,29 @@
       th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
     <head>
         <meta charset="UTF-8">
-        <title th:text="#{FAQ등록}"></title>
+        <title th:text="#{FAQ_CREATE}"></title>
     </head>
     <body>
         <main>
             <div style="text-align: center; display: flex; justify-content: center; padding-top: 50px;">
-                <h2 style="background-color: white; border: 1px solid black; padding: 5px" th:text="#{FAQ등록}"></h2>
+                <h2 style="background-color: white; border: 1px solid black; padding: 5px" th:text="#{FAQ_CREATE}"></h2>
             </div>
             <br /><br />
             <div style="text-align: center; display: flex; justify-content: center">
                 <form th:object="${postRequest}" th:method="post" th:action="'/admin/customer-services/categories/'+${code}+'/create'">
-                    <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{FAQ질문내용}"></span><br /><br />
+                    <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{FAQ_QUESTION_CONTENT}"></span><br /><br />
                     <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="6" name="title"
-                              th:placeholder="#{질문을입력하세요}"></textarea>
+                              th:placeholder="#{WRITE_FAQ_QUESTION}"></textarea>
                     <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">질문 내용을 잘못입력함</div>
                     <br />
-                    <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{FAQ답변내용}"></span><br /><br />
+                    <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{FAQ_ANSWER_CONTENT}"></span><br /><br />
                     <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="6" name="content"
-                              th:placeholder="#{FAQ답변을입력하세요}"></textarea>
+                              th:placeholder="#{WRITE_FAQ_ANSWER}"></textarea>
                     <div class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">답변 내용을 잘못입력함</div>
                     <br />
                     <input type="hidden" name="categoryCode" value="703">
                     <input type="hidden" name="reason" value="FAQ">
-                    <input class="btn-primary fa-pull-right" type="submit" th:value="#{등록}">
+                    <input class="btn-primary fa-pull-right" type="submit" th:value="#{ADD}">
                 </form>
             </div>
         </main>

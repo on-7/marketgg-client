@@ -3,58 +3,58 @@
       th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
     <head>
         <meta charset="UTF-8">
-        <title th:text="#{일대일문의게시판}"></title>
+        <title th:text="#{OTO_INQUIRY_BOARD}"></title>
     </head>
     <body>
         <main>
             <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
-                <h2 style="background-color: white; border: 1px outset black; padding: 5px" th:text="#{일대일문의게시판}"></h2>
+                <h2 style="background-color: white; border: 1px outset black; padding: 5px" th:text="#{OTO_INQUIRY_BOARD}"></h2>
             </div>
             <div style="display: flex">
                 <nav style="display: flex; flex: 0.1; padding-left: 30px">
                     <div class="list-group" th:if="${isAdmin == 'yes'}">
-                        <span class="list-group-item active" aria-current="true" th:text="#{게시판목록}"></span>
-                        <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{공지사항}"></a>
-                        <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{일대일문의}"></a>
+                        <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
+                        <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
+                        <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{OTO_INQUIRY}"></a>
                         <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
                     </div>
                     <div class="list-group" th:if="${isAdmin == 'no'}">
-                        <span class="list-group-item active" aria-current="true" th:text="#{게시판목록}"></span>
-                        <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{공지사항}"></a>
-                        <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{일대일문의}"></a>
+                        <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
+                        <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
+                        <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{OTO_INQUIRY}"></a>
                         <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
                     </div>
                 </nav>
                 <div style="display: flex; flex: 0.7; flex-direction: column">
                     <div th:if="${isAdmin == 'yes'}" class="row row-cols-6">
                         <details>
-                            <summary class="btn btn-info" th:text="#{전체검색}"></summary>
+                            <summary class="btn btn-info" th:text="#{ALL_SEARCH}"></summary>
                                     <form th:method="get" th:action="'/admin/customer-services/categories/'+${OTO_CODE}+'/search'">
-                                        <input type="text" name="keyword" th:placeholder="#{검색어를입력하세요}">
+                                        <input type="text" name="keyword" th:placeholder="#{WRITE_SEARCH_KEYWORD}">
                                         <input type="hidden" name="page" value="0">
-                                        <input class="btn btn-primary" type="submit" th:value="#{검색}"><br />
+                                        <input class="btn btn-primary" type="submit" th:value="#{SEARCH}"><br />
                                     </form>
                         </details>
                         <details>
-                            <summary class="btn btn-info" th:text="#{사유검색}"></summary>
+                            <summary class="btn btn-info" th:text="#{SEARCH_BY_REASON}"></summary>
                             <form th:method="get" th:action="'/admin/customer-services/categories/'+${OTO_CODE}+'/options/reason/search'">
                                 <select name="option">
                                     <option th:each="reason : ${reasons}" th:text="${reason}" th:value="${reason}"></option>
                                 </select><br />
-                                <input type="text" name="keyword" th:placeholder="#{검색어를입력하세요}">
+                                <input type="text" name="keyword" th:placeholder="#{WRITE_SEARCH_KEYWORD}">
                                 <input type="hidden" name="page" value="0">
-                                <input class="btn btn-primary" type="submit" th:value="#{검색}"><br />
+                                <input class="btn btn-primary" type="submit" th:value="#{SEARCH}"><br />
                             </form>
                         </details>
                         <details>
-                            <summary class="btn btn-info" th:text="#{상태검색}"></summary>
+                            <summary class="btn btn-info" th:text="#{SEARCH_BY_STATUS}"></summary>
                             <form th:method="get" th:action="'/admin/customer-services/categories/'+${OTO_CODE}+'/options/status/search'">
                                 <select name="option">
                                     <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
                                 </select><br />
-                                <input type="text" name="keyword" th:placeholder="#{검색어를입력하세요}">
+                                <input type="text" name="keyword" th:placeholder="#{WRITE_SEARCH_KEYWORD}">
                                 <input type="hidden" name="page" value="0">
-                                <input class="btn btn-primary" type="submit" th:value="#{검색}"><br />
+                                <input class="btn btn-primary" type="submit" th:value="#{SEARCH}"><br />
                             </form>
                         </details>
                     </div>
@@ -63,12 +63,12 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th th:text="#{게시글번호}"></th>
-                                    <th th:text="#{제목}"></th>
-                                    <th th:text="#{사유}"></th>
-                                    <th th:text="#{상태}"></th>
-                                    <th th:text="#{등록일자}"></th>
-                                    <th th:text="#{상태변경}"></th>
+                                    <th th:text="#{POST_NO}"></th>
+                                    <th th:text="#{TITLE}"></th>
+                                    <th th:text="#{REASON}"></th>
+                                    <th th:text="#{STATUS}"></th>
+                                    <th th:text="#{CREATED_AT}"></th>
+                                    <th th:text="#{STATUS_CHANGE}"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,7 +88,7 @@
                                                 </select><br />
                                                 <input type="hidden" name="_method" value="patch"/>
                                                 <input type="hidden" name="page" th:value="${page}">
-                                                <input class="btn btn-warning" type="submit" th:value="#{상태변경}">
+                                                <input class="btn btn-warning" type="submit" th:value="#{STATUS_CHANGE}">
                                             </form>
                                         </div>
                                     </td>
@@ -100,12 +100,12 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th th:text="#{게시글번호}"></th>
-                                    <th th:text="#{제목}"></th>
-                                    <th th:text="#{사유}"></th>
-                                    <th th:text="#{상태}"></th>
-                                    <th th:text="#{등록일자}"></th>
-                                    <th th:text="#{삭제}"></th>
+                                    <th th:text="#{POST_NO}"></th>
+                                    <th th:text="#{TITLE}"></th>
+                                    <th th:text="#{REASON}"></th>
+                                    <th th:text="#{STATUS}"></th>
+                                    <th th:text="#{CREATED_AT}"></th>
+                                    <th th:text="#{DELETE}"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,7 +121,7 @@
                                         <form th:method="post" th:action="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
                                             <input type="hidden" name="page" th:value="${page}">
                                             <input type="hidden" name="_method" value="delete"/>
-                                            <input class="btn btn-danger" type="submit" th:value="#{삭제}">
+                                            <input class="btn btn-danger" type="submit" th:value="#{DELETE}">
                                         </form>
                                     </td>
                                 </tr>
@@ -130,7 +130,7 @@
                     </div>
                     <br />
                     <form th:method="get" th:action="'/customer-services/categories/'+${OTO_CODE}+'/create'">
-                        <input class="btn-primary fa-pull-right" type="submit" th:value="#{일대일문의등록}">
+                        <input class="btn-primary fa-pull-right" type="submit" th:value="#{OTO_INQUIRY_CREATE}">
                     </form>
                     <div style="text-align: center" th:if="${isAdmin == 'no'}">
                         <div th:if="${searchType == 'no'}">
