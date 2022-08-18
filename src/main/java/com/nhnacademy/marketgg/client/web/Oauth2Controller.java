@@ -45,7 +45,7 @@ public class Oauth2Controller {
 
         String sessionId = session.getId();
 
-        Optional<GoogleProfile> googleProfile = oAuth2Service.getToken(code, sessionId);
+        Optional<GoogleProfile> googleProfile = oAuth2Service.attemptLogin(code, sessionId);
 
         if (googleProfile.isPresent()) {
             redirectAttributes.addFlashAttribute("profile", googleProfile.get());

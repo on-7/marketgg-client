@@ -3,11 +3,12 @@ package com.nhnacademy.marketgg.client.service.impl;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import com.nhnacademy.marketgg.client.repository.AuthRepository;
+import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.service.AuthService;
 import java.util.Date;
 import java.util.Objects;
@@ -83,7 +84,7 @@ public class DefaultAuthService implements AuthService {
             return;
         }
 
-        ResponseEntity<Void> response = authRepository.logout(sessionId);
+        ResponseEntity<CommonResult<String>> response = authRepository.logout(sessionId);
 
         HttpStatus statusCode = response.getStatusCode();
 

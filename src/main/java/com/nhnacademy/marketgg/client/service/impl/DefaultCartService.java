@@ -5,7 +5,7 @@ import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.repository.CartRepository;
+import com.nhnacademy.marketgg.client.repository.cart.CartRepository;
 import com.nhnacademy.marketgg.client.service.CartService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

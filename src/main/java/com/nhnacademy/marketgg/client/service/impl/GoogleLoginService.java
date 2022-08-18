@@ -2,14 +2,12 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.oauth2.TokenRequest;
-import com.nhnacademy.marketgg.client.repository.OauthRepository;
+import com.nhnacademy.marketgg.client.repository.auth.OauthRepository;
 import com.nhnacademy.marketgg.client.service.Oauth2Service;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +46,6 @@ public class GoogleLoginService implements Oauth2Service {
     private String loginRequestUrl;
 
     private final RedisTemplate<String, JwtInfo> redisTemplate;
-    private final ObjectMapper objectMapper;
     private final OauthRepository oauthRepository;
 
     @Override
@@ -61,39 +58,40 @@ public class GoogleLoginService implements Oauth2Service {
     }
 
     @Override
-    public Optional<GoogleProfile> getToken(final String code, final String sessionId) throws JsonProcessingException {
+    public Optional<GoogleProfile> attemptLogin(final String code, final String sessionId) {
         TokenRequest parameters = new TokenRequest(clientId, clientSecret, code);
 
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<TokenRequest> httpEntity =
-            new HttpEntity<>(parameters, headers);
+        HttpEntity<TokenRequest> httpEntity = new HttpEntity<>(parameters, headers);
 
-        ResponseEntity<String> profileResponse = oauthRepository.getProfile(loginRequestUrl, httpEntity);
+        ResponseEntity<CommonResult<GoogleProfile>> profileResponse =
+            oauthRepository.getProfile(loginRequestUrl, httpEntity);
 
-        return setLogin(profileResponse, sessionId);
+        return this.setLogin(profileResponse, sessionId);
     }
 
-    private Optional<GoogleProfile> setLogin(final ResponseEntity<String> profileResponse, final String sessionId)
-        throws JsonProcessingException {
+    private Optional<GoogleProfile> setLogin(final ResponseEntity<CommonResult<GoogleProfile>> profileResponse,
+                                             final String sessionId) {
 
         HttpHeaders headers = profileResponse.getHeaders();
 
-        if (Objects.isNull(profileResponse.getHeaders().get(HttpHeaders.AUTHORIZATION)) || isInvalidHeader(headers)) {
+        if (isLoginFail(profileResponse)) {
+            // 로그인 실패 시 로그인 시도한 프로필 정보를 이용하여 회원가입 진행
+            GoogleProfile profile = Optional.ofNullable(profileResponse.getBody())
+                                            .orElseThrow(LoginFailException::new)
+                                            .getData();
 
-            SingleResponse<GoogleProfile> responseResult =
-                objectMapper.readValue(profileResponse.getBody(), new TypeReference<>() {
-                });
-
-            return Optional.ofNullable(responseResult.getData());
+            return Optional.ofNullable(profile);
         }
 
         String jwt = Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0);
         if (jwt.startsWith(JwtInfo.BEARER)) {
             jwt = jwt.substring(JwtInfo.BEARER_LENGTH);
         }
+
         String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo jwtInfo = new JwtInfo(jwt, expire);
@@ -104,6 +102,12 @@ public class GoogleLoginService implements Oauth2Service {
         redisTemplate.expireAt(sessionId, expireDate);
 
         return Optional.empty();
+    }
+
+    private boolean isLoginFail(ResponseEntity<CommonResult<GoogleProfile>> profileResponse) {
+        return profileResponse.getStatusCode().is4xxClientError()
+            && (Objects.isNull(profileResponse.getHeaders().get(HttpHeaders.AUTHORIZATION))
+            || isInvalidHeader(profileResponse.getHeaders()));
     }
 
     private boolean isInvalidHeader(HttpHeaders headers) {

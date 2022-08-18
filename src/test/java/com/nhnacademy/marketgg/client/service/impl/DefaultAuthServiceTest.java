@@ -10,9 +10,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import com.nhnacademy.marketgg.client.repository.AuthRepository;
+import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import java.time.LocalDateTime;
 import java.util.Date;
 import org.junit.jupiter.api.DisplayName;
@@ -84,7 +85,7 @@ class DefaultAuthServiceTest {
         given(hashOps.get(sessionId, JwtInfo.JWT_REDIS_KEY)).willReturn(jwtInfo);
         given(hashOps.delete(sessionId, JwtInfo.JWT_REDIS_KEY)).willReturn(1L);
 
-        ResponseEntity<Void> resp = ResponseEntity.status(HttpStatus.OK)
+        ResponseEntity<CommonResult<String>> resp = ResponseEntity.status(HttpStatus.OK)
                                                   .build();
         given(authRepository.logout(anyString())).willReturn(resp);
 
@@ -120,8 +121,8 @@ class DefaultAuthServiceTest {
         given(redisTemplate.opsForHash()).willReturn(hashOps);
         given(hashOps.get(sessionId, JwtInfo.JWT_REDIS_KEY)).willReturn(jwtInfo);
 
-        ResponseEntity<Void> resp = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                                  .build();
+        ResponseEntity<CommonResult<String>> resp = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                                                          .build();
         given(authRepository.logout(anyString())).willReturn(resp);
 
         assertThatThrownBy(() -> authService.logout(sessionId))

@@ -13,8 +13,8 @@ import com.nhnacademy.marketgg.client.dto.response.MemberSignupResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.repository.MemberInfoRepository;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
+import com.nhnacademy.marketgg.client.repository.auth.MemberInfoRepository;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class DefaultMemberService implements MemberService {
 
     @Override
     public void update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         MemberUpdateToAuthResponse updateData = memberInfoRepository.update(memberUpdateToAuth, sessionId);
         memberRepository.update(updateData, sessionId);
@@ -94,15 +94,15 @@ public class DefaultMemberService implements MemberService {
 
     @Override
     public void doSignup(final MemberSignupRequest memberSignupRequest)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         memberSignupRequest.encodePassword(passwordEncoder);
 
         MemberSignupResponse response =
-                memberInfoRepository.signup(memberSignupRequest.getSignupRequestToAuth());
+            memberInfoRepository.signup(memberSignupRequest.getSignupRequestToAuth());
 
         memberRepository.signup(memberSignupRequest
-                                        .getSignupRequestToShopMember(response.getUuid(), response.getReferrerUuid()));
+            .getSignupRequestToShopMember(response.getUuid(), response.getReferrerUuid()));
     }
 
     @Override

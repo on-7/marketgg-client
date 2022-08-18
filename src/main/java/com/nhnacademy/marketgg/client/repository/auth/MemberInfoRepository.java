@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.repository;
+package com.nhnacademy.marketgg.client.repository.auth;
 
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToAuth;
