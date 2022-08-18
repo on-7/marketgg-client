@@ -123,10 +123,11 @@ public class MemberAdapter implements MemberRepository {
     }
 
     @Override
-    public List<DeliveryAddressResponse> retrieveDeliveryAddresses() {
+    public List<DeliveryAddressResponse> retrieveDeliveryAddresses()
+        throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<DeliveryAddressResponse> requestEntity = new HttpEntity<>(buildHeaders());
 
-        ResponseEntity<DeliveryAddressResponse> response = this.restTemplate.exchange(
+        ResponseEntity<ShopResult<DeliveryAddressResponse>> response = this.restTemplate.exchange(
             gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS,
             HttpMethod.GET,
             requestEntity,
@@ -135,36 +136,42 @@ public class MemberAdapter implements MemberRepository {
 
         this.checkResponseUri(response);
 
-        return Collections.singletonList(response.getBody());
+        return Collections.singletonList(Objects.requireNonNull(response.getBody()).getData());
     }
 
     @Override
-    public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest) {
+    public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest)
+        throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(addressRequest, buildHeaders());
-        ResponseEntity<Void> exchange =
+        ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.POST, response,
-                                  Void.class);
+                                  new ParameterizedTypeReference<ShopResult<Void>>() {
+                                  });
 
         this.checkResponseUri(exchange);
     }
 
     @Override
-    public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest) {
+    public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest)
+        throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<DeliveryAddressUpdateRequest> response = new HttpEntity<>(updateRequest, buildHeaders());
-        ResponseEntity<Void> exchange =
+        ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.PUT, response,
-                                  Void.class);
+                                  new ParameterizedTypeReference<ShopResult<Void>>() {
+                                  });
 
         this.checkResponseUri(exchange);
     }
 
     @Override
-    public void deleteDeliveryAddress(final Long deliveryAddressId) {
+    public void deleteDeliveryAddress(final Long deliveryAddressId)
+        throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<Long> response = new HttpEntity<>(deliveryAddressId, buildHeaders());
-        ResponseEntity<Void> exchange =
+        ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS + "/" + deliveryAddressId,
                                   HttpMethod.DELETE, response,
-                                  Void.class);
+                                  new ParameterizedTypeReference<ShopResult<Void>>() {
+                                  });
 
         this.checkResponseUri(exchange);
     }

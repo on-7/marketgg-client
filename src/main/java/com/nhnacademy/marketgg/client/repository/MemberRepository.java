@@ -78,12 +78,16 @@ public interface MemberRepository {
      * @author 김훈민
      * @since 1.0.0
      */
-    List<DeliveryAddressResponse> retrieveDeliveryAddresses();
+    List<DeliveryAddressResponse> retrieveDeliveryAddresses()
+        throws UnAuthenticException, UnAuthorizationException;
 
-    void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest);
+    void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest)
+        throws UnAuthenticException, UnAuthorizationException;
 
-    void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest);
+    void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest)
+        throws UnAuthenticException, UnAuthorizationException;
 
-    void deleteDeliveryAddress(final Long deliveryAddressId);
+    void deleteDeliveryAddress(final Long deliveryAddressId)
+        throws UnAuthenticException, UnAuthorizationException;
 
 }
