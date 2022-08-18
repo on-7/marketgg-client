@@ -96,10 +96,12 @@ public class AdminProductController {
      * 상품 생성 페이지 조회를 위한 GetMapping 을 지원 합니다.
      *
      * @return - 상품 생성 폼을 리턴합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/create")
-    public ModelAndView createProduct() {
+    public ModelAndView createProduct() throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("products/product-create-form");
 
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
@@ -184,10 +186,13 @@ public class AdminProductController {
      *
      * @param productId - 상품 PK 입니다.
      * @return - 상품 수정 페이지를 리턴합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/update/{productId}")
-    public ModelAndView updateProduct(@PathVariable final Long productId) {
+    public ModelAndView updateProduct(@PathVariable final Long productId)
+            throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView("pages/products/product-modify-form");
 

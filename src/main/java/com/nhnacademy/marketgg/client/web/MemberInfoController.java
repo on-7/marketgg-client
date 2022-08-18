@@ -5,6 +5,7 @@ import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -46,13 +47,15 @@ public class MemberInfoController {
      *
      * @param member - 회원가입에 필요한 요청 정보 객체입니다.
      * @return 회원가입 실행 후, 다시 Index 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @author 김훈민
      * @since 1.0.0
      */
     @NoAuth
     @PostMapping("/signup")
     public ModelAndView doSignup(final @Valid @ModelAttribute(name = "member") MemberSignupRequest member,
-                                 BindingResult bindingResult) {
+                                 BindingResult bindingResult) throws UnAuthenticException, UnAuthorizationException {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("members/signup");
@@ -67,12 +70,14 @@ public class MemberInfoController {
      *
      * @param memberUpdateToAuth - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
      * @return 회원수정 실행 후, 다시 Index 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @author 김훈민
      * @since 1.0.0
      */
     @PostMapping("/update")
     public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth)
-        throws UnAuthenticException {
+            throws UnAuthenticException, UnAuthorizationException {
         String sessionId = SessionContext.get()
                                          .orElseThrow(UnAuthenticException::new);
 
@@ -84,10 +89,12 @@ public class MemberInfoController {
      * 회원탈퇴 요청을 받아 회원탈퇴 프로세스를 진행합니다.
      *
      * @return 회원탈퇴 실행 후, 다시 Index 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @author 김훈민
      */
     @GetMapping("/withdraw")
-    public ModelAndView doWithdraw() throws UnAuthenticException {
+    public ModelAndView doWithdraw() throws UnAuthenticException, UnAuthorizationException {
         String sessionId = SessionContext.get()
                                          .orElseThrow(UnAuthenticException::new);
 

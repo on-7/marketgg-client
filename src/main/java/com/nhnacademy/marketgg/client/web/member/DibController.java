@@ -1,5 +1,7 @@
 package com.nhnacademy.marketgg.client.web.member;
 
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.DibService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,10 +27,12 @@ public class DibController {
      * 지정한 회원의 찜 목록을 조회하는 Mapping 을 지원합니다.
      *
      * @return 자신의 찜 목록 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping
-    public ModelAndView retrieveDibs() {
+    public ModelAndView retrieveDibs() throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("/pages/dibs/index");
         mav.addObject("dibs", dibService.retrieveDibs());
 
@@ -40,10 +44,13 @@ public class DibController {
      *
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 다시 상품 조회 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @DeleteMapping("/{productId}")
-    public ModelAndView deleteDib(@PathVariable final Long productId) {
+    public ModelAndView deleteDib(@PathVariable final Long productId)
+            throws UnAuthenticException, UnAuthorizationException {
 
         dibService.deleteDib(productId);
         return new ModelAndView("redirect:/members/dibs");

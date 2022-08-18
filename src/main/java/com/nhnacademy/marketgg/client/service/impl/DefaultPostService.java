@@ -6,6 +6,8 @@ import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
@@ -19,58 +21,69 @@ public class DefaultPostService implements PostService {
     private final PostRepository postRepository;
 
     @Override
-    public void createPost(final PostRequest postRequest) throws JsonProcessingException {
+    public void createPost(final PostRequest postRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+
         postRepository.createPost(postRequest);
     }
 
     @Override
-    public List<PostResponse> retrievePostList(final String categoryId, final Integer page) {
+    public List<PostResponse> retrievePostList(final String categoryId, final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
+
         return postRepository.retrievePostList(categoryId, page);
     }
 
     @Override
-    public PostResponseForDetail retrievePost(final Long postId, final String categoryId) {
+    public PostResponseForDetail retrievePost(final Long postId, final String categoryId)
+            throws UnAuthenticException, UnAuthorizationException {
+
         return postRepository.retrievePost(postId, categoryId);
     }
 
     @Override
     public List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest)
-            throws JsonProcessingException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+
         return postRepository.searchForCategory(searchRequest);
     }
 
     @Override
     public List<PostResponse> searchForOption(final SearchRequestForCategory searchRequest,
                                               final String optionType, final String option)
-            throws JsonProcessingException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         return postRepository.searchForOption(searchRequest, optionType, option);
     }
 
     @Override
     public void updatePost(final Long postId, final PostRequest postRequest, final String categoryId)
-            throws JsonProcessingException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         postRepository.updatePost(postId, postRequest, categoryId);
     }
 
     @Override
-    public void deletePost(final Long postId, final String categoryId) {
+    public void deletePost(final Long postId, final String categoryId)
+            throws UnAuthenticException, UnAuthorizationException {
+
         postRepository.deletePost(postId, categoryId);
     }
 
     @Override
-    public List<String> retrieveOtoReason() {
+    public List<String> retrieveOtoReason() throws UnAuthenticException, UnAuthorizationException {
         return postRepository.retrieveReason();
     }
 
     @Override
-    public void changeStatus(final Long postId, final PostStatusUpdateRequest postRequest) throws JsonProcessingException {
+    public void changeStatus(final Long postId, final PostStatusUpdateRequest postRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+
         postRepository.changeStatus(postId, postRequest);
     }
 
     @Override
-    public List<String> retrieveOtoStatus() {
+    public List<String> retrieveOtoStatus() throws UnAuthenticException, UnAuthorizationException {
         return postRepository.retrieveStatus();
     }
 

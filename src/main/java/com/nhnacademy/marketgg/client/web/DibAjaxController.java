@@ -1,6 +1,8 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.DibService;
 import java.util.HashMap;
 import java.util.List;
@@ -33,11 +35,13 @@ public class DibAjaxController {
      *
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 찜 목록에 상품이 존재하면 1, 없으면 0을 반환합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @PostMapping(produces = "application/json")
     @ResponseBody
-    public Map<String, Object> dibView(final Long productId) {
+    public Map<String, Object> dibView(final Long productId) throws UnAuthenticException, UnAuthorizationException {
 
         List<DibRetrieveResponse> list = dibService.retrieveDibs();
         Map<String, Object> map = new HashMap<>();
@@ -58,11 +62,13 @@ public class DibAjaxController {
      *
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 찜 목록에 해당 상품을 추가하는 메소드 실행 후 정상적인 처리가 됐다는 1을 반환합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/insert/{productId}")
     @ResponseBody
-    public Integer dibInsert(@PathVariable final Long productId) {
+    public Integer dibInsert(@PathVariable final Long productId) throws UnAuthenticException, UnAuthorizationException {
 
         dibService.createDib(productId);
 
@@ -74,11 +80,13 @@ public class DibAjaxController {
      *
      * @param productId - 지정한 상품의 식별번호입니다.
      * @return 찜 목록에 해당 상품을 제거하는 메소드 실행 후 정상적인 처리가 됐다는 1을 반환합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/delete/{productId}")
     @ResponseBody
-    public Integer dibDelete(@PathVariable final Long productId) {
+    public Integer dibDelete(@PathVariable final Long productId) throws UnAuthenticException, UnAuthorizationException {
 
         dibService.deleteDib(productId);
 

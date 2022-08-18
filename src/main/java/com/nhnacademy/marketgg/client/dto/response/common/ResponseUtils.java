@@ -7,6 +7,7 @@ import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
@@ -80,6 +81,25 @@ public final class ResponseUtils {
             } else if (httpStatus.is4xxClientError()) {
                 throw new ClientException(errorEntity.getMessage());
             } else if (httpStatus.is5xxServerError()) {
+                throw new ServerException();
+            }
+        }
+    }
+
+    public static <T> void checkErrorForResponse(final ResponseEntity<ShopResult<T>> response)
+            throws UnAuthenticException, UnAuthorizationException {
+        HttpStatus httpStatus = response.getStatusCode();
+
+        if (httpStatus.is4xxClientError() || httpStatus.is5xxServerError()) {
+            if (Objects.equals(httpStatus, UNAUTHORIZED)) {
+                throw new UnAuthenticException();
+            } else if (Objects.equals(httpStatus, FORBIDDEN)) {
+                throw new UnAuthorizationException();
+            } else if (Objects.equals(httpStatus, NOT_FOUND)) {
+                throw new NotFoundException(Objects.requireNonNull(response.getBody()).getError().getMessage());
+            } else if (httpStatus.is4xxClientError()) {
+                throw new ClientException(Objects.requireNonNull(response.getBody()).getError().getMessage());
+            } else {
                 throw new ServerException();
             }
         }

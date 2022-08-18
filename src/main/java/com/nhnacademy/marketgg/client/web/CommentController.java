@@ -2,6 +2,8 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.CommentService;
 
 import javax.validation.Valid;
@@ -42,13 +44,16 @@ public class CommentController {
      * @param page           - 페이지 정보입니다.
      * @return 답변을 등록하는 메소드를 실행하고 다시 1:1 문의 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @PostMapping("/{postId}")
     public ModelAndView createComment(@PathVariable @Min(1) final Long postId,
                                       @RequestParam @Min(0) final Integer page,
                                       @Valid @ModelAttribute final CommentRequest commentRequest,
-                                      BindingResult bindingResult) throws JsonProcessingException {
+                                      BindingResult bindingResult)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         if (bindingResult.hasErrors()) {
             ModelAndView mav = new ModelAndView("pages/board/oto-inquiries/detail");

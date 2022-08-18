@@ -6,6 +6,8 @@ import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import java.util.List;
 import javax.validation.Valid;
@@ -49,10 +51,13 @@ public class CsPostController {
      * @param categoryId - 조회할 게시판의 카테고리 식별번호입니다.
      * @param page         - 보여줄 게시글 목록의 페이지 번호입니다.
      * @return 게시판 타입에 맞는 게시글 목록을 보여주는 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}")
-    public ModelAndView index(@PathVariable final String categoryId, @RequestParam final Integer page) {
+    public ModelAndView index(@PathVariable final String categoryId, @RequestParam final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryId)));
         List<PostResponse> responses = postService.retrievePostList(categoryId, page);
 
@@ -74,10 +79,13 @@ public class CsPostController {
      * 1:1 문의 게시글 등록을 할 수 있는 페이지로 이동합니다.
      *
      * @return 1:1 문의 게시글 등록을 할 수 있는 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/" + OTO_CODE + "/create")
-    public ModelAndView doCreatePost(@ModelAttribute final PostRequest postRequest) {
+    public ModelAndView doCreatePost(@ModelAttribute final PostRequest postRequest)
+            throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("code", OTO_CODE);
@@ -90,11 +98,13 @@ public class CsPostController {
      * @param postRequest - 등록할 게시글의 정보를 담은 객체입니다.
      * @return 해당 정보로 게시글을 등록 후 다시 Index 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @PostMapping("/categories/" + OTO_CODE + "/create")
     public ModelAndView createPost(@Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult)
-            throws JsonProcessingException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         if (bindingResult.hasErrors()) {
             return new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         }
@@ -109,12 +119,15 @@ public class CsPostController {
      * @param categoryCode - 조회를 진행할 고객센터 게시판의 타입입니다.
      * @param postId       - 조회를 진행할 게시글의 식별번호입니다.
      * @return 지정한 식별번호의 게시글 상세조회 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}/{postId}")
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
                                      @PathVariable @Min(1) final Long postId, @RequestParam @Min(0) final Integer page,
-                                     @ModelAttribute CommentRequest commentRequest) {
+                                     @ModelAttribute CommentRequest commentRequest)
+            throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
@@ -131,12 +144,15 @@ public class CsPostController {
      * @param keyword      - 검색을 진행할 검색어입니다.
      * @param page         - 조회할 페이지의 페이지 정보입니다.
      * @return 검색 결과 목록을 반환합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}/search")
     public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                           @RequestParam @Size(min = 1, max = 30) final String keyword,
-                                          @RequestParam @Min(0) final Integer page) throws JsonProcessingException {
+                                          @RequestParam @Min(0) final Integer page)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/index");
 
@@ -164,10 +180,13 @@ public class CsPostController {
      * @param postId - 삭제할 게시글의 식별번호입니다.
      * @param page   - Redirect 할 페이지 정보입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @DeleteMapping("/categories/" + OTO_CODE + "/{postId}/delete")
-    public ModelAndView deletePost(@PathVariable @Min(1) final Long postId, @RequestParam @Min(0) final Integer page) {
+    public ModelAndView deletePost(@PathVariable @Min(1) final Long postId, @RequestParam @Min(0) final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView(
                 "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
         postService.deletePost(postId, OTO_CODE);

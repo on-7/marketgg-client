@@ -5,6 +5,8 @@ import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +40,12 @@ public class AdminCategoryController {
      * 카테고리 분류표 목록을 담은 후, 카테고리 등록 FORM 으로 이동하는 메소드입니다.
      *
      * @return 카테고리 분류표 목록을 가지고 카테고리 등록 FORM 으로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/create")
-    public ModelAndView doCreateCategory() {
+    public ModelAndView doCreateCategory() throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("/categories/create-form");
 
         List<CategorizationRetrieveResponse> responses = categoryService.retrieveCategorizations();
@@ -55,12 +59,14 @@ public class AdminCategoryController {
      *
      * @param categoryRequest - 카테고리 등록을 위한 정보를 담은 객체입니다.
      * @return 카테고리의 Index 페이지로 REDIRECT 합니다.
-     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @throws JsonProcessingException  - 응답으로 온 Json 데이터를 역직렬화 시 발생하는 예외입니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @PostMapping
     public ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
-        throws JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
@@ -73,10 +79,12 @@ public class AdminCategoryController {
      * 카테고리의 전체 목록을 조회한 정보를 담고, 다시 카테고리 Index 페이지로 이동하는 메소드입니다.
      *
      * @return 카테고리의 전체 목록 List 를 가지고 카테고리 Index 페이지로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/index")
-    public ModelAndView retrieveCategories() {
+    public ModelAndView retrieveCategories() throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("/categories/index");
 
         List<CategoryRetrieveResponse> responses = categoryService.retrieveCategories();
@@ -91,10 +99,13 @@ public class AdminCategoryController {
      *
      * @param categoryId - 수정할 카테고리의 식별번호입니다.
      * @return 수정할 카테고리를 가지고 카테고리 수정 FORM 으로 이동합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/update/{categoryId}")
-    public ModelAndView doUpdateCategory(@PathVariable final String categoryId) {
+    public ModelAndView doUpdateCategory(@PathVariable final String categoryId)
+            throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("/categories/update-form");
 
         CategoryRetrieveResponse categoryResponse = categoryService.retrieveCategory(categoryId);
@@ -109,13 +120,14 @@ public class AdminCategoryController {
      * @param categoryId      - 수정할 카테고리의 식별번호입니다.
      * @param categoryRequest - 카테고리를 수정할 입력정보를 담은 객체입니다.
      * @return 카테고리의 Index 페이지로 REDIRECT 합니다.
-     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @PutMapping("/{categoryId}")
     public ModelAndView updateCategory(@PathVariable final String categoryId,
                                        @ModelAttribute final CategoryUpdateRequest categoryRequest)
-        throws JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
@@ -129,10 +141,13 @@ public class AdminCategoryController {
      *
      * @param categoryId - 삭제할 카테고리의 식별번호입니다.
      * @return 카테고리의 Index 페이지로 REDIRECT 합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @DeleteMapping("/{categoryId}")
-    public ModelAndView deleteCategory(@PathVariable final String categoryId) {
+    public ModelAndView deleteCategory(@PathVariable final String categoryId)
+            throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
         categoryService.deleteCategory(categoryId);

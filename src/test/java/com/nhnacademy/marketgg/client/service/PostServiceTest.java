@@ -16,6 +16,8 @@ import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultPostService;
 import java.util.List;
@@ -64,7 +66,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("게시글 목록 조회")
-    void testRetrievePostList() {
+    void testRetrievePostList() throws UnAuthenticException, UnAuthorizationException {
         given(postRepository.retrievePostList(anyString(), anyInt())).willReturn(List.of(postResponse));
 
         List<PostResponse> list = postService.retrievePostList("702", 0);
@@ -74,7 +76,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("게시글 단건 조회")
-    void testRetrievePost() {
+    void testRetrievePost() throws UnAuthenticException, UnAuthorizationException {
         given(postRepository.retrievePost(anyLong(), anyString())).willReturn(postResponseForDetail);
 
         PostResponseForDetail response = postService.retrievePost(1L, "703");
@@ -84,7 +86,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("카테고리 별 게시글 검색")
-    void testSearchForCategory() throws JsonProcessingException {
+    void testSearchForCategory() throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         given(postRepository.searchForCategory(any(SearchRequestForCategory.class))).willReturn(
                 List.of(postResponse));
 
@@ -95,7 +97,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("카테고리 내 사유별 게시글 검색")
-    void testSearchForReason() throws JsonProcessingException {
+    void testSearchForReason() throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         given(postRepository.searchForOption(any(SearchRequestForCategory.class), anyString(),
                                              anyString())).willReturn(List.of(postResponse));
 
@@ -116,7 +118,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("게시글 삭제")
-    void testDeletePost() {
+    void testDeletePost() throws UnAuthenticException, UnAuthorizationException {
         willDoNothing().given(postRepository).deletePost(anyLong(), anyString());
 
         postService.deletePost(1L, "oto-inquiries");
@@ -126,7 +128,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("1:1문의 사유 목록 조회")
-    void testRetrieveOtoReason() {
+    void testRetrieveOtoReason() throws UnAuthenticException, UnAuthorizationException {
         given(postRepository.retrieveReason()).willReturn(List.of("hello"));
 
         List<String> list = postService.retrieveOtoReason();
@@ -146,7 +148,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("1:1 문의 상태 목록 조회")
-    void testRetrieveOtoStatus() {
+    void testRetrieveOtoStatus() throws UnAuthenticException, UnAuthorizationException {
         given(postRepository.retrieveStatus()).willReturn(List.of("hello"));
 
         List<String> list = postService.retrieveOtoStatus();

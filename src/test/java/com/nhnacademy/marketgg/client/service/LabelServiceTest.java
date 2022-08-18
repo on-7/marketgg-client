@@ -9,6 +9,8 @@ import static org.mockito.Mockito.times;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.LabelRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultLabelService;
 import java.util.List;
@@ -30,7 +32,7 @@ class LabelServiceTest {
 
     @Test
     @DisplayName("라벨 등록")
-    void testCreateLabel() throws JsonProcessingException {
+    void testCreateLabel() throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         LabelRegisterRequest labelRegisterRequest = new LabelRegisterRequest("labelName");
 
         willDoNothing().given(labelRepository).createLabel(any(LabelRegisterRequest.class));
@@ -42,7 +44,7 @@ class LabelServiceTest {
 
     @Test
     @DisplayName("라벨 목록 조회")
-    void testRetrieveLabels() {
+    void testRetrieveLabels() throws UnAuthenticException, UnAuthorizationException {
         given(labelRepository.retrieveResponse()).willReturn(List.of());
 
         labelService.retrieveLabels();
@@ -52,7 +54,7 @@ class LabelServiceTest {
 
     @Test
     @DisplayName("라벨 삭제")
-    void testDeleteLabel() {
+    void testDeleteLabel() throws UnAuthenticException, UnAuthorizationException {
         willDoNothing().given(labelRepository).deleteLabel(anyLong());
 
         labelService.deleteLabel(1L);
