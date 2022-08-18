@@ -36,9 +36,9 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
-                                                            final String categoryCode) {
+                                                            final String categoryid) {
 
-        return this.productRepository.retrieveProductsByCategory(categorizationCode, categoryCode);
+        return this.productRepository.retrieveProductsByCategory(categorizationCode, categoryid);
     }
 
     @Override

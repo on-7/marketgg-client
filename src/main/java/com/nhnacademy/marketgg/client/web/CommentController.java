@@ -37,28 +37,28 @@ public class CommentController {
     /**
      * 입력한 정보로 1:1 문의의 답변을 등록하는 메소드를 실행하고 다시 1:1 문의 페이지로 이동합니다.
      *
-     * @param postNo         - 답변을 작성할 1:1문의의 식별번호입니다.
+     * @param postId         - 답변을 작성할 1:1문의의 식별번호입니다.
      * @param commentRequest - 답변의 정보를 담은 객체입니다.
      * @param page           - 페이지 정보입니다.
      * @return 답변을 등록하는 메소드를 실행하고 다시 1:1 문의 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    @PostMapping("/{postNo}")
-    public ModelAndView createComment(@PathVariable @Min(1) final Long postNo,
+    @PostMapping("/{postId}")
+    public ModelAndView createComment(@PathVariable @Min(1) final Long postId,
                                       @RequestParam @Min(0) final Integer page,
                                       @Valid @ModelAttribute final CommentRequest commentRequest,
                                       BindingResult bindingResult) throws JsonProcessingException {
 
         if (bindingResult.hasErrors()) {
             ModelAndView mav = new ModelAndView("pages/board/oto-inquiries/detail");
-            mav.addObject("response", postService.retrievePost(postNo, OTO_CODE));
+            mav.addObject("response", postService.retrievePost(postId, OTO_CODE));
             mav.addObject("page", page);
             return mav;
         }
 
-        commentService.createComment(postNo, commentRequest);
-        return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/" + postNo);
+        commentService.createComment(postId, commentRequest);
+        return new ModelAndView("redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "/" + postId);
     }
 
 }

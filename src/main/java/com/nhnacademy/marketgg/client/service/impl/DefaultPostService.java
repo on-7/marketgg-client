@@ -24,37 +24,37 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> retrievePostList(final String categoryCode, final Integer page) {
-        return postRepository.retrievePostList(categoryCode, page);
+    public List<PostResponse> retrievePostList(final String categoryid, final Integer page) {
+        return postRepository.retrievePostList(categoryid, page);
     }
 
     @Override
-    public PostResponseForDetail retrievePost(final Long postNo, final String categoryCode) {
-        return postRepository.retrievePost(postNo, categoryCode);
+    public PostResponseForDetail retrievePost(final Long postId, final String categoryid) {
+        return postRepository.retrievePost(postId, categoryid);
     }
 
     @Override
-    public List<PostResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest) {
-        return postRepository.searchForCategory(categoryCode, searchRequest);
+    public List<PostResponse> searchForCategory(final String categoryid, final SearchRequest searchRequest) {
+        return postRepository.searchForCategory(categoryid, searchRequest);
     }
 
     @Override
-    public List<PostResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
+    public List<PostResponse> searchForOption(final String categoryid, final SearchRequest searchRequest,
                                               final String optionType, final String option) {
 
-        return postRepository.searchForOption(categoryCode, searchRequest, optionType, option);
+        return postRepository.searchForOption(categoryid, searchRequest, optionType, option);
     }
 
     @Override
-    public void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode)
+    public void updatePost(final Long postId, final PostRequest postRequest, final String categoryid)
             throws JsonProcessingException {
 
-        postRepository.updatePost(postNo, postRequest, categoryCode);
+        postRepository.updatePost(postId, postRequest, categoryid);
     }
 
     @Override
-    public void deletePost(final Long postNo, final String categoryCode) {
-        postRepository.deletePost(postNo, categoryCode);
+    public void deletePost(final Long postId, final String categoryid) {
+        postRepository.deletePost(postId, categoryid);
     }
 
     @Override
@@ -63,8 +63,8 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public void changeStatus(final Long postNo, final PostStatusUpdateRequest postRequest) throws JsonProcessingException {
-        postRepository.changeStatus(postNo, postRequest);
+    public void changeStatus(final Long postId, final PostStatusUpdateRequest postRequest) throws JsonProcessingException {
+        postRepository.changeStatus(postId, postRequest);
     }
 
     @Override

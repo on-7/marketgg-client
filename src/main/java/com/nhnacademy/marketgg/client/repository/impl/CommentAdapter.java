@@ -27,14 +27,14 @@ public class CommentAdapter implements CommentRepository {
     private static final String DEFAULT_COMMENT = "/shop/v1/customer-services";
 
     @Override
-    public void createComment(final Long postNo, final CommentRequest commentRequest)
+    public void createComment(final Long postId, final CommentRequest commentRequest)
         throws JsonProcessingException {
 
         String request = objectMapper.writeValueAsString(commentRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + DEFAULT_COMMENT + "/" + postNo,
+            gateWayIp + DEFAULT_COMMENT + "/" + postId,
             HttpMethod.POST,
             requestEntity,
             Void.class);

@@ -47,10 +47,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> retrievePostList(final String categoryCode, final Integer page) {
+    public List<PostResponse> retrievePostList(final String categoryid, final Integer page) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryCode + "?page=" + page,
+            gateWayIp + USER + CATEGORIES + categoryid + "?page=" + page,
             HttpMethod.GET,
             requestEntity,
             new ParameterizedTypeReference<>() {
@@ -61,10 +61,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public PostResponseForDetail retrievePost(final Long postNo, final String categoryCode) {
+    public PostResponseForDetail retrievePost(final Long postId, final String categoryid) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<PostResponseForDetail> response = restTemplate.exchange(
-            gateWayIp + USER + "/" + postNo,
+            gateWayIp + USER + "/" + postId,
             HttpMethod.GET,
             requestEntity,
             PostResponseForDetail.class);
@@ -74,10 +74,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest) {
+    public List<PostResponse> searchForCategory(final String categoryid, final SearchRequest searchRequest) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryCode + "/search?keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
+            gateWayIp + USER + CATEGORIES + categoryid + "/search?keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
             HttpMethod.GET,
             requestEntity,
             new ParameterizedTypeReference<>() {
@@ -88,12 +88,12 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public List<PostResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
+    public List<PostResponse> searchForOption(final String categoryid, final SearchRequest searchRequest,
                                               final String optionType, final String option) {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + ADMIN + CATEGORIES + categoryCode + "/options/" + optionType + "/search?option=" + option + "&keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
+            gateWayIp + ADMIN + CATEGORIES + categoryid + "/options/" + optionType + "/search?option=" + option + "&keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
             HttpMethod.GET,
             requestEntity,
             new ParameterizedTypeReference<>() {
@@ -104,14 +104,14 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode)
+    public void updatePost(final Long postId, final PostRequest postRequest, final String categoryid)
             throws JsonProcessingException {
 
         String requestBody = objectMapper.writeValueAsString(postRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + ADMIN + CATEGORIES + categoryCode + "/" + postNo,
+            gateWayIp + ADMIN + CATEGORIES + categoryid + "/" + postId,
             HttpMethod.PUT,
             requestEntity,
             Void.class);
@@ -120,10 +120,10 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void deletePost(final Long postNo, final String categoryCode) {
+    public void deletePost(final Long postId, final String categoryid) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryCode + "/" + postNo,
+            gateWayIp + USER + CATEGORIES + categoryid + "/" + postId,
             HttpMethod.DELETE,
             requestEntity,
             Void.class);
@@ -146,11 +146,11 @@ public class PostAdapter implements PostRepository {
     }
 
     @Override
-    public void changeStatus(Long postNo, PostStatusUpdateRequest postRequest) throws JsonProcessingException {
+    public void changeStatus(Long postId, PostStatusUpdateRequest postRequest) throws JsonProcessingException {
         String requestBody = objectMapper.writeValueAsString(postRequest);
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + ADMIN + "/" + postNo,
+            gateWayIp + ADMIN + "/" + postId,
             HttpMethod.PATCH,
             requestEntity,
             Void.class);

@@ -14,10 +14,10 @@ public class DefaultCommentService implements CommentService {
     private final CommentRepository commentRepository;
 
     @Override
-    public void createComment(final Long postNo, final CommentRequest commentRequest)
+    public void createComment(final Long postId, final CommentRequest commentRequest)
         throws JsonProcessingException {
 
-        commentRepository.createComment(postNo, commentRequest);
+        commentRepository.createComment(postId, commentRequest);
     }
 
 }

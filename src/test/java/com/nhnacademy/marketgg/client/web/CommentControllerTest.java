@@ -50,7 +50,7 @@ class CommentControllerTest {
     void testCreateComment() throws Exception {
         willDoNothing().given(commentService).createComment(anyLong(), any(CommentRequest.class));
 
-        this.mockMvc.perform(post(DEFAULT_POST + "/{postNo}", 1L)
+        this.mockMvc.perform(post(DEFAULT_POST + "/{postId}", 1L)
                                      .param("content", "hello!")
                                      .param("page", "0"))
                     .andExpect(status().is3xxRedirection())
@@ -64,7 +64,7 @@ class CommentControllerTest {
     void testCreateCommentFail() throws Exception {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(new PostResponseForDetail());
 
-        this.mockMvc.perform(post(DEFAULT_POST + "/{postNo}", 1L)
+        this.mockMvc.perform(post(DEFAULT_POST + "/{postId}", 1L)
                                      .param("content", "")
                                      .param("page", "0"))
                     .andExpect(status().isOk())

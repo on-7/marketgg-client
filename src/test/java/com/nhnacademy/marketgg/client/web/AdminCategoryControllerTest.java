@@ -92,7 +92,7 @@ class AdminCategoryControllerTest {
     @DisplayName("카테고리 수정 페이지 이동")
     void testDoUpdateCategory() throws Exception {
         CategoryRetrieveResponse categoryResponse = new CategoryRetrieveResponse();
-        ReflectionTestUtils.setField(categoryResponse, "categoryCode", "001");
+        ReflectionTestUtils.setField(categoryResponse, "categoryid", "001");
         ReflectionTestUtils.setField(categoryResponse, "categorizationName", "제품");
         ReflectionTestUtils.setField(categoryResponse, "categoryName", "친환경");
         ReflectionTestUtils.setField(categoryResponse, "sequence", 1);

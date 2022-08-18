@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.util.List;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
 
     private final ProductService productService;
+    private static final Integer PAGE_SIZE = "10";
 
     /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 조회 한 후 이동하는 GET Mapping 을 지원합니다.
@@ -32,8 +34,8 @@ public class ProductController {
                                                     @RequestParam final String keyword,
                                                     @RequestParam final Integer page) {
 
-        List<SearchProductResponse> responses = productService.searchProductListByCategory(categoryId, keyword, page);
-
+        SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
+        List<SearchProductResponse> responses = productService.searchProductListByCategory(request);
         // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
         // FIXME: Pathvariable 에 option 에는 (asc, desc) 만 들어갑니다! 매핑 잡으실 때 참고해주세요.
         ModelAndView mav = new ModelAndView("products/index");
@@ -61,7 +63,8 @@ public class ProductController {
                                                  @RequestParam final String keyword,
                                                  @RequestParam final Integer page) {
 
-        List<SearchProductResponse> responses = productService.searchProductListByPrice(categoryId, option, keyword, page);
+        SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
+        List<SearchProductResponse> responses = productService.searchProductListByPrice(request, option);
 
         ModelAndView mav = new ModelAndView("products/index");
         mav.addObject("keyword", keyword);

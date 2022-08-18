@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
@@ -46,12 +47,12 @@ public class CsPostController {
     /**
      * 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
      *
-     * @param categoryCode - 조회할 게시판의 카테고리 식별번호입니다.
+     * @param categoryid - 조회할 게시판의 카테고리 식별번호입니다.
      * @param page         - 보여줄 게시글 목록의 페이지 번호입니다.
      * @return 게시판 타입에 맞는 게시글 목록을 보여주는 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}")
+    @GetMapping("/categories/{categoryid}")
     public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryCode)));
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
@@ -107,18 +108,18 @@ public class CsPostController {
      * 선택한 게시글의 상세 정보를 조회 할 수 있습니다.
      *
      * @param categoryCode - 조회를 진행할 고객센터 게시판의 타입입니다.
-     * @param postNo       - 조회를 진행할 게시글의 식별번호입니다.
+     * @param postId       - 조회를 진행할 게시글의 식별번호입니다.
      * @return 지정한 식별번호의 게시글 상세조회 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryCode}/{postNo}")
+    @GetMapping("/categories/{categoryCode}/{postId}")
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
-                                     @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page,
+                                     @PathVariable @Min(1) final Long postId, @RequestParam @Min(0) final Integer page,
                                      @ModelAttribute CommentRequest commentRequest) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
-        mav.addObject("response", postService.retrievePost(postNo, categoryCode));
+        mav.addObject("response", postService.retrievePost(postId, categoryCode));
         mav.addObject("page", page);
 
         return mav;
@@ -139,7 +140,7 @@ public class CsPostController {
                                           @RequestParam @Min(0) final Integer page) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/index");
-        SearchRequest request = new SearchRequest(keyword, page, PAGE_SIZE);
+        SearchRequestForCategory request = new SearchRequestForCategory(categoryCode, keyword, page, PAGE_SIZE);
         List<PostResponse> responses = postService.searchForCategory(categoryCode, request);
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
@@ -159,16 +160,16 @@ public class CsPostController {
     /**
      * 지정한 게시글을 삭제 한 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param postNo - 삭제할 게시글의 식별번호입니다.
+     * @param postId - 삭제할 게시글의 식별번호입니다.
      * @param page   - Redirect 할 페이지 정보입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @DeleteMapping("/categories/" + OTO_CODE + "/{postNo}/delete")
-    public ModelAndView deletePost(@PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
+    @DeleteMapping("/categories/" + OTO_CODE + "/{postId}/delete")
+    public ModelAndView deletePost(@PathVariable @Min(1) final Long postId, @RequestParam @Min(0) final Integer page) {
         ModelAndView mav = new ModelAndView(
                 "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
-        postService.deletePost(postNo, OTO_CODE);
+        postService.deletePost(postId, OTO_CODE);
 
         return mav;
     }
