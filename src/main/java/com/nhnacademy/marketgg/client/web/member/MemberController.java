@@ -35,6 +35,7 @@ public class MemberController {
     private static final String REDIRECT = "redirect:";
 
     private final MemberService memberService;
+
     private final GivenCouponService givenCouponService;
     private final ProductInquiryService inquiryService;
 
@@ -68,7 +69,7 @@ public class MemberController {
         if (memberService.retrievePassUpdatedAt().isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
-                                               DEFAULT_MEMBER + "/ggpass"));
+                DEFAULT_MEMBER + "/ggpass"));
             return mav;
         }
         memberService.subscribePass();
@@ -102,7 +103,7 @@ public class MemberController {
     @PostMapping("/{memberId}/coupons")
     public ModelAndView registerCoupon(@PathVariable final Long memberId,
                                        @ModelAttribute final GivenCouponCreateRequest givenCouponRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
         givenCouponService.registerCoupon(memberId, givenCouponRequest);
 
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/" + memberId + "/coupons");

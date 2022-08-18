@@ -2,17 +2,25 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.context.SessionContext;
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.service.MemberService;
+import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -24,9 +32,11 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class MemberInfoController {
 
-    private static final String INDEX = "index";
-
     private final MemberService memberService;
+
+    private static final String REDIRECT = "redirect:";
+    private static final String DEFAULT_MEMBER = "/members";
+    private static final String DEFAULT_DELIVERY_ADDRESSES = "/delivery-addresses";
 
     /**
      * 회원가입 View.
@@ -77,7 +87,7 @@ public class MemberInfoController {
                                          .orElseThrow(UnAuthenticException::new);
 
         memberService.update(memberUpdateToAuth, sessionId);
-        return new ModelAndView(INDEX);
+        return new ModelAndView(REDIRECT);
     }
 
     /**
@@ -85,6 +95,7 @@ public class MemberInfoController {
      *
      * @return 회원탈퇴 실행 후, 다시 Index 페이지로 이동합니다.
      * @author 김훈민
+     * @since 1.0.0
      */
     @GetMapping("/withdraw")
     public ModelAndView doWithdraw() throws UnAuthenticException {
@@ -92,7 +103,69 @@ public class MemberInfoController {
                                          .orElseThrow(UnAuthenticException::new);
 
         memberService.withdraw(sessionId);
-        return new ModelAndView(INDEX);
+        return new ModelAndView(REDIRECT);
+    }
+
+    /**
+     * 회원이 보유한 배송지 목록 리스트를 보여줍니다.
+     *
+     * @return 회원이 보유한 배송지 목록 리스트 입니다.
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    @GetMapping("/delivery-addresses")
+    public ModelAndView deliveryAddresses() {
+        List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
+        // TODO : 페이지 돌입지점에서 바로 보여줘야함. 페이지 필요.
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("deliveryAddressList", deliveryAddressResponseList);
+        return modelAndView;
+    }
+
+    /**
+     * 회원이 기본 배송지 이외에 다른 배송지를 추가합니다.
+     *
+     * @param addressRequest - 추가하는 배송지의 정보를 담고있는 DTO 입니다.
+     * @return 배송지 추가하고있는 페이지 redirect
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    @PostMapping("/delivery-address")
+    public ModelAndView createDeliveryAddress(
+        @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest) {
+
+        memberService.createDeliveryAddress(addressRequest);
+        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
+    }
+
+    /**
+     * 회원이 가진 배송지 정보를 수정하는 PutMapping 메소드 입니다.
+     *
+     * @param updateRequest - 수정하는 배송지의 정보를 담고있는 DTO 입니다.
+     * @return 배송지 수정하고있는 페이지 redirect
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    @PutMapping("/delivery-address")
+    public ModelAndView updateDeliveryAddress(
+        @ModelAttribute @Valid final DeliveryAddressUpdateRequest updateRequest) {
+
+        memberService.updateDeliveryAddress(updateRequest);
+        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
+    }
+
+    /**
+     * 회원이 가진 배송지 정보를 삭제하는 DeleteMapping 메소드 입니다.
+     *
+     * @param deliveryAddressId - 삭제하는 배송지의 식별번호
+     * @return 배송지 수정하고있는 페이지 redirect
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    @DeleteMapping("/delivery-address/{deliveryAddressId}")
+    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId) {
+        memberService.deleteDeliveryAddress(deliveryAddressId);
+        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
     }
 
 }

@@ -1,11 +1,15 @@
 package com.nhnacademy.marketgg.client.service;
 
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
+import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 회원 서비스 입니다.
@@ -53,4 +57,40 @@ public interface MemberService {
     void update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId);
 
     void withdraw(final String sessionId);
+
+    /**
+     * 회원이 보유한 배송지 목록 리스트를 보여줍니다.
+     *
+     * @return 회원이 보유한 배송지 목록 리스트 입니다.
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    List<DeliveryAddressResponse> retrieveDeliveryAddresses();
+
+    /**
+     * 회원이 회원가입시 입력했던 배송지외에 배송지를 추가하는 메소드 입니다.
+     *
+     * @param addressRequest - 추가하는 배송지의 정보를 담고있는 DTO 입니다.
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest);
+
+    /**
+     * 회원이 가진 배송지 정보를 수정하는 메소드 입니다.
+     *
+     * @param updateRequest - 수정하는 배송지의 정보를 담고있는 DTO 입니다.
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest);
+
+    /**
+     * 회원이 가진 배송지 정보를 삭제하는 메소드 입니다.
+     *
+     * @param deliveryAddressId - 삭제하는 배송지의 식별번호
+     * @author 김훈민
+     * @since 1.0.0
+     */
+    void deleteDeliveryAddress(final Long deliveryAddressId);
 }
