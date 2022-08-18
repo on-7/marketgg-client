@@ -55,7 +55,7 @@ public class WebSecurityConfig {
             .antMatchers("/admin/**").hasRole("ADMIN")
             // TODO: 로그인이 필요한 경로 추가 해야합니다.
             .antMatchers("/cart/**", "/dibs/**", "/members/dibs/**", "/members/ggpass/**",
-                         "/customer-services/categories/OTO_CODE/**").authenticated()
+                         "/customer-services/categories/" + OTO_CODE + "/**").authenticated()
             .anyRequest().permitAll();
 
         http.headers()
