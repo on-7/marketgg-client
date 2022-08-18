@@ -6,6 +6,8 @@ import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,26 +22,32 @@ public interface MemberRepository {
      * 지정한 회원의 GG PASS 갱신일시를 반환하는 메소드입니다.
      *
      * @return 회원의 갱신일시를 반환합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @author 박세완
      * @since 1.0.0
      */
-    LocalDateTime retrievePassUpdatedAt();
+    LocalDateTime retrievePassUpdatedAt() throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 회원의 GG PASS 구독처리 메소드입니다.
      *
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @author 박세완
      * @since 1.0.0
      */
-    void subscribePass();
+    void subscribePass() throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 회원의 GG PASS 구독해지처리 메소드입니다.
      *
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @author 박세완
      * @since 1.0.0
      */
-    void withdrawPass();
+    void withdrawPass() throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원가입 메소드입니다.
@@ -48,7 +56,8 @@ public interface MemberRepository {
      * @author 김훈민
      * @since 1.0.0
      */
-    void signup(final MemberSignupToShopMember signupRequestToShopMember);
+    void signup(final MemberSignupToShopMember signupRequestToShopMember)
+            throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원탈퇴 메소드입니다.
@@ -57,9 +66,10 @@ public interface MemberRepository {
      * @author 김훈민
      * @since 1.0.0
      */
-    void withdraw(final MemberWithdrawRequest deletedAt);
+    void withdraw(final MemberWithdrawRequest deletedAt) throws UnAuthenticException, UnAuthorizationException;
 
-    void update(final MemberUpdateToAuthResponse memberUpdateToAuthResponse, final String sessionId);
+    void update(final MemberUpdateToAuthResponse memberUpdateToAuthResponse, final String sessionId)
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 가지고 있는 전체 배송지 조회 메소드 입니다.
@@ -75,4 +85,5 @@ public interface MemberRepository {
     void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest);
 
     void deleteDeliveryAddress(final Long deliveryAddressId);
+
 }

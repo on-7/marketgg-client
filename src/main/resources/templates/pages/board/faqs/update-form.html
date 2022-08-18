@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="#{FAQ_UPDATE}"></title>
+    </head>
+    <body>
+        <main>
+            <div style="text-align: center; display: flex; justify-content: center; padding-top: 50px;">
+                <h2 style="background-color: white; border: 1px solid black; padding: 5px" th:text="#{FAQ_UPDATE}"></h2>
+            </div>
+            <br /><br />
+            <div style="text-align: center; display: flex; justify-content: center">
+                <form th:object="${postRequest}" th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
+                    <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{FAQ_QUESTION_CONTENT}"></span><br /><br />
+                    <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="6" name="title" th:text="${response.title}"
+                              th:placeholder="${response.title}"></textarea>
+                    <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">질문 내용을 잘못입력함</div>
+                    <br />
+                    <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{FAQ_ANSWER_CONTENT}"></span><br /><br />
+                    <textarea style="white-space: pre-wrap; text-align: center" class="form-control" cols="50" rows="6" name="content" th:text="${response.content}"
+                              th:placeholder="${response.content}"></textarea>
+                    <div class="error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">답변 내용을 잘못입력함</div>
+                    <br />
+                    <input type="hidden" name="page" th:value="${page}">
+                    <input type="hidden" name="categoryCode" th:value="${code}">
+                    <input type="hidden" name="reason" value="FAQ">
+                    <input type="hidden" name="_method" value="put" />
+                    <input class="btn-primary fa-pull-right" type="submit" th:value="#{UPDATE}">
+                </form>
+            </div>
+        </main>
+    </body>
+</html>

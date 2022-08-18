@@ -1,8 +1,13 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.DibRepository;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -23,39 +28,41 @@ public class DibAdapter implements DibRepository {
     private final RestTemplate restTemplate;
 
     @Override
-    public void createDib(final Long productId) {
+    public void createDib(final Long productId) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<Void> response =
-            restTemplate.exchange(gateWayIp + "/members/dibs/" + productId,
-                HttpMethod.POST,
-                requestEntity,
-                Void.class);
+        ResponseEntity<ShopResult<Void>> response =
+                restTemplate.exchange(gateWayIp + "/members/dibs/" + productId,
+                                      HttpMethod.POST,
+                                      requestEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         this.checkResponseUri(response);
     }
 
     @Override
-    public List<DibRetrieveResponse> retrieveDibs() {
+    public List<DibRetrieveResponse> retrieveDibs() throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<DibRetrieveResponse>> response =
-            restTemplate.exchange(gateWayIp + "/members/dibs",
-                HttpMethod.GET,
-                requestEntity,
-                new ParameterizedTypeReference<>() {
-                });
+        ResponseEntity<ShopResult<List<DibRetrieveResponse>>> response =
+                restTemplate.exchange(gateWayIp + "/members/dibs",
+                                      HttpMethod.GET,
+                                      requestEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         this.checkResponseUri(response);
-        return response.getBody();
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public void deleteDib(final Long productId) {
+    public void deleteDib(final Long productId) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<Void> response =
-            restTemplate.exchange(gateWayIp + "/members/dibs/" + productId,
-                HttpMethod.DELETE,
-                requestEntity,
-                Void.class);
+        ResponseEntity<ShopResult<Void>> response =
+                restTemplate.exchange(gateWayIp + "/members/dibs/" + productId,
+                                      HttpMethod.DELETE,
+                                      requestEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         this.checkResponseUri(response);
     }
@@ -68,7 +75,10 @@ public class DibAdapter implements DibRepository {
         return httpHeaders;
     }
 
-    private <T> void checkResponseUri(final ResponseEntity<T> response) {
+    private <T> void checkResponseUri(final ResponseEntity<ShopResult<T>> response)
+            throws UnAuthenticException, UnAuthorizationException {
+
+        ResponseUtils.checkErrorForResponse(response);
         log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 

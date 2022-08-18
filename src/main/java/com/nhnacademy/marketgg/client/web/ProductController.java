@@ -1,5 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.util.List;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
 
     private final ProductService productService;
+    private static final Integer PAGE_SIZE = 10;
 
     /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 조회 한 후 이동하는 GET Mapping 을 지원합니다.
@@ -24,16 +27,17 @@ public class ProductController {
      * @param categoryId - 지정한 카테고리의 식별번호입니다.
      * @param keyword    - 검색어입니다.
      * @param page       - 조회 할 페이지 정보입니다.
-     * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 구한 후 이동합니다..
+     * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 구한 후 이동합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     @GetMapping("/search")
     public ModelAndView searchProductListByCategory(@RequestParam final String categoryId,
                                                     @RequestParam final String keyword,
-                                                    @RequestParam final Integer page) {
+                                                    @RequestParam final Integer page) throws JsonProcessingException {
 
-        List<SearchProductResponse> responses = productService.searchProductListByCategory(categoryId, keyword, page);
-
+        SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
+        List<SearchProductResponse> responses = productService.searchProductListByCategory(request);
         // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
         // FIXME: Pathvariable 에 option 에는 (asc, desc) 만 들어갑니다! 매핑 잡으실 때 참고해주세요.
         ModelAndView mav = new ModelAndView("products/index");
@@ -53,15 +57,17 @@ public class ProductController {
      * @param keyword    - 검색어입니다.
      * @param page       - 조회 할 페이지 정보입니다.
      * @return 선택한 카테고리 번호내에서 선택한 정렬옵션으로 가격이 정렬된 상품 목록을 구한 후 이동합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}/price/{option}/search")
     public ModelAndView searchProductListByPrice(@PathVariable final String categoryId,
                                                  @PathVariable final String option,
                                                  @RequestParam final String keyword,
-                                                 @RequestParam final Integer page) {
+                                                 @RequestParam final Integer page) throws JsonProcessingException {
 
-        List<SearchProductResponse> responses = productService.searchProductListByPrice(categoryId, option, keyword, page);
+        SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
+        List<SearchProductResponse> responses = productService.searchProductListByPrice(request, option);
 
         ModelAndView mav = new ModelAndView("products/index");
         mav.addObject("keyword", keyword);

@@ -1,7 +1,9 @@
 package com.nhnacademy.marketgg.client.repository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import java.io.IOException;
@@ -26,7 +28,7 @@ public interface ProductRepository {
      * @since 1.0.0
      */
     void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
-        throws IOException;
+            throws IOException;
 
     /**
      * 모든 상품을 조회합니다.
@@ -49,12 +51,12 @@ public interface ProductRepository {
      * 카테고리로 상품 목록을 조회합니다.
      *
      * @param categorizationCode - 카테고리 대분류 입니다. ex) 100 - 상품
-     * @param categoryCode       - 카테고리 소분류 입니다. ex) 101 - 채소
+     * @param categoryId         - 카테고리 소분류 입니다. ex) 101 - 채소
      * @return - 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
     List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
-                                                     final String categoryCode);
+                                                     final String categoryId);
 
     /**
      * 상품 번호로 상품을 찾은 뒤, 해당 상품을 수정합니다.
@@ -67,7 +69,7 @@ public interface ProductRepository {
      */
     void updateProduct(final Long productId, final MultipartFile image,
                        final ProductUpdateRequest productRequest)
-        throws IOException;
+            throws IOException;
 
     /**
      * 상품 번호로 상품을 찾은 뒤, 소프트 삭제 합니다.
@@ -80,26 +82,24 @@ public interface ProductRepository {
     /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 반환합니다.
      *
-     * @param categoryId - 지정한 카테고리의 식별번호입니다.
-     * @param keyword    - 검색어입니다.
-     * @param page       - 조회 할 페이지 정보입니다.
+     * @param searchRequest - 검색을 진행 할 정보입니다.
      * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 반환합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword,
-                                                            final Integer page);
+    List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException;
 
     /**
      * 지정한 카테고리 번호 내에서 선택한 옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      *
-     * @param categoryId - 지정한 카테고리의 식별번호입니다.
-     * @param option     - 지정한 검색 옵션입니다.
-     * @param keyword    - 검색어입니다.
-     * @param page       - 조회 할 페이지 정보입니다.
+     * @param searchRequest - 검색을 진행 할 정보입니다.
+     * @param option        - 지정한 검색 옵션입니다.
      * @return 선택한 카테고리 번호내에서 선택한 정렬옵션으로 가격이 정렬된 상품 목록을 반환합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option,
-                                                         final String keyword, final Integer page);
+    List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
+                                                         final String option) throws JsonProcessingException;
 
 }

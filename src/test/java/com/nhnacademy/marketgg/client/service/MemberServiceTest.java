@@ -6,6 +6,8 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultMemberService;
 import java.time.LocalDateTime;
@@ -27,7 +29,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 GG 패스 갱신일 조회")
-    void retrievePassUpdatedAt() {
+    void retrievePassUpdatedAt() throws UnAuthenticException, UnAuthorizationException {
         given(memberRepository.retrievePassUpdatedAt()).willReturn(LocalDateTime.now());
 
         LocalDateTime memberUpdateDate = memberService.retrievePassUpdatedAt();
@@ -37,7 +39,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 GG 패스 구독")
-    void subscribePass() {
+    void subscribePass() throws UnAuthenticException, UnAuthorizationException {
         willDoNothing().given(memberRepository).subscribePass();
 
         memberService.subscribePass();
@@ -47,7 +49,7 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("회원 GG 패스 해지")
-    void withdrawPass() {
+    void withdrawPass() throws UnAuthenticException, UnAuthorizationException {
         willDoNothing().given(memberRepository).withdrawPass();
 
         memberService.withdrawPass();

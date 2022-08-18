@@ -2,13 +2,18 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.PostRepository;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -34,142 +39,161 @@ public class PostAdapter implements PostRepository {
     private static final String CATEGORIES = "/categories/";
 
     @Override
-    public void createPost(final PostRequest postRequest) throws JsonProcessingException {
+    public void createPost(final PostRequest postRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         String request = objectMapper.writeValueAsString(postRequest);
-        ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + USER,
-            HttpMethod.POST,
-            new HttpEntity<>(request, this.buildHeaders()),
-            Void.class);
+        ResponseEntity<ShopResult<Void>> response = restTemplate.exchange(
+                gateWayIp + USER,
+                HttpMethod.POST,
+                new HttpEntity<>(request, this.buildHeaders()),
+                new ParameterizedTypeReference<>() {
+                });
 
-        this.checkResponseUri(response);
+        this.checkResponse(response);
     }
 
     @Override
-    public List<PostResponse> retrievePostList(final String categoryCode, final Integer page) {
+    public List<PostResponse> retrievePostList(final String categoryId, final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryCode + "?page=" + page,
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+        ResponseEntity<ShopResult<List<PostResponse>>> response = restTemplate.exchange(
+                gateWayIp + USER + CATEGORIES + categoryId + "?page=" + page,
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
-        this.checkResponseUri(response);
-        return response.getBody();
+        this.checkResponse(response);
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public PostResponseForDetail retrievePost(final Long postNo, final String categoryCode) {
+    public PostResponseForDetail retrievePost(final Long postId, final String categoryId)
+            throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<PostResponseForDetail> response = restTemplate.exchange(
-            gateWayIp + USER + "/" + postNo,
-            HttpMethod.GET,
-            requestEntity,
-            PostResponseForDetail.class);
+        ResponseEntity<ShopResult<PostResponseForDetail>> response = restTemplate.exchange(
+                gateWayIp + USER + "/" + postId,
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
-        this.checkResponseUri(response);
-        return response.getBody();
+        this.checkResponse(response);
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public List<PostResponse> searchForCategory(final String categoryCode, final SearchRequest searchRequest) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryCode + "/search?keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+    public List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
-        this.checkResponseUri(response);
-        return response.getBody();
+        String requestBody = objectMapper.writeValueAsString(searchRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
+        ResponseEntity<ShopResult<List<PostResponse>>> response = restTemplate.exchange(
+                gateWayIp + USER + CATEGORIES + searchRequest.getCategoryCode() + "/search",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        this.checkResponse(response);
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public List<PostResponse> searchForOption(final String categoryCode, final SearchRequest searchRequest,
-                                              final String optionType, final String option) {
+    public List<PostResponse> searchForOption(final SearchRequestForCategory searchRequest,
+                                              final String optionType, final String option)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + ADMIN + CATEGORIES + categoryCode + "/options/" + optionType + "/search?option=" + option + "&keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+        String requestBody = objectMapper.writeValueAsString(searchRequest);
 
-        this.checkResponseUri(response);
-        return response.getBody();
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
+        ResponseEntity<ShopResult<List<PostResponse>>> response = restTemplate.exchange(
+                gateWayIp + ADMIN + CATEGORIES + searchRequest.getCategoryCode() + "/options/" + optionType +
+                        "/search",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        this.checkResponse(response);
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public void updatePost(final Long postNo, final PostRequest postRequest, final String categoryCode)
-            throws JsonProcessingException {
+    public void updatePost(final Long postId, final PostRequest postRequest, final String categoryId)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         String requestBody = objectMapper.writeValueAsString(postRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + ADMIN + CATEGORIES + categoryCode + "/" + postNo,
-            HttpMethod.PUT,
-            requestEntity,
-            Void.class);
+        ResponseEntity<ShopResult<Void>> response = restTemplate.exchange(
+                gateWayIp + ADMIN + CATEGORIES + categoryId + "/" + postId,
+                HttpMethod.PUT,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
-        this.checkResponseUri(response);
+        this.checkResponse(response);
     }
 
     @Override
-    public void deletePost(final Long postNo, final String categoryCode) {
+    public void deletePost(final Long postId, final String categoryId)
+            throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryCode + "/" + postNo,
-            HttpMethod.DELETE,
-            requestEntity,
-            Void.class);
+        ResponseEntity<ShopResult<Void>> response = restTemplate.exchange(
+                gateWayIp + USER + CATEGORIES + categoryId + "/" + postId,
+                HttpMethod.DELETE,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
-        this.checkResponseUri(response);
+        this.checkResponse(response);
     }
 
     @Override
-    public List<String> retrieveReason() {
+    public List<String> retrieveReason() throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<String>> response = restTemplate.exchange(
-            gateWayIp + USER + "/reasons",
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+        ResponseEntity<ShopResult<List<String>>> response = restTemplate.exchange(
+                gateWayIp + USER + "/reasons",
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
-        this.checkResponseUri(response);
-        return response.getBody();
+        this.checkResponse(response);
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public void changeStatus(Long postNo, PostStatusUpdateRequest postRequest) throws JsonProcessingException {
+    public void changeStatus(final Long postId, final PostStatusUpdateRequest postRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+
         String requestBody = objectMapper.writeValueAsString(postRequest);
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + ADMIN + "/" + postNo,
-            HttpMethod.PATCH,
-            requestEntity,
-            Void.class);
+        ResponseEntity<ShopResult<Void>> response = restTemplate.exchange(
+                gateWayIp + ADMIN + "/" + postId,
+                HttpMethod.PATCH,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
-        this.checkResponseUri(response);
+        this.checkResponse(response);
     }
 
     @Override
-    public List<String> retrieveStatus() {
+    public List<String> retrieveStatus() throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<String>> response = restTemplate.exchange(
-            gateWayIp + ADMIN + "/status",
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+        ResponseEntity<ShopResult<List<String>>> response = restTemplate.exchange(
+                gateWayIp + ADMIN + "/status",
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
-        this.checkResponseUri(response);
-        return response.getBody();
+        this.checkResponse(response);
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     private HttpHeaders buildHeaders() {
@@ -180,7 +204,10 @@ public class PostAdapter implements PostRepository {
         return httpHeaders;
     }
 
-    private <T> void checkResponseUri(final ResponseEntity<T> response) {
+    private <T> void checkResponse(final ResponseEntity<ShopResult<T>> response)
+            throws UnAuthenticException, UnAuthorizationException {
+
+        ResponseUtils.checkErrorForResponse(response);
         log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 

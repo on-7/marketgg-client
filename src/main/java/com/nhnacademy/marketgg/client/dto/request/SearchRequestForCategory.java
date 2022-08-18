@@ -9,7 +9,11 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Getter
-public class SearchRequest {
+public class SearchRequestForCategory {
+
+    @NotBlank
+    @Size(min = 1, max = 6)
+    private final String categoryCode;
 
     @NotBlank
     @Size(min = 1, max = 30)

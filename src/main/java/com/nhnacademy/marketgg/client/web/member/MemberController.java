@@ -46,10 +46,12 @@ public class MemberController {
      *
      * @return 회원의 식별번호를 담고, GG 패스의 index 페이지로 이동합니다.
      * @author 박세완
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/ggpass")
-    public ModelAndView index() {
+    public ModelAndView index() throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("pages/ggpass/index");
         mav.addObject("time", LocalDate.from(memberService.retrievePassUpdatedAt()));
 
@@ -62,10 +64,12 @@ public class MemberController {
      * @return 갱신일자가 지금 시간보다 늦을 시, ERROR 메세지와 함께 다시 Index 페이지로 이동합니다.
      * 갱신일자가 지금 시간보다 빠를 시, 구독하는 메소드를 실행한 후, 다시 Index 페이지로 이동합니다.
      * @author 박세완
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @PostMapping("/ggpass/subscribe")
-    public ModelAndView subscribePass() {
+    public ModelAndView subscribePass() throws UnAuthenticException, UnAuthorizationException {
         if (memberService.retrievePassUpdatedAt().isAfter(LocalDateTime.now())) {
             ModelAndView mav = new ModelAndView("message");
             mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
@@ -82,10 +86,12 @@ public class MemberController {
      *
      * @return GG 패스 구독을 해지하는 메소드 실행 후, 다시 Index 페이지로 이동합니다.
      * @author 박세완
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @PostMapping("/ggpass/withdraw")
-    public ModelAndView withdrawPass() {
+    public ModelAndView withdrawPass() throws UnAuthenticException, UnAuthorizationException {
         memberService.withdrawPass();
 
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/ggpass");

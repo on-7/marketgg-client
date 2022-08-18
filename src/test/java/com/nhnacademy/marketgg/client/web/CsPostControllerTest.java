@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
@@ -57,6 +57,7 @@ class CsPostControllerTest {
     RedisTemplate<String, JwtInfo> redisTemplate;
 
     private static final String DEFAULT_POST = "/customer-services";
+    private static final String BOARD = "pages/board/";
     private static final String OTO_CODE = "702";
 
     private PostResponseForDetail responseForDetail;
@@ -108,7 +109,7 @@ class CsPostControllerTest {
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}", OTO_CODE)
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/oto-inquiries/index"))
+                                          .andExpect(view().name(BOARD + "oto-inquiries/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -121,7 +122,7 @@ class CsPostControllerTest {
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/" + OTO_CODE + "/create"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/oto-inquiries/create-form")).andReturn();
+                                          .andExpect(view().name(BOARD + "oto-inquiries/create-form")).andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("reasons")).isNotNull();
     }
@@ -149,8 +150,8 @@ class CsPostControllerTest {
         this.mockMvc.perform(post(DEFAULT_POST + "/categories/" + OTO_CODE + "/create")
                                      .contentType(MediaType.APPLICATION_JSON)
                                      .content(mapper.writeValueAsString(request)))
-                    .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/create"));
+                    .andExpect(status().isOk())
+                    .andExpect(view().name(BOARD + "oto-inquiries/create-form"));
     }
 
     @Test
@@ -158,10 +159,10 @@ class CsPostControllerTest {
     void testRetrievePost() throws Exception {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
 
-        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postNo}", "703", 1L)
+        MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postId}", "703", 1L)
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/faqs/detail"))
+                                          .andExpect(view().name(BOARD + "faqs/detail"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("response")).isNotNull();
@@ -173,10 +174,10 @@ class CsPostControllerTest {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
 
         MvcResult mvcResult =
-                this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postNo}", OTO_CODE, 1L)
+                this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postId}", OTO_CODE, 1L)
                                              .param("page", "0"))
                             .andExpect(status().isOk())
-                            .andExpect(view().name("pages/board/oto-inquiries/detail"))
+                            .andExpect(view().name(BOARD + "oto-inquiries/detail"))
                             .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("response")).isNotNull();
@@ -185,13 +186,13 @@ class CsPostControllerTest {
     @Test
     @DisplayName("카테고리 별 검색")
     void testSearchForCategory() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
+        given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(List.of(response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "701")
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/notices/index"))
+                                          .andExpect(view().name(BOARD + "notices/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -200,7 +201,7 @@ class CsPostControllerTest {
     @Test
     @DisplayName("카테고리 별 검색 (카테고리 X)")
     void testSearchForCategoryCheckNotFoundType() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(
+        given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(
                 List.of(response));
 
         this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "710")
@@ -214,13 +215,13 @@ class CsPostControllerTest {
     @Test
     @DisplayName("카테고리 별 검색 (FAQ)")
     void testSearchForCategoryForFaq() throws Exception {
-        given(postService.searchForCategory(anyString(), any(SearchRequest.class))).willReturn(List.of(response));
+        given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(List.of(response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "703")
                                                            .param("keyword", "hi")
                                                            .param("page", "0"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("pages/board/faqs/index"))
+                                          .andExpect(view().name(BOARD + "faqs/index"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("responses")).isNotNull();
@@ -231,7 +232,7 @@ class CsPostControllerTest {
     void testDeletePost() throws Exception {
         willDoNothing().given(postService).deletePost(anyLong(), anyString());
 
-        this.mockMvc.perform(delete(DEFAULT_POST + "/categories/" + OTO_CODE + "/{postNo}/delete", 1L)
+        this.mockMvc.perform(delete(DEFAULT_POST + "/categories/" + OTO_CODE + "/{postId}/delete", 1L)
                                      .param("page", "0"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702?page=0"));

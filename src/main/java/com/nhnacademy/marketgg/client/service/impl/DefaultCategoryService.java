@@ -5,6 +5,8 @@ import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.CategoryRepository;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import java.util.List;
@@ -19,35 +21,36 @@ public class DefaultCategoryService implements CategoryService {
 
     @Override
     public void createCategory(final CategoryCreateRequest categoryRequest)
-        throws JsonProcessingException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         categoryRepository.createCategory(categoryRequest);
     }
 
     @Override
-    public CategoryRetrieveResponse retrieveCategory(String id) {
+    public CategoryRetrieveResponse retrieveCategory(String id) throws UnAuthenticException, UnAuthorizationException {
         return categoryRepository.retrieveCategory(id);
     }
 
     @Override
-    public List<CategoryRetrieveResponse> retrieveCategories() {
+    public List<CategoryRetrieveResponse> retrieveCategories() throws UnAuthenticException, UnAuthorizationException {
         return categoryRepository.retrieveCategories();
     }
 
     @Override
-    public List<CategorizationRetrieveResponse> retrieveCategorizations() {
+    public List<CategorizationRetrieveResponse> retrieveCategorizations()
+            throws UnAuthenticException, UnAuthorizationException {
         return categoryRepository.retrieveCategorizations();
     }
 
     @Override
     public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
-        throws JsonProcessingException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         categoryRepository.updateCategory(id, categoryRequest);
     }
 
     @Override
-    public void deleteCategory(final String id) {
+    public void deleteCategory(final String id) throws UnAuthenticException, UnAuthorizationException {
         categoryRepository.deleteCategory(id);
     }
 

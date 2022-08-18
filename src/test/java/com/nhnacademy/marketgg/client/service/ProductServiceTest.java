@@ -10,8 +10,10 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
 import com.nhnacademy.marketgg.client.repository.ProductRepository;
@@ -106,29 +108,24 @@ class ProductServiceTest {
 
     @Test
     @DisplayName("카테고리 번호내 목록에서 상품 검색")
-    void testSearchProductListByCategory() {
-        given(productRepository.searchProductListByCategory(anyString(), anyString(), anyInt())).willReturn(
-            List.of());
+    void testSearchProductListByCategory() throws JsonProcessingException {
+        given(productRepository.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(List.of());
 
-        productService.searchProductListByCategory("100", "hi", 1);
+        productService.searchProductListByCategory(new SearchRequestForCategory("100", "hello", 0, 10));
 
-        then(productRepository).should(times(1))
-                               .searchProductListByCategory(anyString(), anyString(), anyInt());
+        then(productRepository).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
     }
 
     @Test
     @DisplayName("카테고리 번호 내 목록 및 가격 옵션 검색")
-    void testSearchProductListByPrice() {
-        given(productRepository.searchProductListByPrice(anyString(),
-                                                         anyString(),
-                                                         anyString(),
-                                                         anyInt())).willReturn(
+    void testSearchProductListByPrice() throws JsonProcessingException {
+        given(productRepository.searchProductListByPrice(any(SearchRequestForCategory.class), anyString())).willReturn(
             List.of());
 
-        productService.searchProductListByPrice("100", "desc", "hi", 1);
+        productService.searchProductListByPrice(new SearchRequestForCategory("100", "hello", 0, 10), "asc");
 
         then(productRepository).should(times(1))
-                               .searchProductListByPrice(anyString(), anyString(), anyString(), anyInt());
+                               .searchProductListByPrice(any(SearchRequestForCategory.class), anyString());
     }
 
     private MockMultipartFile getImage() throws IOException {

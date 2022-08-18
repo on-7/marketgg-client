@@ -2,11 +2,16 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
+import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.CommentRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -27,17 +32,18 @@ public class CommentAdapter implements CommentRepository {
     private static final String DEFAULT_COMMENT = "/shop/v1/customer-services";
 
     @Override
-    public void createComment(final Long postNo, final CommentRequest commentRequest)
-        throws JsonProcessingException {
+    public void createComment(final Long postId, final CommentRequest commentRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         String request = objectMapper.writeValueAsString(commentRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + DEFAULT_COMMENT + "/" + postNo,
-            HttpMethod.POST,
-            requestEntity,
-            Void.class);
+        ResponseEntity<ShopResult<Void>> response = restTemplate.exchange(
+                gateWayIp + DEFAULT_COMMENT + "/" + postId,
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
     }
@@ -50,7 +56,9 @@ public class CommentAdapter implements CommentRepository {
         return httpHeaders;
     }
 
-    private <T> void checkResponseUri(final ResponseEntity<T> response) {
+    private <T> void checkResponseUri(final ResponseEntity<ShopResult<T>> response)
+            throws UnAuthenticException, UnAuthorizationException {
+        ResponseUtils.checkErrorForResponse(response);
         log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 

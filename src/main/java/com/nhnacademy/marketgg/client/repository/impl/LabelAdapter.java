@@ -2,10 +2,15 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.LabelRepository;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,39 +35,41 @@ public class LabelAdapter implements LabelRepository {
 
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest)
-        throws JsonProcessingException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         String request = objectMapper.writeValueAsString(labelRequest);
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
-            HttpMethod.POST,
-            requestEntity,
-            Void.class);
+        ResponseEntity<ShopResult<Void>> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
+                                                                          HttpMethod.POST,
+                                                                          new HttpEntity<>(request,
+                                                                                           this.buildHeaders()),
+                                                                          new ParameterizedTypeReference<>() {
+                                                                          });
 
         this.checkResponseUri(response);
     }
 
     @Override
-    public List<LabelRetrieveResponse> retrieveResponse() {
+    public List<LabelRetrieveResponse> retrieveResponse() throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<List<LabelRetrieveResponse>>
-            response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+        ResponseEntity<ShopResult<List<LabelRetrieveResponse>>> response =
+                restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
+                                      HttpMethod.GET,
+                                      requestEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         this.checkResponseUri(response);
-        return response.getBody();
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public void deleteLabel(final Long id) {
+    public void deleteLabel(final Long id) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL + "/" + id,
-            HttpMethod.DELETE,
-            requestEntity,
-            Void.class);
+        ResponseEntity<ShopResult<Void>> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL + "/" + id,
+                                                                          HttpMethod.DELETE,
+                                                                          requestEntity,
+                                                                          new ParameterizedTypeReference<>() {
+                                                                          });
 
         this.checkResponseUri(response);
     }
@@ -75,7 +82,10 @@ public class LabelAdapter implements LabelRepository {
         return httpHeaders;
     }
 
-    private <T> void checkResponseUri(final ResponseEntity<T> response) {
+    private <T> void checkResponseUri(final ResponseEntity<ShopResult<T>> response)
+            throws UnAuthenticException, UnAuthorizationException {
+
+        ResponseUtils.checkErrorForResponse(response);
         log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 

@@ -11,6 +11,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.CategoryRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultCategoryService;
 import java.util.List;
@@ -42,7 +44,7 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("카테고리 등록")
-    void testCreateCategory() throws JsonProcessingException {
+    void testCreateCategory() throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         willDoNothing().given(categoryRepository).createCategory(any(CategoryCreateRequest.class));
 
         categoryService.createCategory(categoryCreateRequest);
@@ -52,7 +54,7 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("카테고리 단건 조회")
-    void testRetrieveCategory() {
+    void testRetrieveCategory() throws UnAuthenticException, UnAuthorizationException {
         given(categoryRepository.retrieveCategory(anyString())).willReturn(any(CategoryRetrieveResponse.class));
 
         categoryService.retrieveCategory("101");
@@ -62,7 +64,7 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("모든 카테고리 목록 조회")
-    void testRetrieveCategories() {
+    void testRetrieveCategories() throws UnAuthenticException, UnAuthorizationException {
         given(categoryRepository.retrieveCategories()).willReturn(List.of());
 
         categoryService.retrieveCategories();
@@ -72,7 +74,7 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("모든 카테고리 분류표 목록 조회")
-    void testRetrieveCategorizations() {
+    void testRetrieveCategorizations() throws UnAuthenticException, UnAuthorizationException {
         given(categoryRepository.retrieveCategorizations()).willReturn(List.of());
 
         categoryService.retrieveCategorizations();
@@ -82,7 +84,7 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("카테고리 수정")
-    void testUpdateCategory() throws JsonProcessingException {
+    void testUpdateCategory() throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         willDoNothing().given(categoryRepository).updateCategory(anyString(), any(CategoryUpdateRequest.class));
 
         categoryService.updateCategory("101", categoryUpdateRequest);
@@ -92,7 +94,7 @@ class CategoryServiceTest {
 
     @Test
     @DisplayName("카테고리 삭제")
-    void testDeleteCategory() {
+    void testDeleteCategory() throws UnAuthenticException, UnAuthorizationException {
         willDoNothing().given(categoryRepository).deleteCategory(anyString());
 
         categoryService.deleteCategory("101");

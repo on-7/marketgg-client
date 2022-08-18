@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="#{GG_PASS}"></title>
+    </head>
+    <body>
+        <main>
+            <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
+                <h2 style="background-color: white; border: 1px outset black; padding: 5px" th:text="#{GG_PASS}"></h2>
+            </div>
+            <div style="display: flex">
+                <nav style="display: flex; flex: 0.1; padding-left: 30px"></nav>
+                <div style="display: flex; flex: 0.7; flex-direction: column;">
+                    <h2 style="text-align: center"><span th:text="#{GG_PASS_UPDATED_AT}"></span></h2>
+                    <h3 style="text-align: center"><span th:text="${time}"></span></h3>
+                    <div class="row-cols-2" style="text-align: center; display: flex; justify-content: center">
+                        <form th:action="'/members/ggpass/subscribe'" th:method="post">
+                            <input class="btn-primary fa-pull-left" type="submit" th:value="#{SUBSCRIBE}">
+                        </form>
+                        <form th:action="'/members/ggpass/withdraw'" th:method="post">
+                            <input class="btn-primary fa-pull-right" type="submit" th:value="#{WITHDRAW}">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>

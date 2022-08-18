@@ -1,7 +1,9 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.repository.ProductRepository;
@@ -36,9 +38,9 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
-                                                            final String categoryCode) {
+                                                            final String categoryId) {
 
-        return this.productRepository.retrieveProductsByCategory(categorizationCode, categoryCode);
+        return this.productRepository.retrieveProductsByCategory(categorizationCode, categoryId);
     }
 
     @Override
@@ -54,15 +56,17 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByCategory(final String categoryId, final String keyword,
-                                                                   final Integer page) {
-        return productRepository.searchProductListByCategory(categoryId, keyword, page);
+    public List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException {
+
+        return productRepository.searchProductListByCategory(searchRequest);
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final String categoryId, final String option,
-                                                                final String keyword, final Integer page) {
-        return productRepository.searchProductListByPrice(categoryId, option, keyword, page);
+    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
+            throws JsonProcessingException {
+
+        return productRepository.searchProductListByPrice(searchRequest, option);
     }
 
 }
