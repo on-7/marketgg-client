@@ -37,7 +37,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminCsPostController {
 
     private final PostService postService;
-
     private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
     private static final String BOARD = "pages/board/";
     private static final String NOTICE_CODE = "701";
@@ -55,8 +54,9 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}")
-    public ModelAndView index(@PathVariable @Size(min = 1, max = 6) final String categoryCode, @RequestParam @Min(0) final Integer page)
-        throws JsonProcessingException {
+    public ModelAndView index(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
+                              @RequestParam @Min(0) final Integer page)
+            throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/index");
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
@@ -105,12 +105,12 @@ public class AdminCsPostController {
                                    @Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult
     ) throws JsonProcessingException {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return new ModelAndView(BOARD + this.convertToType(categoryCode) + "/create-form");
         }
 
         ModelAndView mav = new ModelAndView(
-            "redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=0");
+                "redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=0");
         postService.createPost(postRequest);
 
         return mav;
@@ -126,7 +126,8 @@ public class AdminCsPostController {
      */
     @GetMapping("/categories/{categoryCode}/{postNo}")
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
-                                     @PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
+                                     @PathVariable @Min(1) final Long postNo,
+                                     @RequestParam @Min(0) final Integer page) {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
@@ -234,7 +235,7 @@ public class AdminCsPostController {
                                    @Valid @ModelAttribute final PostRequest postRequest,
                                    BindingResult bindingResult) throws JsonProcessingException {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return this.goUpdateForm(categoryCode, postNo, page);
         }
 
@@ -242,7 +243,8 @@ public class AdminCsPostController {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
         }
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
+        ModelAndView mav =
+                new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
         postService.updatePost(postNo, postRequest, categoryCode);
 
         return mav;
@@ -262,7 +264,8 @@ public class AdminCsPostController {
                                    @PathVariable @Min(1) final Long postNo,
                                    @RequestParam @Min(0) final Integer page) {
 
-        ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
+        ModelAndView mav =
+                new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryCode + "?page=" + page);
         postService.deletePost(postNo, categoryCode);
 
         return mav;
@@ -283,9 +286,9 @@ public class AdminCsPostController {
                                      @RequestParam @Min(0) final Integer page,
                                      @Valid @ModelAttribute final PostStatusUpdateRequest postRequest,
                                      BindingResult bindingResult)
-        throws JsonProcessingException {
+            throws JsonProcessingException {
 
-        if(!bindingResult.hasErrors()) {
+        if (!bindingResult.hasErrors()) {
             postService.changeStatus(postNo, postRequest);
         }
 

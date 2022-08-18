@@ -94,7 +94,7 @@ public class CsPostController {
      */
     @PostMapping("/categories/" + OTO_CODE + "/create")
     public ModelAndView createPost(@Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult)
-        throws JsonProcessingException {
+            throws JsonProcessingException {
         if (bindingResult.hasErrors()) {
             return new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         }
@@ -167,7 +167,7 @@ public class CsPostController {
     @DeleteMapping("/categories/" + OTO_CODE + "/{postNo}/delete")
     public ModelAndView deletePost(@PathVariable @Min(1) final Long postNo, @RequestParam @Min(0) final Integer page) {
         ModelAndView mav = new ModelAndView(
-            "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
+                "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
         postService.deletePost(postNo, OTO_CODE);
 
         return mav;
