@@ -49,12 +49,12 @@ public interface ProductRepository {
      * 카테고리로 상품 목록을 조회합니다.
      *
      * @param categorizationCode - 카테고리 대분류 입니다. ex) 100 - 상품
-     * @param categoryid       - 카테고리 소분류 입니다. ex) 101 - 채소
+     * @param categoryId       - 카테고리 소분류 입니다. ex) 101 - 채소
      * @return - 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
     List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
-                                                     final String categoryid);
+                                                     final String categoryId);
 
     /**
      * 상품 번호로 상품을 찾은 뒤, 해당 상품을 수정합니다.

@@ -79,7 +79,7 @@ class AdminCsPostControllerTest {
     @ParameterizedTest
     @ValueSource(strings = { "701", "702", "703" })
     @DisplayName("인덱스 조회 (1:1 문의)")
-    void testIndex(String categoryid) throws Exception {
+    void testIndex(String categoryId) throws Exception {
         given(postService.retrievePostList(anyString(), anyInt())).willReturn(List.of(response));
 
         String type = "";

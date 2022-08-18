@@ -24,37 +24,37 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> retrievePostList(final String categoryid, final Integer page) {
-        return postRepository.retrievePostList(categoryid, page);
+    public List<PostResponse> retrievePostList(final String categoryId, final Integer page) {
+        return postRepository.retrievePostList(categoryId, page);
     }
 
     @Override
-    public PostResponseForDetail retrievePost(final Long postId, final String categoryid) {
-        return postRepository.retrievePost(postId, categoryid);
+    public PostResponseForDetail retrievePost(final Long postId, final String categoryId) {
+        return postRepository.retrievePost(postId, categoryId);
     }
 
     @Override
-    public List<PostResponse> searchForCategory(final String categoryid, final SearchRequest searchRequest) {
-        return postRepository.searchForCategory(categoryid, searchRequest);
+    public List<PostResponse> searchForCategory(final String categoryId, final SearchRequest searchRequest) {
+        return postRepository.searchForCategory(categoryId, searchRequest);
     }
 
     @Override
-    public List<PostResponse> searchForOption(final String categoryid, final SearchRequest searchRequest,
+    public List<PostResponse> searchForOption(final String categoryId, final SearchRequest searchRequest,
                                               final String optionType, final String option) {
 
-        return postRepository.searchForOption(categoryid, searchRequest, optionType, option);
+        return postRepository.searchForOption(categoryId, searchRequest, optionType, option);
     }
 
     @Override
-    public void updatePost(final Long postId, final PostRequest postRequest, final String categoryid)
+    public void updatePost(final Long postId, final PostRequest postRequest, final String categoryId)
             throws JsonProcessingException {
 
-        postRepository.updatePost(postId, postRequest, categoryid);
+        postRepository.updatePost(postId, postRequest, categoryId);
     }
 
     @Override
-    public void deletePost(final Long postId, final String categoryid) {
-        postRepository.deletePost(postId, categoryid);
+    public void deletePost(final Long postId, final String categoryId) {
+        postRepository.deletePost(postId, categoryId);
     }
 
     @Override

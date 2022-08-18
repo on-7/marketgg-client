@@ -49,7 +49,7 @@ public class AdminCsPostController {
      * 고객센터의 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
      *
      * @param categoryId - 보여줄 고객센터의 게시판의 카테고리 식별번호입니다.
-     * @param page         - 보여줄 게시글 목록의 페이지 번호입니다.
+     * @param page       - 보여줄 게시글 목록의 페이지 번호입니다.
      * @return 고객센터의 타입에 맞는 게시글 목록을 보여주는 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
@@ -95,8 +95,8 @@ public class AdminCsPostController {
     /**
      * 게시글을 등록 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param categoryId - 등록을 진행할 고객센터 게시판의 타입입니다.
-     * @param postRequest  - 등록할 게시글의 정보를 담은 객체입니다.
+     * @param categoryId  - 등록을 진행할 고객센터 게시판의 타입입니다.
+     * @param postRequest - 등록할 게시글의 정보를 담은 객체입니다.
      * @return 해당 정보로 게시글을 등록 후 다시 Index 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
@@ -121,7 +121,7 @@ public class AdminCsPostController {
      * 선택한 게시글의 상세 정보를 조회 할 수 있습니다.
      *
      * @param categoryId - 조회를 진행할 고객센터 게시판의 타입입니다.
-     * @param postId       - 조회를 진행할 게시글의 식별번호입니다.
+     * @param postId     - 조회를 진행할 게시글의 식별번호입니다.
      * @return 지정한 식별번호의 게시글 상세조회 페이지로 이동합니다.
      * @since 1.0.0
      */
@@ -143,8 +143,8 @@ public class AdminCsPostController {
      * 지정한 카테고리에서 게시판을 검색합니다.
      *
      * @param categoryId - 검색을 진행할 게시판의 타입입니다.
-     * @param keyword      - 검색을 진행할 검색어입니다.
-     * @param page         - 조회할 페이지의 페이지 정보입니다.
+     * @param keyword    - 검색을 진행할 검색어입니다.
+     * @param page       - 조회할 페이지의 페이지 정보입니다.
      * @return 검색 결과 목록을 반환합니다.
      * @since 1.0.0
      */
@@ -199,7 +199,7 @@ public class AdminCsPostController {
     /**
      * 고객센터의 타입에 맞는 게시글을 수정할 수 있는 페이지로 이동합니다.
      *
-     * @param categoryCode - 수정할 게시글의 게시판 카테고리 식별번호입니다.
+     * @param categoryId - 수정할 게시글의 게시판 카테고리 식별번호입니다.
      * @param postId       - 수정할 게시글의 식별번호입니다.
      * @param page         - Redirect 할 페이지 정보입니다.
      * @return 지정한 게시글을 수정할 수 있는 페이지로 이동합니다.
@@ -221,10 +221,10 @@ public class AdminCsPostController {
     /**
      * 받은 정보로 타입에 맞는 게시글을 수정 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param categoryId - 수정할 게시글의 게시판 카테고리 식별번호입니다.
-     * @param postId       - 수정할 게시글의 식별번호입니다.
-     * @param postRequest  - 수정할 정보를 담은 객체입니다.
-     * @param page         - Redirect 할 페이지 정보입니다.
+     * @param categoryId  - 수정할 게시글의 게시판 카테고리 식별번호입니다.
+     * @param postId      - 수정할 게시글의 식별번호입니다.
+     * @param postRequest - 수정할 정보를 담은 객체입니다.
+     * @param page        - Redirect 할 페이지 정보입니다.
      * @return 게시글을 수정한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
@@ -254,9 +254,9 @@ public class AdminCsPostController {
     /**
      * 지정한 게시글을 삭제 한 후 다시 게시글 목록으로 이동합니다.
      *
-     * @param categoryCode - 수정할 게시글의 게시판 카테고리 식별번호입니다.
-     * @param postId       - 수정할 게시글의 식별번호입니다.
-     * @param page         - Redirect 할 페이지 정보입니다.
+     * @param categoryId - 수정할 게시글의 게시판 카테고리 식별번호입니다.
+     * @param postId     - 수정할 게시글의 식별번호입니다.
+     * @param page       - Redirect 할 페이지 정보입니다.
      * @return 게시글을 삭제한 후, 다시 게시글 목록 페이지로 이동합니다.
      * @since 1.0.0
      */

@@ -47,12 +47,12 @@ public class CsPostController {
     /**
      * 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
      *
-     * @param categoryid - 조회할 게시판의 카테고리 식별번호입니다.
+     * @param categoryId - 조회할 게시판의 카테고리 식별번호입니다.
      * @param page         - 보여줄 게시글 목록의 페이지 번호입니다.
      * @return 게시판 타입에 맞는 게시글 목록을 보여주는 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @GetMapping("/categories/{categoryid}")
+    @GetMapping("/categories/{categoryId}")
     public ModelAndView index(@PathVariable final String categoryCode, @RequestParam final Integer page) {
         ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryCode)));
         List<PostResponse> responses = postService.retrievePostList(categoryCode, page);
