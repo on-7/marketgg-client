@@ -77,7 +77,7 @@ public class CsPostController {
      * @since 1.0.0
      */
     @GetMapping("/categories/" + OTO_CODE + "/create")
-    public ModelAndView doCreatePost(@ModelAttribute PostRequest postRequest) {
+    public ModelAndView doCreatePost(@ModelAttribute final PostRequest postRequest) {
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("code", OTO_CODE);

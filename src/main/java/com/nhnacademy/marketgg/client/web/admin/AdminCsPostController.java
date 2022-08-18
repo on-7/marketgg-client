@@ -84,7 +84,7 @@ public class AdminCsPostController {
     @GetMapping("/categories/{categoryId}/create")
 
     public ModelAndView doCreate(@PathVariable final String categoryId,
-                                 @ModelAttribute PostRequest postRequest) {
+                                 @ModelAttribute final PostRequest postRequest) {
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/create-form");
         mav.addObject("code", categoryId);
 
@@ -210,7 +210,7 @@ public class AdminCsPostController {
     public ModelAndView doUpdatePost(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                      @PathVariable @Min(1) final Long postId,
                                      @RequestParam @Min(0) final Integer page,
-                                     @ModelAttribute PostRequest postRequest) {
+                                     @ModelAttribute final PostRequest postRequest) {
 
         if (categoryId.compareTo(OTO_CODE) == 0) {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
