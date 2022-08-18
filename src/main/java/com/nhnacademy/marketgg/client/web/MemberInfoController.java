@@ -121,7 +121,7 @@ public class MemberInfoController {
      * @since 1.0.0
      */
     @GetMapping("/delivery-addresses")
-    public ModelAndView deliveryAddresses() {
+    public ModelAndView deliveryAddresses() throws UnAuthenticException, UnAuthorizationException {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
         // TODO : 페이지 돌입지점에서 바로 보여줘야함. 페이지 필요.
         ModelAndView modelAndView = new ModelAndView();
@@ -139,7 +139,8 @@ public class MemberInfoController {
      */
     @PostMapping("/delivery-address")
     public ModelAndView createDeliveryAddress(
-        @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest) {
+        @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest)
+        throws UnAuthenticException, UnAuthorizationException {
 
         memberService.createDeliveryAddress(addressRequest);
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
@@ -155,7 +156,8 @@ public class MemberInfoController {
      */
     @PutMapping("/delivery-address")
     public ModelAndView updateDeliveryAddress(
-        @ModelAttribute @Valid final DeliveryAddressUpdateRequest updateRequest) {
+        @ModelAttribute @Valid final DeliveryAddressUpdateRequest updateRequest)
+        throws UnAuthenticException, UnAuthorizationException {
 
         memberService.updateDeliveryAddress(updateRequest);
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
@@ -170,7 +172,8 @@ public class MemberInfoController {
      * @since 1.0.0
      */
     @DeleteMapping("/delivery-address/{deliveryAddressId}")
-    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId) {
+    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
+        throws UnAuthenticException, UnAuthorizationException {
         memberService.deleteDeliveryAddress(deliveryAddressId);
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
     }

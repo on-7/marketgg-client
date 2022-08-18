@@ -69,22 +69,26 @@ public class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public List<DeliveryAddressResponse> retrieveDeliveryAddresses() {
+    public List<DeliveryAddressResponse> retrieveDeliveryAddresses()
+        throws UnAuthenticException, UnAuthorizationException {
         return memberRepository.retrieveDeliveryAddresses();
     }
 
     @Override
-    public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest) {
+    public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest)
+        throws UnAuthenticException, UnAuthorizationException {
         memberRepository.createDeliveryAddress(addressRequest);
     }
 
     @Override
-    public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest) {
+    public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest)
+        throws UnAuthenticException, UnAuthorizationException {
         memberRepository.updateDeliveryAddress(updateRequest);
     }
 
     @Override
-    public void deleteDeliveryAddress(final Long deliveryAddressId) {
+    public void deleteDeliveryAddress(final Long deliveryAddressId)
+        throws UnAuthenticException, UnAuthorizationException {
         memberRepository.deleteDeliveryAddress(deliveryAddressId);
     }
 

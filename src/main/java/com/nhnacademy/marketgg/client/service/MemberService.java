@@ -74,7 +74,8 @@ public interface MemberService {
      * @author 김훈민
      * @since 1.0.0
      */
-    List<DeliveryAddressResponse> retrieveDeliveryAddresses();
+    List<DeliveryAddressResponse> retrieveDeliveryAddresses()
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 회원가입시 입력했던 배송지외에 배송지를 추가하는 메소드 입니다.
@@ -83,7 +84,8 @@ public interface MemberService {
      * @author 김훈민
      * @since 1.0.0
      */
-    void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest);
+    void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest)
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 가진 배송지 정보를 수정하는 메소드 입니다.
@@ -92,7 +94,8 @@ public interface MemberService {
      * @author 김훈민
      * @since 1.0.0
      */
-    void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest);
+    void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest)
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 가진 배송지 정보를 삭제하는 메소드 입니다.
@@ -101,7 +104,8 @@ public interface MemberService {
      * @author 김훈민
      * @since 1.0.0
      */
-    void deleteDeliveryAddress(final Long deliveryAddressId);
+    void deleteDeliveryAddress(final Long deliveryAddressId)
+        throws UnAuthenticException, UnAuthorizationException;
 
     void withdraw(final String sessionId) throws UnAuthenticException, UnAuthorizationException;
 }
