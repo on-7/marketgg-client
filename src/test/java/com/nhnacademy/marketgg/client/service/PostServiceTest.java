@@ -10,6 +10,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
@@ -83,7 +84,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("카테고리 별 게시글 검색")
-    void testSearchForCategory() {
+    void testSearchForCategory() throws JsonProcessingException {
         given(postRepository.searchForCategory(any(SearchRequestForCategory.class))).willReturn(
                 List.of(postResponse));
 
@@ -94,7 +95,7 @@ class PostServiceTest {
 
     @Test
     @DisplayName("카테고리 내 사유별 게시글 검색")
-    void testSearchForReason() {
+    void testSearchForReason() throws JsonProcessingException {
         given(postRepository.searchForOption(any(SearchRequestForCategory.class), anyString(),
                                              anyString())).willReturn(List.of(postResponse));
 

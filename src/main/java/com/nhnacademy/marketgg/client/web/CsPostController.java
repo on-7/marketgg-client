@@ -136,7 +136,7 @@ public class CsPostController {
     @GetMapping("/categories/{categoryId}/search")
     public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                           @RequestParam @Size(min = 1, max = 30) final String keyword,
-                                          @RequestParam @Min(0) final Integer page) {
+                                          @RequestParam @Min(0) final Integer page) throws JsonProcessingException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/index");
 

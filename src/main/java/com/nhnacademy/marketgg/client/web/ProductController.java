@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.service.ProductService;
@@ -26,13 +27,14 @@ public class ProductController {
      * @param categoryId - 지정한 카테고리의 식별번호입니다.
      * @param keyword    - 검색어입니다.
      * @param page       - 조회 할 페이지 정보입니다.
-     * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 구한 후 이동합니다..
+     * @return 선택한 카테고리 번호내에서 검색한 상품 목록을 구한 후 이동합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     @GetMapping("/search")
     public ModelAndView searchProductListByCategory(@RequestParam final String categoryId,
                                                     @RequestParam final String keyword,
-                                                    @RequestParam final Integer page) {
+                                                    @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         List<SearchProductResponse> responses = productService.searchProductListByCategory(request);
@@ -55,13 +57,14 @@ public class ProductController {
      * @param keyword    - 검색어입니다.
      * @param page       - 조회 할 페이지 정보입니다.
      * @return 선택한 카테고리 번호내에서 선택한 정렬옵션으로 가격이 정렬된 상품 목록을 구한 후 이동합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}/price/{option}/search")
     public ModelAndView searchProductListByPrice(@PathVariable final String categoryId,
                                                  @PathVariable final String option,
                                                  @RequestParam final String keyword,
-                                                 @RequestParam final Integer page) {
+                                                 @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         List<SearchProductResponse> responses = productService.searchProductListByPrice(request, option);

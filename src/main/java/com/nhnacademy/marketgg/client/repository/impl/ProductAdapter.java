@@ -1,5 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
@@ -33,19 +35,20 @@ public class ProductAdapter implements ProductRepository {
     private static final String ADMIN_DEFAULT_PRODUCT = "/shop/v1/admin/products";
     private static final String DEFAULT_PRODUCT = "/shop/v1/products";
     private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
     @Override
     public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
-        throws IOException {
+            throws IOException {
 
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
-            getLinkedMultiValueMapHttpEntity(image, productRequest);
+                getLinkedMultiValueMapHttpEntity(image, productRequest);
 
         ResponseEntity<Void> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
-            HttpMethod.POST,
-            httpEntity,
-            new ParameterizedTypeReference<>() {
-            });
+                                                                   HttpMethod.POST,
+                                                                   httpEntity,
+                                                                   new ParameterizedTypeReference<>() {
+                                                                   });
 
         this.checkResponseUri(response);
     }
@@ -56,11 +59,11 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
         ResponseEntity<DefaultPageResult<ProductResponse>> response =
-            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
-                HttpMethod.GET,
-                request,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
+                                           HttpMethod.GET,
+                                           request,
+                                           new ParameterizedTypeReference<>() {
+                                           });
 
 
         this.checkResponseUri(response);
@@ -73,11 +76,11 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<SingleResponse<ProductResponse>> response =
-            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
-                HttpMethod.GET,
-                httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
+                                           HttpMethod.GET,
+                                           httpEntity,
+                                           new ParameterizedTypeReference<>() {
+                                           });
 
         this.checkResponseUri(response);
         return Objects.requireNonNull(response.getBody()).getData();
@@ -91,11 +94,11 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<List<ProductResponse>> response = this.restTemplate.exchange(
-            gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryId,
-            HttpMethod.GET,
-            httpEntity,
-            new ParameterizedTypeReference<>() {
-            });
+                gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryId,
+                HttpMethod.GET,
+                httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         return response.getBody();
     }
@@ -105,14 +108,14 @@ public class ProductAdapter implements ProductRepository {
                               final ProductUpdateRequest productRequest) throws IOException {
 
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
-            getLinkedMultiValueMapHttpEntity(image, productRequest);
+                getLinkedMultiValueMapHttpEntity(image, productRequest);
 
         ResponseEntity<Void> response =
-            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
-                HttpMethod.PUT,
-                httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
+                                           HttpMethod.PUT,
+                                           httpEntity,
+                                           new ParameterizedTypeReference<>() {
+                                           });
 
         this.checkResponseUri(response);
     }
@@ -123,52 +126,61 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-            this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId + "/deleted",
-                HttpMethod.POST,
-                httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId + "/deleted",
+                                           HttpMethod.POST,
+                                           httpEntity,
+                                           new ParameterizedTypeReference<>() {
+                                           });
 
         this.checkResponseUri(response);
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest) {
+    public List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException {
+
+        String requestBody = objectMapper.writeValueAsString(searchRequest);
+
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
-        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+        HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
 
         String requestUri =
-            gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/search?keyword=" + keyword + "&page=" + page;
+                gatewayIp + DEFAULT_PRODUCT + "/categories/" + searchRequest.getCategoryCode() + "/search";
 
-        if (categoryId.compareTo("001") == 0) {
-            requestUri = gatewayIp + DEFAULT_PRODUCT + "/search?keyword=" + keyword + "&page=" + page;
+        if (searchRequest.getCategoryCode().compareTo("001") == 0) {
+            requestUri = gatewayIp + DEFAULT_PRODUCT + "/search";
         }
 
         ResponseEntity<List<SearchProductResponse>> response =
-            this.restTemplate.exchange(
-                requestUri,
-                HttpMethod.POST,
-                httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(
+                        requestUri,
+                        HttpMethod.POST,
+                        httpEntity,
+                        new ParameterizedTypeReference<>() {
+                        });
 
         this.checkResponseUri(response);
         return response.getBody();
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option) {
+    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
+                                                                final String option)
+            throws JsonProcessingException {
+
+        String requestBody = objectMapper.writeValueAsString(searchRequest);
+
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
-        HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
+        HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
 
         ResponseEntity<List<SearchProductResponse>> response =
-            this.restTemplate.exchange(
-                gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/price/" + option + "/search?keyword=" +
-                    keyword + "&page=" + page,
-                HttpMethod.POST,
-                httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(
+                        gatewayIp + DEFAULT_PRODUCT + "/categories/" + searchRequest.getCategoryCode() +
+                                "/sort_price/" + option + "/search",
+                        HttpMethod.POST,
+                        httpEntity,
+                        new ParameterizedTypeReference<>() {
+                        });
 
         this.checkResponseUri(response);
         return response.getBody();
@@ -187,13 +199,13 @@ public class ProductAdapter implements ProductRepository {
     }
 
     private <T> HttpEntity<LinkedMultiValueMap<String, Object>> getLinkedMultiValueMapHttpEntity(
-        MultipartFile image, T productRequest) throws IOException {
+            MultipartFile image, T productRequest) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         LinkedMultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
         headerMap.add("Content-disposition",
-            "form-data; name=image; filename=" + image.getOriginalFilename());
+                      "form-data; name=image; filename=" + image.getOriginalFilename());
         headerMap.add("Content-type", "application/octet-stream");
         HttpEntity<byte[]> imageBytes = new HttpEntity<>(image.getBytes(), headerMap);
 

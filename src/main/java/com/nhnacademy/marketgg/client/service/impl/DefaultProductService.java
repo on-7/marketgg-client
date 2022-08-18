@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
@@ -55,12 +56,16 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest) {
+    public List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException {
+
         return productRepository.searchProductListByCategory(searchRequest);
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option) {
+    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
+            throws JsonProcessingException {
+
         return productRepository.searchProductListByPrice(searchRequest, option);
     }
 

@@ -38,10 +38,10 @@ public class PostAdapter implements PostRepository {
 
         String request = objectMapper.writeValueAsString(postRequest);
         ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + USER,
-            HttpMethod.POST,
-            new HttpEntity<>(request, this.buildHeaders()),
-            Void.class);
+                gateWayIp + USER,
+                HttpMethod.POST,
+                new HttpEntity<>(request, this.buildHeaders()),
+                Void.class);
 
         this.checkResponseUri(response);
     }
@@ -50,11 +50,11 @@ public class PostAdapter implements PostRepository {
     public List<PostResponse> retrievePostList(final String categoryId, final Integer page) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryId + "?page=" + page,
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+                gateWayIp + USER + CATEGORIES + categoryId + "?page=" + page,
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
         return response.getBody();
@@ -64,24 +64,28 @@ public class PostAdapter implements PostRepository {
     public PostResponseForDetail retrievePost(final Long postId, final String categoryId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<PostResponseForDetail> response = restTemplate.exchange(
-            gateWayIp + USER + "/" + postId,
-            HttpMethod.GET,
-            requestEntity,
-            PostResponseForDetail.class);
+                gateWayIp + USER + "/" + postId,
+                HttpMethod.GET,
+                requestEntity,
+                PostResponseForDetail.class);
 
         this.checkResponseUri(response);
         return response.getBody();
     }
 
     @Override
-    public List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+    public List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException {
+
+        String requestBody = objectMapper.writeValueAsString(searchRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + searchRequest.getCategoryCode() + "/search?keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
-            HttpMethod.POST,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+                gateWayIp + USER + CATEGORIES + searchRequest.getCategoryCode() + "/search",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
         return response.getBody();
@@ -89,15 +93,19 @@ public class PostAdapter implements PostRepository {
 
     @Override
     public List<PostResponse> searchForOption(final SearchRequestForCategory searchRequest,
-                                              final String optionType, final String option) {
+                                              final String optionType, final String option)
+            throws JsonProcessingException {
 
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        String requestBody = objectMapper.writeValueAsString(searchRequest);
+
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<List<PostResponse>> response = restTemplate.exchange(
-            gateWayIp + ADMIN + CATEGORIES + searchRequest.getCategoryCode() + "/options/" + optionType + "/search?option=" + option + "&keyword=" + searchRequest.getKeyword() + "&page=" + searchRequest.getPage(),
-            HttpMethod.POST,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+                gateWayIp + ADMIN + CATEGORIES + searchRequest.getCategoryCode() + "/options/" + optionType +
+                        "/search",
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
         return response.getBody();
@@ -111,10 +119,10 @@ public class PostAdapter implements PostRepository {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + ADMIN + CATEGORIES + categoryId + "/" + postId,
-            HttpMethod.PUT,
-            requestEntity,
-            Void.class);
+                gateWayIp + ADMIN + CATEGORIES + categoryId + "/" + postId,
+                HttpMethod.PUT,
+                requestEntity,
+                Void.class);
 
         this.checkResponseUri(response);
     }
@@ -123,10 +131,10 @@ public class PostAdapter implements PostRepository {
     public void deletePost(final Long postId, final String categoryId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + USER + CATEGORIES + categoryId + "/" + postId,
-            HttpMethod.DELETE,
-            requestEntity,
-            Void.class);
+                gateWayIp + USER + CATEGORIES + categoryId + "/" + postId,
+                HttpMethod.DELETE,
+                requestEntity,
+                Void.class);
 
         this.checkResponseUri(response);
     }
@@ -135,11 +143,11 @@ public class PostAdapter implements PostRepository {
     public List<String> retrieveReason() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<String>> response = restTemplate.exchange(
-            gateWayIp + USER + "/reasons",
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+                gateWayIp + USER + "/reasons",
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
         return response.getBody();
@@ -150,10 +158,10 @@ public class PostAdapter implements PostRepository {
         String requestBody = objectMapper.writeValueAsString(postRequest);
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<Void> response = restTemplate.exchange(
-            gateWayIp + ADMIN + "/" + postId,
-            HttpMethod.PATCH,
-            requestEntity,
-            Void.class);
+                gateWayIp + ADMIN + "/" + postId,
+                HttpMethod.PATCH,
+                requestEntity,
+                Void.class);
 
         this.checkResponseUri(response);
     }
@@ -162,11 +170,11 @@ public class PostAdapter implements PostRepository {
     public List<String> retrieveStatus() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<List<String>> response = restTemplate.exchange(
-            gateWayIp + ADMIN + "/status",
-            HttpMethod.GET,
-            requestEntity,
-            new ParameterizedTypeReference<>() {
-            });
+                gateWayIp + ADMIN + "/status",
+                HttpMethod.GET,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
         return response.getBody();

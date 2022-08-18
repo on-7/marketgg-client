@@ -145,12 +145,13 @@ public class AdminCsPostController {
      * @param keyword    - 검색을 진행할 검색어입니다.
      * @param page       - 조회할 페이지의 페이지 정보입니다.
      * @return 검색 결과 목록을 반환합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}/search")
     public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                           @RequestParam @Size(min = 1, max = 30) final String keyword,
-                                          @RequestParam @Min(0) final Integer page) {
+                                          @RequestParam @Min(0) final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         List<PostResponse> responses = postService.searchForCategory(request);
@@ -173,13 +174,14 @@ public class AdminCsPostController {
      * @param option     - 지정한 옵션의 값입니다.
      * @param page       - 조회할 페이지의 페이지 정보입니다.
      * @return 지정한 상태내의 검색 결과 목록을 반환합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/" + OTO_CODE + "/options/{optionType}/search")
     public ModelAndView searchForOption(@PathVariable @Min(1) final String optionType,
                                         @RequestParam @Size(min = 1, max = 30) final String keyword,
                                         @RequestParam @Min(1) final String option,
-                                        @RequestParam @Min(0) final Integer page) {
+                                        @RequestParam @Min(0) final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(OTO_CODE, keyword, page, PAGE_SIZE);
         List<PostResponse> responses = postService.searchForOption(request, optionType, option);

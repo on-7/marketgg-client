@@ -34,13 +34,15 @@ public class DefaultPostService implements PostService {
     }
 
     @Override
-    public List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest) {
+    public List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException {
         return postRepository.searchForCategory(searchRequest);
     }
 
     @Override
     public List<PostResponse> searchForOption(final SearchRequestForCategory searchRequest,
-                                              final String optionType, final String option) {
+                                              final String optionType, final String option)
+            throws JsonProcessingException {
 
         return postRepository.searchForOption(searchRequest, optionType, option);
     }
