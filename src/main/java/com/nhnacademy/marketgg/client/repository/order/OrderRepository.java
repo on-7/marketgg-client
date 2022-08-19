@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import java.util.List;
 
 /**
@@ -49,4 +50,5 @@ public interface OrderRepository {
      */
     void createTrackingNo(final Long orderId);
 
+    List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo);
 }

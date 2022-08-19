@@ -4,6 +4,7 @@ import static java.util.Collections.singletonList;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.util.GgUrlUtils;
 import java.util.Collections;
 import java.util.List;
@@ -127,6 +128,24 @@ public class OrderAdapter implements OrderRepository {
         client.patch()
               .uri(GgUrlUtils.SHOP_SERVICE_PREFIX_V1 + GgUrlUtils.ORDERS_PATH_PREFIX + "/" + orderId)
               .retrieve();
+    }
+
+    @Override
+    public List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo) {
+        WebClient client = WebClient.builder()
+                                    .baseUrl(gatewayIp)
+                                    .defaultHeaders(httpHeaders -> {
+                                        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                                        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+                                    })
+                                    .build();
+
+        return client.get()
+                     .uri("localhost:9090/" + trackingNo)
+                     .retrieve()
+                     .bodyToMono(new ParameterizedTypeReference<List<DeliveryLocationResponseDto>>() {
+                     })
+                     .blockOptional().orElseThrow();
     }
 
 }
