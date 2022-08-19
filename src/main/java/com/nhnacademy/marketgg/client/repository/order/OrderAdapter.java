@@ -130,6 +130,12 @@ public class OrderAdapter implements OrderRepository {
               .retrieve();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param trackingNo - 운송장 번호
+     * @return - 배송정보 리스트
+     */
     @Override
     public List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo) {
         WebClient client = WebClient.builder()
