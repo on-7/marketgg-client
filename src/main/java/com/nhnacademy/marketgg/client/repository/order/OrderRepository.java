@@ -50,5 +50,11 @@ public interface OrderRepository {
      */
     void createTrackingNo(final Long orderId);
 
+    /**
+     * 회원이 주문 내역에 있는 운송장 번호로 배송정보를 조회합니다.
+     *
+     * @param trackingNo - 운송장 번호
+     * @return 배송정보 리스트
+     */
     List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo);
 }
