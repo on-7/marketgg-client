@@ -36,7 +36,6 @@ public class DeliveryAdaptor implements DeliveryRepository {
                                     })
                                     .build();
 
-        // TODO : uri pattern 맞추기 + 작성된 로직 Docs
         client.patch()
               .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + deliveryInfoStatusRequestDto.getOrderNo())
               .bodyValue(DeliveryInfoStatusRequestDto.builder()
