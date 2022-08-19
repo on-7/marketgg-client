@@ -6,8 +6,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
+ * {@inheritDoc}
  *
- *
+ * @author 김훈민
+ * @version 1.0.0
  */
 @Service
 @RequiredArgsConstructor
