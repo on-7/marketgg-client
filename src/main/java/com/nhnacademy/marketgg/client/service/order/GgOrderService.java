@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.repository.order.OrderRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +65,17 @@ public class GgOrderService implements OrderService {
     @Override
     public void createTrackingNo(final Long orderNo) {
         orderRepository.createTrackingNo(orderNo);
+    }
+
+    /**
+     *
+     *
+     * @param trackingNo
+     * @return
+     */
+    @Override
+    public List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo) {
+        return orderRepository.retrieveDeliveryInfo(trackingNo);
     }
 
 }

@@ -5,6 +5,7 @@ import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -95,5 +97,18 @@ public class OrderController {
         return new ModelAndView("redirect:/");
     }
 
+    /**
+     *
+     *
+     * @param trackingNo
+     * @return
+     */
+    @GetMapping
+    public ModelAndView retrieveDeliveryInfo(@RequestParam @Min(1) final String trackingNo) {
+        ModelAndView modelAndView = new ModelAndView("delivery-info");
+        modelAndView.addObject(orderService.retrieveDeliveryInfo(trackingNo));
+        //TODO: 뷰 단 추가해야함.
+        return modelAndView;
+    }
 
 }
