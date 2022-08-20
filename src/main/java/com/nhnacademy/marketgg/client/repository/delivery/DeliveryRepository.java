@@ -23,5 +23,5 @@ public interface DeliveryRepository {
      *
      * @param createdTrackingNoRequest - 배송서버에서 전송된 데이터 객체입니다.
      */
-    void createTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest);
+    void createdTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest);
 }

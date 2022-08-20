@@ -29,7 +29,7 @@ public class DeliveryController {
      *
      * @param deliveryInfoStatusRequestDto - 배송서버에서 전송된 데이터를 담고있는 객체 입니다.
      */
-    @PatchMapping(name = "/delivery-info")
+    @PatchMapping("/delivery-info")
     public void updateDeliveryInfoStatus(@RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
         deliveryService.updateDeliveryInfoStatus(deliveryInfoStatusRequestDto);
     }
@@ -39,9 +39,9 @@ public class DeliveryController {
      *
      * @param createdTrackingNoRequest - 배송서버에서 전송된 운송장 번호의 정보를 담고있는 객체 입니다.
      */
-    @PostMapping(name = "/tracking-no")
-    public void createTrackingNo(@RequestBody CreatedTrackingNoRequest createdTrackingNoRequest) {
-        deliveryService.createTrackingNo(createdTrackingNoRequest);
+    @PostMapping("/tracking-no")
+    public void createdTrackingNo(@RequestBody final CreatedTrackingNoRequest createdTrackingNoRequest) {
+        deliveryService.createdTrackingNo(createdTrackingNoRequest);
     }
 
 }

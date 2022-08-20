@@ -20,6 +20,8 @@ public class DeliveryAdaptor implements DeliveryRepository {
     public static final String SHOP_SERVICE_PREFIX_V1 = "/shop/v1";
     public static final String ORDERS_PATH_PREFIX = "/orders";
 
+    public static final String DELIVERY_PATH_PREFIX = "/delivery";
+
     private final String gatewayIp;
 
     /**
@@ -51,7 +53,7 @@ public class DeliveryAdaptor implements DeliveryRepository {
      * @param createdTrackingNoRequest - 배송서버에서 전송된 데이터 객체입니다.
      */
     @Override
-    public void createTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest) {
+    public void createdTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest) {
         WebClient client = WebClient.builder()
                                     .baseUrl(gatewayIp)
                                     .defaultHeaders(httpHeaders -> {
@@ -61,9 +63,10 @@ public class DeliveryAdaptor implements DeliveryRepository {
                                     .build();
 
         client.post()
-              .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + createdTrackingNoRequest.getOrderNo()
-                  + "/delivery")
+              .uri(SHOP_SERVICE_PREFIX_V1 + DELIVERY_PATH_PREFIX)
               .bodyValue(CreatedTrackingNoRequest.builder()
+                                                 .trackingNo(createdTrackingNoRequest.getTrackingNo())
+                                                 .orderNo(createdTrackingNoRequest.getTrackingNo())
                                                  .build())
               .retrieve();
     }
