@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.auth;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToAuth;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
@@ -144,17 +145,9 @@ public class MemberInfoAdapter implements MemberInfoRepository {
         }
 
         String jwt = jwtHeader.get(0);
-        String expire = expiredHeader.get(0);
+        String expireAt = expiredHeader.get(0);
 
-        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
-
-        JwtInfo jwtInfo = new JwtInfo(jwt, expire);
-        Date expireDate = jwtInfo.localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
-
-        log.info("login success: {}", jwtInfo.getJwt());
-
-        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
-        redisTemplate.expireAt(sessionId, expireDate);
+        JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
 
         if (Objects.isNull(response.getBody())) {
             throw new ServerException();

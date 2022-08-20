@@ -3,7 +3,9 @@ package com.nhnacademy.marketgg.client.aspect;
 import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.context.SessionContext;
+import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -80,7 +82,7 @@ public class JwtAspect {
         HttpEntity<Void> httpEntity = new HttpEntity<>(null, headers);
 
         ResponseEntity<Void> response
-            = restTemplate.exchange(gatewayOrigin + "/auth/refresh", HttpMethod.GET, httpEntity,
+            = restTemplate.exchange(gatewayOrigin + "/auth/v1/members/refresh", HttpMethod.GET, httpEntity,
             Void.class);
 
         if (this.isInvalid(response)) {
@@ -91,17 +93,9 @@ public class JwtAspect {
         HttpHeaders responseHeaders = response.getHeaders();
 
         String jwt = Objects.requireNonNull(responseHeaders.get(AUTHORIZATION)).get(0);
-        String expire = Objects.requireNonNull(responseHeaders.get(JwtInfo.JWT_EXPIRE)).get(0);
+        String expireAt = Objects.requireNonNull(responseHeaders.get(JwtInfo.JWT_EXPIRE)).get(0);
 
-        JwtInfo newJwtInfo = new JwtInfo(jwt, expire);
-        Instant instant = newJwtInfo.getJwtExpireDate()
-                                    .atZone(ZoneId.systemDefault())
-                                    .toInstant();
-        Date expireDate = Date.from(instant);
-
-        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
-        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, newJwtInfo);
-        redisTemplate.expireAt(sessionId, expireDate);
+        JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
 
         try {
             ServletWebRequest servletContainer =

@@ -53,18 +53,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             }
 
             JwtInfo jwtInfo = opJwtInfo.get();
-            String[] jwt = jwtInfo.getJwt().split("\\.");
-            // JWT 는 header, payload, signature 가 "." 으로 연결되어있다. (header.payload.signature)
-            String jwtPayload = jwt[1];
-
-            byte[] decode = Base64.getDecoder().decode(jwtPayload);
-            Payload payload = mapper.readValue(new String(decode, StandardCharsets.UTF_8), Payload.class);
-
-            log.info("role = {}", payload.getAuthorities().toString());
 
             Authentication authentication =
                 new UsernamePasswordAuthenticationToken(jwtInfo.getJwt(), "",
-                    payload.getAuthorities()
+                    jwtInfo.getAuthorities()
                            .stream()
                            .map(SimpleGrantedAuthority::new)
                            .collect(toList()));
