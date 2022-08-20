@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/delivery")
+@RequestMapping("/eggplant-delivery")
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
@@ -27,7 +27,7 @@ public class DeliveryController {
      *
      * @param deliveryInfoStatusRequestDto - 배송서버에서 전송된 데이터를 담고있는 객체 입니다.
      */
-    @PatchMapping
+    @PatchMapping(name = "/delivery-info")
     public void updateDeliveryInfoStatus(@RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
         deliveryService.updateDeliveryInfoStatus(deliveryInfoStatusRequestDto);
     }
