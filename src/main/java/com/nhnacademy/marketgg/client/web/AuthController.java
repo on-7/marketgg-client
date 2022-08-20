@@ -88,7 +88,7 @@ public class AuthController {
             return new ModelAndView(REDIRECT_TO_INDEX);
         }
 
-        authService.logout(authentication.getName());
+        authService.logout((String) authentication.getPrincipal());
 
         return new ModelAndView(REDIRECT_TO_INDEX);
     }

@@ -186,7 +186,7 @@ public class MemberInfoController {
             throw new UnAuthenticException();
         }
 
-        return authentication.getName();
+        return (String) authentication.getPrincipal();
     }
 
 
