@@ -74,7 +74,7 @@ public final class ResponseUtils {
                 case UNAUTHORIZED:
                     throw new UnAuthenticException();
                 case FORBIDDEN:
-                    throw new UnAuthenticException();
+                    throw new UnAuthorizationException();
                 case NOT_FOUND:
                     throw new NotFoundException(errorEntity.getMessage());
                 default:
