@@ -1,10 +1,8 @@
 package com.nhnacademy.marketgg.client.interceptor;
 
-import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -12,6 +10,8 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * RestTemplate 을 이용한 요청 시 자동으로 헤더에 JWT 를 추가하기 위한 클래스입니다.
@@ -30,29 +30,20 @@ public class JwtRefreshInterceptor implements ClientHttpRequestInterceptor {
     public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] body,
                                         ClientHttpRequestExecution execution) throws IOException {
         log.info("path = {}", httpRequest.getURI().getPath());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (httpRequest.getURI().getPath().contains("login")) {
-            return execution.execute(httpRequest, body);
-        }
-
-        Optional<String> opSessionId = SessionContext.get();
-
-        if (opSessionId.isEmpty()) {
-            return execution.execute(httpRequest, body);
-        }
-
-        String sessionId = opSessionId.get();
-
-        JwtInfo jwtInfo = (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
-
-        if (Objects.isNull(jwtInfo)) {
+        if (!this.needJwt(httpRequest.getURI().getPath()) || Objects.isNull(authentication)) {
             return execution.execute(httpRequest, body);
         }
 
         log.info("RestTemplate Interceptor");
-        httpRequest.getHeaders().setBearerAuth(jwtInfo.getJwt());
+        httpRequest.getHeaders().setBearerAuth(authentication.getName());
 
         return execution.execute(httpRequest, body);
+    }
+
+    public boolean needJwt(String uri) {
+        return !(uri.contains("login") || uri.contains("signup"));
     }
 
 }
