@@ -7,6 +7,7 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -88,7 +89,7 @@ class CartControllerTest {
 
         String request = mapper.writeValueAsString(productToCartRequest);
         String sessionId = UUID.randomUUID().toString();
-        JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().plus(1, ChronoUnit.DAYS).toString());
+        JwtInfo jwtInfo = mock(JwtInfo.class);
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
 
         willDoNothing().given(cartService).addProduct(any(ProductToCartRequest.class));

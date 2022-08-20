@@ -22,6 +22,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -39,6 +40,9 @@ class GoogleLoginServiceTest {
 
     @Mock
     OauthRepository oauthRepository;
+
+    String userJwt = "header.eyJzdWIiOiJmNjRiYTQyNC1iZWY4LTQ2OTMtODQ5NS02ZTQwMzVlMGY1OTgiLCJBVVRIT1JJVElFUyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjU4OTc4OTEyLCJleHAiOjE2OTA1MzU4Mzh9.signature";
+
 
     @Test
     @DisplayName("Redirect Url 요청")
@@ -80,7 +84,7 @@ class GoogleLoginServiceTest {
         CommonResult<GoogleProfile> response = CommonResult.success(new GoogleProfile());
 
         ResponseEntity<CommonResult<GoogleProfile>> jwt = ResponseEntity.status(OK)
-                                                                        .header(HttpHeaders.AUTHORIZATION, "jwt")
+                                                                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + userJwt)
                                                                         .header(JwtInfo.JWT_EXPIRE,
                                                                             LocalDateTime.now().toString())
                                                                         .body(response);

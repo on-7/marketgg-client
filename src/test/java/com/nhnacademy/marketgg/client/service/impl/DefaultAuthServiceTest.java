@@ -23,6 +23,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +46,8 @@ class DefaultAuthServiceTest {
     @Mock
     RedisTemplate<String, JwtInfo> redisTemplate;
 
+    String userJwt = "header.eyJzdWIiOiJmNjRiYTQyNC1iZWY4LTQ2OTMtODQ5NS02ZTQwMzVlMGY1OTgiLCJBVVRIT1JJVElFUyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjU4OTc4OTEyLCJleHAiOjE2OTA1MzU4Mzh9.signature";
+
     @Test
     @DisplayName("로그인")
     void doLogin() {
@@ -58,7 +61,7 @@ class DefaultAuthServiceTest {
         lenient().when(hashOps.get(sessionId, JwtInfo.JWT_REDIS_KEY)).thenReturn(jwtInfo);
 
         ResponseEntity<Void> resp = ResponseEntity.status(HttpStatus.OK)
-                                                  .header(HttpHeaders.AUTHORIZATION, "Bearer jwt")
+                                                  .header(HttpHeaders.AUTHORIZATION, "Bearer " + userJwt)
                                                   .header(JwtInfo.JWT_EXPIRE, LocalDateTime.now().toString())
                                                   .build();
 
@@ -66,7 +69,7 @@ class DefaultAuthServiceTest {
 
         authService.doLogin(loginRequest, sessionId);
 
-        then(redisTemplate).should(times(1)).opsForHash();
+        then(redisTemplate).should(times(2)).opsForHash();
         then(redisTemplate).should(times(1)).expireAt(anyString(), any(Date.class));
         then(hashOps).should(times(1)).put(anyString(), anyString(), any(JwtInfo.class));
 
@@ -86,7 +89,7 @@ class DefaultAuthServiceTest {
         given(hashOps.delete(sessionId, JwtInfo.JWT_REDIS_KEY)).willReturn(1L);
 
         ResponseEntity<CommonResult<String>> resp = ResponseEntity.status(HttpStatus.OK)
-                                                  .build();
+                                                                  .build();
         given(authRepository.logout(anyString())).willReturn(resp);
 
         authService.logout(sessionId);
@@ -122,11 +125,11 @@ class DefaultAuthServiceTest {
         given(hashOps.get(sessionId, JwtInfo.JWT_REDIS_KEY)).willReturn(jwtInfo);
 
         ResponseEntity<CommonResult<String>> resp = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                                          .build();
+                                                                  .build();
         given(authRepository.logout(anyString())).willReturn(resp);
 
         assertThatThrownBy(() -> authService.logout(sessionId))
-                .isInstanceOf(LogoutException.class);
+            .isInstanceOf(LogoutException.class);
     }
 
 }
