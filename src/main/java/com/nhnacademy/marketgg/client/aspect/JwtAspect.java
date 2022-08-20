@@ -82,7 +82,7 @@ public class JwtAspect {
         HttpEntity<Void> httpEntity = new HttpEntity<>(null, headers);
 
         ResponseEntity<Void> response
-            = restTemplate.exchange(gatewayOrigin + "/auth/v1/members/refresh", HttpMethod.GET, httpEntity,
+            = restTemplate.exchange(gatewayOrigin + "/auth/v1/members/token/refresh", HttpMethod.GET, httpEntity,
             Void.class);
 
         if (this.isInvalid(response)) {
