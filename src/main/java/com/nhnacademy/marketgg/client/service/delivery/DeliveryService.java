@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.service.delivery;
 
+import com.nhnacademy.marketgg.client.dto.request.CreatedTrackingNoRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryInfoStatusRequestDto;
 
 /**
@@ -10,5 +11,7 @@ import com.nhnacademy.marketgg.client.dto.request.DeliveryInfoStatusRequestDto;
  */
 public interface DeliveryService {
     void updateDeliveryInfoStatus(final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto);
+
+    void createTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest);
 
 }

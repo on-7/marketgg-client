@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.repository.delivery;
 
+import com.nhnacademy.marketgg.client.dto.request.CreatedTrackingNoRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryInfoStatusRequestDto;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,24 @@ public class DeliveryAdaptor implements DeliveryRepository {
               .bodyValue(DeliveryInfoStatusRequestDto.builder()
                                                      .status(deliveryInfoStatusRequestDto.getStatus())
                                                      .build())
+              .retrieve();
+    }
+
+    @Override
+    public void createTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest) {
+        WebClient client = WebClient.builder()
+                                    .baseUrl(gatewayIp)
+                                    .defaultHeaders(httpHeaders -> {
+                                        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                                        httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+                                    })
+                                    .build();
+
+        client.post()
+              .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + createdTrackingNoRequest.getOrderNo()
+                  + "/delivery")
+              .bodyValue(CreatedTrackingNoRequest.builder()
+                                                 .build())
               .retrieve();
     }
 
