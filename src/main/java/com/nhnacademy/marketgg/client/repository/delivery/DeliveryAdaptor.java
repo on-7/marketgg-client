@@ -45,6 +45,11 @@ public class DeliveryAdaptor implements DeliveryRepository {
               .retrieve();
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param createdTrackingNoRequest - 배송서버에서 전송된 데이터 객체입니다.
+     */
     @Override
     public void createTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest) {
         WebClient client = WebClient.builder()
