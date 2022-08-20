@@ -3,14 +3,8 @@ package com.nhnacademy.marketgg.client.aspect;
 import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.context.SessionContext;
-import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Objects;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +19,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -57,11 +53,13 @@ public class JwtAspect {
     public void tokenRefresh() {
         log.info("Jwt Aspect");
 
-        if (SessionContext.get().isEmpty()) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (Objects.isNull(authentication)) {
             return;
         }
 
-        String sessionId = SessionContext.get().orElse("");
+        String sessionId = authentication.getName();
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);

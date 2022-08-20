@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.aspect;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
@@ -19,6 +18,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
@@ -53,12 +55,13 @@ public class MemberAspect {
     @Around("@within(controller) && execution(* *.*(.., com.nhnacademy.marketgg.client.dto.MemberInfo, ..))")
     public Object injectMember(ProceedingJoinPoint pjp, Controller controller) throws Throwable {
         log.info("Method: {}", pjp.getSignature().getName());
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (SessionContext.get().isEmpty()) {
+        if (Objects.isNull(authentication)) {
             return pjp.proceed();
         }
 
-        String sessionId = SessionContext.get().orElseThrow();
+        String sessionId = authentication.getName();
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);

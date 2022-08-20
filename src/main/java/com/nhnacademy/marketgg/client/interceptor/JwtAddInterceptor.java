@@ -33,7 +33,7 @@ public class JwtAddInterceptor implements ClientHttpRequestInterceptor {
         }
 
         log.info("RestTemplate Interceptor");
-        httpRequest.getHeaders().setBearerAuth(authentication.getName());
+        httpRequest.getHeaders().setBearerAuth((String) authentication.getCredentials());
 
         return execution.execute(httpRequest, body);
     }

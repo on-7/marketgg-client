@@ -4,16 +4,17 @@ import static com.nhnacademy.marketgg.client.util.GgUrlUtils.REDIRECT_TO_INDEX;
 import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
-import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.AuthService;
-import java.util.Optional;
+import java.util.Objects;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -81,13 +82,13 @@ public class AuthController {
      */
     @GetMapping("/logout")
     public ModelAndView logout() {
-        Optional<String> sessionId = SessionContext.get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (sessionId.isEmpty()) {
+        if (Objects.isNull(authentication)) {
             return new ModelAndView(REDIRECT_TO_INDEX);
         }
 
-        authService.logout(sessionId.get());
+        authService.logout(authentication.getName());
 
         return new ModelAndView(REDIRECT_TO_INDEX);
     }

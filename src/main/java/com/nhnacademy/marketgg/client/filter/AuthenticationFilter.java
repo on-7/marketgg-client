@@ -54,8 +54,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
             JwtInfo jwtInfo = opJwtInfo.get();
 
+            // Authentication Principal 에 SessionId, Credential 에 JWT 저장
             Authentication authentication =
-                new UsernamePasswordAuthenticationToken(jwtInfo.getJwt(), "",
+                new UsernamePasswordAuthenticationToken(sessionId, jwtInfo.getJwt(),
                     jwtInfo.getAuthorities()
                            .stream()
                            .map(SimpleGrantedAuthority::new)
