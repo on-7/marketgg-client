@@ -1,15 +1,12 @@
-package com.nhnacademy.marketgg.server.interceptor;
+package com.nhnacademy.marketgg.client.interceptor;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.server.annotation.Auth;
-import com.nhnacademy.marketgg.server.aop.AspectUtils;
-import java.util.List;
+import com.nhnacademy.marketgg.client.annotation.Auth;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
@@ -20,7 +17,6 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
         throws Exception {
-
         log.info("Path = {}", request.getRequestURI());
 
         if (handler instanceof ResourceHttpRequestHandler) {
@@ -39,22 +35,8 @@ public class AuthInterceptor implements HandlerInterceptor {
             }
         }
 
-        ObjectMapper mapper = new ObjectMapper();
-
-        String uuidHeader = request.getHeader(AspectUtils.AUTH_ID);
-        String rolesHeader = request.getHeader(AspectUtils.WWW_AUTHENTICATE);
-
-        if (Objects.isNull(uuidHeader) || Objects.isNull(rolesHeader)) {
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            return false;
-        }
-
-        List<String> roles = mapper.readValue(request.getHeader(AspectUtils.WWW_AUTHENTICATE),
-            new TypeReference<>() {
-            });
-
-        if (roles.isEmpty()) {
-            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        if (Objects.isNull(SecurityContextHolder.getContext())) {
+            response.sendError(HttpStatus.UNAUTHORIZED.value(), "로그인 후 접근 가능합니다.");
             return false;
         }
 

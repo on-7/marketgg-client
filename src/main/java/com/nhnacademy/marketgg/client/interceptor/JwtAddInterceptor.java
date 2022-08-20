@@ -1,11 +1,9 @@
 package com.nhnacademy.marketgg.client.interceptor;
 
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.io.IOException;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -22,9 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class JwtRefreshInterceptor implements ClientHttpRequestInterceptor {
-
-    private final RedisTemplate<String, JwtInfo> redisTemplate;
+public class JwtAddInterceptor implements ClientHttpRequestInterceptor {
 
     @Override
     public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] body,
