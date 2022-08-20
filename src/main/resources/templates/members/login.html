@@ -1,21 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/form-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::main})}">
+
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
+        <title>Market GG</title>
+        <link th:href="@{css/members/login.css}" rel="stylesheet">
+        <script></script>
     </head>
     <body>
-        <form th:action="@{/login}" method="POST" th:object="${loginRequest}">
-            <input type="text" name="email" placeholder="EMAIL" />
-            <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">EMAIL ERROR</div>
+        <main>
+            <section class="jumbotron text-center">
+                <h2>
+                    <span th:text="#{Login}"></span>
+                </h2>
+                <form th:action="@{/login}" method="POST" th:object="${loginRequest}">
+                    <input type="text" name="email" placeholder="EMAIL" />
+                    <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
+                        EMAIL ERROR
+                    </div>
+                    <br />
 
-            <input type="password" name="password" placeholder="PASSWORD" />
-            <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">EMAIL ERROR</div>
+                    <input type="password" name="password" placeholder="PASSWORD" />
+                    <div class="error" th:if="${#fields.hasErrors('password')}"
+                         th:errors="*{password}">
+                        EMAIL ERROR
+                    </div>
+                    <br />
 
-            <input type="submit" value="LOGIN" />
-        </form>
-        <a href="/login/google">GOOGLE</a>
-        <span th:text="${name}"></span>
-        <a href="/signup">회원가입</a>
+                    <input class="login-btn" type="button" th:value="#{Login}" />
+                    <br />
+
+                    <a href="/login">
+                        <div class="google-login-btn">
+                            <img class="google-login-logo" th:src="@{images/google-login-logo.png}" alt="google" />
+                            <span class="google-login-text">
+                            SIGN IN WITH GOOGLE
+                        </span>
+                        </div>
+                    </a>
+
+                    <a href="/signup">
+                        <div class="signup-btn">
+                            <span th:text="#{Signup}"></span>
+                        </div>
+                    </a>
+                </form>
+
+            </section>
+        </main>
     </body>
 </html>

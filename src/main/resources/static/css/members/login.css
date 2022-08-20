@@ -1,0 +1,58 @@
+/*#4285F4*/
+/*#FFFFFF*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+input {
+    padding-left: 10px;
+    margin-bottom: 15px;
+    width: 340px;
+    height: 55px;
+}
+
+.login-btn {
+    margin-top: 10px;
+    background-color: orange;
+    border: 1px solid orange;
+    border-radius: 7px;
+    font-size: 20px;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.google-login-btn {
+    width: 340px;
+    height: 55px;
+    padding-top: 15px;
+    margin-bottom: 15px;
+    background-color: #FFF;
+    box-shadow: -1px -1px 3px gray;
+    border-radius: 7px;
+}
+
+.google-login-logo {
+    width: 24px;
+    height: 24px;
+}
+
+.google-login-text {
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    color: #727177;
+}
+
+.signup-btn {
+    width: 340px;
+    height: 55px;
+    color: orange;
+    border: 1.5px solid orange;
+    border-radius: 7px;
+    padding-top: 9px;
+    font-size: 20px;
+}
