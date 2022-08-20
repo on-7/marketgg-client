@@ -34,8 +34,8 @@ public class EggplantDeliveryService implements DeliveryService {
      * @param createdTrackingNoRequest - 배송 서버에서 전송된 데이터 입니다.
      */
     @Override
-    public void createTrackingNo(CreatedTrackingNoRequest createdTrackingNoRequest) {
-        deliveryRepository.createTrackingNo(createdTrackingNoRequest);
+    public void createdTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest) {
+        deliveryRepository.createdTrackingNo(createdTrackingNoRequest);
     }
 
 }

@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.dto.request;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class DeliveryInfoStatusRequestDto {
     private String orderNo;
 
     @NotNull(message = "배송 상태는 필수 사항 입니다.")
+    @Size(min = 36, max = 36)
     private String status;
 
     private LocalDateTime arrivalTime;
