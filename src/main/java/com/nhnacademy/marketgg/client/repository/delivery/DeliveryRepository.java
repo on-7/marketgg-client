@@ -18,5 +18,10 @@ public interface DeliveryRepository {
      */
     void updateDeliveryInfoStatus(final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto);
 
+    /**
+     * 배송 서버에서 만들어진 운송장 번호를 주문 정보에 넣어주기 위한 메소드 입니다.
+     *
+     * @param createdTrackingNoRequest - 배송서버에서 전송된 데이터 객체입니다.
+     */
     void createTrackingNo(final CreatedTrackingNoRequest createdTrackingNoRequest);
 }

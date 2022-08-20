@@ -18,11 +18,21 @@ public class EggplantDeliveryService implements DeliveryService {
 
     private final DeliveryRepository deliveryRepository;
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param deliveryInfoStatusRequestDto - 배송 서버에서 전송된 데이터 입니다.
+     */
     @Override
     public void updateDeliveryInfoStatus(final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
         deliveryRepository.updateDeliveryInfoStatus(deliveryInfoStatusRequestDto);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param createdTrackingNoRequest - 배송 서버에서 전송된 데이터 입니다.
+     */
     @Override
     public void createTrackingNo(CreatedTrackingNoRequest createdTrackingNoRequest) {
         deliveryRepository.createTrackingNo(createdTrackingNoRequest);
