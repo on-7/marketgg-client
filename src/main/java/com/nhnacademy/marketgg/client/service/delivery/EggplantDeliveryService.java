@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.service.delivery;
 
+import com.nhnacademy.marketgg.client.dto.request.CreatedTrackingNoRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryInfoStatusRequestDto;
 import com.nhnacademy.marketgg.client.repository.delivery.DeliveryRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,11 @@ public class EggplantDeliveryService implements DeliveryService {
     @Override
     public void updateDeliveryInfoStatus(final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
         deliveryRepository.updateDeliveryInfoStatus(deliveryInfoStatusRequestDto);
+    }
+
+    @Override
+    public void createTrackingNo(CreatedTrackingNoRequest createdTrackingNoRequest) {
+        deliveryRepository.createTrackingNo(createdTrackingNoRequest);
     }
 
 }

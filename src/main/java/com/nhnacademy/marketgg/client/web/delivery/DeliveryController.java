@@ -1,10 +1,12 @@
 package com.nhnacademy.marketgg.client.web.delivery;
 
+import com.nhnacademy.marketgg.client.dto.request.CreatedTrackingNoRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryInfoStatusRequestDto;
 import com.nhnacademy.marketgg.client.service.delivery.DeliveryService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/eggplant-delivery")
+@RequestMapping("/eggplant")
 public class DeliveryController {
 
     private final DeliveryService deliveryService;
@@ -30,6 +32,16 @@ public class DeliveryController {
     @PatchMapping(name = "/delivery-info")
     public void updateDeliveryInfoStatus(@RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
         deliveryService.updateDeliveryInfoStatus(deliveryInfoStatusRequestDto);
+    }
+
+    /**
+     * 배송 서버에서 만들어진 운송장 번호를 받기 위한 PostMapping 메소드 입니다.
+     *
+     * @param createdTrackingNoRequest - 배송서버에서 전송된 운송장 번호의 정보를 담고있는 객체 입니다.
+     */
+    @PostMapping(name = "/tracking-no")
+    public void createTrackingNo(@RequestBody CreatedTrackingNoRequest createdTrackingNoRequest) {
+        deliveryService.createTrackingNo(createdTrackingNoRequest);
     }
 
 }
