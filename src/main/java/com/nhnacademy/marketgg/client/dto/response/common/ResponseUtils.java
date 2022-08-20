@@ -70,22 +70,26 @@ public final class ResponseUtils {
 
         if (httpStatus.is4xxClientError() || httpStatus.is5xxServerError()) {
             ErrorEntity errorEntity = Objects.requireNonNull(response.getBody()).getError();
-            if (Objects.equals(httpStatus, UNAUTHORIZED)) {
-                throw new UnAuthenticException();
-            } else if (Objects.equals(httpStatus, FORBIDDEN)) {
-                throw new UnAuthorizationException();
-            } else if (Objects.equals(httpStatus, NOT_FOUND)) {
-                throw new NotFoundException(errorEntity.getMessage());
-            } else if (httpStatus.is4xxClientError()) {
-                throw new ClientException(errorEntity.getMessage());
-            } else if (httpStatus.is5xxServerError()) {
-                throw new ServerException();
+            switch (httpStatus) {
+                case UNAUTHORIZED:
+                    throw new UnAuthenticException();
+                case FORBIDDEN:
+                    throw new UnAuthenticException();
+                case NOT_FOUND:
+                    throw new NotFoundException(errorEntity.getMessage());
+                default:
+                    if (httpStatus.is4xxClientError()) {
+                        throw new ClientException(errorEntity.getMessage());
+                    } else {
+                        throw new ServerException();
+                    }
             }
         }
+
     }
 
     public static <T> void checkErrorForResponse(final ResponseEntity<ShopResult<T>> response)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         HttpStatus httpStatus = response.getStatusCode();
 
         if (httpStatus.is4xxClientError() || httpStatus.is5xxServerError()) {
