@@ -1,13 +1,15 @@
-package com.nhnacademy.marketgg.client.repository.impl;
+package com.nhnacademy.marketgg.client.repository.auth;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
-import com.nhnacademy.marketgg.client.repository.AuthRepository;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -39,13 +41,13 @@ public class AuthAdapter implements AuthRepository {
 
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(loginRequest, httpHeaders);
 
-        return restTemplate.postForEntity(requestUrl + "/auth/v1/login", httpEntity, Void.class);
+        return restTemplate.postForEntity(requestUrl + "/auth/v1/members/login", httpEntity, Void.class);
     }
 
     @Override
-    public ResponseEntity<Void> logout(String sessionId) {
-
-        return restTemplate.getForEntity(requestUrl + "/auth/v1/logout", Void.class);
+    public ResponseEntity<CommonResult<String>> logout(String sessionId) {
+        return restTemplate.exchange(requestUrl + "/auth/v1/members/logout", HttpMethod.GET, null,
+            new ParameterizedTypeReference<>() {});
     }
 
 }

@@ -45,7 +45,7 @@ public class Oauth2Controller {
 
         String sessionId = session.getId();
 
-        Optional<GoogleProfile> googleProfile = oAuth2Service.getToken(code, sessionId);
+        Optional<GoogleProfile> googleProfile = oAuth2Service.attemptLogin(code, sessionId);
 
         if (googleProfile.isPresent()) {
             redirectAttributes.addFlashAttribute("profile", googleProfile.get());
@@ -54,7 +54,7 @@ public class Oauth2Controller {
 
         Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(WEEK_SECOND);  // 30분
+        cookie.setMaxAge(WEEK_SECOND);  // 1 주일
         cookie.setPath("/");
         response.addCookie(cookie);
 

@@ -1,6 +1,7 @@
-package com.nhnacademy.marketgg.client.repository;
+package com.nhnacademy.marketgg.client.repository.auth;
 
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -23,6 +24,6 @@ public interface AuthRepository {
      *
      * @param sessionId Redis 에 저장된 JWT 에 접근하기 위해 사용됩니다.
      */
-    ResponseEntity<Void> logout(String sessionId);
+    ResponseEntity<CommonResult<String>> logout(String sessionId);
 
 }

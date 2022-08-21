@@ -6,12 +6,14 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.mock;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
-import com.nhnacademy.marketgg.client.repository.OauthRepository;
+import com.nhnacademy.marketgg.client.repository.auth.OauthRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -19,12 +21,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -34,14 +35,14 @@ class GoogleLoginServiceTest {
     @InjectMocks
     GoogleLoginService googleLoginService;
 
-    @Spy
-    ObjectMapper objectMapper;
-
     @Mock
     RedisTemplate<String, JwtInfo> redisTemplate;
 
     @Mock
     OauthRepository oauthRepository;
+
+    String userJwt = "header.eyJzdWIiOiJmNjRiYTQyNC1iZWY4LTQ2OTMtODQ5NS02ZTQwMzVlMGY1OTgiLCJBVVRIT1JJVElFUyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjU4OTc4OTEyLCJleHAiOjE2OTA1MzU4Mzh9.signature";
+
 
     @Test
     @DisplayName("Redirect Url 요청")
@@ -51,8 +52,7 @@ class GoogleLoginServiceTest {
 
     @Test
     @DisplayName("사용자 프로필 요청")
-    void tesGetToken() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
+    void tesGetToken() {
 
         String code = "code";
         String sessionId = "sessionId";
@@ -65,38 +65,36 @@ class GoogleLoginServiceTest {
         ReflectionTestUtils.setField(mockGoogle, "name", name);
         ReflectionTestUtils.setField(mockGoogle, "provider", provider);
 
-        SingleResponse<GoogleProfile> response = new SingleResponse<>();
-        ReflectionTestUtils.setField(response, "data", mockGoogle);
-        String jsonResponse = mapper.writeValueAsString(response);
+        CommonResult<GoogleProfile> profileResponse = CommonResult.success(mockGoogle);
+        ResponseEntity<CommonResult<GoogleProfile>> response = ResponseEntity.status(UNAUTHORIZED)
+                                                                             .contentType(APPLICATION_JSON)
+                                                                             .body(profileResponse);
 
-        given(oauthRepository.getProfile(any(), any())).willReturn(ResponseEntity.of(Optional.of(jsonResponse)));
+        given(oauthRepository.getProfile(any(), any())).willReturn(response);
 
-        Optional<GoogleProfile> token = googleLoginService.getToken(code, sessionId);
+        Optional<GoogleProfile> token = googleLoginService.attemptLogin(code, sessionId);
         assertThat(token.orElse(new GoogleProfile()).getEmail()).isEqualTo(email);
     }
 
     @Test
     @DisplayName("로그인 성공")
-    void testLogin() throws Exception {
+    void testLogin() {
         String code = "code";
         String sessionId = "sessionId";
-        ObjectMapper mapper = new ObjectMapper();
-        SingleResponse<String> response = new SingleResponse<>();
-        ReflectionTestUtils.setField(response, "data", "Login Success");
+        CommonResult<GoogleProfile> response = CommonResult.success(new GoogleProfile());
 
-        String jsonResponse = mapper.writeValueAsString(response);
-        ResponseEntity<String> jwt = ResponseEntity.status(HttpStatus.OK)
-                                                   .header(HttpHeaders.AUTHORIZATION, "jwt")
-                                                   .header(JwtInfo.JWT_EXPIRE,
-                                                           LocalDateTime.now().toString())
-                                                   .body(jsonResponse);
+        ResponseEntity<CommonResult<GoogleProfile>> jwt = ResponseEntity.status(OK)
+                                                                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + userJwt)
+                                                                        .header(JwtInfo.JWT_EXPIRE,
+                                                                            LocalDateTime.now().toString())
+                                                                        .body(response);
 
         given(oauthRepository.getProfile(any(), any())).willReturn(jwt);
         HashOperations<String, Object, Object> opsForHash = mock(HashOperations.class);
         given(redisTemplate.opsForHash()).willReturn(opsForHash);
         willDoNothing().given(opsForHash).put(anyString(), anyString(), any(JwtInfo.class));
 
-        Optional<GoogleProfile> token = googleLoginService.getToken(code, sessionId);
+        Optional<GoogleProfile> token = googleLoginService.attemptLogin(code, sessionId);
         assertThat(token).isNotPresent();
     }
 

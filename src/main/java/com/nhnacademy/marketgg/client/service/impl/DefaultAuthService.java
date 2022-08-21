@@ -3,13 +3,13 @@ package com.nhnacademy.marketgg.client.service.impl;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import com.nhnacademy.marketgg.client.repository.AuthRepository;
+import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.service.AuthService;
-import java.util.Date;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,14 +48,9 @@ public class DefaultAuthService implements AuthService {
         if (jwt.startsWith(JwtInfo.BEARER)) {
             jwt = jwt.substring(7);
         }
-        String expire = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
+        String expireAt = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
-        JwtInfo jwtInfo = new JwtInfo(jwt, expire);
-        Date expireDate = jwtInfo.localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate());
-
-        log.info("login success: {}", jwtInfo.getJwt());
-        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
-        redisTemplate.expireAt(sessionId, expireDate);
+        JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
     }
 
     private void checkStatus(ResponseEntity<?> response) {
@@ -83,7 +78,7 @@ public class DefaultAuthService implements AuthService {
             return;
         }
 
-        ResponseEntity<Void> response = authRepository.logout(sessionId);
+        ResponseEntity<CommonResult<String>> response = authRepository.logout(sessionId);
 
         HttpStatus statusCode = response.getStatusCode();
 

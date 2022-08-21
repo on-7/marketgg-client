@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.repository;
+package com.nhnacademy.marketgg.client.repository.cart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;

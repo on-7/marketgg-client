@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.jwt;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,8 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Getter
-public class Payload {
+public class Payload implements Serializable {
+    private static final long serialVersionUID = 1905122041950251207L;
 
     /**
      * JWT 발행인.

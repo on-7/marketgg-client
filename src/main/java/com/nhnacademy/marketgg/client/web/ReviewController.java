@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.annotation.RoleCheck;
+import com.nhnacademy.marketgg.client.annotation.Auth;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
@@ -50,7 +50,7 @@ public class ReviewController {
      * @throws JsonProcessingException - Json expeption을 던집니다.
      */
 
-    @RoleCheck
+    @Auth
     @PostMapping
     public ModelAndView createReview(@PathVariable final Long productId,
                                      final MemberInfo memberInfo,
@@ -115,7 +115,7 @@ public class ReviewController {
      * @return - 후기가 달릴 상품의 view를 반환합니다.
      * @throws JsonProcessingException - JsonException을 던집니다.
      */
-    @RoleCheck
+    @Auth
     @PutMapping("/{reviewId}")
     public ModelAndView updateReview(@PathVariable final Long productId, @PathVariable final Long reviewId,
                                      final MemberInfo memberInfo,
@@ -140,7 +140,7 @@ public class ReviewController {
      * @param memberInfo - 본인이 작성한 후기인지 검증하기 위한 회원의 정보입니다.
      * @return - 해당 상품의 view를 반환합니다.
      */
-    @RoleCheck
+    @Auth
     @DeleteMapping("/{reviewId}")
     public ModelAndView deleteReview(@PathVariable final Long productId, @PathVariable final Long reviewId,
                                      final MemberInfo memberInfo) {

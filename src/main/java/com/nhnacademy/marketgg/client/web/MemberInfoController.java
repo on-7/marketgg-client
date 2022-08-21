@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
-import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
@@ -11,9 +10,12 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.util.List;
+import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -87,9 +89,9 @@ public class MemberInfoController {
      */
     @PostMapping("/update")
     public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth)
-            throws UnAuthenticException, UnAuthorizationException {
-        String sessionId = SessionContext.get()
-                                         .orElseThrow(UnAuthenticException::new);
+        throws UnAuthenticException, UnAuthorizationException {
+
+        String sessionId = this.getSessionId();
 
         memberService.update(memberUpdateToAuth, sessionId);
         return new ModelAndView(REDIRECT);
@@ -106,8 +108,7 @@ public class MemberInfoController {
      */
     @GetMapping("/withdraw")
     public ModelAndView doWithdraw() throws UnAuthenticException, UnAuthorizationException {
-        String sessionId = SessionContext.get()
-                                         .orElseThrow(UnAuthenticException::new);
+        String sessionId = this.getSessionId();
 
         memberService.withdraw(sessionId);
         return new ModelAndView(REDIRECT);
@@ -177,5 +178,16 @@ public class MemberInfoController {
         memberService.deleteDeliveryAddress(deliveryAddressId);
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
     }
+
+    private String getSessionId() throws UnAuthenticException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (Objects.isNull(authentication)) {
+            throw new UnAuthenticException();
+        }
+
+        return (String) authentication.getPrincipal();
+    }
+
 
 }

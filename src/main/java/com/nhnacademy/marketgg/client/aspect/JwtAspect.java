@@ -3,12 +3,8 @@ package com.nhnacademy.marketgg.client.aspect;
 import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.Objects;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +19,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -55,11 +53,13 @@ public class JwtAspect {
     public void tokenRefresh() {
         log.info("Jwt Aspect");
 
-        if (SessionContext.get().isEmpty()) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (Objects.isNull(authentication)) {
             return;
         }
 
-        String sessionId = SessionContext.get().orElse("");
+        String sessionId = (String) authentication.getPrincipal();
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -80,7 +80,7 @@ public class JwtAspect {
         HttpEntity<Void> httpEntity = new HttpEntity<>(null, headers);
 
         ResponseEntity<Void> response
-            = restTemplate.exchange(gatewayOrigin + "/auth/refresh", HttpMethod.GET, httpEntity,
+            = restTemplate.exchange(gatewayOrigin + "/auth/v1/members/token/refresh", HttpMethod.GET, httpEntity,
             Void.class);
 
         if (this.isInvalid(response)) {
@@ -91,17 +91,9 @@ public class JwtAspect {
         HttpHeaders responseHeaders = response.getHeaders();
 
         String jwt = Objects.requireNonNull(responseHeaders.get(AUTHORIZATION)).get(0);
-        String expire = Objects.requireNonNull(responseHeaders.get(JwtInfo.JWT_EXPIRE)).get(0);
+        String expireAt = Objects.requireNonNull(responseHeaders.get(JwtInfo.JWT_EXPIRE)).get(0);
 
-        JwtInfo newJwtInfo = new JwtInfo(jwt, expire);
-        Instant instant = newJwtInfo.getJwtExpireDate()
-                                    .atZone(ZoneId.systemDefault())
-                                    .toInstant();
-        Date expireDate = Date.from(instant);
-
-        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
-        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, newJwtInfo);
-        redisTemplate.expireAt(sessionId, expireDate);
+        JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
 
         try {
             ServletWebRequest servletContainer =

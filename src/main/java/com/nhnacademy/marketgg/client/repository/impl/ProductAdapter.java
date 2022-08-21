@@ -176,7 +176,7 @@ public class ProductAdapter implements ProductRepository {
         ResponseEntity<List<SearchProductResponse>> response =
                 this.restTemplate.exchange(
                         gatewayIp + DEFAULT_PRODUCT + "/categories/" + searchRequest.getCategoryCode() +
-                                "/sort_price/" + option + "/search",
+                                "/sort-price/" + option + "/search",
                         HttpMethod.POST,
                         httpEntity,
                         new ParameterizedTypeReference<>() {

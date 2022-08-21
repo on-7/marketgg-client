@@ -13,6 +13,6 @@ public interface Oauth2Service {
 
     String getRedirectUrl();
 
-    Optional<GoogleProfile> getToken(final String code, final String sessionId) throws JsonProcessingException;
+    Optional<GoogleProfile> attemptLogin(final String code, final String sessionId);
 
 }

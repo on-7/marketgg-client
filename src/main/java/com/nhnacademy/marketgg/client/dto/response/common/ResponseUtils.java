@@ -62,32 +62,34 @@ public final class ResponseUtils {
      * 예외를 확인합니다.
      *
      * @param response - 응답결과
-     * @param mapper   - Json 을 자바로 매핑할 때 사용됩니다.
-     * @throws JsonProcessingException - Json 을 파싱 시 발생할 수 있는 예외입니다.
      */
-    public static void checkError(ResponseEntity<String> response, ObjectMapper mapper)
-        throws JsonProcessingException, UnAuthorizationException, UnAuthenticException {
+    public static <T> void checkError(ResponseEntity<CommonResult<T>> response)
+        throws UnAuthorizationException, UnAuthenticException {
 
         HttpStatus httpStatus = response.getStatusCode();
 
         if (httpStatus.is4xxClientError() || httpStatus.is5xxServerError()) {
-            ErrorEntity errorEntity = mapper.readValue(response.getBody(), ErrorEntity.class);
-            if (Objects.equals(httpStatus, UNAUTHORIZED)) {
-                throw new UnAuthenticException();
-            } else if (Objects.equals(httpStatus, FORBIDDEN)) {
-                throw new UnAuthorizationException();
-            } else if (Objects.equals(httpStatus, NOT_FOUND)) {
-                throw new NotFoundException(errorEntity.getMessage());
-            } else if (httpStatus.is4xxClientError()) {
-                throw new ClientException(errorEntity.getMessage());
-            } else if (httpStatus.is5xxServerError()) {
-                throw new ServerException();
+            ErrorEntity errorEntity = Objects.requireNonNull(response.getBody()).getError();
+            switch (httpStatus) {
+                case UNAUTHORIZED:
+                    throw new UnAuthenticException();
+                case FORBIDDEN:
+                    throw new UnAuthorizationException();
+                case NOT_FOUND:
+                    throw new NotFoundException(errorEntity.getMessage());
+                default:
+                    if (httpStatus.is4xxClientError()) {
+                        throw new ClientException(errorEntity.getMessage());
+                    } else {
+                        throw new ServerException();
+                    }
             }
         }
+
     }
 
     public static <T> void checkErrorForResponse(final ResponseEntity<ShopResult<T>> response)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         HttpStatus httpStatus = response.getStatusCode();
 
         if (httpStatus.is4xxClientError() || httpStatus.is5xxServerError()) {
