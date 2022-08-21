@@ -66,7 +66,7 @@ public class DeliveryAdaptor implements DeliveryRepository {
               .uri(SHOP_SERVICE_PREFIX_V1 + DELIVERY_PATH_PREFIX)
               .bodyValue(CreatedTrackingNoRequest.builder()
                                                  .trackingNo(createdTrackingNoRequest.getTrackingNo())
-                                                 .orderNo(createdTrackingNoRequest.getTrackingNo())
+                                                 .orderNo(createdTrackingNoRequest.getOrderNo())
                                                  .build())
               .retrieve();
     }
