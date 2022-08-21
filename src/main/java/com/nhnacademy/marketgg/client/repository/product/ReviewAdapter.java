@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.repository.impl;
+package com.nhnacademy.marketgg.client.repository.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +8,7 @@ import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
-import com.nhnacademy.marketgg.client.repository.ReviewRepository;
+import com.nhnacademy.marketgg.client.repository.product.ReviewRepository;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;

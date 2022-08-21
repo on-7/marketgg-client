@@ -1,8 +1,11 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
+import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,9 @@ public class ProductController {
 
     private final ProductService productService;
     private static final Integer PAGE_SIZE = 10;
+
+    private final ImageService imageService;
+    private static final String DEFAULT_PRODUCT_VIEW = "products/product-view";
 
     /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 조회 한 후 이동하는 GET Mapping 을 지원합니다.
@@ -75,6 +81,51 @@ public class ProductController {
         mav.addObject("responses", responses);
         mav.addObject("page", page);
         mav.addObject("option", option);
+
+        return mav;
+    }
+
+    /**
+     * 모든 상품을 조회를 위한 GetMapping 을 지원 합니다.
+     * 타임리프에서 products로 조회할 수 있습니다.
+     * List 타입 입니다.
+     *
+     * @return - 모든 상품 조회 페이지를 리턴 합니다.
+     * @since 1.0.0
+     */
+    @GetMapping
+    public ModelAndView retrieveProducts() {
+        List<ProductResponse> products = this.productService.retrieveProducts();
+
+        ModelAndView mav = new ModelAndView("index");
+        mav.addObject("products", products);
+
+
+        for (ProductResponse product : products) {
+            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
+            product.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
+        }
+
+        return mav;
+    }
+
+    /**
+     * 상품 상세 조회를 위한 GetMapping 을 지원 합니다.
+     * 타임리프에서 productDetails로 조회할 수 있습니다.
+     *
+     * @param id - 상품의 PK 입니다.
+     * @return - 상품 상세 페이지를 리턴합니다.
+     * @since 1.0.0
+     */
+    @GetMapping("/{id}")
+    public ModelAndView retrieveProductDetails(@PathVariable final Long id) {
+
+        ProductResponse productDetails = this.productService.retrieveProductDetails(id);
+        ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
+        mav.addObject("productDetails", productDetails);
+
+        ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
+        productDetails.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
 
         return mav;
     }

@@ -114,51 +114,6 @@ public class AdminProductController {
     }
 
     /**
-     * 모든 상품을 조회를 위한 GetMapping 을 지원 합니다.
-     * 타임리프에서 products로 조회할 수 있습니다.
-     * List 타입 입니다.
-     *
-     * @return - 모든 상품 조회 페이지를 리턴 합니다.
-     * @since 1.0.0
-     */
-    @GetMapping
-    public ModelAndView retrieveProducts() {
-        List<ProductResponse> products = this.productService.retrieveProducts();
-
-        ModelAndView mav = new ModelAndView("index");
-        mav.addObject("products", products);
-
-
-        for (ProductResponse product : products) {
-            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-            product.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
-        }
-
-        return mav;
-    }
-
-    /**
-     * 상품 상세 조회를 위한 GetMapping 을 지원 합니다.
-     * 타임리프에서 productDetails로 조회할 수 있습니다.
-     *
-     * @param id - 상품의 PK 입니다.
-     * @return - 상품 상세 페이지를 리턴합니다.
-     * @since 1.0.0
-     */
-    @GetMapping("/{id}")
-    public ModelAndView retrieveProductDetails(@PathVariable final Long id) {
-
-        ProductResponse productDetails = this.productService.retrieveProductDetails(id);
-        ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
-        mav.addObject("productDetails", productDetails);
-
-        ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
-        productDetails.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
-
-        return mav;
-    }
-
-    /**
      * 카테고리로 상품을 조회하기 위한 GetMapping을 지원 합니다.
      * 타임리프에서 products로 조회할 수 있습니다.
      *

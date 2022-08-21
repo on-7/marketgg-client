@@ -49,7 +49,7 @@ public class WebSecurityConfig {
                                            RedisTemplate<String, JwtInfo> redisTemplate) throws Exception {
 
         // FIXME Dave가 해결했는데.. Toast UI Image 업로드 과정에서 또 에러 발생.. 나중에 해결해보겠음
-        http.csrf();
+        http.csrf().disable();
 
         http.addFilterBefore(new AuthenticationFilter(redisTemplate, objectMapper),
                              UsernamePasswordAuthenticationFilter.class);
