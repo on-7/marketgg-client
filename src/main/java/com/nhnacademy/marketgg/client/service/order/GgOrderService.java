@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.repository.order.OrderRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,27 @@ public class GgOrderService implements OrderService {
     @Override
     public void cancelOrder(final Long orderId) {
         orderRepository.cancelOrder(orderId);
+    }
+
+    /**
+     * 관리자가 운송장 번호 만들기를 요청합니다.
+     *
+     * @param orderNo - 주문 번호
+     */
+    @Override
+    public void createTrackingNo(final Long orderNo) {
+        orderRepository.createTrackingNo(orderNo);
+    }
+
+    /**
+     * 회원이 주문 내역에 있는 운송장 번호로 배송정보를 조회합니다.
+     *
+     * @param trackingNo - 운송장 번호
+     * @return 배송정보 리스트
+     */
+    @Override
+    public List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo) {
+        return orderRepository.retrieveDeliveryInfo(trackingNo);
     }
 
 }

@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import java.util.List;
 
 /**
@@ -42,4 +43,7 @@ public interface OrderService {
      */
     void cancelOrder(final Long orderId);
 
+    void createTrackingNo(final Long orderNo);
+
+    List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo);
 }

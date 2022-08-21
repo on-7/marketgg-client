@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.order;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import java.util.List;
 
 /**
@@ -42,4 +43,18 @@ public interface OrderRepository {
      */
     void cancelOrder(final Long orderId);
 
+    /**
+     * 관리자가 운송장 번호를 만듭니다.
+     *
+     * @param orderId - 주문 번호
+     */
+    void createTrackingNo(final Long orderId);
+
+    /**
+     * 회원이 주문 내역에 있는 운송장 번호로 배송정보를 조회합니다.
+     *
+     * @param trackingNo - 운송장 번호
+     * @return 배송정보 리스트
+     */
+    List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo);
 }

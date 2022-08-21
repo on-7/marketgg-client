@@ -5,6 +5,7 @@ import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -95,5 +97,17 @@ public class OrderController {
         return new ModelAndView("redirect:/");
     }
 
+    /**
+     * 회원이 운송장 번호로 배송 정보를 조회합니다.
+     *
+     * @param trackingNo - 운송장 번호
+     * @return 배송정보 페이지로 이동
+     */
+    @GetMapping
+    public ModelAndView retrieveDeliveryInfo(@RequestParam @Min(1) final String trackingNo) {
+        ModelAndView modelAndView = new ModelAndView("delivery-info");
+        modelAndView.addObject(orderService.retrieveDeliveryInfo(trackingNo));
+        return modelAndView;
+    }
 
 }
