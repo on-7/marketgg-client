@@ -6,7 +6,7 @@ import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.repository.ProductRepository;
+import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;

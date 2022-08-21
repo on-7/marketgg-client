@@ -5,7 +5,7 @@ import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
-import com.nhnacademy.marketgg.client.repository.ReviewRepository;
+import com.nhnacademy.marketgg.client.repository.product.ReviewRepository;
 import com.nhnacademy.marketgg.client.service.ReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

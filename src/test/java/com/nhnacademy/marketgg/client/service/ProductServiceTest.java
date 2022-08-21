@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.service;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -16,7 +15,7 @@ import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
-import com.nhnacademy.marketgg.client.repository.ProductRepository;
+import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultProductService;
 import java.io.FileInputStream;
 import java.io.IOException;

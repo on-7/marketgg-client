@@ -23,6 +23,7 @@ import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.ReviewService;
+import com.nhnacademy.marketgg.client.web.product.ReviewController;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
