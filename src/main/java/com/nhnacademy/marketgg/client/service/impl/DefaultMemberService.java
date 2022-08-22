@@ -3,13 +3,12 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
+import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
-import com.nhnacademy.marketgg.client.dto.response.MemberSignupResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
@@ -92,17 +91,20 @@ public class DefaultMemberService implements MemberService {
         memberRepository.deleteDeliveryAddress(deliveryAddressId);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param signupRequest - 회원가입 폼에서 입력한 데이터 정보 입니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
+     */
     @Override
-    public void doSignup(final MemberSignupRequest memberSignupRequest)
+    public void doSignup(final SignupRequest signupRequest)
         throws UnAuthenticException, UnAuthorizationException {
 
-        memberSignupRequest.encodePassword(passwordEncoder);
+        signupRequest.encodePassword(passwordEncoder);
 
-        MemberSignupResponse response =
-            memberInfoRepository.signup(memberSignupRequest.getSignupRequestToAuth());
-
-        memberRepository.signup(memberSignupRequest
-            .getSignupRequestToShopMember(response.getUuid(), response.getReferrerUuid()));
+        memberRepository.signup(signupRequest);
     }
 
     @Override

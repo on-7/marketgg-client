@@ -5,14 +5,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Getter
-public class MemberSignupRequest {
+public class SignupRequest {
 
     @Email
     @NotBlank
@@ -53,16 +53,6 @@ public class MemberSignupRequest {
 
     public void encodePassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.email + this.password);
-    }
-
-    public MemberSignupToAuth getSignupRequestToAuth() {
-        return new MemberSignupToAuth(this.email, this.password, this.name, this.phoneNumber, this.referrerEmail,
-            this.provider);
-    }
-
-    public MemberSignupToShopMember getSignupRequestToShopMember(String uuid, String referrerUuid) {
-        return new MemberSignupToShopMember(this.gender, Boolean.FALSE, this.birthDate, uuid, referrerUuid,
-            this.zipcode, this.address, this.detailAddress);
     }
 
 }

@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.web;
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
+import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -50,7 +50,7 @@ public class MemberInfoController {
      */
     @NoAuth
     @GetMapping("/signup")
-    public ModelAndView signup(@ModelAttribute(name = "member") MemberSignupRequest member) {
+    public ModelAndView signup(@ModelAttribute(name = "member") SignupRequest member) {
         return new ModelAndView("members/signup");
     }
 
@@ -66,7 +66,7 @@ public class MemberInfoController {
      */
     @NoAuth
     @PostMapping("/signup")
-    public ModelAndView doSignup(final @Valid @ModelAttribute(name = "member") MemberSignupRequest member,
+    public ModelAndView doSignup(final @Valid @ModelAttribute(name = "member") SignupRequest member,
                                  BindingResult bindingResult) throws UnAuthenticException, UnAuthorizationException {
 
         if (bindingResult.hasErrors()) {

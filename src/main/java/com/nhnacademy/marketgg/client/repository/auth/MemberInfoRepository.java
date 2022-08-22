@@ -11,8 +11,6 @@ import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 
 public interface MemberInfoRepository {
 
-    MemberSignupResponse signup(final MemberSignupToAuth signupRequestToAuth);
-
     EmailExistResponse checkEmail(final EmailRequest emailRequest);
 
     EmailUseResponse useEmail(final EmailRequest emailRequest);

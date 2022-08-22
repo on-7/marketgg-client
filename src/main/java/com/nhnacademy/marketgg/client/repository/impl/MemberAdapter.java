@@ -3,8 +3,8 @@ package com.nhnacademy.marketgg.client.repository.impl;
 import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
+import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
@@ -48,8 +48,8 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<ShopResult<LocalDateTime>> response =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/ggpass", HttpMethod.GET, requestEntity,
-                                  new ParameterizedTypeReference<>() {
-                                  });
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
 
@@ -61,10 +61,10 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<ShopResult<Void>> response =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/ggpass/subscribe",
-                                  HttpMethod.POST,
-                                  requestEntity,
-                                  new ParameterizedTypeReference<>() {
-                                  });
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
     }
@@ -74,24 +74,23 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<ShopResult<Void>> response =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/ggpass/withdraw",
-                                  HttpMethod.POST,
-                                  requestEntity,
-                                  new ParameterizedTypeReference<>() {
-                                  });
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(response);
     }
 
     @Override
-    public void signup(final MemberSignupToShopMember signupRequestToShopMember)
+    public void signup(final SignupRequest signupRequest)
         throws UnAuthenticException, UnAuthorizationException {
 
-        HttpEntity<MemberSignupToShopMember> response =
-            new HttpEntity<>(signupRequestToShopMember, buildHeaders());
+        HttpEntity<SignupRequest> response = new HttpEntity<>(signupRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/signup", HttpMethod.POST, response,
-                                  new ParameterizedTypeReference<>() {
-                                  });
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(exchange);
     }
@@ -102,8 +101,8 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(deletedAt, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.DELETE, response,
-                                  new ParameterizedTypeReference<>() {
-                                  });
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(exchange);
     }
@@ -116,8 +115,8 @@ public class MemberAdapter implements MemberRepository {
             new HttpEntity<>(memberUpdateToAuthResponse, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.PUT, response,
-                                  new ParameterizedTypeReference<>() {
-                                  });
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(exchange);
     }
@@ -145,8 +144,8 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(addressRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.POST, response,
-                                  new ParameterizedTypeReference<ShopResult<Void>>() {
-                                  });
+                new ParameterizedTypeReference<ShopResult<Void>>() {
+                });
 
         this.checkResponseUri(exchange);
     }
@@ -157,8 +156,8 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<DeliveryAddressUpdateRequest> response = new HttpEntity<>(updateRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.PUT, response,
-                                  new ParameterizedTypeReference<ShopResult<Void>>() {
-                                  });
+                new ParameterizedTypeReference<ShopResult<Void>>() {
+                });
 
         this.checkResponseUri(exchange);
     }
@@ -169,9 +168,9 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<Long> response = new HttpEntity<>(deliveryAddressId, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS + "/" + deliveryAddressId,
-                                  HttpMethod.DELETE, response,
-                                  new ParameterizedTypeReference<ShopResult<Void>>() {
-                                  });
+                HttpMethod.DELETE, response,
+                new ParameterizedTypeReference<ShopResult<Void>>() {
+                });
 
         this.checkResponseUri(exchange);
     }

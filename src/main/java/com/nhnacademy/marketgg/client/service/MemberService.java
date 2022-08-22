@@ -3,8 +3,8 @@ package com.nhnacademy.marketgg.client.service;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberSignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
@@ -20,7 +20,14 @@ import java.util.List;
  */
 public interface MemberService {
 
-    void doSignup(MemberSignupRequest memberSignupRequest) throws UnAuthenticException, UnAuthorizationException;
+    /**
+     * 회원가입을 위한 메소드 입니다.
+     *
+     * @param signupRequest - 회원가입 폼에서 입력한 데이터 정보 입니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
+     */
+    void doSignup(final SignupRequest signupRequest) throws UnAuthenticException, UnAuthorizationException;
 
     EmailExistResponse checkEmail(EmailRequest emailRequest);
 
@@ -65,7 +72,7 @@ public interface MemberService {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
     void update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId)
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 보유한 배송지 목록 리스트를 보여줍니다.

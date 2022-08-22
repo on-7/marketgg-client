@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
+import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -52,11 +53,11 @@ public interface MemberRepository {
     /**
      * 회원가입 메소드입니다.
      *
-     * @param signupRequestToShopMember - Shop 서버에 저장될 회원의 정보를 담은 객체입니다.
+     * @param signupRequest - Shop 서버에 저장될 회원의 정보를 담은 객체입니다.
      * @author 김훈민
      * @since 1.0.0
      */
-    void signup(final MemberSignupToShopMember signupRequestToShopMember)
+    void signup(final SignupRequest signupRequest)
             throws UnAuthenticException, UnAuthorizationException;
 
     /**

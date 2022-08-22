@@ -44,32 +44,6 @@ public class MemberInfoAdapter implements MemberInfoRepository {
     private final RestTemplate restTemplate;
 
     @Override
-    public MemberSignupResponse signup(final MemberSignupToAuth memberSignupToAuth) {
-        log.info("signup: start");
-        HttpHeaders headers = getHttpHeaders();
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        HttpEntity<MemberSignupToAuth> httpEntity = new HttpEntity<>(memberSignupToAuth, headers);
-
-        // TODO: 리팩터링 필요 @김훈민
-        ResponseEntity<CommonResult<MemberSignupResponse>> exchange =
-            restTemplate.exchange(requestUrl + "/auth/v1/signup", HttpMethod.POST,
-                httpEntity, new ParameterizedTypeReference<>() {
-                });
-
-        if (exchange.getStatusCode().is5xxServerError() || !exchange.hasBody()) {
-            throw new ServerException();
-        }
-
-        if (exchange.getStatusCode().is4xxClientError()) {
-            throw new ClientException("회원가입 실패!");
-        }
-
-        log.info("signup success: {}", exchange.getStatusCode());
-
-        return Objects.requireNonNull(exchange.getBody()).getData();
-    }
-
-    @Override
     public EmailExistResponse checkEmail(final EmailRequest emailRequest) {
         log.info("checkEmail: start");
         HttpHeaders headers = getHttpHeaders();
