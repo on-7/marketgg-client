@@ -42,7 +42,7 @@ public class AuthController {
     @NoAuth
     @GetMapping("/login")
     public ModelAndView login(@ModelAttribute LoginRequest loginRequest) {
-        return new ModelAndView("members/login");
+        return new ModelAndView("pages/members/login");
     }
 
     /**
@@ -61,7 +61,7 @@ public class AuthController {
                                 HttpSession httpSession) {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("members/login");
+            return new ModelAndView("pages/members/login");
         }
 
         Cookie cookie = new Cookie(JwtInfo.SESSION_ID, httpSession.getId());

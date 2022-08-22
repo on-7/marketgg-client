@@ -9,6 +9,7 @@ public class CartProductResponse {
 
     private Long id;
     private String name;
+    private String thumbnail;
     private Integer amount;
     private Long price;
 

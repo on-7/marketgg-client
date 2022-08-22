@@ -3,19 +3,16 @@ package com.nhnacademy.marketgg.client.web;
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import java.util.List;
-import java.util.Objects;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,8 +47,9 @@ public class MemberInfoController {
      */
     @NoAuth
     @GetMapping("/signup")
+
     public ModelAndView signup(@ModelAttribute(name = "member") SignupRequest member) {
-        return new ModelAndView("members/signup");
+        return new ModelAndView("pages/members/signup");
     }
 
     /**
@@ -70,7 +68,7 @@ public class MemberInfoController {
                                  BindingResult bindingResult) throws UnAuthenticException, UnAuthorizationException {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("members/signup");
+            return new ModelAndView("pages/members/signup");
         }
 
         memberService.doSignup(member);

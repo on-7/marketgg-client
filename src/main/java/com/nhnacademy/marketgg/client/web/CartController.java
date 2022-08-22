@@ -67,10 +67,10 @@ public class CartController {
     @GetMapping
     public ModelAndView retrieveCart() throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("carts/index");
+        ModelAndView mav = new ModelAndView("pages/carts/index");
 
-        List<CartProductResponse> cart = cartService.retrieveCarts();
-        mav.addObject("cart", cart);
+        List<CartProductResponse> carts = cartService.retrieveCarts();
+        mav.addObject("carts", carts);
         return mav;
     }
 

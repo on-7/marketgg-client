@@ -113,10 +113,10 @@ class CartControllerTest {
 
         MvcResult mvcResult = this.mockMvc.perform(get("/cart"))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("carts/index"))
+                                          .andExpect(view().name("pages/carts/index"))
                                           .andReturn();
 
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("cart"))
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("carts"))
                 .isNotNull();
 
         then(cartService).should(times(1)).retrieveCarts();
