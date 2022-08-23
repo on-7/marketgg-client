@@ -1,8 +1,10 @@
-package com.nhnacademy.marketgg.client.repository;
+package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
 
 /**
@@ -20,7 +22,7 @@ public interface GivenCouponRepository {
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void registerCoupon(final Long memberId, final GivenCouponCreateRequest givenCouponRequest) throws JsonProcessingException;
+    void registerCoupon(final Long memberId, final GivenCouponCreateRequest givenCouponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 보유한 쿠폰 목록을 조회할 수 있는 메소드입니다.
@@ -29,6 +31,6 @@ public interface GivenCouponRepository {
      * @return 조회한 쿠폰 목록을 List 로 반환합니다.
      * @since 1.0.0
      */
-    List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Long memberId);
+    List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Long memberId) throws UnAuthenticException, UnAuthorizationException;
 
 }
