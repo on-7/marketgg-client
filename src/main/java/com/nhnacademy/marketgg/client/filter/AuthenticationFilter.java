@@ -4,10 +4,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import com.nhnacademy.marketgg.client.jwt.Payload;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 import javax.servlet.FilterChain;
@@ -24,6 +21,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+/**
+ * 인증 Principal 에 세션 아이디 및 자격 증명(Credential) 등 JWT 저장 관련 작업을 수행합니다.
+ * {@link OncePerRequestFilter} 추상 클래스를 상속받아 사용자의 요청 당 한 번만 필터가 동작합니다.
+ *
+ * @author 윤동열
+ * @version 1.0.0
+ * @since 1.0.0
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class AuthenticationFilter extends OncePerRequestFilter {
@@ -57,10 +62,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             // Authentication Principal 에 SessionId, Credential 에 JWT 저장
             Authentication authentication =
                 new UsernamePasswordAuthenticationToken(sessionId, jwtInfo.getJwt(),
-                    jwtInfo.getAuthorities()
-                           .stream()
-                           .map(SimpleGrantedAuthority::new)
-                           .collect(toList()));
+                                                        jwtInfo.getAuthorities()
+                                                               .stream()
+                                                               .map(SimpleGrantedAuthority::new)
+                                                               .collect(toList()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
