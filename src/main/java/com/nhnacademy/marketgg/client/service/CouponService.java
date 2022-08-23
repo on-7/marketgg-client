@@ -3,6 +3,8 @@ package com.nhnacademy.marketgg.client.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
 
 /**
@@ -19,7 +21,7 @@ public interface CouponService {
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException;
+    void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 단건 조회를 위해 Adapter 메소드를 실행합니다.
@@ -28,7 +30,7 @@ public interface CouponService {
      * @return 식별번호로 조회한 쿠폰의 정보를 담은 객체를 반환합니다.
      * @since 1.0.0
      */
-    CouponRetrieveResponse retrieveCoupon(Long couponId);
+    CouponRetrieveResponse retrieveCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 전체 목록 조회를 위해 Adapter 메소드를 실행합니다.
@@ -36,7 +38,7 @@ public interface CouponService {
      * @return 쿠폰 전체 목록의 정보를 담은 객체로 이루어진 List 를 반환합니다.
      * @since 1.0.0
      */
-    List<CouponRetrieveResponse> retrieveCoupons();
+    List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 수정을 위해 Adapter 메소드를 실행합니다.
@@ -46,7 +48,7 @@ public interface CouponService {
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException;
+    void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 삭제를 위해 Adapter 메소드를 실행합니다.
@@ -54,6 +56,6 @@ public interface CouponService {
      * @param couponId - 삭제할 쿠폰의 식별번호입니다.
      * @since 1.0.0
      */
-    void deleteCoupon(Long couponId);
+    void deleteCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException;
 
 }

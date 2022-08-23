@@ -3,6 +3,8 @@ package com.nhnacademy.marketgg.client.web.admin;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.CouponService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminCouponController {
 
     private final CouponService couponService;
+    private static final String REDIRECT_DEFAULT = "redirect:/shop/v1/admin/coupons/index";
 
     /**
      * 쿠폰 등록 페이지로 이동하는 메소드입니다.
@@ -48,10 +51,12 @@ public class AdminCouponController {
      * @since 1.0.0
      */
     @PostMapping
-    public ModelAndView createCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
+    public ModelAndView createCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException,
+        UnAuthenticException, UnAuthorizationException {
+
         couponService.createCoupon(couponRequest);
 
-        return new ModelAndView("redirect:/shop/v1/admin/coupons/index");
+        return new ModelAndView(REDIRECT_DEFAULT);
     }
 
     /**
@@ -61,7 +66,7 @@ public class AdminCouponController {
      * @since 1.0.0
      */
     @GetMapping("/index")
-    public ModelAndView retrieveCoupons() {
+    public ModelAndView retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
         List<CouponRetrieveResponse> responses = couponService.retrieveCoupons();
 
         ModelAndView mav = new ModelAndView("/coupons/index");
@@ -78,7 +83,7 @@ public class AdminCouponController {
      * @since 1.0.0
      */
     @GetMapping("/update/{couponId}")
-    public ModelAndView doUpdateCoupon(@PathVariable final Long couponId) {
+    public ModelAndView doUpdateCoupon(@PathVariable final Long couponId) throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("/coupons/update-form");
 
         CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
@@ -98,10 +103,12 @@ public class AdminCouponController {
      */
     @PutMapping("/{couponId}")
     public ModelAndView updateCoupon(@PathVariable final Long couponId,
-                                     @ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException {
+                                     @ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException,
+        UnAuthenticException, UnAuthorizationException {
+
         couponService.updateCoupon(couponId, couponRequest);
 
-        return new ModelAndView("redirect:/shop/v1/admin/coupons/index");
+        return new ModelAndView(REDIRECT_DEFAULT);
     }
 
     /**
@@ -112,10 +119,10 @@ public class AdminCouponController {
      * @since 1.0.0
      */
     @DeleteMapping("/{couponId}")
-    public ModelAndView deleteCoupon(@PathVariable final Long couponId) {
+    public ModelAndView deleteCoupon(@PathVariable final Long couponId) throws UnAuthenticException, UnAuthorizationException {
         couponService.deleteCoupon(couponId);
 
-        return new ModelAndView("redirect:/shop/v1/admin/coupons/index");
+        return new ModelAndView(REDIRECT_DEFAULT);
     }
 
 }

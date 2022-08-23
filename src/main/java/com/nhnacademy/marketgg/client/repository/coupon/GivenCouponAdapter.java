@@ -1,11 +1,15 @@
-package com.nhnacademy.marketgg.client.repository.impl;
+package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.repository.GivenCouponRepository;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -29,31 +33,37 @@ public class GivenCouponAdapter implements GivenCouponRepository {
     private final ObjectMapper objectMapper;
 
     @Override
-    public void registerCoupon(Long memberId, GivenCouponCreateRequest givenCouponRequest) throws JsonProcessingException {
+    public void registerCoupon(Long memberId, GivenCouponCreateRequest givenCouponRequest)
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+
         String request = objectMapper.writeValueAsString(givenCouponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<Void> response = restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
-            HttpMethod.POST,
-            requestEntity,
-            Void.class);
+        ResponseEntity<CommonResult<String>> response
+            = restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
+                                    HttpMethod.POST,
+                                    requestEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
 
-        this.checkResponseUri(response);
+        ResponseUtils.checkError(response);
     }
 
     @Override
-    public List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Long memberId) {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        // memo url 원래 /shop/v1 이었는데 없어짐 오류나면 바꿔보도록..
-        ResponseEntity<List<GivenCouponRetrieveResponse>> response =
-            restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
-                HttpMethod.GET,
-                requestEntity,
-                new ParameterizedTypeReference<>() {
-                });
+    public List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Long memberId)
+        throws UnAuthenticException, UnAuthorizationException {
 
-        this.checkResponseUri(response);
-        return response.getBody();
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+
+        ResponseEntity<CommonResult<List<GivenCouponRetrieveResponse>>> response =
+            restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
+                                  HttpMethod.GET,
+                                  requestEntity,
+                                  new ParameterizedTypeReference<>() {
+                                  });
+
+        ResponseUtils.checkError(response);
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     private HttpHeaders buildHeaders() {
@@ -62,10 +72,6 @@ public class GivenCouponAdapter implements GivenCouponRepository {
         httpHeaders.setAccept(List.of(MediaType.APPLICATION_JSON));
 
         return httpHeaders;
-    }
-
-    private <T> void checkResponseUri(final ResponseEntity<T> response) {
-        log.info(String.valueOf(response.getHeaders().getLocation()));
     }
 
 }

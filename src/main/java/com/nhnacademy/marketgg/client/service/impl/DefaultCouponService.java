@@ -3,7 +3,9 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.repository.CouponRepository;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.repository.coupon.CouponRepository;
 import com.nhnacademy.marketgg.client.service.CouponService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,27 +18,30 @@ public class DefaultCouponService implements CouponService {
     private final CouponRepository couponRepository;
 
     @Override
-    public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException {
+    public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException,
+        UnAuthorizationException {
+
         couponRepository.createCoupon(couponRequest);
     }
 
     @Override
-    public CouponRetrieveResponse retrieveCoupon(Long couponId) {
+    public CouponRetrieveResponse retrieveCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException {
         return couponRepository.retrieveCoupon(couponId);
     }
 
     @Override
-    public List<CouponRetrieveResponse> retrieveCoupons() {
+    public List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
         return couponRepository.retrieveCoupons();
     }
 
     @Override
-    public void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException {
+    public void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException,
+        UnAuthenticException, UnAuthorizationException {
         couponRepository.updateCoupon(couponId, couponRequest);
     }
 
     @Override
-    public void deleteCoupon(Long couponId) {
+    public void deleteCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException {
         couponRepository.deleteCoupon(couponId);
     }
 }
