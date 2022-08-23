@@ -1,0 +1,16 @@
+main {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    text-align: center;
+}
+
+img {
+    margin: 0 auto 3rem auto;
+    width: 20%;
+}
+
+.back-to-the-index {
+    width: 15%;
+    margin: 1rem auto 0 auto;
+}
