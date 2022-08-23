@@ -1,6 +1,6 @@
 package com.nhnacademy.marketgg.client.aspect;
 
-import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
+import static com.nhnacademy.marketgg.client.util.GgUtils.WEEK_SECOND;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
@@ -81,7 +81,7 @@ public class JwtAspect {
 
         ResponseEntity<Void> response
             = restTemplate.exchange(gatewayOrigin + "/auth/v1/members/token/refresh", HttpMethod.GET, httpEntity,
-            Void.class);
+                                    Void.class);
 
         if (this.isInvalid(response)) {
             return;
