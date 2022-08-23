@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
-import static com.nhnacademy.marketgg.client.util.GgUrlUtils.REDIRECT_TO_INDEX;
-import static com.nhnacademy.marketgg.client.util.GgUrlUtils.WEEK_SECOND;
+import static com.nhnacademy.marketgg.client.util.GgUtils.REDIRECT_TO_INDEX;
+import static com.nhnacademy.marketgg.client.util.GgUtils.WEEK_SECOND;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
