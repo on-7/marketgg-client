@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.dto;
 
 import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -18,14 +19,14 @@ import lombok.RequiredArgsConstructor;
  * @version 1.0
  * @since 1.0
  */
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 public class ShopResult<T> {
 
-    private final boolean success;
+    private boolean success;
 
-    private final T data;
+    private T data;
 
-    private final ErrorEntity error;
+    private ErrorEntity error;
 
 }
