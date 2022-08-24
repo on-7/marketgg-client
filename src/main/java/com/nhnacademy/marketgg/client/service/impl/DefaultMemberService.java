@@ -86,9 +86,6 @@ public class DefaultMemberService implements MemberService {
     @Override
     public void doSignup(final SignupRequest signupRequest)
         throws UnAuthenticException, UnAuthorizationException {
-
-        signupRequest.encodePassword(passwordEncoder);
-
         memberRepository.signup(signupRequest);
     }
 

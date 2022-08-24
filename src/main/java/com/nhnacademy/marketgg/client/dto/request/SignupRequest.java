@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.request;
 
+import com.nhnacademy.marketgg.client.jwt.ShaPasswordEncoder;
 import java.time.LocalDate;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -18,9 +19,7 @@ public class SignupRequest {
     @NotBlank
     private final String email;
 
-    //'숫자', '문자', '특수문자' 무조건 1개 이상, 비밀번호 '최소 8자에서 최대 16자'까지 허용
-    //(특수문자는 정의된 특수문자만 사용 가능)
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[~!@#$%^&*()+|=])[A-Za-z\\d~!@#$%^&*()+|=]{8,16}$")
+    @NotBlank
     private String password;
 
     @NotBlank
@@ -51,8 +50,22 @@ public class SignupRequest {
 
     private final String provider;
 
-    public void encodePassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.email + this.password);
-    }
+    public SignupRequest(String email, String password, String name, String phoneNumber, Character gender,
+                         LocalDate birthDate, String referrerEmail, Integer zipcode, String address,
+                         String detailAddress,
+                         Boolean inlineRadioOptions, String provider) {
 
+        this.email = email;
+        this.password = new ShaPasswordEncoder().encode(password);
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.referrerEmail = referrerEmail;
+        this.zipcode = zipcode;
+        this.address = address;
+        this.detailAddress = detailAddress;
+        this.inlineRadioOptions = inlineRadioOptions;
+        this.provider = provider;
+    }
 }
