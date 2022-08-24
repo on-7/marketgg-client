@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/default-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::main})}">
+      th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
 
     <head>
         <title>Market GG | 메인 페이지</title>
@@ -27,8 +27,6 @@
                 <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"
                        spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
             </section>
-
-
         </main>
     </body>
 

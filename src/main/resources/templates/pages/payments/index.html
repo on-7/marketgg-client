@@ -1,11 +1,9 @@
 <!DOCTYPE HTML>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/default-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::main})}">
+      th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
 
     <head>
         <meta charset="utf-8">
-        <link rel="stylesheet" th:href="@{/css/marketgg.common.css}">
-
         <title>Market GG | 결제 진행</title>
 
         <!-- 토스 결제창을 띄우기 위해 넣어줘야 한다. requestPayment() 메서드를 이용해서 토스에서 제공하는 결제창을 띄울 수 있다. -->
