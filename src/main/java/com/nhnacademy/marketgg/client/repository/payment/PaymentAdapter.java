@@ -1,12 +1,15 @@
 package com.nhnacademy.marketgg.client.repository.payment;
 
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
+import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
-import com.nhnacademy.marketgg.client.util.GgUrlUtils;
 import java.util.Collections;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -17,6 +20,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @RequiredArgsConstructor
 public class PaymentAdapter implements PaymentRepository {
 
+    private final String gatewayIp;
+
     /**
      * {@inheritDoc}
      *
@@ -25,7 +30,7 @@ public class PaymentAdapter implements PaymentRepository {
     @Override
     public void verifyRequest(final PaymentVerifyRequest paymentRequest) {
         WebClient.builder()
-                 .baseUrl(GgUrlUtils.GATEWAY_HOST_URL)
+                 .baseUrl(gatewayIp)
                  .defaultHeaders(httpHeaders -> {
                      httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                      httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -46,16 +51,40 @@ public class PaymentAdapter implements PaymentRepository {
      */
     @Override
     public void pay(final PaymentConfirmRequest paymentRequest) {
+        ParameterizedTypeReference<ShopResult<PaymentResponse>> typeReference = new ParameterizedTypeReference<>() {
+        };
+        ResponseEntity<ShopResult<PaymentResponse>> response
+            = WebClient.builder()
+                       .baseUrl(gatewayIp)
+                       .defaultHeaders(httpHeaders -> {
+                           httpHeaders.setContentType(
+                               MediaType.APPLICATION_JSON);
+                           httpHeaders.setAccept(
+                               Collections.singletonList(
+                                   MediaType.APPLICATION_JSON));
+                       })
+                       .build()
+                       .post()
+                       .uri("/shop/v1/payments/confirm")
+                       .bodyValue(paymentRequest)
+                       .retrieve()
+                       .toEntity(typeReference)
+                       .block();
+
+        System.out.println(response.getBody().getData());
+    }
+
+    @Override
+    public void retrievePayment(final String paymentKey) {
         WebClient.builder()
-                 .baseUrl(GgUrlUtils.GATEWAY_HOST_URL)
+                 .baseUrl(gatewayIp)
                  .defaultHeaders(httpHeaders -> {
                      httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                      httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                  })
                  .build()
-                 .post()
-                 .uri("/shop/v1/payments/confirm")
-                 .bodyValue(paymentRequest)
+                 .get()
+                 .uri("/shop/v1/payments/" + paymentKey)
                  .retrieve()
                  .bodyToMono(Void.class)
                  .block();
@@ -70,7 +99,7 @@ public class PaymentAdapter implements PaymentRepository {
     @Override
     public void cancelPayment(final String paymentKey, final PaymentCancelRequest paymentRequest) {
         WebClient.builder()
-                 .baseUrl(GgUrlUtils.GATEWAY_HOST_URL)
+                 .baseUrl(gatewayIp)
                  .defaultHeaders(httpHeaders -> {
                      httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                      httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));

@@ -10,6 +10,7 @@ import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.util.JwtUtils;
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -59,6 +60,7 @@ public class OrderAdapter implements OrderRepository {
                        .blockOptional()
                        .orElseThrow(NullPointerException::new);
 
+        URI location = response.getHeaders().getLocation();
         return Objects.requireNonNull(response.getBody()).getData();
     }
 
