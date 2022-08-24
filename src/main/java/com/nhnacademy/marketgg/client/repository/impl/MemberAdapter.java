@@ -44,45 +44,6 @@ public class MemberAdapter implements MemberRepository {
     private static final String DELIVERY_ADDRESS = "/delivery-address";
 
     @Override
-    public LocalDateTime retrievePassUpdatedAt() throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<ShopResult<LocalDateTime>> response =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/ggpass", HttpMethod.GET, requestEntity,
-                                  new ParameterizedTypeReference<>() {
-                                  });
-
-        this.checkResponseUri(response);
-
-        return Objects.requireNonNull(response.getBody()).getData();
-    }
-
-    @Override
-    public void subscribePass() throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<ShopResult<Void>> response =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/ggpass/subscribe",
-                                  HttpMethod.POST,
-                                  requestEntity,
-                                  new ParameterizedTypeReference<>() {
-                                  });
-
-        this.checkResponseUri(response);
-    }
-
-    @Override
-    public void withdrawPass() throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<ShopResult<Void>> response =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/ggpass/withdraw",
-                                  HttpMethod.POST,
-                                  requestEntity,
-                                  new ParameterizedTypeReference<>() {
-                                  });
-
-        this.checkResponseUri(response);
-    }
-
-    @Override
     public void signup(final MemberSignupToShopMember signupRequestToShopMember)
         throws UnAuthenticException, UnAuthorizationException {
 

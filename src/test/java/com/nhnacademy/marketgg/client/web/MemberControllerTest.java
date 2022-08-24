@@ -67,53 +67,6 @@ class MemberControllerTest {
     RedisTemplate<String, JwtInfo> redisTemplate;
 
     @Test
-    @DisplayName("GG 패스 메인 페이지")
-    void testIndex() throws Exception {
-        given(memberService.retrievePassUpdatedAt()).willReturn(LocalDateTime.now());
-
-        mockMvc.perform(get("/members/ggpass"))
-               .andExpect(status().isOk())
-               .andExpect(view().name("pages/ggpass/index"));
-
-        then(memberService).should(times(1)).retrievePassUpdatedAt();
-    }
-
-    @Test
-    @DisplayName("GG 패스 구독 성공")
-    void testSubscribePassSuccess() throws Exception {
-        given(memberService.retrievePassUpdatedAt()).willReturn(LocalDateTime.now());
-        willDoNothing().given(memberService).subscribePass();
-
-        mockMvc.perform(post("/members/ggpass/subscribe"))
-               .andExpect(status().is3xxRedirection());
-
-        then(memberService).should(times(1)).subscribePass();
-    }
-
-    @Test
-    @DisplayName("GG 패스 구독 실패")
-    void testSubscribePassFail() throws Exception {
-        given(memberService.retrievePassUpdatedAt()).willReturn(LocalDateTime.of(2033, 12, 1, 12, 30));
-        willDoNothing().given(memberService).subscribePass();
-
-        mockMvc.perform(post("/members/ggpass/subscribe"))
-               .andExpect(view().name("message"));
-
-        then(memberService).should(times(0)).subscribePass();
-    }
-
-    @Test
-    @DisplayName("GG 패스 구독해지")
-    void testWithdrawPass() throws Exception {
-        willDoNothing().given(memberService).withdrawPass();
-
-        mockMvc.perform(post("/members/ggpass/withdraw"))
-               .andExpect(status().is3xxRedirection());
-
-        then(memberService).should(times(1)).withdrawPass();
-    }
-
-    @Test
     @DisplayName("사용할 수 있는 이메일 검증 테스트")
     void testUseEmail() throws Exception {
 

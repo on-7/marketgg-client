@@ -39,21 +39,6 @@ public class DefaultMemberService implements MemberService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public LocalDateTime retrievePassUpdatedAt() throws UnAuthenticException, UnAuthorizationException {
-        return memberRepository.retrievePassUpdatedAt();
-    }
-
-    @Override
-    public void subscribePass() throws UnAuthenticException, UnAuthorizationException {
-        memberRepository.subscribePass();
-    }
-
-    @Override
-    public void withdrawPass() throws UnAuthenticException, UnAuthorizationException {
-        memberRepository.withdrawPass();
-    }
-
-    @Override
     public void update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId)
         throws UnAuthenticException, UnAuthorizationException {
 

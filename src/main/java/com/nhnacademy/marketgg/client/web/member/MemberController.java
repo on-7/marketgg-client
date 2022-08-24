@@ -42,62 +42,6 @@ public class MemberController {
     private static final String DEFAULT_MEMBER = "/members";
 
     /**
-     * 회원의 GG 패스 화면으로 이동합니다.
-     *
-     * @return 회원의 식별번호를 담고, GG 패스의 index 페이지로 이동합니다.
-     * @author 박세완
-     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
-     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
-     * @since 1.0.0
-     */
-    @GetMapping("/ggpass")
-    public ModelAndView index() throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("pages/ggpass/index");
-        mav.addObject("time", LocalDate.from(memberService.retrievePassUpdatedAt()));
-
-        return mav;
-    }
-
-    /**
-     * 회원을 GG 패스에 구독시키는 Mapping 을 지원합니다.
-     *
-     * @return 갱신일자가 지금 시간보다 늦을 시, ERROR 메세지와 함께 다시 Index 페이지로 이동합니다.
-     * 갱신일자가 지금 시간보다 빠를 시, 구독하는 메소드를 실행한 후, 다시 Index 페이지로 이동합니다.
-     * @author 박세완
-     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
-     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
-     * @since 1.0.0
-     */
-    @PostMapping("/ggpass/subscribe")
-    public ModelAndView subscribePass() throws UnAuthenticException, UnAuthorizationException {
-        if (memberService.retrievePassUpdatedAt().isAfter(LocalDateTime.now())) {
-            ModelAndView mav = new ModelAndView("message");
-            mav.addObject("message", new Alert("이미 구독하신 상태입니다.",
-                DEFAULT_MEMBER + "/ggpass"));
-            return mav;
-        }
-        memberService.subscribePass();
-
-        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/ggpass");
-    }
-
-    /**
-     * 선택한 회원을 GG 패스에 구독해지시키는 Mapping 을 지원합니다.
-     *
-     * @return GG 패스 구독을 해지하는 메소드 실행 후, 다시 Index 페이지로 이동합니다.
-     * @author 박세완
-     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
-     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
-     * @since 1.0.0
-     */
-    @PostMapping("/ggpass/withdraw")
-    public ModelAndView withdrawPass() throws UnAuthenticException, UnAuthorizationException {
-        memberService.withdrawPass();
-
-        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/ggpass");
-    }
-
-    /**
      * 회원이 쿠폰을 등록할 수 있는 POST Mapping 을 지원합니다.
      *
      * @param memberId           - 쿠폰을 등록하는 회원의 식별번호입니다.
