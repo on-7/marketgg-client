@@ -2,12 +2,14 @@ package com.nhnacademy.marketgg.client.repository.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
 import java.io.IOException;
@@ -46,10 +48,10 @@ public class ProductAdapter implements ProductRepository {
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
                 getLinkedMultiValueMapHttpEntity(image, productRequest);
 
-        ResponseEntity<Void> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
-                                                                   HttpMethod.POST,
-                                                                   httpEntity,
-                                                                   new ParameterizedTypeReference<>() {
+        ResponseEntity<ShopResult<Void>> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
+                                                                               HttpMethod.POST,
+                                                                               httpEntity,
+                                                                               new ParameterizedTypeReference<>() {
                                                                    });
 
         this.checkResponseUri(response);
