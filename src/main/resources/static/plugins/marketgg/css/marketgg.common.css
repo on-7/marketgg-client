@@ -39,6 +39,11 @@ main {
     padding: 5rem;
 }
 
+header span {
+    color: #ddd;
+    margin-right: 1rem;
+}
+
 footer {
     width: 1050px;
     color: #ddd;
