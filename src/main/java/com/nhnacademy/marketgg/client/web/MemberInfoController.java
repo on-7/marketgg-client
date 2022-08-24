@@ -4,7 +4,7 @@ import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
@@ -80,7 +80,7 @@ public class MemberInfoController {
     /**
      * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
      *
-     * @param memberUpdateToAuth - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
+     * @param memberUpdateRequest - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
      * @return 회원수정 실행 후, 다시 Index 페이지로 이동합니다.
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
@@ -88,12 +88,9 @@ public class MemberInfoController {
      * @since 1.0.0
      */
     @PostMapping("/update")
-    public ModelAndView doUpdate(@ModelAttribute MemberUpdateToAuth memberUpdateToAuth)
+    public ModelAndView doUpdate(@ModelAttribute @Valid MemberUpdateRequest memberUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException {
-
-        String sessionId = this.getSessionId();
-
-        memberService.update(memberUpdateToAuth, sessionId);
+        memberService.update(memberUpdateRequest);
         return new ModelAndView(REDIRECT);
     }
 
@@ -108,9 +105,7 @@ public class MemberInfoController {
      */
     @GetMapping("/withdraw")
     public ModelAndView doWithdraw() throws UnAuthenticException, UnAuthorizationException {
-        String sessionId = this.getSessionId();
-
-        memberService.withdraw(sessionId);
+        memberService.withdraw();
         return new ModelAndView(REDIRECT);
     }
 

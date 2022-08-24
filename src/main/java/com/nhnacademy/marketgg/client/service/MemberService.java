@@ -3,7 +3,7 @@ package com.nhnacademy.marketgg.client.service;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
@@ -35,11 +35,11 @@ public interface MemberService {
     /**
      * 지정한 회원의 정보 수정을 위한 메소드입니다.
      *
-     * @param memberUpdateToAuth - 회원이 입력한 수정정보입니다.
+     * @param memberUpdateRequest - 회원이 입력한 수정정보입니다.
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
-    void update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId)
+    void update(final MemberUpdateRequest memberUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException;
 
     /**
@@ -82,5 +82,5 @@ public interface MemberService {
     void deleteDeliveryAddress(final Long deliveryAddressId)
         throws UnAuthenticException, UnAuthorizationException;
 
-    void withdraw(final String sessionId) throws UnAuthenticException, UnAuthorizationException;
+    void withdraw() throws UnAuthenticException, UnAuthorizationException;
 }

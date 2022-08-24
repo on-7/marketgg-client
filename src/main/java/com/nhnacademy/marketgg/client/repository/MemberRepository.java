@@ -2,14 +2,12 @@ package com.nhnacademy.marketgg.client.repository;
 
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberSignupToShopMember;
+import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
-import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -27,18 +25,17 @@ public interface MemberRepository {
      * @since 1.0.0
      */
     void signup(final SignupRequest signupRequest)
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원탈퇴 메소드입니다.
      *
-     * @param deletedAt - shop 에 저장되어있는 회원의 삭제 시간을 담고있는 객체 입니다.
      * @author 김훈민
      * @since 1.0.0
      */
-    void withdraw(final MemberWithdrawRequest deletedAt) throws UnAuthenticException, UnAuthorizationException;
+    void withdraw() throws UnAuthenticException, UnAuthorizationException;
 
-    void update(final MemberUpdateToAuthResponse memberUpdateToAuthResponse, final String sessionId)
+    void update(final MemberUpdateRequest memberUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException;
 
     /**

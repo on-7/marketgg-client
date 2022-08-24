@@ -3,13 +3,12 @@ package com.nhnacademy.marketgg.client.service.impl;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberUpdateToAuth;
+import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
-import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
@@ -20,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,21 +33,16 @@ public class DefaultMemberService implements MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberInfoRepository memberInfoRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void update(final MemberUpdateToAuth memberUpdateToAuth, final String sessionId)
+    public void update(final MemberUpdateRequest memberUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException {
-
-        MemberUpdateToAuthResponse updateData = memberInfoRepository.update(memberUpdateToAuth, sessionId);
-        memberRepository.update(updateData, sessionId);
+        memberRepository.update(memberUpdateRequest);
     }
 
     @Override
-    public void withdraw(final String sessionId) throws UnAuthenticException, UnAuthorizationException {
-        MemberWithdrawRequest withdrawRequest = new MemberWithdrawRequest(LocalDateTime.now());
-        memberInfoRepository.withdraw(withdrawRequest, sessionId);
-        memberRepository.withdraw(withdrawRequest);
+    public void withdraw() throws UnAuthenticException, UnAuthorizationException {
+        memberRepository.withdraw();
     }
 
     @Override
