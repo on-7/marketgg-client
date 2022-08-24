@@ -27,11 +27,12 @@ public interface PaymentRepository {
      */
     void pay(final PaymentConfirmRequest paymentRequest);
 
+    void retrievePayment(String paymentKey);
+
     /**
      * 승인된 결제에 대해 취소 요청 통신을 진행합니다.
      *
      * @param paymentRequest - 결제 취소 요청 객체
      */
     void cancelPayment(final String paymentKey, final PaymentCancelRequest paymentRequest);
-
 }

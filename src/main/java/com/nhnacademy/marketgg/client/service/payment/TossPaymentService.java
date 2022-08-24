@@ -49,7 +49,7 @@ public class TossPaymentService implements PaymentService {
      */
     @Override
     public void retrievePayment(String paymentKey) {
-
+        paymentRepository.retrievePayment(paymentKey);
     }
 
     /**

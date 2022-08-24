@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentFailureResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
+import com.nhnacademy.marketgg.client.dto.payment.VirtualAccountDepositRequest;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.service.payment.PaymentService;
 import javax.validation.Valid;
@@ -90,17 +91,20 @@ public class PaymentController {
         return mav;
     }
 
-    /**
-     * 승인된 결제를 결제키로 조회합니다.
-     *
-     * @param paymentKey - 결제 건에 대한 고유한 키 값
-     * @return 결제 내역 조회 가능 페이지
-     */
-    @GetMapping("/payments/{paymentKey}")
-    public ModelAndView retrievePayment(@PathVariable final String paymentKey) {
-        paymentService.retrievePayment(paymentKey);
+    @PostMapping("/payments/event/virtual-accounts")
+    public ModelAndView callback(@ModelAttribute final VirtualAccountDepositRequest virtualAccountRequest) {
 
-        return new ModelAndView("/pages/payments/details");
+        ModelAndView mav = new ModelAndView("redirect:/error");
+
+        return mav;
+    }
+
+    @GetMapping("/payments/event/virtual-accounts")
+    public ModelAndView callback2(@ModelAttribute final VirtualAccountDepositRequest virtualAccountRequest) {
+
+        ModelAndView mav = new ModelAndView("redirect:/error");
+
+        return mav;
     }
 
     /**
