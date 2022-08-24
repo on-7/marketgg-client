@@ -55,7 +55,6 @@ public class ImageAdapter implements ImageRepository {
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
             getLinkedMultiValueMapHttpEntity(image);
 
-
         ResponseEntity<ImageResponse> response =
             this.restTemplate.exchange(gatewayIp + IMAGE_DEFAULT_URI,
                 HttpMethod.POST,
@@ -63,7 +62,7 @@ public class ImageAdapter implements ImageRepository {
                 new ParameterizedTypeReference<>() {
                 });
 
-        return response.getBody().getImageAddress() + response.getBody().getName();
+        return response.getBody().getImageAddress();
     }
 
     private <T> HttpEntity<LinkedMultiValueMap<String, Object>> getLinkedMultiValueMapHttpEntity(

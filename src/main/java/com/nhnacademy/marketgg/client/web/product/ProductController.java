@@ -103,7 +103,7 @@ public class ProductController {
 
         for (ProductResponse product : products) {
             ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-            product.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
+            product.updateThumbnail(imageResponse.getImageAddress());
         }
 
         return mav;
@@ -125,7 +125,7 @@ public class ProductController {
         mav.addObject("productDetails", productDetails);
 
         ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
-        productDetails.updateThumbnail(imageResponse.getImageAddress() + imageResponse.getName());
+        productDetails.updateThumbnail(imageResponse.getImageAddress());
 
         return mav;
     }

@@ -1,6 +1,6 @@
 <section>
     <h2>상품 등록하기</h2>
-    <form name="productRequest" method="post" th:action="@{/admin/products/create}" enctype="multipart/form-data">
+    <form name="productRequest" method="post" th:action="@{/admin/products}" enctype="multipart/form-data">
 
         <div th:replace="fragments/common/input-group :: formItem('name', '상품 이름', 'text', '다시다맛 젤리')"></div>
 

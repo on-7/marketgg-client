@@ -40,7 +40,7 @@
                         <div class="col-md-4" th:each="product : ${products}">
                             <div class="card mb-4 shadow-sm">
                                 <img th:src="${product.thumbnail}" background="#55595c" color="#eceeef"
-                                     class="card-img-top" text="Thumbnail" th:onclick="|location.href='/admin/products/${product.id}'|">
+                                     class="card-img-top" text="Thumbnail" th:onclick="|location.href='/products/${product.id}'|">
                                 <div class="card-body">
                                     <td th:text="${product.name}"></td>
                                     <br>
