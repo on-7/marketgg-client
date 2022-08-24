@@ -42,7 +42,6 @@ public class MemberAdapter implements MemberRepository {
     private static final String DEFAULT_MEMBER = "/shop/v1/members/";
     private static final String DELIVERY_ADDRESS = "/delivery-address";
 
-
     @Override
     public void signup(final SignupRequest signupRequest)
         throws UnAuthenticException, UnAuthorizationException {
