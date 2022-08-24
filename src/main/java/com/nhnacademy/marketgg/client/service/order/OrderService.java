@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.service.order;
 
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
@@ -19,7 +20,7 @@ public interface OrderService {
      *
      * @param orderRequest - 주문 생성 시 필요한 요청 정보 객체
      */
-    void createOrder(final OrderCreateRequest orderRequest);
+    void createOrder(final OrderCreateRequest orderRequest, MemberInfo memberInfo);
 
     /**
      * 주문 목록을 조회합니다.
