@@ -4,7 +4,7 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 70vw;
+    height: inherit;
     margin: 0 auto;
     padding: 3rem;
 }

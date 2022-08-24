@@ -4,6 +4,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 주문 생성 요청에 대한 정보를 담고 있는 클래스입니다.
@@ -12,7 +14,8 @@ import lombok.AllArgsConstructor;
  * @version 1.0
  * @since 1.0
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Getter
 public class OrderCreateRequest {
 
     @NotNull
@@ -21,7 +24,7 @@ public class OrderCreateRequest {
     @NotNull
     private final Integer usedPoint;
 
-    private final Integer trackingNo;
+    private Integer trackingNo;
 
     @NotBlank
     @Size(min = 2, max = 4)
