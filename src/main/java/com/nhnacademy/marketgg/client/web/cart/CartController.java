@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.cart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
@@ -9,6 +9,7 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.CartService;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -68,9 +69,31 @@ public class CartController {
     public ModelAndView retrieveCart() throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("pages/carts/index");
-
         List<CartProductResponse> carts = cartService.retrieveCarts();
+        // List<CartProductResponse> carts = List.of(
+        //     new CartProductResponse(1L, "포카칩", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 10,
+        //         1300L),
+        //     new CartProductResponse(2L, "자몽 주스", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 9,
+        //         2000L),
+        //     new CartProductResponse(3L, "오렌지 주스", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage",
+        //         8, 1500L),
+        //     new CartProductResponse(4L, "수미칩", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 7,
+        //         1300L),
+        //     new CartProductResponse(5L, "김자몽", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 6,
+        //         2300L),
+        //     new CartProductResponse(6L, "델몬트 오렌지", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage",
+        //         5, 2100L),
+        //     new CartProductResponse(7L, "프링글스", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 4,
+        //         1000L),
+        //     new CartProductResponse(8L, "자몽 주스", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 3,
+        //         1900L),
+        //     new CartProductResponse(9L, "썬키스트 오렌지", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage",
+        //         2, 1200L),
+        //     new CartProductResponse(10L, "포테토칩", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 1,
+        //         1500L)
+        // );
         mav.addObject("carts", carts);
+        
         return mav;
     }
 
@@ -82,12 +105,12 @@ public class CartController {
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
-    // 비동기로 처리 예정
     @PatchMapping
     @ResponseBody
-    public ResponseEntity<CommonResponse> updateAmount(@RequestBody @Valid ProductToCartRequest productUpdateRequest)
+    public ResponseEntity<CommonResponse> updateAmount(@RequestBody @Valid ProductToCartRequest productUpdateRequest
+        , HttpServletRequest request)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
-
+        System.out.println(request.getRemoteAddr());
         cartService.updateAmount(productUpdateRequest);
 
         return ResponseEntity.status(HttpStatus.OK)

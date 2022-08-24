@@ -35,14 +35,22 @@ public class RedisConfig {
     private final String password;
 
     public RedisConfig(@Qualifier("clientCertificateAuthenticationRestTemplate") RestTemplate restTemplate,
-                       @Value("${gg.redis.password-url}") String redisPasswordUrl,
-                       @Value("${gg.redis.url}") String redisInfoUrl) {
+                       // @Value("${gg.redis.password-url}") String redisPasswordUrl,
+                       // @Value("${gg.redis.url}") String redisInfoUrl
+                       @Value("${gg.redis.host}") String host,
+                       @Value("${gg.redis.port}") int port,
+                       @Value("${gg.redis.database}") int database,
+                       @Value("${gg.redis.password}") String password) {
         this.restTemplate = restTemplate;
-        String[] info = this.getRedisInfo(redisInfoUrl);
-        this.host = info[0];
-        this.port = Integer.parseInt(info[1]);
-        this.database = Integer.parseInt(info[2]);
-        this.password = this.getRedisPassword(redisPasswordUrl);
+        // String[] info = this.getRedisInfo(redisInfoUrl);
+        // this.host = info[0];
+        // this.port = Integer.parseInt(info[1]);
+        // this.database = Integer.parseInt(info[2]);
+        // this.password = this.getRedisPassword(redisPasswordUrl);
+        this.host = host;
+        this.port = port;
+        this.database = database;
+        this.password = password;
     }
 
     /**

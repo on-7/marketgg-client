@@ -4,11 +4,11 @@ main {
     padding-bottom: 200px;
 }
 
-footer {
-    height: 200px;
-    position: relative;
-    transform: translateY(-100%);
-}
+/*footer {*/
+/*    height: 200px;*/
+/*    position: relative;*/
+/*    transform: translateY(-100%);*/
+/*}*/
 
 section {
     justify-content: normal;
@@ -31,6 +31,14 @@ section {
 .cart-img {
     max-width: 120px;
     max-height: 150px;
+}
+
+.item-name {
+    width: 260px;
+}
+
+.item-price {
+    width: 100px;
 }
 
 .p-2 {

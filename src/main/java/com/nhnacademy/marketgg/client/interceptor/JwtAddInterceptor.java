@@ -38,7 +38,7 @@ public class JwtAddInterceptor implements ClientHttpRequestInterceptor {
         log.info("path = {}", httpRequest.getURI().getPath());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (!this.needJwt(httpRequest.getURI().getPath()) || Objects.isNull(authentication)) {
+        if (!this.needJwt(httpRequest.getURI().getPath()) || Objects.isNull(authentication.getCredentials())) {
             return execution.execute(httpRequest, body);
         }
 

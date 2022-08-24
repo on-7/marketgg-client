@@ -4,310 +4,63 @@
 
     <head>
         <meta charset="UTF-8">
+        <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+        <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
         <title>Market GG</title>
         <link th:href="@{css/carts/cart.css}" rel="stylesheet">
-        <script></script>
+        <script th:src="@{js/carts/cart.js}" defer></script>
     </head>
     <body>
         <main>
             <section class="text-center">
+
                 <h2 class="cart-title" th:text="#{Cart}"></h2>
+                <form method="POST" th:action="@{/#}">
+                    <div class="cart-container">
+                        <div class="cart">
+                            <div th:id="cart- + ${cart.id}" class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center"
+                                 th:each="cart : ${carts}">
+                                <input type="hidden" th:value="${cart.id}" />
+                                <input th:id="check- + ${cart.id}" class="p-2" type="checkbox" name="select" checked />
 
-                <div class="cart-container">
-                    <div class="cart">
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
+                                <img class="cart-img p-2" th:src="${cart.thumbnail}" alt="thumbnail" />
 
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" alt="thumbnail"/> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
+                                <span class="item-name p-2" th:text="${cart.name}">상품 이름</span>
 
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
+                                <div class="cart-amount p-2">
+                                    <input th:id="amount- + ${cart.id}" type="number" name="amount"
+                                           th:value="${cart.amount}" min="0" max="999" />
+                                    <button type="button" th:id="updateBtn- + ${cart.id}" class="update-btn"
+                                            th:value="#{UPDATE}">수정
+                                    </button>
+                                </div>
 
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
+                                <span class="p-2 item-price" th:text="${cart.price * cart.amount}">총 금액</span>
+
+                                <button type="button" th:id="deleteBtn- + ${cart.id}" class="delete-btn p-2">X</button>
                             </div>
 
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
+                            <div th:if="${!carts.isEmpty}">
+                                <button type="button" id="delete-all-btn" th:value="#{DELETE_ALL}">
+                                    전체 삭제
+                                </button>
+                                <button type="button" id="delete-selection-btn" th:value="#{DELETE_SELECTION}">
+                                    선택 삭제
+                                </button>
+                            </div>
                         </div>
-                        <!-- -------------------------------------------------------------------- -->
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
 
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
+                        <div class="cart-pay">
+                            <div>
+                                <div class="pay-info">
+                                    <p>결제 예정 금액</p>
+                                    <p id="total-price">10,000 원</p>
+                                </div>
+                                <button class="order-btn">주문하기</button>
                             </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
-                        </div>
-                        <div class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center">
-                            <input class="p-2" type="checkbox" name="select" checked />
-
-                            <!-- <img th:src="${cart.thumbnail}" class="cart-img" /> -->
-                            <img th:src="@{images/errors/poby.png}" class="cart-img p-2" />
-
-                            <!-- <span th:text="${cart.name}">상품 이름</span> -->
-                            <span class="p-2 flex-grow-1">상품 이름</span>
-
-                            <div class="cart-amount p-2">
-                                <!-- <input type="number" th:value="${cart.amount}" min="0" max="999"/> -->
-                                <input type="number" name="amount" min="0" max="999" /><br />
-                                <button th:value="#{UPDATE}">수정</button>
-                            </div>
-
-                            <!-- <span th:text="${cart.price * cart.amount}">총 금액</span> -->
-                            <span class="p-2">총 금액</span>
-
-                            <button class="cart-delete p-2">X</button>
                         </div>
                     </div>
-
-                    <div class="cart-pay">
-                        <div>
-                            <div class="pay-info">
-                                <p>결제 예정 금액</p>
-                                <p>10,000 원</p>
-                            </div>
-                            <button class="order-btn">주문하기</button>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </section>
         </main>
     </body>
