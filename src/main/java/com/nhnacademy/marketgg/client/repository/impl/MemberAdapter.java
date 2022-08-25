@@ -1,5 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
@@ -8,12 +10,16 @@ import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.exception.LoginFailException;
+import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -25,6 +31,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * Client Server 와 Shop Server 사이에서 데이터를 주고 받습니다.
@@ -61,14 +69,15 @@ public class MemberAdapter implements MemberRepository {
     @Override
     public void withdraw()
         throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(deletedAt, buildHeaders());
+        HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.DELETE, response,
                 new ParameterizedTypeReference<>() {
                 });
 
-        //TODO : sessionId 알아내서 레디스에서 지우기.
-        //redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        redisTemplate.opsForHash().delete(req.getSession().getId(), JwtInfo.JWT_REDIS_KEY);
 
         this.checkResponseUri(exchange);
     }
@@ -84,43 +93,28 @@ public class MemberAdapter implements MemberRepository {
                 new ParameterizedTypeReference<>() {
                 });
 
+        HttpHeaders headers = response.getHeaders();
+
+        List<String> jwtHeader = headers.get(AUTHORIZATION);
+        List<String> expiredHeader = headers.get(JwtInfo.JWT_EXPIRE);
+
+        if (Objects.isNull(jwtHeader) || Objects.isNull(expiredHeader)) {
+            throw new LoginFailException();
+        }
+
+        String jwt = jwtHeader.get(0);
+        String expireAt = expiredHeader.get(0);
+
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+
+        JwtInfo.saveJwt(redisTemplate, req.getSession().getId(), jwt, expireAt);
+
+        if (Objects.isNull(response.getBody())) {
+            throw new ServerException();
+        }
+
         this.checkResponseUri(exchange);
     }
-
-    // @Override
-    // public MemberUpdateToAuthResponse update(final MemberUpdateRequest memberUpdateRequest) {
-    //     log.info("update: start");
-    //     HttpHeaders httpHeaders = getHttpHeaders();
-    //     httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-    //
-    //     HttpEntity<MemberUpdateRequest> httpEntity =
-    //         new HttpEntity<>(memberUpdateRequest, httpHeaders);
-    //     ResponseEntity<MemberUpdateToAuthResponse> response =
-    //         restTemplate.exchange(requestUrl + "/auth/v1/members/info", HttpMethod.PUT, httpEntity,
-    //             MemberUpdateToAuthResponse.class
-    //         );
-    //
-    //     HttpHeaders headers = response.getHeaders();
-    //
-    //     List<String> jwtHeader = headers.get(AUTHORIZATION);
-    //     List<String> expiredHeader = headers.get(JwtInfo.JWT_EXPIRE);
-    //
-    //     if (Objects.isNull(jwtHeader) || Objects.isNull(expiredHeader)) {
-    //         throw new LoginFailException();
-    //     }
-    //
-    //     String jwt = jwtHeader.get(0);
-    //     String expireAt = expiredHeader.get(0);
-    //
-    //     //TODO: sessionId 알아내서 토큰 정보 갱신하기.
-    //     //JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
-    //
-    //     if (Objects.isNull(response.getBody())) {
-    //         throw new ServerException();
-    //     }
-    //
-    //     return response.getBody();
-    // }
 
     @Override
     public List<DeliveryAddressResponse> retrieveDeliveryAddresses()

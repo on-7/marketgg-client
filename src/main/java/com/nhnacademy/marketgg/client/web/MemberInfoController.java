@@ -174,15 +174,4 @@ public class MemberInfoController {
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
     }
 
-    private String getSessionId() throws UnAuthenticException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (Objects.isNull(authentication)) {
-            throw new UnAuthenticException();
-        }
-
-        return (String) authentication.getPrincipal();
-    }
-
-
 }

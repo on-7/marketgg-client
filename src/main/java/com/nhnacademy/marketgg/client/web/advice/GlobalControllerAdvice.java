@@ -30,7 +30,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(ClientException.class)
     public ModelAndView clientException(ClientException e) {
         log.error("", e);
-        // TODO: Error 페이지 제작
+        // : Error 페이지 제작
         return new ModelAndView();
     }
 
