@@ -62,7 +62,6 @@ public class OrderAdapter implements OrderRepository {
                        .blockOptional()
                        .orElseThrow(NullPointerException::new);
 
-        URI location = response.getHeaders().getLocation();
         return Objects.requireNonNull(response.getBody()).getData();
     }
 
@@ -72,7 +71,7 @@ public class OrderAdapter implements OrderRepository {
      * @return - 주문 목록
      */
     @Override
-    public List<OrderRetrieveResponse> retrieveOrders() {
+    public List<OrderRetrieveResponse> retrieveOrders(final Integer page) {
         ResponseEntity<ShopResult<List<OrderRetrieveResponse>>> response
                 = WebClient.builder()
                            .baseUrl(gatewayIp)
@@ -83,7 +82,7 @@ public class OrderAdapter implements OrderRepository {
                            })
                            .build()
                            .get()
-                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
+                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "?page=" + page)
                            .retrieve()
                            .toEntity(
                                    new ParameterizedTypeReference<ShopResult<List<OrderRetrieveResponse>>>() {
@@ -91,7 +90,6 @@ public class OrderAdapter implements OrderRepository {
                            .blockOptional()
                            .orElseThrow(NullPointerException::new);
 
-        URI location = response.getHeaders().getLocation();
         return Objects.requireNonNull(response.getBody()).getData();
     }
 

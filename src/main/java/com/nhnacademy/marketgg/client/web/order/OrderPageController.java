@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -45,8 +46,8 @@ public class OrderPageController {
      * @return 주문 목록과 페이지를 포함한 객체
      */
     @GetMapping("/orders")
-    public ModelAndView retrieveOrders() {
-        List<OrderRetrieveResponse> orders = orderService.retrieveOrders();
+    public ModelAndView retrieveOrders(@RequestParam final Integer page) {
+        List<OrderRetrieveResponse> orders = orderService.retrieveOrders(page);
         log.info("retrieveOrders: {}", orders);
 
         ModelAndView mav = new ModelAndView("pages/orders/order-list");

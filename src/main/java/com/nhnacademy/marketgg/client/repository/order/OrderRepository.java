@@ -30,7 +30,7 @@ public interface OrderRepository {
      *
      * @return 주문 목록 응답 객체
      */
-    List<OrderRetrieveResponse> retrieveOrders();
+    List<OrderRetrieveResponse> retrieveOrders(final Integer page);
 
     /**
      * 주문 상세 정보를 조회합니다.
