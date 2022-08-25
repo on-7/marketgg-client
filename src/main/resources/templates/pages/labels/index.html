@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
       th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
     <head>
-        <link rel="stylesheet" th:href="@{/css/label/marketgg.label.css}">
+        <link rel="stylesheet" th:href="@{css/label/marketgg.label.css}">
         <title th:text="#{LABEL_MANAGEMENT}"></title>
     </head>
     <body>
@@ -13,7 +13,7 @@
                 <div class="label-content-wrapper">
                     <details>
                         <summary class="btn btn-info" th:text="#{LABEL_CREATE}"></summary>
-                            <form th:method="post" th:acthion="'/admin/labels'">
+                            <form method="POST" th:action="@{/admin/labels/create}">
                                 <input type="text" name="name" th:placeholder="#{WRITE_LABEL_NAME}">
                                 <input class="btn btn-primary" type="submit" th:value="#{ADD}">
                             </form>
@@ -32,7 +32,7 @@
                                     <td th:text="${label.labelNo}"></td>
                                     <td th:text="${label.name}"></td>
                                     <td>
-                                        <form th:method="delete" th:action="'/admin/labels/' + ${label.labelNo}">
+                                        <form th:method="post" th:action="'/admin/labels/' + ${label.labelNo}">
                                             <input type="hidden" name="_method" value="delete"/>
                                             <input class="btn-primary" type="submit" th:value="#{DELETE}">
                                         </form>

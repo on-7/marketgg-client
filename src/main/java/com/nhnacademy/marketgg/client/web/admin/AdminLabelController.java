@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -39,17 +39,17 @@ public class AdminLabelController {
      *
      * @param labelRequest - 등록할 라벨의 입력정보를 담은 객체입니다.
      * @return 라벨을 등록하는 메소드를 실행하고 다시 라벨의 Index 페이지로 REDIRECT 합니다.
-     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @throws JsonProcessingException  Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
-    @PostMapping
+    @RequestMapping(value = "/create", method = { RequestMethod.POST })
     public ModelAndView createLabel(@Valid @ModelAttribute final LabelRegisterRequest labelRequest,
                                     BindingResult bindingResult)
             throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
-        if(!bindingResult.hasErrors()) {
+        if (!bindingResult.hasErrors()) {
             labelService.createLabel(labelRequest);
         }
 

@@ -48,7 +48,7 @@ class AdminLabelControllerTest {
     void testCreateLabel() throws Exception {
         willDoNothing().given(labelService).createLabel(any(LabelRegisterRequest.class));
 
-        this.mockMvc.perform(post(DEFAULT_LABEL)
+        this.mockMvc.perform(post(DEFAULT_LABEL + "/create")
                                      .param("name", "hello"))
                     .andExpect(status().is3xxRedirection());
 
