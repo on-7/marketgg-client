@@ -7,39 +7,41 @@
     </head>
     <body>
         <main>
-            <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
+            <div style="display: flex; justify-content: center;">
                 <h2 style="background-color: white; border: 1px outset black; padding: 5px"
-                    th:text="#{DELIVERY_ADDRESS_LIST}"></h2>
+                    th:text="#{DELIVERY_ADDRESS_LIST}">
+                </h2>
             </div>
-            <div style="display: flex">
-                <nav style="display: flex; flex: 0.1; padding-left: 30px"></nav>
-                <div style="display: flex; flex: 0.7; flex-direction: column;">
-                    <div style="text-align: center; display: flex; justify-content: center">
-                        <table class="table table-hover"
-                               style="text-align: center; border: 1px solid black; background-color: navajowhite">
-                            <input type="button" class="addButton" th:text="#{ADD}">
-                            <tr>
-                                <th th:text="#{DELIVERY_ADDRESS_NO}"></th>
-                                <th th:text="#{DELIVERY_ZIP_CODE}"></th>
-                                <th th:text="#{DELIVERY_ADDRESS}"></th>
-                                <th th:text="#{DELIVERY_DETAIL_ADDRESS}"></th>
-                                <th th:text="#{DELETE}"></th>
-                            </tr>
-                            <tr th:each="deliveryAddressList: ${deliveryAddressList}">
-                                <td th:text="${deliveryAddressList.id}">
-                                    <input type="hidden" th:text="${deliveryAddressList.isDefaultAddress}">
-                                </td>
-                                <!--                                    <a th:href="'/products/' + ${deliveryAddressList.Id}" th:text="${dib.productName}"></a>-->
-                                <td th:text="${deliveryAddressList.zipCode}"></td>
-                                <td th:text="${deliveryAddressList.address}"></td>
-                                <td th:text="${deliveryAddressList.detailAddress}"></td>
-                                <td>
-                                    <input type="button" class="deleteButton"
-                                           th:delivery-address-id="${deliveryAddressList.id}" th:text="#{DELETE}">
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <div style="display: flex; justify-content: flex-end;">
+                    <input type="button" class="addButton" th:value="#{ADD}">
+                </div>
+
+                <div style="text-align: center; display: flex;">
+                    <table class="table table-hover"
+                           style="text-align: center; border: 1px solid black; background-color: navajowhite">
+                        <tr>
+                            <th th:text="#{DELIVERY_ADDRESS_NO}"></th>
+                            <th th:text="#{DELIVERY_ZIP_CODE}"></th>
+                            <th th:text="#{DELIVERY_ADDRESS}"></th>
+                            <th th:text="#{DELIVERY_DETAIL_ADDRESS}"></th>
+                            <th th:text="#{DELETE}"></th>
+                        </tr>
+                        <tr th:each="deliveryAddressList: ${deliveryAddressList}">
+                            <td th:text="${deliveryAddressList.id}">
+                                <input type="hidden" th:text="${deliveryAddressList.isDefaultAddress}">
+                            </td>
+                            <a th:href="'/products/' + ${deliveryAddressList.id}"></a>
+                            <td th:text="${deliveryAddressList.zipCode}"></td>
+                            <td th:text="${deliveryAddressList.address}"></td>
+                            <td th:text="${deliveryAddressList.detailAddress}"></td>
+                            <td>
+                                <input type="button" class="deleteButton"
+                                       th:delivery-address-id="${deliveryAddressList.id}" th:value="#{DELETE}">
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </main>
