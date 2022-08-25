@@ -22,6 +22,6 @@ public class GivenCouponRetrieveResponse {
 
     private LocalDateTime expiredDate;
 
-    private String state;
+    private String status;
 
 }
