@@ -2,6 +2,7 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
+            <input type="hidden" id="product-id" th:value="${productDetails.id}" />
             <div class="col-md-6">
                 <img th:src="${productDetails.thumbnail}" background="#55595c" color="#eceeef" class="card-img-top"
                      text="Thumbnail" />
@@ -20,7 +21,8 @@
                 <div class="d-flex">
                     <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
                            style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                    <button id="cart-btn"
+                            class="btn btn-outline-dark flex-shrink-0" type="button">
                         <i class="bi-cart-fill me-1"></i>
                         Add to cart
                     </button>
