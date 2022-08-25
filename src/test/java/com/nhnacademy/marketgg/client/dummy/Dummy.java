@@ -42,7 +42,6 @@ public class Dummy {
         ReflectionTestUtils.setField(memberInfo, "memberGrade", "멤버그레이드");
         ReflectionTestUtils.setField(memberInfo, "gender", 'X');
         ReflectionTestUtils.setField(memberInfo, "birthDay", LocalDate.now());
-        ReflectionTestUtils.setField(memberInfo, "ggpassUpdatedAt", LocalDateTime.now());
 
         return memberInfo;
     }
