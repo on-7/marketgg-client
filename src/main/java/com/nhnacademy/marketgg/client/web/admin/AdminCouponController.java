@@ -29,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminCouponController {
 
     private final CouponService couponService;
-    private static final String REDIRECT_DEFAULT = "redirect:/shop/v1/admin/coupons/index";
+    private static final String REDIRECT_DEFAULT = "redirect:/admin/coupons/index";
 
     /**
      * 쿠폰 등록 페이지로 이동하는 메소드입니다.
@@ -39,7 +39,7 @@ public class AdminCouponController {
      */
     @GetMapping("/create")
     public ModelAndView doCreateCoupon() {
-        return new ModelAndView("/templates/pages/admin/coupons/create-form");
+        return new ModelAndView("pages/admin/coupons/create-form");
     }
 
     /**
@@ -69,7 +69,7 @@ public class AdminCouponController {
     public ModelAndView retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
         List<CouponRetrieveResponse> responses = couponService.retrieveCoupons();
 
-        ModelAndView mav = new ModelAndView("/templates/pages/admin/coupons/index");
+        ModelAndView mav = new ModelAndView("pages/admin/coupons/index");
         mav.addObject("coupons", responses);
 
         return mav;
@@ -84,7 +84,7 @@ public class AdminCouponController {
      */
     @GetMapping("/update/{couponId}")
     public ModelAndView doUpdateCoupon(@PathVariable final Long couponId) throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("/templates/pages/admin/coupons/update-form");
+        ModelAndView mav = new ModelAndView("pages/admin/coupons/update-form");
 
         CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
         mav.addObject("coupon", couponResponse);

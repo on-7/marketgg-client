@@ -71,7 +71,7 @@ public class MemberController {
 
         List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(memberId);
 
-        ModelAndView mav = new ModelAndView("/templates/pages/mygg/coupons/index");
+        ModelAndView mav = new ModelAndView("/pages/mygg/coupons/index");
         mav.addObject("coupons", responses);
         mav.addObject("memberId", memberId);
 

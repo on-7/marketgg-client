@@ -8,9 +8,6 @@
     </head>
     <body>
         <main>
-            <h1 style="display: inline">쿠폰 관리</h1>
-            <button style="float: right" onclick="location.href='/shop/v1/admin/coupons/create'">쿠폰 등록</button>
-            <hr/>
             <table class="table table-hover">
                 <tr>
                     <th>이름</th>
@@ -18,6 +15,7 @@
                     <th>유효기간</th>
                     <th>최소주문금액</th>
                     <th>할인량</th>
+                    <th>쿠폰 관리</th>
                 </tr>
                 <tr th:each="coupon : ${coupons}">
                     <td th:text="${coupon.name}"></td>
@@ -26,10 +24,10 @@
                     <td th:text="${coupon.minimumMoney}"></td>
                     <td th:text="${coupon.discountAmount}"></td>
                     <td>
-                        <a style="text-decoration: none" th:href="@{/shop/v1/admin/coupons/update/{couponId}(couponId=${coupon.id})}">
+                        <a style="text-decoration: none" th:href="@{/admin/coupons/update/{couponId}(couponId=${coupon.id})}">
                             <button>수정</button>
                         </a>
-                        <form style="display: inline" th:action="'/shop/v1/admin/coupons/' + ${coupon.id}" method="post">
+                        <form style="display: inline" th:action="'/admin/coupons/' + ${coupon.id}" method="post">
                             <input type="hidden" name="_method" value="delete"/>
                             <input type="submit" value="삭제"/>
                         </form>
