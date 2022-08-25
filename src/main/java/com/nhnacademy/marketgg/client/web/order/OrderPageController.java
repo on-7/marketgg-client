@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web.order;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
 import java.util.List;
@@ -31,7 +32,7 @@ public class OrderPageController {
      * @return 주문서 작성 페이지
      */
     @GetMapping("/orders/form")
-    public ModelAndView goOrderForm(MemberInfo memberInfo) {
+    public ModelAndView goOrderForm(final MemberInfo memberInfo) {
         ModelAndView mav = new ModelAndView("pages/orders/order-form");
         mav.addObject(memberInfo);
 
@@ -62,7 +63,8 @@ public class OrderPageController {
      */
     @GetMapping("/orders/{orderId}")
     public ModelAndView retrieveOrder(@PathVariable final Long orderId) {
-        OrderRetrieveResponse order = orderService.retrieveOrder(orderId);
+        OrderDetailRetrieveResponse order = orderService.retrieveOrder(orderId);
+        log.info("retrieveOrder: {}", order);
 
         ModelAndView mav = new ModelAndView("/pages/orders/order-details");
         mav.addObject("order", order);

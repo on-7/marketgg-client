@@ -39,10 +39,6 @@ public class OrderDetailRetrieveResponse {
 
     private final LocalDateTime createdAt;
 
-    private List<ProductToOrder> orderProductList;
-
-    public void addOrderDetail(List<ProductToOrder> orderProductList) {
-        this.orderProductList = orderProductList;
-    }
+    private final List<ProductToOrder> orderProductList;
 
 }
