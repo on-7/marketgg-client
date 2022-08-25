@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+      th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
     <head>
-        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/label/marketgg.label.css}">
         <title th:text="#{LABEL_MANAGEMENT}"></title>
     </head>
     <body>
         <main>
-            <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
-                <h2 style="background-color: white; border: 1px outset black; padding: 5px" th:text="#{LABEL_MANAGEMENT}"></h2>
-            </div>
-            <div style="display: flex">
-                <nav style="display: flex; flex: 0.1; padding-left: 30px"></nav>
-                <div style="display: flex; flex: 0.7; flex-direction: column">
+            <h1 th:text="#{LABEL_MANAGEMENT}"></h1>
+            <div class="label-wrapper">
+                <nav></nav>
+                <div class="label-content-wrapper">
                     <details>
                         <summary class="btn btn-info" th:text="#{LABEL_CREATE}"></summary>
                             <form th:method="post" th:acthion="'/admin/labels'">
@@ -20,13 +18,13 @@
                                 <input class="btn btn-primary" type="submit" th:value="#{ADD}">
                             </form>
                     </details>
-                    <div style="text-align: center; display: flex; justify-content: center">
-                        <table class="table table-hover" style="text-align: center; border: 1px solid black; background-color: white">
+                    <div class="label-table-wrapper">
+                        <table class="table table-hover label-table-content-wrapper">
                             <thead>
                                 <tr>
                                     <th th:text="#{No}"></th>
                                     <th th:text="#{Name}"></th>
-                                    <th th:text="#{삭제}"></th>
+                                    <th th:text="#{DELETE}"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -36,7 +34,7 @@
                                     <td>
                                         <form th:method="delete" th:action="'/admin/labels/' + ${label.labelNo}">
                                             <input type="hidden" name="_method" value="delete"/>
-                                            <input class="btn-primary" type="submit" th:value="#{삭제}">
+                                            <input class="btn-primary" type="submit" th:value="#{DELETE}">
                                         </form>
                                     </td>
                                 </tr>
