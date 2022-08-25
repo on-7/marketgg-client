@@ -16,6 +16,11 @@
     <body>
         <main>
             주문 목록 페이지입니다.
+            <table>
+                <tr th:each="orders">
+                    <td th:text="orders.id"></td>
+                </tr>
+            </table>
         </main>
     </body>
 

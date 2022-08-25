@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.service.order;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
-import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.repository.order.OrderRepository;
 import java.util.List;
@@ -38,7 +38,7 @@ public class GgOrderService implements OrderService {
      * @return 주문 목록이 담긴 응답 객체
      */
     @Override
-    public List<OrderResponse> retrieveOrders() {
+    public List<OrderRetrieveResponse> retrieveOrders() {
         return orderRepository.retrieveOrders();
     }
 
@@ -49,7 +49,7 @@ public class GgOrderService implements OrderService {
      * @return 주문 상세 정보 응답 객체
      */
     @Override
-    public OrderResponse retrieveOrder(final Long orderId) {
+    public OrderRetrieveResponse retrieveOrder(final Long orderId) {
         return orderRepository.retrieveOrder(orderId);
     }
 
