@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
@@ -10,6 +11,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
@@ -67,11 +69,11 @@ class ProductServiceTest {
     @Test
     @DisplayName("상품 전체조회 테스트")
     void testRetrieveProducts() {
-        given(productRepository.retrieveProducts()).willReturn(List.of(productResponse));
+        given(productRepository.retrieveProducts(anyInt())).willReturn(new PageResult<>());
 
-        productService.retrieveProducts();
+        productService.retrieveProducts(1);
 
-        then(productRepository).should(times(1)).retrieveProducts();
+        then(productRepository).should(times(1)).retrieveProducts(anyInt());
     }
 
     @Test
