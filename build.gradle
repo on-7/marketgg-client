@@ -51,6 +51,7 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.mockito:mockito-inline:4.7.0'
 
     // https://mvnrepository.com/artifact/org.sonarsource.scanner.gradle/sonarqube-gradle-plugin
     runtimeOnly 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'

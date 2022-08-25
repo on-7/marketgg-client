@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.aspect;
 
+import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_ANONYMOUS;
 import static org.springframework.http.HttpMethod.GET;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,6 +10,7 @@ import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
 import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
+import com.nhnacademy.marketgg.client.util.GgUtils;
 import java.util.Arrays;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -63,7 +64,7 @@ public class MemberAspect {
         log.info("Method: {}", pjp.getSignature().getName());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
+        if (GgUtils.hasRole(authentication, ROLE_ANONYMOUS)) {
             return pjp.proceed();
         }
 

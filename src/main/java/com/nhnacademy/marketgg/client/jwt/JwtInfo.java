@@ -32,7 +32,7 @@ public class JwtInfo implements Serializable {
     private final LocalDateTime jwtExpireDate;
     private final List<String> authorities;
 
-    private JwtInfo(String jwt, String jwtExpireDate) throws JsonProcessingException {
+    public JwtInfo(String jwt, String jwtExpireDate) throws JsonProcessingException {
         this.jwt = jwt;
         this.authorities = parseJwt(jwt);
         try {

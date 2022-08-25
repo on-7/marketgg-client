@@ -1,11 +1,13 @@
 package com.nhnacademy.marketgg.client.web.cart;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.CartService;
@@ -13,7 +15,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -48,14 +49,15 @@ public class CartController {
     // 비동기로 처리 예정
     @PostMapping
     @ResponseBody
-    public ResponseEntity<CommonResponse> addToProduct(@RequestBody @Validated ProductToCartRequest productAddRequest)
+    public ResponseEntity<CommonResult<String>> addToProduct(
+        @RequestBody @Validated ProductToCartRequest productAddRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.addProduct(productAddRequest);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(CREATED)
                              .contentType(MediaType.APPLICATION_JSON)
-                             .body(new SingleResponse<>(true));
+                             .body(CommonResult.success("Success Add."));
     }
 
     /**
@@ -95,14 +97,11 @@ public class CartController {
         //         1500L)
         // );
         mav.addObject("carts", carts);
-<<<<<<< HEAD
-        
-=======
+
         if (!memberInfo.isNull()) {
             mav.addObject("memberInfo", memberInfo);
         }
 
->>>>>>> 29a9791 (Refactor: 장바구니 기능 구현 #183)
         return mav;
     }
 
@@ -116,15 +115,16 @@ public class CartController {
      */
     @PatchMapping
     @ResponseBody
-    public ResponseEntity<CommonResponse> updateAmount(@RequestBody @Valid ProductToCartRequest productUpdateRequest
+    public ResponseEntity<CommonResult<String>> updateAmount(
+        @RequestBody @Valid ProductToCartRequest productUpdateRequest
         , HttpServletRequest request)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
-        System.out.println(request.getRemoteAddr());
+
         cartService.updateAmount(productUpdateRequest);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                              .contentType(MediaType.APPLICATION_JSON)
-                             .body(new SingleResponse<>(true));
+                             .body(CommonResult.success("Success Update."));
     }
 
     /**
@@ -138,14 +138,14 @@ public class CartController {
     // 비동기로 처리 예정
     @DeleteMapping
     @ResponseBody
-    public ResponseEntity<CommonResponse> deleteProduct(@RequestBody List<Long> products)
+    public ResponseEntity<CommonResult<String>> deleteProduct(@RequestBody List<Long> products)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.deleteProducts(products);
 
-        return ResponseEntity.status(HttpStatus.OK)
+        return ResponseEntity.status(OK)
                              .contentType(MediaType.APPLICATION_JSON)
-                             .body(new SingleResponse<>(true));
+                             .body(CommonResult.success("Success Delete."));
     }
 
 }

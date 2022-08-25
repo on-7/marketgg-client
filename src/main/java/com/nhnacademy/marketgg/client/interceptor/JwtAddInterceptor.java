@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.interceptor;
 
 import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_ANONYMOUS;
 
-import com.nhnacademy.marketgg.client.util.GgUrlUtils;
+import com.nhnacademy.marketgg.client.util.GgUtils;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +41,7 @@ public class JwtAddInterceptor implements ClientHttpRequestInterceptor {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (!this.needJwt(httpRequest.getURI().getPath())
-            || GgUrlUtils.hasRole(authentication, ROLE_ANONYMOUS)) {
+            || GgUtils.hasRole(authentication, ROLE_ANONYMOUS)) {
             return execution.execute(httpRequest, body);
         }
 
