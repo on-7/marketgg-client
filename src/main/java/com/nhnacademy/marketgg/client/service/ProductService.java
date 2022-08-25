@@ -37,7 +37,7 @@ public interface ProductService {
      * @return 모든 상품 List를 반환합니다.
      * @since 1.0.0
      */
-    PageResult<ProductResponse> retrieveProducts();
+    PageResult<ProductResponse> retrieveProducts(int page);
 
     /**
      * 상품 상세 정보를 조회합니다.
