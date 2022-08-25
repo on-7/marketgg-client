@@ -92,20 +92,20 @@ class MemberControllerTest {
 
         String content = objectMapper.writeValueAsString(givenCouponRequest);
 
-        willDoNothing().given(givenCouponService).registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
+        willDoNothing().given(givenCouponService).registerCoupon(any(GivenCouponCreateRequest.class));
 
         mockMvc.perform(post("/members/{memberId}/coupons", 1L)
                    .contentType(MediaType.APPLICATION_JSON)
                    .content(content))
                .andExpect(status().is3xxRedirection());
 
-        then(givenCouponService).should(times(1)).registerCoupon(anyLong(), any(GivenCouponCreateRequest.class));
+        then(givenCouponService).should(times(1)).registerCoupon(any(GivenCouponCreateRequest.class));
     }
 
     @Test
     @DisplayName("회원 보유 쿠폰 목록 조회")
     void testRetrieveOwnCoupons() throws Exception {
-        given(givenCouponService.retrieveOwnGivenCoupons(anyLong())).willReturn(List.of());
+        given(givenCouponService.retrieveOwnGivenCoupons()).willReturn(List.of());
 
         MvcResult mvcResult = mockMvc.perform(get("/members/{memberId}/coupons", 1L))
                                      .andExpect(status().isOk())
@@ -113,7 +113,7 @@ class MemberControllerTest {
                                      .andReturn();
         Map<String, Object> resultModel = Objects.requireNonNull(mvcResult.getModelAndView()).getModel();
 
-        then(givenCouponService).should(times(1)).retrieveOwnGivenCoupons(anyLong());
+        then(givenCouponService).should(times(1)).retrieveOwnGivenCoupons();
         assertThat(resultModel.get("coupons")).isInstanceOf(List.class);
         assertThat(resultModel.get("memberId")).isInstanceOf(Long.class);
     }
