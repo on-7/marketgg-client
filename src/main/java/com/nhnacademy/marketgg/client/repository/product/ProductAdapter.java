@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
@@ -58,11 +59,11 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<ProductResponse> retrieveProducts() {
+    public PageResult<ProductResponse> retrieveProducts() {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
-        ResponseEntity<DefaultPageResult<ProductResponse>> response =
+        ResponseEntity<PageResult<ProductResponse>> response =
                 this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT,
                                            HttpMethod.GET,
                                            request,
@@ -71,7 +72,8 @@ public class ProductAdapter implements ProductRepository {
 
 
         this.checkResponseUri(response);
-        return Objects.requireNonNull(response.getBody()).getData();
+
+        return Objects.requireNonNull(response.getBody());
     }
 
     @Override
