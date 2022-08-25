@@ -18,17 +18,17 @@ public class DefaultGivenCouponService implements GivenCouponService {
     private final GivenCouponRepository givenCouponRepository;
 
     @Override
-    public void registerCoupon(Long memberId, GivenCouponCreateRequest givenCouponRequest)
+    public void registerCoupon(GivenCouponCreateRequest givenCouponRequest)
         throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
-        givenCouponRepository.registerCoupon(memberId, givenCouponRequest);
+        givenCouponRepository.registerCoupon(givenCouponRequest);
     }
 
     @Override
-    public List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Long memberId)
+    public List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons()
         throws UnAuthenticException, UnAuthorizationException {
 
-        return givenCouponRepository.retrieveOwnGivenCoupons(memberId);
+        return givenCouponRepository.retrieveOwnGivenCoupons();
     }
 
 }
