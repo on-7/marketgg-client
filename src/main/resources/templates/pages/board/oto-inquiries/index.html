@@ -13,13 +13,13 @@
             </div>
             <div style="display: flex">
                 <nav style="display: flex; flex: 0.1; padding-left: 30px">
-                    <div class="list-group" sec:authentication="hasRole('ROLE_ADMIN')">
+                    <div class="list-group" th:if="${isAdmin == 'yes'}">
                         <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
                         <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
                         <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{OTO_INQUIRY}"></a>
                         <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
                     </div>
-                    <div class="list-group" sec:authentication="!hasRole('ROLE_ADMIN')">
+                    <div class="list-group" th:if="${isAdmin == 'no'}">
                         <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
                         <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
                         <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{OTO_INQUIRY}"></a>
@@ -27,7 +27,7 @@
                     </div>
                 </nav>
                 <div style="display: flex; flex: 0.7; flex-direction: column">
-                    <div sec:authentication="hasRole('ROLE_ADMIN')" class="row row-cols-6">
+                    <div th:if="${isAdmin == 'yes'}" class="row row-cols-6">
                         <details>
                             <summary class="btn btn-info" th:text="#{ALL_SEARCH}"></summary>
                                     <form th:method="get" th:action="'/admin/customer-services/categories/'+${OTO_CODE}+'/search'">
@@ -60,7 +60,7 @@
                         </details>
                     </div>
                     <br />
-                    <div sec:authentication="hasRole('ROLE_ADMIN')" style="background-color: white">
+                    <div th:if="${isAdmin == 'yes'}" style="background-color: white">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -82,7 +82,7 @@
                                     <td th:text="${board.status}"></td>
                                     <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                                     <td>
-                                        <div sec:authentication="hasRole('ROLE_ADMIN')">
+                                        <div th:if="${isAdmin == 'yes'}">
                                             <form th:method="post" th:action="'/adnmin/customer-services/categories/702/'+${board.id}+'/status'">
                                                 <select name="status">
                                                     <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
@@ -97,7 +97,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div sec:authentication="!hasRole('ROLE_ADMIN')" style="background-color: white">
+                    <div th:if="${isAdmin == 'no'}" style="background-color: white">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -130,19 +130,19 @@
                         </table>
                     </div>
                     <br />
-                    <div sec:authentication="hasRole('ROLE_MEMBER')">
+                    <div th:if="${isAdmin == 'yes'}">
                         <form th:method="get" th:action="'/customer-services/categories/'+${OTO_CODE}+'/create'">
                             <input class="btn-primary fa-pull-right" type="submit" th:value="#{OTO_INQUIRY_CREATE}">
                         </form>
                     </div>
-                    <div style="text-align: center" sec:authentication="!hasRole('ROLE_ADMIN')">
+                    <div style="text-align: center" th:if="${isAdmin == 'no'}">
                         <div th:if="${searchType == 'no'}">
                             <a class="btn-primary" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
                             <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
                             <a class="btn-primary" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
-                    <div style="text-align: center" sec:authentication="hasRole('ROLE_ADMIN')">
+                    <div style="text-align: center" th:if="${isAdmin == 'yes'}">
                         <div th:if="${searchType == 'default'}">
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'/search?page='+${page - 1}+'&keyword='+${keyword}" th:if="${page} != 0" th:text="prev"></a>
                             <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>

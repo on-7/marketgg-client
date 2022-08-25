@@ -63,6 +63,7 @@ public class CsPostController {
 
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
+        mav.addObject("isAdmin", "no");
         mav.addObject("responses", responses);
         mav.addObject("searchType", "no");
         mav.addObject("reasons", postService.retrieveOtoReason());
@@ -131,6 +132,7 @@ public class CsPostController {
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
         mav.addObject("response", postService.retrievePost(postId, categoryCode));
+        mav.addObject("isAdmin", "no");
         mav.addObject("page", page);
 
         return mav;
@@ -160,6 +162,7 @@ public class CsPostController {
 
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
+        mav.addObject("isAdmin", "no");
         mav.addObject("responses", responses);
         mav.addObject("searchType", "default");
         mav.addObject("keyword", keyword);
