@@ -43,6 +43,7 @@ dependencies {
     implementation 'commons-fileupload:commons-fileupload:1.4'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
     implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'

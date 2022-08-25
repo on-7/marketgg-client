@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <title th:text="#{FAQ_BOARD}"></title>
@@ -12,28 +13,37 @@
             </div>
             <div style="display: flex;">
                 <nav style="display: flex; flex: 0.1; padding-left: 30px">
-                    <div class="list-group" th:if="${isAdmin == 'yes'}">
+                    <div class="list-group" sec:authentication="hasRole('ROLE_ADMIN')">
                         <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
-                        <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
-                        <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{OTO_INQUIRY}"></a>
-                        <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
+                        <a class="list-group-item list-group-item-action"
+                           th:href="'/admin/customer-services/categories/'+${NOTICE_CODE}+'?page=0'"
+                           th:text="#{NOTICE}"></a>
+                        <a class="list-group-item list-group-item-action"
+                           th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'?page=0'"
+                           th:text="#{OTO_INQUIRY}"></a>
+                        <a class="list-group-item list-group-item-action"
+                           th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
                     </div>
                     <div class="list-group" th:if="${isAdmin == 'no'}">
                         <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
-                        <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
-                        <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{OTO_INQUIRY}"></a>
-                        <a class="list-group-item list-group-item-action" th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
+                        <a class="list-group-item list-group-item-action"
+                           th:href="'/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
+                        <a class="list-group-item list-group-item-action"
+                           th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=0'"
+                           th:text="#{OTO_INQUIRY}"></a>
+                        <a class="list-group-item list-group-item-action"
+                           th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
                     </div>
                 </nav>
                 <div style="display: flex; flex: 0.7; flex-direction: column;">
-                    <div th:if="${isAdmin == 'no'}">
+                    <div th:if="${!#authentication.getAuthorities().contains('ROLE_ADMIN')}">
                         <form th:action="'/customer-services/categories/'+${FAQ_CODE}+'/search'" th:method="get">
                             <input type="text" name="keyword" th:value="#{WRITE_SEARCH_KEYWORD}">
                             <input type="hidden" name="page" value="0">
                             <input class="btn btn-primary" type="submit" th:value="#{SEARCH}"><br />
                         </form>
                     </div>
-                    <div th:if="${isAdmin == 'yes'}">
+                    <div sec:authentication="hasRole('ROLE_ADMIN')">
                         <form th:action="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search'" th:method="get">
                             <input type="text" name="keyword" th:value="#{WRITE_SEARCH_KEYWORD}">
                             <input type="hidden" name="page" value="0">
@@ -41,7 +51,7 @@
                         </form>
                     </div>
                     <br />
-                    <div th:if="${isAdmin == 'yes'}" style="background-color: white">
+                    <div sec:authentication="hasRole('ROLE_ADMIN')" style="background-color: white">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -55,18 +65,21 @@
                                 <tr th:each="board : ${responses}">
                                     <td th:text="${board.id}"></td>
                                     <td>
-                                        <a th:href="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'?page='+${page}" th:text="${board.title}"></a>
+                                        <a th:href="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'?page='+${page}"
+                                           th:text="${board.title}"></a>
                                     </td>
                                     <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                                     <td>
                                         <div class="row">
-                                            <form th:method="get" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update'">
+                                            <form th:method="get"
+                                                  th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/update'">
                                                 <input type="hidden" name="page" th:value="${page}">
                                                 <input class="btn btn-warning" type="submit" th:value="#{UPDATE}">
                                             </form>
-                                            <form th:method="post" th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
+                                            <form th:method="post"
+                                                  th:action="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
                                                 <input type="hidden" name="page" th:value="${page}">
-                                                <input type="hidden" name="_method" value="delete"/>
+                                                <input type="hidden" name="_method" value="delete" />
                                                 <input class="btn btn-danger" type="submit" th:value="#{DELETE}">
                                             </form>
                                         </div>
@@ -75,7 +88,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div th:if="${isAdmin == 'no'}" style="background-color: white">
+                    <div th:if="${!#authentication.getAuthorities().contains('ROLE_ADMIN')}" style="background-color: white">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -88,7 +101,8 @@
                                 <tr th:each="board : ${responses}">
                                     <td th:text="${board.id}"></td>
                                     <td>
-                                        <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'?page='+${page}" th:text="${board.title}"></a>
+                                        <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'?page='+${page}"
+                                           th:text="${board.title}"></a>
                                     </td>
                                     <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                                 </tr>
@@ -96,33 +110,53 @@
                         </table>
                     </div>
                     <br />
-                    <div th:if="${isAdmin == 'yes'}">
+                    <div sec:authentication="hasRole('ROLE_ADMIN')">
                         <form th:method="get" th:action="'/admin/customer-services/categories/'+${FAQ_CODE}+'/create'">
                             <input class="btn btn-primary fa-pull-right" type="submit" th:value="#{FAQ_CREATE}">
                         </form>
                     </div>
-                    <div style="text-align: center" th:if="${isAdmin == 'no'}">
+                    <div style="text-align: center" th:if="${!#authentication.getAuthorities().contains('ROLE_ADMIN')}">
                         <div th:if="${searchType == 'default'}">
-                            <a class="btn-primary" th:href="'/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
-                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
-                            <a class="btn-primary" th:href="'/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+                            <a class="btn-primary"
+                               th:href="'/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}"
+                               th:if="${page} != 0" th:text="prev"></a>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px"
+                                  class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
+                            <a class="btn-primary"
+                               th:href="'/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}"
+                               th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                         <div th:if="${searchType == 'no'}">
-                            <a class="btn-primary" th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
-                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
-                            <a class="btn-primary" th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                            <a class="btn-primary"
+                               th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page - 1}"
+                               th:if="${page} != 0" th:text="prev"></a>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px"
+                                  class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
+                            <a class="btn-primary"
+                               th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page + 1}"
+                               th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
-                    <div style="text-align: center" th:if="${isAdmin == 'yes'}">
+                    <div style="text-align: center" sec:authentication="hasRole('ROLE_ADMIN')">
                         <div th:if="${searchType == 'default'}">
-                            <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}" th:if="${page} != 0" th:text="prev"></a>
-                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
-                            <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}" th:if="${isEnd} == 0" th:text="next"></a>
+                            <a class="btn-primary"
+                               th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}"
+                               th:if="${page} != 0" th:text="prev"></a>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px"
+                                  class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
+                            <a class="btn-primary"
+                               th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}"
+                               th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                         <div th:if="${searchType == 'no'}">
-                            <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
-                            <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
-                            <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
+                            <a class="btn-primary"
+                               th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page - 1}"
+                               th:if="${page} != 0" th:text="prev"></a>
+                            <span style="background-color: white; border: 1px outset black; padding: 5px"
+                                  class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
+                            <a class="btn-primary"
+                               th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page + 1}"
+                               th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
                 </div>
