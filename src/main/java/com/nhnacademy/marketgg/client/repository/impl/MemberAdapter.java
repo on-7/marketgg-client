@@ -19,7 +19,6 @@ import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -29,10 +28,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * Client Server 와 Shop Server 사이에서 데이터를 주고 받습니다.
@@ -75,9 +73,8 @@ public class MemberAdapter implements MemberRepository {
                 new ParameterizedTypeReference<>() {
                 });
 
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
-        redisTemplate.opsForHash().delete(req.getSession().getId(), JwtInfo.JWT_REDIS_KEY);
+        redisTemplate.opsForHash().delete(SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
+            JwtInfo.JWT_REDIS_KEY);
 
         this.checkResponseUri(exchange);
     }
@@ -105,9 +102,8 @@ public class MemberAdapter implements MemberRepository {
         String jwt = jwtHeader.get(0);
         String expireAt = expiredHeader.get(0);
 
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
-        JwtInfo.saveJwt(redisTemplate, req.getSession().getId(), jwt, expireAt);
+        JwtInfo.saveJwt(redisTemplate, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
+            jwt, expireAt);
 
         if (Objects.isNull(response.getBody())) {
             throw new ServerException();

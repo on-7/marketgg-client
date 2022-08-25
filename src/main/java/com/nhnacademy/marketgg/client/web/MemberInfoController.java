@@ -88,7 +88,7 @@ public class MemberInfoController {
      * @since 1.0.0
      */
     @PostMapping("/update")
-    public ModelAndView doUpdate(@ModelAttribute @Valid MemberUpdateRequest memberUpdateRequest)
+    public ModelAndView doUpdate(@ModelAttribute @Valid final MemberUpdateRequest memberUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException {
         memberService.update(memberUpdateRequest);
         return new ModelAndView(REDIRECT);
