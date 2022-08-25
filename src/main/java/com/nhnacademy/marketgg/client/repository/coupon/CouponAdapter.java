@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.PageEntity;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
@@ -32,7 +33,7 @@ public class CouponAdapter implements CouponRepository {
 
     private final ObjectMapper objectMapper;
 
-    private static final String DEFAULT_COUPON = "/admin/coupons";
+    private static final String DEFAULT_COUPON = "/shop/v1/admin/coupons";
 
     @Override
     public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException,
@@ -68,14 +69,14 @@ public class CouponAdapter implements CouponRepository {
     public List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<CommonResult<List<CouponRetrieveResponse>>> response
+        ResponseEntity<CommonResult<PageEntity<CouponRetrieveResponse>>> response
             = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
                                     HttpMethod.GET, requestEntity,
                                     new ParameterizedTypeReference<>() {
                                     });
 
         ResponseUtils.checkError(response);
-        return Objects.requireNonNull(response.getBody()).getData();
+        return Objects.requireNonNull(response.getBody()).getData().getData();
     }
 
     @Override
