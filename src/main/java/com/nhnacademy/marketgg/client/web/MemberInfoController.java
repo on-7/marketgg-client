@@ -118,9 +118,19 @@ public class MemberInfoController {
     public ModelAndView deliveryAddresses() throws UnAuthenticException, UnAuthorizationException {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
         // TODO : 페이지 돌입지점에서 바로 보여줘야함. 페이지 필요.
-        ModelAndView modelAndView = new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView("mygg/delivery-addresses/index");
         modelAndView.addObject("deliveryAddressList", deliveryAddressResponseList);
         return modelAndView;
+    }
+
+    /**
+     * 배송지 추가를 위한 페이지 입니다.
+     *
+     * @return 배송지 추가 폼
+     */
+    @GetMapping("/delivery-address")
+    public ModelAndView deliveryAddress() throws UnAuthenticException, UnAuthorizationException {
+        return new ModelAndView("delivery-address/form");
     }
 
     /**
