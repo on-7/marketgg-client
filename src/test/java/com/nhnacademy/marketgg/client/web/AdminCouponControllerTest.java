@@ -55,7 +55,7 @@ class AdminCouponControllerTest {
     @DisplayName("쿠폰 등록 페이지 이동")
     void testDoCreateCoupon() throws Exception {
         this.mockMvc.perform(get(DEFAULT_COUPON + "/create"))
-                    .andExpect(view().name("/coupons/create-form"));
+                    .andExpect(view().name("pages/admin/coupons/create-form"));
     }
 
     @Test
@@ -82,7 +82,7 @@ class AdminCouponControllerTest {
 
         this.mockMvc.perform(get(DEFAULT_COUPON + "/index"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("/coupons/index"));
+                    .andExpect(view().name("pages/admin/coupons/index"));
 
         then(couponService).should(times(1)).retrieveCoupons();
     }
@@ -93,7 +93,7 @@ class AdminCouponControllerTest {
         given(couponService.retrieveCoupon(anyLong())).willReturn(new CouponRetrieveResponse());
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_COUPON + "/update/" + 1L))
-                                          .andExpect(view().name("/coupons/update-form"))
+                                          .andExpect(view().name("pages/admin/coupons/update-form"))
                                           .andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView())

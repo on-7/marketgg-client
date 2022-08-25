@@ -24,9 +24,9 @@
                     <td th:text="${coupon.minimumMoney}"></td>
                     <td th:text="${coupon.discountAmount}"></td>
                     <td>
-                        <a style="text-decoration: none" th:href="@{/admin/coupons/update/{couponId}(couponId=${coupon.id})}">
-                            <button>수정</button>
-                        </a>
+                        <!-- <a style="text-decoration: none" th:href="@{/admin/coupons/update/{couponId}(couponId=${coupon.id})}"> -->
+                        <!--     <button>수정</button> -->
+                        <!-- </a> -->
                         <form style="display: inline" th:action="'/admin/coupons/' + ${coupon.id}" method="post">
                             <input type="hidden" name="_method" value="delete"/>
                             <input type="submit" value="삭제"/>

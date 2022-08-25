@@ -109,7 +109,7 @@ class MemberControllerTest {
 
         MvcResult mvcResult = mockMvc.perform(get("/members/{memberId}/coupons", 1L))
                                      .andExpect(status().isOk())
-                                     .andExpect(view().name("mygg/coupons/index"))
+                                     .andExpect(view().name("/pages/mygg/coupons/index"))
                                      .andReturn();
         Map<String, Object> resultModel = Objects.requireNonNull(mvcResult.getModelAndView()).getModel();
 
