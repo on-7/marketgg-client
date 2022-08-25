@@ -28,8 +28,8 @@
                         <td th:text="${coupon.couponId}"></td>
                         <td th:text="${coupon.name}"></td>
                         <td th:text="${coupon.type}"></td>
-                        <td th:text="${coupon.minimumMoney}"></td>
-                        <td th:text="${coupon.discountAmount}"></td>
+                        <td th:text="${#numbers.formatInteger(coupon.minimumMoney, 3, 'COMMA')}"></td>
+                        <td th:text="${coupon.discountAmount &gt;= 1 ? #numbers.formatInteger(coupon.getDiscountAmount(), 3, 'COMMA') : #numbers.formatPercent(coupon.getDiscountAmount(), 1, 2)}"></td>
                         <td th:text="${#temporals.format(coupon.expiredDate, 'yyyy/MM/dd hh:mm:ss')}"></td>
                         <td th:text="${coupon.status}"></td>
                     </tr>
