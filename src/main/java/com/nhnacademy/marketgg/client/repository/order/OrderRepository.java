@@ -2,7 +2,8 @@ package com.nhnacademy.marketgg.client.repository.order;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
-import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import java.util.List;
@@ -29,7 +30,7 @@ public interface OrderRepository {
      *
      * @return 주문 목록 응답 객체
      */
-    List<OrderResponse> retrieveOrders();
+    List<OrderRetrieveResponse> retrieveOrders();
 
     /**
      * 주문 상세 정보를 조회합니다.
@@ -37,7 +38,7 @@ public interface OrderRepository {
      * @param orderId - 주문 번호
      * @return 특정한 주문에 대한 상세 정보 응답 객체
      */
-    OrderResponse retrieveOrder(Long orderId);
+    OrderDetailRetrieveResponse retrieveOrder(final Long orderId);
 
     /**
      * 주문을 취소한 상태로 처리합니다.

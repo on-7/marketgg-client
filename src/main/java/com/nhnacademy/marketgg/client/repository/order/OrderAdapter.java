@@ -6,8 +6,10 @@ import static java.util.Collections.singletonList;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
-import com.nhnacademy.marketgg.client.dto.order.OrderResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
+import com.nhnacademy.marketgg.client.dto.order.ProductToOrder;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.util.JwtUtils;
 import java.net.URI;
@@ -70,20 +72,27 @@ public class OrderAdapter implements OrderRepository {
      * @return - 주문 목록
      */
     @Override
-    public List<OrderResponse> retrieveOrders() {
-        WebClient client = WebClient.builder()
-                                    .baseUrl(gatewayIp)
-                                    .defaultHeaders(
-                                        headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
-                                    )
-                                    .build();
+    public List<OrderRetrieveResponse> retrieveOrders() {
+        ResponseEntity<ShopResult<List<OrderRetrieveResponse>>> response
+                = WebClient.builder()
+                           .baseUrl(gatewayIp)
+                           .defaultHeaders(httpHeaders -> {
+                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                               httpHeaders.setBearerAuth(JwtUtils.getToken());
+                           })
+                           .build()
+                           .get()
+                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
+                           .retrieve()
+                           .toEntity(
+                                   new ParameterizedTypeReference<ShopResult<List<OrderRetrieveResponse>>>() {
+                                   })
+                           .blockOptional()
+                           .orElseThrow(NullPointerException::new);
 
-        return client.get()
-                     .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
-                     .retrieve()
-                     .bodyToMono(new ParameterizedTypeReference<List<OrderResponse>>() {
-                     })
-                     .blockOptional().orElseThrow();
+        URI location = response.getHeaders().getLocation();
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     /**
@@ -93,19 +102,27 @@ public class OrderAdapter implements OrderRepository {
      * @return 특정한 주문에 대한 상세 정보 응답 객체
      */
     @Override
-    public OrderResponse retrieveOrder(Long orderId) {
-        WebClient client = WebClient.builder()
-                                    .baseUrl(gatewayIp)
-                                    .defaultHeaders(
-                                        headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
-                                    )
-                                    .build();
+    public OrderDetailRetrieveResponse retrieveOrder(Long orderId) {
+        ResponseEntity<ShopResult<OrderDetailRetrieveResponse>> response
+                = WebClient.builder()
+                           .baseUrl(gatewayIp)
+                           .defaultHeaders(httpHeaders -> {
+                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                               httpHeaders.setBearerAuth(JwtUtils.getToken());
+                           })
+                           .build()
+                           .get()
+                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + orderId)
+                           .retrieve()
+                           .toEntity(
+                                   new ParameterizedTypeReference<ShopResult<OrderDetailRetrieveResponse>>() {
+                                   })
+                           .blockOptional()
+                           .orElseThrow(NullPointerException::new);
 
-        return client.get()
-                     .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + orderId)
-                     .retrieve()
-                     .bodyToMono(OrderResponse.class)
-                     .blockOptional().orElseThrow();
+        URI location = response.getHeaders().getLocation();
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     /**
