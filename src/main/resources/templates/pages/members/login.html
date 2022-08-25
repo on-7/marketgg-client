@@ -12,7 +12,7 @@
         <main>
             <section class="jumbotron text-center">
                 <h2>
-                    <span th:text="#{Login}"></span>
+                    <span th:text="#{LOGIN}"></span>
                 </h2>
                 <form th:action="@{/login}" method="POST" th:object="${loginRequest}">
                     <input type="text" name="email" placeholder="EMAIL" />
@@ -28,7 +28,7 @@
                     </div>
                     <br />
 
-                    <input class="login-btn" type="submit" th:value="#{Login}" />
+                    <input class="login-btn" type="submit" th:value="#{LOGIN}" />
                     <br />
 
                     <a href="/login">
@@ -42,7 +42,7 @@
 
                     <a href="/signup">
                         <div class="signup-btn">
-                            <span th:text="#{Signup}"></span>
+                            <span th:text="#{SIGN_UP}"></span>
                         </div>
                     </a>
                 </form>
