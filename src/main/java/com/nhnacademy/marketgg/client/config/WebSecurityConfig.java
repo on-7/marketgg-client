@@ -1,6 +1,5 @@
 package com.nhnacademy.marketgg.client.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.filter.AuthenticationFilter;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.jwt.ShaPasswordEncoder;
@@ -45,14 +44,13 @@ public class WebSecurityConfig {
      * @throws Exception Spring Security 의 메소드에서 발생하는 예외입니다.
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, ObjectMapper objectMapper,
+    public SecurityFilterChain filterChain(HttpSecurity http,
                                            RedisTemplate<String, JwtInfo> redisTemplate) throws Exception {
 
-        // FIXME Dave가 해결했는데.. Toast UI Image 업로드 과정에서 또 에러 발생.. 나중에 해결해보겠음
-        http.csrf().disable();
+        http.csrf();
 
-        http.addFilterBefore(new AuthenticationFilter(redisTemplate, objectMapper),
-                             UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new AuthenticationFilter(redisTemplate),
+            UsernamePasswordAuthenticationFilter.class);
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -64,7 +62,8 @@ public class WebSecurityConfig {
             .antMatchers("/admin/**").hasRole("ADMIN")
             // TODO: 로그인이 필요한 경로 추가 해야합니다.
             .antMatchers("/cart/**", "/dibs/**", "/members/dibs/**", "/members/ggpass/**",
-                         "/customer-services/categories/" + OTO_CODE + "/**", "/orders/**").authenticated()
+                "/customer-services/categories/" + OTO_CODE + "/**", "/orders/**").authenticated()
+
             .anyRequest().permitAll();
 
         http.headers()
@@ -77,7 +76,7 @@ public class WebSecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
-                         .antMatchers("*.ico", "/plugins/**", "/images/**", "/css/**");
+                         .antMatchers("*.ico", "/plugins/**", "/images/**", "/css/**", "/js/**");
     }
 
 }

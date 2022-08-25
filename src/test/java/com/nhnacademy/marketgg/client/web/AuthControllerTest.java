@@ -56,7 +56,7 @@ class AuthControllerTest {
     void login() throws Exception {
 
         this.mockMvc.perform(get("/login"))
-                    .andExpect(view().name("members/login"));
+                    .andExpect(view().name("pages/members/login"));
     }
 
     @Test

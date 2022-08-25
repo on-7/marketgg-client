@@ -2,6 +2,10 @@
 /*#FFFFFF*/
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
 
+section {
+    justify-content: normal;
+}
+
 input {
     padding-left: 10px;
     margin-bottom: 15px;

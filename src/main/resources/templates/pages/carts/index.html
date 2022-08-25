@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/form-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::main})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+        <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
+        <title>Market GG</title>
+        <link th:href="@{css/carts/cart.css}" rel="stylesheet">
+        <script th:src="@{js/carts/cart.js}" defer></script>
+    </head>
+    <body>
+        <main>
+            <section class="text-center">
+
+                <h2 class="cart-title" th:text="#{Cart}"></h2>
+                <form method="POST" th:action="@{/#}">
+                    <div class="cart-container">
+                        <div class="cart">
+                            <div th:id="cart- + ${cart.id}"
+                                 class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center"
+                                 th:if="${!carts.isEmpty}" th:each="cart : ${carts}">
+                                <input type="hidden" th:value="${cart.id}" />
+                                <input th:id="check- + ${cart.id}" class="p-2" type="checkbox" name="select" checked />
+
+                                <img class="cart-img p-2" th:src="${cart.thumbnail}" alt="thumbnail" />
+
+                                <span class="item-name p-2" th:text="${cart.name}">상품 이름</span>
+
+                                <div class="cart-amount p-2">
+                                    <input th:id="amount- + ${cart.id}" type="number" name="amount"
+                                           th:value="${cart.amount}" min="0" max="999" />
+                                    <button type="button" th:id="updateBtn- + ${cart.id}" class="update-btn">
+                                        <span th:text="#{UPDATE}">수정</span>
+                                    </button>
+                                </div>
+
+                                <span class="p-2 item-price" th:text="${cart.price * cart.amount}">총 금액</span>
+
+                                <button type="button" th:id="deleteBtn- + ${cart.id}" class="delete-btn p-2">X</button>
+                            </div>
+                            <div th:unless="${!carts.isEmpty}"
+                                 class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center empty-cart">
+                                장바구니가 비었습니다.
+                            </div>
+
+                            <div th:if="${!carts.isEmpty}">
+                                <button type="button" id="delete-all-btn">
+                                    <span th:value="#{DELETE_ALL}">전체 삭제</span>
+                                </button>
+                                <button type="button" id="delete-selection-btn">
+                                    <span th:value="#{DELETE_SELECTION}">선택 삭제</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="cart-pay">
+                            <div>
+                                <div class="pay-info">
+                                    <p>결제 예정 금액</p>
+                                    <p id="total-price">₩ 0</p>
+                                </div>
+                                <button id="order-btn" class="order-btn">주문하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

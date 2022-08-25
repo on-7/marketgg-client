@@ -2,12 +2,13 @@ package com.nhnacademy.marketgg.client.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -20,19 +21,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
+import com.nhnacademy.marketgg.client.filter.AuthenticationFilter;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.CartService;
+import com.nhnacademy.marketgg.client.util.GgUtils;
+import com.nhnacademy.marketgg.client.web.cart.CartController;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import javax.servlet.Filter;
 import javax.servlet.http.Cookie;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockedStatic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,6 +76,7 @@ class CartControllerTest {
 
     @BeforeAll
     static void beforeAll() {
+
         productToCartRequest = new ProductToCartRequest();
         ReflectionTestUtils.setField(productToCartRequest, "id", 1L);
         ReflectionTestUtils.setField(productToCartRequest, "amount", 10);
@@ -78,10 +84,14 @@ class CartControllerTest {
 
     @BeforeEach
     void setUp(WebApplicationContext wac) {
+
+        Filter filter = new AuthenticationFilter(redisTemplate);
         this.mockMvc = MockMvcBuilders.webAppContextSetup(wac)
+                                      .addFilter(filter)
                                       .alwaysDo(print())
                                       .build();
     }
+
 
     @Test
     @DisplayName("장바구니에 상품 추가")
@@ -89,18 +99,18 @@ class CartControllerTest {
 
         String request = mapper.writeValueAsString(productToCartRequest);
         String sessionId = UUID.randomUUID().toString();
-        JwtInfo jwtInfo = mock(JwtInfo.class);
+        JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().toString());
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
 
         willDoNothing().given(cartService).addProduct(any(ProductToCartRequest.class));
 
         this.mockMvc.perform(post("/cart")
-                                     .cookie(new Cookie(JwtInfo.SESSION_ID, sessionId))
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .content(request))
-                    .andExpect(status().isOk())
+                .cookie(new Cookie(JwtInfo.SESSION_ID, sessionId))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request))
+                    .andExpect(status().isCreated())
                     .andExpect(jsonPath("$.success", equalTo(true)))
-                    .andExpect(jsonPath("$.data", equalTo(true)));
+                    .andExpect(jsonPath("$.data", notNullValue()));
 
         then(cartService).should(times(1)).addProduct(any(ProductToCartRequest.class));
         redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -110,16 +120,25 @@ class CartControllerTest {
     @DisplayName("장바구니 조회")
     void retrieveCart() throws Exception {
         given(cartService.retrieveCarts()).willReturn(new ArrayList<>());
+        MockedStatic<GgUtils> util = mockStatic(GgUtils.class);
+        given(GgUtils.hasRole(any(), any())).willReturn(true);
+        String sessionId = UUID.randomUUID().toString();
+        JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().toString());
+        redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
 
-        MvcResult mvcResult = this.mockMvc.perform(get("/cart"))
+        MvcResult mvcResult = this.mockMvc.perform(get("/cart")
+                                      .cookie(new Cookie(JwtInfo.SESSION_ID, sessionId)))
                                           .andExpect(status().isOk())
-                                          .andExpect(view().name("carts/index"))
+                                          .andExpect(view().name("pages/carts/index"))
                                           .andReturn();
 
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("cart"))
-                .isNotNull();
+        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("carts"))
+            .isNotNull();
+
 
         then(cartService).should(times(1)).retrieveCarts();
+        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
+        util.close();
     }
 
     @Test
@@ -130,11 +149,12 @@ class CartControllerTest {
         String request = mapper.writeValueAsString(productToCartRequest);
 
         this.mockMvc.perform(patch("/cart")
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .content(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.success", equalTo(true)))
-                    .andExpect(jsonPath("$.data", equalTo(true)));
+                    .andExpect(jsonPath("$.data", notNullValue()));
+
 
         then(cartService).should(times(1)).updateAmount(any(ProductToCartRequest.class));
     }
@@ -147,11 +167,12 @@ class CartControllerTest {
         String request = mapper.writeValueAsString(List.of(1, 2, 3));
 
         this.mockMvc.perform(delete("/cart")
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .content(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.success", equalTo(true)))
-                    .andExpect(jsonPath("$.data", equalTo(true)));
+                    .andExpect(jsonPath("$.data", notNullValue()));
+
 
         then(cartService).should(times(1)).deleteProducts(anyList());
     }
