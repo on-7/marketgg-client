@@ -7,7 +7,7 @@
     </head>
     <body>
         <main>
-            <br /><br />
+            <h1 th:text="#{NOTICE_CREATE}"></h1>
             <div style="text-align: center; display: flex; justify-content: center">
                 <form th:object="${postRequest}" th:method="post"
                       th:action="'/admin/customer-services/categories/'+${code}+'/create'">
