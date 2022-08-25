@@ -115,10 +115,9 @@ public class MemberAdapter implements MemberRepository {
     @Override
     public List<DeliveryAddressResponse> retrieveDeliveryAddresses()
         throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<DeliveryAddressResponse> requestEntity = new HttpEntity<>(buildHeaders());
-
-        ResponseEntity<ShopResult<DeliveryAddressResponse>> response = this.restTemplate.exchange(
-            gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS,
+        HttpEntity<Void> requestEntity = new HttpEntity<>(buildHeaders());
+        ResponseEntity<ShopResult<List<DeliveryAddressResponse>>> response = this.restTemplate.exchange(
+            gateWayIp + DEFAULT_MEMBER + "/delivery-addresses",
             HttpMethod.GET,
             requestEntity,
             new ParameterizedTypeReference<>() {
@@ -126,7 +125,7 @@ public class MemberAdapter implements MemberRepository {
 
         this.checkResponseUri(response);
 
-        return Collections.singletonList(Objects.requireNonNull(response.getBody()).getData());
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
