@@ -43,10 +43,10 @@ public class OrderPageController {
      */
     @GetMapping("/orders")
     public ModelAndView retrieveOrders() {
-        List<OrderResponse> orders = orderService.retrieveOrders();
+        //List<OrderResponse> orders = orderService.retrieveOrders();
 
-        ModelAndView mav = new ModelAndView("/pages/orders/order-list");
-        mav.addObject("orders", orders);
+        ModelAndView mav = new ModelAndView("pages/orders/order-list");
+        //mav.addObject("orders", orders);
 
         return mav;
     }
