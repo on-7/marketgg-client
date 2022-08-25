@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.dto.order;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,32 +13,32 @@ import java.util.List;
  * @version 1.0.0
  * @since 1.0.0
  */
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 public class OrderDetailRetrieveResponse {
 
-    private final Long id;
+    private Long id;
 
-    private final Long memberId;
+    private Long memberId;
 
-    private final String orderName;
+    private String orderName;
 
-    private final Long totalAmount;
+    private Long totalAmount;
 
-    private final String orderStatus;
+    private String orderStatus;
 
-    private final Integer usedPoint;
+    private Integer usedPoint;
 
-    private final String trackingNo;
+    private String trackingNo;
 
-    private final Integer zipCode;
+    private Integer zipCode;
 
-    private final String address;
+    private String address;
 
-    private final String detailAddress;
+    private String detailAddress;
 
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
-    private final List<ProductToOrder> orderProductList;
+    private List<ProductToOrder> orderProductList;
 
 }

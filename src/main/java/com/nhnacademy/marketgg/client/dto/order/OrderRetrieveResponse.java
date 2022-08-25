@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.dto.order;
 
 import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * 주문 목록 조회 시 필요한 정보를 전달하기 위한 DTO 입니다.
@@ -11,20 +11,20 @@ import lombok.RequiredArgsConstructor;
  * @version 1.0.0
  * @since 1.0.0
  */
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Getter
 public class OrderRetrieveResponse {
 
-    private final Long id;
+    private Long id;
 
-    private final Long memberId;
+    private Long memberId;
 
-    private final String orderName;
+    private String orderName;
 
-    private final Long totalAmount;
+    private Long totalAmount;
 
-    private final String orderStatus;
+    private String orderStatus;
 
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
 }
