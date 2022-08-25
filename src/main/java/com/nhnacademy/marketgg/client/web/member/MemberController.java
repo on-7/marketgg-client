@@ -34,8 +34,6 @@ public class MemberController {
 
     private static final String REDIRECT = "redirect:";
 
-    private final MemberService memberService;
-
     private final GivenCouponService givenCouponService;
     private final ProductInquiryService inquiryService;
 
@@ -53,7 +51,8 @@ public class MemberController {
     @PostMapping("/{memberId}/coupons")
     public ModelAndView registerCoupon(@PathVariable final Long memberId,
                                        @ModelAttribute final GivenCouponCreateRequest givenCouponRequest)
-        throws JsonProcessingException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+
         givenCouponService.registerCoupon(memberId, givenCouponRequest);
 
         return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/" + memberId + "/coupons");
@@ -67,10 +66,12 @@ public class MemberController {
      * @since 1.0.0
      */
     @GetMapping("/{memberId}/coupons")
-    public ModelAndView retrieveOwnCoupons(@PathVariable final Long memberId) {
+    public ModelAndView retrieveOwnCoupons(@PathVariable final Long memberId)
+        throws UnAuthenticException, UnAuthorizationException {
+
         List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(memberId);
 
-        ModelAndView mav = new ModelAndView("mygg/coupons/index");
+        ModelAndView mav = new ModelAndView("/pages/mygg/coupons/index");
         mav.addObject("coupons", responses);
         mav.addObject("memberId", memberId);
 
