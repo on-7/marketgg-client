@@ -32,48 +32,43 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private static final String REDIRECT = "redirect:";
+    private static final String REDIRECT = "redirect:/members";
 
     private final GivenCouponService givenCouponService;
     private final ProductInquiryService inquiryService;
 
-    private static final String DEFAULT_MEMBER = "/members";
-
     /**
      * 회원이 쿠폰을 등록할 수 있는 POST Mapping 을 지원합니다.
      *
-     * @param memberId           - 쿠폰을 등록하는 회원의 식별번호입니다.
      * @param givenCouponRequest - 쿠폰을 등록하기 위한 DTO 객체입니다.
      * @return 쿠폰 index 페이지로 REDIRECT 합니다.
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    @PostMapping("/{memberId}/coupons")
-    public ModelAndView registerCoupon(@PathVariable final Long memberId,
-                                       @ModelAttribute final GivenCouponCreateRequest givenCouponRequest)
+    @PostMapping("/coupons")
+    public ModelAndView registerCoupon(@ModelAttribute final GivenCouponCreateRequest givenCouponRequest)
         throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
-        givenCouponService.registerCoupon(memberId, givenCouponRequest);
+        givenCouponService.registerCoupon(givenCouponRequest);
 
-        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + "/" + memberId + "/coupons");
+        return new ModelAndView(REDIRECT + "/coupons");
     }
 
     /**
      * 회원의 보유 쿠폰 목록을 조회할 수 있는 GET Mapping 을 지원합니다.
      *
-     * @param memberId - 쿠폰 목록을 조회할 회원의 식별번호입니다.
      * @return 회원의 식별번호와 조회한 쿠폰 목록 정보와 함께 쿠폰 index 페이지로 이동합니다.
      * @since 1.0.0
      */
-    @GetMapping("/{memberId}/coupons")
-    public ModelAndView retrieveOwnCoupons(@PathVariable final Long memberId)
+    @GetMapping("/coupons")
+    public ModelAndView retrieveOwnCoupons()
         throws UnAuthenticException, UnAuthorizationException {
 
-        List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(memberId);
+        List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons();
 
         ModelAndView mav = new ModelAndView("/pages/mygg/coupons/index");
         mav.addObject("coupons", responses);
-        mav.addObject("memberId", memberId);
+        mav.addObject("memberId", responses.get(0).getMemberId());
 
         return mav;
     }

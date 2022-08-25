@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.PageEntity;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
@@ -32,15 +33,17 @@ public class GivenCouponAdapter implements GivenCouponRepository {
 
     private final ObjectMapper objectMapper;
 
+    private static final String DEFAULT_COUPON = "/shop/v1/members/coupons";
+
     @Override
-    public void registerCoupon(Long memberId, GivenCouponCreateRequest givenCouponRequest)
+    public void registerCoupon(GivenCouponCreateRequest givenCouponRequest)
         throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         String request = objectMapper.writeValueAsString(givenCouponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<CommonResult<String>> response
-            = restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
+            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
                                     HttpMethod.POST,
                                     requestEntity,
                                     new ParameterizedTypeReference<>() {
@@ -50,20 +53,18 @@ public class GivenCouponAdapter implements GivenCouponRepository {
     }
 
     @Override
-    public List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Long memberId)
+    public List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons()
         throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-
-        ResponseEntity<CommonResult<List<GivenCouponRetrieveResponse>>> response =
-            restTemplate.exchange(gateWayIp + "/members/" + memberId + "/coupons",
-                                  HttpMethod.GET,
-                                  requestEntity,
+        ResponseEntity<CommonResult<PageEntity<GivenCouponRetrieveResponse>>> response
+            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+                                  HttpMethod.GET, requestEntity,
                                   new ParameterizedTypeReference<>() {
                                   });
 
         ResponseUtils.checkError(response);
-        return Objects.requireNonNull(response.getBody()).getData();
+        return Objects.requireNonNull(response.getBody()).getData().getData();
     }
 
     private HttpHeaders buildHeaders() {
