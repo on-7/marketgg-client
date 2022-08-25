@@ -1,5 +1,8 @@
 package com.nhnacademy.marketgg.client.jwt;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+import static java.time.temporal.ChronoUnit.MINUTES;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.exception.ServerException;
@@ -8,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -50,15 +52,19 @@ public class JwtInfo implements Serializable {
             throw new ServerException();
         }
 
+        LocalDateTime expire = jwtInfo.getJwtExpireDate()
+                                      .plus(6, DAYS)
+                                      .plus(30, MINUTES);
+
         redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
-        redisTemplate.expireAt(sessionId, localDateTimeToDateForRenewToken(jwtInfo.getJwtExpireDate()));
+        redisTemplate.expireAt(sessionId, localDateTimeToDateForRenewToken(expire));
     }
 
     private static Date localDateTimeToDateForRenewToken(LocalDateTime expiredTime) {
         Instant instant = expiredTime
-            .plus(6, ChronoUnit.DAYS)
-            .plus(30, ChronoUnit.MINUTES)
+            .plus(6, DAYS)
+            .plus(30, MINUTES)
             .atZone(ZoneId.systemDefault())
             .toInstant();
         return Date.from(instant);

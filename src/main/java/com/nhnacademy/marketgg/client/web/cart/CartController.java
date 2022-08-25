@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web.cart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResponse;
@@ -66,7 +67,8 @@ public class CartController {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
     @GetMapping
-    public ModelAndView retrieveCart() throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public ModelAndView retrieveCart(MemberInfo memberInfo)
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("pages/carts/index");
         List<CartProductResponse> carts = cartService.retrieveCarts();
@@ -93,7 +95,14 @@ public class CartController {
         //         1500L)
         // );
         mav.addObject("carts", carts);
+<<<<<<< HEAD
         
+=======
+        if (!memberInfo.isNull()) {
+            mav.addObject("memberInfo", memberInfo);
+        }
+
+>>>>>>> 29a9791 (Refactor: 장바구니 기능 구현 #183)
         return mav;
     }
 

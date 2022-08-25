@@ -1,11 +1,13 @@
 package com.nhnacademy.marketgg.client.aspect;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import static org.springframework.http.HttpMethod.GET;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.exception.ClientException;
+import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.util.Arrays;
 import java.util.Objects;
@@ -15,11 +17,14 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -44,6 +49,7 @@ public class MemberAspect {
     private final RedisTemplate<String, JwtInfo> redisTemplate;
     private final RestTemplate restTemplate;
     private final ObjectMapper mapper;
+    private final JwtAspect jwtAspect;
 
     /**
      * Member 정보를 주입합니다.
@@ -57,7 +63,7 @@ public class MemberAspect {
         log.info("Method: {}", pjp.getSignature().getName());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (Objects.isNull(authentication)) {
+        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ANONYMOUS"))) {
             return pjp.proceed();
         }
 
@@ -70,19 +76,23 @@ public class MemberAspect {
             return pjp.proceed();
         }
 
-        ResponseEntity<String> exchange =
-            restTemplate.getForEntity(gatewayOrigin + "/shop/v1/members", String.class);
+        HttpEntity<Void> entity = new HttpEntity<>(new HttpHeaders());
+        ResponseEntity<CommonResult<MemberInfo>> exchange =
+            restTemplate.exchange(gatewayOrigin + "/shop/v1/members", GET, entity, new ParameterizedTypeReference<>() {
+            });
+
+        if (Objects.isNull(exchange.getBody())) {
+            throw new ServerException();
+        }
 
         log.info("response object: {}", mapper.writeValueAsString(exchange.getBody()));
 
         if (exchange.getStatusCode().is4xxClientError()) {
-            ErrorEntity error = mapper.readValue(exchange.getBody(), ErrorEntity.class);
+            ErrorEntity error = Objects.requireNonNull(exchange.getBody()).getError();
             throw new ClientException(error.getMessage());
         }
 
-        SingleResponse<MemberInfo> memberEntity = mapper.readValue(exchange.getBody(), new TypeReference<>() {
-        });
-        MemberInfo memberInfo = memberEntity.getData();
+        MemberInfo memberInfo = Objects.requireNonNull(exchange.getBody()).getData();
 
         Object[] args = Arrays.stream(pjp.getArgs())
                               .map(arg -> {

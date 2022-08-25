@@ -1,9 +1,11 @@
 package com.nhnacademy.marketgg.client.aspect;
 
 import static com.nhnacademy.marketgg.client.util.GgUtils.WEEK_SECOND;
+import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_ANONYMOUS;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
+import com.nhnacademy.marketgg.client.util.GgUtils;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.servlet.http.Cookie;
@@ -12,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -19,12 +22,13 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 /**
  * 인증을 처리하기 위해 사용되는 AOP 입니다.
@@ -45,17 +49,24 @@ public class JwtAspect {
     private final RedisTemplate<String, JwtInfo> redisTemplate;
     private final RestTemplate restTemplate;
 
+    @Pointcut("@within(org.springframework.stereotype.Controller) " +
+        "&& execution(* *.*(.., com.nhnacademy.marketgg.client.dto.MemberInfo, ..))")
+    public void controller() {
+
+    }
+
     /**
      * JWT 가 만료되었을 때 JWT 갱신을 인증서버에 요청합니다.
      */
-    @Before("within(com.nhnacademy.marketgg.client.repository.impl.*)"
+    @Before(value = "within(com.nhnacademy.marketgg.client.repository.impl..*)"
+        + " || controller()"
         + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
     public void tokenRefresh() {
         log.info("Jwt Aspect");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (Objects.isNull(authentication)) {
+        if (GgUtils.hasRole(authentication, ROLE_ANONYMOUS)) {
             return;
         }
 
@@ -67,7 +78,6 @@ public class JwtAspect {
         if (Objects.isNull(jwtInfo)) {
             return;
         }
-
         LocalDateTime jwtExpireDate = jwtInfo.getJwtExpireDate();
         LocalDateTime now = LocalDateTime.now().withNano(0);
 
@@ -87,22 +97,29 @@ public class JwtAspect {
             return;
         }
 
-        log.info("Token Refresh");
         HttpHeaders responseHeaders = response.getHeaders();
 
         String jwt = Objects.requireNonNull(responseHeaders.get(AUTHORIZATION)).get(0);
+        if (jwt.startsWith(JwtInfo.BEARER)) {
+            jwt = jwt.substring(JwtInfo.BEARER_LENGTH);
+        }
         String expireAt = Objects.requireNonNull(responseHeaders.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
 
         try {
-            ServletWebRequest servletContainer =
-                Objects.requireNonNull((ServletWebRequest) RequestContextHolder.getRequestAttributes());
+            ServletRequestAttributes servletContainer =
+                Objects.requireNonNull((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
             HttpServletResponse httpResponse = Objects.requireNonNull(servletContainer.getResponse());
             Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
             cookie.setHttpOnly(true);
             cookie.setMaxAge(WEEK_SECOND);
             httpResponse.addCookie(cookie);
+            SecurityContextHolder.clearContext();
+            SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), jwt,
+                    authentication.getAuthorities()));
+            log.info("Token Refresh");
         } catch (NullPointerException e) {
             log.error("JwtAspect Response is Null, {}", e.toString());
         }
