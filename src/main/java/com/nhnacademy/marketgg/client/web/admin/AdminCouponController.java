@@ -39,7 +39,7 @@ public class AdminCouponController {
      */
     @GetMapping("/create")
     public ModelAndView doCreateCoupon() {
-        return new ModelAndView("/coupons/create-form");
+        return new ModelAndView("/templates/pages/admin/coupons/create-form");
     }
 
     /**
@@ -69,7 +69,7 @@ public class AdminCouponController {
     public ModelAndView retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
         List<CouponRetrieveResponse> responses = couponService.retrieveCoupons();
 
-        ModelAndView mav = new ModelAndView("/coupons/index");
+        ModelAndView mav = new ModelAndView("/templates/pages/admin/coupons/index");
         mav.addObject("coupons", responses);
 
         return mav;
@@ -84,7 +84,7 @@ public class AdminCouponController {
      */
     @GetMapping("/update/{couponId}")
     public ModelAndView doUpdateCoupon(@PathVariable final Long couponId) throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("/coupons/update-form");
+        ModelAndView mav = new ModelAndView("/templates/pages/admin/coupons/update-form");
 
         CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
         mav.addObject("coupon", couponResponse);
