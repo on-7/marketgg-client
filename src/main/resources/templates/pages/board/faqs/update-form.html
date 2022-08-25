@@ -7,9 +7,6 @@
     </head>
     <body>
         <main>
-            <div style="text-align: center; display: flex; justify-content: center; padding-top: 50px;">
-                <h2 style="background-color: white; border: 1px solid black; padding: 5px" th:text="#{FAQ_UPDATE}"></h2>
-            </div>
             <br /><br />
             <div style="text-align: center; display: flex; justify-content: center">
                 <form th:object="${postRequest}" th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
