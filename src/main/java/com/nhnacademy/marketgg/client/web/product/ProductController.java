@@ -97,8 +97,8 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping
-    public ModelAndView retrieveProducts(@RequestParam(defaultValue = "1") int page) {
-        PageResult<ProductResponse> productResponsePageResult = this.productService.retrieveProducts();
+    public ModelAndView retrieveProducts(@RequestParam(defaultValue = "0") int page) {
+        PageResult<ProductResponse> productResponsePageResult = this.productService.retrieveProducts(page);
         Pagination pagination = new Pagination(productResponsePageResult.getTotalPages(), page);
         List<ProductResponse> products = productResponsePageResult.getData();
 
