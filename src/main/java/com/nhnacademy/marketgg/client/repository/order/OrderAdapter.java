@@ -113,7 +113,7 @@ public class OrderAdapter implements OrderRepository {
                            })
                            .build()
                            .get()
-                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
+                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + orderId)
                            .retrieve()
                            .toEntity(
                                    new ParameterizedTypeReference<ShopResult<OrderDetailRetrieveResponse>>() {
