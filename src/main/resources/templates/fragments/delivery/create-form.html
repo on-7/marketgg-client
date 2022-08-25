@@ -1,0 +1,16 @@
+<section>
+    <h2 th:text="#{DELIVERY_ADDRESS_CREATE}"></h2>
+    <form name="deliveryRequest" method="post" th:action="@{/delivery-address}">
+        <input type="text" class="form-control" id="postcode" name="zipcode" placeholder="#{DELIVERY_ZIP_CODE}"
+               readonly required/>
+        <input type="text" class="form-control" id="address" name="address" placeholder="#{DELIVERY_ADDRESS}"
+               readonly required/>
+        <input type="text" class="form-control" id="detailAddress" name="detailAddress"
+               placeholder="#{DELIVERY_DETAIL_ADDRESS}" required/>
+        <input type="button" class="btn btn-primary" onclick="execDaumPostcode()"
+               value="우편번호 찾기"/><br>
+        <div class="btn-wrapper">
+            <button type="submit" class="btn btn-primary" id="btn-submit">등록</button>
+        </div>
+    </form>
+</section>

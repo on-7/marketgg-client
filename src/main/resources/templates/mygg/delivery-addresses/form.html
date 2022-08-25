@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::section}, ~{::link}, ~{::script})}">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="#{DELIVERY_ADDRESS_CREATE}"></title>
+    </head>
+    <body>
+        <section th:replace="~{/fragments/delivery/create-form}"></section>
+    </body>
+</html>

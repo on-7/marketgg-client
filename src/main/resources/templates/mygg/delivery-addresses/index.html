@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="#{DELIVERY_ADDRESS_LIST}"></title>
+    </head>
+    <body>
+        <main>
+            <div style="display: flex; justify-content: center;">
+                <h2 style="background-color: white; border: 1px outset black; padding: 5px"
+                    th:text="#{DELIVERY_ADDRESS_LIST}">
+                </h2>
+            </div>
+
+            <div style="display: flex; flex-direction: column;">
+                <div style="display: flex; justify-content: flex-end;">
+                    <input type="button" class="addButton" th:value="#{ADD}">
+                </div>
+
+                <div style="text-align: center; display: flex;">
+                    <table class="table table-hover"
+                           style="text-align: center; border: 1px solid black; background-color: navajowhite">
+                        <tr>
+                            <th th:text="#{DELIVERY_ADDRESS_NO}"></th>
+                            <th th:text="#{DELIVERY_ZIP_CODE}"></th>
+                            <th th:text="#{DELIVERY_ADDRESS}"></th>
+                            <th th:text="#{DELIVERY_DETAIL_ADDRESS}"></th>
+                            <th th:text="#{DELETE}"></th>
+                        </tr>
+                        <tr th:each="deliveryAddressList: ${deliveryAddressList}">
+                            <td th:text="${deliveryAddressList.id}">
+                                <input type="hidden" th:text="${deliveryAddressList.isDefaultAddress}">
+                            </td>
+                            <a th:href="'/products/' + ${deliveryAddressList.id}"></a>
+                            <td th:text="${deliveryAddressList.zipCode}"></td>
+                            <td th:text="${deliveryAddressList.address}"></td>
+                            <td th:text="${deliveryAddressList.detailAddress}"></td>
+                            <td>
+                                <input type="button" class="deleteButton"
+                                       th:delivery-address-id="${deliveryAddressList.id}" th:value="#{DELETE}">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </body>
+    <script>
+        document.querySelectorAll(".deleteButton")
+            .forEach(element => {
+                element.addEventListener('click', (event) => {
+                    const deliveryAddressId = event.target.getAttribute("delivery-address-id");
+                    const csrfToken = document.getElementById("_csrf").getAttribute("content");
+                    fetch(`delivery-address/${deliveryAddressId}`, {
+                        method: 'DELETE',
+                        headers: {'X-CSRF-TOKEN': csrfToken}
+                    })
+                        .then(() => document.location.reload());
+                });
+            })
+        document.querySelectorAll(".addButton")
+            .forEach(element => {
+                element.addEventListener('click', (event) => {
+                    fetch(`delviery-addre`)
+                })
+            })
+    </script>
+</html>
