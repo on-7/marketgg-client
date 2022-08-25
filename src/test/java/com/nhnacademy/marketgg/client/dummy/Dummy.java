@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.dummy;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
@@ -12,6 +13,7 @@ import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -142,5 +144,15 @@ public class Dummy {
         ReflectionTestUtils.setField(labelRetrieveResponse, "name", "친환경");
 
         return labelRetrieveResponse;
+    }
+
+    public static PageResult getDummyPageResult() {
+        PageResult pageResult = new PageResult();
+        ReflectionTestUtils.setField(pageResult, "pageNumber", 0);
+        ReflectionTestUtils.setField(pageResult, "pageSize", 1);
+        ReflectionTestUtils.setField(pageResult, "totalPages", 1);
+        ReflectionTestUtils.setField(pageResult, "data", List.of(getDummyProductResponse()));
+
+        return pageResult;
     }
 }

@@ -149,10 +149,14 @@ public class AdminProductController {
     public ModelAndView updateProduct(@PathVariable final Long productId)
             throws UnAuthenticException, UnAuthorizationException {
 
-        ModelAndView mav = new ModelAndView("pages/products/product-modify-form");
+        ModelAndView mav = new ModelAndView("products/product-modify-form");
 
         ProductResponse product = this.productService.retrieveProductDetails(productId);
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
+        mav.addObject("categories", categories);
+
+        List<LabelRetrieveResponse> labels = this.labelService.retrieveLabels();
+        mav.addObject("labels", labels);
         mav.addObject("product", product);
         mav.addObject("categories", categories);
         return mav;
