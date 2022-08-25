@@ -32,11 +32,11 @@ nav {
 }
 
 main {
-    height: 100vh;
     background-color: white;
     display: flex;
     justify-content: center;
     padding: 5rem;
+    flex-direction: column;
 }
 
 header span {

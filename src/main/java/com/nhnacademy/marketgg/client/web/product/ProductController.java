@@ -1,14 +1,17 @@
 package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -94,17 +97,19 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping
-    public ModelAndView retrieveProducts() {
-        List<ProductResponse> products = this.productService.retrieveProducts();
+    public ModelAndView retrieveProducts(@RequestParam(defaultValue = "1") int page) {
+        PageResult<ProductResponse> productResponsePageResult = this.productService.retrieveProducts();
+        Pagination pagination = new Pagination(productResponsePageResult.getTotalPages(), page);
+        List<ProductResponse> products = productResponsePageResult.getData();
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
-
 
         for (ProductResponse product : products) {
             ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
             product.updateThumbnail(imageResponse.getImageAddress());
         }
+        mav.addObject("pages", pagination);
 
         return mav;
     }
