@@ -39,8 +39,8 @@ public class GgOrderService implements OrderService {
      * @return 주문 목록이 담긴 응답 객체
      */
     @Override
-    public List<OrderRetrieveResponse> retrieveOrders() {
-        return orderRepository.retrieveOrders();
+    public List<OrderRetrieveResponse> retrieveOrders(final Integer page) {
+        return orderRepository.retrieveOrders(page);
     }
 
     /**

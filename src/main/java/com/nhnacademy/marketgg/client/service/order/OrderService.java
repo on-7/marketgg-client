@@ -28,7 +28,7 @@ public interface OrderService {
      *
      * @return 주문 목록이 담긴 응답 객체
      */
-    List<OrderRetrieveResponse> retrieveOrders();
+    List<OrderRetrieveResponse> retrieveOrders(final Integer page);
 
     /**
      * 주문 상세 조회를 처리합니다.
