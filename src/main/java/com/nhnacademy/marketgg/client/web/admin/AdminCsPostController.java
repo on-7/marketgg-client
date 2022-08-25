@@ -68,7 +68,6 @@ public class AdminCsPostController {
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
         mav.addObject("searchType", "no");
-        mav.addObject("isAdmin", "yes");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
         mav.addObject("NOTICE_CODE", NOTICE_CODE);
@@ -140,7 +139,6 @@ public class AdminCsPostController {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/detail");
 
-        mav.addObject("isAdmin", "yes");
         mav.addObject("response", postService.retrievePost(postId, categoryId));
         mav.addObject("page", page);
 
@@ -353,7 +351,6 @@ public class AdminCsPostController {
      */
     private void isAdminAddObject(@RequestParam @Size(min = 1, max = 30) final String keyword, final ModelAndView mav)
             throws UnAuthenticException, UnAuthorizationException {
-        mav.addObject("isAdmin", "yes");
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());

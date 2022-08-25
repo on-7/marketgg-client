@@ -65,7 +65,6 @@ public class CsPostController {
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
         mav.addObject("searchType", "no");
-        mav.addObject("isAdmin", "no");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
         mav.addObject("NOTICE_CODE", NOTICE_CODE);
@@ -163,7 +162,6 @@ public class CsPostController {
         mav.addObject("isEnd", this.checkPageEnd(responses));
         mav.addObject("responses", responses);
         mav.addObject("searchType", "default");
-        mav.addObject("isAdmin", "no");
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("statusList", postService.retrieveOtoStatus());
