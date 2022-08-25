@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+      th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
     <head>
-        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/board/marketgg.board.css}">
         <title th:text="#{FAQ_BOARD}"></title>
     </head>
     <body>
         <main>
-            <div style="display: flex;">
-                <nav style="display: flex; flex: 0.1; padding-left: 30px">
+            <div class="board-wrapper">
+                <nav>
                     <div class="list-group" th:if="${isAdmin == 'yes'}">
                         <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
                         <a class="list-group-item list-group-item-action"
@@ -31,7 +31,7 @@
                            th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
                     </div>
                 </nav>
-                <div style="display: flex; flex: 0.7; flex-direction: column;">
+                <div class="table-wrapper">
                     <div th:if="${isAdmin == 'no'}">
                         <form th:action="'/customer-services/categories/'+${FAQ_CODE}+'/search'" th:method="get">
                             <input type="text" name="keyword" th:value="#{WRITE_SEARCH_KEYWORD}">
