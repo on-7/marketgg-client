@@ -1,13 +1,17 @@
-<!doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Market GG | 허용하지 않는 페이지</title>
+
+        <link rel="stylesheet" th:href="@{/css/errors/403.css}">
     </head>
-    <body>
-        <h1>FORBIDDEN</h1>
-    </body>
+
+    <main>
+        <img src="../../../static/images/errors/poby.png" th:src="@{/images/errors/poby.png}" alt="FORBIDDEN" />
+        <h1>403</h1>
+        <p>인증되지 않은 사용자이거나 접근 권한이 없습니다.</p>
+        <a href="/" class="btn btn-primary back-to-the-index">메인 페이지로 돌아가기</a>
+    </main>
 </html>
