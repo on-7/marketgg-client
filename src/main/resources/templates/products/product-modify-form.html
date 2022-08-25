@@ -1,39 +1,20 @@
-<!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/form-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}">
+
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+        <title>Market GG | 파일 업로드</title>
+
+        <!-- TOAST UI Editor -->
         <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+
+        <!-- TOAST UI Editor -->
         <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
-        <script src="/js/toast.js" defer></script>
-        <title>파일 수정</title>
+        <script src="/plugins/tui/toast.js" defer></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
     </head>
 
     <body>
-        <form th:action = "@{|/admin/v1/products/update/${product.id}|}" method="post" enctype="multipart/form-data">
-
-            <input type="text" name="name" placeholder="상품 이름" th:value="${product.name}"> <br>
-            <div th:each="category : ${categories}" class="form-check form-check-inline">
-                <input type="checkbox" th:value="${category.categoryCode}" name="categoryCode" class="form-check-input">
-                <label th:text="${category.categoryName}" class="form-check-label">서울</label>
-            </div>
-            <input type="text" name="content" placeholder="상품 설명" th:value="${product.content}"> <br>
-            <input type="number" name="totalStock" placeholder="총 수량" th:value="${product.totalStock}"> <br>
-            <input type="number" name="price" placeholder="가격" th:value="${product.price}"> <br>
-            <input type="text" name="unit" placeholder="판매 단위" th:value="${product.unit}"> <br>
-            <input type="text" name="deliveryType" placeholder="배송 구분" th:value="${product.deliveryType}"> <br>
-            <input type="text" name="origin" placeholder="원산지" th:value="${product.origin}"> <br>
-            <input type="text" name="packageType" placeholder="포장 타입" th:value="${product.packageType}"> <br>
-            <input type="date" name="expirationDate" placeholder="유효기간" th:value="${product.expirationDate}"> <br>
-            <input type="text" name="allergyInfo" placeholder="알러지 정보" th:value="${product.allergyInfo}"> <br>
-            <input type="text" name="capacity" placeholder="중량/용량" th:value="${product.capacity}"> <br>
-            <input type="file" name="image" multiple="multiple"/> <br>
-
-            <div id="editor"></div>
-            <input type="hidden" id="toast-content" name="description" value="">
-            <button type="submit" id="btn-submit">상품 등록 </button>
-        </form>
+        <section th:replace="~{/fragments/products/update-form}"></section>
     </body>
 </html>

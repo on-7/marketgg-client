@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
@@ -142,40 +143,6 @@ class AdminProductControllerTest {
         then(labelService).should(times(1)).retrieveLabels();
 
     }
-
-    @Test
-    @DisplayName("상품 전체조회 테스트")
-    void testRetrieveProducts() throws Exception {
-        given(productService.retrieveProducts()).willReturn(List.of(productResponse));
-        given(imageService.retrieveImage(anyLong())).willReturn(imageResponse);
-
-        ResultActions resultActions = this.mockMvc.perform(get(DEFAULT_PRODUCT_URI).headers(httpHeaders));
-
-        MvcResult mvcResult =
-            resultActions.andExpect(status().isOk()).andExpect(view().name("index")).andReturn();
-
-        assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel()
-                          .get("products")).isNotNull();
-        then(productService).should(times(1)).retrieveProducts();
-    }
-
-    @Test
-    @DisplayName("상품 상세조회 테스트")
-    void testRetrieveProductDetails() throws Exception {
-        given(productService.retrieveProductDetails(anyLong())).willReturn(productResponse);
-        given(imageService.retrieveImage(anyLong())).willReturn(imageResponse);
-
-        ResultActions resultActions =
-            this.mockMvc.perform(get(DEFAULT_PRODUCT_URI + "/{productId}", 1).headers(httpHeaders));
-
-        MvcResult mvcResult =
-            resultActions.andExpect(status().isOk()).andExpect(view().name("products/product-view"))
-                         .andReturn();
-
-        assertThat(mvcResult.getModelAndView().getModel().get("productDetails")).isNotNull();
-        then(productService).should(times(1)).retrieveProductDetails(anyLong());
-    }
-
     @Test
     @DisplayName("상품 수정 테스트")
     void testUpdateProduct() throws Exception {

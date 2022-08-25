@@ -1,6 +1,7 @@
-package com.nhnacademy.marketgg.client.repository;
+package com.nhnacademy.marketgg.client.repository.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
@@ -36,7 +37,7 @@ public interface ProductRepository {
      * @return - 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
-    List<ProductResponse> retrieveProducts();
+    PageResult<ProductResponse> retrieveProducts(int page);
 
     /**
      * 상품 상세 정보를 조회합니다.

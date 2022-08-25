@@ -1,15 +1,18 @@
-package com.nhnacademy.marketgg.client.repository.impl;
+package com.nhnacademy.marketgg.client.repository.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.PageResult;
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
-import com.nhnacademy.marketgg.client.repository.ProductRepository;
+import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -23,6 +26,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,22 +49,22 @@ public class ProductAdapter implements ProductRepository {
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
                 getLinkedMultiValueMapHttpEntity(image, productRequest);
 
-        ResponseEntity<Void> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
-                                                                   HttpMethod.POST,
-                                                                   httpEntity,
-                                                                   new ParameterizedTypeReference<>() {
+        ResponseEntity<ShopResult<Void>> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
+                                                                               HttpMethod.POST,
+                                                                               httpEntity,
+                                                                               new ParameterizedTypeReference<>() {
                                                                    });
 
         this.checkResponseUri(response);
     }
 
     @Override
-    public List<ProductResponse> retrieveProducts() {
+    public PageResult<ProductResponse> retrieveProducts(int page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
-        ResponseEntity<DefaultPageResult<ProductResponse>> response =
-                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
+        ResponseEntity<PageResult<ProductResponse>> response =
+                this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + "?page=" + page,
                                            HttpMethod.GET,
                                            request,
                                            new ParameterizedTypeReference<>() {
@@ -67,7 +72,8 @@ public class ProductAdapter implements ProductRepository {
 
 
         this.checkResponseUri(response);
-        return Objects.requireNonNull(response.getBody()).getData();
+
+        return Objects.requireNonNull(response.getBody());
     }
 
     @Override
@@ -76,7 +82,7 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<SingleResponse<ProductResponse>> response =
-                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
+                this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + "/" + productId,
                                            HttpMethod.GET,
                                            httpEntity,
                                            new ParameterizedTypeReference<>() {

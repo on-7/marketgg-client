@@ -1,12 +1,13 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.repository.ProductRepository;
+import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.io.IOException;
 import java.util.List;
@@ -27,8 +28,8 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public List<ProductResponse> retrieveProducts() {
-        return productRepository.retrieveProducts();
+    public PageResult<ProductResponse> retrieveProducts(int page) {
+        return productRepository.retrieveProducts(page);
     }
 
     @Override

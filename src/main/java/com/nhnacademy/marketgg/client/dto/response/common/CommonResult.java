@@ -1,6 +1,8 @@
 package com.nhnacademy.marketgg.client.dto.response.common;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -10,15 +12,16 @@ import lombok.RequiredArgsConstructor;
  * @version 1.0
  * @since 1.0
  */
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class CommonResult<T> {
 
-    private final boolean success;
+    private boolean success;
 
-    private final T data;
+    private T data;
 
-    private final ErrorEntity error;
+    private ErrorEntity error;
 
     public static <T> CommonResult<T> success(T data) {
         return new CommonResult<>(true, data, null);

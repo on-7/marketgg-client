@@ -11,12 +11,13 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
-import com.nhnacademy.marketgg.client.repository.ProductRepository;
+import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
 import com.nhnacademy.marketgg.client.service.impl.DefaultProductService;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -68,11 +69,11 @@ class ProductServiceTest {
     @Test
     @DisplayName("상품 전체조회 테스트")
     void testRetrieveProducts() {
-        given(productRepository.retrieveProducts()).willReturn(List.of(productResponse));
+        given(productRepository.retrieveProducts(anyInt())).willReturn(new PageResult<>());
 
-        productService.retrieveProducts();
+        productService.retrieveProducts(1);
 
-        then(productRepository).should(times(1)).retrieveProducts();
+        then(productRepository).should(times(1)).retrieveProducts(anyInt());
     }
 
     @Test
