@@ -1,15 +1,20 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
-import com.nhnacademy.marketgg.client.dto.response.MemberUpdateToAuthResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.exception.LoginFailException;
+import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +22,13 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -39,7 +46,9 @@ public class MemberAdapter implements MemberRepository {
     private final String gateWayIp;
     private final RestTemplate restTemplate;
 
-    private static final String DEFAULT_MEMBER = "/shop/v1/members/";
+    private final RedisTemplate redisTemplate;
+
+    private static final String DEFAULT_MEMBER = "/shop/v1/members";
     private static final String DELIVERY_ADDRESS = "/delivery-address";
 
     @Override
@@ -48,7 +57,7 @@ public class MemberAdapter implements MemberRepository {
 
         HttpEntity<SignupRequest> response = new HttpEntity<>(signupRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/signup", HttpMethod.POST, response,
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "signup", HttpMethod.POST, response,
                 new ParameterizedTypeReference<>() {
                 });
 
@@ -56,27 +65,49 @@ public class MemberAdapter implements MemberRepository {
     }
 
     @Override
-    public void withdraw(final MemberWithdrawRequest deletedAt)
+    public void withdraw()
         throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(deletedAt, buildHeaders());
+        HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.DELETE, response,
                 new ParameterizedTypeReference<>() {
                 });
 
+        redisTemplate.opsForHash().delete(SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
+            JwtInfo.JWT_REDIS_KEY);
+
         this.checkResponseUri(exchange);
     }
 
     @Override
-    public void update(final MemberUpdateToAuthResponse memberUpdateToAuthResponse, String sessionId)
+    public void update(final MemberUpdateRequest memberUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException {
 
-        HttpEntity<MemberUpdateToAuthResponse> response =
-            new HttpEntity<>(memberUpdateToAuthResponse, buildHeaders());
+        HttpEntity<MemberUpdateRequest> response =
+            new HttpEntity<>(memberUpdateRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.PUT, response,
                 new ParameterizedTypeReference<>() {
                 });
+
+        HttpHeaders headers = response.getHeaders();
+
+        List<String> jwtHeader = headers.get(AUTHORIZATION);
+        List<String> expiredHeader = headers.get(JwtInfo.JWT_EXPIRE);
+
+        if (Objects.isNull(jwtHeader) || Objects.isNull(expiredHeader)) {
+            throw new LoginFailException();
+        }
+
+        String jwt = jwtHeader.get(0);
+        String expireAt = expiredHeader.get(0);
+
+        JwtInfo.saveJwt(redisTemplate, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
+            jwt, expireAt);
+
+        if (Objects.isNull(response.getBody())) {
+            throw new ServerException();
+        }
 
         this.checkResponseUri(exchange);
     }

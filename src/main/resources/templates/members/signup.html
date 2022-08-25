@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <label>생년월일</label>
                             <div id="date-picker-example" class="md-form md-outline input-with-post-icon datepicker">
-                                <label for="birthDate"></label><input type="date" id="birthDate" class="form-control">
+                                <label for="birthDate"></label><input type="date" id="birthDate" name="birthDate" class="form-control">
                             </div>
                             <div class="error" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}">
                                 DATE ERROR
