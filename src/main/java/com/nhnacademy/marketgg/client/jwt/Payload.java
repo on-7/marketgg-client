@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class Payload implements Serializable {
-    private static final long serialVersionUID = 1905122041950251207L;
 
     /**
      * JWT 발행인.
