@@ -22,6 +22,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Getter
 public class JwtInfo implements Serializable {
 
+    private static final long serialVersionUID = 1905122041950251207L;
+
     public static final String JWT_REDIS_KEY = "JWT";
     public static final String JWT_EXPIRE = "JWT-Expire";
     public static final String SESSION_ID = "SESSION-ID";
