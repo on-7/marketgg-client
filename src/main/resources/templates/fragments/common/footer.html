@@ -4,13 +4,13 @@
     </div>
     <div class="footer__description">
         <div>
-            주소 : <a href="https://naver.me/FNueB0QP">경남 김해시 내외중앙로 55</a><br>
-            NHN Academy ON7 Team<br>
-            이메일 : <a href="mailto:on7.marketgg@gmail.com">on7.marketgg@gmail.com</a>
+            <span th:text="#{ADDRESS_LABEL}">주소</span> : <a href="https://naver.me/FNueB0QP" th:text="#{ADDRESS_CONTENT}"></a><br>
+            <span th:text="#{ORGANIZATION}"></span><br>
+            <span th:text="#{EMAIL_LABEL}"></span> : <a href="mailto:on7.marketgg@gmail.com" th:text="#{EMAIL_ADDRESS}"></a>
         </div>
         <div class="footer__navigation">
-            <a href="#">서비스 이용약관</a> | <a href="#">개인정보처리방침</a> |
-            <a href="#">업데이트 소식</a> | <a href="/customer-services/categories/701?page=0">고객센터</a>
+            <a href="#" th:text="#{TERMS_OF_SERVICE}"></a> | <a href="#" th:text="#{PRIVACY_POLICY}"></a> |
+            <a href="#" th:text="#{UPDATES}"></a> | <a href="/customer-services/categories/701?page=0" th:text="#{CUSTOMER_SERVICES}"}></a>
         </div>
         <div>
             Copyright 2022. ON7 All rights reserved.

@@ -31,11 +31,17 @@ nav {
     flex: 1;
 }
 
+nav:last-child {
+    display: flex;
+    align-items: center;
+}
+
 main {
-    height: 100vh;
+    /* height: 100vh; */
     background-color: white;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 5rem;
 }
 

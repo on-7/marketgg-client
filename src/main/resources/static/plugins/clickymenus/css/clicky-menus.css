@@ -19,7 +19,12 @@ svg[hidden] {
     list-style: none;
 
     display: flex;
-    flex: 1;
+    flex: 0.8;
+}
+
+.clicky-menu li:last-child {
+    display: flex;
+    align-items: center;
 }
 
 @media (min-width: 540px) {

@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
         <!-- Bootstrap -->
         <link rel="stylesheet"
@@ -22,6 +23,8 @@
               th:href="@{/plugins/marketgg/css/font.css}">
         <link rel="stylesheet" th:href="@{/plugins/marketgg/css/marketgg.common.css}">
 
+        <link rel="shortcut icon" th:href="@{/images/favicon.ico}" type="image/x-icon">
+
         <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 title 태그로 대체됩니다. -->
         <title th:replace="${title}"></title>
 
@@ -29,8 +32,8 @@
                 th:src="@{/plugins/clickymenus/js/clickyMenus.js}"></script>
     </head>
     <body>
-        <header th:replace="fragments/header"></header>
-        <nav th:replace="fragments/gnb"></nav>
+        <header th:replace="fragments/common/header"></header>
+        <nav th:replace="fragments/common/gnb"></nav>
 
         <main th:replace="${main}">
             <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 main 태그로 대체됩니다. -->

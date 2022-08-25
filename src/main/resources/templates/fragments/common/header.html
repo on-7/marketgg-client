@@ -1,7 +1,7 @@
 <header>
     <div class="navbar navbar-dark bg-dark shadow-sm">
         <div class="container d-flex justify-content-between">
-            <a href="#" class="navbar-brand d-flex align-items-center">
+            <a href="/" class="navbar-brand d-flex align-items-center">
                 <i class="fab fa-shopify"></i>
                 <strong>Market GG</strong>
             </a>
@@ -11,13 +11,19 @@
                         <i class="fas fa-globe" style="font-size: 1.5rem; line-height: 1.7; color: white;"></i>
                     </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">한국어</a>
-                        <a class="dropdown-item" href="#">영어</a>
+                        <a class="dropdown-item" th:href="@{__${#httpServletRequest.requestURI}__?lang=ko}"
+                           th:text="#{KOREAN}"></a>
+                        <a class="dropdown-item" th:href="@{__${#httpServletRequest.requestURI}__?lang=en}"
+                           th:text="#{ENGLISH}"></a>
                     </div>
                 </div>
-                <div>
-                    <a href="#" class="btn btn-primary my-2">회원가입</a>
-                    <a href="#" class="btn btn-secondary my-2">로그인</a>
+                <div th:if="${memberInfo?.name == null}">
+                    <a href="/signup" class="btn btn-primary my-2" th:text="#{SIGN_UP}"></a>
+                    <a href="/login" class="btn btn-secondary my-2" th:text="#{LOGIN}"></a>
+                </div>
+                <div th:unless="${memberInfo?.name == null}">
+                    <span th:text="|Hello, ${memberInfo.name}!|"></span>
+                    <a href="/logout" class="btn btn-secondary my-2" th:text="#{LOGOUT}"></a>
                 </div>
             </div>
         </div>
