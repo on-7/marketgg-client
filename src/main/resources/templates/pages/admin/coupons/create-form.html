@@ -8,17 +8,15 @@
     </head>
     <body>
         <main>
-            <h1>쿠폰 등록</h1>
-            <hr/>
             <div>
                 <form th:method="post" th:action="'/admin/coupons'">
                     <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
                         <tr>
-                            <th>쿠폰이름</th>
-                            <th>쿠폰종류</th>
-                            <th>유효기간</th>
-                            <th>최소주문금액</th>
-                            <th>할인량</th>
+                            <th th:text="#{COUPON_NAME}"></th>
+                            <th th:text="#{COUPON_TYPE}"></th>
+                            <th th:text="#{EXPIRED_DATE}"></th>
+                            <th th:text="#{MINIMUM_MONEY}"></th>
+                            <th th:text="#{DISCOUNT_AMOUNT}"></th>
                         </tr>
                         <tr>
                             <td>
@@ -39,7 +37,7 @@
                         </tr>
                         <tr>
                             <td colspan="5">
-                                <button style="flex: none; float: right;" type="submit">등록</button>
+                                <button style="flex: none; float: right;" type="submit" th:text="#{COUPON_CREATE}" class="btn btn-primary btn-lg"></button>
                             </td>
                         </tr>
                     </table>
