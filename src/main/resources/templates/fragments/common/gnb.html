@@ -2,7 +2,7 @@
     <ul class="main-menu clicky-menu">
         <li>
             <a href="#">
-                전체 카테고리
+                <span th:text="#{CATEGORIES_LABEL}"></span>
                 <svg aria-hidden="true" width="16" height="16">
                     <use xlink:href="#arrow" />
                 </svg>
@@ -14,8 +14,12 @@
                 <li><a href="#">주류</a></li>
             </ul>
         </li>
-        <li><a href="#">베스트</a></li>
-        <li><a href="#">특가/혜택</a></li>
-        <li><a href="#">크라우드 펀딩</a></li>
+        <li><a href="#" th:text="#{BEST_LABEL}"></a></li>
+        <li><a href="#" th:text="#{BENEFITS_LABEL}"></a></li>
+        <li>
+            <label for="autoComplete"></label>
+            <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"
+                   spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
+        </li>
     </ul>
 </nav>
