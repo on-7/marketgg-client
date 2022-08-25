@@ -1,19 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
       th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+>
     <head>
         <meta charset="UTF-8">
         <title th:text="#{FAQ_BOARD}"></title>
     </head>
     <body>
         <main>
-            <div style="display: flex; justify-content: left; padding-top: 50px; padding-left: 233px">
-                <h2 style="background-color: white; border: 1px outset black; padding: 5px" th:text="#{FAQ_BOARD}"></h2>
-            </div>
             <div style="display: flex;">
                 <nav style="display: flex; flex: 0.1; padding-left: 30px">
-                    <div class="list-group" sec:authentication="hasAuthority('ROLE_ADMIN')">
+                    <div class="list-group" th:if="${isAdmin == 'yes'}">
                         <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
                         <a class="list-group-item list-group-item-action"
                            th:href="'/admin/customer-services/categories/'+${NOTICE_CODE}+'?page=0'"
@@ -24,7 +21,7 @@
                         <a class="list-group-item list-group-item-action"
                            th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=0'" th:text="#{FAQ}"></a>
                     </div>
-                    <div class="list-group" sec:authentication="!hasAuthority('ROLE_ADMIN')">
+                    <div class="list-group" th:if="${isAdmin == 'no'}">
                         <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
                         <a class="list-group-item list-group-item-action"
                            th:href="'/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
@@ -36,14 +33,14 @@
                     </div>
                 </nav>
                 <div style="display: flex; flex: 0.7; flex-direction: column;">
-                    <div sec:authentication="!hasAuthority('ROLE_ADMIN')">
+                    <div th:if="${isAdmin == 'no'}">
                         <form th:action="'/customer-services/categories/'+${FAQ_CODE}+'/search'" th:method="get">
                             <input type="text" name="keyword" th:value="#{WRITE_SEARCH_KEYWORD}">
                             <input type="hidden" name="page" value="0">
                             <input class="btn btn-primary" type="submit" th:value="#{SEARCH}"><br />
                         </form>
                     </div>
-                    <div sec:authentication="hasAuthority('ROLE_ADMIN')">
+                    <div th:if="${isAdmin == 'yes'}">
                         <form th:action="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search'" th:method="get">
                             <input type="text" name="keyword" th:value="#{WRITE_SEARCH_KEYWORD}">
                             <input type="hidden" name="page" value="0">
@@ -51,7 +48,7 @@
                         </form>
                     </div>
                     <br />
-                    <div sec:authentication="hasAuthority('ROLE_ADMIN')" style="background-color: white">
+                    <div th:if="${isAdmin == 'yes'}" style="background-color: white">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -88,7 +85,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div sec:authentication="!hasAuthority('ROLE_ADMIN')" style="background-color: white">
+                    <div th:if="${isAdmin == 'no'}" style="background-color: white">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -110,12 +107,12 @@
                         </table>
                     </div>
                     <br />
-                    <div sec:authentication="hasAuthority('ROLE_ADMIN')">
+                    <div th:if="${isAdmin == 'yes'}">
                         <form th:method="get" th:action="'/admin/customer-services/categories/'+${FAQ_CODE}+'/create'">
                             <input class="btn btn-primary fa-pull-right" type="submit" th:value="#{FAQ_CREATE}">
                         </form>
                     </div>
-                    <div style="text-align: center" sec:authentication="!hasAuthority('ROLE_ADMIN')">
+                    <div style="text-align: center" th:if="${isAdmin == 'no'}">
                         <div th:if="${searchType == 'default'}">
                             <a class="btn-primary"
                                th:href="'/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}"
@@ -137,7 +134,7 @@
                                th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
-                    <div style="text-align: center" sec:authentication="hasAuthority('ROLE_ADMIN')">
+                    <div style="text-align: center" th:if="${isAdmin == 'yes'}">
                         <div th:if="${searchType == 'default'}">
                             <a class="btn-primary"
                                th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}"
