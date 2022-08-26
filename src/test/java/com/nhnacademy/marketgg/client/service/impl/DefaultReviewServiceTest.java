@@ -60,7 +60,7 @@ class DefaultReviewServiceTest {
     @Test
     @DisplayName("리뷰 전체조회 테스트")
     void testRetrieveReviews() {
-        given(reviewRepository.retrieveReviews(anyLong())).willReturn(List.of(reviewResponse));
+        given(reviewRepository.retrieveReviews(anyLong())).willReturn(Dummy.getDummyPageResult());
 
         reviewService.retrieveReviews(1L);
 
