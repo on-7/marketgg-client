@@ -9,11 +9,11 @@
         <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 title 태그로 대체됩니다. -->
         <title th:replace="${title}"></title>
 
-        <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css" th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
-        <link rel="stylesheet" href="../static/plugins/fontawesome/css/all.min.css" th:href="@{/plugins/fontawesome/css/all.min.css}" />
-        <link rel="stylesheet" href="../static/css/clicky-menus.css" th:href="@{/plugins/clickymenus/css/clicky-menus.css}">
+        <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css" th:href="@{plugins/bootstrap/css/bootstrap.min.css}">
+        <link rel="stylesheet" href="../static/plugins/fontawesome/css/all.min.css" th:href="@{plugins/fontawesome/css/all.min.css}" />
+        <link rel="stylesheet" href="../static/css/clicky-menus.css" th:href="@{plugins/clickymenus/css/clicky-menus.css}">
 
-        <link rel="stylesheet" href="../static/css/font.css" th:href="@{/plugins/marketgg/css/font.css}">
+        <link rel="stylesheet" href="../static/css/font.css" th:href="@{plugins/marketgg/css/font.css}">
         <link rel="stylesheet" th:href="@{plugins/marketgg/css/marketgg.common.css}">
         <link rel="stylesheet" th:href="@{plugins/marketgg/css/marketgg.form.css}">
 
@@ -26,14 +26,14 @@
         <script th:replace="${script}"></script>
     </head>
     <body>
-        <header th:replace="fragments/header"></header>
+        <header th:replace="fragments/common/header"></header>
 
-        <nav th:replace="fragments/gnb"></nav>
+        <nav th:replace="fragments/common/gnb"></nav>
 
         <section th:replace="${section}">
             <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 section 태그로 대체됩니다. -->
         </section>
 
-        <footer th:replace="fragments/footer"></footer>
+        <footer th:replace="fragments/common/footer"></footer>
     </body>
 </html>

@@ -8,6 +8,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        <meta id="_csrf" name="_csrf" th:content="${_csrf?.token}" />
+        <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf?.headerName}" />
 
         <!-- Bootstrap -->
         <link rel="stylesheet"
@@ -45,13 +47,13 @@
         <script th:replace="${script}"></script>
     </head>
     <body>
-        <header th:replace="fragments/common/header"></header>
-        <nav th:replace="fragments/common/gnb"></nav>
+        <header th:replace="/fragments/common/header"></header>
+        <nav th:replace="/fragments/common/gnb"></nav>
 
         <main th:replace="${main}">
             <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 main 태그로 대체됩니다. -->
         </main>
 
-        <footer th:replace="fragments/common/footer"></footer>
+        <footer th:replace="/fragments/common/footer"></footer>
     </body>
 </html>

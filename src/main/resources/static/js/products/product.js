@@ -1,11 +1,12 @@
 function addToCart() {
 
     let cartBtn = document.getElementById("cart-btn");
-    cartBtn.addEventListener("click", () =>{
-        /*<![CDATA[*/
-        // const productId = /*[[${product.id}}]]*/;
-        /*]]>*/
-        const amount = document.getElementById("amount");
+
+    cartBtn.addEventListener("click", () => {
+        const productId = document.getElementById("product-id").value;
+        const amount = document.getElementById("inputQuantity").value;
+        console.log(productId);
+        console.log(amount);
 
         let productToCartRequest = {
             id: productId,
@@ -43,5 +44,7 @@ function getHeaders() {
 function main() {
     addToCart();
 }
+
+const url = "http://localhost:5050/cart";
 
 main();
