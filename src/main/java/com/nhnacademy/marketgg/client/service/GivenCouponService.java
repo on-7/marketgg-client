@@ -1,11 +1,11 @@
 package com.nhnacademy.marketgg.client.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import java.util.List;
 
 /**
  * 지급 쿠폰 서비스입니다.
@@ -29,6 +29,6 @@ public interface GivenCouponService {
      * @return 조회한 보유 쿠폰 목록을 List 로 반환합니다.
      * @since 1.0.0
      */
-    List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons() throws UnAuthenticException, UnAuthorizationException;
+    PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons() throws UnAuthenticException, UnAuthorizationException;
 
 }

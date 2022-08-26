@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.PageEntity;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
@@ -69,7 +69,7 @@ public class CouponAdapter implements CouponRepository {
     public List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<CommonResult<PageEntity<CouponRetrieveResponse>>> response
+        ResponseEntity<CommonResult<PageResult<CouponRetrieveResponse>>> response
             = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
                                     HttpMethod.GET, requestEntity,
                                     new ParameterizedTypeReference<>() {

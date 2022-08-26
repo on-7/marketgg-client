@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.PageEntity;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
@@ -53,18 +53,18 @@ public class GivenCouponAdapter implements GivenCouponRepository {
     }
 
     @Override
-    public List<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons()
+    public PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons()
         throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
-        ResponseEntity<CommonResult<PageEntity<GivenCouponRetrieveResponse>>> response
+        ResponseEntity<CommonResult<PageResult<GivenCouponRetrieveResponse>>> response
             = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
-                                  HttpMethod.GET, requestEntity,
-                                  new ParameterizedTypeReference<>() {
-                                  });
+                                    HttpMethod.GET, requestEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
 
         ResponseUtils.checkError(response);
-        return Objects.requireNonNull(response.getBody()).getData().getData();
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     private HttpHeaders buildHeaders() {
