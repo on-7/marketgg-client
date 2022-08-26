@@ -9,6 +9,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
@@ -79,7 +80,6 @@ class DefaultAuthServiceTest {
         then(redisTemplate).should(times(1)).expireAt(anyString(), any(Date.class));
         then(hashOps).should(times(1)).put(anyString(), anyString(), any(JwtInfo.class));
 
-        then(passwordEncoder).should(times(1)).encode(anyString());
         then(authRepository).should(times(1)).doLogin(loginRequest, sessionId);
     }
 
@@ -125,6 +125,7 @@ class DefaultAuthServiceTest {
     void testLogoutFail() {
         String sessionId = "sessionId";
         JwtInfo jwtInfo = mock(JwtInfo.class);
+        SessionContext.setSessionId(sessionId);
 
         HashOperations<String, Object, Object> hashOps = mock(HashOperations.class);
         given(redisTemplate.opsForHash()).willReturn(hashOps);
