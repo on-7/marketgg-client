@@ -13,13 +13,10 @@ svg[hidden] {
 }
 
 .clicky-menu {
-    justify-content: stretch;
-    margin: auto;
-    padding: 0;
     list-style: none;
-
     display: flex;
-    flex: 0.8;
+    padding: 0;
+    margin: 0;
 }
 
 .clicky-menu li:last-child {
@@ -99,8 +96,8 @@ svg[hidden] {
 /* Submenu Styles */
 .clicky-menu ul {
     min-width: 100%;
-    width: 12em;
-    top: 3rem;
+    width: 10rem;
+    top: 3.9rem;
     margin-top: .25em;
     padding: 0;
     list-style: none;
@@ -108,13 +105,12 @@ svg[hidden] {
     border-radius: 3px;
 
     position: absolute;
-    top: 3.7rem;
 }
 
 @media (min-width: 540px) {
-    .clicky-menu {
-        box-shadow: 2px 4px 4px rgba(0, 0, 0, .2);
-    }
+    /* .clicky-menu { */
+    /*     box-shadow: 2px 4px 4px rgba(0, 0, 0, .2); */
+    /* } */
 }
 
 /* Responsive Submenu Behavior */

@@ -1,25 +1,28 @@
 <nav>
-    <ul class="main-menu clicky-menu">
-        <li>
-            <a href="#">
-                <span th:text="#{CATEGORIES_LABEL}"></span>
-                <svg aria-hidden="true" width="16" height="16">
-                    <use xlink:href="#arrow" />
-                </svg>
-            </a>
-            <ul class="category">
-                <!-- FIXME: DB 에서 상위 카테고리 each 돌리기 -->
-                <li><a href="#">밀키트</a></li>
-                <li><a href="#">채소</a></li>
-                <li><a href="#">주류</a></li>
-            </ul>
-        </li>
-        <li><a href="#" th:text="#{BEST_LABEL}"></a></li>
-        <li><a href="#" th:text="#{BENEFITS_LABEL}"></a></li>
-        <li>
-            <label for="autoComplete"></label>
-            <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"
-                   spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
-        </li>
-    </ul>
+    <div class="gnb">
+        <ul class="clicky-menu">
+            <li>
+                <a href="#">
+                    <span th:text="#{CATEGORIES_LABEL}"></span>
+                    <svg aria-hidden="true" width="16" height="16">
+                        <use xlink:href="#arrow" />
+                    </svg>
+                </a>
+                <ul class="category">
+                    <!-- FIXME: DB 에서 상위 카테고리 each 돌리기 -->
+                    <li><a href="#">밀키트</a></li>
+                    <li><a href="#">채소</a></li>
+                    <li><a href="#">과일/견과/쌀</a></li>
+                    <li><a href="#">정육/계란</a></li>
+                </ul>
+            </li>
+            <li><a href="#" th:text="#{BEST_LABEL}"></a></li>
+            <li><a href="#" th:text="#{BENEFITS_LABEL}"></a></li>
+        </ul>
+    </div>
+    <div class="autocomplete-container">
+        <label for="autoComplete"></label>
+        <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"
+               spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
+    </div>
 </nav>
