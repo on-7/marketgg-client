@@ -69,7 +69,7 @@ public class AdminLabelController {
     public ModelAndView retrieveLabels() throws UnAuthenticException, UnAuthorizationException {
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
 
-        ModelAndView mav = new ModelAndView("pages/labels/index");
+        ModelAndView mav = new ModelAndView("pages/admin/labels/index");
         mav.addObject("labels", responses);
 
         return mav;
