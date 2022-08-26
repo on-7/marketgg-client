@@ -9,7 +9,8 @@
     <body>
         <main>
             <form style="display: flex; justify-content: center" th:method="post" th:acthion="${memberId}+'/coupons'">
-                <input type="text" name="name" th:placeholder="#{COUPON_NAME_INPUT}" style="width:300px; text-align: center;">
+                <input type="text" name="name" th:placeholder="#{COUPON_NAME_INPUT}"
+                       style="width:300px; text-align: center;">
                 <input type="submit" th:value="#{COUPON_CREATE}" class="btn btn-outline-primary">
             </form>
             <br />
@@ -34,6 +35,31 @@
                         <td th:text="${coupon.status}"></td>
                     </tr>
                 </table>
+            </div>
+            <div class="page-num"
+                 th:with="start=${(pageNumber/totalPages)*pageSize + 1},
+                  end=(${(totalPages == 0) ? 1 : (start + (pageSize - 1) < totalPages ? start + (pageSize - 1) : totalPages)})">
+                <ul class="pagination">
+                    <li th:if="${start > 1}" class="page-link">
+                        <a th:href="@{/members/coupons(page=0)}" th:text="'<<'"></a>
+                    </li>
+
+                    <li th:if="${start > 1}" class="page-link">
+                        <a th:href="@{/members/coupons(page=${start - pageSize})}" ></a>
+                    </li>
+
+                    <li th:each="page: ${#numbers.sequence(start, end)}" class="page-link">
+                        <a th:href="@{/members/coupons(page=${start - pageSize})}" th:text="${page}"></a>
+                    </li>
+
+                    <li th:if="${end < totalPages}" class="page-link">
+                        <a th:href="@{/members/coupons(page=${start + pageSize})}"></a>
+                    </li>
+
+                    <li th:if="${end < totalPages}" class="page-link">
+                        <a th:href="@{/members/coupons(page=${totalPages - 1})}"></a>
+                    </li>
+                </ul>
             </div>
         </main>
     </body>
