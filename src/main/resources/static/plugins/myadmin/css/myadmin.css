@@ -38,7 +38,7 @@ a, a:hover, a:focus {
     background: #fff;
     border: none;
     border-radius: 0;
-    margin-bottom: 40px;
+    margin-bottom: 3rem;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -113,7 +113,6 @@ a, a:hover, a:focus {
     background: #404549;
 }
 
-
 a[data-toggle="collapse"] {
     position: relative;
 }
@@ -141,7 +140,7 @@ ul ul a {
 }
 
 ul.CTAs {
-    padding: 20px;
+    padding: 0 20px;
 }
 
 ul.CTAs a {
@@ -152,7 +151,7 @@ ul.CTAs a {
     margin-bottom: 5px;
 }
 
-a.download {
+a.btn-white {
     background: #fff;
     color: #7386D5;
 }
@@ -166,8 +165,8 @@ a.article, a.article:hover {
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
-#content {
-    padding: 20px;
+main {
+    padding: 3rem;
     min-height: 100vh;
     transition: all 0.3s;
 }
@@ -181,32 +180,15 @@ a.article, a.article:hover {
 #sidebarCollapse span {
     width: 80%;
     height: 2px;
-    margin: 0 auto;
     display: block;
     background: #555;
     transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
     transition-delay: 0.2s;
-}
 
-#sidebarCollapse span:first-of-type {
-    transform: rotate(45deg) translate(2px, 2px);
-}
-
-#sidebarCollapse span:nth-of-type(2) {
-    opacity: 0;
-}
-
-#sidebarCollapse span:last-of-type {
-    transform: rotate(-45deg) translate(1px, -1px);
-}
-
-
-#sidebarCollapse.active span {
     transform: none;
     opacity: 1;
     margin: 5px auto;
 }
-
 
 /* ---------------------------------------------------
     MEDIAQUERIES
@@ -245,4 +227,14 @@ a.article, a.article:hover {
     #sidebarCollapse.active span:last-of-type {
         transform: rotate(-45deg) translate(1px, -1px);
     }
+
+    .admin-dashboard__description {
+        display: none;
+    }
+}
+
+/* custom CSS as below */
+
+.admin-dashboard {
+    margin-top: 2rem;
 }
