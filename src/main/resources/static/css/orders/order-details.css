@@ -1,0 +1,10 @@
+main {
+    display: flex;
+    border: 1px solid #000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    margin: 0 auto;
+    padding: 3rem;
+}

@@ -4,6 +4,7 @@ import static com.nhnacademy.marketgg.client.util.GgUtils.SHOP_SERVICE_PREFIX_V1
 import static java.util.Collections.singletonList;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
@@ -62,7 +63,6 @@ public class OrderAdapter implements OrderRepository {
                        .blockOptional()
                        .orElseThrow(NullPointerException::new);
 
-        URI location = response.getHeaders().getLocation();
         return Objects.requireNonNull(response.getBody()).getData();
     }
 
@@ -72,8 +72,8 @@ public class OrderAdapter implements OrderRepository {
      * @return - 주문 목록
      */
     @Override
-    public List<OrderRetrieveResponse> retrieveOrders() {
-        ResponseEntity<ShopResult<List<OrderRetrieveResponse>>> response
+    public PageResult<OrderRetrieveResponse> retrieveOrders(final Integer page) {
+        ResponseEntity<ShopResult<PageResult<OrderRetrieveResponse>>> response
                 = WebClient.builder()
                            .baseUrl(gatewayIp)
                            .defaultHeaders(httpHeaders -> {
@@ -83,15 +83,14 @@ public class OrderAdapter implements OrderRepository {
                            })
                            .build()
                            .get()
-                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
+                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "?page=" + page)
                            .retrieve()
                            .toEntity(
-                                   new ParameterizedTypeReference<ShopResult<List<OrderRetrieveResponse>>>() {
+                                   new ParameterizedTypeReference<ShopResult<PageResult<OrderRetrieveResponse>>>() {
                                    })
                            .blockOptional()
                            .orElseThrow(NullPointerException::new);
 
-        URI location = response.getHeaders().getLocation();
         return Objects.requireNonNull(response.getBody()).getData();
     }
 
