@@ -24,17 +24,17 @@ public class PaymentPageController {
 
     @GetMapping("/request-payment")
     public ModelAndView index() {
-        return new ModelAndView("/pages/payments/request-payment");
+        return new ModelAndView("pages/payments/request-payment");
     }
 
     @GetMapping("/success-payment")
     public ModelAndView goOrderConfirmation() {
-        return new ModelAndView("/pages/payments/success-payment");
+        return new ModelAndView("pages/payments/success-payment");
     }
 
     @GetMapping("/cancel-payment")
     public ModelAndView cancel() {
-        return new ModelAndView("/pages/payments/cancel-payment");
+        return new ModelAndView("pages/payments/cancel-payment");
     }
 
     /**

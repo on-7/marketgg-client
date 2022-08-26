@@ -121,6 +121,7 @@ public class MemberInfoController {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
         ModelAndView modelAndView = new ModelAndView("pages/mygg/delivery-addresses/index");
         modelAndView.addObject("deliveryAddressList", deliveryAddressResponseList);
+
         return modelAndView;
     }
 
@@ -131,7 +132,7 @@ public class MemberInfoController {
      */
     @GetMapping("/delivery-address")
     public ModelAndView deliveryAddress() throws UnAuthenticException, UnAuthorizationException {
-        return new ModelAndView("mygg/delivery-addresses/form");
+        return new ModelAndView("pages/mygg/delivery-addresses/form");
     }
 
     /**
@@ -151,6 +152,7 @@ public class MemberInfoController {
         }
 
         memberService.createDeliveryAddress(addressRequest);
+
         return new ModelAndView(REDIRECT + DEFAULT_DELIVERY_ADDRESSES);
     }
 
