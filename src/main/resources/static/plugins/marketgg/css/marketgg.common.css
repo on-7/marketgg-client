@@ -28,16 +28,22 @@
 
 nav {
     display: flex;
+    justify-content: space-around;
     flex: 1;
+    box-shadow: 2px 4px 4px rgb(0 0 0 / 20%);
 }
 
-nav:last-child {
+.gnb {
+    flex: 0.6;
+}
+
+.autocomplete-container {
     display: flex;
+    flex: 0.2;
     align-items: center;
 }
 
 main {
-    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
