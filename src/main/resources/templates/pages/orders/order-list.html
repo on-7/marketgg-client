@@ -23,12 +23,17 @@
                 </tr>
             </table>
 
-            <div>
+            <div style="display: flex; flex-direction: row;">
+                <a th:href="@{|/orders?page=1|}" th:text="처음"></a>
+                <a th:if="${pages.page} > 1" th:href="@{|/orders?page=${pages.page-1}|}" th:text="이전"></a>
                 <ul class="pagination">
-                    <li th:each="page: ${#numbers.sequence(1, pages.totalPageCnt)}">
+                    <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
                         <a th:href="@{|/orders?page=${page}|}" th:text="${page}"></a>
                     </li>
                 </ul>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/orders?page=${pages.page+1}|}"
+                   th:text="다음"></a>
+                <a th:href="@{|/orders?page=${pages.totalPageCnt}|}" th:text="끝"></a>
             </div>
         </main>
     </body>
