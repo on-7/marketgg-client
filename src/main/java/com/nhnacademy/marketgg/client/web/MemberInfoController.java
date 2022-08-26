@@ -119,7 +119,6 @@ public class MemberInfoController {
     @GetMapping("/delivery-addresses")
     public ModelAndView deliveryAddresses() throws UnAuthenticException, UnAuthorizationException {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
-        // TODO : 페이지 돌입지점에서 바로 보여줘야함. 페이지 필요.
         ModelAndView modelAndView = new ModelAndView("mygg/delivery-addresses/index");
         modelAndView.addObject("deliveryAddressList", deliveryAddressResponseList);
         return modelAndView;
@@ -132,7 +131,7 @@ public class MemberInfoController {
      */
     @GetMapping("/delivery-address")
     public ModelAndView deliveryAddress() throws UnAuthenticException, UnAuthorizationException {
-        return new ModelAndView("delivery-address/form");
+        return new ModelAndView("mygg/delivery-addresses/form");
     }
 
     /**
@@ -145,28 +144,14 @@ public class MemberInfoController {
      */
     @PostMapping("/delivery-address")
     public ModelAndView createDeliveryAddress(
-        @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest)
+        @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest, BindingResult bindingResult)
         throws UnAuthenticException, UnAuthorizationException {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView(REDIRECT + DEFAULT_DELIVERY_ADDRESSES);
+        }
 
         memberService.createDeliveryAddress(addressRequest);
-        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
-    }
-
-    /**
-     * 회원이 가진 배송지 정보를 수정하는 PutMapping 메소드 입니다.
-     *
-     * @param updateRequest - 수정하는 배송지의 정보를 담고있는 DTO 입니다.
-     * @return 배송지 수정하고있는 페이지 redirect
-     * @author 김훈민
-     * @since 1.0.0
-     */
-    @PutMapping("/delivery-address")
-    public ModelAndView updateDeliveryAddress(
-        @ModelAttribute @Valid final DeliveryAddressUpdateRequest updateRequest)
-        throws UnAuthenticException, UnAuthorizationException {
-
-        memberService.updateDeliveryAddress(updateRequest);
-        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
+        return new ModelAndView(REDIRECT + DEFAULT_DELIVERY_ADDRESSES);
     }
 
     /**
@@ -178,10 +163,9 @@ public class MemberInfoController {
      * @since 1.0.0
      */
     @DeleteMapping("/delivery-address/{deliveryAddressId}")
-    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
+    public void deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
         throws UnAuthenticException, UnAuthorizationException {
         memberService.deleteDeliveryAddress(deliveryAddressId);
-        return new ModelAndView(REDIRECT + DEFAULT_MEMBER + DEFAULT_DELIVERY_ADDRESSES);
     }
 
 }

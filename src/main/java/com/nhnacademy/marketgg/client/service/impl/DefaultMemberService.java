@@ -57,12 +57,6 @@ public class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest)
-        throws UnAuthenticException, UnAuthorizationException {
-        memberRepository.updateDeliveryAddress(updateRequest);
-    }
-
-    @Override
     public void deleteDeliveryAddress(final Long deliveryAddressId)
         throws UnAuthenticException, UnAuthorizationException {
         memberRepository.deleteDeliveryAddress(deliveryAddressId);

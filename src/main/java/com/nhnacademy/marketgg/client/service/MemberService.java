@@ -64,16 +64,6 @@ public interface MemberService {
         throws UnAuthenticException, UnAuthorizationException;
 
     /**
-     * 회원이 가진 배송지 정보를 수정하는 메소드 입니다.
-     *
-     * @param updateRequest - 수정하는 배송지의 정보를 담고있는 DTO 입니다.
-     * @author 김훈민
-     * @since 1.0.0
-     */
-    void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest)
-        throws UnAuthenticException, UnAuthorizationException;
-
-    /**
      * 회원이 가진 배송지 정보를 삭제하는 메소드 입니다.
      *
      * @param deliveryAddressId - 삭제하는 배송지의 식별번호
