@@ -18,76 +18,77 @@
                 </div>
 
                 <p class="lead" th:text="${productDetails.content}"></p>
-                <div class="d-flex">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
-                           style="max-width: 3rem" />
-                    <button id="cart-btn"
-                            class="btn btn-outline-dark flex-shrink-0" type="button">
-                        <i class="bi-cart-fill me-1"></i>
-                        Add to cart
-                    </button>
-                </div>
-                <div class="d-flex">
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button" >
-                        <i class="fa-solid fa-circle-heart"></i>
-                        찜
+                <div sec:authorize="!isAnonymous()">
+                    <div class="d-flex">
+                        <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
+                               style="max-width: 3rem" />
+                        <button id="cart-btn" class="btn btn-outline-dark flex-shrink-0" type="button">
+                            <i class="bi-cart-fill me-1"></i>
+                            Add to cart
+                        </button>
+                    </div>
+                    <div class="d-flex">
+                        <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                            <i class="fa-solid fa-circle-heart"></i>
+                            찜
 
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-                                integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-                                crossorigin="anonymous"></script>
-                        <script defer>
-                            $(document).ready(function () {
-                                dibView();
-                            });
-                            let productId = '4';
+                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+                                    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                                    crossorigin="anonymous"></script>
+                            <script defer>
+                                $(document).ready(function () {
+                                    dibView();
+                                });
+                                let productId = '4';
 
-                            function dibView() {
-                                $.ajax({
-                                    //TODO: 올릴때 주소 바꾸기
-                                    url: 'http://localhost:5050/dibs',
-                                    type: 'post',
-                                    async: true,
-                                    data: {
-                                        'productId': productId
-                                    },
-                                    dataType: "json",
-                                    success: function (data) {
-                                        let htmlBody = '';
-                                        if (data.exist === 1) {
-                                            htmlBody += '<button onclick="dibDelete(productId);"'
-                                                + '>찜제거</button>'
-                                        } else {
-                                            htmlBody += '<button onclick="dibInsert(productId);"'
-                                                + '>찜</button>'
+                                function dibView() {
+                                    $.ajax({
+                                        //TODO: 올릴때 주소 바꾸기
+                                        url: 'http://localhost:5050/dibs',
+                                        type: 'post',
+                                        async: true,
+                                        data: {
+                                            'productId': productId
+                                        },
+                                        dataType: "json",
+                                        success: function (data) {
+                                            let htmlBody = '';
+                                            if (data.exist === 1) {
+                                                htmlBody += '<button onclick="dibDelete(productId);"'
+                                                    + '>찜제거</button>'
+                                            } else {
+                                                htmlBody += '<button onclick="dibInsert(productId);"'
+                                                    + '>찜</button>'
+                                            }
+                                            $('#dib').html(htmlBody);
                                         }
-                                        $('#dib').html(htmlBody);
-                                    }
-                                })
-                            }
+                                    })
+                                }
 
-                            function dibInsert(productId) {
-                                $.ajax({
-                                    url: 'http://localhost:5050/dibs/insert/' + productId,
-                                    type: 'get',
-                                    success: function (data) {
-                                        if (data === 1)
-                                            dibView();
-                                    }
-                                });
-                            }
+                                function dibInsert(productId) {
+                                    $.ajax({
+                                        url: 'http://localhost:5050/dibs/insert/' + productId,
+                                        type: 'get',
+                                        success: function (data) {
+                                            if (data === 1)
+                                                dibView();
+                                        }
+                                    });
+                                }
 
-                            function dibDelete(productId) {
-                                $.ajax({
-                                    url: 'http://localhost:5050/dibs/delete/' + productId,
-                                    type: 'get',
-                                    success: function (data) {
-                                        if (data === 1)
-                                            dibView();
-                                    }
-                                });
-                            }
-                        </script>
-                    </button>
+                                function dibDelete(productId) {
+                                    $.ajax({
+                                        url: 'http://localhost:5050/dibs/delete/' + productId,
+                                        type: 'get',
+                                        success: function (data) {
+                                            if (data === 1)
+                                                dibView();
+                                        }
+                                    });
+                                }
+                            </script>
+                        </button>
+                    </div>
                 </div>
             </div>
 
