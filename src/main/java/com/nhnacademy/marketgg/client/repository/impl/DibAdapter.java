@@ -31,7 +31,7 @@ public class DibAdapter implements DibRepository {
     public void createDib(final Long productId) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<ShopResult<Void>> response =
-                restTemplate.exchange(gateWayIp + "/members/dibs/" + productId,
+                restTemplate.exchange(gateWayIp + "/shop/v1/members/dibs/" + productId,
                                       HttpMethod.POST,
                                       requestEntity,
                                       new ParameterizedTypeReference<>() {
@@ -44,7 +44,7 @@ public class DibAdapter implements DibRepository {
     public List<DibRetrieveResponse> retrieveDibs() throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<ShopResult<List<DibRetrieveResponse>>> response =
-                restTemplate.exchange(gateWayIp + "/members/dibs",
+                restTemplate.exchange(gateWayIp + "/shop/v1/members/dibs",
                                       HttpMethod.GET,
                                       requestEntity,
                                       new ParameterizedTypeReference<>() {
@@ -58,7 +58,7 @@ public class DibAdapter implements DibRepository {
     public void deleteDib(final Long productId) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<ShopResult<Void>> response =
-                restTemplate.exchange(gateWayIp + "/members/dibs/" + productId,
+                restTemplate.exchange(gateWayIp + "/shop/v1/members/dibs/" + productId,
                                       HttpMethod.DELETE,
                                       requestEntity,
                                       new ParameterizedTypeReference<>() {
