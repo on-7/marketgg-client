@@ -6,11 +6,8 @@ import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
-import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
+import com.nhnacademy.marketgg.client.dto.response.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -150,8 +147,14 @@ public class Dummy {
         ReflectionTestUtils.setField(pageResult, "pageNumber", 0);
         ReflectionTestUtils.setField(pageResult, "pageSize", 1);
         ReflectionTestUtils.setField(pageResult, "totalPages", 1);
-        ReflectionTestUtils.setField(pageResult, "data", List.of(getDummyProductResponse()));
+        ReflectionTestUtils.setField(pageResult, "data", List.of(getDummySearchProductResponse()));
 
         return pageResult;
+    }
+
+    public static SearchProductResponse getDummySearchProductResponse() {
+        SearchProductResponse searchProductResponse = new SearchProductResponse(1L, "101", "자몽", "내용", "설명", "친환경", "aaa", 1000L, 1000L);
+
+        return searchProductResponse;
     }
 }
