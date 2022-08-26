@@ -23,7 +23,7 @@ public class IndexController {
 
     private final ProductService productService;
     private final ImageService imageService;
-    private static final String DEFAULT_PRODUCT_VIEW = "products/product-view";
+    private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
 
 
     @GetMapping({ "/", "/index" })

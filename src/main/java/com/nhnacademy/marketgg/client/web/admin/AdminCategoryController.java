@@ -46,7 +46,7 @@ public class AdminCategoryController {
      */
     @GetMapping("/create")
     public ModelAndView doCreateCategory() throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("/categories/create-form");
+        ModelAndView mav = new ModelAndView("pages/categories/create-form");
 
         List<CategorizationRetrieveResponse> responses = categoryService.retrieveCategorizations();
 
@@ -85,7 +85,7 @@ public class AdminCategoryController {
      */
     @GetMapping("/index")
     public ModelAndView retrieveCategories() throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("/categories/index");
+        ModelAndView mav = new ModelAndView("pages/categories/index");
 
         List<CategoryRetrieveResponse> responses = categoryService.retrieveCategories();
 
@@ -106,7 +106,7 @@ public class AdminCategoryController {
     @GetMapping("/update/{categoryId}")
     public ModelAndView doUpdateCategory(@PathVariable final String categoryId)
             throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("/categories/update-form");
+        ModelAndView mav = new ModelAndView("pages/categories/update-form");
 
         CategoryRetrieveResponse categoryResponse = categoryService.retrieveCategory(categoryId);
         mav.addObject("category", categoryResponse);

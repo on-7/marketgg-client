@@ -32,7 +32,7 @@ public class AdminReviewController {
 
         reviewService.makeBestReview(productId, reviewId);
 
-        return new ModelAndView("redirect:/" + "products/product-view");
+        return new ModelAndView("redirect:/" + "pages/products/product-view");
     }
 
 }

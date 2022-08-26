@@ -18,14 +18,14 @@ public class PointController {
 
     @GetMapping("/points/index")
     public ModelAndView index() {
-        return new ModelAndView("points/index");
+        return new ModelAndView("pages/points/index");
     }
 
     @GetMapping("/{memberId}/points")
     public ModelAndView retrievePointHistory(@PathVariable final Long memberId) {
         PointRetrieveResponse response = this.pointService.retrievePointHistories(memberId);
 
-        ModelAndView mav = new ModelAndView("/points/index");
+        ModelAndView mav = new ModelAndView("pages/points/index");
         mav.addObject("points", response);
 
         return mav;

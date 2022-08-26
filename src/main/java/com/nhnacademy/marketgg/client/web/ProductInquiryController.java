@@ -40,7 +40,7 @@ public class ProductInquiryController {
      */
     @GetMapping("/{productId}/inquiry")
     public ModelAndView createProductInquiry(@PathVariable final Long productId) {
-        ModelAndView mav = new ModelAndView("products/product-inquiry-form");
+        ModelAndView mav = new ModelAndView("pages/products/product-inquiry-form");
         mav.addObject("productId", productId);
 
         return mav;
@@ -85,7 +85,7 @@ public class ProductInquiryController {
         List<ProductInquiryResponse> inquiries =
             this.inquiryService.retrieveInquiryByProduct(productId);
 
-        ModelAndView mav = new ModelAndView("products/product-inquiry");
+        ModelAndView mav = new ModelAndView("pages/products/product-inquiry");
         mav.addObject("inquiries", inquiries);
 
         return mav;

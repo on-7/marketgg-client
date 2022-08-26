@@ -40,7 +40,7 @@ class AdminPointControllerTest {
 
         this.mockMvc.perform(get("/admin/points"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("/points/admin-retrieve-members"));
+                    .andExpect(view().name("pages/points/admin-retrieve-members"));
 
         then(pointService).should(times(1)).adminRetrievePointHistories();
     }

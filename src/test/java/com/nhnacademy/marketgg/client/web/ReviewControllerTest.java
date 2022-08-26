@@ -82,7 +82,7 @@ class ReviewControllerTest {
                                  .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                  .content("content=리뷰 후기 content 입니다.10글자&rating=5"))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:/" + "products/product-view"));
+                    .andExpect(view().name("redirect:/" + "pages/products/product-view"));
 
 
         then(reviewService).should(times(1))
@@ -97,7 +97,7 @@ class ReviewControllerTest {
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + PRODUCT_ID + "/reviews"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("products/reviews/review-view"));
+                    .andExpect(view().name("pages/products/reviews/review-view"));
 
         then(reviewService).should(times(1))
                            .retrieveReviews(anyLong());
@@ -110,7 +110,7 @@ class ReviewControllerTest {
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + PRODUCT_ID + "/reviews" + "/{reviewId}", 1))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("products/reviews/review-view"));
+                    .andExpect(view().name("pages/products/reviews/review-view"));
 
         then(reviewService).should(times(1)).retrieveReview(anyLong(), anyLong());
     }
@@ -126,7 +126,7 @@ class ReviewControllerTest {
                                  .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                                  .content("reviewId=1&assetId=1&content=리뷰 후기 content 입니다.10글자&rating=5"))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:/" + "products/product-view"));
+                    .andExpect(view().name("redirect:/" + "pages/products/product-view"));
 
         then(reviewService).should(times(1)).updateReview(anyLong(),
                                                           anyLong(),
@@ -143,7 +143,7 @@ class ReviewControllerTest {
                                  .contentType(MediaType.APPLICATION_JSON)
                                  .content(objectMapper.writeValueAsString(memberInfo)))
                     .andExpect(status().is3xxRedirection())
-                    .andExpect(view().name("redirect:/" + "products/product-view"));
+                    .andExpect(view().name("redirect:/" + "pages/products/product-view"));
 
         then(reviewService).should(times(1)).deleteReview(anyLong(), anyLong(), any(MemberInfo.class));
     }

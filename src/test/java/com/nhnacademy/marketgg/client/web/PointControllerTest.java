@@ -41,7 +41,7 @@ class PointControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.get("/members/" + id + "/points"))
                .andExpect(status().isOk())
-               .andExpect(view().name("/points/index"));
+               .andExpect(view().name("pages/points/index"));
 
         then(pointService).should(times(1)).retrievePointHistories(id);
     }

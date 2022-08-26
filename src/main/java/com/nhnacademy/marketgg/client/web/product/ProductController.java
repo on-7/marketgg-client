@@ -28,7 +28,7 @@ public class ProductController {
     private static final Integer PAGE_SIZE = 10;
 
     private final ImageService imageService;
-    private static final String DEFAULT_PRODUCT_VIEW = "products/product-view";
+    private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
 
     /**
      * 지정한 카테고리 번호 내에서 검색한 상품 목록을 조회 한 후 이동하는 GET Mapping 을 지원합니다.
@@ -49,7 +49,7 @@ public class ProductController {
         List<SearchProductResponse> responses = productService.searchProductListByCategory(request);
         // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
         // FIXME: Pathvariable 에 option 에는 (asc, desc) 만 들어갑니다! 매핑 잡으실 때 참고해주세요.
-        ModelAndView mav = new ModelAndView("products/index");
+        ModelAndView mav = new ModelAndView("pages/products/index");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);
         mav.addObject("responses", responses);
@@ -78,7 +78,7 @@ public class ProductController {
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         List<SearchProductResponse> responses = productService.searchProductListByPrice(request, option);
 
-        ModelAndView mav = new ModelAndView("products/index");
+        ModelAndView mav = new ModelAndView("pages/products/index");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);
         mav.addObject("responses", responses);

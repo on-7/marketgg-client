@@ -120,7 +120,7 @@ public class MemberInfoController {
     public ModelAndView deliveryAddresses() throws UnAuthenticException, UnAuthorizationException {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
         // TODO : 페이지 돌입지점에서 바로 보여줘야함. 페이지 필요.
-        ModelAndView modelAndView = new ModelAndView("mygg/delivery-addresses/index");
+        ModelAndView modelAndView = new ModelAndView("pages/mygg/delivery-addresses/index");
         modelAndView.addObject("deliveryAddressList", deliveryAddressResponseList);
         return modelAndView;
     }

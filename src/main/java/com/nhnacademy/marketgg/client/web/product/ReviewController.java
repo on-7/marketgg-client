@@ -35,8 +35,8 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    private static final String DEFAULT_PRODUCT_DETAIL_VIEW = "products/product-view";
-    private static final String REDIRECT_PRODUCT_DETAIL_VIEW = "redirect:/products/product-view";
+    private static final String DEFAULT_PRODUCT_DETAIL_VIEW = "pages/products/product-view";
+    private static final String REDIRECT_PRODUCT_DETAIL_VIEW = "redirect:/pages/products/product-view";
 
     /**
      * 후기를 등록합니다.
@@ -78,7 +78,7 @@ public class ReviewController {
 
         List<ReviewResponse> reviewResponses = reviewService.retrieveReviews(productId);
 
-        ModelAndView mav = new ModelAndView("products/reviews/review-view");
+        ModelAndView mav = new ModelAndView("pages/products/reviews/review-view");
         mav.addObject("reviews", reviewResponses);
 
         return mav;
@@ -97,7 +97,7 @@ public class ReviewController {
 
         ReviewResponse reviewResponse = reviewService.retrieveReview(productId, reviewId);
 
-        ModelAndView mav = new ModelAndView("products/reviews/review-view");
+        ModelAndView mav = new ModelAndView("pages/products/reviews/review-view");
         mav.addObject("reviewDetail", reviewResponse);
 
         return mav;

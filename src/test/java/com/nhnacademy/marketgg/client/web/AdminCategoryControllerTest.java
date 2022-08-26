@@ -54,7 +54,7 @@ class AdminCategoryControllerTest {
     @DisplayName("카테고리 등록 페이지 이동")
     void testDoCreateCategory() throws Exception {
         this.mockMvc.perform(get(DEFAULT_CATEGORY + "/create"))
-                    .andExpect(view().name("/categories/create-form"));
+                    .andExpect(view().name("pages/categories/create-form"));
     }
 
     @Test
@@ -83,7 +83,7 @@ class AdminCategoryControllerTest {
 
         this.mockMvc.perform(get(DEFAULT_CATEGORY + "/index"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("/categories/index"));
+                    .andExpect(view().name("pages/categories/index"));
 
         then(categoryService).should(times(1)).retrieveCategories();
     }
@@ -100,7 +100,7 @@ class AdminCategoryControllerTest {
         given(categoryService.retrieveCategory(anyString())).willReturn(categoryResponse);
 
         this.mockMvc.perform(get(DEFAULT_CATEGORY + "/update/{categoryId}", "001"))
-                    .andExpect(view().name("/categories/update-form"));
+                    .andExpect(view().name("pages/categories/update-form"));
 
         then(categoryService).should(times(1)).retrieveCategory(anyString());
     }

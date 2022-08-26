@@ -53,7 +53,7 @@ public class AdminProductController {
     private final ProductInquiryService inquiryService;
 
     private static final String DEFAULT_PRODUCT_URI = "/admin/products";
-    private static final String DEFAULT_PRODUCT_VIEW = "products/product-view";
+    private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
     private static final String REDIRECT_PRODUCT_URI = "redirect:/admin/products/index";
 
     /**
@@ -64,7 +64,7 @@ public class AdminProductController {
      */
     @GetMapping("/index")
     public ModelAndView index() {
-        return new ModelAndView("products/index");
+        return new ModelAndView("pages/products/index");
     }
 
     /**
@@ -102,7 +102,7 @@ public class AdminProductController {
      */
     @GetMapping("/create")
     public ModelAndView createProduct() throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("products/product-create-form");
+        ModelAndView mav = new ModelAndView("pages/products/product-create-form");
 
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
         mav.addObject("categories", categories);
@@ -129,7 +129,7 @@ public class AdminProductController {
         List<ProductResponse> products =
             this.productService.retrieveProductsByCategory(categorizationCode, categoryCode);
 
-        ModelAndView mav = new ModelAndView("products/retrieve-products");
+        ModelAndView mav = new ModelAndView("pages/products/retrieve-products");
         mav.addObject("products", products);
 
         return mav;
@@ -149,7 +149,7 @@ public class AdminProductController {
     public ModelAndView updateProduct(@PathVariable final Long productId)
             throws UnAuthenticException, UnAuthorizationException {
 
-        ModelAndView mav = new ModelAndView("products/product-modify-form");
+        ModelAndView mav = new ModelAndView("pages/products/product-modify-form");
 
         ProductResponse product = this.productService.retrieveProductDetails(productId);
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();

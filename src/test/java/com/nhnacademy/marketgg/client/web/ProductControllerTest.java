@@ -76,7 +76,7 @@ class ProductControllerTest {
                                  .param("keyword", "안녕")
                                  .param("page", "0"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("products/index"));
+                    .andExpect(view().name("pages/products/index"));
 
         then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
     }
@@ -91,7 +91,7 @@ class ProductControllerTest {
                                  .param("keyword", "안녕")
                                  .param("page", "0"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("products/index"));
+                    .andExpect(view().name("pages/products/index"));
 
         then(productService).should(times(1))
                             .searchProductListByPrice(any(SearchRequestForCategory.class), anyString());
@@ -125,7 +125,7 @@ class ProductControllerTest {
             this.mockMvc.perform(get(DEFAULT_PRODUCT + "/{productId}", 1));
 
         MvcResult mvcResult =
-            resultActions.andExpect(status().isOk()).andExpect(view().name("products/product-view"))
+            resultActions.andExpect(status().isOk()).andExpect(view().name("pages/products/product-view"))
                          .andReturn();
 
         assertThat(mvcResult.getModelAndView().getModel().get("productDetails")).isNotNull();
