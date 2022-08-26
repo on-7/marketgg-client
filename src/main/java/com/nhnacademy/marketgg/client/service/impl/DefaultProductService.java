@@ -28,7 +28,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public PageResult<ProductResponse> retrieveProducts(int page) {
+    public PageResult<SearchProductResponse> retrieveProducts(int page) {
         return productRepository.retrieveProducts(page);
     }
 

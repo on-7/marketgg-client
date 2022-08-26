@@ -98,17 +98,17 @@ public class ProductController {
      */
     @GetMapping
     public ModelAndView retrieveProducts(@RequestParam(defaultValue = "0") int page) {
-        PageResult<ProductResponse> productResponsePageResult = this.productService.retrieveProducts(page);
+        PageResult<SearchProductResponse> productResponsePageResult = this.productService.retrieveProducts(page);
         Pagination pagination = new Pagination(productResponsePageResult.getTotalPages(), page);
-        List<ProductResponse> products = productResponsePageResult.getData();
+        List<SearchProductResponse> products = productResponsePageResult.getData();
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
 
-        for (ProductResponse product : products) {
-            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-            product.updateThumbnail(imageResponse.getImageAddress());
-        }
+//        for (SearchProductResponse product : products) {
+//            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
+//            product.updateThumbnail(imageResponse.getImageAddress());
+//        }
         mav.addObject("pages", pagination);
 
         return mav;
