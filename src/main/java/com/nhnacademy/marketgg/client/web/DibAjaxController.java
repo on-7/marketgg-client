@@ -9,12 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 찜의 비동기 처리를 위한 Controller 입니다.
@@ -39,7 +36,7 @@ public class DibAjaxController {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
-    @PostMapping(produces = "application/json")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
     @ResponseBody
     public Map<String, Object> dibView(final Long productId) throws UnAuthenticException, UnAuthorizationException {
 
