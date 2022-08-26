@@ -43,9 +43,13 @@
         <script src="../../static/plugins/clickymenus/js/clickyMenus.js"
                 th:src="@{/plugins/clickymenus/js/clickyMenus.js}"></script>
 
-        <!-- jQuery CDN -->
-        <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
-                integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+        <!-- Bootstrap JS for i18n -->
+        <script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+        <!-- autoComplete.js -->
+        <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@10.2.7/dist/autoComplete.min.js"
+                th:src="@{/plugins/autocomplete/js/autoComplete.min.js}"></script>
+        <script src="../static/plugins/autocomplete/js/index.js" th:src="@{/plugins/autocomplete/js/index.js}"></script>
 
         <!-- NOTE: Custom scripts will be here -->
         <script th:replace="${script}"></script>
