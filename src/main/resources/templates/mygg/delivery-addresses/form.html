@@ -1,11 +1,62 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::section}, ~{::link}, ~{::script})}">
+      th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
     <head>
         <meta charset="UTF-8">
         <title th:text="#{DELIVERY_ADDRESS_CREATE}"></title>
     </head>
     <body>
-        <section th:replace="~{/fragments/delivery/create-form}"></section>
+        <main>
+            <h2 th:text="#{DELIVERY_ADDRESS_CREATE}"></h2>
+            <form method="post" th:action="@{/delivery-address}">
+                <div style="display: flex; justify-content: end">
+                    <label style="margin-right: 1em" for="defaultAddress" th:text="#{DELIVERY_DEFAULT_ADDRESS}"></label>
+                    <input class="form-check-input" type="checkbox" id="defaultAddress" name="defaultAddress"
+                           value="true"/>
+                </div>
+
+
+                <input type="text" class="form-control" id="postcode" name="zipcode"
+                       th:placeholder="#{DELIVERY_ZIPCODE}"
+                       readonly required/>
+                <input type="text" class="form-control" id="address" name="address" th:placeholder="#{DELIVERY_ADDRESS}"
+                       readonly required/>
+                <input type="text" class="form-control" id="detailAddress" name="detailAddress"
+                       th:placeholder="#{DELIVERY_DETAIL_ADDRESS}" required/>
+                <div style="display: flex; justify-content: end">
+                    <input type="button" class="btn btn-primary" onclick="execDaumPostcode()"
+                           th:value="#{FIND_DELIVERY_ZIPCODE}"/>
+                    <input type="submit" class="btn btn-warning" th:value="#{ADD}"/>
+                </div>
+            </form>
+        </main>
     </body>
+
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        function execDaumPostcode() {
+            new daum.Postcode({
+                oncomplete: function (data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    let addr = ''; // 주소 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('postcode').value = data.zonecode;
+                    document.getElementById("address").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("detailAddress").focus();
+                }
+            }).open();
+        }
+    </script>
 </html>

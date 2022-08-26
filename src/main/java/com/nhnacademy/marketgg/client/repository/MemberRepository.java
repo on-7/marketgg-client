@@ -48,10 +48,7 @@ public interface MemberRepository {
     List<DeliveryAddressResponse> retrieveDeliveryAddresses()
         throws UnAuthenticException, UnAuthorizationException;
 
-    void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest)
-        throws UnAuthenticException, UnAuthorizationException;
-
-    void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest)
+    void createDeliveryAddress(final DeliveryAddressCreateRequest createRequest)
         throws UnAuthenticException, UnAuthorizationException;
 
     void deleteDeliveryAddress(final Long deliveryAddressId)

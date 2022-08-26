@@ -27,4 +27,5 @@ public class DeliveryAddressUpdateRequest {
     @NotBlank
     @Size(min = 1, max = 100)
     private String detailAddress;
+
 }

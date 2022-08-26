@@ -53,6 +53,8 @@ public class MemberAdapter implements MemberRepository {
 
     private static final String DEFAULT_MEMBER = "/shop/v1/members";
     private static final String DELIVERY_ADDRESS = "/delivery-address";
+    private static final String DELIVERY_ADDRESSES = "/delivery-addresses";
+
 
     @Override
     public void signup(final SignupRequest signupRequest)
@@ -129,7 +131,7 @@ public class MemberAdapter implements MemberRepository {
         throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<Void> requestEntity = new HttpEntity<>(buildHeaders());
         ResponseEntity<ShopResult<List<DeliveryAddressResponse>>> response = this.restTemplate.exchange(
-            gateWayIp + DEFAULT_MEMBER + "/delivery-addresses",
+            gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESSES,
             HttpMethod.GET,
             requestEntity,
             new ParameterizedTypeReference<>() {
@@ -141,23 +143,11 @@ public class MemberAdapter implements MemberRepository {
     }
 
     @Override
-    public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest)
+    public void createDeliveryAddress(final DeliveryAddressCreateRequest createRequest)
         throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(addressRequest, buildHeaders());
+        HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(createRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.POST, response,
-                new ParameterizedTypeReference<>() {
-                });
-
-        this.checkResponseUri(exchange);
-    }
-
-    @Override
-    public void updateDeliveryAddress(final DeliveryAddressUpdateRequest updateRequest)
-        throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<DeliveryAddressUpdateRequest> response = new HttpEntity<>(updateRequest, buildHeaders());
-        ResponseEntity<ShopResult<Void>> exchange =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.PUT, response,
                 new ParameterizedTypeReference<>() {
                 });
 

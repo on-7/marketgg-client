@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+      th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
     <head>
         <meta charset="UTF-8">
         <title th:text="#{DELIVERY_ADDRESS_LIST}"></title>
+        <script th:src="@{js/delivery-addresses/delivery-address.js}" defer></script>
     </head>
     <body>
         <main>
@@ -15,30 +16,32 @@
 
             <div style="display: flex; flex-direction: column;">
                 <div style="display: flex; justify-content: flex-end;">
-                    <input type="button" class="addButton" th:value="#{ADD}">
+                    <button><a th:href="@{/delivery-address}" th:text="#{ADD}"></a></button>
                 </div>
 
                 <div style="text-align: center; display: flex;">
                     <table class="table table-hover"
                            style="text-align: center; border: 1px solid black; background-color: navajowhite">
                         <tr>
+                            <th th:text="#{DELIVERY_DEFAULT_ADDRESS}"></th>
                             <th th:text="#{DELIVERY_ADDRESS_NO}"></th>
-                            <th th:text="#{DELIVERY_ZIP_CODE}"></th>
+                            <th th:text="#{DELIVERY_ZIPCODE}"></th>
                             <th th:text="#{DELIVERY_ADDRESS}"></th>
                             <th th:text="#{DELIVERY_DETAIL_ADDRESS}"></th>
                             <th th:text="#{DELETE}"></th>
                         </tr>
-                        <tr th:each="deliveryAddressList: ${deliveryAddressList}">
-                            <td th:text="${deliveryAddressList.id}">
-                                <input type="hidden" th:text="${deliveryAddressList.isDefaultAddress}">
+                        <tr th:each="deliveryAddress: ${deliveryAddressList}">
+                            <td th:if="${deliveryAddress.isDefaultAddress}">O</td>
+                            <td th:unless="${deliveryAddress.isDefaultAddress}">X</td>
+                            <td th:text="${deliveryAddress.id}">
+                                <input type="hidden" th:text="${deliveryAddress.isDefaultAddress}">
                             </td>
-                            <a th:href="'/products/' + ${deliveryAddressList.id}"></a>
-                            <td th:text="${deliveryAddressList.zipCode}"></td>
-                            <td th:text="${deliveryAddressList.address}"></td>
-                            <td th:text="${deliveryAddressList.detailAddress}"></td>
+                            <td th:text="${deliveryAddress.zipcode}"></td>
+                            <td th:text="${deliveryAddress.address}"></td>
+                            <td th:text="${deliveryAddress.detailAddress}"></td>
                             <td>
                                 <input type="button" class="deleteButton"
-                                       th:delivery-address-id="${deliveryAddressList.id}" th:value="#{DELETE}">
+                                       th:delivery-address-id="${deliveryAddress.id}" th:value="#{DELETE}">
                             </td>
                         </tr>
                     </table>
@@ -46,24 +49,4 @@
             </div>
         </main>
     </body>
-    <script>
-        document.querySelectorAll(".deleteButton")
-            .forEach(element => {
-                element.addEventListener('click', (event) => {
-                    const deliveryAddressId = event.target.getAttribute("delivery-address-id");
-                    const csrfToken = document.getElementById("_csrf").getAttribute("content");
-                    fetch(`delivery-address/${deliveryAddressId}`, {
-                        method: 'DELETE',
-                        headers: {'X-CSRF-TOKEN': csrfToken}
-                    })
-                        .then(() => document.location.reload());
-                });
-            })
-        document.querySelectorAll(".addButton")
-            .forEach(element => {
-                element.addEventListener('click', (event) => {
-                    fetch(`delviery-addre`)
-                })
-            })
-    </script>
 </html>
