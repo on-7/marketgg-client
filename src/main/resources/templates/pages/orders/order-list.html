@@ -18,8 +18,18 @@
             <table>
                 <tr th:each="order : ${orders}">
                     <td th:text="${order.id}"></td>
+                    <td th:text="${order.orderName}"></td>
+                    <td th:text="${order.totalAmount}"></td>
                 </tr>
             </table>
+
+            <div>
+                <ul class="pagination">
+                    <li th:each="page: ${#numbers.sequence(1, pages.totalPageCnt)}">
+                        <a th:href="@{|/orders?page=${page}|}" th:text="${page}"></a>
+                    </li>
+                </ul>
+            </div>
         </main>
     </body>
 

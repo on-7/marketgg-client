@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service.order;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
@@ -39,7 +40,7 @@ public class GgOrderService implements OrderService {
      * @return 주문 목록이 담긴 응답 객체
      */
     @Override
-    public List<OrderRetrieveResponse> retrieveOrders(final Integer page) {
+    public PageResult<OrderRetrieveResponse> retrieveOrders(final Integer page) {
         return orderRepository.retrieveOrders(page);
     }
 
