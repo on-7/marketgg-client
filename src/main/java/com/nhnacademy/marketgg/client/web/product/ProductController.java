@@ -13,7 +13,6 @@ import com.nhnacademy.marketgg.client.service.ProductService;
 import com.nhnacademy.marketgg.client.service.ReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -126,17 +125,21 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/{id}")
-    public ModelAndView retrieveProductDetails(@PathVariable final Long id) {
+    public ModelAndView retrieveProductDetails(@PathVariable final Long id, @RequestParam(defaultValue = "0") int page) {
 
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
 
-        List<ReviewResponse> reviewResponses = reviewService.retrieveReviews(id);
-        mav.addObject("reviews", reviewResponses);
+        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(id);
+        mav.addObject("reviews", reviewResponsePageResult.getData());
+
+        Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
 
         ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
         productDetails.updateThumbnail(imageResponse.getImageAddress());
+
+        mav.addObject("pages", pagination);
 
         return mav;
     }

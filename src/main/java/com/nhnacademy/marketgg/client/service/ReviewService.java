@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
@@ -31,7 +32,7 @@ public interface ReviewService {
      * @param productId - 후기가 달린 상품의 상품번호입니다.
      * @return - 후기의 전체 목록을 반환합니다.
      */
-    List<ReviewResponse> retrieveReviews(final Long productId);
+    PageResult<ReviewResponse> retrieveReviews(final Long productId);
 
     /**
      * 후기를 상세조회합니다.
