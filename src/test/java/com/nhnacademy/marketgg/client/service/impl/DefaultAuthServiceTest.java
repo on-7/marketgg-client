@@ -9,13 +9,16 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +26,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
@@ -46,7 +48,8 @@ class DefaultAuthServiceTest {
     @Mock
     RedisTemplate<String, JwtInfo> redisTemplate;
 
-    String userJwt = "header.eyJzdWIiOiJmNjRiYTQyNC1iZWY4LTQ2OTMtODQ5NS02ZTQwMzVlMGY1OTgiLCJBVVRIT1JJVElFUyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjU4OTc4OTEyLCJleHAiOjE2OTA1MzU4Mzh9.signature";
+    String userJwt =
+        "header.eyJzdWIiOiJmNjRiYTQyNC1iZWY4LTQ2OTMtODQ5NS02ZTQwMzVlMGY1OTgiLCJBVVRIT1JJVElFUyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjU4OTc4OTEyLCJleHAiOjE2OTA1MzU4Mzh9.signature";
 
     @Test
     @DisplayName("로그인")
@@ -54,6 +57,8 @@ class DefaultAuthServiceTest {
         LoginRequest loginRequest = new LoginRequest("email@gmail.com", "password");
         String sessionId = "sessionId";
         JwtInfo jwtInfo = mock(JwtInfo.class);
+        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now());
+        CommonResult<MemberInfo> success = CommonResult.success(memberInfo);
 
         HashOperations<String, Object, Object> hashOps = mock(HashOperations.class);
         given(redisTemplate.opsForHash()).willReturn(hashOps);
@@ -66,6 +71,7 @@ class DefaultAuthServiceTest {
                                                   .build();
 
         given(authRepository.doLogin(loginRequest, sessionId)).willReturn(resp);
+        given(authRepository.getMemberInfo(any(HttpHeaders.class))).willReturn(ResponseEntity.of(Optional.of(success)));
 
         authService.doLogin(loginRequest, sessionId);
 
@@ -90,11 +96,11 @@ class DefaultAuthServiceTest {
 
         ResponseEntity<CommonResult<String>> resp = ResponseEntity.status(HttpStatus.OK)
                                                                   .build();
-        given(authRepository.logout(anyString())).willReturn(resp);
+        given(authRepository.logout()).willReturn(resp);
 
-        authService.logout(sessionId);
+        authService.logout();
 
-        then(authRepository).should(times(1)).logout(sessionId);
+        then(authRepository).should(times(1)).logout();
         then(redisTemplate).should(times(2)).opsForHash();
         then(hashOps).should(times(1)).delete(sessionId, JwtInfo.JWT_REDIS_KEY);
     }
@@ -108,7 +114,7 @@ class DefaultAuthServiceTest {
         given(redisTemplate.opsForHash()).willReturn(hashOps);
         given(hashOps.get(sessionId, JwtInfo.JWT_REDIS_KEY)).willReturn(null);
 
-        authService.logout(sessionId);
+        authService.logout();
 
         then(redisTemplate).should(times(1)).opsForHash();
         then(hashOps).should(times(1)).get(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -126,9 +132,9 @@ class DefaultAuthServiceTest {
 
         ResponseEntity<CommonResult<String>> resp = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                                                   .build();
-        given(authRepository.logout(anyString())).willReturn(resp);
+        given(authRepository.logout()).willReturn(resp);
 
-        assertThatThrownBy(() -> authService.logout(sessionId))
+        assertThatThrownBy(() -> authService.logout())
             .isInstanceOf(LogoutException.class);
     }
 

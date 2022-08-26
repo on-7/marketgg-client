@@ -3,7 +3,7 @@ function addToCart() {
     let cartBtn = document.getElementById("cart-btn");
     cartBtn.addEventListener("click", () =>{
         /*<![CDATA[*/
-        const productId = /*[[${product.id}}]]*/;
+        // const productId = /*[[${product.id}}]]*/;
         /*]]>*/
         const amount = document.getElementById("amount");
 

@@ -2,13 +2,16 @@ package com.nhnacademy.marketgg.client.jwt;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 import static java.time.temporal.ChronoUnit.MINUTES;
+import static java.util.stream.Collectors.toList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Base64;
@@ -17,6 +20,8 @@ import java.util.List;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Slf4j
 @Getter
@@ -32,11 +37,20 @@ public class JwtInfo implements Serializable {
 
     private final String jwt;
     private final LocalDateTime jwtExpireDate;
-    private final List<String> authorities;
+    private final List<GrantedAuthority> authorities;
+
+    private String email;
+    private String name;
+    private String phoneNumber;
+    private String memberGrade;
+    private Character gender;
+    private LocalDate birthDay;
 
     public JwtInfo(String jwt, String jwtExpireDate) throws JsonProcessingException {
         this.jwt = jwt;
-        this.authorities = parseJwt(jwt);
+        this.authorities = parseJwt(jwt).stream()
+                                        .map(SimpleGrantedAuthority::new)
+                                        .collect(toList());
         try {
             this.jwtExpireDate = LocalDateTime.parse(jwtExpireDate);
         } catch (Exception e) {
@@ -44,11 +58,25 @@ public class JwtInfo implements Serializable {
         }
     }
 
-    public static void saveJwt(RedisTemplate<String, JwtInfo> redisTemplate,
+    public JwtInfo(String jwt, String jwtExpireDate, MemberInfo memberInfo) throws JsonProcessingException {
+        this(jwt, jwtExpireDate);
+        this.email = memberInfo.getEmail();
+        this.name = memberInfo.getName();
+        this.phoneNumber = memberInfo.getPhoneNumber();
+        this.memberGrade = memberInfo.getMemberGrade();
+        this.gender = memberInfo.getGender();
+        this.birthDay = memberInfo.getBirthDay();
+    }
+
+    public MemberInfo getMemberInfo() {
+        return new MemberInfo(this.email, this.name, this.phoneNumber, this.memberGrade, this.gender, this.birthDay);
+    }
+
+    public static void saveJwt(RedisTemplate<String, JwtInfo> redisTemplate, MemberInfo memberInfo,
                                String sessionId, String jwt, String expiredAt) {
         JwtInfo jwtInfo;
         try {
-            jwtInfo = new JwtInfo(jwt, expiredAt);
+            jwtInfo = new JwtInfo(jwt, expiredAt, memberInfo);
         } catch (JsonProcessingException e) {
             log.error(e.toString());
             throw new ServerException();
@@ -81,6 +109,10 @@ public class JwtInfo implements Serializable {
         Payload payload = new ObjectMapper().readValue(new String(decode, StandardCharsets.UTF_8), Payload.class);
 
         return payload.getAuthorities();
+    }
+
+    public boolean isMemberInfoEmpty() {
+        return this.name == null || this.email == null || this.phoneNumber == null;
     }
 
 }
