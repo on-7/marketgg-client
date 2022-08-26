@@ -1,127 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/admin-layout :: elements(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
+
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
         <title>Market GG | 관리자 페이지</title>
-
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css"
-              th:href="@{/plugins/bootstrap/css/bootstrap.min.css}">
-
-        <link rel="stylesheet" href="../static/plugins/fontawesome/css/all.min.css" th:href="@{/plugins/fontawesome/css/all.min.css}" />
-        <link rel="stylesheet" href="../static/plugins/admin/css/myadmin.css" th:href="@{/plugins/admin/css/myadmin.css}" />
-
-        <!-- jQuery CDN -->
-        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
-
-        <!-- Bootstrap Js CDN -->
-        <script src="../static/plugins/bootstrap/js/bootstrap.bundle.js" th:src="@{/plugins/bootstrap/js/bootstrap.bundle.js}"></script>
-        <script src="../static/plugins/admin/js/myadmin.js" th:src="@{/plugins/admin/js/myadmin.js}"></script>
     </head>
+
     <body>
-        <div class="wrapper">
-            <!-- Sidebar Holder -->
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <h3>Market GG Admin Page</h3>
+        <main role="main">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                        <span class="admin-dashboard__description">
+                            관리자 메인 대시보드 화면입니다. 오른쪽 버튼을 통해 카테고리를 열고 접을 수 있습니다.
+                        </span>
+                    <div class="navbar-header">
+                        <button type="button" id="sidebarCollapse" class="navbar-btn">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="#">Page</a></li>
+                            <li><a href="#">Page</a></li>
+                            <li><a href="#">Page</a></li>
+                            <li><a href="#">Page</a></li>
+                        </ul>
+                    </div>
                 </div>
-
-                <ul class="list-unstyled components">
-                    <p>Dashboard</p>
-                    <li class="active">
-                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">상품 관리</a>
-                        <ul class="collapse list-unstyled" id="homeSubmenu">
-                            <li><a href="#">상품 재고 관리</a></li>
-                            <li><a href="#">Home 2</a></li>
-                            <li><a href="#">Home 3</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">상품 대분류</a>
-                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
-                        <ul class="collapse list-unstyled" id="pageSubmenu">
-                            <li><a href="#">Page 1</a></li>
-                            <li><a href="#">Page 2</a></li>
-                            <li><a href="#">Page 3</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#">카테고리 관리</a>
-                    </li>
-                    <li>
-                        <a href="#">라벨 관리</a>
-                    </li>
-                    <li>
-                        <a href="#">쿠폰 관리</a>
-                    </li>
-                    <li>
-                        <a href="#">장바구니 관리</a>
-                    </li>
-                    <li>
-                        <a href="#">주문 관리</a>
-                    </li>
-                    <li>
-                        <a href="#">후기 관리</a>
-                    </li>
-                    <li>
-                        <a href="#">고객센터 관리</a>
-                    </li>
-                </ul>
-
-                <ul class="list-unstyled CTAs">
-                    <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li>
-                    <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
-                </ul>
             </nav>
 
-            <!-- Page Content Holder -->
-            <div id="content">
-
-                <nav class="navbar navbar-default">
-                    <div class="container-fluid">
-
-                        <div class="navbar-header">
-                            <button type="button" id="sidebarCollapse" class="navbar-btn">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </button>
-                        </div>
-
-                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                            <ul class="nav navbar-nav navbar-right">
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
-                                <li><a href="#">Page</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-
+            <section class="admin-dashboard">
                 <h2>Collapsible Sidebar Using Bootstrap 3</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
 
                 <div class="line"></div>
 
                 <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
 
                 <div class="line"></div>
 
                 <h2>Lorem Ipsum Dolor</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
 
                 <div class="line"></div>
 
                 <h3>Lorem Ipsum Dolor</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            </div>
-        </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                    culpa qui officia deserunt mollit anim id est laborum.</p>
+            </section>
+        </main>
     </body>
-
 </html>
