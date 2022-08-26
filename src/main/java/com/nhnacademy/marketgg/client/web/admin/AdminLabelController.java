@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminLabelController {
 
     private final LabelService labelService;
+    private static final String LABEL_DEFAULT = "redirect:/admin/labels";
 
     /**
      * 입력받은 정보로 라벨을 등록하는 메소드를 실행하고 다시 라벨의 Index 페이지로 이동하는 메소드입니다.
@@ -44,7 +45,7 @@ public class AdminLabelController {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
-    @RequestMapping(value = "/create", method = { RequestMethod.POST })
+    @PostMapping("/create")
     public ModelAndView createLabel(@Valid @ModelAttribute final LabelRegisterRequest labelRequest,
                                     BindingResult bindingResult)
             throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
@@ -53,7 +54,7 @@ public class AdminLabelController {
             labelService.createLabel(labelRequest);
         }
 
-        return new ModelAndView("redirect:/admin/labels");
+        return new ModelAndView(LABEL_DEFAULT);
     }
 
     /**
@@ -88,7 +89,7 @@ public class AdminLabelController {
             throws UnAuthenticException, UnAuthorizationException {
         labelService.deleteLabel(labelId);
 
-        return new ModelAndView("redirect:/admin/labels/index");
+        return new ModelAndView(LABEL_DEFAULT);
     }
 
 }
