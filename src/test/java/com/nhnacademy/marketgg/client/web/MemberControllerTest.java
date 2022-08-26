@@ -13,9 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
+import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
@@ -105,9 +107,10 @@ class MemberControllerTest {
     @Test
     @DisplayName("회원 보유 쿠폰 목록 조회")
     void testRetrieveOwnCoupons() throws Exception {
-        given(givenCouponService.retrieveOwnGivenCoupons()).willReturn(List.of());
+        PageResult<GivenCouponRetrieveResponse> result = new PageResult<>();
+        given(givenCouponService.retrieveOwnGivenCoupons()).willReturn(result);
 
-        MvcResult mvcResult = mockMvc.perform(get("/members/{memberId}/coupons", 1L))
+        MvcResult mvcResult = mockMvc.perform(get("/members/coupons", 1L))
                                      .andExpect(status().isOk())
                                      .andExpect(view().name("/pages/mygg/coupons/index"))
                                      .andReturn();
