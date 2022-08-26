@@ -6,8 +6,9 @@ import static com.nhnacademy.marketgg.client.util.GgUtils.WEEK_SECOND;
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
+import com.nhnacademy.marketgg.client.jwt.Role;
 import com.nhnacademy.marketgg.client.service.AuthService;
-import java.util.Objects;
+import com.nhnacademy.marketgg.client.util.GgUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -84,11 +85,9 @@ public class AuthController {
     public ModelAndView logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (Objects.isNull(authentication)) {
-            return new ModelAndView(REDIRECT_TO_INDEX);
+        if (!GgUtils.hasRole(authentication, Role.ROLE_ANONYMOUS)) {
+            authService.logout();
         }
-
-        authService.logout((String) authentication.getPrincipal());
 
         return new ModelAndView(REDIRECT_TO_INDEX);
     }

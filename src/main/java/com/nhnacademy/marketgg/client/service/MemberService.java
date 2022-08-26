@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.service;
 
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
@@ -39,7 +40,7 @@ public interface MemberService {
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
-    void update(final MemberUpdateRequest memberUpdateRequest)
+    void update(final MemberUpdateRequest memberUpdateRequest, MemberInfo memberInfo)
         throws UnAuthenticException, UnAuthorizationException;
 
     /**

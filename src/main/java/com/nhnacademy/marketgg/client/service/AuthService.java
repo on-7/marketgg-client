@@ -20,9 +20,7 @@ public interface AuthService {
 
     /**
      * 사용자가 로그아웃 요청 시 동작하는 메서드입니다.
-     *
-     * @param sessionId Redis 에 저장되어있는 JWT 에 접근하기 위한 Session ID 입니다.
      */
-    void logout(String sessionId);
+    void logout();
 
 }

@@ -1,12 +1,11 @@
 package com.nhnacademy.marketgg.client.dto.request;
 
+import com.nhnacademy.marketgg.client.jwt.ShaPasswordEncoder;
+import java.util.Objects;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-@AllArgsConstructor
 @Getter
 public class LoginRequest {
 
@@ -15,10 +14,14 @@ public class LoginRequest {
     private final String email;
 
     @NotBlank
-    private String password;
+    private final String password;
 
-    public void encodePassword(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.email + this.password);
+    public LoginRequest(String email, String password) {
+        this.email = email;
+        if (Objects.nonNull(password)) {
+            password = new ShaPasswordEncoder().encode(password);
+        }
+        this.password = password;
     }
 
 }

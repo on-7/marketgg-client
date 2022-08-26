@@ -79,7 +79,7 @@ class AuthControllerTest {
     @Test
     @DisplayName("로그아웃")
     void logout() throws Exception {
-        willDoNothing().given(authService).logout(anyString());
+        willDoNothing().given(authService).logout();
 
         this.mockMvc.perform(get("/logout"))
                     .andExpect(status().is3xxRedirection());

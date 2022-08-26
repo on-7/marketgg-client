@@ -20,12 +20,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.filter.AuthenticationFilter;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.CartService;
 import com.nhnacademy.marketgg.client.util.GgUtils;
 import com.nhnacademy.marketgg.client.web.cart.CartController;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,10 +98,11 @@ class CartControllerTest {
     @Test
     @DisplayName("장바구니에 상품 추가")
     void addToProduct() throws Exception {
-
         String request = mapper.writeValueAsString(productToCartRequest);
         String sessionId = UUID.randomUUID().toString();
-        JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().toString());
+
+        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now());
+        JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().toString(), memberInfo);
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
 
         willDoNothing().given(cartService).addProduct(any(ProductToCartRequest.class));
@@ -119,12 +122,15 @@ class CartControllerTest {
     @Test
     @DisplayName("장바구니 조회")
     void retrieveCart() throws Exception {
-        given(cartService.retrieveCarts()).willReturn(new ArrayList<>());
         MockedStatic<GgUtils> util = mockStatic(GgUtils.class);
-        given(GgUtils.hasRole(any(), any())).willReturn(true);
+
         String sessionId = UUID.randomUUID().toString();
-        JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().toString());
+        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now());
+        JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().toString(), memberInfo);
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
+
+        given(cartService.retrieveCarts()).willReturn(new ArrayList<>());
+        given(GgUtils.hasRole(any(), any())).willReturn(true);
 
         MvcResult mvcResult = this.mockMvc.perform(get("/cart")
                                       .cookie(new Cookie(JwtInfo.SESSION_ID, sessionId)))
@@ -134,7 +140,6 @@ class CartControllerTest {
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel().get("carts"))
             .isNotNull();
-
 
         then(cartService).should(times(1)).retrieveCarts();
         redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
