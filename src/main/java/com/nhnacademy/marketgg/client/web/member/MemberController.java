@@ -67,7 +67,6 @@ public class MemberController {
         mav.addObject("pageNumber", responses.getPageNumber());
         mav.addObject("pageSize", responses.getPageSize());
         mav.addObject("totalPages", responses.getTotalPages());
-        mav.addObject("memberId", responses.getData().get(0).getMemberId());
 
         return mav;
     }
