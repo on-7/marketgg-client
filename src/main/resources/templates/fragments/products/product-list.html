@@ -1,4 +1,4 @@
-<section>
+<section class="products">
     <div class="album py-5">
         <div class="container">
             <div class="row">
@@ -26,7 +26,7 @@
         <div>
             <ul class="pagination">
                 <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
-                    <a th:href="@{|/products/?page=${page}|}" th:text="${page}"></a>
+                    <a th:href="@{|/products/?page=${page}|}" th:text="${page + 1}"></a>
                 </li>
             </ul>
         </div>
