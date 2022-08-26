@@ -2,10 +2,6 @@ html {
     --vw: 1vw;
 }
 
-.main {
-    background-color: transparent;
-}
-
 .py-5 {
     background-color: white;
     /* width: 100vw; */

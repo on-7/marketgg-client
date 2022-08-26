@@ -49,6 +49,7 @@ main {
     align-items: center;
     padding: 5rem;
     flex-direction: column;
+    background-color: white;
 }
 
 header span {
