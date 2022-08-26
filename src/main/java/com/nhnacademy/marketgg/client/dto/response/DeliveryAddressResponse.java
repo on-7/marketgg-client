@@ -15,7 +15,7 @@ public class DeliveryAddressResponse {
 
     private final Long id;
     private final Boolean isDefaultAddress;
-    private final Integer zipCode;
+    private final Integer zipcode;
     private final String address;
     private final String detailAddress;
 
