@@ -59,11 +59,11 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public PageResult<ProductResponse> retrieveProducts(int page) {
+    public PageResult<SearchProductResponse> retrieveProducts(int page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
-        ResponseEntity<PageResult<ProductResponse>> response =
+        ResponseEntity<PageResult<SearchProductResponse>> response =
                 this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + "?page=" + page,
                                            HttpMethod.GET,
                                            request,
