@@ -3,12 +3,14 @@ package com.nhnacademy.marketgg.client.service.impl;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.oauth2.TokenRequest;
+import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.repository.auth.OauthRepository;
 import com.nhnacademy.marketgg.client.service.Oauth2Service;
 import java.util.Date;
@@ -49,6 +51,7 @@ public class GoogleLoginService implements Oauth2Service {
 
     private final RedisTemplate<String, JwtInfo> redisTemplate;
     private final OauthRepository oauthRepository;
+    private final AuthRepository authRepository;
 
     @Override
     public String getRedirectUrl() {
@@ -96,9 +99,17 @@ public class GoogleLoginService implements Oauth2Service {
 
         String expireAt = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
-        JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
+        JwtInfo.saveJwt(redisTemplate, this.getMemberInfo(jwt), sessionId, jwt, expireAt);
 
         return Optional.empty();
+    }
+
+    private MemberInfo getMemberInfo(String jwt) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(jwt);
+        ResponseEntity<CommonResult<MemberInfo>> memberInfo = authRepository.getMemberInfo(headers);
+
+        return Objects.requireNonNull(memberInfo.getBody()).getData();
     }
 
     private boolean isLoginFail(ResponseEntity<CommonResult<GoogleProfile>> profileResponse) {

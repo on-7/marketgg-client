@@ -2,6 +2,8 @@ package com.nhnacademy.marketgg.client.repository.impl;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.nhnacademy.marketgg.client.context.SessionContext;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
@@ -16,6 +18,7 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
+import com.nhnacademy.marketgg.client.repository.auth.AuthAdapter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +31,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -45,8 +47,9 @@ public class MemberAdapter implements MemberRepository {
 
     private final String gateWayIp;
     private final RestTemplate restTemplate;
+    private final AuthAdapter authAdapter;
 
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, JwtInfo> redisTemplate;
 
     private static final String DEFAULT_MEMBER = "/shop/v1/members";
     private static final String DELIVERY_ADDRESS = "/delivery-address";
@@ -73,14 +76,19 @@ public class MemberAdapter implements MemberRepository {
                 new ParameterizedTypeReference<>() {
                 });
 
-        redisTemplate.opsForHash().delete(SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
-            JwtInfo.JWT_REDIS_KEY);
+        String sessionId = SessionContext.getSessionId();
+        if (Objects.isNull(sessionId)) {
+            throw new UnAuthenticException();
+        }
+
+        redisTemplate.opsForHash()
+                     .delete(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         this.checkResponseUri(exchange);
     }
 
     @Override
-    public void update(final MemberUpdateRequest memberUpdateRequest)
+    public void update(final MemberUpdateRequest memberUpdateRequest, MemberInfo memberInfo)
         throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<MemberUpdateRequest> response =
@@ -102,8 +110,12 @@ public class MemberAdapter implements MemberRepository {
         String jwt = jwtHeader.get(0);
         String expireAt = expiredHeader.get(0);
 
-        JwtInfo.saveJwt(redisTemplate, (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
-            jwt, expireAt);
+        String sessionId = SessionContext.getSessionId();
+        if (Objects.isNull(sessionId)) {
+            throw new UnAuthenticException();
+        }
+
+        JwtInfo.saveJwt(redisTemplate, memberInfo, sessionId, jwt, expireAt);
 
         if (Objects.isNull(response.getBody())) {
             throw new ServerException();
@@ -134,7 +146,7 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(addressRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.POST, response,
-                new ParameterizedTypeReference<ShopResult<Void>>() {
+                new ParameterizedTypeReference<>() {
                 });
 
         this.checkResponseUri(exchange);
@@ -146,7 +158,7 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<DeliveryAddressUpdateRequest> response = new HttpEntity<>(updateRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.PUT, response,
-                new ParameterizedTypeReference<ShopResult<Void>>() {
+                new ParameterizedTypeReference<>() {
                 });
 
         this.checkResponseUri(exchange);
@@ -158,8 +170,7 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<Long> response = new HttpEntity<>(deliveryAddressId, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
             restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS + "/" + deliveryAddressId,
-                HttpMethod.DELETE, response,
-                new ParameterizedTypeReference<ShopResult<Void>>() {
+                HttpMethod.DELETE, response, new ParameterizedTypeReference<>() {
                 });
 
         this.checkResponseUri(exchange);

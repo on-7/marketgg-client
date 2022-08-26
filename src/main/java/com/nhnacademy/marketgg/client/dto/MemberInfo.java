@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -7,6 +8,7 @@ import lombok.ToString;
 import java.time.LocalDate;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @ToString
 public class MemberInfo {
@@ -19,7 +21,7 @@ public class MemberInfo {
     private LocalDate birthDay;
 
     public boolean isNull() {
-        return email == null && name == null && memberGrade == null;
+        return email == null || name == null || memberGrade == null;
     }
 
 }

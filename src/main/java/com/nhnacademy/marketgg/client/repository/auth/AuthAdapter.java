@@ -1,8 +1,15 @@
 package com.nhnacademy.marketgg.client.repository.auth;
 
+import static org.springframework.http.HttpMethod.GET;
+
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
+import com.nhnacademy.marketgg.client.exception.ClientException;
+import com.nhnacademy.marketgg.client.exception.ServerException;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,9 +52,36 @@ public class AuthAdapter implements AuthRepository {
     }
 
     @Override
-    public ResponseEntity<CommonResult<String>> logout(String sessionId) {
+    public ResponseEntity<CommonResult<String>> logout() {
         return restTemplate.exchange(requestUrl + "/auth/v1/members/logout", HttpMethod.GET, null,
             new ParameterizedTypeReference<>() {});
+    }
+
+    @Override
+    public ResponseEntity<CommonResult<MemberInfo>> getMemberInfo() {
+        return requestMemberInfo(new HttpEntity<>(new HttpHeaders()));
+    }
+
+    @Override
+    public ResponseEntity<CommonResult<MemberInfo>> getMemberInfo(HttpHeaders httpHeaders) {
+        return requestMemberInfo(new HttpEntity<>(httpHeaders));
+    }
+
+    private ResponseEntity<CommonResult<MemberInfo>> requestMemberInfo(HttpEntity<Void> httpEntity) {
+        ResponseEntity<CommonResult<MemberInfo>> exchange =
+            restTemplate.exchange(requestUrl + "/shop/v1/members", GET, httpEntity, new ParameterizedTypeReference<>() {
+            });
+
+        if (Objects.isNull(exchange.getBody())) {
+            throw new ServerException();
+        }
+
+        if (exchange.getStatusCode().is4xxClientError()) {
+            ErrorEntity error = Objects.requireNonNull(exchange.getBody()).getError();
+            throw new ClientException(error.getMessage());
+        }
+
+        return exchange;
     }
 
 }

@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.interceptor;
 
 import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_ANONYMOUS;
 
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.util.GgUtils;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;

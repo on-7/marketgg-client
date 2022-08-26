@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
@@ -86,9 +87,10 @@ public class MemberInfoController {
      * @since 1.0.0
      */
     @PostMapping("/update")
-    public ModelAndView doUpdate(@ModelAttribute @Valid final MemberUpdateRequest memberUpdateRequest)
+    public ModelAndView doUpdate(@ModelAttribute @Valid final MemberUpdateRequest memberUpdateRequest,
+                                 MemberInfo memberInfo)
         throws UnAuthenticException, UnAuthorizationException {
-        memberService.update(memberUpdateRequest);
+        memberService.update(memberUpdateRequest, memberInfo);
         return new ModelAndView(REDIRECT);
     }
 
