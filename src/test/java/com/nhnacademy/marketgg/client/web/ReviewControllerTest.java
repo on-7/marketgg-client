@@ -92,8 +92,7 @@ class ReviewControllerTest {
     @Test
     @DisplayName("후기 전체조회 테스트")
     void testRetrieveReviews() throws Exception {
-        given(reviewService.retrieveReviews(anyLong())).willReturn(List.of(
-            reviewResponse));
+        given(reviewService.retrieveReviews(anyLong())).willReturn(Dummy.getDummyPageResult());
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + PRODUCT_ID + "/reviews"))
                     .andExpect(status().isOk())

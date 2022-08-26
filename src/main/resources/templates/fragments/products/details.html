@@ -2,10 +2,10 @@
 <section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
-            <input type="hidden" id="product-id" th:value="${productDetails.id}" />
+            <input type="hidden" id="product-id" th:value="${productDetails.id}"/>
             <div class="col-md-6">
                 <img th:src="${productDetails.thumbnail}" background="#55595c" color="#eceeef" class="card-img-top"
-                     text="Thumbnail" />
+                     text="Thumbnail"/>
             </div>
             <div class="col-md-6">
                 <div class="small mb-1" th:text="${productDetails.categoryName}"></div>
@@ -18,82 +18,24 @@
                 </div>
 
                 <p class="lead" th:text="${productDetails.content}"></p>
-                <div sec:authorize="!isAnonymous()">
+                <div th:sec:authorize="!isAnonymous()">
                     <div class="d-flex">
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
-                               style="max-width: 3rem" />
+                               style="max-width: 3rem"/>
                         <button id="cart-btn" class="btn btn-outline-dark flex-shrink-0" type="button">
                             <i class="bi-cart-fill me-1"></i>
                             Add to cart
                         </button>
                     </div>
+
                     <div class="d-flex">
-                        <button class="btn btn-outline-dark flex-shrink-0" type="button">
-                            <i class="fa-solid fa-circle-heart"></i>
-                            찜
-
-                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-                                    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-                                    crossorigin="anonymous"></script>
-                            <script defer>
-                                $(document).ready(function () {
-                                    dibView();
-                                });
-                                let productId = '4';
-
-                                function dibView() {
-                                    $.ajax({
-                                        //TODO: 올릴때 주소 바꾸기
-                                        url: 'http://localhost:5050/dibs',
-                                        type: 'post',
-                                        async: true,
-                                        data: {
-                                            'productId': productId
-                                        },
-                                        dataType: "json",
-                                        success: function (data) {
-                                            let htmlBody = '';
-                                            if (data.exist === 1) {
-                                                htmlBody += '<button onclick="dibDelete(productId);"'
-                                                    + '>찜제거</button>'
-                                            } else {
-                                                htmlBody += '<button onclick="dibInsert(productId);"'
-                                                    + '>찜</button>'
-                                            }
-                                            $('#dib').html(htmlBody);
-                                        }
-                                    })
-                                }
-
-                                function dibInsert(productId) {
-                                    $.ajax({
-                                        url: 'http://localhost:5050/dibs/insert/' + productId,
-                                        type: 'get',
-                                        success: function (data) {
-                                            if (data === 1)
-                                                dibView();
-                                        }
-                                    });
-                                }
-
-                                function dibDelete(productId) {
-                                    $.ajax({
-                                        url: 'http://localhost:5050/dibs/delete/' + productId,
-                                        type: 'get',
-                                        success: function (data) {
-                                            if (data === 1)
-                                                dibView();
-                                        }
-                                    });
-                                }
-                            </script>
-                        </button>
+                        <div th:id="dib" style="border: 1px solid black; padding: 2rem; cursor: pointer;"></div>
                     </div>
                 </div>
-            </div>
 
-            <h1>상품 상세</h1>
-            <span th:utext="${productDetails.description}"></span>
+                <h1>상품 상세</h1>
+                <span th:utext="${productDetails.description}"></span>
+            </div>
         </div>
     </div>
 </section>
@@ -106,7 +48,7 @@
             <div class="col mb-5">
                 <div class="card h-100">
                     <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
@@ -128,7 +70,7 @@
                     <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale
                     </div>
                     <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
@@ -159,7 +101,7 @@
                     <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">Sale
                     </div>
                     <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
@@ -179,7 +121,7 @@
             <div class="col mb-5">
                 <div class="card h-100">
                     <!-- Product image-->
-                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..."/>
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">

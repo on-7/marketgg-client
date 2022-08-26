@@ -5,13 +5,14 @@ import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
+import com.nhnacademy.marketgg.client.service.ReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
 
     private final ProductService productService;
+    private final ReviewService reviewService;
     private static final Integer PAGE_SIZE = 10;
 
     private final ImageService imageService;
@@ -98,17 +100,17 @@ public class ProductController {
      */
     @GetMapping
     public ModelAndView retrieveProducts(@RequestParam(defaultValue = "0") int page) {
-        PageResult<ProductResponse> productResponsePageResult = this.productService.retrieveProducts(page);
+        PageResult<SearchProductResponse> productResponsePageResult = this.productService.retrieveProducts(page);
         Pagination pagination = new Pagination(productResponsePageResult.getTotalPages(), page);
-        List<ProductResponse> products = productResponsePageResult.getData();
+        List<SearchProductResponse> products = productResponsePageResult.getData();
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
 
-        for (ProductResponse product : products) {
-            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-            product.updateThumbnail(imageResponse.getImageAddress());
-        }
+//        for (SearchProductResponse product : products) {
+//            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
+//            product.updateThumbnail(imageResponse.getImageAddress());
+//        }
         mav.addObject("pages", pagination);
 
         return mav;
@@ -123,14 +125,21 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/{id}")
-    public ModelAndView retrieveProductDetails(@PathVariable final Long id) {
+    public ModelAndView retrieveProductDetails(@PathVariable final Long id, @RequestParam(defaultValue = "0") int page) {
 
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
 
+        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(id);
+        mav.addObject("reviews", reviewResponsePageResult.getData());
+
+        Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
+
         ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
         productDetails.updateThumbnail(imageResponse.getImageAddress());
+
+        mav.addObject("pages", pagination);
 
         return mav;
     }

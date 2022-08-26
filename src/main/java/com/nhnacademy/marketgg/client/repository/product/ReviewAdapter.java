@@ -3,6 +3,8 @@ package com.nhnacademy.marketgg.client.repository.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
+import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
@@ -50,12 +52,12 @@ public class ReviewAdapter implements ReviewRepository {
     }
 
     @Override
-    public List<ReviewResponse> retrieveReviews(final Long productId) {
+    public PageResult<ReviewResponse> retrieveReviews(final Long productId) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
-        ResponseEntity<DefaultPageResult<ReviewResponse>> response =
+        ResponseEntity<PageResult<ReviewResponse>> response =
             this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW,
                                        HttpMethod.GET,
                                        request,
@@ -63,7 +65,7 @@ public class ReviewAdapter implements ReviewRepository {
                                        });
 
         this.checkResponseUri(response);
-        return Objects.requireNonNull(response.getBody()).getData();
+        return Objects.requireNonNull(response.getBody());
     }
 
     @Override

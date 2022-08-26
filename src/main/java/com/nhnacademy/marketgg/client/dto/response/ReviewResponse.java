@@ -12,6 +12,8 @@ public class ReviewResponse {
 
     private Long memberId;
 
+    private String memberName;
+
     private Long assetId;
 
     private String content;

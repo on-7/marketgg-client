@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
@@ -25,7 +26,7 @@ public class DefaultReviewService implements ReviewService {
     }
 
     @Override
-    public List<ReviewResponse> retrieveReviews(final Long productId) {
+    public PageResult<ReviewResponse> retrieveReviews(final Long productId) {
         return reviewRepository.retrieveReviews(productId);
     }
 

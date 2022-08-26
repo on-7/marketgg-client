@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
@@ -36,16 +37,16 @@ public class IndexController {
             mav.addObject("memberInfo", memberInfo);
         }
 
-        PageResult<ProductResponse> productResponsePageResult = this.productService.retrieveProducts(page);
-        Pagination pagination = new Pagination(productResponsePageResult.getTotalPages(), page);
-        List<ProductResponse> products = productResponsePageResult.getData();
+        PageResult<SearchProductResponse> searchProductResponsePageResult = this.productService.retrieveProducts(page);
+        Pagination pagination = new Pagination(searchProductResponsePageResult.getTotalPages(), page);
+        List<SearchProductResponse> products = searchProductResponsePageResult.getData();
 
         mav.addObject("products", products);
 
-        for (ProductResponse product : products) {
-            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-            product.updateThumbnail(imageResponse.getImageAddress());
-        }
+//        for (SearchProductResponse product : products) {
+//            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
+//            product.updateThumbnail(imageResponse.getImageAddress());
+//        }
         mav.addObject("pages", pagination);
 
         return mav;

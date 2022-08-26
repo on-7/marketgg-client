@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.annotation.Auth;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
@@ -76,10 +77,10 @@ public class ReviewController {
     @GetMapping
     public ModelAndView retrieveReviews(@PathVariable final Long productId) {
 
-        List<ReviewResponse> reviewResponses = reviewService.retrieveReviews(productId);
+        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(productId);
 
         ModelAndView mav = new ModelAndView("pages/products/reviews/review-view");
-        mav.addObject("reviews", reviewResponses);
+        mav.addObject("reviews", reviewResponsePageResult.getData());
 
         return mav;
     }
