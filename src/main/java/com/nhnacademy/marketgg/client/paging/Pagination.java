@@ -13,48 +13,44 @@ import lombok.extern.slf4j.Slf4j;
 @Setter
 public class Pagination {
 
-    private int pageSize = 10;
-    private int blockSize = 10;
-    private int page = 1;
-    private int block = 1;
-    private int totalListCnt;
+    private int pageSize = 10; // 한 페이지당 데이터 개수
+    private int blockSize = 10; // 뷰에 보여줄 페이지 이동가능 개수(블럭)
+    private int page; // 현재 페이지
+    private int block;
+    private int totalListCnt; // 전체 데이터 개수인 듯 하나 미사용중
     private int totalPageCnt;
     private int totalBlockCnt;
-    private int startPage = 1;
-    private int endPage = 1;
-    private int startIndex = 0;
+    private int startPage;
+    private int endPage;
+    private int startIndex;
     private int prevBlock;
     private int nextBlock;
 
     public Pagination(int totalPage, int page) {
         this.totalPageCnt = totalPage;
         this.page = page;
+        this.totalBlockCnt = (int) Math.ceil(this.totalPageCnt * 1.0 / this.blockSize);
+        this.block = (int) Math.ceil((page * 1.0) / this.blockSize);
+        this.startPage = (this.block - 1) * this.blockSize + 1;
+        this.endPage = this.startPage + this.blockSize - 1;
 
-        setTotalBlockCnt((int) Math.ceil(totalPageCnt * 1.0 / blockSize));
-
-        setBlock((int) Math.ceil((page * 1.0) / blockSize));
-
-        setStartPage((block - 1) * blockSize + 1);
-
-        setEndPage(startPage + blockSize - 1);
-
-        if (endPage > totalPageCnt) {
-            this.endPage = totalPageCnt;
+        if (this.endPage > this.totalPageCnt) {
+            this.endPage = this.totalPageCnt;
         }
 
-        setPrevBlock((block * blockSize) - blockSize);
+        this.prevBlock = (this.block * this.blockSize) - this.blockSize;
 
-        if (prevBlock < 1) {
+        if (this.prevBlock < 1) {
             this.prevBlock = 1;
         }
 
-        setNextBlock((block * blockSize) + 1);
+        this.nextBlock = (this.block * this.blockSize) + 1;
 
-        if (nextBlock > totalPageCnt) {
-            nextBlock = totalPageCnt;
+        if (this.nextBlock > this.totalPageCnt) {
+            this.nextBlock = this.totalPageCnt;
         }
 
-        setStartIndex((page - 1) * pageSize);
+        this.startIndex = (page - 1) * this.pageSize;
     }
 
 }

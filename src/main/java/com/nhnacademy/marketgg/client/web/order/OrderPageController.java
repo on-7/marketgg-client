@@ -48,7 +48,7 @@ public class OrderPageController {
      * @return 주문 목록과 페이지를 포함한 객체
      */
     @GetMapping("/orders")
-    public ModelAndView retrieveOrders(@RequestParam(defaultValue = "0") final Integer page) {
+    public ModelAndView retrieveOrders(@RequestParam(defaultValue = "1") final Integer page) {
         PageResult<OrderRetrieveResponse> orders = orderService.retrieveOrders(page);
 
         log.info("retrieveOrders: {}", orders);
