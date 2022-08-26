@@ -1,23 +1,19 @@
 package com.nhnacademy.marketgg.client.web.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.Alert;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
-import com.nhnacademy.marketgg.client.service.MemberService;
 import com.nhnacademy.marketgg.client.service.ProductInquiryService;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,11 +60,14 @@ public class MemberController {
     public ModelAndView retrieveOwnCoupons()
         throws UnAuthenticException, UnAuthorizationException {
 
-        List<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons();
+        PageResult<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons();
 
-        ModelAndView mav = new ModelAndView("/pages/mygg/coupons/index");
-        mav.addObject("coupons", responses);
-        mav.addObject("memberId", responses.get(0).getMemberId());
+        ModelAndView mav = new ModelAndView("pages/mygg/coupons/index");
+        mav.addObject("coupons", responses.getData());
+        mav.addObject("pageNumber", responses.getPageNumber());
+        mav.addObject("pageSize", responses.getPageSize());
+        mav.addObject("totalPages", responses.getTotalPages());
+        mav.addObject("memberId", responses.getData().get(0).getMemberId());
 
         return mav;
     }
