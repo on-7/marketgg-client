@@ -1,9 +1,9 @@
 package com.nhnacademy.marketgg.client.repository;
 
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -35,7 +35,7 @@ public interface MemberRepository {
      */
     void withdraw() throws UnAuthenticException, UnAuthorizationException;
 
-    void update(final MemberUpdateRequest memberUpdateRequest)
+    void update(final MemberUpdateRequest memberUpdateRequest, final MemberInfo memberInfo)
         throws UnAuthenticException, UnAuthorizationException;
 
     /**

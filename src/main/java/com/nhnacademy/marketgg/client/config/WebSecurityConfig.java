@@ -27,16 +27,6 @@ public class WebSecurityConfig {
     private static final String OTO_CODE = "702";
 
     /**
-     * Blowfish 알고리즘을 기반으로 비밀번호를 암호화합니다.
-     *
-     * @return 암호화 가능한 단방향 해시 함수인 BCryptPasswordEncoder
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new ShaPasswordEncoder();
-    }
-
-    /**
      * 인증을 처리하는 여러 개의 SecurityFilter 를 담는 filter chain 입니다.
      *
      * @param http - 세부 보안 기능을 설정할 수 있는 API 제공 클래스

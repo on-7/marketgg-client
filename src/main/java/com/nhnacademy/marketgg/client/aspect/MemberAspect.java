@@ -1,15 +1,12 @@
 package com.nhnacademy.marketgg.client.aspect;
 
 import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_ANONYMOUS;
-import static org.springframework.http.HttpMethod.GET;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
-import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
-import com.nhnacademy.marketgg.client.exception.ClientException;
-import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
+import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.util.GgUtils;
 import java.util.Arrays;
 import java.util.Objects;
@@ -18,18 +15,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Controller 클래스에서 메소드 파라미터에 @Member 어노테이션 사용시 Member 정보 주입하는 AOP.
@@ -44,13 +36,8 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class MemberAspect {
 
-    @Value("${gg.gateway-origin}")
-    private String gatewayOrigin;
-
+    private final AuthRepository authRepository;
     private final RedisTemplate<String, JwtInfo> redisTemplate;
-    private final RestTemplate restTemplate;
-    private final ObjectMapper mapper;
-    private final JwtAspect jwtAspect;
 
     /**
      * Member 정보를 주입합니다.
@@ -68,7 +55,7 @@ public class MemberAspect {
             return pjp.proceed();
         }
 
-        String sessionId = (String) authentication.getPrincipal();
+        String sessionId = SessionContext.getSessionId();
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -77,23 +64,14 @@ public class MemberAspect {
             return pjp.proceed();
         }
 
-        HttpEntity<Void> entity = new HttpEntity<>(new HttpHeaders());
-        ResponseEntity<CommonResult<MemberInfo>> exchange =
-            restTemplate.exchange(gatewayOrigin + "/shop/v1/members", GET, entity, new ParameterizedTypeReference<>() {
-            });
+        MemberInfo memberInfo;
 
-        if (Objects.isNull(exchange.getBody())) {
-            throw new ServerException();
+        if (jwtInfo.getMemberInfo().isNull()) {
+            ResponseEntity<CommonResult<MemberInfo>> exchange = authRepository.getMemberInfo();
+            memberInfo = Objects.requireNonNull(exchange.getBody()).getData();
+        } else {
+            memberInfo = jwtInfo.getMemberInfo();
         }
-
-        log.info("response object: {}", mapper.writeValueAsString(exchange.getBody()));
-
-        if (exchange.getStatusCode().is4xxClientError()) {
-            ErrorEntity error = Objects.requireNonNull(exchange.getBody()).getError();
-            throw new ClientException(error.getMessage());
-        }
-
-        MemberInfo memberInfo = Objects.requireNonNull(exchange.getBody()).getData();
 
         Object[] args = Arrays.stream(pjp.getArgs())
                               .map(arg -> {

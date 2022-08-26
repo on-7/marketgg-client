@@ -2,6 +2,8 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.nhnacademy.marketgg.client.context.SessionContext;
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
@@ -17,7 +19,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,12 +33,10 @@ import org.springframework.stereotype.Service;
 public class DefaultAuthService implements AuthService {
 
     private final AuthRepository authRepository;
-    private final PasswordEncoder passwordEncoder;
     private final RedisTemplate<String, JwtInfo> redisTemplate;
 
     @Override
     public void doLogin(final LoginRequest loginRequest, final String sessionId) {
-        loginRequest.encodePassword(passwordEncoder);
         ResponseEntity<Void> response = authRepository.doLogin(loginRequest, sessionId);
 
         this.checkStatus(response);
@@ -48,9 +47,15 @@ public class DefaultAuthService implements AuthService {
         if (jwt.startsWith(JwtInfo.BEARER)) {
             jwt = jwt.substring(7);
         }
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setBearerAuth(jwt);
+
+        MemberInfo memberInfo = Objects.requireNonNull(authRepository.getMemberInfo(httpHeaders)
+                                                                     .getBody())
+                                       .getData();
         String expireAt = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
-        JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
+        JwtInfo.saveJwt(redisTemplate, memberInfo, sessionId, jwt, expireAt);
     }
 
     private void checkStatus(ResponseEntity<?> response) {
@@ -72,13 +77,14 @@ public class DefaultAuthService implements AuthService {
     }
 
     @Override
-    public void logout(String sessionId) {
+    public void logout() {
+        String sessionId = SessionContext.getSessionId();
         if (Objects.isNull(redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY))) {
             log.info("already logout");
             return;
         }
 
-        ResponseEntity<CommonResult<String>> response = authRepository.logout(sessionId);
+        ResponseEntity<CommonResult<String>> response = authRepository.logout();
 
         HttpStatus statusCode = response.getStatusCode();
 

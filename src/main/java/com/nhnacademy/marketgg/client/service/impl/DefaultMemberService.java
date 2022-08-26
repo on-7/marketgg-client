@@ -1,10 +1,10 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
+import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
@@ -14,7 +14,6 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
 import com.nhnacademy.marketgg.client.repository.auth.MemberInfoRepository;
 import com.nhnacademy.marketgg.client.service.MemberService;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,9 +34,9 @@ public class DefaultMemberService implements MemberService {
     private final MemberInfoRepository memberInfoRepository;
 
     @Override
-    public void update(final MemberUpdateRequest memberUpdateRequest)
+    public void update(final MemberUpdateRequest memberUpdateRequest, MemberInfo memberInfo)
         throws UnAuthenticException, UnAuthorizationException {
-        memberRepository.update(memberUpdateRequest);
+        memberRepository.update(memberUpdateRequest, memberInfo);
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.nhnacademy.marketgg.client.util;
 
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.jwt.Role;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -21,7 +24,11 @@ public final class JwtUtils {
      * @return 로그인 한 회원의 JWT
      */
     public static String getToken() {
-        return (String) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (GgUtils.hasRole(authentication, Role.ROLE_ANONYMOUS)) {
+            throw new UnAuthorizationException();
+        }
+        return (String) authentication.getCredentials();
     }
 
 }

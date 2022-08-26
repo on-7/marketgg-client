@@ -1,9 +1,10 @@
 package com.nhnacademy.marketgg.client.aspect;
 
-import static com.nhnacademy.marketgg.client.util.GgUtils.WEEK_SECOND;
 import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_ANONYMOUS;
+import static com.nhnacademy.marketgg.client.util.GgUtils.WEEK_SECOND;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.util.GgUtils;
 import java.time.LocalDateTime;
@@ -61,7 +62,7 @@ public class JwtAspect {
     @Before(value = "within(com.nhnacademy.marketgg.client.repository.impl..*)"
         + " || controller()"
         + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
-    public void tokenRefresh() {
+    public void refreshToken() {
         log.info("Jwt Aspect");
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -70,7 +71,7 @@ public class JwtAspect {
             return;
         }
 
-        String sessionId = (String) authentication.getPrincipal();
+        String sessionId = SessionContext.getSessionId();
 
         JwtInfo jwtInfo =
             (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
@@ -91,7 +92,7 @@ public class JwtAspect {
 
         ResponseEntity<Void> response
             = restTemplate.exchange(gatewayOrigin + "/auth/v1/members/token/refresh", HttpMethod.GET, httpEntity,
-                                    Void.class);
+            Void.class);
 
         if (this.isInvalid(response)) {
             return;
@@ -105,16 +106,16 @@ public class JwtAspect {
         }
         String expireAt = Objects.requireNonNull(responseHeaders.get(JwtInfo.JWT_EXPIRE)).get(0);
 
-        JwtInfo.saveJwt(redisTemplate, sessionId, jwt, expireAt);
+        JwtInfo.saveJwt(redisTemplate, jwtInfo.getMemberInfo(), sessionId, jwt, expireAt);
 
         try {
-            ServletRequestAttributes servletContainer =
-                Objects.requireNonNull((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-            HttpServletResponse httpResponse = Objects.requireNonNull(servletContainer.getResponse());
+            HttpServletResponse httpResponse = this.getResponse();
+
             Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
             cookie.setHttpOnly(true);
             cookie.setMaxAge(WEEK_SECOND);
             httpResponse.addCookie(cookie);
+
             SecurityContextHolder.clearContext();
             SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), jwt,
@@ -143,6 +144,12 @@ public class JwtAspect {
         }
 
         return false;
+    }
+
+    private HttpServletResponse getResponse() {
+        ServletRequestAttributes servletContainer =
+            Objects.requireNonNull((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        return Objects.requireNonNull(servletContainer.getResponse());
     }
 
 }

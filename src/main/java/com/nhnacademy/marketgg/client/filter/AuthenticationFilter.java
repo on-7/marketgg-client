@@ -1,8 +1,6 @@
 package com.nhnacademy.marketgg.client.filter;
 
-import static java.util.stream.Collectors.toList;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import java.io.IOException;
 import java.util.Objects;
@@ -17,8 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
@@ -48,6 +46,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
+            SessionContext.setSessionId(sessionId);
+
             Optional<JwtInfo> opJwtInfo =
                 Optional.ofNullable((JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY));
 
@@ -58,20 +58,25 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
             JwtInfo jwtInfo = opJwtInfo.get();
 
+            if (jwtInfo.isMemberInfoEmpty()) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+
+            User user = new User(jwtInfo.getName(), jwtInfo.getJwt(), jwtInfo.getAuthorities());
+
             // Authentication Principal 에 SessionId, Credential 에 JWT 저장
             Authentication authentication =
-                new UsernamePasswordAuthenticationToken(sessionId, jwtInfo.getJwt(),
-                                                        jwtInfo.getAuthorities()
-                                                               .stream()
-                                                               .map(SimpleGrantedAuthority::new)
-                                                               .collect(toList()));
+                new UsernamePasswordAuthenticationToken(user, jwtInfo.getJwt(), jwtInfo.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
+            SessionContext.remove();
         } catch (Exception e) {
             log.error("", e);
         } finally {
             log.info("Security Context Remove");
+            SessionContext.remove();
             SecurityContextHolder.clearContext();
         }
 

@@ -6,13 +6,17 @@ import static com.nhnacademy.marketgg.client.util.GgUtils.WEEK_SECOND;
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
+import com.nhnacademy.marketgg.client.jwt.Role;
 import com.nhnacademy.marketgg.client.service.AuthService;
+import com.nhnacademy.marketgg.client.util.GgUtils;
 import java.util.Objects;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -28,6 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author 윤동열
  * @version 1.0.0
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
@@ -41,7 +46,17 @@ public class AuthController {
      */
     @NoAuth
     @GetMapping("/login")
-    public ModelAndView login(@ModelAttribute LoginRequest loginRequest) {
+    public ModelAndView login(@ModelAttribute LoginRequest loginRequest, HttpServletRequest request) {
+        log.error("Referer: {}", request.getHeader("Referer"));
+        if (!GgUtils.hasRole(SecurityContextHolder.getContext().getAuthentication(), Role.ROLE_ANONYMOUS)) {
+            String referer = request.getHeader("Referer");
+            if (Objects.nonNull(referer) && referer.startsWith("http://localhost:5050")) {
+                return new ModelAndView(REDIRECT_TO_INDEX + referer);
+            } else {
+                return new ModelAndView(REDIRECT_TO_INDEX);
+            }
+        }
+
         return new ModelAndView("pages/members/login");
     }
 
@@ -84,11 +99,9 @@ public class AuthController {
     public ModelAndView logout() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (Objects.isNull(authentication)) {
-            return new ModelAndView(REDIRECT_TO_INDEX);
+        if (!GgUtils.hasRole(authentication, Role.ROLE_ANONYMOUS)) {
+            authService.logout();
         }
-
-        authService.logout((String) authentication.getPrincipal());
 
         return new ModelAndView(REDIRECT_TO_INDEX);
     }

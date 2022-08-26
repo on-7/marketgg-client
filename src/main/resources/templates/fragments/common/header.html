@@ -17,12 +17,13 @@
                            th:text="#{ENGLISH}"></a>
                     </div>
                 </div>
-                <div th:if="${memberInfo?.name == null}">
+                <div sec:authorize="isAnonymous()">
                     <a href="/signup" class="btn btn-primary my-2" th:text="#{SIGN_UP}"></a>
                     <a href="/login" class="btn btn-secondary my-2" th:text="#{LOGIN}"></a>
                 </div>
-                <div th:unless="${memberInfo?.name == null}">
-                    <span th:text="|Hello, ${memberInfo.name}!|"></span>
+                <div sec:authorize="!isAnonymous()">
+                    <span th:text="|Hello, ${#authentication.name}!|"></span>
+                    <a href="/cart">장바구니</a>
                     <a href="/logout" class="btn btn-secondary my-2" th:text="#{LOGOUT}"></a>
                 </div>
             </div>
