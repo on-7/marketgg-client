@@ -62,7 +62,7 @@ class AdminLabelControllerTest {
 
         this.mockMvc.perform(get(DEFAULT_LABEL))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("pages/labels/index"));
+                    .andExpect(view().name("pages/admin/labels/index"));
 
         then(labelService).should(times(1)).retrieveLabels();
     }
