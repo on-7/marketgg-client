@@ -5,10 +5,12 @@ import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
+import com.nhnacademy.marketgg.client.service.ReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController {
 
     private final ProductService productService;
+    private final ReviewService reviewService;
     private static final Integer PAGE_SIZE = 10;
 
     private final ImageService imageService;
@@ -128,6 +131,9 @@ public class ProductController {
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
+
+        List<ReviewResponse> reviewResponses = reviewService.retrieveReviews(id);
+        mav.addObject("reviews", reviewResponses);
 
         ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
         productDetails.updateThumbnail(imageResponse.getImageAddress());
