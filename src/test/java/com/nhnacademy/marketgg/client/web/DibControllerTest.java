@@ -45,7 +45,7 @@ class DibControllerTest {
 
         this.mockMvc.perform(get(DEFAULT_DIB))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("/pages/dibs/index"));
+                    .andExpect(view().name("/pages/mygg/dibs/index"));
 
         then(dibService).should(times(1)).retrieveDibs();
     }

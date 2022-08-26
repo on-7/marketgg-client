@@ -7,7 +7,7 @@
     </head>
     <body>
         <main>
-            <br /><br />
+            <h1 th:text="#{NOTICE_UPDATE}"></h1>
             <div style="text-align: center; display: flex; justify-content: center">
                 <form th:object="${postRequest}" th:method="post" th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
                     <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{NOTICE_TITLE}"></span>

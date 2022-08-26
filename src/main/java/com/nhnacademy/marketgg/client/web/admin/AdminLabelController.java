@@ -33,27 +33,28 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminLabelController {
 
     private final LabelService labelService;
+    private static final String LABEL_DEFAULT = "redirect:/admin/labels";
 
     /**
      * 입력받은 정보로 라벨을 등록하는 메소드를 실행하고 다시 라벨의 Index 페이지로 이동하는 메소드입니다.
      *
      * @param labelRequest - 등록할 라벨의 입력정보를 담은 객체입니다.
      * @return 라벨을 등록하는 메소드를 실행하고 다시 라벨의 Index 페이지로 REDIRECT 합니다.
-     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @throws JsonProcessingException  Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
-    @PostMapping
+    @PostMapping("/create")
     public ModelAndView createLabel(@Valid @ModelAttribute final LabelRegisterRequest labelRequest,
                                     BindingResult bindingResult)
             throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
-        if(!bindingResult.hasErrors()) {
+        if (!bindingResult.hasErrors()) {
             labelService.createLabel(labelRequest);
         }
 
-        return new ModelAndView("redirect:/admin/labels");
+        return new ModelAndView(LABEL_DEFAULT);
     }
 
     /**
@@ -68,7 +69,7 @@ public class AdminLabelController {
     public ModelAndView retrieveLabels() throws UnAuthenticException, UnAuthorizationException {
         List<LabelRetrieveResponse> responses = labelService.retrieveLabels();
 
-        ModelAndView mav = new ModelAndView("pages/labels/index");
+        ModelAndView mav = new ModelAndView("pages/admin/labels/index");
         mav.addObject("labels", responses);
 
         return mav;
@@ -88,7 +89,7 @@ public class AdminLabelController {
             throws UnAuthenticException, UnAuthorizationException {
         labelService.deleteLabel(labelId);
 
-        return new ModelAndView("redirect:/admin/labels/index");
+        return new ModelAndView(LABEL_DEFAULT);
     }
 
 }

@@ -1,0 +1,34 @@
+h1 {
+    margin-bottom: 4rem;
+}
+
+.dib-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-left: 1rem;
+}
+
+nav {
+    display: flex;
+    flex: 0.1;
+    padding-left: 1rem;
+}
+
+.dib-content-wrapper {
+    display: flex;
+    flex: 0.7;
+    flex-direction: column;
+}
+
+.dib-content-sub-util {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.dib-table-wrapper {
+    text-align: center;
+    border: 1px solid black;
+    background-color: navajowhite;
+}

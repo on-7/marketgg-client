@@ -7,10 +7,11 @@
     </head>
     <body>
         <main>
-            <br /><br />
+            <h1 th:text="#{OTO_INQUIRY_CREATE}"></h1>
             <div style="text-align: center; display: flex; justify-content: center">
                 <form th:object="${postRequest}" th:method="post" th:action="'/customer-services/categories/'+${code}+'/create'">
                     <span style="background-color: #abdde5; border: 2px solid black;" th:text="#{OTO_INQUIRY_TITLE}"></span>
+                    <br /><br />
                     <input style="text-align: center" class="form-control" type="text" name="title"
                            th:placeholder="#{WRITE_OTO_INQUIRY_TITLE}">
                     <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">제목을 잘못입력함</div>

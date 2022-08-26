@@ -33,7 +33,7 @@ public class DibController {
      */
     @GetMapping
     public ModelAndView retrieveDibs() throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("/pages/dibs/index");
+        ModelAndView mav = new ModelAndView("/pages/mygg/dibs/index");
         mav.addObject("dibs", dibService.retrieveDibs());
 
         return mav;
