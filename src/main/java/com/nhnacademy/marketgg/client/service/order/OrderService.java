@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service.order;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
@@ -28,7 +29,7 @@ public interface OrderService {
      *
      * @return 주문 목록이 담긴 응답 객체
      */
-    List<OrderRetrieveResponse> retrieveOrders(final Integer page);
+    PageResult<OrderRetrieveResponse> retrieveOrders(final Integer page);
 
     /**
      * 주문 상세 조회를 처리합니다.

@@ -1,8 +1,10 @@
 package com.nhnacademy.marketgg.client.web.order;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
+import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -46,12 +48,17 @@ public class OrderPageController {
      * @return 주문 목록과 페이지를 포함한 객체
      */
     @GetMapping("/orders")
-    public ModelAndView retrieveOrders(@RequestParam final Integer page) {
-        List<OrderRetrieveResponse> orders = orderService.retrieveOrders(page);
+    public ModelAndView retrieveOrders(@RequestParam(defaultValue = "0") final Integer page) {
+        PageResult<OrderRetrieveResponse> orders = orderService.retrieveOrders(page);
+
         log.info("retrieveOrders: {}", orders);
 
+        Pagination pagination = new Pagination(orders.getTotalPages(), page);
+        List<OrderRetrieveResponse> orderList = orders.getData();
+
         ModelAndView mav = new ModelAndView("pages/orders/order-list");
-        mav.addObject("orders", orders);
+        mav.addObject("orders", orderList);
+        mav.addObject("pages", pagination);
 
         return mav;
     }
