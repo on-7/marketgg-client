@@ -8,3 +8,15 @@ main {
     margin: 0 auto;
     padding: 3rem;
 }
+
+.top-info {
+    display: flex;
+    justify-content: space-between;
+    width: 30em;
+}
+
+
+
+img {
+    width: 10em;
+}

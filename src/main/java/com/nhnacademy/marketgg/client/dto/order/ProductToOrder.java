@@ -29,4 +29,6 @@ public class ProductToOrder {
     @NotNull
     private Integer amount;
 
+    private String imageAddress;
+
 }
