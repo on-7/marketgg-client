@@ -29,15 +29,15 @@
                     th:onclick="|location.href='/orders/'+${order.id}|">
                     <td th:text="${order.id}"></td>
                     <td th:text="${order.orderName}"></td>
-                    <td th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')+'원'}"></td>
+                    <td th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></td>
                     <td th:text="${order.orderStatus}"></td>
-                    <td th:text="${#temporals.format(order.createdAt, 'yyyy년 MM월 dd일 hh시 mm분')}"></td>
+                    <td th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></td>
                 </tr>
             </table>
 
             <div class="pagination" th:if="${!orders.isEmpty()}">
-                <a th:href="@{|/orders?page=1|}" th:text="처음"></a>
-                <a th:if="${pages.page} > 1" th:href="@{|/orders?page=${pages.page-1}|}" th:text="이전"></a>
+                <a th:href="@{|/orders?page=1|}" th:text="#{FIRST_PAGE}"></a>
+                <a th:if="${pages.page} > 1" th:href="@{|/orders?page=${pages.page-1}|}" th:text="#{PREV_PAGE}"></a>
                 <ul>
                     <li th:each="page : ${#numbers.sequence(pages.startPage, pages.endPage)}">
                         <a th:href="@{|/orders?page=${page}|}" th:text="${page}"
@@ -45,8 +45,8 @@
                     </li>
                 </ul>
                 <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/orders?page=${pages.page+1}|}"
-                   th:text="다음"></a>
-                <a th:href="@{|/orders?page=${pages.totalPageCnt}|}" th:text="끝"></a>
+                   th:text="#{NEXT_PAGE}"></a>
+                <a th:href="@{|/orders?page=${pages.totalPageCnt}|}" th:text="#{END_PAGE}"></a>
             </div>
         </main>
     </body>
