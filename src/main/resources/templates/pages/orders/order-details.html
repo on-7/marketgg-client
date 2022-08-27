@@ -17,6 +17,15 @@
 
             <h2 th:text="#{ORDER_DETAIL}"></h2>
 
+            <div class="top-info">
+                <p th:text="'주문 번호: '+${orderId}"></p>
+                <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></p>
+            </div>
+            <div>
+                <p>주문 상태</p>
+
+            </div>
+
             <p th:text="${order.id}"></p>
             <p th:text="${order.orderName}"></p>
             <p th:text="${order.orderStatus}"></p>
@@ -30,6 +39,7 @@
             <p th:text="${order.trackingNo}"></p>
             <p th:text="${order.createdAt}"></p>
             <p th:text="${order.orderProductList.get(0)}"></p>
+
         </main>
     </body>
 
