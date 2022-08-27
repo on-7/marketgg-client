@@ -9,11 +9,14 @@ import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.PostService;
+
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,14 +52,15 @@ public class CsPostController {
      * 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
      *
      * @param categoryId - 조회할 게시판의 카테고리 식별번호입니다.
-     * @param page         - 보여줄 게시글 목록의 페이지 번호입니다.
+     * @param page       - 보여줄 게시글 목록의 페이지 번호입니다.
      * @return 게시판 타입에 맞는 게시글 목록을 보여주는 페이지로 이동합니다.
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}")
-    public ModelAndView index(@PathVariable final String categoryId, @RequestParam final Integer page)
+    public ModelAndView index(@PathVariable final String categoryId, @RequestParam(value = "page",
+                                                                                   defaultValue = "0") final Integer page)
             throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryId)));
         List<PostResponse> responses = postService.retrievePostList(categoryId, page);
@@ -97,7 +101,7 @@ public class CsPostController {
      *
      * @param postRequest - 등록할 게시글의 정보를 담은 객체입니다.
      * @return 해당 정보로 게시글을 등록 후 다시 Index 페이지로 이동합니다.
-     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @throws JsonProcessingException  Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
@@ -125,7 +129,8 @@ public class CsPostController {
      */
     @GetMapping("/categories/{categoryCode}/{postId}")
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
-                                     @PathVariable @Min(1) final Long postId, @RequestParam @Min(0) final Integer page,
+                                     @PathVariable @Min(1) final Long postId, @RequestParam(value = "page",
+                                                                                            defaultValue = "0") final Integer page,
                                      @ModelAttribute CommentRequest commentRequest)
             throws UnAuthenticException, UnAuthorizationException {
 
@@ -142,8 +147,8 @@ public class CsPostController {
      * 지정한 카테고리에서 게시판을 검색합니다.
      *
      * @param categoryId - 검색을 진행할 게시판의 타입입니다.
-     * @param keyword      - 검색을 진행할 검색어입니다.
-     * @param page         - 조회할 페이지의 페이지 정보입니다.
+     * @param keyword    - 검색을 진행할 검색어입니다.
+     * @param page       - 조회할 페이지의 페이지 정보입니다.
      * @return 검색 결과 목록을 반환합니다.
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.

@@ -186,7 +186,7 @@ public class PostAdapter implements PostRepository {
     public List<String> retrieveStatus() throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<ShopResult<List<String>>> response = restTemplate.exchange(
-                gateWayIp + ADMIN + "/status",
+                gateWayIp + USER + "/status",
                 HttpMethod.GET,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
