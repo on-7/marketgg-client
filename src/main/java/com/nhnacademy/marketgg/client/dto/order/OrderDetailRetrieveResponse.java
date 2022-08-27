@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.order;
 
+import com.nhnacademy.marketgg.client.dto.response.UsedCouponResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +27,8 @@ public class OrderDetailRetrieveResponse {
     private Long totalAmount;
 
     private String orderStatus;
+
+    private UsedCouponResponse usedCoupon;
 
     private Integer usedPoint;
 
