@@ -18,7 +18,7 @@
                 </div>
 
                 <p class="lead" th:text="${productDetails.content}"></p>
-                <div th:sec:authorize="!isAnonymous()">
+                <div sec:authorize="!isAnonymous()">
                     <div class="d-flex">
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
                                style="max-width: 3rem"/>

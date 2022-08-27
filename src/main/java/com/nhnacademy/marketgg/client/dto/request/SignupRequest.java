@@ -2,14 +2,13 @@ package com.nhnacademy.marketgg.client.dto.request;
 
 import com.nhnacademy.marketgg.client.jwt.ShaPasswordEncoder;
 import java.time.LocalDate;
+import java.util.Objects;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@RequiredArgsConstructor
 @Getter
 public class SignupRequest {
 
@@ -18,7 +17,7 @@ public class SignupRequest {
     private final String email;
 
     @NotBlank
-    private String password;
+    private final String password;
 
     @NotBlank
     private final String name;
@@ -50,11 +49,13 @@ public class SignupRequest {
 
     public SignupRequest(String email, String password, String name, String phoneNumber, Character gender,
                          LocalDate birthDate, String referrerEmail, Integer zipcode, String address,
-                         String detailAddress,
-                         Boolean inlineRadioOptions, String provider) {
+                         String detailAddress, Boolean inlineRadioOptions, String provider) {
 
         this.email = email;
-        this.password = new ShaPasswordEncoder().encode(password);
+        if (Objects.nonNull(password)) {
+            password = new ShaPasswordEncoder().encode(password);
+        }
+        this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
@@ -66,4 +67,5 @@ public class SignupRequest {
         this.inlineRadioOptions = inlineRadioOptions;
         this.provider = provider;
     }
+
 }

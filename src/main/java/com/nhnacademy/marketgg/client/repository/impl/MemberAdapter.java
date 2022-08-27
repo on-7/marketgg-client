@@ -6,7 +6,6 @@ import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
@@ -18,8 +17,6 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.MemberRepository;
-import com.nhnacademy.marketgg.client.repository.auth.AuthAdapter;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +44,6 @@ public class MemberAdapter implements MemberRepository {
 
     private final String gateWayIp;
     private final RestTemplate restTemplate;
-    private final AuthAdapter authAdapter;
 
     private final RedisTemplate<String, JwtInfo> redisTemplate;
 
@@ -55,14 +51,13 @@ public class MemberAdapter implements MemberRepository {
     private static final String DELIVERY_ADDRESS = "/delivery-address";
     private static final String DELIVERY_ADDRESSES = "/delivery-addresses";
 
-
     @Override
     public void signup(final SignupRequest signupRequest)
         throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<SignupRequest> response = new HttpEntity<>(signupRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "signup", HttpMethod.POST, response,
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/signup", HttpMethod.POST, response,
                 new ParameterizedTypeReference<>() {
                 });
 
