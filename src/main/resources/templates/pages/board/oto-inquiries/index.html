@@ -127,11 +127,9 @@
                         </table>
                     </div>
                     <br />
-                    <div th:if="${isAdmin == 'yes'}">
-                        <form th:method="get" th:action="'/customer-services/categories/'+${OTO_CODE}+'/create'">
-                            <input class="btn-primary fa-pull-right" type="submit" th:value="#{OTO_INQUIRY_CREATE}">
-                        </form>
-                    </div>
+                    <form th:method="get" th:action="'/customer-services/categories/'+${OTO_CODE}+'/create'">
+                        <input class="btn-primary fa-pull-right" type="submit" th:value="#{OTO_INQUIRY_CREATE}">
+                    </form>
                     <div style="text-align: center" th:if="${isAdmin == 'no'}">
                         <div th:if="${searchType == 'no'}">
                             <a class="btn-primary" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>
