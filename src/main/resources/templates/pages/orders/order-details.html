@@ -18,6 +18,18 @@
             <h2 th:text="#{ORDER_DETAIL}"></h2>
 
             <p th:text="${order.id}"></p>
+            <p th:text="${order.orderName}"></p>
+            <p th:text="${order.orderStatus}"></p>
+            <p th:text="${order.totalAmount}"></p>
+            <p th:text="${order.usedCoupon.name}"></p>
+            <p th:text="${order.usedCoupon.discountAmount}"></p>
+            <p th:text="${order.usedPoint}"></p>
+            <p th:text="${order.address}"></p>
+            <p th:text="${order.detailAddress}"></p>
+            <p th:text="${order.zipCode}"></p>
+            <p th:text="${order.trackingNo}"></p>
+            <p th:text="${order.createdAt}"></p>
+            <p th:text="${order.orderProductList.get(0)}"></p>
         </main>
     </body>
 
