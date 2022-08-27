@@ -8,3 +8,39 @@ main {
     margin: 0 auto;
     padding: 3rem;
 }
+
+table {
+    text-align: center;
+}
+
+th {
+    background-color: #ffd39c;
+    border-bottom: 2px solid black;
+    cursor: default;
+}
+
+tr:hover {
+    background-color: #ffeee2;
+    cursor: pointer;
+}
+
+.pagination > * {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.current {
+    font-weight: bold;
+    color: #ff9274;
+}
