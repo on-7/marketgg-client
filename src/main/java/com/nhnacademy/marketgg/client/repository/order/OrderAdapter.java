@@ -43,7 +43,7 @@ public class OrderAdapter implements OrderRepository {
      * @return OrderToPayment
      */
     @Override
-    public OrderToPayment createOrder(final OrderCreateRequest orderRequest, MemberInfo memberinfo) {
+    public OrderToPayment createOrder(final OrderCreateRequest orderRequest, final MemberInfo memberinfo) {
         ResponseEntity<ShopResult<OrderToPayment>> response
             = WebClient.builder()
                        .baseUrl(gatewayIp)
@@ -101,7 +101,7 @@ public class OrderAdapter implements OrderRepository {
      * @return 특정한 주문에 대한 상세 정보 응답 객체
      */
     @Override
-    public OrderDetailRetrieveResponse retrieveOrder(Long orderId) {
+    public OrderDetailRetrieveResponse retrieveOrder(final Long orderId) {
         ResponseEntity<ShopResult<OrderDetailRetrieveResponse>> response
                 = WebClient.builder()
                            .baseUrl(gatewayIp)

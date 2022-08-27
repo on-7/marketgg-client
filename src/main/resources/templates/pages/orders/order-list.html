@@ -25,7 +25,8 @@
                     <th th:text="#{ORDER_STATUS}"></th>
                     <th th:text="#{ORDER_CREATED_AT}"></th>
                 </tr>
-                <tr class="order-content" th:each="order : ${orders}">
+                <tr class="order-content" th:each="order : ${orders}"
+                    th:onclick="|location.href='/orders/'+${order.id}|">
                     <td th:text="${order.id}"></td>
                     <td th:text="${order.orderName}"></td>
                     <td th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')+'원'}"></td>
