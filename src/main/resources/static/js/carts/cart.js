@@ -160,7 +160,7 @@ function blockButton() {
 
 }
 
-const url = "http://localhost:5050/cart";
+const url = "/cart";
 
 function main() {
     calcTotalPrice();
