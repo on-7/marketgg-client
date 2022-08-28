@@ -28,7 +28,7 @@ public class MemberInfoAdapter implements MemberInfoRepository {
     @Value("${gg.gateway-origin}")
     private String requestUrl;
 
-    private final RedisTemplate<String, JwtInfo> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final RestTemplate restTemplate;
 
     @Override

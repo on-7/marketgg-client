@@ -77,10 +77,10 @@ public class RedisConfig {
      * @return RedisTemplate
      */
     @Bean
-    public RedisTemplate<String, JwtInfo> redisTemplate(
+    public RedisTemplate<String, Object> redisTemplate(
         RedisConnectionFactory redisConnectionFactory) {
 
-        RedisTemplate<String, JwtInfo> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());

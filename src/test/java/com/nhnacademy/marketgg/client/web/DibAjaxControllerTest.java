@@ -39,7 +39,7 @@ class DibAjaxControllerTest {
     DibService dibService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @Test
     @DisplayName("사용자 찜 여부 확인 (존재 O)")

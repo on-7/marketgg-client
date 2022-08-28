@@ -72,7 +72,7 @@ public class JwtInfo implements Serializable {
         return new MemberInfo(this.email, this.name, this.phoneNumber, this.memberGrade, this.gender, this.birthDay);
     }
 
-    public static void saveJwt(RedisTemplate<String, JwtInfo> redisTemplate, MemberInfo memberInfo,
+    public static void saveJwt(RedisTemplate<String, Object> redisTemplate, MemberInfo memberInfo,
                                String sessionId, String jwt, String expiredAt) {
         JwtInfo jwtInfo;
         try {
