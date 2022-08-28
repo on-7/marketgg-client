@@ -47,7 +47,7 @@ public class JwtAspect {
     @Value("${gg.gateway-origin}")
     private String gatewayOrigin;
 
-    private final RedisTemplate<String, JwtInfo> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final RestTemplate restTemplate;
 
     @Pointcut("@within(org.springframework.stereotype.Controller) " +
@@ -114,6 +114,7 @@ public class JwtAspect {
             Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
             cookie.setHttpOnly(true);
             cookie.setMaxAge(WEEK_SECOND);
+            cookie.setPath("/");
             httpResponse.addCookie(cookie);
 
             SecurityContextHolder.clearContext();

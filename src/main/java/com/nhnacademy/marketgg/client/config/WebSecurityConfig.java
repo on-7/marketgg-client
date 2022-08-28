@@ -35,7 +35,7 @@ public class WebSecurityConfig {
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
-                                           RedisTemplate<String, JwtInfo> redisTemplate) throws Exception {
+                                           RedisTemplate<String, Object> redisTemplate) throws Exception {
 
         http.csrf();
 

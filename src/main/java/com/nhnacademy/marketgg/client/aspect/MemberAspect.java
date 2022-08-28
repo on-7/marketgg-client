@@ -37,7 +37,7 @@ import org.springframework.stereotype.Controller;
 public class MemberAspect {
 
     private final AuthRepository authRepository;
-    private final RedisTemplate<String, JwtInfo> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     /**
      * Member 정보를 주입합니다.

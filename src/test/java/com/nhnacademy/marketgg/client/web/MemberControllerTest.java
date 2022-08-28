@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -13,18 +12,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.MemberService;
 import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import com.nhnacademy.marketgg.client.web.member.MemberAjaxController;
 import com.nhnacademy.marketgg.client.web.member.MemberController;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -34,13 +32,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.client.RestTemplate;
 
 @AutoConfigureMockMvc(addFilters = false)
+@Import(RedisConfig.class)
 @WebMvcTest({
     MemberController.class,
     MemberAjaxController.class
@@ -64,9 +63,6 @@ class MemberControllerTest {
 
     @MockBean
     ProductInquiryService productInquiryService;
-
-    @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
 
     @Test
     @DisplayName("사용할 수 있는 이메일 검증 테스트")

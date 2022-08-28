@@ -15,9 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.CouponService;
 import com.nhnacademy.marketgg.client.web.admin.AdminCouponController;
 import java.util.List;
@@ -28,12 +28,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
 @AutoConfigureMockMvc(addFilters = false)
+@Import(RedisConfig.class)
 @WebMvcTest(AdminCouponController.class)
 class AdminCouponControllerTest {
 
@@ -45,9 +46,6 @@ class AdminCouponControllerTest {
 
     @MockBean
     CouponService couponService;
-
-    @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
 
     private static final String DEFAULT_COUPON = "/admin/coupons";
 
@@ -68,8 +66,8 @@ class AdminCouponControllerTest {
         willDoNothing().given(couponService).createCoupon(any(CouponRequest.class));
 
         this.mockMvc.perform(post(DEFAULT_COUPON)
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .content(content))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content))
                     .andExpect(status().is3xxRedirection());
 
         then(couponService).should(times(1)).createCoupon(any(CouponRequest.class));
@@ -110,8 +108,8 @@ class AdminCouponControllerTest {
         willDoNothing().given(couponService).updateCoupon(anyLong(), any(CouponRequest.class));
 
         this.mockMvc.perform(put(DEFAULT_COUPON + "/" + 1L)
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .content(content))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content))
                     .andExpect(status().is3xxRedirection());
 
         then(couponService).should(times(1)).updateCoupon(anyLong(), any(CouponRequest.class));

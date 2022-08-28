@@ -49,7 +49,7 @@ public class GoogleLoginService implements Oauth2Service {
     @Value("${gg.google.login-request-url}")
     private String loginRequestUrl;
 
-    private final RedisTemplate<String, JwtInfo> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final OauthRepository oauthRepository;
     private final AuthRepository authRepository;
 

@@ -12,13 +12,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import com.nhnacademy.marketgg.client.service.ReviewService;
@@ -32,12 +32,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 @AutoConfigureMockMvc(addFilters = false)
+@Import(RedisConfig.class)
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
 
@@ -46,9 +47,6 @@ class ProductControllerTest {
 
     @MockBean
     ProductService productService;
-
-    @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
 
     @MockBean
     ImageService imageService;
@@ -61,6 +59,7 @@ class ProductControllerTest {
     private SearchProductResponse response;
     private ImageResponse imageResponse;
     private ProductResponse productResponse;
+
     private
 
     @BeforeEach
@@ -77,9 +76,9 @@ class ProductControllerTest {
             List.of(response));
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/search", "100")
-                                 .param("categoryId", "001")
-                                 .param("keyword", "안녕")
-                                 .param("page", "0"))
+                .param("categoryId", "001")
+                .param("keyword", "안녕")
+                .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("pages/products/index"));
 
@@ -93,8 +92,8 @@ class ProductControllerTest {
             List.of(response));
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/categories/{categoryId}/price/{option}/search", "100", "asc")
-                                 .param("keyword", "안녕")
-                                 .param("page", "0"))
+                .param("keyword", "안녕")
+                .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("pages/products/index"));
 

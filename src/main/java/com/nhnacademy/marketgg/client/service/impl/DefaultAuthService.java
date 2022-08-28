@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
 public class DefaultAuthService implements AuthService {
 
     private final AuthRepository authRepository;
-    private final RedisTemplate<String, JwtInfo> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public boolean doLogin(final LoginRequest loginRequest, final String sessionId) {

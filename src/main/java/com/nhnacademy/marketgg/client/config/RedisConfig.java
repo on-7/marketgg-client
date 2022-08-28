@@ -1,23 +1,15 @@
 package com.nhnacademy.marketgg.client.config;
 
-import com.nhnacademy.marketgg.client.exception.SecureManagerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import java.util.Map;
-import java.util.Optional;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Redis 설정을 담당합니다.
@@ -28,25 +20,15 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class RedisConfig {
 
-    private final RestTemplate restTemplate;
     private final String host;
     private final int port;
     private final int database;
     private final String password;
 
-    public RedisConfig(@Qualifier("clientCertificateAuthenticationRestTemplate") RestTemplate restTemplate,
-                       // @Value("${gg.redis.password-url}") String redisPasswordUrl,
-                       // @Value("${gg.redis.url}") String redisInfoUrl
-                       @Value("${gg.redis.host}") String host,
+    public RedisConfig(@Value("${gg.redis.host}") String host,
                        @Value("${gg.redis.port}") int port,
                        @Value("${gg.redis.database}") int database,
                        @Value("${gg.redis.password}") String password) {
-        this.restTemplate = restTemplate;
-        // String[] info = this.getRedisInfo(redisInfoUrl);
-        // this.host = info[0];
-        // this.port = Integer.parseInt(info[1]);
-        // this.database = Integer.parseInt(info[2]);
-        // this.password = this.getRedisPassword(redisPasswordUrl);
         this.host = host;
         this.port = port;
         this.database = database;
@@ -77,46 +59,16 @@ public class RedisConfig {
      * @return RedisTemplate
      */
     @Bean
-    public RedisTemplate<String, JwtInfo> redisTemplate(
+    public RedisTemplate<String, Object> redisTemplate(
         RedisConnectionFactory redisConnectionFactory) {
 
-        RedisTemplate<String, JwtInfo> redisTemplate = new RedisTemplate<>();
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(JwtInfo.class));
 
         return redisTemplate;
-    }
-
-    private String[] getRedisInfo(String infoUrl) {
-        ResponseEntity<Map<String, Map<String, String>>> response =
-            restTemplate.exchange(infoUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
-            });
-
-        String connectInfo = Optional.ofNullable(response.getBody())
-                                     .orElseThrow(SecureManagerException::new)
-                                     .get("body")
-                                     .get("secret");
-
-        String[] info = connectInfo.split(":");
-
-        if (info.length != 3) {
-            throw new SecureManagerException();
-        }
-
-        return info;
-    }
-
-    private String getRedisPassword(String passwordUrl) {
-        ResponseEntity<Map<String, Map<String, String>>> response =
-            restTemplate.exchange(passwordUrl, HttpMethod.GET, null, new ParameterizedTypeReference<>() {
-            });
-
-        return Optional.ofNullable(response.getBody())
-                       .orElseThrow(SecureManagerException::new)
-                       .get("body")
-                       .get("secret");
     }
 
 }
