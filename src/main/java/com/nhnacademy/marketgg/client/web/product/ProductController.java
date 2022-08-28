@@ -107,10 +107,6 @@ public class ProductController {
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
 
-//        for (SearchProductResponse product : products) {
-//            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-//            product.updateThumbnail(imageResponse.getImageAddress());
-//        }
         mav.addObject("pages", pagination);
 
         return mav;
