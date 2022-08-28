@@ -59,7 +59,7 @@ class ProductControllerTest {
     private ProductListResponse response;
     private ImageResponse imageResponse;
 
-    private PageResult<List<ProductListResponse>> pageResult;
+    private PageResult<ProductListResponse> pageResult;
 
     @BeforeEach
     void setUp() {
@@ -70,7 +70,7 @@ class ProductControllerTest {
         ReflectionTestUtils.setField(pageResult, "pageNumber", 0);
         ReflectionTestUtils.setField(pageResult, "pageSize", 10);
         ReflectionTestUtils.setField(pageResult, "totalPages", 0);
-        ReflectionTestUtils.setField(pageResult, "data", List.of());
+        ReflectionTestUtils.setField(pageResult, "data", null);
     }
 
     @Test
@@ -79,9 +79,9 @@ class ProductControllerTest {
         given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/search", "100")
-                .param("categoryId", "001")
-                .param("keyword", "안녕")
-                .param("page", "0"))
+                                     .param("categoryId", "001")
+                                     .param("keyword", "안녕")
+                                     .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("pages/products/index"));
 
@@ -91,11 +91,12 @@ class ProductControllerTest {
     @Test
     @DisplayName("카테고리 목록 내에서 가격 옵션 별 검색")
     void testSearchProductListByPrice() throws Exception {
-        given(productService.searchProductListByPrice(any(SearchRequestForCategory.class), anyString())).willReturn(pageResult);
+        given(productService.searchProductListByPrice(any(SearchRequestForCategory.class), anyString())).willReturn(
+                pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/categories/{categoryId}/price/{option}/search", "100", "asc")
-                .param("keyword", "안녕")
-                .param("page", "0"))
+                                     .param("keyword", "안녕")
+                                     .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("pages/products/index"));
 
@@ -113,7 +114,7 @@ class ProductControllerTest {
         ResultActions resultActions = this.mockMvc.perform(get(DEFAULT_PRODUCT + "?page=0"));
 
         MvcResult mvcResult =
-            resultActions.andExpect(status().isOk()).andExpect(view().name("index")).andReturn();
+                resultActions.andExpect(status().isOk()).andExpect(view().name("index")).andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel()
                           .get("products")).isNotNull();

@@ -48,14 +48,16 @@ public class ProductController {
     public ModelAndView searchProductListByCategory(@RequestParam final String categoryId, @RequestParam final String keyword, @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
-        PageResult<List<ProductListResponse>> responses = productService.searchProductListByCategory(request);
+        PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
+        Pagination pagination = new Pagination(responses.getTotalPages(), page);
+        List<ProductListResponse> products = responses.getData();
         // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
         // FIXME: Pathvariable 에 option 에는 (asc, desc) 만 들어갑니다! 매핑 잡으실 때 참고해주세요.
         ModelAndView mav = new ModelAndView("pages/products/index");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);
-        mav.addObject("responses", responses);
-        mav.addObject("page", page);
+        mav.addObject("products", products);
+        mav.addObject("pages", pagination);
 
         return mav;
     }
@@ -75,14 +77,16 @@ public class ProductController {
     public ModelAndView searchProductListByPrice(@PathVariable final String categoryId, @PathVariable final String option, @RequestParam final String keyword, @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
-        PageResult<List<ProductListResponse>> responses = productService.searchProductListByPrice(request, option);
+        PageResult<ProductListResponse> responses = productService.searchProductListByPrice(request, option);
+        List<ProductListResponse> products = responses.getData();
+        Pagination pagination = new Pagination(responses.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/products/index");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);
-        mav.addObject("responses", responses);
-        mav.addObject("page", page);
-        mav.addObject("option", option);
+        mav.addObject("products", products);
+        mav.addObject("pages", page);
+        mav.addObject("option", pagination);
 
         return mav;
     }

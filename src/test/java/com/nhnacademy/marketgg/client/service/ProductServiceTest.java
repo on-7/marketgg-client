@@ -48,7 +48,7 @@ class ProductServiceTest {
     private ProductUpdateRequest productUpdateRequest;
     private ProductResponse productResponse;
 
-    private PageResult<List<ProductListResponse>> pageResult;
+    private PageResult<ProductListResponse> pageResult;
 
     @BeforeEach
     void setUp() {
@@ -61,7 +61,7 @@ class ProductServiceTest {
         ReflectionTestUtils.setField(pageResult, "pageNumber", 0);
         ReflectionTestUtils.setField(pageResult, "pageSize", 10);
         ReflectionTestUtils.setField(pageResult, "totalPages", 0);
-        ReflectionTestUtils.setField(pageResult, "data", List.of());
+        ReflectionTestUtils.setField(pageResult, "data", null);
     }
 
     @Test

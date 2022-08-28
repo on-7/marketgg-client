@@ -138,7 +138,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public PageResult<List<ProductListResponse>> searchProductListByCategory(final SearchRequestForCategory searchRequest)
+    public PageResult<ProductListResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
             throws JsonProcessingException {
 
         String requestBody = objectMapper.writeValueAsString(searchRequest);
@@ -153,7 +153,7 @@ public class ProductAdapter implements ProductRepository {
             requestUri = gatewayIp + DEFAULT_PRODUCT + "/search";
         }
 
-        ResponseEntity<PageResult<List<ProductListResponse>>> response =
+        ResponseEntity<PageResult<ProductListResponse>> response =
                 this.restTemplate.exchange(
                         requestUri,
                         HttpMethod.POST,
@@ -166,7 +166,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public PageResult<List<ProductListResponse>> searchProductListByPrice(final SearchRequestForCategory searchRequest,
+    public PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
                                                               final String option)
             throws JsonProcessingException {
 
@@ -175,7 +175,7 @@ public class ProductAdapter implements ProductRepository {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<PageResult<List<ProductListResponse>>> response =
+        ResponseEntity<PageResult<ProductListResponse>> response =
                 this.restTemplate.exchange(
                         gatewayIp + DEFAULT_PRODUCT + "/categories/" + searchRequest.getCategoryCode() +
                                 "/sort-price/" + option + "/search",

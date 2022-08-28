@@ -86,7 +86,7 @@ public interface ProductService {
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    PageResult<List<ProductListResponse>> searchProductListByCategory(final SearchRequestForCategory searchRequest)
+    PageResult<ProductListResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
             throws JsonProcessingException;
 
     /**
@@ -98,7 +98,7 @@ public interface ProductService {
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    PageResult<List<ProductListResponse>> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
+    PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
             throws JsonProcessingException;
 
 }
