@@ -48,7 +48,7 @@ class ProductControllerTest {
     ProductService productService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @MockBean
     ImageService imageService;

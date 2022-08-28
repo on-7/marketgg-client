@@ -58,7 +58,7 @@ class AdminCsPostControllerTest {
     PostService postService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     private static final String DEFAULT_ADMIN_POST = "/admin/customer-services";
     private static final String BOARD = "pages/board/";

@@ -54,7 +54,7 @@ class CsPostControllerTest {
     PostService postService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     private static final String DEFAULT_POST = "/customer-services";
     private static final String BOARD = "pages/board/";

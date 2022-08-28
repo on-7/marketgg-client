@@ -36,7 +36,7 @@ class AdminReviewControllerTest {
     ReviewService reviewService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @Test
     @DisplayName("베스트 후기 선정 테스트")

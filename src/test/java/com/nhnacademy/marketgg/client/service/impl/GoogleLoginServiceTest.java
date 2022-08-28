@@ -39,7 +39,7 @@ class GoogleLoginServiceTest {
     GoogleLoginService googleLoginService;
 
     @Mock
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @Mock
     OauthRepository oauthRepository;

@@ -47,7 +47,7 @@ class AdminCouponControllerTest {
     CouponService couponService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     private static final String DEFAULT_COUPON = "/admin/coupons";
 
