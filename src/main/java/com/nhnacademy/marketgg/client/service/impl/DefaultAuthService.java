@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
@@ -36,10 +37,14 @@ public class DefaultAuthService implements AuthService {
     private final RedisTemplate<String, JwtInfo> redisTemplate;
 
     @Override
-    public void doLogin(final LoginRequest loginRequest, final String sessionId) {
+    public boolean doLogin(final LoginRequest loginRequest, final String sessionId) {
         ResponseEntity<Void> response = authRepository.doLogin(loginRequest, sessionId);
 
-        this.checkStatus(response);
+        boolean loginSuccess = this.checkStatus(response);
+
+        if (!loginSuccess) {
+            return false;
+        }
 
         HttpHeaders headers = response.getHeaders();
 
@@ -56,16 +61,25 @@ public class DefaultAuthService implements AuthService {
         String expireAt = Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0);
 
         JwtInfo.saveJwt(redisTemplate, memberInfo, sessionId, jwt, expireAt);
+
+        return true;
     }
 
-    private void checkStatus(ResponseEntity<?> response) {
-        if (response.getStatusCode().is4xxClientError()) {
+    private boolean checkStatus(ResponseEntity<?> response) {
+        System.out.println(response.getStatusCode());
+        if (Objects.equals(response.getStatusCode(), HttpStatus.UNAUTHORIZED)
+            || Objects.equals(response.getStatusCode(), HttpStatus.FORBIDDEN)) {
             log.info("Login Fail - http status: {}", response.getStatusCode());
+            return false;
+        }
+
+        if (response.getStatusCode().is4xxClientError()) {
+            log.info("Cilent Error - http status: {}", response.getStatusCode());
             throw new LoginFailException();
         }
 
         if (response.getStatusCode().is5xxServerError()) {
-            log.info("Login Fail - http status: {}", response.getStatusCode());
+            log.info("Sever Error - http status: {}", response.getStatusCode());
             throw new ServerException();
         }
 
@@ -74,6 +88,8 @@ public class DefaultAuthService implements AuthService {
             log.info("Empty header");
             throw new LoginFailException();
         }
+
+        return true;
     }
 
     @Override

@@ -10,6 +10,7 @@
     </head>
     <body>
         <main>
+
             <section class="jumbotron text-center">
                 <h2>
                     <span th:text="#{LOGIN}"></span>
@@ -46,7 +47,10 @@
                         </div>
                     </a>
                 </form>
-
+                <script th:inline="javascript" th:if="${loginSuccess == false}">
+                    const message =  /*[[#{LOGIN_FAIL}]]*/;
+                    alert(message);
+                </script>
             </section>
         </main>
     </body>
