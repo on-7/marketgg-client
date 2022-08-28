@@ -14,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.PageResult;
+import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
@@ -22,7 +22,6 @@ import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.LabelService;
@@ -32,7 +31,6 @@ import com.nhnacademy.marketgg.client.web.admin.AdminProductController;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -43,7 +41,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
@@ -54,6 +52,7 @@ import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequ
 import org.springframework.web.multipart.MultipartFile;
 
 @AutoConfigureMockMvc(addFilters = false)
+@Import(RedisConfig.class)
 @WebMvcTest(AdminProductController.class)
 class AdminProductControllerTest {
 
@@ -77,9 +76,6 @@ class AdminProductControllerTest {
 
     @MockBean
     ImageService imageService;
-
-    @MockBean
-    RedisTemplate<String, Object> redisTemplate;
 
     private ProductResponse productResponse;
     private ImageResponse imageResponse;
@@ -115,7 +111,8 @@ class AdminProductControllerTest {
                                                                .headers(httpHeaders)
                                                                .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                                                                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                                     .content(Dummy.getDummyModelAttributeProductCreateRequest()));
+                                                               .content(
+                                                                   Dummy.getDummyModelAttributeProductCreateRequest()));
 
         MvcResult mvcResult = resultActions.andExpect(status().is3xxRedirection()).andExpect(view().name(
             "redirect:" + DEFAULT_PRODUCT_URI + "/index")).andReturn();
@@ -143,12 +140,13 @@ class AdminProductControllerTest {
         then(labelService).should(times(1)).retrieveLabels();
 
     }
+
     @Test
     @DisplayName("상품 수정 테스트")
     void testUpdateProduct() throws Exception {
         willDoNothing().given(productService).updateProduct(anyLong(),
-                                                            any(MockMultipartFile.class),
-                                                            any(ProductUpdateRequest.class));
+            any(MockMultipartFile.class),
+            any(ProductUpdateRequest.class));
 
         MockMultipartFile image = getImage();
 
@@ -161,7 +159,8 @@ class AdminProductControllerTest {
         ResultActions resultActions = this.mockMvc.perform(builder.file(image).headers(httpHeaders)
                                                                   .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
                                                                   .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                                                               .content(Dummy.getDummyModelAttributeProductUpdateRequest()));
+                                                                  .content(
+                                                                      Dummy.getDummyModelAttributeProductUpdateRequest()));
 
         MvcResult mvcResult = resultActions.andExpect(status().is3xxRedirection())
                                            .andExpect(view().name(
@@ -170,8 +169,8 @@ class AdminProductControllerTest {
 
         assertThat(mvcResult.getModelAndView()).isNotNull();
         then(productService).should(times(1)).updateProduct(anyLong(),
-                                                            any(MockMultipartFile.class),
-                                                            any(ProductUpdateRequest.class));
+            any(MockMultipartFile.class),
+            any(ProductUpdateRequest.class));
     }
 
     @Test
@@ -180,7 +179,7 @@ class AdminProductControllerTest {
         willDoNothing().given(productService).deleteProduct(anyLong());
 
         ResultActions resultActions = this.mockMvc.perform(delete(DEFAULT_PRODUCT_URI + "/{productId}", 1)
-                                                               .headers(httpHeaders));
+            .headers(httpHeaders));
 
         MvcResult mvcResult = resultActions.andExpect(status().is3xxRedirection())
                                            .andExpect(view().name(
