@@ -3,9 +3,7 @@ package com.nhnacademy.marketgg.client.jwt;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 public class ShaPasswordEncoder implements PasswordEncoder {
 
@@ -25,7 +23,6 @@ public class ShaPasswordEncoder implements PasswordEncoder {
         for (byte b : digested) {
             sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
         }
-        System.out.println("password = " + sb);
         return sb.toString();
     }
 

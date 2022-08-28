@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.auth;
 
 import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
@@ -10,6 +11,7 @@ import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
 import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +19,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -48,7 +51,15 @@ public class AuthAdapter implements AuthRepository {
 
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(loginRequest, httpHeaders);
 
-        return restTemplate.postForEntity(requestUrl + "/auth/v1/members/login", httpEntity, Void.class);
+        ResponseEntity<Void> response;
+        try {
+            response = restTemplate.exchange(requestUrl + "/auth/v1/members/login", POST, httpEntity, Void.class);
+        } catch (Exception e) {
+            log.error(e.toString());
+            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
+                                     .build();
+        }
+        return response;
     }
 
     @Override

@@ -45,6 +45,6 @@ function main() {
     addToCart();
 }
 
-const url = "/cart";
+const url = "http://localhost:5050/cart";
 
 main();
