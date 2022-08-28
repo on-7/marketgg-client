@@ -7,17 +7,16 @@
         <title>Market GG | 지급 쿠폰 조회</title>
     </head>
     <body>
-        <main>
+        <main style="background-color: white;">
             <form style="display: flex; justify-content: center" th:method="post" th:acthion="${memberId}+'/coupons'">
                 <input type="text" name="name" th:placeholder="#{COUPON_NAME_INPUT}"
                        style="width:300px; text-align: center;">
-                <input type="submit" th:value="#{COUPON_CREATE}" class="btn btn-outline-primary">
+                <input type="submit" th:value="#{COUPON_CREATE}" class="btn btn-outline-danger">
             </form>
-            <br />
+            <br/>
             <div style="text-align: center; display: flex; justify-content: center">
                 <table class="table table-hover" style="text-align:center">
-                    <tr class="table-primary">
-                        <th th:text="#{COUPON_NO}"></th>
+                    <tr class="table-danger">
                         <th th:text="#{COUPON_NAME}"></th>
                         <th th:text="#{COUPON_TYPE}"></th>
                         <th th:text="#{MINIMUM_MONEY}"></th>
@@ -26,41 +25,26 @@
                         <th th:text="#{COUPON_STATUS}"></th>
                     </tr>
                     <tr th:each="coupon : ${coupons}">
-                        <td th:text="${coupon.couponId}"></td>
                         <td th:text="${coupon.name}"></td>
                         <td th:text="${coupon.type}"></td>
-                        <td th:text="${#numbers.formatInteger(coupon.minimumMoney, 3, 'COMMA')}"></td>
-                        <td th:text="${coupon.discountAmount &gt;= 1 ? #numbers.formatInteger(coupon.getDiscountAmount(), 3, 'COMMA') : #numbers.formatPercent(coupon.getDiscountAmount(), 1, 2)}"></td>
+                        <td th:text="${#numbers.formatInteger(coupon.minimumMoney, 3, 'COMMA')+'원'}"></td>
+                        <td th:text="${coupon.discountAmount &gt;= 1 ? #numbers.formatInteger(coupon.getDiscountAmount(), 3, 'COMMA')+'원'  : #numbers.formatPercent(coupon.getDiscountAmount(), 1, 2)}"></td>
                         <td th:text="${#temporals.format(coupon.expiredDate, 'yyyy/MM/dd hh:mm:ss')}"></td>
                         <td th:text="${coupon.status}"></td>
                     </tr>
                 </table>
             </div>
-            <div class="page-num"
-                 th:with="start=${(pageNumber/totalPages)*pageSize + 1},
-                  end=(${(totalPages == 0) ? 1 : (start + (pageSize - 1) < totalPages ? start + (pageSize - 1) : totalPages)})">
-                <ul class="pagination">
-                    <li th:if="${start > 1}" class="page-link">
-                        <a th:href="@{/members/coupons(page=0)}" th:text="'<<'"></a>
-                    </li>
-
-                    <li th:if="${start > 1}" class="page-link">
-                        <a th:href="@{/members/coupons(page=${start - pageSize})}" ></a>
-                    </li>
-
-                    <li th:each="page: ${#numbers.sequence(start, end)}" class="page-link">
-                        <a th:href="@{/members/coupons(page=${start - pageSize})}" th:text="${page}"></a>
-                    </li>
-
-                    <li th:if="${end < totalPages}" class="page-link">
-                        <a th:href="@{/members/coupons(page=${start + pageSize})}"></a>
-                    </li>
-
-                    <li th:if="${end < totalPages}" class="page-link">
-                        <a th:href="@{/members/coupons(page=${totalPages - 1})}"></a>
-                    </li>
-                </ul>
-            </div>
+                <div style="display: flex; flex-direction: row;">
+                    <a th:href="@{|/members/coupons?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp; &lt;
+                    <a th:if="${pages.page > 1}" th:href="@{|/members/coupons?page=${pages.page - 1}|}" style="color: black"></a> &nbsp;
+                    <ul class="pagination">
+                        <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                            <a th:href="@{|/members/coupons?page=${page}|}" th:text="${page}" style="color: black"></a> &nbsp;
+                        </li>
+                    </ul>
+                    <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/members/coupons?page=${pages.page + 1}|}" style="color: black"></a>
+                    &gt; &nbsp;<a th:href="@{|/members/coupons?page=${pages.totalPageCnt}|}" th:text="#{LAST}" style="color: black"></a>
+                </div>
         </main>
     </body>
 </html>

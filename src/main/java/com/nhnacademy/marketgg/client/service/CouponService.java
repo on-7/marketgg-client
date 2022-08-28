@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -39,7 +40,7 @@ public interface CouponService {
      * @return 쿠폰 전체 목록의 정보를 담은 객체로 이루어진 List 를 반환합니다.
      * @since 1.0.0
      */
-    List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException;
+    PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page) throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 수정을 위해 Adapter 메소드를 실행합니다.

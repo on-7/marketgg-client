@@ -29,6 +29,6 @@ public interface GivenCouponRepository {
      * @return 조회한 쿠폰 목록을 List 로 반환합니다.
      * @since 1.0.0
      */
-    PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons() throws UnAuthenticException, UnAuthorizationException;
+    PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Integer page) throws UnAuthenticException, UnAuthorizationException;
 
 }

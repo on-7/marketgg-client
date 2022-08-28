@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -25,13 +26,13 @@ public class DefaultCouponService implements CouponService {
     }
 
     @Override
-    public CouponRetrieveResponse retrieveCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException {
+    public CouponRetrieveResponse retrieveCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException {
         return couponRepository.retrieveCoupon(couponId);
     }
 
     @Override
-    public List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
-        return couponRepository.retrieveCoupons();
+    public PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page) throws UnAuthenticException, UnAuthorizationException {
+        return couponRepository.retrieveCoupons(page);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class DefaultCouponService implements CouponService {
     }
 
     @Override
-    public void deleteCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException {
+    public void deleteCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException {
         couponRepository.deleteCoupon(couponId);
     }
 }

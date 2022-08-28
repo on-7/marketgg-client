@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -57,16 +59,15 @@ public class MemberController {
      * @since 1.0.0
      */
     @GetMapping("/coupons")
-    public ModelAndView retrieveOwnCoupons()
+    public ModelAndView retrieveOwnCoupons(@RequestParam(defaultValue = "1") final Integer page)
         throws UnAuthenticException, UnAuthorizationException {
 
-        PageResult<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons();
+        PageResult<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(page);
+        Pagination pagination = new Pagination(responses.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/mygg/coupons/index");
         mav.addObject("coupons", responses.getData());
-        mav.addObject("pageNumber", responses.getPageNumber());
-        mav.addObject("pageSize", responses.getPageSize());
-        mav.addObject("totalPages", responses.getTotalPages());
+        mav.addObject("pages", pagination);
 
         return mav;
     }

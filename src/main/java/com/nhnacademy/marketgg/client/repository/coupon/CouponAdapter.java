@@ -53,7 +53,7 @@ public class CouponAdapter implements CouponRepository {
     }
 
     @Override
-    public CouponRetrieveResponse retrieveCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException {
+    public CouponRetrieveResponse retrieveCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<CouponRetrieveResponse>> response
@@ -66,17 +66,17 @@ public class CouponAdapter implements CouponRepository {
     }
 
     @Override
-    public List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
+    public PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page) throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<PageResult<CouponRetrieveResponse>>> response
-            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "?page=" + page,
                                     HttpMethod.GET, requestEntity,
                                     new ParameterizedTypeReference<>() {
                                     });
 
         ResponseUtils.checkError(response);
-        return Objects.requireNonNull(response.getBody()).getData().getData();
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
@@ -95,7 +95,7 @@ public class CouponAdapter implements CouponRepository {
     }
 
     @Override
-    public void deleteCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException {
+    public void deleteCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<String>> response =
             restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,

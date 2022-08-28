@@ -53,12 +53,12 @@ public class GivenCouponAdapter implements GivenCouponRepository {
     }
 
     @Override
-    public PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons()
+    public PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Integer page)
         throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<PageResult<GivenCouponRetrieveResponse>>> response
-            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "?page=" + page,
                                     HttpMethod.GET, requestEntity,
                                     new ParameterizedTypeReference<>() {
                                     });

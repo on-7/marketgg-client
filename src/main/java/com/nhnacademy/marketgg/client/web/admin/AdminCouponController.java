@@ -1,10 +1,12 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.CouponService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -66,11 +69,14 @@ public class AdminCouponController {
      * @since 1.0.0
      */
     @GetMapping("/index")
-    public ModelAndView retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
-        List<CouponRetrieveResponse> responses = couponService.retrieveCoupons();
+    public ModelAndView retrieveCoupons(@RequestParam(defaultValue = "1") final Integer page) throws UnAuthenticException, UnAuthorizationException {
+        PageResult<CouponRetrieveResponse> responses = couponService.retrieveCoupons(page);
+
+        Pagination pagination = new Pagination(responses.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/admin/coupons/index");
-        mav.addObject("coupons", responses);
+        mav.addObject("coupons", responses.getData());
+        mav.addObject("pages", pagination);
 
         return mav;
     }

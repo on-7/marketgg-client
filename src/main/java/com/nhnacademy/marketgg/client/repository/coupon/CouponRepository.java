@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
 import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -30,7 +31,7 @@ public interface CouponRepository {
      * @return 쿠폰 단건 조회 결과 정보를 담은 객체를 반환합니다.
      * @since 1.0.0
      */
-    CouponRetrieveResponse retrieveCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException;
+    CouponRetrieveResponse retrieveCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 전체 목록 조회를 실행하는 메소드입니다.
@@ -38,7 +39,7 @@ public interface CouponRepository {
      * @return 쿠폰 전체 목록 조회 결과 정보를 담은 객체 List 를 반환합니다.
      * @since 1.0.0
      */
-    List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException;
+    PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page) throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰을 수정하는 메소드입니다.
@@ -55,6 +56,6 @@ public interface CouponRepository {
      *
      * @param couponId - 삭제할 쿠폰 식별번호입니다.
      */
-    void deleteCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException;
+    void deleteCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException;
 
 }

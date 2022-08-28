@@ -25,10 +25,10 @@ public class DefaultGivenCouponService implements GivenCouponService {
     }
 
     @Override
-    public PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons()
+    public PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Integer page)
         throws UnAuthenticException, UnAuthorizationException {
 
-        return givenCouponRepository.retrieveOwnGivenCoupons();
+        return givenCouponRepository.retrieveOwnGivenCoupons(page);
     }
 
 }
