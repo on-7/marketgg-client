@@ -1,12 +1,35 @@
-$(document).ready(function () {
+// $(document).ready(function () {
+//
+//     const productId = document.getElementById("product-id").value;
+//
+//     $(".reviewContainer").click(function () {
+//         $.getJSON('/products/' + productId + "/reviews", function (arr) {
+//             console.log(arr);
+//         })
+//
+//     })
+//
+// })
 
-    const productId = document.getElementById("product-id").value;
+window.addEventListener('DOMContentLoaded', () => {
 
-    $(".reviewContainer").click(function () {
-        $.getJSON('/products/' + productId + "/reviews", function (arr) {
-            console.log(arr);
+    let productId = document.getElementById("product-id").value;
+    let reviewsRetrieveBtn = document.getElementById("review-retrieve");
+
+    function retrieveReviews() {
+
+        let html = "";
+        reviewsRetrieveBtn.addEventListener("click", () => {
+            console.log(productId);
+            fetch("/products/" + productId + "/reviews?" + new URLSearchParams({
+                page: 1
+            })).then(result => result.json())
+                .then(json => {
+
+                })
         })
 
-    })
+    }
 
+    retrieveReviews()
 })

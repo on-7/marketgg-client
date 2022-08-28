@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -60,11 +59,11 @@ class DefaultReviewServiceTest {
     @Test
     @DisplayName("리뷰 전체조회 테스트")
     void testRetrieveReviews() {
-        given(reviewRepository.retrieveReviews(anyLong())).willReturn(Dummy.getDummyPageResult());
+        given(reviewRepository.retrieveReviews(anyLong(), anyInt())).willReturn(Dummy.getDummyPageResult());
 
-        reviewService.retrieveReviews(1L);
+        reviewService.retrieveReviews(1L, 1);
 
-        then(reviewRepository).should(times(1)).retrieveReviews(anyLong());
+        then(reviewRepository).should(times(1)).retrieveReviews(anyLong(), anyInt());
     }
 
     @Test

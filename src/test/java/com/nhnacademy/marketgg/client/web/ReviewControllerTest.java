@@ -1,8 +1,7 @@
 package com.nhnacademy.marketgg.client.web;
 
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -89,14 +88,13 @@ class ReviewControllerTest {
     @Test
     @DisplayName("후기 전체조회 테스트")
     void testRetrieveReviews() throws Exception {
-        given(reviewService.retrieveReviews(anyLong())).willReturn(Dummy.getDummyPageResult());
+        given(reviewService.retrieveReviews(anyLong(), anyInt())).willReturn(Dummy.getDummyPageResult());
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + PRODUCT_ID + "/reviews"))
-                    .andExpect(status().isOk())
-                    .andExpect(view().name("pages/products/reviews/review-view"));
+                    .andExpect(status().isOk());
 
         then(reviewService).should(times(1))
-                           .retrieveReviews(anyLong());
+                           .retrieveReviews(anyLong(), anyInt());
     }
 
     @Test
