@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.DibService;
@@ -20,12 +21,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc(addFilters = false)
+@Import(RedisConfig.class)
 @WebMvcTest(DibAjaxController.class)
 class DibAjaxControllerTest {
 
@@ -37,10 +40,6 @@ class DibAjaxControllerTest {
 
     @MockBean
     DibService dibService;
-
-    @MockBean
-    RedisTemplate<String, Object> redisTemplate;
-
     @Test
     @DisplayName("사용자 찜 여부 확인 (존재 O)")
     void testDibViewPresent() throws Exception {

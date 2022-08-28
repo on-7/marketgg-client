@@ -39,6 +39,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.session:spring-session-data-redis'
     implementation 'org.springframework.cloud:spring-cloud-config-client'
     implementation 'commons-fileupload:commons-fileupload:1.4'
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.79.Final:osx-aarch_64'
@@ -53,7 +54,6 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'org.mockito:mockito-inline:4.7.0'
 
-    // https://mvnrepository.com/artifact/org.sonarsource.scanner.gradle/sonarqube-gradle-plugin
     runtimeOnly 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3'
 }
 

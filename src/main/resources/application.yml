@@ -4,3 +4,6 @@ spring:
 
   config:
     import: "optional:configserver:http://config.marketgg.shop"
+
+  session:
+    store-type: redis
