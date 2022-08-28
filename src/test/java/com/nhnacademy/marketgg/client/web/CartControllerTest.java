@@ -66,7 +66,7 @@ class CartControllerTest {
     ObjectMapper mapper;
 
     @Autowired
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @MockBean
     CartService cartService;

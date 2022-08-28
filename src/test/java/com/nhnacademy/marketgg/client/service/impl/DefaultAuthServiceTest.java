@@ -47,7 +47,7 @@ class DefaultAuthServiceTest {
     PasswordEncoder passwordEncoder;
 
     @Mock
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     String userJwt =
         "header.eyJzdWIiOiJmNjRiYTQyNC1iZWY4LTQ2OTMtODQ5NS02ZTQwMzVlMGY1OTgiLCJBVVRIT1JJVElFUyI6WyJST0xFX1VTRVIiXSwiaWF0IjoxNjU4OTc4OTEyLCJleHAiOjE2OTA1MzU4Mzh9.signature";

@@ -31,7 +31,7 @@ class AdminPointControllerTest {
     PointService pointService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @Test
     @DisplayName("관리자의 전체 회원 포인트 내역 조회 테스트")

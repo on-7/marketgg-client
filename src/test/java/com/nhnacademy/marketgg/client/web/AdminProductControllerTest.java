@@ -79,7 +79,7 @@ class AdminProductControllerTest {
     ImageService imageService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     private ProductResponse productResponse;
     private ImageResponse imageResponse;

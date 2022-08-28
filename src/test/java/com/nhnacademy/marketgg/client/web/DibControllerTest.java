@@ -34,7 +34,7 @@ class DibControllerTest {
     DibService dibService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     private static final String DEFAULT_DIB = "/members/dibs";
 

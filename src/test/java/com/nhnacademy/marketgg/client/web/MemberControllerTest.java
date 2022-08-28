@@ -66,7 +66,7 @@ class MemberControllerTest {
     ProductInquiryService productInquiryService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @Test
     @DisplayName("사용할 수 있는 이메일 검증 테스트")

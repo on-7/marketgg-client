@@ -40,7 +40,7 @@ class AuthControllerTest {
     AuthService authService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
     ObjectMapper mapper;

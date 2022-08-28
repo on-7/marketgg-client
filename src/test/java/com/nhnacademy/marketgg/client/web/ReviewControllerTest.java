@@ -51,7 +51,7 @@ class ReviewControllerTest {
     ReviewService reviewService;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @MockBean
     RestTemplate restTemplate;

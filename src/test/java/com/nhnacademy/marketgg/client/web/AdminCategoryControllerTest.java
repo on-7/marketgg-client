@@ -43,7 +43,7 @@ class AdminCategoryControllerTest {
     ObjectMapper objectMapper;
 
     @MockBean
-    RedisTemplate<String, JwtInfo> redisTemplate;
+    RedisTemplate<String, Object> redisTemplate;
 
     @MockBean
     CategoryService categoryService;
