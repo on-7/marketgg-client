@@ -41,7 +41,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     private static final String DEFAULT_PRODUCT_DETAIL_VIEW = "pages/products/product-view";
-    private static final String REDIRECT_PRODUCT_DETAIL_VIEW = "redirect:/pages/products/product-view";
+    private static final String REDIRECT_PRODUCT_DETAIL_VIEW = "redirect:/products/";
 
     /**
      * 후기를 등록합니다.
@@ -64,12 +64,12 @@ public class ReviewController {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).toString());
-            return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
+            return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW + productId);
         }
 
         reviewService.createReview(productId, memberInfo, reviewRequest);
 
-        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
+        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW + productId);
     }
 
     /**

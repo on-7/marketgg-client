@@ -202,6 +202,21 @@
     </div>
     </div>
 
+    <form name="reviewRequest" method="post" th:action="@{|/products/${productDetails.id}/reviews|}" enctype="multipart/form-data">
+
+        <div class="product-details">
+            <h2>후기 등록</h2>
+            <div id="editor"></div>
+            <input type="hidden" id="toast-content" name="description" value="">
+        </div>
+
+        <div class="btn-wrapper">
+            <button type="submit" class="btn btn-primary" id="btn-submit">등록</button>
+            <button type="button" class="btn btn-secondary">취소</button>
+        </div>
+    </form>
+
+
     <div>
         <ul class="pagination">
             <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
