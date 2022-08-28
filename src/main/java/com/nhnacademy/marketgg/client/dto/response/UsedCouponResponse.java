@@ -11,4 +11,6 @@ public class UsedCouponResponse {
 
     private Double discountAmount;
 
+    private String type;
+
 }
