@@ -15,30 +15,82 @@
     <body>
         <main>
 
-            <h2 th:text="#{ORDER_DETAIL}"></h2>
+            <h2 th:text="#{ORDER_DETAIL}"></h2><br />
 
-            <div class="top-info">
-                <p th:text="'주문 번호: '+${orderId}"></p>
-                <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></p>
+            <div class="info">
+                <div class="top-info">
+                    <p th:text="'주문 번호: '+${orderId}"></p>
+                    <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></p>
+                </div>
+                <div class="first-info">
+                    <p>주문 상태</p>
+                    <p th:text="${order.orderStatus}"></p>
+                    <p th:if="${!order.trackingNo.isEmpty()}">운송장 번호</p>
+                    <p th:text="${order.trackingNo}"></p>
+                </div>
+                <div class="second-info" th:if="${!order.getOrderProductList().isEmpty()}">
+                    <h3>주문 상품 목록</h3>
+                    <div class="product-info" th:each="product : ${order.getOrderProductList()}">
+                        <img th:src="${product.imageAddress}"
+                             class="img-thumbnail" th:title="${product.name}+' 상세 보러가기'"
+                             th:onclick="|location.href='/products/${product.id}'|" alt="이미지 없음" />
+                        <div class="product-info-text">
+                            <div class="text-first">
+                                <p>상품명</p>
+                                <p th:text="${product.name}"></p>
+                            </div>
+                            <div class="text-second">
+                                <p>상품 가격</p>
+                                <p th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}+' '+#{WON}"></p>
+                                <p>수량</p>
+                                <p th:text="${product.amount}"></p>
+                                <p>금액</p>
+                                <p th:text="${#numbers.formatInteger(product.price*product.amount, 3, 'COMMA')}+' '+#{WON}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="third-info">
+                    <h3>배송지</h3>
+                        <p>주소 (우편번호)</p>
+                        <p th:text="${order.address}+' ('+${order.zipCode}+')'"></p>
+                        <p>상세 주소</p>
+                        <p th:text="${order.detailAddress}"></p>
+                </div>
+                <div class="last-info">
+                    <h3>할인 적용</h3>
+                    <div class="discount">
+                        <p th:if="${!order.usedCoupon.name.isEmpty()}">쿠폰</p>
+                        <p th:text="${order.usedCoupon.name}"></p>
+                        <p>할인 금액</p>
+                        <p th:if="${order.usedCoupon.type.equals('정액할인')}"
+                        th:text="${order.totalAmount}-${order.usedCoupon.discountAmount}"></p>
+                        <p th:unless="${order.usedCoupon.type.equals('정액할인')}"
+                           th:text="${order.totalAmount}*${order.usedCoupon.discountAmount}"></p>
+                        <p>사용 포인트</p>
+                        <p th:text="${order.usedPoint}"></p>
+                    </div>
+                </div>
+                <div class="total">
+                    <p>합계</p>
+                    <p th:text="${order.totalAmount}"></p>
+                </div>
             </div>
-            <div>
-                <p>주문 상태</p>
 
-            </div>
 
-            <p th:text="${order.id}"></p>
-            <p th:text="${order.orderName}"></p>
-            <p th:text="${order.orderStatus}"></p>
-            <p th:text="${order.totalAmount}"></p>
-            <p th:text="${order.usedCoupon.name}"></p>
-            <p th:text="${order.usedCoupon.discountAmount}"></p>
-            <p th:text="${order.usedPoint}"></p>
-            <p th:text="${order.address}"></p>
-            <p th:text="${order.detailAddress}"></p>
-            <p th:text="${order.zipCode}"></p>
-            <p th:text="${order.trackingNo}"></p>
-            <p th:text="${order.createdAt}"></p>
-            <p th:text="${order.orderProductList.get(0)}"></p>
+            <!-- <p th:text="${order.id}"></p> -->
+            <!-- <p th:text="${order.orderName}"></p> -->
+            <!-- <p th:text="${order.orderStatus}"></p> -->
+            <!-- <p th:text="${order.totalAmount}"></p> -->
+            <!-- <p th:text="${order.usedCoupon.name}"></p> -->
+            <!-- <p th:text="${order.usedCoupon.discountAmount}"></p> -->
+            <!-- <p th:text="${order.usedPoint}"></p> -->
+            <!-- <p th:text="${order.address}"></p> -->
+            <!-- <p th:text="${order.detailAddress}"></p> -->
+            <!-- <p th:text="${order.zipCode}"></p> -->
+            <!-- <p th:text="${order.trackingNo}"></p> -->
+            <!-- <p th:text="${order.createdAt}"></p> -->
+            <!-- <p th:text="${order.orderProductList.get(0)}"></p> -->
 
         </main>
     </body>

@@ -9,14 +9,63 @@ main {
     padding: 3rem;
 }
 
-.top-info {
+.info > * {
     display: flex;
     justify-content: space-between;
-    width: 30em;
+    width: 50em;
+}
+
+.second-info, .third-info, .last-info {
+    flex-direction: column;
+    border: 1px solid black;
+    margin-bottom: 0.2em;
+    padding: 0.5em;
 }
 
 
+h3 {
+    text-align: center;
+}
 
 img {
     width: 10em;
+}
+
+img:hover {
+    cursor: pointer;
+}
+
+.product-info {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.product-info-text {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 3em;
+}
+
+.product-info-text > * {
+    display: flex;
+}
+
+.text-first {
+    width: 30%;
+    justify-content: space-between;
+}
+
+.text-second {
+    justify-content: space-between;
+}
+
+.discount {
+    display: flex;
+}
+
+.total {
+    display: flex;
+    justify-content: flex-end;
 }
