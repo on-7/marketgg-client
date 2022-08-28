@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 인증 관련 처리를 진행하는 컨트롤러입니다.
@@ -73,10 +74,17 @@ public class AuthController {
     @PostMapping("/login")
     public ModelAndView doLogin(@ModelAttribute @Valid LoginRequest loginRequest,
                                 BindingResult bindingResult, HttpServletResponse response,
-                                HttpSession httpSession) {
+                                HttpSession httpSession, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return new ModelAndView("pages/members/login");
+        }
+
+        boolean loginSuccess = authService.doLogin(loginRequest, httpSession.getId());
+
+        if (!loginSuccess) {
+            redirectAttributes.addFlashAttribute("loginSuccess", false);
+            return new ModelAndView("redirect:/login");
         }
 
         Cookie cookie = new Cookie(JwtInfo.SESSION_ID, httpSession.getId());
@@ -84,8 +92,6 @@ public class AuthController {
         cookie.setMaxAge(WEEK_SECOND); // 일주일을 초단위로 나타냄
 
         response.addCookie(cookie);
-
-        authService.doLogin(loginRequest, httpSession.getId());
 
         return new ModelAndView(REDIRECT_TO_INDEX);
     }

@@ -16,7 +16,7 @@ public interface AuthService {
      * @param loginRequest - 사용자가 입력한 이메일, 비밀번호입니다.
      * @param sessionId    - 사용자가 로그인 시 접속한 세션 아이디입니다.
      */
-    void doLogin(final LoginRequest loginRequest, final String sessionId);
+    boolean doLogin(final LoginRequest loginRequest, final String sessionId);
 
     /**
      * 사용자가 로그아웃 요청 시 동작하는 메서드입니다.
