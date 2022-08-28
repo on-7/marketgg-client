@@ -114,6 +114,7 @@ public class JwtAspect {
             Cookie cookie = new Cookie(JwtInfo.SESSION_ID, sessionId);
             cookie.setHttpOnly(true);
             cookie.setMaxAge(WEEK_SECOND);
+            cookie.setPath("/");
             httpResponse.addCookie(cookie);
 
             SecurityContextHolder.clearContext();

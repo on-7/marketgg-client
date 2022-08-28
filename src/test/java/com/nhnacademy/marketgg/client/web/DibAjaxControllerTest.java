@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.DibService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -40,6 +38,7 @@ class DibAjaxControllerTest {
 
     @MockBean
     DibService dibService;
+
     @Test
     @DisplayName("사용자 찜 여부 확인 (존재 O)")
     void testDibViewPresent() throws Exception {
@@ -49,9 +48,9 @@ class DibAjaxControllerTest {
         given(dibService.retrieveDibs()).willReturn(List.of(response));
 
         this.mockMvc.perform(post("/dibs")
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .param("productId", "1")
-                                     .param("memberId", "1"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("productId", "1")
+                .param("memberId", "1"))
                     .andExpect(status().isOk());
 
         then(dibService).should(times(1)).retrieveDibs();
@@ -63,7 +62,7 @@ class DibAjaxControllerTest {
         given(dibService.retrieveDibs()).willReturn(List.of());
 
         this.mockMvc.perform(post("/dibs")
-                                     .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
     }
 
@@ -73,7 +72,7 @@ class DibAjaxControllerTest {
         willDoNothing().given(dibService).createDib(anyLong());
 
         this.mockMvc.perform(get("/dibs/insert/{productId}", 1L)
-                                     .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
 
         then(dibService).should(times(1)).createDib(anyLong());
@@ -85,7 +84,7 @@ class DibAjaxControllerTest {
         willDoNothing().given(dibService).deleteDib(anyLong());
 
         this.mockMvc.perform(get("/dibs/delete/{productId}", 1L)
-                                     .contentType(MediaType.APPLICATION_JSON))
+                .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk());
 
         then(dibService).should(times(1)).deleteDib(anyLong());

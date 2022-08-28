@@ -15,7 +15,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.CommentService;
 import com.nhnacademy.marketgg.client.service.PostService;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +24,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc(addFilters = false)
@@ -53,8 +51,8 @@ class CommentControllerTest {
         willDoNothing().given(commentService).createComment(anyLong(), any(CommentRequest.class));
 
         this.mockMvc.perform(post(DEFAULT_POST + "/{postId}", 1L)
-                                     .param("content", "hello!")
-                                     .param("page", "0"))
+                .param("content", "hello!")
+                .param("page", "0"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/1"));
 
@@ -67,8 +65,8 @@ class CommentControllerTest {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(new PostResponseForDetail());
 
         this.mockMvc.perform(post(DEFAULT_POST + "/{postId}", 1L)
-                                     .param("content", "")
-                                     .param("page", "0"))
+                .param("content", "")
+                .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("pages/board/oto-inquiries/detail"));
 

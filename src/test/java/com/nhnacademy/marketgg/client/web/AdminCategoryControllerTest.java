@@ -18,7 +18,6 @@ import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import com.nhnacademy.marketgg.client.web.admin.AdminCategoryController;
 import java.util.List;
@@ -29,7 +28,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -61,16 +59,16 @@ class AdminCategoryControllerTest {
     @DisplayName("카테고리 등록")
     void testCreateCategory() throws Exception {
         CategoryCreateRequest categoryRequest =
-                new CategoryCreateRequest("001001", "001", "친환경", 1);
+            new CategoryCreateRequest("001001", "001", "친환경", 1);
 
         String content = objectMapper.writeValueAsString(categoryRequest);
 
         willDoNothing().given(categoryService).createCategory(any(CategoryCreateRequest.class));
 
         this.mockMvc.perform(post(DEFAULT_CATEGORY)
-                                     .content(content)
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .accept(MediaType.APPLICATION_JSON))
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().is3xxRedirection());
 
         then(categoryService).should(times(1)).createCategory(any(CategoryCreateRequest.class));
@@ -115,9 +113,9 @@ class AdminCategoryControllerTest {
         willDoNothing().given(categoryService).updateCategory(anyString(), any(CategoryUpdateRequest.class));
 
         this.mockMvc.perform(put(DEFAULT_CATEGORY + "/001001")
-                                     .content(content)
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .accept(MediaType.APPLICATION_JSON))
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().is3xxRedirection());
 
         then(categoryService).should(times(1)).updateCategory(anyString(), any(CategoryUpdateRequest.class));
