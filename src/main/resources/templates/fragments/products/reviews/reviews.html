@@ -9,9 +9,130 @@
         <div id="reviews" class="review-section">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h4 class="m-0" th:text="${#lists.size(reviews)} + ' reviews'"></h4>
-
+                <select class="custom-select custom-select-sm border-0 shadow-sm ml-2 select2-hidden-accessible"
+                        data-select2-id="1" tabindex="-1" aria-hidden="true">
+                    <option data-select2-id="3">Most Relevant</option>
+                    <option>Most Recent</option>
+                </select>
                 <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2"
                       style="width: 188px;">
+                <span class="selection">
+                    <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true"
+                          aria-expanded="false" tabindex="0" aria-labelledby="select2-qd66-container">
+                        <span class="select2-selection__rendered" id="select2-qd66-container" role="textbox"
+                              aria-readonly="true" title="Most Relevant">Most Relevant</span>
+                        <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>
+                    </span>
+                </span>
+                <span class="dropdown-wrapper" aria-hidden="true"></span>
+            </span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <table class="stars-counters">
+                        <tbody>
+                        <tr class="">
+                            <td>
+                                <span>
+                                    <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">5 Stars</button>
+                                </span>
+                            </td>
+                            <td class="progress-bar-container">
+                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                    <div class="fit-progressbar-background">
+                                        <span class="progress-fill" style="width: 97.2973%;"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="star-num">(36)</td>
+                        </tr>
+                        <tr class="">
+                            <td>
+                                <span>
+                                    <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">4 Stars</button>
+                                </span>
+                            </td>
+                            <td class="progress-bar-container">
+                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                    <div class="fit-progressbar-background">
+                                        <span class="progress-fill" style="width: 2.2973%;"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="star-num">(2)</td>
+                        </tr>
+                        <tr class="">
+                            <td>
+                                <span>
+                                    <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">3 Stars</button>
+                                </span>
+                            </td>
+                            <td class="progress-bar-container">
+                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                    <div class="fit-progressbar-background">
+                                        <span class="progress-fill" style="width: 0;"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="star-num">(0)</td>
+                        </tr>
+                        <tr class="">
+                            <td>
+                                <span>
+                                    <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">2 Stars</button>
+                                </span>
+                            </td>
+                            <td class="progress-bar-container">
+                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                    <div class="fit-progressbar-background">
+                                        <span class="progress-fill" style="width: 0;"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="star-num">(0)</td>
+                        </tr>
+                        <tr class="">
+                            <td>
+                                <span>
+                                    <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">1 Stars</button>
+                                </span>
+                            </td>
+                            <td class="progress-bar-container">
+                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                    <div class="fit-progressbar-background">
+                                        <span class="progress-fill" style="width: 0;"></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="star-num">(0)</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <div class="ranking">
+                        <h6 class="text-display-7">Rating Breakdown</h6>
+                        <ul>
+                            <li>
+                                Seller communication level<span>5<span
+                                    class="review-star rate-10 show-one"></span></span>
+                            </li>
+                            <li>
+                                Recommend to a friend<span>5<span class="review-star rate-10 show-one"></span></span>
+                            </li>
+                            <li>
+                                Service as described<span>4.9<span class="review-star rate-10 show-one"></span></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between mb-4">
+
+            <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2"
+                  style="width: 188px;">
                 <span class="selection">
                     <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true"
                           aria-expanded="false" tabindex="0" aria-labelledby="select2-qd66-container">
@@ -20,19 +141,19 @@
                 </span>
                 <span class="dropdown-wrapper" aria-hidden="true"></span>
             </span>
-            </div>
         </div>
+    </div>
 
-        <div class="review-list">
-            <ul>
-                <li th:each="review : ${reviews}">
-                    <div class="d-flex">
-                        <div class="left">
-                        </div>
-                        <div class="right">
-                            <h4>
-                                <span th:text="${review.memberName}"></span>
-                                <span class="gig-rating text-body-2">
+    <div class="review-list">
+        <ul>
+            <li th:each="review : ${reviews}">
+                <div class="d-flex">
+                    <div class="left">
+                    </div>
+                    <div class="right">
+                        <h4>
+                            <span th:text="${review.memberName}"></span>
+                            <span class="gig-rating text-body-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
                                     <path
                                             fill="currentColor"
@@ -41,17 +162,18 @@
                                 </svg>
                                     <span th:text="${review.rating}">></span>
                             </span>
-                            </h4>
-                            <div class="country d-flex align-items-center">
-                            </div>
-                            <div class="review-description">
-                                <p>
-                                    <span th:text="${review.content}">></span>
-                                </p>
-                            </div>
-                            <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
-                            <div class="helpful-thumbs">
-                                <div class="helpful-thumb text-body-2">
+                        </h4>
+                        <div class="country d-flex align-items-center">
+                        </div>
+                        <div class="review-description">
+                            <p>
+                                <span th:text="${review.content}">></span>
+                            </p>
+                        </div>
+                        <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
+
+                        <div class="helpful-thumbs">
+                            <div class="helpful-thumb text-body-2">
                                 <span class="fit-icon thumbs-icon">
                                     <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -59,9 +181,9 @@
                                         ></path>
                                     </svg>
                                 </span>
-                                    <span class="thumb-title">Helpful</span>
-                                </div>
-                                <div class="helpful-thumb text-body-2 ml-3">
+                                <span class="thumb-title">Helpful</span>
+                            </div>
+                            <div class="helpful-thumb text-body-2 ml-3">
                                 <span class="fit-icon thumbs-icon">
                                     <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -69,20 +191,21 @@
                                         ></path>
                                     </svg>
                                 </span>
-                                    <span class="thumb-title">Not Helpful</span>
-                                </div>
+                                <span class="thumb-title">Not Helpful</span>
                             </div>
                         </div>
+
                     </div>
-                </li>
-            </ul>
-        </div>
+                </div>
+            </li>
+        </ul>
+    </div>
     </div>
 
     <div>
         <ul class="pagination">
             <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
-                <a th:href="@{|/products/${productDetails.id}/reviews/?page=${page}|}" th:text="${page + 1}"></a>
+                <a th:href="@{|/products/${productDetails.id}/?page=${page}|}" th:text="${page + 1}"></a>
             </li>
         </ul>
     </div>

@@ -128,15 +128,15 @@ public class ProductController {
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
 
-//        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(id, page);
-//        mav.addObject("reviews", reviewResponsePageResult.getData());
-//
-//        Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
+        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(id, page);
+        mav.addObject("reviews", reviewResponsePageResult.getData());
+
+        Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
 
         ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
         productDetails.updateThumbnail(imageResponse.getImageAddress());
 
-//        mav.addObject("pages", pagination);
+        mav.addObject("pages", pagination);
 
         return mav;
     }
