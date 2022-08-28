@@ -13,11 +13,11 @@ import com.nhnacademy.marketgg.client.service.ProductService;
 import com.nhnacademy.marketgg.client.service.ReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -128,15 +128,15 @@ public class ProductController {
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
 
-        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(id);
-        mav.addObject("reviews", reviewResponsePageResult.getData());
-
-        Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
+//        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(id, page);
+//        mav.addObject("reviews", reviewResponsePageResult.getData());
+//
+//        Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
 
         ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
         productDetails.updateThumbnail(imageResponse.getImageAddress());
 
-        mav.addObject("pages", pagination);
+//        mav.addObject("pages", pagination);
 
         return mav;
     }

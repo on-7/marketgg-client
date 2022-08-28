@@ -52,13 +52,13 @@ public class ReviewAdapter implements ReviewRepository {
     }
 
     @Override
-    public PageResult<ReviewResponse> retrieveReviews(final Long productId) {
+    public PageResult<ReviewResponse> retrieveReviews(final Long productId, final int page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
         ResponseEntity<PageResult<ReviewResponse>> response =
-            this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW,
+            this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "?page=" + page,
                                        HttpMethod.GET,
                                        request,
                                        new ParameterizedTypeReference<>() {

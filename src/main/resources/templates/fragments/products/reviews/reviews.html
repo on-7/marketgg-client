@@ -72,4 +72,12 @@
             </ul>
         </div>
     </div>
+
+    <div>
+        <ul class="pagination">
+            <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
+                <a th:href="@{|/products/${productDetails.id}/reviews/?page=${page}|}" th:text="${page + 1}"></a>
+            </li>
+        </ul>
+    </div>
 </section>

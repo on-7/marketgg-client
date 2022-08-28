@@ -33,7 +33,7 @@ public interface ReviewRepository {
      * @param productId - 후기가 달린 상품의 상품번호입니다.
      * @return - 후기의 전체 목록을 반환합니다.
      */
-    PageResult<ReviewResponse> retrieveReviews(final Long productId);
+    PageResult<ReviewResponse> retrieveReviews(final Long productId, final int page);
 
     /**
      * 후기를 상세조회합니다.
