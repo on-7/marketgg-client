@@ -108,7 +108,7 @@ function addDeleteSelection() {
         let deletedProducts = [];
         for (let i = 0; i < carts.length; i++) {
             let productId = carts[i].id.split("-")[1];
-            console.log("cartID = " + carts[i].id);
+
             let checked = document.getElementById("check-" + productId).checked;
             if (!checked) {
                 continue;

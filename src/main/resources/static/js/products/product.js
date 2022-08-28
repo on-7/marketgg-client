@@ -1,5 +1,3 @@
-const url = "/cart";
-
 function addToCart() {
 
     let cartBtn = document.getElementById("cart-btn");
@@ -15,7 +13,7 @@ function addToCart() {
 
         const myHeaders = getHeaders();
 
-        fetch(url, {
+        fetch("/cart", {
             method: "POST",
             headers: myHeaders,
             body: JSON.stringify(productToCartRequest)
