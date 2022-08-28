@@ -6,7 +6,7 @@ import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,7 +37,7 @@ public interface ProductService {
      * @return 모든 상품 List를 반환합니다.
      * @since 1.0.0
      */
-    PageResult<SearchProductResponse> retrieveProducts(int page);
+    PageResult<ProductListResponse> retrieveProducts(int page);
 
     /**
      * 상품 상세 정보를 조회합니다.
@@ -55,7 +55,7 @@ public interface ProductService {
      * @return - 해당 카테고리에 해당하는 모든 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
-    PageResult<SearchProductResponse> retrieveProductsByCategory(final String categoryId, final int page);
+    PageResult<ProductListResponse> retrieveProductsByCategory(final String categoryId, final int page);
 
     /**
      * productId에 해당하는 상품을 수정합니다.
@@ -86,8 +86,8 @@ public interface ProductService {
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
-        throws JsonProcessingException;
+    PageResult<List<ProductListResponse>> searchProductListByCategory(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException;
 
     /**
      * 지정한 카테고리 번호 내에서 선택한 옵션으로 가격이 정렬된 상품 목록을 반환합니다.
@@ -98,8 +98,7 @@ public interface ProductService {
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
-                                                         final String option)
-        throws JsonProcessingException;
+    PageResult<List<ProductListResponse>> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
+            throws JsonProcessingException;
 
 }

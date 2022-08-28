@@ -16,8 +16,7 @@ import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
@@ -33,6 +32,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -56,24 +56,27 @@ class ProductControllerTest {
 
     private static final String DEFAULT_PRODUCT = "/products";
 
-    private SearchProductResponse response;
+    private ProductListResponse response;
     private ImageResponse imageResponse;
-    private ProductResponse productResponse;
 
-    private
+    private PageResult<List<ProductListResponse>> pageResult;
 
     @BeforeEach
     void setUp() {
-        response = new SearchProductResponse();
+        response = new ProductListResponse();
         imageResponse = Dummy.getDummyImageResponse();
-        productResponse = Dummy.getDummyProductResponse();
+        pageResult = new PageResult<>();
+
+        ReflectionTestUtils.setField(pageResult, "pageNumber", 0);
+        ReflectionTestUtils.setField(pageResult, "pageSize", 10);
+        ReflectionTestUtils.setField(pageResult, "totalPages", 0);
+        ReflectionTestUtils.setField(pageResult, "data", List.of());
     }
 
     @Test
     @DisplayName("카테고리 목록에서 상품 검색")
     void testSearchProductListByCategory() throws Exception {
-        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(
-            List.of(response));
+        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/search", "100")
                 .param("categoryId", "001")
@@ -88,8 +91,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("카테고리 목록 내에서 가격 옵션 별 검색")
     void testSearchProductListByPrice() throws Exception {
-        given(productService.searchProductListByPrice(any(SearchRequestForCategory.class), anyString())).willReturn(
-            List.of(response));
+        given(productService.searchProductListByPrice(any(SearchRequestForCategory.class), anyString())).willReturn(pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/categories/{categoryId}/price/{option}/search", "100", "asc")
                 .param("keyword", "안녕")
@@ -104,7 +106,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 전체조회 테스트")
     void testRetrieveProducts() throws Exception {
-        PageResult<SearchProductResponse> dummyPageResult = Dummy.getDummyPageResult();
+        PageResult<ProductListResponse> dummyPageResult = Dummy.getDummyPageResult();
         given(productService.retrieveProducts(anyInt())).willReturn(dummyPageResult);
         given(imageService.retrieveImage(anyLong())).willReturn(imageResponse);
 
@@ -122,7 +124,7 @@ class ProductControllerTest {
 //    @Test
 //    @DisplayName("상품 상세조회 테스트")
 //    void testRetrieveProductDetails() throws Exception {
-//        given(productService.retrieveProductDetails(anyLong())).willReturn(productResponse);
+//        given(productService.retrieveProductDetails(anyLong())).willReturn();
 //        given(imageService.retrieveImage(anyLong())).willReturn(imageResponse);
 //        given(reviewService.retrieveReviews(anyLong())).willReturn()
 //

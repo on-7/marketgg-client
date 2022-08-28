@@ -2,11 +2,12 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -34,16 +35,11 @@ public class IndexController {
             mav.addObject("memberInfo", memberInfo);
         }
 
-        PageResult<SearchProductResponse> searchProductResponsePageResult = this.productService.retrieveProducts(page);
+        PageResult<ProductListResponse> searchProductResponsePageResult = this.productService.retrieveProducts(page);
         Pagination pagination = new Pagination(searchProductResponsePageResult.getTotalPages(), page);
-        List<SearchProductResponse> products = searchProductResponsePageResult.getData();
+        List<ProductListResponse> products = searchProductResponsePageResult.getData();
 
         mav.addObject("products", products);
-
-//        for (SearchProductResponse product : products) {
-//            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-//            product.updateThumbnail(imageResponse.getImageAddress());
-//        }
         mav.addObject("pages", pagination);
 
         return mav;

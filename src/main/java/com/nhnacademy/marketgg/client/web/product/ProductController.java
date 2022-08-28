@@ -6,7 +6,7 @@ import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
@@ -48,7 +48,7 @@ public class ProductController {
     public ModelAndView searchProductListByCategory(@RequestParam final String categoryId, @RequestParam final String keyword, @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
-        List<SearchProductResponse> responses = productService.searchProductListByCategory(request);
+        PageResult<List<ProductListResponse>> responses = productService.searchProductListByCategory(request);
         // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
         // FIXME: Pathvariable 에 option 에는 (asc, desc) 만 들어갑니다! 매핑 잡으실 때 참고해주세요.
         ModelAndView mav = new ModelAndView("pages/products/index");
@@ -75,7 +75,7 @@ public class ProductController {
     public ModelAndView searchProductListByPrice(@PathVariable final String categoryId, @PathVariable final String option, @RequestParam final String keyword, @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
-        List<SearchProductResponse> responses = productService.searchProductListByPrice(request, option);
+        PageResult<List<ProductListResponse>> responses = productService.searchProductListByPrice(request, option);
 
         ModelAndView mav = new ModelAndView("pages/products/index");
         mav.addObject("keyword", keyword);
@@ -97,9 +97,9 @@ public class ProductController {
      */
     @GetMapping
     public ModelAndView retrieveProducts(@RequestParam(defaultValue = "0") int page) {
-        PageResult<SearchProductResponse> productResponsePageResult = this.productService.retrieveProducts(page);
+        PageResult<ProductListResponse> productResponsePageResult = this.productService.retrieveProducts(page);
         Pagination pagination = new Pagination(productResponsePageResult.getTotalPages(), page);
-        List<SearchProductResponse> products = productResponsePageResult.getData();
+        List<ProductListResponse> products = productResponsePageResult.getData();
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
