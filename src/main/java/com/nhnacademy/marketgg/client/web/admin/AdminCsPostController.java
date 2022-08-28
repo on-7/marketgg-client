@@ -308,7 +308,7 @@ public class AdminCsPostController {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
-    @PatchMapping("/categories/" + OTO_CODE + "/{postId}/status")
+    @PutMapping("/categories/" + OTO_CODE + "/{postId}/status")
     public ModelAndView changeStatus(@PathVariable @Min(1) final Long postId,
                                      @RequestParam @Min(0) final Integer page,
                                      @Valid @ModelAttribute final PostStatusUpdateRequest postRequest,

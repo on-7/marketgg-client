@@ -111,7 +111,7 @@ public class PostAdapter implements PostRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<ShopResult<List<PostResponse>>> response = restTemplate.exchange(
                 gateWayIp + ADMIN + CATEGORIES + searchRequest.getCategoryCode() + "/options/" + optionType +
-                        "/search",
+                        "/search?option=" + option,
                 HttpMethod.POST,
                 requestEntity,
                 new ParameterizedTypeReference<>() {
@@ -173,7 +173,7 @@ public class PostAdapter implements PostRepository {
         String requestBody = objectMapper.writeValueAsString(postRequest);
         HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, this.buildHeaders());
         ResponseEntity<ShopResult<Void>> response = restTemplate.exchange(
-                gateWayIp + ADMIN + "/" + postId,
+                gateWayIp + ADMIN + "/" + postId + "/status",
                 HttpMethod.PATCH,
                 requestEntity,
                 new ParameterizedTypeReference<>() {

@@ -80,11 +80,11 @@
                                     <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                                     <td>
                                         <div th:if="${isAdmin == 'yes'}">
-                                            <form th:method="post" th:action="'/adnmin/customer-services/categories/702/'+${board.id}+'/status'">
+                                            <form th:method="post" th:action="'/admin/customer-services/categories/702/'+${board.id}+'/status'">
+                                                <input type="hidden" name="_method" value="put"/>
                                                 <select name="status">
                                                     <option th:each="status : ${statusList}" th:text="${status}" th:value="${status}"></option>
                                                 </select><br />
-                                                <input type="hidden" name="_method" value="patch"/>
                                                 <input type="hidden" name="page" th:value="${page}">
                                                 <input class="btn btn-warning" type="submit" th:value="#{STATUS_CHANGE}">
                                             </form>
