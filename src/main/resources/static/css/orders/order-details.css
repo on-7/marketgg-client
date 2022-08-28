@@ -15,13 +15,23 @@ main {
     width: 50em;
 }
 
+.first-info {
+    border: 1px solid black;
+    margin-bottom: 0.2em;
+    align-content: center;
+    padding: 0.5em 0.5em 0 0.5em;
+}
+
+.first-info > p {
+    margin-bottom: 0;
+}
+
 .second-info, .third-info, .last-info {
     flex-direction: column;
     border: 1px solid black;
     margin-bottom: 0.2em;
-    padding: 0.5em;
+    padding: 0.5em 0.5em 0 0.5em;
 }
-
 
 h3 {
     text-align: center;
@@ -63,9 +73,40 @@ img:hover {
 
 .discount {
     display: flex;
+    flex-direction: column;
+}
+
+.discount > * {
+    display: flex;
+    justify-content: space-around;
 }
 
 .total {
     display: flex;
     justify-content: flex-end;
+    font-weight: bold;
+}
+
+.first-info > p:nth-child(2n-1) {
+    font-weight: bold;
+}
+
+.text-first > p:nth-child(2n-1) {
+    font-weight: bold;
+}
+
+.text-second > p:nth-child(2n-1) {
+    font-weight: bold;
+}
+
+.third-info > p:nth-child(2n) {
+    font-weight: bold;
+}
+
+.coupon > p:nth-child(2n-1) {
+    font-weight: bold;
+}
+
+.point > p:nth-child(2n-1) {
+    font-weight: bold;
 }
