@@ -14,9 +14,11 @@ import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.ProductService;
+
 import java.io.IOException;
 import java.util.List;
 import javax.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -48,10 +50,8 @@ public class AdminProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final LabelService labelService;
-    private final ImageService imageService;
     private final ProductInquiryService inquiryService;
 
-    private static final String DEFAULT_PRODUCT_URI = "/admin/products";
     private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
     private static final String REDIRECT_PRODUCT_URI = "redirect:/admin/products/index";
 
@@ -79,7 +79,7 @@ public class AdminProductController {
     public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute @Valid final ProductCreateRequest productRequest,
                                       BindingResult bindingResult)
-        throws IOException {
+            throws IOException {
 
         if (bindingResult.hasErrors()) {
             log.warn(String.valueOf(bindingResult.getAllErrors().get(0)));
@@ -155,7 +155,7 @@ public class AdminProductController {
                                       @RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute @Valid final ProductUpdateRequest productRequest,
                                       BindingResult bindingResult)
-        throws IOException {
+            throws IOException {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).toString());
@@ -194,7 +194,7 @@ public class AdminProductController {
     @PutMapping("/inquiry-reply")
     @ResponseBody
     public ModelAndView replyInquiry(@RequestBody @Valid final ProductInquiryReplyRequest replyRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         this.inquiryService.updateReply(replyRequest);
 
