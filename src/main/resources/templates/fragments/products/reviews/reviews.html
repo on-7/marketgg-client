@@ -1,5 +1,9 @@
 <section>
-    <div class="container">
+<!--    <a th:href="@{|/products/${productDetails.getId()}/reviews|}">-->
+        <button class="btn-success">후기 보기</button>
+<!--    </a>-->
+
+    <div class="container reviewContainer">
         <div id="reviews" class="review-section">
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <h4 class="m-0" th:text="${#lists.size(reviews)} + ' reviews'"></h4>
