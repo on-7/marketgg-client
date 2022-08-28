@@ -90,6 +90,7 @@ public class AuthController {
         Cookie cookie = new Cookie(JwtInfo.SESSION_ID, httpSession.getId());
         cookie.setHttpOnly(true);
         cookie.setMaxAge(WEEK_SECOND); // 일주일을 초단위로 나타냄
+        cookie.setPath("/");
 
         response.addCookie(cookie);
 
