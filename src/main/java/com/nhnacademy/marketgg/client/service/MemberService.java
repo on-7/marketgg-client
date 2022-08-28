@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.service;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;

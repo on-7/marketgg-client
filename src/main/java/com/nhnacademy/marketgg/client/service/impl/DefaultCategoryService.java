@@ -21,7 +21,7 @@ public class DefaultCategoryService implements CategoryService {
 
     @Override
     public void createCategory(final CategoryCreateRequest categoryRequest)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         categoryRepository.createCategory(categoryRequest);
     }
@@ -38,13 +38,13 @@ public class DefaultCategoryService implements CategoryService {
 
     @Override
     public List<CategorizationRetrieveResponse> retrieveCategorizations()
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         return categoryRepository.retrieveCategorizations();
     }
 
     @Override
     public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         categoryRepository.updateCategory(id, categoryRequest);
     }

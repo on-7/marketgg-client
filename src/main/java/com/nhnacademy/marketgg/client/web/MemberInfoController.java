@@ -36,6 +36,7 @@ public class MemberInfoController {
     private static final String REDIRECT = "redirect:";
     private static final String DEFAULT_MEMBER = "/members";
     private static final String DEFAULT_DELIVERY_ADDRESSES = "/delivery-addresses";
+    private static final String DEFAULT_DELIVERY_ADDRESS = "/delivery-address";
 
     /**
      * 회원가입 View.
@@ -46,8 +47,7 @@ public class MemberInfoController {
      */
     @NoAuth
     @GetMapping("/signup")
-
-    public ModelAndView signup(@ModelAttribute(name = "member") SignupRequest member) {
+    public ModelAndView signup(@ModelAttribute(name = "member") final SignupRequest member) {
         return new ModelAndView("pages/members/signup");
     }
 
@@ -73,6 +73,13 @@ public class MemberInfoController {
         memberService.doSignup(member);
         return new ModelAndView("redirect:/");
     }
+
+    @NoAuth
+    @GetMapping("/signup/email-check")
+    public ModelAndView emailCheckForm() {
+        return new ModelAndView("redirect:/");
+    }
+
 
     /**
      * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
@@ -129,7 +136,10 @@ public class MemberInfoController {
      * @return 배송지 추가 폼
      */
     @GetMapping("/delivery-address")
-    public ModelAndView deliveryAddress() throws UnAuthenticException, UnAuthorizationException {
+    public ModelAndView deliveryAddress(
+        final @ModelAttribute(name = "addressRequest") DeliveryAddressCreateRequest addressRequest)
+        throws UnAuthenticException, UnAuthorizationException {
+
         return new ModelAndView("pages/mygg/delivery-addresses/form");
     }
 
@@ -143,10 +153,11 @@ public class MemberInfoController {
      */
     @PostMapping("/delivery-address")
     public ModelAndView createDeliveryAddress(
-        @ModelAttribute @Valid final DeliveryAddressCreateRequest addressRequest, BindingResult bindingResult)
+        @ModelAttribute(name = "addressRequest") @Valid final DeliveryAddressCreateRequest addressRequest,
+        BindingResult bindingResult)
         throws UnAuthenticException, UnAuthorizationException {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView(REDIRECT + DEFAULT_DELIVERY_ADDRESSES);
+            return new ModelAndView(REDIRECT + DEFAULT_DELIVERY_ADDRESS);
         }
 
         memberService.createDeliveryAddress(addressRequest);
@@ -158,7 +169,6 @@ public class MemberInfoController {
      * 회원이 가진 배송지 정보를 삭제하는 DeleteMapping 메소드 입니다.
      *
      * @param deliveryAddressId - 삭제하는 배송지의 식별번호
-     * @return 배송지 수정하고있는 페이지 redirect
      * @author 김훈민
      * @since 1.0.0
      */

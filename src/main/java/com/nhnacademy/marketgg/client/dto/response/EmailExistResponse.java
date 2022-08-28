@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @NoArgsConstructor
-@Getter
 @ToString
+@Getter
 public class EmailExistResponse {
 
     private boolean isExistEmail;

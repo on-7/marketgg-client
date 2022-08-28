@@ -30,7 +30,8 @@ public class DeliveryController {
      * @param deliveryInfoStatusRequestDto - 배송서버에서 전송된 데이터를 담고있는 객체 입니다.
      */
     @PatchMapping("/delivery-info")
-    public void updateDeliveryInfoStatus(@RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
+    public void updateDeliveryInfoStatus(
+        @RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
         deliveryService.updateDeliveryInfoStatus(deliveryInfoStatusRequestDto);
     }
 

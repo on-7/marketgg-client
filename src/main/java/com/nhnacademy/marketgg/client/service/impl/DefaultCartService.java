@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * 장바구니 관련 비즈니스 로직을 처리하는 구현체입니다.
- *
+ * <p>
  * {@link com.nhnacademy.marketgg.client.service.CartService}
  *
  * @author 윤동열

@@ -2,14 +2,11 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -27,7 +24,7 @@ public class IndexController {
     private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
 
 
-    @GetMapping({ "/", "/index" })
+    @GetMapping({"/", "/index"})
     public ModelAndView index(MemberInfo memberInfo, @RequestParam(defaultValue = "0") int page) {
         log.info("MemberInfo = {}", memberInfo);
 

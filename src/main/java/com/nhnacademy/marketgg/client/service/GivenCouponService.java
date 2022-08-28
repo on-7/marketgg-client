@@ -21,7 +21,8 @@ public interface GivenCouponService {
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void registerCoupon(final GivenCouponCreateRequest givenCouponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+    void registerCoupon(final GivenCouponCreateRequest givenCouponRequest)
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원의 보유 쿠폰 목록을 조회하기 위해 Adapter 메소드를 실행합니다.
@@ -29,6 +30,7 @@ public interface GivenCouponService {
      * @return 조회한 보유 쿠폰 목록을 List 로 반환합니다.
      * @since 1.0.0
      */
-    PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons() throws UnAuthenticException, UnAuthorizationException;
+    PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons()
+        throws UnAuthenticException, UnAuthorizationException;
 
 }

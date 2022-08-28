@@ -83,7 +83,8 @@ public class AdminCouponController {
      * @since 1.0.0
      */
     @GetMapping("/update/{couponId}")
-    public ModelAndView doUpdateCoupon(@PathVariable final Long couponId) throws UnAuthenticException, UnAuthorizationException {
+    public ModelAndView doUpdateCoupon(@PathVariable final Long couponId)
+        throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("pages/admin/coupons/update-form");
 
         CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
@@ -119,7 +120,8 @@ public class AdminCouponController {
      * @since 1.0.0
      */
     @DeleteMapping("/{couponId}")
-    public ModelAndView deleteCoupon(@PathVariable final Long couponId) throws UnAuthenticException, UnAuthorizationException {
+    public ModelAndView deleteCoupon(@PathVariable final Long couponId)
+        throws UnAuthenticException, UnAuthorizationException {
         couponService.deleteCoupon(couponId);
 
         return new ModelAndView(REDIRECT_DEFAULT);

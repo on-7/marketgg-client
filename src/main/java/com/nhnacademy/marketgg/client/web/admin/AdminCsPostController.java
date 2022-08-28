@@ -60,7 +60,7 @@ public class AdminCsPostController {
     @GetMapping("/categories/{categoryId}")
     public ModelAndView index(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                               @RequestParam @Min(0) final Integer page)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/index");
         List<PostResponse> responses = postService.retrievePostList(categoryId, page);
@@ -116,7 +116,7 @@ public class AdminCsPostController {
         }
 
         ModelAndView mav = new ModelAndView(
-                "redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryId + "?page=0");
+            "redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryId + "?page=0");
         postService.createPost(postRequest);
 
         return mav;
@@ -136,7 +136,7 @@ public class AdminCsPostController {
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                      @PathVariable @Min(1) final Long postId,
                                      @RequestParam @Min(0) final Integer page)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/detail");
 
@@ -163,7 +163,7 @@ public class AdminCsPostController {
     public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                           @RequestParam @Size(min = 1, max = 30) final String keyword,
                                           @RequestParam @Min(0) final Integer page)
-            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         List<PostResponse> responses = postService.searchForCategory(request);
@@ -195,7 +195,7 @@ public class AdminCsPostController {
                                         @RequestParam @Size(min = 1, max = 30) final String keyword,
                                         @RequestParam @Min(1) final String option,
                                         @RequestParam @Min(0) final Integer page)
-            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(OTO_CODE, keyword, page, PAGE_SIZE);
         List<PostResponse> responses = postService.searchForOption(request, optionType, option);
@@ -227,7 +227,7 @@ public class AdminCsPostController {
                                      @PathVariable @Min(1) final Long postId,
                                      @RequestParam @Min(0) final Integer page,
                                      @ModelAttribute final PostRequest postRequest)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         if (categoryId.compareTo(OTO_CODE) == 0) {
             return new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + OTO_CODE + "?page=" + page);
@@ -255,7 +255,7 @@ public class AdminCsPostController {
                                    @RequestParam @Min(0) final Integer page,
                                    @Valid @ModelAttribute final PostRequest postRequest,
                                    BindingResult bindingResult)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         if (bindingResult.hasErrors()) {
             return this.goUpdateForm(categoryId, postId, page);
@@ -266,7 +266,7 @@ public class AdminCsPostController {
         }
 
         ModelAndView mav =
-                new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryId + "?page=" + page);
+            new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryId + "?page=" + page);
         postService.updatePost(postId, postRequest, categoryId);
 
         return mav;
@@ -287,10 +287,10 @@ public class AdminCsPostController {
     public ModelAndView deletePost(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                    @PathVariable @Min(1) final Long postId,
                                    @RequestParam @Min(0) final Integer page)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav =
-                new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryId + "?page=" + page);
+            new ModelAndView("redirect:" + DEFAULT_ADMIN_POST + "/categories/" + categoryId + "?page=" + page);
         postService.deletePost(postId, categoryId);
 
         return mav;
@@ -313,7 +313,7 @@ public class AdminCsPostController {
                                      @RequestParam @Min(0) final Integer page,
                                      @Valid @ModelAttribute final PostStatusUpdateRequest postRequest,
                                      BindingResult bindingResult)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         if (!bindingResult.hasErrors()) {
             postService.changeStatus(postId, postRequest);
@@ -352,7 +352,7 @@ public class AdminCsPostController {
      * @since 1.0.0
      */
     private void isAdminAddObject(@RequestParam @Size(min = 1, max = 30) final String keyword, final ModelAndView mav)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         mav.addObject("isAdmin", "yes");
         mav.addObject("keyword", keyword);
         mav.addObject("reasons", postService.retrieveOtoReason());
@@ -375,7 +375,7 @@ public class AdminCsPostController {
      */
     private ModelAndView goUpdateForm(@PathVariable @Size(min = 1, max = 6) String categoryId,
                                       @PathVariable @Min(1) Long postId, @RequestParam @Min(0) Integer page)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/update-form");
         mav.addObject("isAdmin", "yes");

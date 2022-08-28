@@ -1,8 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.payment;
 
-import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

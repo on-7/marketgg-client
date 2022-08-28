@@ -2,18 +2,15 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
-import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.oauth2.TokenRequest;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.repository.auth.OauthRepository;
 import com.nhnacademy.marketgg.client.service.Oauth2Service;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

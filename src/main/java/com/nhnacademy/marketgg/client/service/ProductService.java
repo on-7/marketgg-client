@@ -52,7 +52,7 @@ public interface ProductService {
      * 카테고리로 조회한 모든 상품을 반환 합니다.
      *
      * @param categorizationCode - 카테고리 대분류입니다. ex) 100 - 상품
-     * @param categoryId       - 카테고리 소분류입니다. ex) 101 - 채소
+     * @param categoryId         - 카테고리 소분류입니다. ex) 101 - 채소
      * @return - 해당 카테고리에 해당하는 모든 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
@@ -89,18 +89,19 @@ public interface ProductService {
      * @since 1.0.0
      */
     List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
-            throws JsonProcessingException;
+        throws JsonProcessingException;
 
     /**
      * 지정한 카테고리 번호 내에서 선택한 옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      *
      * @param searchRequest - 검색을 진행 할 정보입니다.
-     * @param option     - 지정한 검색 옵션입니다.
+     * @param option        - 지정한 검색 옵션입니다.
      * @return 선택한 카테고리 번호내에서 선택한 정렬옵션으로 가격이 정렬된 상품 목록을 반환합니다.
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
-            throws JsonProcessingException;
+    List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
+                                                         final String option)
+        throws JsonProcessingException;
 
 }
