@@ -47,7 +47,7 @@ public class JwtAspect {
     @Value("${gg.gateway-origin}")
     private String gatewayOrigin;
 
-    private final RedisTemplate<String, JwtInfo> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
     private final RestTemplate restTemplate;
 
     @Pointcut("@within(org.springframework.stereotype.Controller) " +
