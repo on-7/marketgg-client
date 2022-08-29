@@ -1,14 +1,14 @@
 window.addEventListener('DOMContentLoaded', () => {
   console.log('ready');
 
-  const foo = document.querySelector('#sidebarCollapse');
-
-  foo.addEventListener('click', () => {
-    console.log('click');
-
-    const bar = document.querySelector('#sidebar');
-    bar.classList.toggle('active');
-  })
+  // const foo = document.querySelector('#sidebarCollapse');
+  //
+  // foo.addEventListener('click', () => {
+  //   console.log('click');
+  //
+  //   const bar = document.querySelector('#sidebar');
+  //   bar.classList.toggle('active');
+  // })
 
   const button = document.querySelector('.collapse');
 

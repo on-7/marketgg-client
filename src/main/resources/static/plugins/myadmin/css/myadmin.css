@@ -170,6 +170,7 @@ main {
     padding: 3rem;
     min-height: 100vh;
     transition: all 0.3s;
+    width: 100%;
 }
 
 #sidebarCollapse {

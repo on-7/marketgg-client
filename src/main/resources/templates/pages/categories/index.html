@@ -22,8 +22,6 @@
                 <td th:text="${category.categoryName}"></td>
                 <td th:text="${category.sequence}"></td>
                 <td>
-                    <!-- REVIEW button 에 링크다는 방법을 검색하여 적용시켜 보았는데 맞는 방법인지 모르겠습니다.-->
-                    <!-- <button th:onclick="|location.href='@{/admin/v1/categories/}' + ${category.categoryCode}|">수정</button> -->
                     <a style="text-decoration: none" th:href="@{/shop/v1/admin/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
                         <button>수정</button>
                     </a>
