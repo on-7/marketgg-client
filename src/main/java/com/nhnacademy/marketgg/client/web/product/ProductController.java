@@ -3,7 +3,6 @@ package com.nhnacademy.marketgg.client.web.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
@@ -15,11 +14,12 @@ import com.nhnacademy.marketgg.client.service.ReviewService;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -45,7 +45,10 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/search")
-    public ModelAndView searchProductListByCategory(@RequestParam final String categoryId, @RequestParam final String keyword, @RequestParam final Integer page) throws JsonProcessingException {
+    @ResponseBody
+    public ModelAndView searchProductListByCategory(@RequestParam final String categoryId,
+                                                    @RequestParam final String keyword,
+                                                    @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
@@ -124,9 +127,9 @@ public class ProductController {
     @GetMapping("/categories/{categoryCode}")
     public ModelAndView retrieveProductsByCategory(@PathVariable final String categoryCode, @RequestParam(defaultValue = "0") int page) {
 
-        PageResult<SearchProductResponse> searchProductResponsePageResult = this.productService.retrieveProductsByCategory(categoryCode, page);
+        PageResult<ProductListResponse> searchProductResponsePageResult = this.productService.retrieveProductsByCategory(categoryCode, page);
         Pagination pagination = new Pagination(searchProductResponsePageResult.getTotalPages(), page);
-        List<SearchProductResponse> products = searchProductResponsePageResult.getData();
+        List<ProductListResponse> products = searchProductResponsePageResult.getData();
 
 
         ModelAndView mav = new ModelAndView("index");
