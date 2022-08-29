@@ -1,11 +1,11 @@
 // SEE: https://tarekraafat.github.io/autoComplete.js
-const $autoComplete = document.getElementById('autoComplete');
-$autoComplete.addEventListener('keydown', (event) => {
-  const keyword = event.target.value;
-  alert(keyword)
-  fetch(`/products/search?categoryId=001&keyword=${keyword}&page=0`).then((response) => console.log("response: ", response));
-});
 window.addEventListener('DOMContentLoaded', () => {
+  const $autoComplete = document.getElementById('autoComplete');
+  $autoComplete.addEventListener('keydown', (event) => {
+    const keyword = event.target.value;
+    fetch(`/products/search?categoryId=001&keyword=${keyword}&page=0`)
+        .then((response) => console.log(response));
+  });
   const autoCompleteJS = new autoComplete({
     selector: "#autoComplete",
     placeHolder: "검색어를 입력해주세요",
