@@ -45,9 +45,7 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/search")
-    public ModelAndView searchProductListByCategory(@RequestParam final String categoryId,
-                                                    @RequestParam final String keyword,
-                                                    @RequestParam final Integer page) throws JsonProcessingException {
+    public ModelAndView searchProductListByCategory(@RequestParam final String categoryId, @RequestParam final String keyword, @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         List<SearchProductResponse> responses = productService.searchProductListByCategory(request);
@@ -74,10 +72,7 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}/price/{option}/search")
-    public ModelAndView searchProductListByPrice(@PathVariable final String categoryId,
-                                                 @PathVariable final String option,
-                                                 @RequestParam final String keyword,
-                                                 @RequestParam final Integer page) throws JsonProcessingException {
+    public ModelAndView searchProductListByPrice(@PathVariable final String categoryId, @PathVariable final String option, @RequestParam final String keyword, @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         List<SearchProductResponse> responses = productService.searchProductListByPrice(request, option);
@@ -115,6 +110,31 @@ public class ProductController {
     }
 
     /**
+     * 카테고리로 상품을 조회하기 위한 GetMapping을 지원 합니다.
+     * 타임리프에서 products로 조회할 수 있습니다.
+     *
+     * @param categoryCode - 카테고리 소분류 입니다. ex) 101 - 채소
+     * @return - 해당 카테고리를 가진 상품 목록 페이지를 리턴합니다.
+     * @since 1.0.0
+     */
+    @GetMapping("/{categoryCode}")
+    public ModelAndView retrieveProductsByCategory(@PathVariable final String categoryCode, @RequestParam(defaultValue = "0") int page) {
+
+        PageResult<SearchProductResponse> searchProductResponsePageResult = this.productService.retrieveProductsByCategory(categoryCode, page);
+        Pagination pagination = new Pagination(searchProductResponsePageResult.getTotalPages(), page);
+        List<SearchProductResponse> products = searchProductResponsePageResult.getData();
+
+
+        ModelAndView mav = new ModelAndView("index");
+        mav.addObject("products", products);
+
+        mav.addObject("pages", pagination);
+
+        return mav;
+    }
+
+
+    /**
      * 상품 상세 조회를 위한 GetMapping 을 지원 합니다.
      * 타임리프에서 productDetails로 조회할 수 있습니다.
      *
@@ -123,9 +143,7 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/{id}")
-    public ModelAndView retrieveProductDetails(@PathVariable final Long id,
-                                               @RequestParam(defaultValue = "0") int page) {
-
+    public ModelAndView retrieveProductDetails(@PathVariable final Long id, @RequestParam(defaultValue = "0") int page) {
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
