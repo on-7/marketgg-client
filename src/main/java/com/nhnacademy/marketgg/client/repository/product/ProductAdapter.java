@@ -99,7 +99,7 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<PageResult<SearchProductResponse>> response = this.restTemplate.exchange(
-                gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + categoryId + "/?page=" + page,
+                gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/?page=" + page,
                 HttpMethod.GET,
                 httpEntity,
                 new ParameterizedTypeReference<>() {

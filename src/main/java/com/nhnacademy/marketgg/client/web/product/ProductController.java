@@ -117,7 +117,7 @@ public class ProductController {
      * @return - 해당 카테고리를 가진 상품 목록 페이지를 리턴합니다.
      * @since 1.0.0
      */
-    @GetMapping("/{categoryCode}")
+    @GetMapping("/categories/{categoryCode}")
     public ModelAndView retrieveProductsByCategory(@PathVariable final String categoryCode, @RequestParam(defaultValue = "0") int page) {
 
         PageResult<SearchProductResponse> searchProductResponsePageResult = this.productService.retrieveProductsByCategory(categoryCode, page);
