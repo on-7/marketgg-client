@@ -11,7 +11,9 @@ import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import com.nhnacademy.marketgg.client.service.ReviewService;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -132,9 +134,6 @@ public class ProductController {
         mav.addObject("reviews", reviewResponsePageResult.getData());
 
         Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
-
-//        ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
-//        productDetails.updateThumbnail(imageResponse.getImageAddress());
 
         mav.addObject("pages", pagination);
 
