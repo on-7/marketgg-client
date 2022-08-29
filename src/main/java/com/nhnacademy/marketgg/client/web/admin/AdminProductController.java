@@ -1,14 +1,17 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.CategoryService;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.LabelService;
@@ -31,6 +34,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -179,6 +183,50 @@ public class AdminProductController {
         this.productService.deleteProduct(productId);
 
         return new ModelAndView(REDIRECT_PRODUCT_URI);
+    }
+
+    /**
+     * 관리자가 모든 상품에 대한 문의를 조회합니다.
+     *
+     * @return 조회한 상품 문의를 담은 페이지를 반환합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
+     * @author 민아영
+     * @since 1.0.0
+     */
+    @GetMapping("/inquiries")
+    public ModelAndView retrieveProductInquiry(@RequestParam(defaultValue = "1") final Integer page)
+        throws UnAuthenticException, UnAuthorizationException {
+
+        PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiries(page);
+        Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
+
+        ModelAndView mav = new ModelAndView("pages/admin/products/inquiries");
+        mav.addObject("inquiries", inquiries.getData());
+        mav.addObject("pages", pagination);
+
+        return mav;
+    }
+
+    /**
+     * 관리자가 상품 문의를 삭제하는 DeleteMapping 을 지원합니다.
+     *
+     * @param productId - 삭제할 상품 문의의 상품 Id 입니다.
+     * @param inquiryId - 삭제할 상품 문의 Id 입니다.
+     * @return 상품 문의 조회 페이지를 리턴합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
+     * @throws JsonProcessingException  - 응답으로 온 Json 데이터를 역직렬화 시 발생하는 예외입니다.
+     * @author 민아영
+     * @since 1.0.0
+     */
+    @DeleteMapping("/{productId}/inquiries/{inquiryId}")
+    public ModelAndView deleteProductInquiryByAdmin(@PathVariable final Long productId,
+                                                    @PathVariable final Long inquiryId)
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+
+        this.inquiryService.deleteProductInquiry(productId, inquiryId);
+        return new ModelAndView("redirect:/admin/products/inquiries");
     }
 
     /**

@@ -37,7 +37,7 @@ public class ProductInquiryController {
      * 회원이 상품 문의를 작성할 GetMapping 을 지원합니다.
      *
      * @param productId - 상품 문의를 등록할 상품 Id 입니다.
-     * @return 상품 문의 작성 페이지를 리턴합니다.
+     * @return 상품 문의 작성 페이지를 반환합니다.
      * @author 민아영
      * @since 1.0.0
      */
@@ -74,7 +74,7 @@ public class ProductInquiryController {
      * 상품에 대한 모든 상품 문의를 조회할 GetMapping 을 지원합니다.
      *
      * @param productId - 상품 문의를 등록할 상품 Id 입니다.
-     * @return 조회한 상품 문의를 담은 페이지를 리턴합니다.
+     * @return 조회한 상품 문의를 담은 페이지를 반환합니다.
      * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @throws JsonProcessingException  - 응답으로 온 Json 데이터를 역직렬화 시 발생하는 예외입니다.

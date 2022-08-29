@@ -1,6 +1,5 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryRequest;
@@ -29,7 +28,7 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
     private final RestTemplate restTemplate;
 
     private final String gatewayIp;
-    private static final String ADMIN_DEFAULT_PRODUCT = "/shop/v1/admin/products/inquiry-reply";
+    private static final String ADMIN_DEFAULT_PRODUCT = "/shop/v1/admin/products/";
     private static final String DEFAULT_PRODUCT = "/shop/v1/products/";
 
 
@@ -39,7 +38,8 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
         HttpEntity<ProductInquiryReplyRequest> httpEntity = new HttpEntity<>(replyRequest, buildHeaders());
 
-        ResponseEntity<CommonResult<String>> response = restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
+        ResponseEntity<CommonResult<String>> response = restTemplate.exchange(
+            gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiry-reply",
             HttpMethod.PUT,
             httpEntity, new ParameterizedTypeReference<>() {
             });
@@ -70,7 +70,7 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
         ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
             = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiries",
-            HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
+                                    HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
             });
 
         ResponseUtils.checkError(response);
@@ -86,8 +86,8 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
         ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
             = restTemplate.exchange(gatewayIp + "/shop/v1/members/product-inquiries", HttpMethod.GET, httpEntity,
-            new ParameterizedTypeReference<>() {
-            });
+                                    new ParameterizedTypeReference<>() {
+                                    });
 
         ResponseUtils.checkError(response);
 
@@ -102,10 +102,23 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
         ResponseEntity<CommonResult<String>> response
             = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiry/" + inquiryId,
-            HttpMethod.DELETE, httpEntity, new ParameterizedTypeReference<>() {
+                                    HttpMethod.DELETE, httpEntity, new ParameterizedTypeReference<>() {
             });
 
         ResponseUtils.checkError(response);
+    }
+
+    @Override
+    public PageResult<ProductInquiryResponse> retrieveInquiriesByAdmin(final Integer page) {
+        HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
+
+        ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
+            = restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiries", HttpMethod.GET, httpEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
+        ResponseUtils.checkError(response);
+
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     private HttpHeaders buildHeaders() {

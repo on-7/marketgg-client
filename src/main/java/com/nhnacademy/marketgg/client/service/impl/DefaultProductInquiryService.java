@@ -54,4 +54,9 @@ public class DefaultProductInquiryService implements ProductInquiryService {
         this.inquiryRepository.deleteInquiry(productId, inquiryId);
     }
 
+    @Override
+    public PageResult<ProductInquiryResponse> retrieveInquiries(final Integer page) {
+        return this.inquiryRepository.retrieveInquiriesByAdmin(page);
+    }
+
 }

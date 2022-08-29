@@ -84,4 +84,13 @@ public interface ProductInquiryService {
     void deleteProductInquiry(final Long productId, final Long inquiryId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
+    /**
+     * 모든 상품 문의를 조회하기 위한 Adaptor 메소드를 실행합니다.
+     *
+     * @param page 요청할 페이지 번호입니다.
+     * @return 조회한 상품 문의를 담은 페이지를 반환합니다.
+     * @author 민아영
+     * @since 1.0.0
+     */
+    PageResult<ProductInquiryResponse> retrieveInquiries(final Integer page);
 }
