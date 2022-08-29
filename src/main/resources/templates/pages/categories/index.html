@@ -1,38 +1,50 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/admin-layout :: elements(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
+    <!-- 위에 replace 부분 관리자 페이지 수정 되면 변경되어야함 에러 안나도록 -->
     <head>
         <meta charset="UTF-8">
-        <title>CategoryList</title>
+
+        <link rel="stylesheet" th:href="@{/css/category/category-index.css}">
+
+        <!-- 임시 -->
+        <script th:src="@{/plugins/myadmin/js/myadmin.js}"></script>
+
+        <title th:text="#{CATEGORY_MANAGEMENT}"></title>
     </head>
+
     <body>
-        <h1 style="display: inline">카테고리 관리</h1>
-        <button style="float: right" onclick="location.href='/shop/v1/admin/categories/create'">카테고리 등록</button>
-        <hr/>
-        <table style="margin-left: auto; margin-right: auto;">
-            <tr>
-                <th>카테고리분류</th>
-                <th>카테고리코드</th>
-                <th>카테고리이름</th>
-                <th>카테고리순서</th>
-                <th>카테고리변경</th>
-            </tr>
-            <tr th:each="category : ${categories}">
-                <td th:text="${category.categorizationName}"></td>
-                <td th:text="${category.categoryCode}"></td>
-                <td th:text="${category.categoryName}"></td>
-                <td th:text="${category.sequence}"></td>
-                <td>
-                    <!-- REVIEW button 에 링크다는 방법을 검색하여 적용시켜 보았는데 맞는 방법인지 모르겠습니다.-->
-                    <!-- <button th:onclick="|location.href='@{/admin/v1/categories/}' + ${category.categoryCode}|">수정</button> -->
-                    <a style="text-decoration: none" th:href="@{/shop/v1/admin/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
-                        <button>수정</button>
-                    </a>
-                    <form style="display: inline" th:action="'/shop/v1/admin/categories/' + ${category.categoryCode}" method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <input type="submit" value="삭제"/>
-                    </form>
-                </td>
-            </tr>
-        </table>
+        <main>
+
+            <h1 th:text="#{CATEGORY_MANAGEMENT}"></h1>
+
+            <hr/>
+            <table>
+                <tr>
+                    <th th:text="#{CATEGORY_CLASSIFICATION}"></th>
+                    <th th:text="#{CATEGORY_CODE}"></th>
+                    <th th:text="#{CATEGORY_NAME}"></th>
+                    <th th:text="#{CATEGORY_ORDER}"></th>
+                    <th th:text="#{CATEGORY_UPDATE}"></th>
+                </tr>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.categorizationName}"></td>
+                    <td th:text="${category.categoryCode}"></td>
+                    <td th:text="${category.categoryName}"></td>
+                    <td th:text="${category.sequence}"></td>
+                    <td>
+                        <a style="text-decoration: none" th:href="@{/admin/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
+                            <button th:text="#{UPDATE}"></button>
+                        </a>
+                        <form style="display: inline" th:action="'/admin/categories/' + ${category.categoryCode}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <input type="submit" value="삭제"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
+        </main>
+
     </body>
 </html>

@@ -28,8 +28,12 @@
         <!--         <li><a href="#">Page 3</a></li> -->
         <!--     </ul> -->
         <!-- </li> -->
-        <li>
-            <a href="#">카테고리 관리</a>
+        <li class="active">
+            <a href="#category-submenu" data-toggle="collapse" aria-expanded="false">카테고리 관리</a>
+            <ul class="collapse list-unstyled" id="category-submenu">
+                <li><a href="/admin/categories/create">카테고리 등록</a></li>
+                <li><a href="/admin/categories/index">카테고리 목록</a></li>
+            </ul>
         </li>
         <li>
             <a href="#">라벨 관리</a>
