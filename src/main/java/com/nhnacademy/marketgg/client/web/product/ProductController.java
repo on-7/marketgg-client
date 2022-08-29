@@ -54,9 +54,8 @@ public class ProductController {
         PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
         Pagination pagination = new Pagination(responses.getTotalPages(), page);
         List<ProductListResponse> products = responses.getData();
-        // FIXME: 검색 후 페이지로 채워주세요! (관리자 일시 관리자, 사용자 일시 사용자)
-        // FIXME: Pathvariable 에 option 에는 (asc, desc) 만 들어갑니다! 매핑 잡으실 때 참고해주세요.
-        ModelAndView mav = new ModelAndView("pages/products/index");
+        ModelAndView mav = new ModelAndView("index");
+        mav.addObject("pageType", "search");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);
         mav.addObject("products", products);
@@ -84,11 +83,12 @@ public class ProductController {
         List<ProductListResponse> products = responses.getData();
         Pagination pagination = new Pagination(responses.getTotalPages(), page);
 
-        ModelAndView mav = new ModelAndView("pages/products/index");
+        ModelAndView mav = new ModelAndView("index");
         mav.addObject("keyword", keyword);
         mav.addObject("categoryId", categoryId);
+        mav.addObject("pageType", "priceSearch");
         mav.addObject("products", products);
-        mav.addObject("pages", page);
+        mav.addObject("pages", pagination);
         mav.addObject("option", pagination);
 
         return mav;
@@ -110,6 +110,9 @@ public class ProductController {
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
+        mav.addObject("keyword", null);
+        mav.addObject("categoryId", null);
+        mav.addObject("pageType", "default");
 
         mav.addObject("pages", pagination);
 
