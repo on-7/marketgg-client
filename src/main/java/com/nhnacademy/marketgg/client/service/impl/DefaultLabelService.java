@@ -20,7 +20,7 @@ public class DefaultLabelService implements LabelService {
 
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         labelRepository.createLabel(labelRequest);
     }

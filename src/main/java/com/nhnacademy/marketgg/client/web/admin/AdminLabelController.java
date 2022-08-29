@@ -48,7 +48,7 @@ public class AdminLabelController {
     @PostMapping("/create")
     public ModelAndView createLabel(@Valid @ModelAttribute final LabelRegisterRequest labelRequest,
                                     BindingResult bindingResult)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         if (!bindingResult.hasErrors()) {
             labelService.createLabel(labelRequest);
@@ -86,7 +86,7 @@ public class AdminLabelController {
      */
     @DeleteMapping("/{labelId}")
     public ModelAndView deleteLabel(@PathVariable @Min(1) final Long labelId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         labelService.deleteLabel(labelId);
 
         return new ModelAndView(LABEL_DEFAULT);

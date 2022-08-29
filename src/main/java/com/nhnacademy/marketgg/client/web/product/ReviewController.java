@@ -8,7 +8,6 @@ import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.service.ReviewService;
-import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

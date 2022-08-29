@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.paging;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 페이지네이션을 구현하기 위한 클래스입니다.

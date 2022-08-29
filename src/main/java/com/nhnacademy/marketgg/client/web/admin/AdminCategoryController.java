@@ -66,7 +66,7 @@ public class AdminCategoryController {
      */
     @PostMapping
     public ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
-            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
@@ -105,7 +105,7 @@ public class AdminCategoryController {
      */
     @GetMapping("/update/{categoryId}")
     public ModelAndView doUpdateCategory(@PathVariable final String categoryId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("pages/categories/update-form");
 
         CategoryRetrieveResponse categoryResponse = categoryService.retrieveCategory(categoryId);
@@ -127,7 +127,7 @@ public class AdminCategoryController {
     @PutMapping("/{categoryId}")
     public ModelAndView updateCategory(@PathVariable final String categoryId,
                                        @ModelAttribute final CategoryUpdateRequest categoryRequest)
-            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
@@ -147,7 +147,7 @@ public class AdminCategoryController {
      */
     @DeleteMapping("/{categoryId}")
     public ModelAndView deleteCategory(@PathVariable final String categoryId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("redirect:" + DEFAULT_CATEGORY + "/index");
 
         categoryService.deleteCategory(categoryId);

@@ -1,10 +1,9 @@
 package com.nhnacademy.marketgg.client.dto.order;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * 장바구니로부터 주문할 상품에 대한 정보를 전달하기 위한 DTO 입니다.

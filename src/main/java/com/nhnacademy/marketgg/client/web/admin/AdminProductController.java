@@ -5,7 +5,6 @@ import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -147,7 +146,7 @@ public class AdminProductController {
      */
     @GetMapping("/update/{productId}")
     public ModelAndView updateProduct(@PathVariable final Long productId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView("pages/products/product-modify-form");
 

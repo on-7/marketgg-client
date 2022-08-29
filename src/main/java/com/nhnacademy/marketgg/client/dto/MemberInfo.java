@@ -1,11 +1,10 @@
 package com.nhnacademy.marketgg.client.dto;
 
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import java.time.LocalDate;
 
 @NoArgsConstructor
 @AllArgsConstructor

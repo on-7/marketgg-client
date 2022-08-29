@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.service.impl;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.DeliveryAddressUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.request.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SignupRequest;
@@ -87,7 +86,7 @@ public class DefaultMemberService implements MemberService {
         Map<String, EmailUseResponse> useEmailResultMap = new HashMap<>();
         useEmailResultMap.put("isUseEmail", emailUseResponse);
 
-        return useEmailResultMap.get("isUeEmail");
+        return useEmailResultMap.get("isUseEmail");
     }
 
 }

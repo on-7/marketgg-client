@@ -9,14 +9,11 @@ import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.PostService;
-
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -60,8 +57,8 @@ public class CsPostController {
      */
     @GetMapping("/categories/{categoryId}")
     public ModelAndView index(@PathVariable final String categoryId, @RequestParam(value = "page",
-                                                                                   defaultValue = "0") final Integer page)
-            throws UnAuthenticException, UnAuthorizationException {
+        defaultValue = "0") final Integer page)
+        throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView(String.format("pages/board/%s/index", this.convertToType(categoryId)));
         List<PostResponse> responses = postService.retrievePostList(categoryId, page);
 
@@ -89,7 +86,7 @@ public class CsPostController {
      */
     @GetMapping("/categories/" + OTO_CODE + "/create")
     public ModelAndView doCreatePost(@ModelAttribute final PostRequest postRequest)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         mav.addObject("reasons", postService.retrieveOtoReason());
         mav.addObject("code", OTO_CODE);
@@ -108,7 +105,7 @@ public class CsPostController {
      */
     @PostMapping("/categories/" + OTO_CODE + "/create")
     public ModelAndView createPost(@Valid @ModelAttribute final PostRequest postRequest, BindingResult bindingResult)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         if (bindingResult.hasErrors()) {
             return new ModelAndView(BOARD + this.convertToType(OTO_CODE) + "/create-form");
         }
@@ -130,9 +127,9 @@ public class CsPostController {
     @GetMapping("/categories/{categoryCode}/{postId}")
     public ModelAndView retrievePost(@PathVariable @Size(min = 1, max = 6) final String categoryCode,
                                      @PathVariable @Min(1) final Long postId, @RequestParam(value = "page",
-                                                                                            defaultValue = "0") final Integer page,
+        defaultValue = "0") final Integer page,
                                      @ModelAttribute CommentRequest commentRequest)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
@@ -158,7 +155,7 @@ public class CsPostController {
     public ModelAndView searchForCategory(@PathVariable @Size(min = 1, max = 6) final String categoryId,
                                           @RequestParam @Size(min = 1, max = 30) final String keyword,
                                           @RequestParam @Min(0) final Integer page)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryId) + "/index");
 
@@ -192,9 +189,9 @@ public class CsPostController {
      */
     @DeleteMapping("/categories/" + OTO_CODE + "/{postId}/delete")
     public ModelAndView deletePost(@PathVariable @Min(1) final Long postId, @RequestParam @Min(0) final Integer page)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView(
-                "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
+            "redirect:" + DEFAULT_POST + "/categories/" + OTO_CODE + "?page=" + page);
         postService.deletePost(postId, OTO_CODE);
 
         return mav;

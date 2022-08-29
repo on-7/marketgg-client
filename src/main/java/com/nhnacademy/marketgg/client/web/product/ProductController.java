@@ -125,7 +125,8 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/{id}")
-    public ModelAndView retrieveProductDetails(@PathVariable final Long id, @RequestParam(defaultValue = "0") int page) {
+    public ModelAndView retrieveProductDetails(@PathVariable final Long id,
+                                               @RequestParam(defaultValue = "0") int page) {
 
         ProductResponse productDetails = this.productService.retrieveProductDetails(id);
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);

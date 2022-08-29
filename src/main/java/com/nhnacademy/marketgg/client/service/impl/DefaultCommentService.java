@@ -17,7 +17,7 @@ public class DefaultCommentService implements CommentService {
 
     @Override
     public void createComment(final Long postId, final CommentRequest commentRequest)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         commentRepository.createComment(postId, commentRequest);
     }

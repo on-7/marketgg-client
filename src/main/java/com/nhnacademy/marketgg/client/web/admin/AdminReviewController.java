@@ -22,8 +22,9 @@ public class AdminReviewController {
 
     /**
      * 선택한 후기를 베스트 후기로 선정합니다.
+     *
      * @param productId - 후기가 달린 상품의 상품번호입니다.
-     * @param reviewId - 베스트 후기로 선정할 후기의 후기번호입니다.
+     * @param reviewId  - 베스트 후기로 선정할 후기의 후기번호입니다.
      * @return - 해당 후기가 달린 상품의 view를 반환합니다.
      */
     @PostMapping("/{reviewId}/make-best")

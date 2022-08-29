@@ -21,7 +21,8 @@ public interface CouponService {
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+    void createCoupon(final CouponRequest couponRequest)
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 단건 조회를 위해 Adapter 메소드를 실행합니다.
@@ -48,7 +49,8 @@ public interface CouponService {
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+    void updateCoupon(final Long couponId, final CouponRequest couponRequest)
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 삭제를 위해 Adapter 메소드를 실행합니다.

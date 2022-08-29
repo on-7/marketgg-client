@@ -3,7 +3,6 @@ package com.nhnacademy.marketgg.client.dto.response.common;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Market GG 에서 공통 응답 객체입니다.

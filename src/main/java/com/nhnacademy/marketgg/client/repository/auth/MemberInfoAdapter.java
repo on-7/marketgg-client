@@ -39,7 +39,7 @@ public class MemberInfoAdapter implements MemberInfoRepository {
         HttpEntity<EmailRequest> httpEntity = new HttpEntity<>(emailRequest, headers);
 
         ResponseEntity<CommonResult<EmailExistResponse>> exchange =
-            restTemplate.exchange(requestUrl + "/auth/v1/check/email", HttpMethod.POST, httpEntity,
+            restTemplate.exchange(requestUrl + "/auth/v1/members/check/email", HttpMethod.POST, httpEntity,
                 new ParameterizedTypeReference<>() {
                 });
 

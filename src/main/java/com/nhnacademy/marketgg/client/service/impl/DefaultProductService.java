@@ -58,14 +58,15 @@ public class DefaultProductService implements ProductService {
 
     @Override
     public List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
-            throws JsonProcessingException {
+        throws JsonProcessingException {
 
         return productRepository.searchProductListByCategory(searchRequest);
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
-            throws JsonProcessingException {
+    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
+                                                                final String option)
+        throws JsonProcessingException {
 
         return productRepository.searchProductListByPrice(searchRequest, option);
     }

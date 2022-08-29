@@ -8,7 +8,6 @@ import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.repository.product.ReviewRepository;
 import com.nhnacademy.marketgg.client.service.ReviewService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

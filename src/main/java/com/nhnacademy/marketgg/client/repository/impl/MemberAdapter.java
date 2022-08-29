@@ -50,6 +50,7 @@ public class MemberAdapter implements MemberRepository {
     private static final String DEFAULT_MEMBER = "/shop/v1/members";
     private static final String DELIVERY_ADDRESS = "/delivery-address";
     private static final String DELIVERY_ADDRESSES = "/delivery-addresses";
+    private static final String SIGNUP = "/signup";
 
     @Override
     public void signup(final SignupRequest signupRequest)
@@ -57,7 +58,7 @@ public class MemberAdapter implements MemberRepository {
 
         HttpEntity<SignupRequest> response = new HttpEntity<>(signupRequest, buildHeaders());
         ResponseEntity<ShopResult<Void>> exchange =
-            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + "/signup", HttpMethod.POST, response,
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + SIGNUP, HttpMethod.POST, response,
                 new ParameterizedTypeReference<>() {
                 });
 

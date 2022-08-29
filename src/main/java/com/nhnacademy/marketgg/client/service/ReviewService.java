@@ -6,7 +6,6 @@ import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
-import java.util.List;
 
 /**
  * 후기를 관리하기 위한 Service입니다.
