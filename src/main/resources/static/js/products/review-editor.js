@@ -20,7 +20,7 @@ const editor = new Toast({
                 type: 'POST',
                 enctype: 'multipart/form-data',
                 headers: {"Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken},
-                url: '/products/' + productId + '/reviews',
+                url: '/editor',
                 data: formData,
                 dataType: 'text',
                 processData: false,

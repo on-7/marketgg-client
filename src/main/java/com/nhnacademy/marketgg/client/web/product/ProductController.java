@@ -133,8 +133,8 @@ public class ProductController {
 
         Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
 
-        ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
-        productDetails.updateThumbnail(imageResponse.getImageAddress());
+//        ImageResponse imageResponse = imageService.retrieveImage(productDetails.getAssetNo());
+//        productDetails.updateThumbnail(imageResponse.getImageAddress());
 
         mav.addObject("pages", pagination);
 

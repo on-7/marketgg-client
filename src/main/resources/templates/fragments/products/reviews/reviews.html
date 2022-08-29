@@ -167,7 +167,7 @@
                         </div>
                         <div class="review-description">
                             <p>
-                                <span th:text="${review.content}">></span>
+                                <span th:utext="${review.content}">></span>
                             </p>
                         </div>
                         <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
@@ -205,6 +205,11 @@
     <form name="reviewRequest" method="post" th:action="@{|/products/${productDetails.id}/reviews|}" enctype="multipart/form-data">
 
         <div th:replace="fragments/common/input-group :: formItem('rating', '별점', 'number', 5)"></div>
+
+        <div class="form-item">
+            <label>대표 이미지</label>
+            <input type="file" name="images" multiple="multiple">
+        </div>
 
         <div class="product-details">
             <h2>후기 등록</h2>

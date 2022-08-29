@@ -18,7 +18,6 @@ const editor = new Toast({
             $.ajax({
                 type: 'POST',
                 enctype: 'multipart/form-data',
-                headers: {"Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken},
                 url: '/editor',
                 data: formData,
                 dataType: 'text',

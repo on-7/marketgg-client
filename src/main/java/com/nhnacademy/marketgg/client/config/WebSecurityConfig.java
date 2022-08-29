@@ -35,7 +35,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            RedisTemplate<String, Object> redisTemplate) throws Exception {
 
-        http.csrf();
+        http.csrf().disable();
 
         http.addFilterBefore(new AuthenticationFilter(redisTemplate),
             UsernamePasswordAuthenticationFilter.class);
