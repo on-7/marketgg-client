@@ -44,7 +44,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row" th:if="${isAdmin == 'yes'}">
+                    <div class="row" sec:authorize="hasRole('ADMIN')">
                         <form th:method="get"
                               th:action="'/admin/customer-services/categories/'+${response.categoryCode}+'/'+${response.id}+'/update'">
                             <input type="hidden" name="page" th:value="${page}">

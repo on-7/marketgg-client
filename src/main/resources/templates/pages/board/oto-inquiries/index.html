@@ -10,7 +10,7 @@
             <h1 th:text="#{OTO_INQUIRY}"></h1>
             <div class="board-wrapper">
                 <nav>
-                    <div class="list-group" th:if="${isAdmin == 'yes'}">
+                    <div class="list-group" sec:authorize="hasRole('ADMIN')">
                         <span class="list-group-item active" aria-current="true" th:text="#{BOARD_LIST}"></span>
                         <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${NOTICE_CODE}+'?page=0'" th:text="#{NOTICE}"></a>
                         <a class="list-group-item list-group-item-action" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'?page=0'" th:text="#{OTO_INQUIRY}"></a>
@@ -24,7 +24,7 @@
                     </div>
                 </nav>
                 <div class="table-wrapper">
-                    <div th:if="${isAdmin == 'yes'}" class="row row-cols-6">
+                    <div sec:authorize="hasRole('ADMIN')" class="row row-cols-6">
                         <details>
                             <summary class="btn btn-info" th:text="#{ALL_SEARCH}"></summary>
                                     <form th:method="get" th:action="'/admin/customer-services/categories/'+${OTO_CODE}+'/search'">
@@ -57,7 +57,7 @@
                         </details>
                     </div>
                     <br />
-                    <div th:if="${isAdmin == 'yes'}" style="background-color: white">
+                    <div sec:authorize="hasRole('ADMIN')" style="background-color: white">
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -68,6 +68,7 @@
                                     <th th:text="#{CREATED_AT}"></th>
                                     <th th:text="#{STATUS_CHANGE}"></th>
                                 </tr>
+
                             </thead>
                             <tbody>
                                 <tr th:each="board : ${responses}">
@@ -79,7 +80,7 @@
                                     <td th:text="${board.status}"></td>
                                     <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                                     <td>
-                                        <div th:if="${isAdmin == 'yes'}">
+                                        <div sec:authorize="hasRole('ADMIN')">
                                             <form th:method="post" th:action="'/admin/customer-services/categories/702/'+${board.id}+'/status'">
                                                 <input type="hidden" name="_method" value="put"/>
                                                 <select name="status">
@@ -137,7 +138,7 @@
                             <a class="btn-primary" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page + 1}" th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
-                    <div style="text-align: center" th:if="${isAdmin == 'yes'}">
+                    <div style="text-align: center" sec:authorize="hasRole('ADMIN')">
                         <div th:if="${searchType == 'default'}">
                             <a class="btn-primary" th:href="'/admin/customer-services/categories/'+${OTO_CODE}+'/search?page='+${page - 1}+'&keyword='+${keyword}" th:if="${page} != 0" th:text="prev"></a>
                             <span style="background-color: white; border: 1px outset black; padding: 5px" class="btn-outline-dark" th:text="${page} + 'PAGE'"></span>
