@@ -1,10 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
+    <head>
+        <link rel="stylesheet" th:href="@{/css/productinquries/marketgg.admininquiries.css}">
+        <title>Market GG | 관리자 상품 문의 관리</title>
+    </head>
+    <body>
+        <main>
+            <h1 th:text="PRODUCT_INQUIRIES_VIEW"></h1>
+            <br>
+            <div>
+                <div class="product-inquiry-header">
+                    <li th:text="#{PRODUCT_NAME}"></li>
+                    <li th:text="#{INQUIRY_TITLE}"></li>
+                    <li th:text="#{INQUIRY_CONTENT}"></li>
+                    <li th:text="#{INQUIRY_TYPE}"></li>
+                    <li th:text="#{INQUIRY_DATE}"></li>
+                    <li th:text="#{INQUIRY_MANAGEMENT}"></li>
+                </div>
+
+                <div class="product-inquiry-content" th:each="inquiry: ${inquiries}">
+                    <div class="product-inquiry-row">
+                        <li th:text="${inquiry.productName}"></li>
+                        <li th:text="${inquiry.title}"></li>
+                        <li th:text="${inquiry.content}"></li>
+                        <li th:text="${inquiry.isSecret} == true ? #{SECRET_POST} : #{PUBLIC_POST}"></li>
+                        <li th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></li>
+                        <li>
+                            <form th:action="'/admin/products/' + ${inquiry.productId} + '/inquiries/' + ${inquiry.productInquiryNo}" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <input type="submit" th:value="#{DELETE}" class="btn btn-outline-primary"/>
+                            </form>
+                        </li>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div style="display: flex; flex-direction: row;" class="product-inquiry-page">
+                <a th:href="@{|/admin/products/inquiries?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp; &lt;
+                <a th:if="${pages.page > 1}" th:href="@{|/admin/products/inquiries?page=${pages.page - 1}|}" style="color: black"></a> &nbsp;
+                <ul class="pagination">
+                    <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                        <a th:href="@{|/admin/products/inquiries?page=${page}|}" th:text="${page}" style="color: black"></a> &nbsp;
+                    </li>
+                </ul>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/admin/products/inquiries?page=${pages.page + 1}|}" style="color: black"></a>
+                &gt; &nbsp;<a th:href="@{|/admin/products/inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}" style="color: black"></a>
+            </div>
+        </main>
+    </body>
 </html>

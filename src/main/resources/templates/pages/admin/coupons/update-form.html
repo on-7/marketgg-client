@@ -8,6 +8,8 @@
     </head>
     <body>
         <main style="text-align:center; background-color: white;">
+            <h1 th:text="#{COUPON_UPDATE}"></h1>
+            <br>
             <div>
                 <form th:method="put" th:action="'/admin/coupons/' + ${coupon.id}">
                     <table class="table table-hover" style="margin-left: auto; margin-right: auto;">

@@ -7,7 +7,9 @@
         <title>Market GG | 쿠폰 등록</title>
     </head>
     <body>
-        <main style="text-align:center; background-color: white;">
+        <main>
+            <h1 th:text="#{COUPON_CREATE}"></h1>
+            <br>
             <div>
                 <form th:method="post" th:action="'/admin/coupons'">
                     <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
