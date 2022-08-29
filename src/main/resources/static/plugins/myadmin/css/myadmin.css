@@ -166,6 +166,7 @@ a.article, a.article:hover {
     CONTENT STYLE
 ----------------------------------------------------- */
 main {
+    width: 100%;
     padding: 3rem;
     min-height: 100vh;
     transition: all 0.3s;
