@@ -14,6 +14,10 @@ public class ProductInquiryResponse {
 
     private Long productId;
 
+    private Long productInquiryNo;
+
+    private String productName;
+
     private String title;
 
     private String content;

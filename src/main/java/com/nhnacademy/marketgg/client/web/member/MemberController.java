@@ -10,7 +10,6 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.ProductInquiryService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,13 +82,15 @@ public class MemberController {
      * @since 1.0.0
      */
     @GetMapping("/product-inquiries")
-    public ModelAndView retrieveProductInquiry()
+    public ModelAndView retrieveProductInquiry(@RequestParam(defaultValue = "1") final Integer page)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        List<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByMember();
+        PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByMember(page);
+        Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/mygg/inquiries/index");
-        mav.addObject("inquiries", inquiries);
+        mav.addObject("inquiries", inquiries.getData());
+        mav.addObject("pages", pagination);
 
         return mav;
     }

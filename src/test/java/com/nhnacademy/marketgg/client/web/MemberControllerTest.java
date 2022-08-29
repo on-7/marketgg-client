@@ -104,7 +104,7 @@ class MemberControllerTest {
     @DisplayName("회원 보유 쿠폰 목록 조회")
     void testRetrieveOwnCoupons() throws Exception {
         PageResult<GivenCouponRetrieveResponse> result = new PageResult<>();
-        given(givenCouponService.retrieveOwnGivenCoupons()).willReturn(result);
+        given(givenCouponService.retrieveOwnGivenCoupons(1)).willReturn(result);
 
         MvcResult mvcResult = mockMvc.perform(get("/members/coupons"))
                                      .andExpect(status().isOk())
@@ -112,7 +112,7 @@ class MemberControllerTest {
                                      .andReturn();
         Map<String, Object> resultModel = Objects.requireNonNull(mvcResult.getModelAndView()).getModel();
 
-        then(givenCouponService).should(times(1)).retrieveOwnGivenCoupons();
+        then(givenCouponService).should(times(1)).retrieveOwnGivenCoupons(1);
         assertThat(resultModel.get("coupons")).isInstanceOf(List.class);
     }
 

@@ -1,15 +1,39 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{/layouts/title-main :: layout(~{::title}, ~{::main})}">
+      th:replace="~{/layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
 
     <head>
-        <meta charset="UTF-8">
-        <title>Market GG | 상품 문의 조회 </title>
+        <link rel="stylesheet" th:href="@{/css/productinquries/marketgg.productinquries.css}">
+        <title>Market GG | 상품 문의 조회</title>
     </head>
-
     <body>
-        <main th:replace="~{/fragments/inquiry/view-inquiry}">
+        <main>
+            <a th:href="@{|/products/${inquiries[0].getProductId()}/inquiries|}">
+                <button class="btn btn-danger" th:text="#{PRODUCT_INQUIRIES_REGISTER}"></button>
+            </a>
+            <br>
+            <div>
+                <div class="product-inquiry-header">
+                    <li th:text="#{INQUIRY_TITLE}"></li>
+                    <li th:text="#{INQUIRY_CONTENT}"></li>
+                    <li th:text="#{INQUIRY_WRITER}"></li>
+                    <li th:text="#{INQUIRY_DATE}"></li>
+                    <li th:text="#{IS_REPLY}"></li>
+                </div>
+
+                <div class="product-inquiry-content" th:each="inquiry : ${inquiries}">
+                    <div class="product-inquiry-row">
+                        <li th:text="${inquiry.isSecret} == true ? '&#x1F512;' + #{IS_SECRET_POST} : ${inquiry.title}"></li>
+                        <li th:text="${inquiry.isSecret} == true ? '&#x1F512;' + #{IS_SECRET_POST} : 'A: ' + ${inquiry.content}"></li>
+                        <li th:text="${inquiry.name}"></li>
+                        <li th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></li>
+                        <li th:text="${#strings.isEmpty(inquiry.adminReply)} ? #{REPLY_WAIT} : #{REPLY_DONE}"></li>
+                    </div>
+                    <div class="reply-wrapper" th:if="${inquiry.adminReply} != null">
+                        <li class="reply" th:text="${inquiry.isSecret} == true ? '&#x1F512;' + #{IS_SECRET_POST} : 'Q: ' + ${inquiry.adminReply}"></li>
+                    </div>
+                </div>
+            </div>
         </main>
     </body>
-
 </html>

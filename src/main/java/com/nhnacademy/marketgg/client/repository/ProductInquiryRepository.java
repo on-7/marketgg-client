@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
@@ -46,7 +47,7 @@ public interface ProductInquiryRepository {
      * @author 민아영
      * @since 1.0.0
      */
-    List<ProductInquiryResponse> retrieveAllInquiry(Long productId) throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+    PageResult<ProductInquiryResponse> retrieveAllInquiry(final Integer page, final Long productId) throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      *
@@ -57,7 +58,7 @@ public interface ProductInquiryRepository {
      * @author 민아영
      * @since 1.0.0
      */
-    List<ProductInquiryResponse> retrieveAllInquiry() throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+    PageResult<ProductInquiryResponse> retrieveAllInquiry(final Integer page) throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      *

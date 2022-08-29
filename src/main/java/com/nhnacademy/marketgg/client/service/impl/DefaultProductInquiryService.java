@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
@@ -33,17 +34,17 @@ public class DefaultProductInquiryService implements ProductInquiryService {
     }
 
     @Override
-    public List<ProductInquiryResponse> retrieveInquiryByProduct(final Long productId)
+    public PageResult<ProductInquiryResponse> retrieveInquiryByProduct(final Integer page, final Long productId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        return this.inquiryRepository.retrieveAllInquiry(productId);
+        return this.inquiryRepository.retrieveAllInquiry(page, productId);
     }
 
     @Override
-    public List<ProductInquiryResponse> retrieveInquiryByMember()
+    public PageResult<ProductInquiryResponse> retrieveInquiryByMember(final Integer page)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        return this.inquiryRepository.retrieveAllInquiry();
+        return this.inquiryRepository.retrieveAllInquiry(page);
     }
 
     @Override

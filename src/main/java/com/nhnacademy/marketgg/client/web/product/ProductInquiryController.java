@@ -1,10 +1,12 @@
-package com.nhnacademy.marketgg.client.web;
+package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -24,7 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @version 1.0.0
  */
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/products/{productId}/inquiries")
 @RequiredArgsConstructor
 public class ProductInquiryController {
 
@@ -38,7 +41,7 @@ public class ProductInquiryController {
      * @author 민아영
      * @since 1.0.0
      */
-    @GetMapping("/{productId}/inquiry")
+    @GetMapping
     public ModelAndView createProductInquiry(@PathVariable final Long productId) {
         ModelAndView mav = new ModelAndView("pages/products/product-inquiry-form");
         mav.addObject("productId", productId);
@@ -57,14 +60,14 @@ public class ProductInquiryController {
      * @author 민아영
      * @since 1.0.0
      */
-    @PostMapping("/{productId}/inquiry")
+    @PostMapping
     public ModelAndView createProductInquiry(@PathVariable final Long productId,
                                              @ModelAttribute final
                                              ProductInquiryRequest inquiryRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         this.inquiryService.createInquiry(productId, inquiryRequest);
-        return new ModelAndView("redirect:/products/" + productId + "/inquiries");
+        return new ModelAndView("redirect:/products/" + productId + "/inquiries/index");
     }
 
     /**
@@ -78,15 +81,17 @@ public class ProductInquiryController {
      * @author 민아영
      * @since 1.0.0
      */
-    @GetMapping("/{productId}/inquiries")
-    public ModelAndView retrieveProductInquiry(@PathVariable final Long productId)
+    @GetMapping("/index")
+    public ModelAndView retrieveProductInquiry(@RequestParam(defaultValue = "1") final Integer page,
+                                               @PathVariable final Long productId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        List<ProductInquiryResponse> inquiries =
-            this.inquiryService.retrieveInquiryByProduct(productId);
+        PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByProduct(page, productId);
+        Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/products/product-inquiry");
-        mav.addObject("inquiries", inquiries);
+        mav.addObject("inquiries", inquiries.getData());
+        mav.addObject("pages", pagination);
 
         return mav;
     }
@@ -103,13 +108,13 @@ public class ProductInquiryController {
      * @author 민아영
      * @since 1.0.0
      */
-    @DeleteMapping("/{productId}/inquiry/{inquiryId}")
+    @DeleteMapping("/{inquiryId}")
     public ModelAndView deleteProductInquiry(@PathVariable final Long productId,
                                              @PathVariable final Long inquiryId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         this.inquiryService.deleteProductInquiry(productId, inquiryId);
-        return new ModelAndView("redirect:/products/" + productId + "/inquiries");
+        return new ModelAndView("redirect:/members/product-inquiries");
     }
 
 }

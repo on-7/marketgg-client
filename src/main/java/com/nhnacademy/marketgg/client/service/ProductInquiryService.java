@@ -1,12 +1,12 @@
 package com.nhnacademy.marketgg.client.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import java.util.List;
 
 /**
  * 상품 문의 서비스 입니다.
@@ -40,7 +40,7 @@ public interface ProductInquiryService {
      * @author 민아영
      * @since 1.0.0
      */
-    void createInquiry(Long productId, ProductInquiryRequest inquiryRequest)
+    void createInquiry(final Long productId, final ProductInquiryRequest inquiryRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
@@ -54,7 +54,7 @@ public interface ProductInquiryService {
      * @author 민아영
      * @since 1.0.0
      */
-    List<ProductInquiryResponse> retrieveInquiryByProduct(Long productId)
+    PageResult<ProductInquiryResponse> retrieveInquiryByProduct(final Integer page, final Long productId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
@@ -67,7 +67,7 @@ public interface ProductInquiryService {
      * @author 민아영
      * @since 1.0.0
      */
-    List<ProductInquiryResponse> retrieveInquiryByMember()
+    PageResult<ProductInquiryResponse> retrieveInquiryByMember(final Integer page)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
@@ -81,7 +81,7 @@ public interface ProductInquiryService {
      * @author 민아영
      * @since 1.0.0
      */
-    void deleteProductInquiry(Long productId, Long inquiryId)
+    void deleteProductInquiry(final Long productId, final Long inquiryId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
 }

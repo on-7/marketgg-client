@@ -22,7 +22,7 @@
                 <tr th:each="coupon : ${coupons}">
                     <td th:text="${coupon.name}"></td>
                     <td th:text="${coupon.type}"></td>
-                    <td th:text="${coupon.expiredDate}"></td>
+                    <td th:text="${coupon.expiredDate}+'일'"></td>
                     <td th:text="${#numbers.formatInteger(coupon.minimumMoney, 3, 'COMMA')+'원'}"></td>
                     <td th:text="${coupon.discountAmount &gt;= 1 ? #numbers.formatInteger(coupon.getDiscountAmount(), 3, 'COMMA')+'원' : #numbers.formatPercent(coupon.getDiscountAmount(), 1, 2)}"></td>
                     <td>

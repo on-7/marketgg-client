@@ -8,7 +8,28 @@
     </head>
 
     <body>
-        <main th:replace="~{/fragments/inquiry/create-form}">
+        <main>
+            <div class="form-group row">
+                <form th:method="post" th:action="'/products/' + ${productId} + '/inquiries'">
+                    <fieldset>
+                        <legend style="display: block; color: #b21f2d; font-size: 2rem" th:text="#{PRODUCT_INQUIRIES}"></legend>
+
+                        <input type = "text" name = "title" minlength="1" maxlength="50" th:placeholder="#{INPUT_TITLE}"/> <br>
+                        <textarea cols="50" rows="5" name = "content" minlength="1" maxlength="200" th:placeholder="#{INPUT_CONTENT}"></textarea> <br>
+
+                        <div>
+                            <label for="isSecret" th:text="#{SECRET_POST}"></label>
+                            <input type="checkbox" id="isSecret" name="isSecret"/>
+                            <input type="hidden" name="_isSecret" value="on"/> <br>
+                        </div>
+
+                        <button type="submit" th:text="#{INQUIRIES_CREATE}" class="btn btn-outline-danger"></button>
+                        <a style="text-decoration: none" th:href="@{|/products/${productId}/inquiries/index|}"
+                           th:text="#{CANCEL}" class="btn btn-outline-secondary"/>
+                        </a>
+                    </fieldset>
+                </form>
+            </div>
         </main>
     </body>
 

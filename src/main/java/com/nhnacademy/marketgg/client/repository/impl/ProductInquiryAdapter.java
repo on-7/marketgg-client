@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.request.ProductInquiryRequest;
 import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
@@ -33,8 +34,8 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
 
     @Override
-    public void updateInquiryReply(ProductInquiryReplyRequest replyRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public void updateInquiryReply(final ProductInquiryReplyRequest replyRequest)
+        throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<ProductInquiryReplyRequest> httpEntity = new HttpEntity<>(replyRequest, buildHeaders());
 
@@ -47,7 +48,7 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
     }
 
     @Override
-    public void createInquiry(Long productId, ProductInquiryRequest inquiryRequest)
+    public void createInquiry(final Long productId, final ProductInquiryRequest inquiryRequest)
         throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<ProductInquiryRequest> httpEntity = new HttpEntity<>(inquiryRequest, buildHeaders());
@@ -62,12 +63,12 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
     }
 
     @Override
-    public List<ProductInquiryResponse> retrieveAllInquiry(Long productId)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public PageResult<ProductInquiryResponse> retrieveAllInquiry(final Integer page, final Long productId)
+        throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
-        ResponseEntity<CommonResult<List<ProductInquiryResponse>>> response
+        ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
             = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiries",
             HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
             });
@@ -78,12 +79,12 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
     }
 
     @Override
-    public List<ProductInquiryResponse> retrieveAllInquiry()
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public PageResult<ProductInquiryResponse> retrieveAllInquiry(final Integer page)
+        throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
-        ResponseEntity<CommonResult<List<ProductInquiryResponse>>> response
+        ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
             = restTemplate.exchange(gatewayIp + "/shop/v1/members/product-inquiries", HttpMethod.GET, httpEntity,
             new ParameterizedTypeReference<>() {
             });
@@ -94,8 +95,8 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
     }
 
     @Override
-    public void deleteInquiry(Long productId, Long inquiryId)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public void deleteInquiry(final Long productId, final Long inquiryId)
+        throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(buildHeaders());
 
