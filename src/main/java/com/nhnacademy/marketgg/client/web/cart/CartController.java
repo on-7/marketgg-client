@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -50,7 +49,7 @@ public class CartController {
     @PostMapping
     @ResponseBody
     public ResponseEntity<CommonResult<String>> addToProduct(
-        @RequestBody @Validated ProductToCartRequest productAddRequest)
+        @RequestBody @Valid ProductToCartRequest productAddRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.addProduct(productAddRequest);

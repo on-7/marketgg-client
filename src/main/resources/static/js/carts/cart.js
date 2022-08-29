@@ -1,3 +1,5 @@
+const url = "/cart";
+
 function calcTotalPrice() {
     let itemPrice = document.getElementsByClassName("item-price");
     let sum = 0;
@@ -159,8 +161,6 @@ function blockButton() {
     orderBtn.disabled = true;
 
 }
-
-const url = "/cart";
 
 function main() {
     calcTotalPrice();

@@ -13,7 +13,8 @@
             <section class="text-center">
 
                 <h2 class="cart-title" th:text="#{Cart}"></h2>
-                <form method="POST" th:action="@{/orders}">
+                <form method="POST" th:action="@{/orders/form}">
+
                     <div class="cart-container">
                         <div class="cart">
                             <div th:id="cart- + ${cart.id}"
@@ -25,7 +26,9 @@
 
                                 <img class="cart-img p-2" th:src="${cart.thumbnail}" alt="thumbnail" />
 
+                                <a th:href="@{|/products/${cart.id}|}">
                                 <span class="item-name p-2" th:text="${cart.name}">상품 이름</span>
+                                </a>
 
                                 <div class="cart-amount p-2">
                                     <input th:id="amount- + ${cart.id}" type="number" name="amount"
@@ -64,6 +67,7 @@
                             </div>
                         </div>
                     </div>
+
                 </form>
             </section>
         </main>

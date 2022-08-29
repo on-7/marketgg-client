@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.request.CartOrderRequest;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
 import java.util.List;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -35,7 +37,7 @@ public class OrderPageController {
      * @return 주문서 작성 페이지
      */
     @GetMapping("/orders/form")
-    public ModelAndView goOrderForm(final MemberInfo memberInfo) {
+    public ModelAndView goOrderForm(@ModelAttribute CartOrderRequest cartOrderReqeust, final MemberInfo memberInfo) {
         ModelAndView mav = new ModelAndView("pages/orders/order-form");
         mav.addObject(memberInfo);
 
