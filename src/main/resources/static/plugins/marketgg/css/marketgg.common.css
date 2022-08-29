@@ -33,6 +33,20 @@ nav {
     box-shadow: 2px 4px 4px rgb(0 0 0 / 20%);
 }
 
+.autocomplete-input {
+    display: flex;
+}
+
+.autocomplete-container div:last-child {
+    margin-left: 0.5rem;
+}
+
+.fa-search {
+    color: white;
+    cursor: pointer;
+    font-size: 2rem;
+}
+
 .gnb {
     flex: 0.6;
 }

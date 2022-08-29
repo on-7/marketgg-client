@@ -21,8 +21,27 @@
         </ul>
     </div>
     <div class="autocomplete-container">
-        <label for="autoComplete"></label>
-        <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"
-               spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
+        <!-- NOTE: 카테고리 선택 드롭다운 목록 -->
+        <div class="dropdown">
+            <button type="button" class="btn btn-outline-light dropdown-toggle"
+                    data-toggle="dropdown" aria-expanded="false">
+                카테고리 선택
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">밀키트</a>
+                <a class="dropdown-item" href="#">파전</a>
+                <a class="dropdown-item" href="#">주류</a>
+            </div>
+        </div>
+
+        <!-- NOTE: 검색 창 -->
+        <div class="autocomplete-input">
+            <label for="autoComplete"></label>
+            <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"
+                   spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
+        </div>
+        <div>
+            <i class="fas fa-search"></i>
+        </div>
     </div>
 </nav>
