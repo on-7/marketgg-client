@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="https://www.thymeleaf.org" th:fragment="elements(title, main, link, script)">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org" th:fragment="layout(title, main, script)">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,11 +16,7 @@
 
         <link rel="stylesheet" th:href="@{/plugins/myadmin/css/myadmin.css}" />
 
-        <!-- NOTE: Custom links will be here -->
-        <link th:content="${link} != null ? ${link} : null" />
-        <!-- <script th:replace="${script} != null ? ${script} : '<script></script>'"></script> -->
-
-        <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 title 태그로 대체됩니다. -->
+        <!-- NOTE: 이곳은 해당 레이아웃을 사용한 html 의 <title> 태그로 대체됩니다. -->
         <title th:replace="${title}"></title>
 
         <!-- jQuery CDN -->
@@ -32,16 +28,15 @@
 
         <script th:src="@{/plugins/myadmin/js/myadmin.js}"></script>
 
-        <!-- NOTE: Custom scripts will be here -->
-        <script th:content="${script} != null ? ${script} : null"></script>
+        <!-- NOTE: 이곳은 해당 레이아웃을 사용한 html 의 <script> 태그로 대체됩니다. -->
+        <script th:replace="${script}"></script>
     </head>
     <body>
         <div class="wrapper">
-            <!-- Sidebar Holder -->
             <nav th:replace="fragments/admin/sidebar"></nav>
 
-            <main th:content="${main} != null ? ${main} : null">
-                <!-- NOTE: 이곳은 레이아웃을 사용한 html 의 main 태그로 대체됩니다. -->
+            <main th:replace="${main}">
+                <!-- NOTE: 이곳은 해당 레이아웃을 사용한 html 의 <main> 태그로 대체됩니다. -->
             </main>
         </div>
     </body>

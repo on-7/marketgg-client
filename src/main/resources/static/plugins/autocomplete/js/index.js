@@ -2,7 +2,7 @@
 window.addEventListener('DOMContentLoaded', () => {
   const autoCompleteJS = new autoComplete({
     selector: "#autoComplete",
-    placeHolder: "Search for Food...",
+    placeHolder: "검색어를 입력해주세요",
     data: {
       // FIXME: 이곳에 상품 검색 결과를 문자열 배열로 넣는다.
       src: ["Sauce - Thousand Island", "Wild Boar - Tenderloin", "Goat - Whole Cut"],
