@@ -1,3 +1,5 @@
+const url = "/cart";
+
 function calcTotalPrice() {
     let itemPrice = document.getElementsByClassName("item-price");
     let sum = 0;
@@ -18,7 +20,8 @@ function addUpdateListener() {
     }
     for (let i = 0; i < updateBtns.length; i++) {
         updateBtns[i].addEventListener("click", (e) => {
-            let productId = e.path[0].id.split("-")[1];
+            let productId = e.target.parentNode.id.split("-")[1];
+            console.log(productId);
             let amount = document.getElementById("amount-" + productId).value;
 
             let productToCartRequest = {
@@ -35,6 +38,7 @@ function addUpdateListener() {
             }).then(r => {
                 if (r.status === 200) {
                     document.getElementById("amount-" + productId).value = amount;
+                    alert("수량이 변경되었습니다.");
                 }
             }).catch(e => console.log("error: " + e));
         });
@@ -48,6 +52,7 @@ function addDeleteListener() {
     }
     for (let i = 0; i < deleteBtns.length; i++) {
         deleteBtns[i].addEventListener("click", (e) => {
+            console.log(e.target);
             let productId = e.path[0].id.split("-")[1];
             let deleteRequest = [productId];
 
@@ -60,6 +65,7 @@ function addDeleteListener() {
             }).then(r => {
                 if (r.status === 200) {
                     document.getElementById("cart-" + productId).remove();
+                    alert("삭제되었습니다.");
                 }
             }).catch(e => console.log("error: " + e));
         })
@@ -91,6 +97,7 @@ function addDeleteAll() {
                 for (let i = 0; i < carts.length; i++) {
                     carts[i].remove();
                 }
+                alert("삭제되었습니다.");
             }
         }).catch(e => console.log("error: " + e));
     });
@@ -108,7 +115,7 @@ function addDeleteSelection() {
         let deletedProducts = [];
         for (let i = 0; i < carts.length; i++) {
             let productId = carts[i].id.split("-")[1];
-            console.log("cartID = " + carts[i].id);
+
             let checked = document.getElementById("check-" + productId).checked;
             if (!checked) {
                 continue;
@@ -127,6 +134,7 @@ function addDeleteSelection() {
             if (r.status === 200) {
                 for (let i = 0; i < deletedProducts.length; i++) {
                     deletedProducts[i].remove();
+                    alert("삭제되었습니다.");
                 }
             }
         }).catch(e => console.log("error: " + e));
@@ -159,8 +167,6 @@ function blockButton() {
     orderBtn.disabled = true;
 
 }
-
-const url = "/cart";
 
 function main() {
     calcTotalPrice();

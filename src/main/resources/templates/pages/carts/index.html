@@ -13,18 +13,22 @@
             <section class="text-center">
 
                 <h2 class="cart-title" th:text="#{Cart}"></h2>
-                <form method="POST" th:action="@{/#}">
+                <form method="POST" th:action="@{/orders/form}">
+
                     <div class="cart-container">
                         <div class="cart">
                             <div th:id="cart- + ${cart.id}"
                                  class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center"
                                  th:if="${!carts.isEmpty}" th:each="cart : ${carts}">
-                                <input type="hidden" th:value="${cart.id}" />
-                                <input th:id="check- + ${cart.id}" class="p-2" type="checkbox" name="select" checked />
+                                <input type="hidden" />
+                                <input class="p-2" type="checkbox" th:id="check- + ${cart.id}"
+                                       th:value="${cart.id}" name="id" checked />
 
                                 <img class="cart-img p-2" th:src="${cart.thumbnail}" alt="thumbnail" />
 
+                                <a th:href="@{|/products/${cart.id}|}">
                                 <span class="item-name p-2" th:text="${cart.name}">상품 이름</span>
+                                </a>
 
                                 <div class="cart-amount p-2">
                                     <input th:id="amount- + ${cart.id}" type="number" name="amount"
@@ -63,6 +67,7 @@
                             </div>
                         </div>
                     </div>
+
                 </form>
             </section>
         </main>
