@@ -4,3 +4,8 @@ spring:
 
   config:
     import: "optional:configserver:http://config.marketgg.shop"
+
+
+logging:
+  level:
+    root: debug

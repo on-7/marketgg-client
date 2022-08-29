@@ -204,10 +204,12 @@
 
     <form name="reviewRequest" method="post" th:action="@{|/products/${productDetails.id}/reviews|}" enctype="multipart/form-data">
 
+        <div th:replace="fragments/common/input-group :: formItem('rating', '별점', 'number', 5)"></div>
+
         <div class="product-details">
             <h2>후기 등록</h2>
             <div id="editor"></div>
-            <input type="hidden" id="toast-content" name="description" value="">
+            <input type="hidden" id="toast-content" name="content" value="">
         </div>
 
         <div class="btn-wrapper">

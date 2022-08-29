@@ -1,5 +1,6 @@
 const Toast = toastui.Editor;
 let csrfToken = document.getElementById("_csrf").content;
+const productId = document.getElementById("product-id").value;
 
 const editor = new Toast({
     el: document.querySelector('#editor'),
@@ -19,7 +20,7 @@ const editor = new Toast({
                 type: 'POST',
                 enctype: 'multipart/form-data',
                 headers: {"Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken},
-                url: '/editor',
+                url: '/products/' + productId + '/reviews',
                 data: formData,
                 dataType: 'text',
                 processData: false,
@@ -51,4 +52,3 @@ submitButton.addEventListener('click', (event) => {
     console.log(description);
     document.getElementById('toast-content').value = description;
 })
-
