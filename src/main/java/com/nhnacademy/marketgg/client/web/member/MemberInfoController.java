@@ -80,6 +80,21 @@ public class MemberInfoController {
         return new ModelAndView("redirect:/");
     }
 
+    /**
+     * 회원 수정 폼 입니다.
+     *
+     * @param memberUpdateRequest - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
+     * @return
+     */
+    @GetMapping("/update")
+    public ModelAndView update(
+            final @ModelAttribute(name = "memberUpdateRequest") MemberUpdateRequest memberUpdateRequest,
+            MemberInfo memberInfo) throws UnAuthenticException, UnAuthorizationException {
+
+        ModelAndView modelAndView = new ModelAndView("pages/members/update-form");
+        modelAndView.addObject(memberInfo);
+        return modelAndView;
+    }
 
     /**
      * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
@@ -92,11 +107,18 @@ public class MemberInfoController {
      * @since 1.0.0
      */
     @PostMapping("/update")
-    public ModelAndView doUpdate(@ModelAttribute @Valid final MemberUpdateRequest memberUpdateRequest,
-                                 MemberInfo memberInfo)
+    public ModelAndView doUpdate(
+            final @Valid @ModelAttribute(name = "memberUpdateRequest") MemberUpdateRequest memberUpdateRequest,
+            MemberInfo memberInfo,
+            BindingResult bindingResult)
             throws UnAuthenticException, UnAuthorizationException {
+
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("pages/members/update-form");
+        }
+
         memberService.update(memberUpdateRequest, memberInfo);
-        return new ModelAndView(REDIRECT);
+        return new ModelAndView("redirect:/logout");
     }
 
     /**
@@ -111,7 +133,7 @@ public class MemberInfoController {
     @GetMapping("/withdraw")
     public ModelAndView doWithdraw() throws UnAuthenticException, UnAuthorizationException {
         memberService.withdraw();
-        return new ModelAndView(REDIRECT);
+        return new ModelAndView("redirect:/logout");
     }
 
     /**

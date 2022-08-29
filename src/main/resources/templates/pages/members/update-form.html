@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
+    <head>
+        <script th:src="@{js/members/update.js}" defer></script>
+        <title th:text="#{MEMBER_UPDATE}"></title>
+    </head>
+    <body>
+        <main th:object="${memberInfo}">
+            <h2 th:text="#{MEMBER_UPDATE}"></h2>
+            <form method="post" th:action="@{/update}" th:object="${memberUpdateRequest}" onsubmit="return formValidation()">
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" name="password"
+                           th:placeholder="#{PASSWORD_VALIDATION}"
+                           maxlength="20"
+                           required/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password-check"
+                           th:placeholder="#{PASSWORD_VALIDATION}"
+                           maxlength="20"
+                           required/>
+                </div>
+                <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">PASSWORD</div>
+                <button type="button" id="password-check-btn" th:text="#{PASSWORD_CHECK}"></button>
+                <input type="hidden" id="use-password" value="false"/>
+                <div class="form-group">
+                    <input type="text" class="form-control" name="name" th:placeholder="#{NAME}"
+                           maxlength="15"
+                           th:value="${memberInfo.getName()}" required/>
+                    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-control" id="phone-number" name="phoneNumber" th:value="${memberInfo.getPhoneNumber()}"
+                           th:placeholder="#{PHONE}" maxlength="15" required/>
+                </div>
+                <input type="submit" class="btn btn-primary" id="enable-update" th:value="#{MEMBER_UPDATE}"
+                       disabled>
+            </form>
+        </main>
+    </body>
+</html>

@@ -88,10 +88,10 @@ public class MemberAdapter implements MemberRepository {
     public void update(final MemberUpdateRequest memberUpdateRequest, MemberInfo memberInfo)
             throws UnAuthenticException, UnAuthorizationException {
 
-        HttpEntity<MemberUpdateRequest> response =
+        HttpEntity<MemberUpdateRequest> request =
                 new HttpEntity<>(memberUpdateRequest, buildHeaders());
-        ResponseEntity<CommonResult<Void>> exchange =
-                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.PUT, response,
+        ResponseEntity<CommonResult<Void>> response =
+                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.PUT, request,
                                       new ParameterizedTypeReference<>() {
                                       });
 
@@ -118,7 +118,7 @@ public class MemberAdapter implements MemberRepository {
             throw new ServerException();
         }
 
-        this.checkResponseUri(exchange);
+        this.checkResponseUri(response);
     }
 
     @Override

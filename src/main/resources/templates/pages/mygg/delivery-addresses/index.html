@@ -2,9 +2,8 @@
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
       th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
     <head>
-        <meta charset="UTF-8">
-        <title th:text="#{DELIVERY_ADDRESS_LIST}"></title>
         <script th:src="@{js/delivery-addresses/delivery-address.js}" defer></script>
+        <title th:text="#{DELIVERY_ADDRESS_LIST}"></title>
     </head>
     <body>
         <main>
