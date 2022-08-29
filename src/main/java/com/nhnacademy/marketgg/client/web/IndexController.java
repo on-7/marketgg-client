@@ -40,6 +40,8 @@ public class IndexController {
         List<ProductListResponse> products = searchProductResponsePageResult.getData();
 
         mav.addObject("products", products);
+        mav.addObject("keyword", null);
+        mav.addObject("option", "main");
         mav.addObject("pages", pagination);
 
         return mav;
