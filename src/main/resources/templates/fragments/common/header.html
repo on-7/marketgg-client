@@ -23,7 +23,9 @@
                 </div>
                 <div sec:authorize="!isAnonymous()">
                     <span th:text="|Hello, ${#authentication.name}!|"></span>
-                    <a href="/cart">장바구니</a>
+                    <a href="/cart">
+                        <i class="bi-cart-fill me-1"></i>
+                    </a>
                     <a href="/logout" class="btn btn-secondary my-2" th:text="#{LOGOUT}"></a>
                 </div>
             </div>

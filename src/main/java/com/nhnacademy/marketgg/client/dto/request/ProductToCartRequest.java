@@ -5,17 +5,18 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Getter
 public class ProductToCartRequest {
 
     // 상품 ID
     @NotNull
-    private Long id;
+    private final Long id;
 
     @Max(value = 999)
     @Min(value = 1)
-    private Integer amount;
+    private final Integer amount;
 
 }

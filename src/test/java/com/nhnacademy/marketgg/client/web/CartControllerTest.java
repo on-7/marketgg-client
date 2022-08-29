@@ -82,9 +82,9 @@ class CartControllerTest {
     @BeforeAll
     static void beforeAll() {
 
-        productToCartRequest = new ProductToCartRequest();
-        ReflectionTestUtils.setField(productToCartRequest, "id", 1L);
-        ReflectionTestUtils.setField(productToCartRequest, "amount", 10);
+        productToCartRequest = new ProductToCartRequest(1L, 10);
+        // ReflectionTestUtils.setField(productToCartRequest, "id", 1L);
+        // ReflectionTestUtils.setField(productToCartRequest, "amount", 10);
     }
 
     @BeforeEach

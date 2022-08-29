@@ -6,15 +6,10 @@ function addToCart() {
         const productId = document.getElementById("product-id").value;
         const amount = document.getElementById("inputQuantity").value;
 
-        console.log("productId = " + productId);
-        console.log("amount = " + amount);
-
         let productToCartRequest = {
             id: parseInt(productId),
             amount: parseInt(amount)
         }
-
-        console.log("request = " + JSON.stringify(productToCartRequest));
 
         const myHeaders = getHeaders();
 

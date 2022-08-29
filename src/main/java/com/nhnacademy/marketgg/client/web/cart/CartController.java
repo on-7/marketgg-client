@@ -20,12 +20,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 장바구니 관련 요청을 처리합니다.
@@ -47,16 +49,16 @@ public class CartController {
      */
     // 비동기로 처리 예정
     @PostMapping
-    @ResponseBody
-    public ResponseEntity<CommonResult<String>> addToProduct(
-        @RequestBody @Valid ProductToCartRequest productAddRequest)
+    // @ResponseBody
+    public ModelAndView addToProduct(
+        @ModelAttribute @Valid ProductToCartRequest productAddRequest, RedirectAttributes redirectAttributes)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.addProduct(productAddRequest);
 
-        return ResponseEntity.status(CREATED)
-                             .contentType(MediaType.APPLICATION_JSON)
-                             .body(CommonResult.success("Success Add."));
+        ModelAndView mav = new ModelAndView("/products/" + productAddRequest.getId());
+        redirectAttributes.addFlashAttribute("addSuccess", true);
+        return mav;
     }
 
     /**
@@ -115,8 +117,7 @@ public class CartController {
     @PatchMapping
     @ResponseBody
     public ResponseEntity<CommonResult<String>> updateAmount(
-        @RequestBody @Valid ProductToCartRequest productUpdateRequest
-        , HttpServletRequest request)
+        @RequestBody @Valid ProductToCartRequest productUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.updateAmount(productUpdateRequest);
