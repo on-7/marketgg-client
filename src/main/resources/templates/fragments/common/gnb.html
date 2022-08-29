@@ -10,10 +10,10 @@
                 </a>
                 <ul class="category">
                     <!-- FIXME: DB 에서 상위 카테고리 each 돌리기 -->
-                    <li><a href="#">밀키트</a></li>
-                    <li><a href="#">채소</a></li>
-                    <li><a href="#">과일/견과/쌀</a></li>
-                    <li><a href="#">정육/계란</a></li>
+                    <li><a th:href="@{/products/categories/104}" th:text="밀키트"></a></li>
+                    <li><a th:href="@{/products/categories/101}" th:text="채소"></a></li>
+                    <li><a th:href="@{/products/categories/102}" th:text="|과일/견과/쌀|"></a></li>
+                    <li><a th:href="@{/products/categories/103}" th:text="|정육/계란|"></a></li>
                 </ul>
             </li>
             <li><a href="#" th:text="#{BEST_LABEL}"></a></li>

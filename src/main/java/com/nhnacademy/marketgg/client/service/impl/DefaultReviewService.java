@@ -25,8 +25,8 @@ public class DefaultReviewService implements ReviewService {
     }
 
     @Override
-    public PageResult<ReviewResponse> retrieveReviews(final Long productId) {
-        return reviewRepository.retrieveReviews(productId);
+    public PageResult<ReviewResponse> retrieveReviews(final Long productId, final int page) {
+        return reviewRepository.retrieveReviews(productId, page);
     }
 
     @Override

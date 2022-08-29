@@ -56,6 +56,8 @@ public class ProductResponse {
 
     private String thumbnail;
 
+    private String imageAddress;
+
     public void updateThumbnail(String s) {
         this.thumbnail = s;
     }

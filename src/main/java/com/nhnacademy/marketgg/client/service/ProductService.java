@@ -51,13 +51,11 @@ public interface ProductService {
     /**
      * 카테고리로 조회한 모든 상품을 반환 합니다.
      *
-     * @param categorizationCode - 카테고리 대분류입니다. ex) 100 - 상품
      * @param categoryId         - 카테고리 소분류입니다. ex) 101 - 채소
      * @return - 해당 카테고리에 해당하는 모든 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
-    List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
-                                                     final String categoryId);
+    PageResult<SearchProductResponse> retrieveProductsByCategory(final String categoryId, final int page);
 
     /**
      * productId에 해당하는 상품을 수정합니다.

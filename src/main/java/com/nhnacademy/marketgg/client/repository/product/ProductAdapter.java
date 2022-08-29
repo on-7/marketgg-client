@@ -93,14 +93,13 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
-                                                            final String categoryId) {
+    public PageResult<SearchProductResponse> retrieveProductsByCategory(final String categoryId, final int page) {
 
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<List<ProductResponse>> response = this.restTemplate.exchange(
-                gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + categorizationCode + "/" + categoryId,
+        ResponseEntity<PageResult<SearchProductResponse>> response = this.restTemplate.exchange(
+                gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/?page=" + page,
                 HttpMethod.GET,
                 httpEntity,
                 new ParameterizedTypeReference<>() {

@@ -113,28 +113,6 @@ public class AdminProductController {
     }
 
     /**
-     * 카테고리로 상품을 조회하기 위한 GetMapping을 지원 합니다.
-     * 타임리프에서 products로 조회할 수 있습니다.
-     *
-     * @param categorizationCode - 카테고리 대분류 입니다. ex) 100 - 상품
-     * @param categoryCode       - 카테고리 소분류 입니다. ex) 101 - 채소
-     * @return - 해당 카테고리를 가진 상품 목록 페이지를 리턴합니다.
-     * @since 1.0.0
-     */
-    @GetMapping("/{categorizationCode}/{categoryCode}")
-    public ModelAndView retrieveProductsByCategory(@PathVariable final String categorizationCode,
-                                                   @PathVariable final String categoryCode) {
-
-        List<ProductResponse> products =
-            this.productService.retrieveProductsByCategory(categorizationCode, categoryCode);
-
-        ModelAndView mav = new ModelAndView("pages/products/retrieve-products");
-        mav.addObject("products", products);
-
-        return mav;
-    }
-
-    /**
      * 상품 수정 페이지로 가기 위한 GetMapping 을 지원합니다.
      * 상품의 원래 속성이 기본으로 지정되어 있습니다.
      *

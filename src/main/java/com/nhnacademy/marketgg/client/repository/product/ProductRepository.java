@@ -56,8 +56,7 @@ public interface ProductRepository {
      * @return - 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
-    List<ProductResponse> retrieveProductsByCategory(final String categorizationCode,
-                                                     final String categoryId);
+    PageResult<SearchProductResponse> retrieveProductsByCategory(final String categoryId, final int page);
 
     /**
      * 상품 번호로 상품을 찾은 뒤, 해당 상품을 수정합니다.

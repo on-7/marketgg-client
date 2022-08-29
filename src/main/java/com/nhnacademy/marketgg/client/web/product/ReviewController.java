@@ -11,6 +11,9 @@ import com.nhnacademy.marketgg.client.service.ReviewService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -36,7 +41,7 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     private static final String DEFAULT_PRODUCT_DETAIL_VIEW = "pages/products/product-view";
-    private static final String REDIRECT_PRODUCT_DETAIL_VIEW = "redirect:/pages/products/product-view";
+    private static final String REDIRECT_PRODUCT_DETAIL_VIEW = "redirect:/products/";
 
     /**
      * 후기를 등록합니다.
@@ -59,29 +64,28 @@ public class ReviewController {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).toString());
-            return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
+            return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW + productId);
         }
 
         reviewService.createReview(productId, memberInfo, reviewRequest);
 
-        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
+        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW + productId);
     }
 
     /**
-     * 후기의 전체 목록을 조회합니다.
+     * 비동기로 전체 후기를 조회하기 위한 컨트롤러입니다.
      *
-     * @param productId - 후기가 달린 상품의 상품번호입니다.
-     * @return - 후기 목록이 담긴 view를 반환합니다.
+     * @param id - 상품의 pk 입니다.
+     * @return - JSON형식의 후기를 반환합니다.
      */
-    @GetMapping
-    public ModelAndView retrieveReviews(@PathVariable final Long productId) {
 
-        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(productId);
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public ResponseEntity<PageResult<ReviewResponse>> retrieveReviews(@PathVariable(name = "productId") final Long id,
+                                                                      @RequestParam(defaultValue = "0") int page) {
+        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(id, page);
 
-        ModelAndView mav = new ModelAndView("pages/products/reviews/review-view");
-        mav.addObject("reviews", reviewResponsePageResult.getData());
-
-        return mav;
+        return new ResponseEntity<>(reviewResponsePageResult, HttpStatus.OK);
     }
 
     /**
