@@ -9,8 +9,8 @@
         <main>
             <h1 th:text="#{OTO_INQUIRY}"></h1>
             <div sec:authorize="hasRole('ADMIN')">
-                <a th:href="'/admin/customer-services/categories/' + ${OTO_CODE}+'?page=0'"><span th:text="'관리자 메뉴'"></span></a>
-            </div>
+                <a class="btn btn-primary" th:href="'/admin/customer-services/categories/' + ${OTO_CODE}+'?page=0'"><span th:text="'관리자 메뉴'"></span></a>
+            </div><br />
             <div class="board-wrapper">
                 <nav>
                     <div class="list-group" th:if="${isAdmin == 'yes'}">
@@ -131,9 +131,11 @@
                         </table>
                     </div>
                     <br />
-                    <form th:method="get" th:action="'/customer-services/categories/'+${OTO_CODE}+'/create'">
-                        <input class="btn-primary fa-pull-right" type="submit" th:value="#{OTO_INQUIRY_CREATE}">
-                    </form>
+                    <div th:if="${isAdmin == 'no'}">
+                        <form th:method="get" th:action="'/customer-services/categories/'+${OTO_CODE}+'/create'">
+                            <input class="btn-primary fa-pull-right" type="submit" th:value="#{OTO_INQUIRY_CREATE}">
+                        </form>
+                    </div>
                     <div style="text-align: center" th:if="${isAdmin == 'no'}">
                         <div th:if="${searchType == 'no'}">
                             <a class="btn-primary" th:href="'/customer-services/categories/'+${OTO_CODE}+'?page=' + ${page - 1}" th:if="${page} != 0" th:text="prev"></a>

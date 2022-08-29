@@ -9,8 +9,8 @@
         <main>
             <h1 th:text="#{FAQ}"></h1>
             <div sec:authorize="hasRole('ADMIN')">
-                <a th:href="'/admin/customer-services/categories/' + ${FAQ_CODE}+'?page=0'"><span th:text="'관리자 메뉴'"></span></a>
-            </div>
+                <a class="btn btn-primary" th:href="'/admin/customer-services/categories/' + ${FAQ_CODE}+'?page=0'"><span th:text="'관리자 메뉴'"></span></a>
+            </div><br />
             <div class="board-wrapper">
                 <nav>
                     <div class="list-group" th:if="${isAdmin == 'yes'}">
