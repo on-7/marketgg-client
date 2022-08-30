@@ -81,7 +81,7 @@ public class OrderPageController {
         OrderDetailRetrieveResponse order = orderService.retrieveOrder(orderId);
         log.info("retrieveOrder: {}", order);
 
-        ModelAndView mav = new ModelAndView("/pages/orders/order-details");
+        ModelAndView mav = new ModelAndView("pages/orders/order-details");
         mav.addObject("order", order);
 
         return mav;
