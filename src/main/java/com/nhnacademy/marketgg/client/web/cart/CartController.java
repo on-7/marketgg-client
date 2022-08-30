@@ -48,14 +48,15 @@ public class CartController {
     // 비동기로 처리 예정
     @PostMapping
     // @ResponseBody
-    public ModelAndView addToProduct(
-        @ModelAttribute @Valid ProductToCartRequest productAddRequest, RedirectAttributes redirectAttributes)
+    public ModelAndView addToProduct(@ModelAttribute @Valid ProductToCartRequest productAddRequest,
+                                     RedirectAttributes redirectAttributes)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.addProduct(productAddRequest);
 
         ModelAndView mav = new ModelAndView("/products/" + productAddRequest.getId());
         redirectAttributes.addFlashAttribute("addSuccess", true);
+
         return mav;
     }
 
@@ -92,8 +93,8 @@ public class CartController {
      */
     @PatchMapping
     @ResponseBody
-    public ResponseEntity<CommonResult<String>> updateAmount(
-        @RequestBody @Valid ProductToCartRequest productUpdateRequest)
+    public ResponseEntity<CommonResult<String>> updateAmount(@RequestBody @Valid
+                                                             ProductToCartRequest productUpdateRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.updateAmount(productUpdateRequest);
