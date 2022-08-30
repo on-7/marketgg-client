@@ -32,10 +32,17 @@
                             </button>
                         </div>
                     </form>
+                    <br />
                     <div class="d-flex">
                         <div th:id="dib">
-                            <button id="dib-btn" value="dib" th:if="${productDetails.dib}" th:text="'찜제거'"></button>
-                            <button id="dib-btn" value="unDib" th:unless="${productDetails.dib}" th:text="'찜'"></button>
+                            <button id="dib-btn" value="dib" th:if="${productDetails.dib}"
+                            class="btn btn-outline-danger">
+                                <i class="fas fa-heart" style="margin: 0;"></i>
+                            </button>
+                            <button id="dib-btn" value="unDib" th:unless="${productDetails.dib}"
+                            class="btn btn-outline-danger">
+                                <i class="far fa-heart" style="margin: 0;"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
