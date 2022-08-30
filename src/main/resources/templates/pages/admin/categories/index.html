@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{layouts/admin-title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
-    <!-- 위에 replace 부분 관리자 페이지 수정 되면 변경되어야함 에러 안나도록 -->
+      th:replace="~{layouts/admin-title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
     <head>
         <meta charset="UTF-8">
 
         <link rel="stylesheet" th:href="@{/css/category/category-index.css}">
-
-        <!-- 임시 -->
-        <script th:src="@{/plugins/myadmin/js/myadmin.js}"></script>
 
         <title th:text="#{CATEGORY_MANAGEMENT}"></title>
     </head>
@@ -20,7 +17,7 @@
 
             <hr/>
             <table>
-                <tr>
+                <tr class="first-tr">
                     <th th:text="#{CATEGORY_CLASSIFICATION}"></th>
                     <th th:text="#{CATEGORY_CODE}"></th>
                     <th th:text="#{CATEGORY_NAME}"></th>
@@ -33,12 +30,12 @@
                     <td th:text="${category.categoryName}"></td>
                     <td th:text="${category.sequence}"></td>
                     <td>
-                        <a style="text-decoration: none" th:href="@{/admin/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
-                            <button th:text="#{UPDATE}"></button>
+                        <a th:href="@{/admin/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
+                            <button class="update" th:text="#{UPDATE}"></button>
                         </a>
                         <form style="display: inline" th:action="'/admin/categories/' + ${category.categoryCode}" method="post">
                             <input type="hidden" name="_method" value="delete"/>
-                            <input type="submit" value="삭제"/>
+                            <input class="update" type="submit" value="삭제"/>
                         </form>
                     </td>
                 </tr>
