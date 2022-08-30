@@ -1,17 +1,17 @@
+// SEE: https://developers.tosspayments.com/304121/accounts/411128/phases/test/payment-logs
 window.addEventListener('DOMContentLoaded', () => {
   const clientKey = 'test_ck_k6bJXmgo28e1RagkzMe8LAnGKWx4';
+  const clientOrigin = 'http://localhost:5050';
   const tossPayments = TossPayments(clientKey);
 
-  const randomValue = Math.floor(Math.random() * 100_001);
-
-  tossPayments.requestPayment('가상계좌', {
-    amount: 1000,
-    orderId: 'GGORDER_' + randomValue,
-    orderName: '[생어거스틴] 새우 듬뿍 팟타이 밀키트 외 3건',
-    successUrl: 'http://127.0.0.1:5050/payments/success',
-    failUrl: 'http://127.0.0.1:5050/payments/fail',
+  tossPayments.requestPayment('카드', {
+    amount: document.getElementById('amount').textContent,
+    orderId: document.getElementById('orderId').textContent,
+    orderName: document.getElementById('orderName').textContent,
+    successUrl: `${clientOrigin}/payments/success`,
+    failUrl: `${clientOrigin}/payments/fail`,
     windowTarget: "iframe",
-    customerName: '강태풍',
-    customerEmail: 'on7.marketgg@gmail.com',
+    customerName: document.getElementById('customerName').textContent,
+    customerEmail: document.getElementById('customerEmail').textContent,
   });
 });

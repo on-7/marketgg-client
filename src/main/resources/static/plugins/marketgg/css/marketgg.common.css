@@ -28,21 +28,29 @@
 
 nav {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex: 1;
     box-shadow: 2px 4px 4px rgb(0 0 0 / 20%);
+}
+
+.custom-select {
+    width: 9rem;
 }
 
 .autocomplete-input {
     display: flex;
 }
 
+.autocomplete-container {
+    margin-left: 3rem;
+}
+
 .autocomplete-container div:last-child {
     margin-left: 0.5rem;
 }
 
-.fa-search {
-    color: white;
+.fa-search-dollar {
+    color: ghostwhite;
     cursor: pointer;
     font-size: 2rem;
 }
@@ -101,4 +109,28 @@ footer a {
 
 footer a:hover {
     color: lightskyblue;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.fa-shopping-cart {
+    color: white;
+    font-size: 1.5rem;
+}
+
+.authentication-name {
+    margin: 0 1.5rem 0 1rem;
+}
+
+@media (max-width: 576px) {
+    nav, .clicky-menu {
+        flex-direction: column;
+    }
+
+    .autocomplete-container {
+        justify-content: flex-end;
+    }
 }
