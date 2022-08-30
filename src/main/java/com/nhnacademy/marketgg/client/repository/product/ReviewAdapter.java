@@ -8,7 +8,9 @@ import com.nhnacademy.marketgg.client.dto.ShopResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
+import com.nhnacademy.marketgg.client.dto.response.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.repository.product.ReviewRepository;
 import java.util.List;
@@ -63,6 +65,23 @@ public class ReviewAdapter implements ReviewRepository {
                                        request,
                                        new ParameterizedTypeReference<>() {
                                        });
+
+        this.checkResponseUri(response);
+        return Objects.requireNonNull(response.getBody());
+    }
+
+    @Override
+    public CommonResult<List<ReviewRatingResponse>> retrieveReviewsByRating(Long productId) {
+        HttpHeaders headers = new HttpHeaders(this.buildHeaders());
+
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+
+        ResponseEntity<CommonResult<List<ReviewRatingResponse>>> response =
+                this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/rating",
+                        HttpMethod.GET,
+                        request,
+                        new ParameterizedTypeReference<>() {
+                        });
 
         this.checkResponseUri(response);
         return Objects.requireNonNull(response.getBody());

@@ -612,6 +612,10 @@ progress {
     height: auto;
 }
 
+.img {
+    width: 600px;
+}
+/*const $images = document.querySelectorAll; $images.style.width = 300px;*/
 .figure {
     display: inline-block;
 }
