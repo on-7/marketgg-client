@@ -19,7 +19,7 @@
 
             <div class="product-inquiry-content" th:each="inquiry : ${inquiries}">
                 <div class="product-inquiry-row">
-                    <li th:text="${inquiry.isSecret} == true && ${memberInfo.} ? '&#x1F512; ' + #{IS_SECRET_POST} : ${inquiry.title}"></li>
+                    <li th:text="${inquiry.isSecret} == true ? '&#x1F512; ' + #{IS_SECRET_POST} : ${inquiry.title}"></li>
                     <li th:text="${inquiry.isSecret} == true ? '&#x1F512; ' + #{IS_SECRET_POST} : 'A: ' + ${inquiry.content}"></li>
                     <li th:text="${inquiry.name}"></li>
                     <li th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></li>
