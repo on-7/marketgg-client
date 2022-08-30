@@ -2,7 +2,6 @@
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
       th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
     <head>
-        <meta charset="UTF-8">
         <link th:href="@{/css/members/withdraw.css}" rel="stylesheet">
         <title th:text="#{MEMBER_WITHDRAW}"></title>
         <script th:src="@{/js/members/withdraw.js}" defer></script>
@@ -10,8 +9,8 @@
     <body>
         <main>
             <section class="jumbotron text-center">
-                <h2 th:text="#{MEMBER_WITHDRAW}"></h2>
-                <form th:method="delete" th:action="@{/member/withdraw}" onsubmit="return formValidation()"
+                <h1 th:text="#{MEMBER_WITHDRAW}"></h1>
+                <form th:method="delete" th:action="@{/mygg/member/withdraw}" onsubmit="return formValidation()"
                       th:object="${loginRequest}">
                     <input type="email" class="form-control" name="email" th:placeholder="#{EMAIL}" id="email"
                            maxlength="30"
@@ -27,9 +26,15 @@
                            maxlength="20"
                            required/>
                     <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">PASSWORD</div>
-                    <button type="button" class="btn btn-outline-info" id="password-check-btn" th:text="#{PASSWORD_CHECK}"></button>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-outline-info" id="password-check-btn"
+                                th:text="#{PASSWORD_CHECK}"></button>
+                    </div>
                     <input type="hidden" id="use-password" value="false"/>
-                    <button type="submit" th:text="#{MEMBER_WITHDRAW}" th:id="withdraw-btn"><a th:href="@{/member/withdraw}"></a></button>
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-danger" id="withdraw-btn" th:value="#{MEMBER_WITHDRAW}"
+                               disabled>
+                    </div>
                 </form>
             </section>
         </main>

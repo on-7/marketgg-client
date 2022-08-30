@@ -15,7 +15,7 @@
 
             <div style="display: flex; flex-direction: column;">
                 <div style="display: flex; justify-content: flex-end;">
-                    <button><a th:href="@{/member/delivery-address}" th:text="#{ADD}"></a></button>
+                    <button><a th:href="@{/mygg/member/delivery-address}" th:text="#{ADD}"></a></button>
                 </div>
 
                 <div style="text-align: center; display: flex;">
@@ -32,15 +32,18 @@
                         <tr th:each="deliveryAddress: ${deliveryAddressList}">
                             <td th:if="${deliveryAddress.isDefaultAddress}">O</td>
                             <td th:unless="${deliveryAddress.isDefaultAddress}">X</td>
-                            <td th:text="${deliveryAddress.id}">
+                            <td th:text="${deliveryAddress.id}" >
                                 <input type="hidden" th:text="${deliveryAddress.isDefaultAddress}">
                             </td>
                             <td th:text="${deliveryAddress.zipcode}"></td>
                             <td th:text="${deliveryAddress.address}"></td>
                             <td th:text="${deliveryAddress.detailAddress}"></td>
                             <td>
-                                <input type="button" class="deleteButton"
-                                       th:delivery-address-id="${deliveryAddress.id}" th:value="#{DELETE}">
+                                <div class="form-group">
+                                <button type="button" class="deleteButton"
+                                       th:delivery-address-id="${deliveryAddress.id}" th:text="#{DELETE}">
+                                </button>
+                                </div>
                             </td>
                         </tr>
                     </table>
