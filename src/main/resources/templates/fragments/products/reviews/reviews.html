@@ -7,7 +7,7 @@
     <div class="container">
         <div id="reviews" class="review-section">
             <div class="d-flex align-items-center justify-content-between mb-4">
-                <h4 class="m-0" th:text="${#lists.size(reviews)} + 'reviews'"></h4>
+                <h4 class="m-0" th:text="${reviewCount} + 'reviews'"></h4>
                 <span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="2"
                       style="width: 188px;">
                 <span class="selection">
@@ -33,11 +33,11 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" style="width: 97.2973%;"></span>
+                                        <span class="progress-fill" th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
-                            <td class="star-num">(36)</td>
+                            <td class="star-num" th:text="${reviewRatings.get(4).getRatingCount}"></td>
                         </tr>
                         <tr class="">
                             <td>
@@ -48,11 +48,11 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" style="width: 2.2973%;"></span>
+                                        <span class="progress-fill" th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
-                            <td class="star-num">(2)</td>
+                            <td class="star-num" th:text="${reviewRatings.get(3).getRatingCount}"></td>
                         </tr>
                         <tr class="">
                             <td>
@@ -63,11 +63,11 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" style="width: 0;"></span>
+                                        <span class="progress-fill" th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
-                            <td class="star-num">(0)</td>
+                            <td class="star-num" th:text="${reviewRatings.get(2).getRatingCount}"></td>
                         </tr>
                         <tr class="">
                             <td>
@@ -78,11 +78,11 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" style="width: 0;"></span>
+                                        <span class="progress-fill" th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
-                            <td class="star-num">(0)</td>
+                            <td class="star-num" th:text="${reviewRatings.get(1).getRatingCount}"></td>
                         </tr>
                         <tr class="">
                             <td>
@@ -93,11 +93,11 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" style="width: 0;"></span>
+                                        <span class="progress-fill" th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
-                            <td class="star-num">(0)</td>
+                            <td class="star-num" th:text="${reviewRatings.get(0).getRatingCount}"></td>
                         </tr>
                         </tbody>
                     </table>

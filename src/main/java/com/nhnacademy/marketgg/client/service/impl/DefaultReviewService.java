@@ -5,11 +5,15 @@ import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.repository.product.ReviewRepository;
 import com.nhnacademy.marketgg.client.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +37,11 @@ public class DefaultReviewService implements ReviewService {
     public ReviewResponse retrieveReview(final Long productId, final Long reviewId) {
 
         return reviewRepository.retrieveReview(productId, reviewId);
+    }
+
+    @Override
+    public CommonResult<List<ReviewRatingResponse>> retrieveReviewsByRating(final Long productId) {
+        return reviewRepository.retrieveReviewsByRating(productId);
     }
 
     @Override
