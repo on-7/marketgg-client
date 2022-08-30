@@ -8,7 +8,6 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ProductInquiryService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,7 +42,7 @@ public class ProductInquiryController {
      */
     @GetMapping
     public ModelAndView createProductInquiry(@PathVariable final Long productId) {
-        ModelAndView mav = new ModelAndView("pages/products/product-inquiry-form");
+        ModelAndView mav = new ModelAndView("pages/products/inquiries/product-inquiry-form");
         mav.addObject("productId", productId);
 
         return mav;
@@ -67,7 +66,7 @@ public class ProductInquiryController {
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         this.inquiryService.createInquiry(productId, inquiryRequest);
-        return new ModelAndView("redirect:/products/" + productId + "/inquiries/index");
+        return new ModelAndView("redirect:/products/" + productId);
     }
 
     /**
@@ -89,7 +88,7 @@ public class ProductInquiryController {
         PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByProduct(page, productId);
         Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
 
-        ModelAndView mav = new ModelAndView("pages/products/product-inquiry");
+        ModelAndView mav = new ModelAndView("pages/products/inquiries/product-inquiry");
         mav.addObject("inquiries", inquiries.getData());
         mav.addObject("pages", pagination);
 

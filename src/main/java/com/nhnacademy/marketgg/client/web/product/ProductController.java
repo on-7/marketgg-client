@@ -3,18 +3,17 @@ package com.nhnacademy.marketgg.client.web.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
-import com.nhnacademy.marketgg.client.dto.response.*;
+import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.ReviewRatingResponse;
+import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.paging.Pagination;
-import com.nhnacademy.marketgg.client.service.ImageService;
+import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import com.nhnacademy.marketgg.client.service.ReviewService;
-
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,9 +30,9 @@ public class ProductController {
 
     private final ProductService productService;
     private final ReviewService reviewService;
+    private final ProductInquiryService inquiryService;
     private static final Integer PAGE_SIZE = 10;
 
-    private final ImageService imageService;
     private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
 
     /**
@@ -137,7 +136,8 @@ public class ProductController {
     @GetMapping("/categories/{categoryCode}")
     public ModelAndView retrieveProductsByCategory(@PathVariable final String categoryCode, @RequestParam(defaultValue = "0") int page) {
 
-        PageResult<ProductListResponse> searchProductResponsePageResult = this.productService.retrieveProductsByCategory(categoryCode, page);
+        PageResult<ProductListResponse> searchProductResponsePageResult = this.productService.retrieveProductsByCategory(
+            categoryCode, page);
         Pagination pagination = new Pagination(searchProductResponsePageResult.getTotalPages(), page);
         List<ProductListResponse> products = searchProductResponsePageResult.getData();
 
@@ -164,7 +164,11 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/{productId}")
-    public ModelAndView retrieveProductDetails(@PathVariable final Long productId, @RequestParam(defaultValue = "0") int page) {
+    public ModelAndView retrieveProductDetails(@PathVariable final Long productId,
+                                               @RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "1", value = "requestPage") int page2)
+        throws JsonProcessingException {
+
         ProductResponse productDetails = this.productService.retrieveProductDetails(productId);
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
@@ -184,8 +188,13 @@ public class ProductController {
         mav.addObject("reviewRatings", data);
 
         Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
-
         mav.addObject("pages", pagination);
+
+        PageResult<ProductInquiryResponse> inquiries = inquiryService.retrieveInquiryByProduct(page2, productId);
+        Pagination inquiryPage = new Pagination(inquiries.getTotalPages(), page2);
+
+        mav.addObject("inquiries", inquiries.getData());
+        mav.addObject("inquiryPage", inquiryPage);
 
         return mav;
     }
@@ -194,7 +203,7 @@ public class ProductController {
      * 검색어에 따른 추천 상품 목록을 반환합니다.
      *
      * @param keyword - 현재 검색어입니다.
-     * @param page - 검색할 페이지 정보입니다.
+     * @param page    - 검색할 페이지 정보입니다.
      * @return - 검색어에 따른 추천 상품 목록의 제목을 반환합니다.
      * @throws JsonProcessingException - JSON 과 관련한 예외처리를 담당합니다.
      * @since 1.0.0
@@ -209,7 +218,7 @@ public class ProductController {
         List<ProductListResponse> products = responses.getData();
         String[] productNameList = new String[10];
 
-        for(int i = 0; i < products.size(); i++) {
+        for (int i = 0; i < products.size(); i++) {
             productNameList[i] = products.get(i).getProductName();
             if (i == 9) {
                 break;
