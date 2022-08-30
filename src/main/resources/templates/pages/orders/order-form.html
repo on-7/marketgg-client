@@ -20,17 +20,14 @@
                     <h2>주문 상품</h2>
                     <hr>
                     <ul>
-                        <li>
+                        <li th:each="product : ${result.products}">
                             <div style="width: 100px; height: 100px; background: url('https://img-cf.kurly.com/shop/data/goods/1653037091448l0.jpeg')"></div>
-                            <div><a href="#"><p>[Kim's Butcher] 미국산 우삼겹 돌돌말이 500g (냉동)</p></a></div>
-                        </li>
-                        <li>
-                            <div style="width: 100px; height: 100px; background: url('https://img-cf.kurly.com/shop/data/goods/1653037091448l0.jpeg')"></div>
-                            <div><a href="#"><p>[자이글] 캠핑그리들 30cm</p></a></div>
-                        </li>
-                        <li>
-                            <div style="width: 100px; height: 100px; background: url('https://img-cf.kurly.com/shop/data/goods/1653037091448l0.jpeg')"></div>
-                            <div><a href="#"><p>[닥터지] 로얄 블랙 스네일 크림 50ml</p></a></div>
+                            <div>
+                                <a href="#"><p th:text="${product.name}"></p></a>
+                                <a href="#"><p th:text="${product.price}"></p></a>
+                                <a href="#"><p th:text="${product.amount}"></p></a>
+                            </div>
+                            <input type="hidden" name="productIds" th:value="${product.id}">
                         </li>
                     </ul>
                 </section>
@@ -40,34 +37,48 @@
                     <hr>
                     <div>
                         <p>보내는 분</p>
-                        <p>강태풍</p>
+                        <p th:text="${result.memberName}"></p>
+                        <input type="hidden" name="name" th:value="${result.memberName}">
                     </div>
                     <div>
                         <p>휴대폰</p>
                         <p>010-8765-4321</p>
                     </div>
                     <div>
-                        <p>이메일</p>
-                        <p>on7.marketgg@gmail.com</p>
+                        <p th:text="#{EMAIL_LABEL}"></p>
+                        <p th:text="${result.memberEmail}"></p>
+                        <input type="hidden" name="email" th:value="${result.memberEmail}">
                     </div>
                 </section>
 
                 <section class="delivery-information">
                     <h2>배송지</h2>
                     <hr>
-                    <p>상세 정보</p>
+                    <ul th:each="deliveryAddress: ${result.deliveryAddressList}">
+                       <li th:text="${deliveryAddress.isDefaultAddress}"></li>
+                       <li th:text="${deliveryAddress.zipcode}"></li>
+                       <li th:text="${deliveryAddress.address}"></li>
+                       <li th:text="${deliveryAddress.detailAddress}"></li>
+                    </ul>
+                    <input type="hidden" name="deliveryAddressId" th:value="${result.deliveryAddressList[0].id}">
                 </section>
 
                 <section class="benefits">
                     <h2>쿠폰 / 적립금</h2>
                     <hr>
-                    <div>
+                    <div style="flex-direction: column;">
                         <p>쿠폰 적용</p>
-                        <input type="text">
+                        <ul th:each="givenCoupon: ${result.givenCouponList}">
+                            <li th:text="${givenCoupon.name}"></li>
+                            <li th:text="${givenCoupon.createdAt}"></li>
+                            <li th:text="${givenCoupon.expiredDate}"></li>
+                            <li th:text="${givenCoupon.minimumMoney}"></li>
+                            <li th:text="${givenCoupon.discountAmount}"></li>
+                        </ul>
                     </div>
                     <div>
                         <p>적립금 적용</p>
-                        <input type="number">
+                        <input type="number" name="usedPoint" th:value="${result.totalPoint}">
                     </div>
                 </section>
 
@@ -93,14 +104,10 @@
                 </aside> -->
 
                 <!-- FIXME: 유효성 검사 반영되어 있음. 필요한 값 수정 필요 -->
-                <input type="hidden" name="totalAmount" value="6750" />
-                <input type="hidden" name="usedPoint" value="0" />
-                <!-- <input type="hidden" name="orderId" value="58209b22-e25a-47b4-9434-020c0f46c5c6" /> -->
-                <input type="hidden" name="orderName" value="[Kim's Butcher] 미국산 우삼겹 돌돌말이 500g (냉동) 외 2건" />
-                <input type="hidden" name="customerName" value="강태풍" />
-                <input type="hidden" name="customerEmail" value="on7.marketgg@gmail.com" />
+                <input type="hidden" name="totalAmount" th:value="${result.totalOrigin}" />
+                <input type="hidden" name="expectedSavePoint" th:value="${result.totalOrigin}" />
 
-                <button type="submit" id="payment-button" class="btn btn-primary my-2">6,750원 결제하기</button>
+                <button id="payment-button" class="btn btn-primary my-2" th:text="결제하기"></button>
             </form>
         </main>
     </body>
