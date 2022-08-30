@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.web.order;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
+import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 주문에 대한 요청과 응답을 처리하는 클래스입니다.
@@ -35,9 +37,10 @@ public class OrderController {
      */
     @PostMapping("/orders")
     public ModelAndView createOrder(@ModelAttribute @Valid final OrderCreateRequest orderRequest,
-                                    MemberInfo memberInfo) {
+                                    MemberInfo memberInfo, RedirectAttributes attributes) {
 
-        orderService.createOrder(orderRequest, memberInfo);
+        OrderToPayment orderToPayment = orderService.createOrder(orderRequest, memberInfo);
+        attributes.addFlashAttribute("orderToPayment", orderToPayment);
 
         return new ModelAndView("redirect:/payments/request-payment");
     }
@@ -65,6 +68,7 @@ public class OrderController {
     public ModelAndView retrieveDeliveryInfo(@RequestParam @Min(1) final String trackingNo) {
         ModelAndView modelAndView = new ModelAndView("delivery-info");
         modelAndView.addObject(orderService.retrieveDeliveryInfo(trackingNo));
+
         return modelAndView;
     }
 
