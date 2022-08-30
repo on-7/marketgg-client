@@ -23,11 +23,13 @@ import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.request.PostRequest;
 import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
+import com.nhnacademy.marketgg.client.dto.response.CommentResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponse;
 import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.service.PostService;
 import com.nhnacademy.marketgg.client.web.admin.AdminCsPostController;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
@@ -41,6 +43,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -287,20 +290,15 @@ class AdminCsPostControllerTest {
     }
 
     @Test
-    @DisplayName("FAQ 게시글 수정 실패")
+    @DisplayName("1:1 게시글 수정 실패")
     void testUpdatePostForOtoFail() throws Exception {
-        given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
-        given(postService.retrieveOtoReason()).willReturn(List.of("hi"));
-
-        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryId}/{postId}/update", "703", 1L)
+        this.mockMvc.perform(put(DEFAULT_ADMIN_POST + "/categories/{categoryId}/{postId}/update", "702", 1L)
                                      .param("page", "0")
-                                     .contentType(MediaType.APPLICATION_JSON)
-                                     .content(mapper.writeValueAsString(request)))
-                    .andExpect(status().isOk())
-                    .andExpect(view().name(BOARD + "faqs/update-form"));
-
-        then(postService).should(times(1)).retrievePost(anyLong(), anyString());
-        then(postService).should(times(1)).retrieveOtoReason();
+                                     .param("categoryCode", "702")
+                                     .param("title", "안녕")
+                                     .param("content", "안녕하세요")
+                                     .param("reason", "환불"))
+                    .andExpect(status().is3xxRedirection());
     }
 
     @Test
