@@ -152,9 +152,9 @@ public class Dummy {
         return pageResult;
     }
 
-    public static SearchProductResponse getDummySearchProductResponse() {
-        SearchProductResponse searchProductResponse = new SearchProductResponse(1L, "101", "자몽", "내용", "설명", "친환경", "aaa", 1000L, 1000L);
+    public static ProductListResponse getDummySearchProductResponse() {
+        ProductListResponse productListResponse = new ProductListResponse();
 
-        return searchProductResponse;
+        return productListResponse;
     }
 }

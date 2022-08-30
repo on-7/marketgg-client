@@ -62,7 +62,7 @@
                             </tr>
                             <tr th:each="comment : ${response.commentList}">
                                 <td th:text="${comment.content}"></td>
-                                <td th:text="${comment.email}"></td>
+                                <td th:text="${comment.name}"></td>
                                 <td th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
                             </tr>
                         </tbody>

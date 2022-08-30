@@ -21,20 +21,14 @@
         </ul>
     </div>
     <div class="autocomplete-container">
-        <!-- NOTE: 카테고리 선택 드롭다운 목록 -->
-        <div class="dropdown">
-            <button type="button" class="btn btn-outline-light dropdown-toggle"
-                    data-toggle="dropdown" aria-expanded="false">
-                카테고리 선택
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">밀키트</a>
-                <a class="dropdown-item" href="#">파전</a>
-                <a class="dropdown-item" href="#">주류</a>
-            </div>
-        </div>
-
-        <!-- NOTE: 검색 창 -->
+        <label for="categoryCode"></label>
+        <select class="form-select-sm" aria-label="Default select example" id="categoryCode">
+            <option selected th:text="'전체'" th:value="'001'"></option>
+            <option th:text="'채소'" th:value="'101'"></option>
+            <option th:text="'과일/견과/쌀'" th:value="'102'"></option>
+            <option th:text="'정육/계란'" th:value="'103'"></option>
+            <option th:text="'밀키트'" th:value="'104'"></option>
+        </select>
         <div class="autocomplete-input">
             <label for="autoComplete"></label>
             <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"

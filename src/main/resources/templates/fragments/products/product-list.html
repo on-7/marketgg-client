@@ -12,7 +12,9 @@
 
                             <td><h2 th:text="${product.productName}"></h2></td>
                             <div th:if="${product.labelName == '라벨없음'}"></div>
-                            <div th:unless="${product.labelName == '라벨없음'}"><span class="btn btn-danger" th:text="${product.labelName}"></span></div>
+                            <div th:unless="${product.labelName == '라벨없음'}"><span class="btn btn-danger"
+                                                                                  th:text="${product.labelName}"></span>
+                            </div>
                             <br>
                             <td th:text="${product.content}"></td>
                             <div class="d-flex justify-content-between align-items-center">
@@ -26,10 +28,26 @@
             </div>
         </div>
 
-        <div>
+        <div th:if="${pageType == 'default'}">
             <ul class="pagination">
                 <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
                     <a th:href="@{|/products/?page=${page}|}" th:text="${page + 1}"></a>
+                </li>
+            </ul>
+        </div>
+        <div th:if="${pageType == 'search'}">
+            <ul class="pagination">
+                <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
+                    <a th:href="'products/search?categoryId='+${categoryId}+'&keyword='+${keyword}+'&page='+${page + 1}"
+                       th:text="${page + 1}"></a>
+                </li>
+            </ul>
+        </div>
+        <div th:if="${pageType == 'priceSearch'}">
+            <ul class="pagination">
+                <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
+                    <a th:href="'products/categories/'+${categoryId}+'/price/'+${option}+'/search?keyword='+${keyword}+'&page='+${page + 1}"
+                       th:text="${page + 1}"></a>
                 </li>
             </ul>
         </div>

@@ -9,11 +9,14 @@ import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.PostService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -45,6 +48,11 @@ public class CsPostController {
     private static final String FAQ_CODE = "703";
     private static final Integer PAGE_SIZE = 10;
 
+    @ModelAttribute(name = "isAdmin")
+    public String isAdmin() {
+        return "no";
+    }
+
     /**
      * 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
      *
@@ -64,7 +72,6 @@ public class CsPostController {
 
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
-        mav.addObject("isAdmin", "no");
         mav.addObject("responses", responses);
         mav.addObject("searchType", "no");
         mav.addObject("reasons", postService.retrieveOtoReason());
@@ -134,7 +141,6 @@ public class CsPostController {
         ModelAndView mav = new ModelAndView(BOARD + this.convertToType(categoryCode) + "/detail");
 
         mav.addObject("response", postService.retrievePost(postId, categoryCode));
-        mav.addObject("isAdmin", "no");
         mav.addObject("page", page);
 
         return mav;
@@ -164,7 +170,6 @@ public class CsPostController {
 
         mav.addObject("page", page);
         mav.addObject("isEnd", this.checkPageEnd(responses));
-        mav.addObject("isAdmin", "no");
         mav.addObject("responses", responses);
         mav.addObject("searchType", "default");
         mav.addObject("keyword", keyword);

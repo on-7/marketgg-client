@@ -2,11 +2,14 @@ package com.nhnacademy.marketgg.client.web;
 
 import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
+import com.nhnacademy.marketgg.client.service.CategoryService;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -20,8 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     private final ProductService productService;
-    private final ImageService imageService;
-    private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
 
 
     @GetMapping({"/", "/index"})
@@ -34,17 +35,15 @@ public class IndexController {
             mav.addObject("memberInfo", memberInfo);
         }
 
-        PageResult<SearchProductResponse> searchProductResponsePageResult = this.productService.retrieveProducts(page);
-        Pagination pagination = new Pagination(searchProductResponsePageResult.getTotalPages(), page);
-        List<SearchProductResponse> products = searchProductResponsePageResult.getData();
+        PageResult<ProductListResponse> productList = this.productService.retrieveProducts(page);
+        Pagination pagination = new Pagination(productList.getTotalPages(), page);
+        List<ProductListResponse> products = productList.getData();
 
         mav.addObject("products", products);
-
-//        for (SearchProductResponse product : products) {
-//            ImageResponse imageResponse = imageService.retrieveImage(product.getAssetNo());
-//            product.updateThumbnail(imageResponse.getImageAddress());
-//        }
+        mav.addObject("keyword", null);
+        mav.addObject("option", "main");
         mav.addObject("pages", pagination);
+        mav.addObject("sort", null);
 
         return mav;
     }
