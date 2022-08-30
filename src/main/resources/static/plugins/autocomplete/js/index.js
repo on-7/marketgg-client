@@ -2,7 +2,12 @@
 window.addEventListener('DOMContentLoaded', () => {
   let count = 0;
   document.getElementById('autoComplete').addEventListener('keydown', async (event) => {
-    count++;
+    if (event.keyCode !== 32) {
+      if (event.keyCode !== 8) {
+        count++;
+      }
+    }
+    console.log(count);
     if(count === 5) {
       const keyword = event.target.value;
       await fetch(`/products/suggest?keyword=${keyword}&page=0`).then(async (response) => await response.json())

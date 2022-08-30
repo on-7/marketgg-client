@@ -9,11 +9,14 @@ import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.PostService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +37,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/customer-services")
 @RequiredArgsConstructor
-public class CsPostController extends BaseController {
+public class CsPostController {
 
     private final PostService postService;
 
@@ -44,6 +47,11 @@ public class CsPostController extends BaseController {
     private static final String OTO_CODE = "702";
     private static final String FAQ_CODE = "703";
     private static final Integer PAGE_SIZE = 10;
+
+    @ModelAttribute(name = "isAdmin")
+    public String isAdmin() {
+        return "no";
+    }
 
     /**
      * 게시판 타입에 맞는 게시글 목록을 보여주는 페이지입니다.
