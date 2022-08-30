@@ -24,6 +24,14 @@ svg[hidden] {
     align-items: center;
 }
 
+/* .subcategory { */
+/*     display: none; */
+/* } */
+
+/* .subcategory:hover { */
+/*     display: block; */
+/* } */
+
 @media (min-width: 540px) {
     .clicky-menu {
         display: flex;
