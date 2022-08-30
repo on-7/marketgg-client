@@ -22,6 +22,16 @@
                                     <td th:text="${product.price}+'원'"></td>
                                 </small>
                             </div>
+
+                            <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                                <div class="btn-wrapper">
+                                    <a th:href="@{|/admin/products/update/${product.id}|}">
+                                        <button type="submit" class="btn btn-primary" id="btn-submit" th:text="#{UPDATE}">수정</button>
+                                    </a>
+
+                                    <button type="button" class="btn btn-secondary" th:text="#{DELETE}">삭제</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
