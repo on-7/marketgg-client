@@ -6,7 +6,7 @@ section {
     justify-content: normal;
 }
 
-input {
+.input-box {
     padding-left: 10px;
     margin-bottom: 15px;
     width: 340px;

@@ -22,17 +22,17 @@
                     </div>
                     <br />
 
-                    <input type="password" name="password" placeholder="PASSWORD" />
+                    <input class="input-box" type="password" name="password" placeholder="PASSWORD" />
                     <div class="error" th:if="${#fields.hasErrors('password')}"
                          th:errors="*{password}">
                         EMAIL ERROR
                     </div>
                     <br />
 
-                    <input class="login-btn" type="submit" th:value="#{LOGIN}" />
+                    <input class="input-box" class="login-btn" type="submit" th:value="#{LOGIN}" />
                     <br />
 
-                    <a href="/login">
+                    <a href="/login/google">
                         <div class="google-login-btn">
                             <img class="google-login-logo" th:src="@{images/google-login-logo.png}" alt="google" />
                             <span class="google-login-text">
