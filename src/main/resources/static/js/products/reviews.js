@@ -4,7 +4,7 @@ const reviewId = document.getElementById("reviewId");
 window.addEventListener('DOMContentLoaded', () => {
 
     // let reviewsRetrieveBtn = document.getElementById("review-retrieve");
-    let reviewUpdateBtn = document.getElementById("btn-update");
+    const reviewUpdateBtn = document.querySelectorAll('.btn-update');
     const reviewDeleteBtns = document.querySelectorAll('.btn-delete');
 
     // function retrieveReviews() {
@@ -25,11 +25,12 @@ window.addEventListener('DOMContentLoaded', () => {
     // retrieveReviews();
 
     function updateReview() {
-        let html = "";
-        reviewUpdateBtn.addEventListener("click", () => {
-            console.log("수정버튼 클릭!");
-            html += "<div id=\"editor-update\"></div>\n" + "<input type=\"hidden\" id=\"toast-content\" name=\"content\" value=\"\">"
-            $("#review-update-box").append(html);
+        let html = '';
+        reviewUpdateBtn.forEach(element => {
+            element.addEventListener('click', (e) => {
+                console.log("수정버튼 클릭!")
+                $("#review-update-box").append(html);
+            })
         })
     }
 

@@ -3,7 +3,6 @@ let csrfToken = document.getElementById("_csrf").content;
 
 const editor = new Toast({
     el: document.querySelector('#editor'),
-    el2: document.querySelector('#editor-update'),
     height: 'auto',
     initialEditType: 'wysiwyg',
     previewStyle: 'vertical',
