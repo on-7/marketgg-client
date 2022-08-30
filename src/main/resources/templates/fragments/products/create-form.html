@@ -1,43 +1,51 @@
 <section>
-    <h2>상품 등록하기</h2>
-    <form name="productRequest" method="post" th:action="@{/admin/products}" enctype="multipart/form-data">
-
-        <div th:replace="fragments/common/input-group :: formItem('name', '상품 이름', 'text', '다시다맛 젤리')"></div>
-
-        <div th:each="category : ${categories}" class="form-check form-check-inline">
-            <input type="checkbox" th:value="${category.categoryCode}" name="categoryCode" class="form-check-input">
-            <label th:text="${category.categoryName}" class="form-check-label">서울</label>
+    <div class="card">
+        <div class="card-header">
+            <h2>상품 등록하기</h2>
         </div>
-        <br>
-        <div th:each="label : ${labels}" class="form-check form-check-inline">
-            <input type="checkbox" th:value="${label.labelNo}" name="labelNo" class="form-check-input">
-            <label th:text="${label.name}" class="form-check-label">서울</label>
-        </div>
+        <div class="card-body">
+            <form name="productRequest" method="post" th:action="@{/admin/products}" enctype="multipart/form-data">
 
-        <div th:replace="fragments/common/input-group :: formItem('content', '상품 설명', 'text', '북해도에서 온 다시마 젤리')"></div>
-        <div th:replace="fragments/common/input-group :: formItem('totalStock', '총 수량', 'number', 1)"></div>
-        <div th:replace="fragments/common/input-group :: formItem('price', '가격', 'number', 5900)"></div>
-        <div th:replace="fragments/common/input-group :: formItem('unit', '판매 단위', 'text', '한 개')"></div>
-        <div th:replace="fragments/common/input-group :: formItem('deliveryType', '배송 구분', 'text', '택배 배송')"></div>
-        <div th:replace="fragments/common/input-group :: formItem('origin', '원산지', 'text', '일본')"></div>
-        <div th:replace="fragments/common/input-group :: formItem('packageType', '포장 유형', 'text', '스티로폼')"></div>
-        <div th:replace="fragments/common/input-group :: formItem('expirationDate', '유효기간', 'date', '2018-07-22')"></div>
-        <div th:replace="fragments/common/input-group :: formItem('capacity', '중량/용량', 'text', '520g')"></div>
-        <div th:replace="fragments/common/input-group :: formItem('allergyInfo', '알러지 정보', 'text', '바닷물, 다시마, 소금')"></div>
-        <div class="form-item">
-            <label>대표 이미지</label>
-            <input type="file" name="image" multiple="multiple">
-        </div>
+                <div th:replace="fragments/common/input-group :: formItem('name', '상품 이름', 'text', '다시다맛 젤리')"></div>
 
-        <div class="product-details">
-            <h2>상품 상세 설명</h2>
-            <div id="editor"></div>
-            <input type="hidden" id="toast-content" name="description" value="">
-        </div>
+                <div th:each="category : ${categories}" class="form-check form-check-inline">
+                    <input type="checkbox" th:value="${category.categoryCode}" name="categoryCode"
+                           class="form-check-input">
+                    <label th:text="${category.categoryName}" class="form-check-label">서울</label>
+                </div>
+                <br>
+                <div th:each="label : ${labels}" class="form-check form-check-inline">
+                    <input type="checkbox" th:value="${label.labelNo}" name="labelNo" class="form-check-input">
+                    <label th:text="${label.name}" class="form-check-label">서울</label>
+                </div>
 
-        <div class="btn-wrapper">
-            <button type="submit" class="btn btn-primary" id="btn-submit">등록</button>
-            <button type="button" class="btn btn-secondary">취소</button>
+                <div th:replace="fragments/common/input-group :: formItem('content', '상품 설명', 'text', '북해도에서 온 다시마 젤리')"></div>
+                <div th:replace="fragments/common/input-group :: formItem('totalStock', '총 수량', 'number', 1)"></div>
+                <div th:replace="fragments/common/input-group :: formItem('price', '가격', 'number', 5900)"></div>
+                <div th:replace="fragments/common/input-group :: formItem('unit', '판매 단위', 'text', '한 개')"></div>
+                <div th:replace="fragments/common/input-group :: formItem('deliveryType', '배송 구분', 'text', '택배 배송')"></div>
+                <div th:replace="fragments/common/input-group :: formItem('origin', '원산지', 'text', '일본')"></div>
+                <div th:replace="fragments/common/input-group :: formItem('packageType', '포장 유형', 'text', '스티로폼')"></div>
+                <div th:replace="fragments/common/input-group :: formItem('expirationDate', '유효기간', 'date', '2018-07-22')"></div>
+                <div th:replace="fragments/common/input-group :: formItem('capacity', '중량/용량', 'text', '520g')"></div>
+                <div th:replace="fragments/common/input-group :: formItem('allergyInfo', '알러지 정보', 'text', '바닷물, 다시마, 소금')"></div>
+                <div class="form-item">
+                    <label>대표 이미지</label>
+                    <input type="file" name="image" multiple="multiple">
+                </div>
+
+                <div class="product-details">
+                    <h2>상품 상세 설명</h2>
+                    <div id="editor"></div>
+                    <input type="hidden" id="toast-content" name="description" value="">
+                </div>
+
+                <div class="btn-wrapper">
+                    <button type="submit" class="btn btn-primary" id="btn-submit">등록</button>
+                    <button type="button" class="btn btn-secondary">취소</button>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
+
 </section>
