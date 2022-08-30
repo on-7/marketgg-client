@@ -151,7 +151,7 @@ public class ReviewController {
 
         reviewService.deleteReview(productId, reviewId, memberInfo);
 
-        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
+        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW + productId);
     }
 
 }

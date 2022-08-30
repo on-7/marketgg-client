@@ -4,6 +4,7 @@ const productId = document.getElementById("product-id").value;
 
 const editor = new Toast({
     el: document.querySelector('#editor'),
+    el2: document.querySelector('#editor-update'),
     height: 'auto',
     initialEditType: 'wysiwyg',
     previewStyle: 'vertical',

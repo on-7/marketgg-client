@@ -164,15 +164,25 @@
                             </p>
                         </div>
                         <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
+                        <div class="btn-wrapper">
+                            <button type="submit" class="btn btn-info" id="btn-update" th:text="#{UPDATE}">수정</button>
+<!--                            <button type="button" class="btn btn-danger btn-delete" th:btn-delete-id="${review.id}" th:text="#{DELETE}">삭제</button>-->
+                            <form class="btn" th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <input class="btn btn-danger" type="submit" th:value="#{DELETE}"/>
+                            </form>
+                        </div>
 
                     </div>
                 </div>
             </li>
         </ul>
+        <div id="review-update-box"></div>
     </div>
     </div>
 
-    <form name="reviewRequest" method="post" th:action="@{|/products/${productDetails.id}/reviews|}" enctype="multipart/form-data">
+    <form name="reviewRequest" method="post" th:action="@{|/products/${productDetails.id}/reviews|}"
+          enctype="multipart/form-data">
 
         <div th:replace="fragments/common/input-group :: formItem('rating', '별점', 'number', 5)"></div>
 
