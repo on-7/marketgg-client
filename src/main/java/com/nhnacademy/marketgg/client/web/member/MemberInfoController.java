@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -86,7 +87,7 @@ public class MemberInfoController {
      * @param memberUpdateRequest - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
      * @return
      */
-    @GetMapping("/update")
+    @GetMapping("/member/update")
     public ModelAndView update(
             final @ModelAttribute(name = "memberUpdateRequest") MemberUpdateRequest memberUpdateRequest,
             MemberInfo memberInfo) throws UnAuthenticException, UnAuthorizationException {
@@ -106,7 +107,7 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @PostMapping("/update")
+    @PostMapping("/member/update")
     public ModelAndView doUpdate(
             final @Valid @ModelAttribute(name = "memberUpdateRequest") MemberUpdateRequest memberUpdateRequest,
             MemberInfo memberInfo,
@@ -121,6 +122,13 @@ public class MemberInfoController {
         return new ModelAndView("redirect:/logout");
     }
 
+    @GetMapping("/member/withdraw")
+    public ModelAndView withdraw(final @ModelAttribute("loginRequest") LoginRequest loginRequest)
+        throws UnAuthenticException, UnAuthorizationException {
+
+        return new ModelAndView("pages/members/withdraw-form");
+    }
+
     /**
      * 회원탈퇴 요청을 받아 회원탈퇴 프로세스를 진행합니다.
      *
@@ -130,9 +138,16 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @GetMapping("/withdraw")
-    public ModelAndView doWithdraw() throws UnAuthenticException, UnAuthorizationException {
-        memberService.withdraw();
+    @DeleteMapping("/member/withdraw")
+    public ModelAndView doWithdraw(MemberInfo memberInfo,
+                                   final @Valid @ModelAttribute LoginRequest loginRequest,
+                                   BindingResult bindingResult) throws UnAuthenticException, UnAuthorizationException {
+
+        if (!(memberInfo.getEmail().equals(loginRequest.getEmail())) || bindingResult.hasErrors()) {
+            return new ModelAndView("pages/members/withdraw-form");
+        }
+
+        memberService.withdraw(loginRequest);
         return new ModelAndView("redirect:/logout");
     }
 
@@ -143,7 +158,7 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @GetMapping("/delivery-addresses")
+    @GetMapping("/member/delivery-addresses")
     public ModelAndView deliveryAddresses() throws UnAuthenticException, UnAuthorizationException {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
         ModelAndView modelAndView = new ModelAndView("pages/mygg/delivery-addresses/index");
@@ -157,7 +172,7 @@ public class MemberInfoController {
      *
      * @return 배송지 추가 폼
      */
-    @GetMapping("/delivery-address")
+    @GetMapping("/member/delivery-address")
     public ModelAndView deliveryAddress(
             final @ModelAttribute(name = "addressRequest") DeliveryAddressCreateRequest addressRequest)
             throws UnAuthenticException, UnAuthorizationException {
@@ -173,7 +188,7 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @PostMapping("/delivery-address")
+    @PostMapping("/member/delivery-address")
     public ModelAndView createDeliveryAddress(
             @ModelAttribute(name = "addressRequest") @Valid final DeliveryAddressCreateRequest addressRequest,
             BindingResult bindingResult)
@@ -194,7 +209,7 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @DeleteMapping("/delivery-address/{deliveryAddressId}")
+    @DeleteMapping("/member/delivery-address/{deliveryAddressId}")
     public void deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
             throws UnAuthenticException, UnAuthorizationException {
         memberService.deleteDeliveryAddress(deliveryAddressId);

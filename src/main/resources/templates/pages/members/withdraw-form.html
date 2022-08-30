@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
+    <head>
+        <meta charset="UTF-8">
+        <link th:href="@{/css/members/withdraw.css}" rel="stylesheet">
+        <title th:text="#{MEMBER_WITHDRAW}"></title>
+        <script th:src="@{/js/members/withdraw.js}" defer></script>
+    </head>
+    <body>
+        <main>
+            <section class="jumbotron text-center">
+                <h2 th:text="#{MEMBER_WITHDRAW}"></h2>
+                <form th:method="delete" th:action="@{/member/withdraw}" onsubmit="return formValidation()"
+                      th:object="${loginRequest}">
+                    <input type="email" class="form-control" name="email" th:placeholder="#{EMAIL}" id="email"
+                           maxlength="30"
+                           oninput="" th:value="${profile?.email}" th:readonly="${profile != null}"
+                           required/>
+                    <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">EMAIL</div>
+                    <input type="password" class="form-control" id="password" name="password"
+                           th:placeholder="#{PASSWORD_VALIDATION}"
+                           maxlength="20"
+                           required/>
+                    <input type="password" class="form-control" id="password-check"
+                           th:placeholder="#{PASSWORD_VALIDATION}"
+                           maxlength="20"
+                           required/>
+                    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">PASSWORD</div>
+                    <button type="button" class="btn btn-outline-info" id="password-check-btn" th:text="#{PASSWORD_CHECK}"></button>
+                    <input type="hidden" id="use-password" value="false"/>
+                    <button type="submit" th:text="#{MEMBER_WITHDRAW}" th:id="withdraw-btn"><a th:href="@{/member/withdraw}"></a></button>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

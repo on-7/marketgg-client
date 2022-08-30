@@ -7,8 +7,8 @@ import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.member.MemberWithdrawRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
@@ -65,13 +65,13 @@ public class MemberAdapter implements MemberRepository {
     }
 
     @Override
-    public void withdraw()
-            throws UnAuthenticException, UnAuthorizationException {
-        HttpEntity<MemberWithdrawRequest> response = new HttpEntity<>(buildHeaders());
-        ResponseEntity<CommonResult<Void>> exchange =
-                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.DELETE, response,
-                                      new ParameterizedTypeReference<>() {
-                                      });
+    public void withdraw(final LoginRequest loginRequest)
+        throws UnAuthenticException, UnAuthorizationException {
+        HttpEntity<LoginRequest> request = new HttpEntity<>(loginRequest, buildHeaders());
+        ResponseEntity<CommonResult<Void>> response =
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.DELETE, request,
+                new ParameterizedTypeReference<>() {
+                });
 
         String sessionId = SessionContext.getSessionId();
         if (Objects.isNull(sessionId)) {
@@ -81,7 +81,7 @@ public class MemberAdapter implements MemberRepository {
         redisTemplate.opsForHash()
                      .delete(sessionId, JwtInfo.JWT_REDIS_KEY);
 
-        this.checkResponseUri(exchange);
+        this.checkResponseUri(response);
     }
 
     @Override

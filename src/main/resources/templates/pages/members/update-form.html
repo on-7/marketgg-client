@@ -2,13 +2,13 @@
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
       th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
     <head>
-        <script th:src="@{js/members/update.js}" defer></script>
+        <script th:src="@{/js/members/update.js}" defer></script>
         <title th:text="#{MEMBER_UPDATE}"></title>
     </head>
     <body>
         <main th:object="${memberInfo}">
             <h2 th:text="#{MEMBER_UPDATE}"></h2>
-            <form method="post" th:action="@{/update}" th:object="${memberUpdateRequest}" onsubmit="return formValidation()">
+            <form method="post" th:action="@{/member/update}" th:object="${memberUpdateRequest}" onsubmit="return formValidation()">
                 <div class="form-group">
                     <input type="password" class="form-control" id="password" name="password"
                            th:placeholder="#{PASSWORD_VALIDATION}"
@@ -37,6 +37,7 @@
                 <input type="submit" class="btn btn-primary" id="enable-update" th:value="#{MEMBER_UPDATE}"
                        disabled>
             </form>
+            <button class="btn btn-danger" th:text="#{MEMBER_WITHDRAW}"><a th:href="@{/member/withdraw}"></a></button>
         </main>
     </body>
 </html>

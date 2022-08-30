@@ -1,0 +1,32 @@
+/*#4285F4*/
+/*#FFFFFF*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+section {
+    justify-content: normal;
+}
+
+input {
+    padding-left: 10px;
+    margin-bottom: 15px;
+    width: 340px;
+    height: 55px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+#withdraw-btn {
+    width: 340px;
+    height: 55px;
+    color: orange;
+    border: 1.5px solid orange;
+    border-radius: 7px;
+    padding-top: 9px;
+    font-size: 20px;
+}
