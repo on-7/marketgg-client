@@ -1,13 +1,13 @@
 h1 {
     display: flex;
     border-radius: 10px;
-    border: 2px solid #ffd39c;
+    border: 2px solid #404549;
     padding: 0.5em;
 }
 
 table {
     min-width: 40em;
-    border: 2px solid #ffd39c;
+    border: 2px solid #404549;
     border-radius: 10px;
     margin-top: 2em;
     margin-left: auto;
@@ -18,7 +18,8 @@ table {
 }
 
 th {
-    background-color: #ffd39c;
+    background-color: #404549;
+    color: #FFFFFF;
     padding: 1em;
     border-radius: 10px;
     font-size: 1.1em;
@@ -38,7 +39,13 @@ a {
     border: none;
     height: 2em;
     border-radius: 10px;
-    background-color: #ffd39c;
+    background-color: #404549;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.update:hover {
+    background-color: #868b8f;
 }
 
 .code {
