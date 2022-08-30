@@ -24,7 +24,24 @@
                     </div>
                     <div sec:authorize="!isAnonymous()" class="user-info">
                         <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
-                        <span class="authentication-name" th:text="|Hello, ${#authentication.name}!|"></span>
+                        <span>
+                            <div class="dropdown">
+                                <button style="color: white;" class="btn" type="button" data-toggle="dropdown"
+                                        aria-expanded="false"
+                                        th:text="|Hello, ${#authentication.name}!|">
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/mygg/orders">주문 내역</a>
+                                    <a class="dropdown-item" href="/mygg">찜 목록</a>
+                                    <a class="dropdown-item" href="#">배송지 관리</a>
+                                    <a class="dropdown-item" href="#">상품 후기</a>
+                                    <a class="dropdown-item" href="#">상품 문의</a>
+                                    <a class="dropdown-item" href="#">적립금</a>
+                                    <a class="dropdown-item" href="#">쿠폰</a>
+                                    <a class="dropdown-item" href="/mygg/member/update">개인 정보 수정</a>
+                                </div>
+                            </div>
+                        </span>
                         <a href="/logout" class="btn btn-secondary my-2" th:text="#{LOGOUT}"></a>
                     </div>
                 </div>
