@@ -1,40 +1,34 @@
 window.addEventListener('DOMContentLoaded', () => {
-    const productId = document.getElementById("product-id").value;
-    let csrfToken = document.getElementById("_csrf").content;
-
     function dibView() {
-
+        const productId = document.getElementById('product-id');
+        
         $.ajax({
-            url: 'http://localhost:5050/dibs',
-            type: 'POST',
-            headers: {"Content-Type": "application/json", "X-CSRF-TOKEN": csrfToken},
+            url: '/dibs',
+            type: 'GET',
             async: true,
             data: {
                 'productId': productId
             },
             dataType: "json",
             success: function (data) {
-                let htmlBody = '';
                 if (data.exist === 1) {
-                    htmlBody += '<button class="btn btn-success" onclick="dibDelete(productId);"'
-                        + '><span>찜제거</span></button>'
+                    document.getElementById('o').style.display = 'none';
+                    document.getElementById('x').style.display = '';
                 } else {
-                    htmlBody += '<button class="btn btn-success" onclick="dibInsert(productId);"'
-                        + '><span>찜</span></button>'
+                    document.getElementById('x').style.display = 'none';
+                    document.getElementById('o').style.display = '';
                 }
-                $('#dib').html(htmlBody);
-                console.log(productId);
+                location.reload();
             }
         })
     }
-
     dibView();
-
 });
 
 function dibInsert(productId) {
     $.ajax({
-        url: 'http://localhost:5050/dibs/insert/' + productId,
+        url: '/dibs/insert/' + productId,
+        // headers: getHeaders(),
         type: 'get',
         success: function (data) {
             if (data === 1)
@@ -46,7 +40,7 @@ function dibInsert(productId) {
 
 function dibDelete(productId) {
     $.ajax({
-        url: 'http://localhost:5050/dibs/delete/' + productId,
+        url: '/dibs/delete/' + productId,
         type: 'get',
         success: function (data) {
             if (data === 1)
@@ -55,3 +49,26 @@ function dibDelete(productId) {
     });
     console.log("success");
 }
+
+
+/* =================== */
+
+function addDibEventListener() {
+    const productId = document.getElementById("product-id").value;
+
+    const dibBtn = document.getElementById("dib-btn");
+    dibBtn.addEventListener("click", () => {
+        if (dibBtn.value === "dib") {
+            dibDelete(productId)
+        } else {
+            dibInsert(productId);
+        }
+        location.reload();
+    })
+}
+
+function main() {
+
+    addDibEventListener()
+}
+main();

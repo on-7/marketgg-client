@@ -54,6 +54,8 @@ public class ProductResponse {
 
     private LocalDateTime deletedAt;
 
+    private boolean dib;
+
     private String thumbnail;
 
     private String imageAddress;
