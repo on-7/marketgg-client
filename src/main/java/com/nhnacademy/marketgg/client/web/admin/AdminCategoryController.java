@@ -35,6 +35,7 @@ public class AdminCategoryController {
     private final CategoryService categoryService;
 
     private static final String DEFAULT_CATEGORY = "pages/admin/categories";
+    private static final String REDIRECT_CATEGORY = "/admin/categories";
 
     /**
      * 카테고리 분류표 목록을 담은 후, 카테고리 등록 FORM 으로 이동하는 메소드입니다.
@@ -68,7 +69,7 @@ public class AdminCategoryController {
     public ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/" + DEFAULT_CATEGORY + "/index");
+        ModelAndView mav = new ModelAndView("redirect:" + REDIRECT_CATEGORY + "/index");
 
         categoryService.createCategory(categoryRequest);
 
@@ -129,7 +130,7 @@ public class AdminCategoryController {
                                        @ModelAttribute final CategoryUpdateRequest categoryRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        ModelAndView mav = new ModelAndView("redirect:/" + DEFAULT_CATEGORY + "/index");
+        ModelAndView mav = new ModelAndView("redirect:" + REDIRECT_CATEGORY + "/index");
 
         categoryService.updateCategory(categoryId, categoryRequest);
 
@@ -148,7 +149,7 @@ public class AdminCategoryController {
     @DeleteMapping("/{categoryId}")
     public ModelAndView deleteCategory(@PathVariable final String categoryId)
         throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("redirect:/" + DEFAULT_CATEGORY + "/index");
+        ModelAndView mav = new ModelAndView("redirect:" + REDIRECT_CATEGORY + "/index");
 
         categoryService.deleteCategory(categoryId);
 

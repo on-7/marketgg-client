@@ -6,7 +6,7 @@ h1 {
 }
 
 table {
-    width: 40em;
+    min-width: 40em;
     border: 2px solid #ffd39c;
     border-radius: 10px;
     margin-top: 2em;
@@ -26,6 +26,8 @@ th {
 
 td {
     padding: 1em 0.5em;
+    white-space: nowrap;
+    vertical-align: middle;
 }
 
 a {
@@ -34,8 +36,15 @@ a {
 
 .update {
     border: none;
-    width: 3em;
     height: 2em;
     border-radius: 10px;
     background-color: #ffd39c;
+}
+
+.code {
+    width: 6em;
+}
+
+.sequence {
+    width: 5em;
 }
