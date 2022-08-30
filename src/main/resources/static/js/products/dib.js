@@ -3,8 +3,6 @@ function dibInsert(productId) {
         url: '/dibs/insert/' + productId,
         type: 'get',
         success: function (data) {
-            if (data === 1)
-                dibView();
         }
     });
     console.log("success");
@@ -15,8 +13,6 @@ function dibDelete(productId) {
         url: '/dibs/delete/' + productId,
         type: 'get',
         success: function (data) {
-            if (data === 1)
-                dibView();
         }
     });
     console.log("success");
@@ -34,7 +30,7 @@ function addDibEventListener() {
         } else {
             dibInsert(productId);
         }
-        location.reload();
+        location.href='';
     })
 }
 
