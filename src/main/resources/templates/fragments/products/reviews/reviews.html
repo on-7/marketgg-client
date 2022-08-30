@@ -165,7 +165,6 @@
                         </div>
                         <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
                         <div class="btn-wrapper">
-                            <button type="submit" class="btn btn-info" id="btn-update" th:text="#{UPDATE}">수정</button>
 <!--                            <button type="button" class="btn btn-danger btn-delete" th:btn-delete-id="${review.id}" th:text="#{DELETE}">삭제</button>-->
                             <form class="btn" th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}" method="post">
                                 <input type="hidden" name="_method" value="delete"/>
