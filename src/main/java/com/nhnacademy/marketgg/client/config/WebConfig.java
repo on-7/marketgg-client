@@ -56,7 +56,7 @@ public class WebConfig {
     public CommonsMultipartResolver filterMultipartResolver() {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
         resolver.setDefaultEncoding("utf-8");
-        resolver.setMaxUploadSize(10_000_000);
+        resolver.setMaxUploadSize(20_000_000);
         return resolver;
     }
 
