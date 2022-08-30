@@ -57,7 +57,7 @@ ul div {
 .reply {
     display: flex;
     justify-content: left;
-    padding-left: 30rem;
+    padding-left: 35rem;
     flex: 1;
     color: deeppink;
 }

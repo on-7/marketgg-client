@@ -47,17 +47,16 @@ ul div {
     align-items: center;
 }
 
-
 .reply-wrapper-form {
     display: flex;
     justify-content: left;
-    padding-left: 30rem;
+    padding-left: 35rem;
 }
 
 .reply {
     display: flex;
     justify-content: left;
-    padding-left: 30rem;
+    padding-left: 35rem;
     flex: 1;
     color: blue;
 }

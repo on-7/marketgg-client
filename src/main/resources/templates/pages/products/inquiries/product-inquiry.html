@@ -8,9 +8,7 @@
     </head>
     <body>
         <main>
-            <a th:href="@{|/products/${inquiries[0].getProductId()}/inquiries|}">
-                <button class="btn btn-danger" th:text="#{PRODUCT_INQUIRIES_REGISTER}"></button>
-            </a>
+            <h1 th:text="#{PRODUCT_INQUIRIES}" style="font-weight: bold; margin: 0 auto 0 0;"></h1>
             <br>
             <div>
                 <div class="product-inquiry-header">
@@ -34,6 +32,10 @@
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
+                <a th:href="@{|/products/${inquiries[0].getProductId()}/inquiries|}" class="btn btn-danger" th:text="#{PRODUCT_INQUIRIES_REGISTER}">
+                </a>
             <br>
             <br>
             <div style="display: flex; flex-direction: row;" class="product-inquiry-page">

@@ -1,5 +1,4 @@
 <section>
-
     <div id="review-container">
 
     </div>
@@ -120,7 +119,7 @@
         </div>
     </div>
 
-    <div class="review-list">
+    <div class="review-list" id="review-list">
         <ul>
             <li th:each="review : ${reviews}">
                 <div class="d-flex">
@@ -169,7 +168,7 @@
         <div th:replace="fragments/common/input-group :: formItem('rating', '별점', 'number', 5)"></div>
 
         <div class="product-details">
-            <h2 th:text="#{CREATE_REVIEW}">후기 등록</h2>
+            <h1 style="font-weight: bold; margin: 0 auto 0 0;">후기 등록</h1>
             <div id="editor"></div>
             <input type="hidden" id="toast-content" name="content" value="">
         </div>
