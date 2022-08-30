@@ -5,6 +5,14 @@ window.addEventListener('DOMContentLoaded', () => {
     if (event.keyCode !== 32 && event.keyCode !== 8) {
         count++;
     }
+    const $autoComplete = document.getElementById('autoComplete');
+    const $categoryCode = document.getElementById('categoryCode').value;
+    $autoComplete.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const keyword = event.target.value;
+        location.href=`/products/search?categoryId=${$categoryCode}&keyword=${keyword}&page=0`;
+      }
+    });
     if(count === 5) {
       const keyword = event.target.value;
       await fetch(`/products/suggest?keyword=${keyword}&page=0`).then(async (response) => await response.json())
