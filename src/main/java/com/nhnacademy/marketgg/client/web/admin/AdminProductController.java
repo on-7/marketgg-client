@@ -101,7 +101,7 @@ public class AdminProductController {
      */
     @GetMapping("/create")
     public ModelAndView createProduct() throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("pages/products/product-create-form");
+        ModelAndView mav = new ModelAndView("pages/admin/products/product-create-form");
 
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();
         mav.addObject("categories", categories);

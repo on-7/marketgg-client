@@ -131,7 +131,7 @@ class AdminProductControllerTest {
         ResultActions resultActions = this.mockMvc.perform(get(DEFAULT_PRODUCT_URI + "/create"));
 
         MvcResult mvcResult = resultActions.andExpect(status().isOk())
-                                           .andExpect(view().name("pages/products/product-create-form"))
+                                           .andExpect(view().name("pages/admin/products/product-create-form"))
                                            .andReturn();
 
         assertThat(mvcResult.getModelAndView().getModel().get("categories")).isNotNull();
