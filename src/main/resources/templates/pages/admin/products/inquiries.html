@@ -4,11 +4,11 @@
 
     <head>
         <link rel="stylesheet" th:href="@{/css/productinquries/marketgg.admininquiries.css}">
-        <title>Market GG | 관리자 상품 문의 관리</title>
+        <title>Market GG | 상품 문의 관리</title>
     </head>
     <body>
         <main>
-            <h1 th:text="PRODUCT_INQUIRIES_VIEW"></h1>
+            <h1 th:text="#{PRODUCT_INQUIRIES_VIEW}"></h1>
             <br>
             <div>
                 <div class="product-inquiry-header">
@@ -28,26 +28,43 @@
                         <li th:text="${inquiry.isSecret} == true ? #{SECRET_POST} : #{PUBLIC_POST}"></li>
                         <li th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></li>
                         <li>
-                            <form th:action="'/admin/products/' + ${inquiry.productId} + '/inquiries/' + ${inquiry.productInquiryNo}" method="post">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <input type="submit" th:value="#{DELETE}" class="btn btn-outline-primary"/>
+                            <form th:action="'/admin/products/' + ${inquiry.productId} + '/inquiries/' + ${inquiry.productInquiryNo}"
+                                  method="post">
+                                <input type="hidden" name="_method" value="delete" />
+                                <input type="submit" th:value="#{DELETE}" class="btn btn-outline-primary" />
                             </form>
                         </li>
+                    </div>
+                    <div class="reply-wrapper" th:if="${inquiry.adminReply} != null">
+                        <li class="reply" th:text="'Q: ' + ${inquiry.adminReply}"></li>
+                    </div>
+                    <div class="reply-wrapper-form" th:if="${inquiry.adminReply} == null">
+                        <form th:action="'/admin/products/' + ${inquiry.productId} + '/inquiries/' + ${inquiry.productInquiryNo}" method="post">
+                            <input type="hidden" name="_method" value="put">
+                            <input type="text" name="adminReply" placeholder="상품 문의를 입력하세요." style="color: blue" />
+                            <input type="submit" th:value="#{INQUIRY_REPLY_REGISTER}"
+                                   class="btn btn-outline-primary" />
+                        </form>
                     </div>
                 </div>
             </div>
             <br>
             <br>
             <div style="display: flex; flex-direction: row;" class="product-inquiry-page">
-                <a th:href="@{|/admin/products/inquiries?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp; &lt;
-                <a th:if="${pages.page > 1}" th:href="@{|/admin/products/inquiries?page=${pages.page - 1}|}" style="color: black"></a> &nbsp;
+                <a th:href="@{|/admin/products/inquiries?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp;
+                &lt;
+                <a th:if="${pages.page > 1}" th:href="@{|/admin/products/inquiries?page=${pages.page - 1}|}"
+                   style="color: black"></a> &nbsp;
                 <ul class="pagination">
                     <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
-                        <a th:href="@{|/admin/products/inquiries?page=${page}|}" th:text="${page}" style="color: black"></a> &nbsp;
+                        <a th:href="@{|/admin/products/inquiries?page=${page}|}" th:text="${page}"
+                           style="color: black"></a> &nbsp;
                     </li>
                 </ul>
-                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/admin/products/inquiries?page=${pages.page + 1}|}" style="color: black"></a>
-                &gt; &nbsp;<a th:href="@{|/admin/products/inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}" style="color: black"></a>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}"
+                   th:href="@{|/admin/products/inquiries?page=${pages.page + 1}|}" style="color: black"></a>
+                &gt; &nbsp;<a th:href="@{|/admin/products/inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}"
+                              style="color: black"></a>
             </div>
         </main>
     </body>

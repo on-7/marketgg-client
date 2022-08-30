@@ -25,7 +25,7 @@ ul div {
 }
 
 .product-inquiry-content {
-    padding: 1rem;
+    padding: 2rem;
 }
 
 .product-inquiry-row {
@@ -52,13 +52,12 @@ ul div {
 .reply-wrapper {
     display: flex;
     align-items: center;
-    padding-left: 2rem;
 }
 
 .reply {
     display: flex;
-    justify-content: center;
-    padding-right: 18rem;
+    justify-content: left;
+    padding-left: 30rem;
     flex: 1;
     color: deeppink;
 }
