@@ -5,7 +5,7 @@ function dibInsert(productId) {
         success: function (data) {
         }
     });
-    console.log("success");
+    alert('해당 상품이 찜목록에 추가되었습니다.')
 }
 
 function dibDelete(productId) {
@@ -15,7 +15,7 @@ function dibDelete(productId) {
         success: function (data) {
         }
     });
-    console.log("success");
+    alert('해당 상품이 찜목록에서 제거되었습니다.')
 }
 
 /* =================== */
@@ -30,7 +30,7 @@ function addDibEventListener() {
         } else {
             dibInsert(productId);
         }
-        location.href='';
+        location.href=`/products/${productId}`;
     })
 }
 
