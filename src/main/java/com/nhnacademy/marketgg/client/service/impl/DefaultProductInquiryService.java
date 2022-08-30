@@ -20,10 +20,10 @@ public class DefaultProductInquiryService implements ProductInquiryService {
     private final ProductInquiryRepository inquiryRepository;
 
     @Override
-    public void updateReply(final ProductInquiryReplyRequest replyRequest)
+    public void updateReply(final ProductInquiryReplyRequest replyRequest, final Long inquiryId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        this.inquiryRepository.updateInquiryReply(replyRequest);
+        this.inquiryRepository.updateInquiryReply(replyRequest, inquiryId);
     }
 
     @Override

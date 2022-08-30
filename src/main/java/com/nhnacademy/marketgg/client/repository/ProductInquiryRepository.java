@@ -23,7 +23,7 @@ public interface ProductInquiryRepository {
      * @author 민아영
      * @since 1.0.0
      */
-    void updateInquiryReply(final ProductInquiryReplyRequest replyRequest) throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+    void updateInquiryReply(final ProductInquiryReplyRequest replyRequest, final Long inquiryId) throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 상품 문의를 등록하는 Adapter 입니다.

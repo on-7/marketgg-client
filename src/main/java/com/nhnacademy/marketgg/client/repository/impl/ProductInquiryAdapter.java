@@ -33,13 +33,13 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
 
     @Override
-    public void updateInquiryReply(final ProductInquiryReplyRequest replyRequest)
+    public void updateInquiryReply(final ProductInquiryReplyRequest replyRequest, final Long inquiryId)
         throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<ProductInquiryReplyRequest> httpEntity = new HttpEntity<>(replyRequest, buildHeaders());
 
         ResponseEntity<CommonResult<String>> response = restTemplate.exchange(
-            gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiry-reply",
+            gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiries/" + inquiryId,
             HttpMethod.PUT,
             httpEntity, new ParameterizedTypeReference<>() {
             });

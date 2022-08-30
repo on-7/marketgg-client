@@ -26,7 +26,8 @@ public interface ProductInquiryService {
      * @author 민아영
      * @since 1.0.0
      */
-    void updateReply(final ProductInquiryReplyRequest replyRequest)
+
+    void updateReply(final ProductInquiryReplyRequest replyRequest, final Long inquiryId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**

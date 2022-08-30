@@ -13,15 +13,12 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.CategoryService;
-import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.LabelService;
 import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.ProductService;
-
 import java.io.IOException;
 import java.util.List;
 import javax.validation.Valid;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,7 +29,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -83,7 +79,7 @@ public class AdminProductController {
     public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute @Valid final ProductCreateRequest productRequest,
                                       BindingResult bindingResult)
-            throws IOException {
+        throws IOException {
 
         if (bindingResult.hasErrors()) {
             log.warn(String.valueOf(bindingResult.getAllErrors().get(0)));
@@ -159,7 +155,7 @@ public class AdminProductController {
                                       @RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute @Valid final ProductUpdateRequest productRequest,
                                       BindingResult bindingResult)
-            throws IOException {
+        throws IOException {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).toString());
@@ -239,14 +235,16 @@ public class AdminProductController {
      * @author 민아영
      * @since 1.0.0
      */
-    @PutMapping("/inquiry-reply")
+    @PutMapping("/{productId}/inquiries/{inquiryId}")
     @ResponseBody
-    public ModelAndView replyInquiry(@RequestBody @Valid final ProductInquiryReplyRequest replyRequest)
-            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public ModelAndView replyInquiry(@PathVariable final Long productId,
+                                     @PathVariable final Long inquiryId,
+                                     @ModelAttribute @Valid final ProductInquiryReplyRequest replyRequest)
+        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        this.inquiryService.updateReply(replyRequest);
+        this.inquiryService.updateReply(replyRequest, inquiryId);
 
-        return new ModelAndView("redirect:/products/" + replyRequest.getProductId() + "/inquiries");
+        return new ModelAndView("redirect:/admin/products/inquiries");
     }
 
 }
