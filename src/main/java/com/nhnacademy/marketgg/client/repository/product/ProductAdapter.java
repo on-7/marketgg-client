@@ -109,7 +109,7 @@ public class ProductAdapter implements ProductRepository {
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
                 getLinkedMultiValueMapHttpEntity(image, productRequest);
 
-        ResponseEntity<Void> response =
+        ResponseEntity<ShopResult<String>> response =
                 this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
                                            HttpMethod.PUT,
                                            httpEntity,

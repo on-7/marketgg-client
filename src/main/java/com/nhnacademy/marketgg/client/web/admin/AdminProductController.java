@@ -53,7 +53,7 @@ public class AdminProductController {
     private final ProductInquiryService inquiryService;
 
     private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
-    private static final String REDIRECT_PRODUCT_URI = "redirect:/admin/products/index";
+    private static final String REDIRECT_PRODUCT_URI = "redirect:/";
 
     /**
      * 기본 상품 index 페이지 GetMapping을 지원합니다.
@@ -126,7 +126,7 @@ public class AdminProductController {
     public ModelAndView updateProduct(@PathVariable final Long productId)
             throws UnAuthenticException, UnAuthorizationException {
 
-        ModelAndView mav = new ModelAndView("pages/products/product-modify-form");
+        ModelAndView mav = new ModelAndView("pages/admin/products/product-modify-form");
 
         ProductResponse product = this.productService.retrieveProductDetails(productId);
         List<CategoryRetrieveResponse> categories = this.categoryService.retrieveCategories();

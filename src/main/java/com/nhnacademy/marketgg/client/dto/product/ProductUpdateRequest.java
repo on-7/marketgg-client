@@ -16,8 +16,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Getter
 public class ProductUpdateRequest {
 
-    @NotNull(message = "자원번호는 null일수 없습니다.")
-    private final Long assetNo;
     @NotBlank(message = "카테고리는 null일수 없습니다.")
     private final String categoryCode;
     @NotNull(message = "라벨번호는 null일수 없습니다.")
