@@ -7,7 +7,7 @@
 
         <link rel="stylesheet" th:href="@{/css/category/category-index.css}">
 
-        <title th:text="#{CATEGORY_MANAGEMENT}"></title>
+        <title th:text="#{TITLE_CATEGORY_MANAGE}"></title>
     </head>
 
     <body>
@@ -21,8 +21,8 @@
                     <th th:text="#{CATEGORY_CLASSIFICATION}"></th>
                     <th th:text="#{CATEGORY_CODE}"></th>
                     <th th:text="#{CATEGORY_NAME}"></th>
-                    <th th:text="#{CATEGORY_ORDER}"></th>
-                    <th th:text="#{CATEGORY_UPDATE}"></th>
+                    <th th:text="#{CATEGORY_SEQUENCE}"></th>
+                    <th th:text="#{CATEGORY_UPDATES}"></th>
                 </tr>
                 <tr th:each="category : ${categories}">
                     <td th:text="${category.categorizationName}"></td>
@@ -35,13 +35,12 @@
                         </a>
                         <form style="display: inline" th:action="'/admin/categories/' + ${category.categoryCode}" method="post">
                             <input type="hidden" name="_method" value="delete"/>
-                            <input class="update" type="submit" value="삭제"/>
+                            <input class="update" type="submit" th:value="#{DELETE}"/>
                         </form>
                     </td>
                 </tr>
             </table>
 
         </main>
-
     </body>
 </html>

@@ -1,43 +1,50 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/admin-title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
     <head>
         <meta charset="UTF-8">
-        <title>CategoryUpdateForm</title>
+
+        <link rel="stylesheet" th:href="@{/css/category/category-index.css}">
+
+        <title th:text="#{TITLE_CATEGORY_UPDATE}"></title>
     </head>
+
     <body>
-        <h1>카테고리 수정</h1>
-        <hr/>
-        <div>
-            <form th:method="put" th:action="'/admin/categories/' + ${category.categoryCode}">
-                <table style="margin-left: auto; margin-right: auto;">
-                    <tr>
-                        <th>카테고리분류</th>
-                        <th>카테고리코드</th>
-                        <th>이름</th>
-                        <th>순서</th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <p th:text="${category.categorizationName}"></p>
-                        </td>
-                        <td>
-                            <p th:text="${category.categoryCode}"></p>
-                        </td>
-                        <td>
-                            <input type="text" name="name" th:placeholder="${category.categoryName}"/>
-                        </td>
-                        <td>
-                            <input type="number" name="sequence" th:placeholder="${category.sequence}"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="4">
-                            <input type="hidden" name="categoryCode" th:value="${category.categoryCode}"/>
-                            <button style="flex: none; float: right;" type="submit">수정</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
-        </div>
+        <main>
+
+            <h1 th:text="#{CATEGORY_UPDATE}"></h1>
+            <hr/>
+            <div>
+                <form th:method="put" th:action="'/admin/categories/' + ${category.categoryCode}">
+                    <table>
+                        <tr>
+                            <th th:text="#{CATEGORY_CLASSIFICATION}"></th>
+                            <th th:text="#{CATEGORY_CODE}"></th>
+                            <th th:text="#{CATEGORY_NAME}"></th>
+                            <th th:text="#{CATEGORY_SEQUENCE}"></th>
+                        </tr>
+                        <tr>
+                            <td th:text="${category.categorizationName}"></td>
+                            <td th:text="${category.categoryCode}"></td>
+                            <td>
+                                <input type="text" name="name" th:placeholder="${category.categoryName}"/>
+                            </td>
+                            <td>
+                                <input class="sequence" type="number" name="sequence"
+                                       th:placeholder="${category.sequence}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <input type="hidden" name="categoryCode" th:value="${category.categoryCode}"/>
+                                <button style="flex: none; float: right;" type="submit" th:text="#{UPDATE}"></button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+        </main>
     </body>
 </html>
