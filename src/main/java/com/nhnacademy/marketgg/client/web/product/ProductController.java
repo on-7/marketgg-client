@@ -142,8 +142,12 @@ public class ProductController {
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("products", products);
-
         mav.addObject("pages", pagination);
+        mav.addObject("keyword", null);
+        mav.addObject("categoryId", null);
+        mav.addObject("pageType", "default");
+        mav.addObject("option", "main");
+        mav.addObject("sort", null);
 
         return mav;
     }
