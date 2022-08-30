@@ -97,7 +97,7 @@ public class ProductController {
 
     /**
      * 모든 상품을 조회를 위한 GetMapping 을 지원 합니다.
-     * 타임리프에서 products로 조회할 수 있습니다.
+     * 타임리프에서 products 로 조회할 수 있습니다.
      * List 타입 입니다.
      *
      * @return - 모든 상품 조회 페이지를 리턴 합니다.
@@ -170,6 +170,15 @@ public class ProductController {
         return mav;
     }
 
+    /**
+     * 검색어에 따른 추천 상품 목록을 반환합니다.
+     *
+     * @param keyword - 현재 검색어입니다.
+     * @param page - 검색할 페이지 정보입니다.
+     * @return - 검색어에 따른 추천 상품 목록의 제목을 반환합니다.
+     * @throws JsonProcessingException - JSON 과 관련한 예외처리를 담당합니다.
+     * @since 1.0.0
+     */
     @GetMapping("/suggest")
     @ResponseBody
     public String[] suggestionProductList(@RequestParam final String keyword,

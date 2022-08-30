@@ -67,10 +67,20 @@ class ProductControllerTest {
         imageResponse = Dummy.getDummyImageResponse();
         pageResult = new PageResult<>();
 
+        ReflectionTestUtils.setField(response, "id", 1L);
+        ReflectionTestUtils.setField(response, "categoryCode", "001");
+        ReflectionTestUtils.setField(response, "productName", "안녕");
+        ReflectionTestUtils.setField(response, "content", "안녕");
+        ReflectionTestUtils.setField(response, "description", "<p>안녕<p>");
+        ReflectionTestUtils.setField(response, "labelName", "라벨입니다");
+        ReflectionTestUtils.setField(response, "imageAddress", "http~");
+        ReflectionTestUtils.setField(response, "price", 1000L);
+        ReflectionTestUtils.setField(response, "amount", 100L);
+
         ReflectionTestUtils.setField(pageResult, "pageNumber", 0);
         ReflectionTestUtils.setField(pageResult, "pageSize", 10);
         ReflectionTestUtils.setField(pageResult, "totalPages", 0);
-        ReflectionTestUtils.setField(pageResult, "data", null);
+        ReflectionTestUtils.setField(pageResult, "data", List.of(response));
     }
 
     @Test
@@ -83,7 +93,7 @@ class ProductControllerTest {
                                      .param("keyword", "안녕")
                                      .param("page", "0"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("pages/products/index"));
+                    .andExpect(view().name("index"));
 
         then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
     }
@@ -98,7 +108,7 @@ class ProductControllerTest {
                                      .param("keyword", "안녕")
                                      .param("page", "0"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("pages/products/index"));
+                    .andExpect(view().name("index"));
 
         then(productService).should(times(1))
                             .searchProductListByPrice(any(SearchRequestForCategory.class), anyString());
@@ -120,6 +130,19 @@ class ProductControllerTest {
                           .get("products")).isNotNull();
 
         then(productService).should(times(1)).retrieveProducts(anyInt());
+    }
+
+    @Test
+    @DisplayName("상품 추천 목록 조회 테스트")
+    void testSuggestionProductList() throws Exception {
+        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
+
+        this.mockMvc.perform(get(DEFAULT_PRODUCT + "/suggest")
+                                     .param("keyword", "dd")
+                                     .param("page", "0"))
+                .andExpect(status().isOk());
+
+        then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
     }
 
 //    @Test
