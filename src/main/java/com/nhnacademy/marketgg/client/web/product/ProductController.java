@@ -170,4 +170,24 @@ public class ProductController {
         return mav;
     }
 
+    @GetMapping("/suggest")
+    @ResponseBody
+    public String[] suggestionProductList(@RequestParam final String keyword,
+                                          @RequestParam final Integer page) throws JsonProcessingException {
+
+        SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 10);
+        PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
+        List<ProductListResponse> products = responses.getData();
+        String[] productNameList = new String[100];
+
+        for(int i = 0; i < products.size(); i++) {
+            productNameList[i] = products.get(i).getProductName();
+            if (i == 99) {
+                break;
+            }
+        }
+
+        return productNameList;
+    }
+
 }
