@@ -19,6 +19,7 @@ import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
 import com.nhnacademy.marketgg.client.service.ImageService;
+import com.nhnacademy.marketgg.client.service.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.ProductService;
 import com.nhnacademy.marketgg.client.service.ReviewService;
 import com.nhnacademy.marketgg.client.web.product.ProductController;
@@ -47,6 +48,9 @@ class ProductControllerTest {
 
     @MockBean
     ProductService productService;
+
+    @MockBean
+    ProductInquiryService productInquiryService;
 
     @MockBean
     ImageService imageService;
@@ -89,9 +93,9 @@ class ProductControllerTest {
         given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/search", "100")
-                                     .param("categoryId", "001")
-                                     .param("keyword", "안녕")
-                                     .param("page", "0"))
+                                 .param("categoryId", "001")
+                                 .param("keyword", "안녕")
+                                 .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("index"));
 
@@ -102,11 +106,11 @@ class ProductControllerTest {
     @DisplayName("카테고리 목록 내에서 가격 옵션 별 검색")
     void testSearchProductListByPrice() throws Exception {
         given(productService.searchProductListByPrice(any(SearchRequestForCategory.class), anyString())).willReturn(
-                pageResult);
+            pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/categories/{categoryId}/price/{option}/search", "100", "asc")
-                                     .param("keyword", "안녕")
-                                     .param("page", "0"))
+                                 .param("keyword", "안녕")
+                                 .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("index"));
 
@@ -124,7 +128,7 @@ class ProductControllerTest {
         ResultActions resultActions = this.mockMvc.perform(get(DEFAULT_PRODUCT + "?page=0"));
 
         MvcResult mvcResult =
-                resultActions.andExpect(status().isOk()).andExpect(view().name("index")).andReturn();
+            resultActions.andExpect(status().isOk()).andExpect(view().name("index")).andReturn();
 
         assertThat(Objects.requireNonNull(mvcResult.getModelAndView()).getModel()
                           .get("products")).isNotNull();
@@ -138,9 +142,9 @@ class ProductControllerTest {
         given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/suggest")
-                                     .param("keyword", "dd")
-                                     .param("page", "0"))
-                .andExpect(status().isOk());
+                                 .param("keyword", "dd")
+                                 .param("page", "0"))
+                    .andExpect(status().isOk());
 
         then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
     }
@@ -149,12 +153,12 @@ class ProductControllerTest {
     @DisplayName("상품 추천 목록 조회 테스트 X 10")
     void testSuggestionProductListForTen() throws Exception {
         ReflectionTestUtils.setField(pageResult, "data", List.of(response, response, response, response, response
-        ,response, response, response, response, response));
+            , response, response, response, response, response));
         given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/suggest")
-                                     .param("keyword", "dd")
-                                     .param("page", "0"))
+                                 .param("keyword", "dd")
+                                 .param("page", "0"))
                     .andExpect(status().isOk());
 
         then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));

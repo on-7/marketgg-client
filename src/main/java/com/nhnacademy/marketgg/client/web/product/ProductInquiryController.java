@@ -30,7 +30,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequiredArgsConstructor
 public class ProductInquiryController {
 
-    private final ProductInquiryService inquiryService;
+    private final ProductInquiryService productInquiryService;
 
     /**
      * 회원이 상품 문의를 작성할 GetMapping 을 지원합니다.
@@ -65,7 +65,7 @@ public class ProductInquiryController {
                                              ProductInquiryRequest inquiryRequest)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        this.inquiryService.createInquiry(productId, inquiryRequest);
+        this.productInquiryService.createInquiry(productId, inquiryRequest);
         return new ModelAndView("redirect:/products/" + productId);
     }
 
@@ -85,7 +85,7 @@ public class ProductInquiryController {
                                                @PathVariable final Long productId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByProduct(page, productId);
+        PageResult<ProductInquiryResponse> inquiries = this.productInquiryService.retrieveInquiryByProduct(page, productId);
         Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/products/inquiries/product-inquiry");
@@ -112,7 +112,7 @@ public class ProductInquiryController {
                                              @PathVariable final Long inquiryId)
         throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        this.inquiryService.deleteProductInquiry(productId, inquiryId);
+        this.productInquiryService.deleteProductInquiry(productId, inquiryId);
         return new ModelAndView("redirect:/members/product-inquiries");
     }
 

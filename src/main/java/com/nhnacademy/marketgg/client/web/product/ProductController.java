@@ -30,7 +30,7 @@ public class ProductController {
 
     private final ProductService productService;
     private final ReviewService reviewService;
-    private final ProductInquiryService inquiryService;
+    private final ProductInquiryService productInquiryService;
     private static final Integer PAGE_SIZE = 10;
 
     private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
@@ -190,7 +190,7 @@ public class ProductController {
         Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
         mav.addObject("pages", pagination);
 
-        PageResult<ProductInquiryResponse> inquiries = inquiryService.retrieveInquiryByProduct(page2, productId);
+        PageResult<ProductInquiryResponse> inquiries = productInquiryService.retrieveInquiryByProduct(page2, productId);
         Pagination inquiryPage = new Pagination(inquiries.getTotalPages(), page2);
 
         mav.addObject("inquiries", inquiries.getData());
