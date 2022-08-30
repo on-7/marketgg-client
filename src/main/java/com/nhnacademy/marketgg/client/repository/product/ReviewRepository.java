@@ -5,8 +5,11 @@ import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import java.util.List;
+
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import org.springframework.data.domain.Page;
 
 /**
@@ -34,6 +37,13 @@ public interface ReviewRepository {
      * @return - 후기의 전체 목록을 반환합니다.
      */
     PageResult<ReviewResponse> retrieveReviews(final Long productId, final int page);
+
+    /**
+     * 전체 후기의 별점을 조회합니다.
+     * @param productId - 조회할 후기가 달린 상품의 상품번호입니다.
+     * @return - 별점 개수를 반환합니다.
+     */
+    CommonResult<List<ReviewRatingResponse>> retrieveReviewsByRating(final Long productId);
 
     /**
      * 후기를 상세조회합니다.

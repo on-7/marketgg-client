@@ -5,7 +5,11 @@ import com.nhnacademy.marketgg.client.dto.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.PageResult;
 import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
 import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.response.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+
+import java.util.List;
 
 /**
  * 후기를 관리하기 위한 Service입니다.
@@ -41,6 +45,8 @@ public interface ReviewService {
      * @return - 후기의 상세정보를 반환합니다.
      */
     ReviewResponse retrieveReview(final Long productId, final Long reviewId);
+
+    CommonResult<List<ReviewRatingResponse>> retrieveReviewsByRating(final Long productId);
 
     /**
      * 후기를 수정합니다.

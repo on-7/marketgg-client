@@ -6,6 +6,8 @@ import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.response.*;
+import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.ImageService;
 import com.nhnacademy.marketgg.client.service.ProductService;
@@ -157,18 +159,29 @@ public class ProductController {
      * 상품 상세 조회를 위한 GetMapping 을 지원 합니다.
      * 타임리프에서 productDetails로 조회할 수 있습니다.
      *
-     * @param id - 상품의 PK 입니다.
+     * @param productId - 상품의 PK 입니다.
      * @return - 상품 상세 페이지를 리턴합니다.
      * @since 1.0.0
      */
-    @GetMapping("/{id}")
-    public ModelAndView retrieveProductDetails(@PathVariable final Long id, @RequestParam(defaultValue = "0") int page) {
-        ProductResponse productDetails = this.productService.retrieveProductDetails(id);
+    @GetMapping("/{productId}")
+    public ModelAndView retrieveProductDetails(@PathVariable final Long productId, @RequestParam(defaultValue = "0") int page) {
+        ProductResponse productDetails = this.productService.retrieveProductDetails(productId);
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);
         mav.addObject("productDetails", productDetails);
 
-        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(id, page);
+        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviews(productId, page);
         mav.addObject("reviews", reviewResponsePageResult.getData());
+
+        CommonResult<List<ReviewRatingResponse>> listCommonResult = reviewService.retrieveReviewsByRating(productId);
+        Long reviewCount = 0L;
+        List<ReviewRatingResponse> data = listCommonResult.getData();
+
+        for (ReviewRatingResponse datum : data) {
+            reviewCount += datum.getRatingCount();
+        }
+
+        mav.addObject("reviewCount", reviewCount);
+        mav.addObject("reviewRatings", data);
 
         Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
 
