@@ -34,8 +34,8 @@
                     </form>
                     <div class="d-flex">
                         <div th:id="dib">
-                            <button id="dib-btn" value="dib" th:if="${productDetails.dib}">찜</button>
-                            <button id="dib-btn" value="unDib" th:unless="${productDetails.dib}">안찜</button>
+                            <button id="dib-btn" value="dib" th:if="${productDetails.dib}" th:text="'찜제거'"></button>
+                            <button id="dib-btn" value="unDib" th:unless="${productDetails.dib}" th:text="'찜'"></button>
                         </div>
                     </div>
                 </div>
