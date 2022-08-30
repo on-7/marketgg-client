@@ -12,14 +12,14 @@
                 <nav></nav>
                 <div class="dib-content-wrapper">
                     <div class="dib-content-sub-util">
-                        <table class="table table-hover dib-table-wrapper">
+                        <table class="table dib-table-wrapper">
                             <tr>
                                 <th th:text="#{PRODUCT_IMAGE}"></th>
                                 <th th:text="#{PRODUCT_NAME}"></th>
                                 <th th:text="#{PRODUCT_PRICE}"></th>
                                 <th th:text="#{DIB_DELETE}"></th>
                             </tr>
-                            <tr th:each="dib : ${dibs}">
+                            <tr style="background-color: whitesmoke;" class="table table-hover" th:each="dib : ${dibs}">
                                 <td>
                                     <img th:src="${dib.thumbnail}" alt="null"/>
                                 </td>
@@ -28,9 +28,9 @@
                                 </td>
                                 <td th:text="${dib.productPrice}"></td>
                                 <td>
-                                    <form th:method="delete" th:action="'/member/dibs/' + ${dib.productNo}">
+                                    <form th:method="post" th:action="'/members/dibs/' + ${dib.productNo}">
                                         <input type="hidden" name="_method" value="delete"/>
-                                        <input class="btn-primary" type="submit" th:value="#{DIB_DELETE}">
+                                        <input class="btn btn-primary" type="submit" th:value="#{DIB_DELETE}">
                                     </form>
                                 </td>
                             </tr>

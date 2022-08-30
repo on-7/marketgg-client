@@ -47,7 +47,7 @@ class DibAjaxControllerTest {
 
         given(dibService.retrieveDibs()).willReturn(List.of(response));
 
-        this.mockMvc.perform(post("/dibs")
+        this.mockMvc.perform(get("/dibs")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("productId", "1")
                 .param("memberId", "1"))

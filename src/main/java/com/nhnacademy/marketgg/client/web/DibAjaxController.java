@@ -40,9 +40,10 @@ public class DibAjaxController {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      * @since 1.0.0
      */
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = "application/json")
+    @GetMapping
     @ResponseBody
-    public Map<String, Object> dibView(final Long productId) throws UnAuthenticException, UnAuthorizationException {
+    public Map<String, Object> dibView(final Long productId) throws UnAuthenticException,
+            UnAuthorizationException {
 
         List<DibRetrieveResponse> list = dibService.retrieveDibs();
         Map<String, Object> map = new HashMap<>();
