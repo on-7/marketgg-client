@@ -1,19 +1,12 @@
 package com.nhnacademy.marketgg.client.web;
 
-import com.nhnacademy.marketgg.client.dto.response.DibRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.DibService;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,34 +23,6 @@ public class DibAjaxController {
 
     private final DibService dibService;
     private static final Integer SUCCESS = 1;
-
-    /**
-     * 지정한 상품을 지정한 회원의 찜 목록에 존재하는지 판단하는 Mapping 을 지원합니다.
-     *
-     * @param productId - 지정한 상품의 식별번호입니다.
-     * @return 찜 목록에 상품이 존재하면 1, 없으면 0을 반환합니다.
-     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
-     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
-     * @since 1.0.0
-     */
-    @GetMapping
-    @ResponseBody
-    public Map<String, Object> dibView(final Long productId) throws UnAuthenticException,
-            UnAuthorizationException {
-
-        List<DibRetrieveResponse> list = dibService.retrieveDibs();
-        Map<String, Object> map = new HashMap<>();
-
-        map.put("exist", 0);
-
-        for (DibRetrieveResponse response : list) {
-            if (Objects.equals(response.getProductNo(), productId)) {
-                map.put("exist", 1);
-            }
-        }
-
-        return map;
-    }
 
     /**
      * 지정한 사용자의 찜 목록에 해당 상품을 추가하는 Mapping 을 지원합니다.

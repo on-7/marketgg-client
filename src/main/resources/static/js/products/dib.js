@@ -1,34 +1,6 @@
-window.addEventListener('DOMContentLoaded', () => {
-    function dibView() {
-        const productId = document.getElementById('product-id');
-        
-        $.ajax({
-            url: '/dibs',
-            type: 'GET',
-            async: true,
-            data: {
-                'productId': productId
-            },
-            dataType: "json",
-            success: function (data) {
-                if (data.exist === 1) {
-                    document.getElementById('o').style.display = 'none';
-                    document.getElementById('x').style.display = '';
-                } else {
-                    document.getElementById('x').style.display = 'none';
-                    document.getElementById('o').style.display = '';
-                }
-                location.reload();
-            }
-        })
-    }
-    dibView();
-});
-
 function dibInsert(productId) {
     $.ajax({
         url: '/dibs/insert/' + productId,
-        // headers: getHeaders(),
         type: 'get',
         success: function (data) {
             if (data === 1)
@@ -49,7 +21,6 @@ function dibDelete(productId) {
     });
     console.log("success");
 }
-
 
 /* =================== */
 
