@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.order;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,7 +18,7 @@ import org.springframework.lang.Nullable;
  */
 @NoArgsConstructor
 @Getter
-public class OrderToPayment {
+public class OrderToPayment implements Serializable {
 
     @NotBlank
     @Size(min = 6, max = 64)
