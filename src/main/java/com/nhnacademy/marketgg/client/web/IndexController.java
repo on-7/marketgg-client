@@ -43,6 +43,7 @@ public class IndexController {
         mav.addObject("keyword", null);
         mav.addObject("option", "main");
         mav.addObject("pages", pagination);
+        mav.addObject("sort", null);
 
         return mav;
     }

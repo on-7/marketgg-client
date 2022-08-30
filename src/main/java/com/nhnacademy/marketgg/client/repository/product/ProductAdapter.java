@@ -175,10 +175,17 @@ public class ProductAdapter implements ProductRepository {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
 
+        String requestUri =
+                gatewayIp + DEFAULT_PRODUCT + "/categories/" + searchRequest.getCategoryCode() +
+                        "/sort-price/" + option + "/search";
+
+        if (searchRequest.getCategoryCode().compareTo("001") == 0) {
+            requestUri = gatewayIp + DEFAULT_PRODUCT + "/sort-price/" + option + "/search";
+        }
+
         ResponseEntity<PageResult<ProductListResponse>> response =
                 this.restTemplate.exchange(
-                        gatewayIp + DEFAULT_PRODUCT + "/categories/" + searchRequest.getCategoryCode() +
-                                "/sort-price/" + option + "/search",
+                        requestUri,
                         HttpMethod.POST,
                         httpEntity,
                         new ParameterizedTypeReference<>() {

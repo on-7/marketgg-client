@@ -61,6 +61,7 @@ public class ProductController {
         mav.addObject("products", products);
         mav.addObject("pages", pagination);
         mav.addObject("option", "search");
+        mav.addObject("sort", null);
 
         return mav;
     }
@@ -91,6 +92,7 @@ public class ProductController {
         mav.addObject("products", products);
         mav.addObject("pages", pagination);
         mav.addObject("option", "search");
+        mav.addObject("sort", option);
 
         return mav;
     }
@@ -115,6 +117,7 @@ public class ProductController {
         mav.addObject("categoryId", null);
         mav.addObject("pageType", "default");
         mav.addObject("option", "main");
+        mav.addObject("sort", null);
 
         mav.addObject("pages", pagination);
 
