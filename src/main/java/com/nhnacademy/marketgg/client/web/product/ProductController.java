@@ -178,11 +178,11 @@ public class ProductController {
         SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 10);
         PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
         List<ProductListResponse> products = responses.getData();
-        String[] productNameList = new String[100];
+        String[] productNameList = new String[10];
 
         for(int i = 0; i < products.size(); i++) {
             productNameList[i] = products.get(i).getProductName();
-            if (i == 99) {
+            if (i == 9) {
                 break;
             }
         }

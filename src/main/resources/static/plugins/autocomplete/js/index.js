@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
   let count = 0;
   document.getElementById('autoComplete').addEventListener('keydown', async (event) => {
     count++;
-    if(count === 4) {
+    if(count === 6) {
       const keyword = event.target.value;
       await fetch(`/products/suggest?keyword=${keyword}&page=0`).then(async (response) => await response.json())
         .then(async (data) => {
