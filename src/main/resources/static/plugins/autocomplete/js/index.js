@@ -1,12 +1,14 @@
 // SEE: https://tarekraafat.github.io/autoComplete.js
 window.addEventListener('DOMContentLoaded', () => {
   let count = 0;
+  const reg = "/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi";
 
   document.getElementById('autoComplete')
           .addEventListener('keydown', async (event) => {
             if (event.keyCode !== 32 && event.keyCode !== 8) {
               count++;
             }
+            console.log(count);
 
             const $autoComplete = document.getElementById('autoComplete');
             const $categoryCode = document.getElementById('categoryCode').value;
@@ -14,6 +16,11 @@ window.addEventListener('DOMContentLoaded', () => {
             $autoComplete.addEventListener('keydown', (event) => {
               if (event.key === 'Enter') {
                 const keyword = event.target.value;
+
+                if(keyword === null && reg.test(keyword)) {
+                    alert('검색어는 공백일 수 없습니다.')
+                    location.reload();
+                }
                 location.href = `/products/search?categoryId=${$categoryCode}&keyword=${keyword}&page=0`;
               }
             });
