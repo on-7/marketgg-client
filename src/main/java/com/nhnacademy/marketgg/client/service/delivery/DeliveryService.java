@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.service.delivery;
 
-import com.nhnacademy.marketgg.client.dto.request.CreatedTrackingNoRequest;
-import com.nhnacademy.marketgg.client.dto.request.DeliveryInfoStatusRequestDto;
+import com.nhnacademy.marketgg.client.dto.delivery.CreatedTrackingNoRequest;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryInfoStatusRequestDto;
 
 /**
  * 배송 서버에서 전송된 데이터의 로직처리를 위한 인터페이스 입니다.

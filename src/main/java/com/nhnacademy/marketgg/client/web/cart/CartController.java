@@ -3,13 +3,13 @@ package com.nhnacademy.marketgg.client.web.cart;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
-import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
+import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.service.CartService;
+import com.nhnacademy.marketgg.client.service.cart.CartService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;

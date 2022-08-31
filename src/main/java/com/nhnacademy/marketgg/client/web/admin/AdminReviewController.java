@@ -1,6 +1,6 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
-import com.nhnacademy.marketgg.client.service.ReviewService;
+import com.nhnacademy.marketgg.client.service.review.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;

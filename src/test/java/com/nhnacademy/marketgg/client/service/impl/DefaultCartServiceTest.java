@@ -7,9 +7,10 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 
-import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
-import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
+import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
 import com.nhnacademy.marketgg.client.repository.cart.CartRepository;
+import com.nhnacademy.marketgg.client.service.cart.DefaultCartService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;

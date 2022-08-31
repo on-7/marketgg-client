@@ -11,12 +11,13 @@ import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.repository.auth.OauthRepository;
+import com.nhnacademy.marketgg.client.service.auth.GoogleLoginService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;

@@ -1,6 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.order;
 
-import com.nhnacademy.marketgg.client.dto.response.DeliveryAddressResponse;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.web.member;
 
-import com.nhnacademy.marketgg.client.dto.response.PointRetrieveResponse;
-import com.nhnacademy.marketgg.client.service.PointService;
+import com.nhnacademy.marketgg.client.dto.point.PointRetrieveResponse;
+import com.nhnacademy.marketgg.client.service.point.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

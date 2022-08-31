@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.service;
 
-import com.nhnacademy.marketgg.client.repository.MemberRepository;
-import com.nhnacademy.marketgg.client.service.impl.DefaultMemberService;
+import com.nhnacademy.marketgg.client.repository.member.MemberRepository;
+import com.nhnacademy.marketgg.client.service.member.DefaultMemberService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;

@@ -1,12 +1,17 @@
 package com.nhnacademy.marketgg.client.dummy;
 
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.*;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.image.ImageResponse;
+import com.nhnacademy.marketgg.client.dto.label.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.review.ReviewCreateRequest;
+import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
+import com.nhnacademy.marketgg.client.dto.review.ReviewUpdateRequest;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

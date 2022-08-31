@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.web.member;
 
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.service.DibService;
+import com.nhnacademy.marketgg.client.service.dib.DibService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;

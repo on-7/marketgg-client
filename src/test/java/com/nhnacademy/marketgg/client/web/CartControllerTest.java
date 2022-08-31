@@ -21,11 +21,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.filter.AuthenticationFilter;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
-import com.nhnacademy.marketgg.client.service.CartService;
+import com.nhnacademy.marketgg.client.service.cart.CartService;
 import com.nhnacademy.marketgg.client.util.GgUtils;
 import com.nhnacademy.marketgg.client.web.cart.CartController;
 import java.time.LocalDate;
@@ -49,7 +49,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;

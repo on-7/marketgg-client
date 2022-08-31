@@ -8,13 +8,13 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.category.CategoryCreateRequest;
+import com.nhnacademy.marketgg.client.dto.category.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.repository.CategoryRepository;
-import com.nhnacademy.marketgg.client.service.impl.DefaultCategoryService;
+import com.nhnacademy.marketgg.client.repository.category.CategoryRepository;
+import com.nhnacademy.marketgg.client.service.category.DefaultCategoryService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;

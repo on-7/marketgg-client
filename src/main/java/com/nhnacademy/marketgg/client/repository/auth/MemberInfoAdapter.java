@@ -1,10 +1,9 @@
 package com.nhnacademy.marketgg.client.repository.auth;
 
-import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
-import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
-import com.nhnacademy.marketgg.client.jwt.JwtInfo;
+import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
+import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
+import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;

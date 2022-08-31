@@ -2,13 +2,13 @@ package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.annotation.Auth;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
-import com.nhnacademy.marketgg.client.service.MemberService;
-import com.nhnacademy.marketgg.client.service.ReviewService;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.review.ReviewCreateRequest;
+import com.nhnacademy.marketgg.client.dto.review.ReviewUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
+import com.nhnacademy.marketgg.client.service.member.MemberService;
+import com.nhnacademy.marketgg.client.service.review.ReviewService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

@@ -1,11 +1,11 @@
 package com.nhnacademy.marketgg.client.web.payment;
 
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentFailureResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
 import com.nhnacademy.marketgg.client.dto.payment.VirtualAccountDepositRequest;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.service.payment.PaymentService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -83,7 +83,7 @@ public class PaymentController {
 
         PaymentFailureResult paymentResult = PaymentFailureResult.create(code, message, orderId);
         log.info("redirectWhenPaymentRequestFailed: {}", paymentResult);
-        SingleResponse<PaymentFailureResult> result = paymentService.requestFail(paymentResult);
+        CommonResult<PaymentFailureResult> result = paymentService.requestFail(paymentResult);
 
         ModelAndView mav = new ModelAndView("redirect:/error");
         mav.addObject("data", result.getData());

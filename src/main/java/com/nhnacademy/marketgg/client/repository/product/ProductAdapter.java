@@ -2,15 +2,13 @@ package com.nhnacademy.marketgg.client.repository.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.ShopResult;
-import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,7 +44,7 @@ public class ProductAdapter implements ProductRepository {
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
                 getLinkedMultiValueMapHttpEntity(image, productRequest);
 
-        ResponseEntity<ShopResult<Void>> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
+        ResponseEntity<CommonResult<Void>> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
                                                                                HttpMethod.POST,
                                                                                httpEntity,
                                                                                new ParameterizedTypeReference<>() {
@@ -78,7 +76,7 @@ public class ProductAdapter implements ProductRepository {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<SingleResponse<ProductResponse>> response =
+        ResponseEntity<CommonResult<ProductResponse>> response =
                 this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + "/" + productId,
                                            HttpMethod.GET,
                                            httpEntity,

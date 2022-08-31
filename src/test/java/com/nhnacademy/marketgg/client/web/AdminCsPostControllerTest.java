@@ -20,16 +20,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.request.PostRequest;
-import com.nhnacademy.marketgg.client.dto.request.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.CommentResponse;
-import com.nhnacademy.marketgg.client.dto.response.PostResponse;
-import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.dto.customer_service.PostRequest;
+import com.nhnacademy.marketgg.client.dto.customer_service.PostStatusUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
+import com.nhnacademy.marketgg.client.dto.customer_service.PostResponse;
+import com.nhnacademy.marketgg.client.dto.customer_service.PostResponseForDetail;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
-import com.nhnacademy.marketgg.client.service.PostService;
+import com.nhnacademy.marketgg.client.service.customer_service.PostService;
 import com.nhnacademy.marketgg.client.web.admin.AdminCsPostController;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +41,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 

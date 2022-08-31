@@ -1,13 +1,13 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.CategorizationRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.category.CategoryCreateRequest;
+import com.nhnacademy.marketgg.client.dto.category.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.category.CategorizationRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.service.CategoryService;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

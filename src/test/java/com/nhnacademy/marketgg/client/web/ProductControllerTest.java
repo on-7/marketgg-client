@@ -13,15 +13,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
+import com.nhnacademy.marketgg.client.dto.image.ImageResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
-import com.nhnacademy.marketgg.client.service.ImageService;
-import com.nhnacademy.marketgg.client.service.ProductInquiryService;
-import com.nhnacademy.marketgg.client.service.ProductService;
-import com.nhnacademy.marketgg.client.service.ReviewService;
+import com.nhnacademy.marketgg.client.service.image.ImageService;
+import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
+import com.nhnacademy.marketgg.client.service.product.ProductService;
+import com.nhnacademy.marketgg.client.service.review.ReviewService;
 import com.nhnacademy.marketgg.client.web.product.ProductController;
 import java.util.List;
 import java.util.Objects;

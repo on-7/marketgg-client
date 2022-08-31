@@ -17,10 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
-import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.service.CouponService;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.coupon.CouponRequest;
+import com.nhnacademy.marketgg.client.dto.coupon.CouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.service.coupon.CouponService;
 import com.nhnacademy.marketgg.client.web.admin.AdminCouponController;
 import java.util.Objects;
 import org.junit.jupiter.api.DisplayName;

@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.response.PointRetrieveResponse;
-import com.nhnacademy.marketgg.client.service.PointService;
+import com.nhnacademy.marketgg.client.dto.point.PointRetrieveResponse;
+import com.nhnacademy.marketgg.client.service.point.PointService;
 import com.nhnacademy.marketgg.client.web.member.PointController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

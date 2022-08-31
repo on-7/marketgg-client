@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.repository.cart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
-import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
+import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;

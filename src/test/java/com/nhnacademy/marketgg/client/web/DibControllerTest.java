@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.service.DibService;
+import com.nhnacademy.marketgg.client.service.dib.DibService;
 import com.nhnacademy.marketgg.client.web.member.DibController;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

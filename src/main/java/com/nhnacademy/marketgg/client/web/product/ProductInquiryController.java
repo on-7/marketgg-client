@@ -1,13 +1,13 @@
 package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.ProductInquiryRequest;
-import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.product.ProductInquiryRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.paging.Pagination;
-import com.nhnacademy.marketgg.client.service.ProductInquiryService;
+import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;

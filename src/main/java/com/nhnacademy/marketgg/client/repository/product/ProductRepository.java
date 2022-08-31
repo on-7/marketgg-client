@@ -1,14 +1,13 @@
 package com.nhnacademy.marketgg.client.repository.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import java.io.IOException;
-import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

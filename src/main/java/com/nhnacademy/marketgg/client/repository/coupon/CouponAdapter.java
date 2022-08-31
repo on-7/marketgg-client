@@ -2,11 +2,11 @@ package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
-import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
-import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.coupon.CouponRequest;
+import com.nhnacademy.marketgg.client.dto.coupon.CouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;

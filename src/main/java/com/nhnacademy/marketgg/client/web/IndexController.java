@@ -1,13 +1,10 @@
 package com.nhnacademy.marketgg.client.web;
 
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
-import com.nhnacademy.marketgg.client.service.CategoryService;
-import com.nhnacademy.marketgg.client.service.ImageService;
-import com.nhnacademy.marketgg.client.service.ProductService;
+import com.nhnacademy.marketgg.client.service.product.ProductService;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;

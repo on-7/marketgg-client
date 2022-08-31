@@ -15,10 +15,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.request.CategoryCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.CategoryUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.service.CategoryService;
+import com.nhnacademy.marketgg.client.dto.category.CategoryCreateRequest;
+import com.nhnacademy.marketgg.client.dto.category.CategoryUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
 import com.nhnacademy.marketgg.client.web.admin.AdminCategoryController;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

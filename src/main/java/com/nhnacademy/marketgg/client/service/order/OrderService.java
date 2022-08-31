@@ -1,14 +1,14 @@
 package com.nhnacademy.marketgg.client.service.order;
 
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.PageResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderFormResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
-import com.nhnacademy.marketgg.client.dto.request.CartOrderRequest;
-import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
+import com.nhnacademy.marketgg.client.dto.cart.CartOrderRequest;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import java.util.List;
 
 /**

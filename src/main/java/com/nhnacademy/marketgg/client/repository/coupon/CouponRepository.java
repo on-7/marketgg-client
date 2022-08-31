@@ -1,12 +1,11 @@
 package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
-import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.coupon.CouponRequest;
+import com.nhnacademy.marketgg.client.dto.coupon.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import java.util.List;
 
 /**
  * 쿠폰 레포지토리입니다.

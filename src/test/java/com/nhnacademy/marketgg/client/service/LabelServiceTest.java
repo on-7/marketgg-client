@@ -8,11 +8,11 @@ import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
+import com.nhnacademy.marketgg.client.dto.label.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.repository.LabelRepository;
-import com.nhnacademy.marketgg.client.service.impl.DefaultLabelService;
+import com.nhnacademy.marketgg.client.repository.label.LabelRepository;
+import com.nhnacademy.marketgg.client.service.label.DefaultLabelService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

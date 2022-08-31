@@ -4,14 +4,13 @@ import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
-import com.nhnacademy.marketgg.client.dto.response.common.ErrorEntity;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.ErrorEntity;
 import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import java.util.Objects;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

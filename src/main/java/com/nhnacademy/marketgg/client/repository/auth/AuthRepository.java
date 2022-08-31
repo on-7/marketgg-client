@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.repository.auth;
 
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 

@@ -1,10 +1,10 @@
 package com.nhnacademy.marketgg.client.service.payment;
 
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentFailureResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 
 /**
  * Market GG 결제 관련 기능을 수행합니다.
@@ -42,7 +42,7 @@ public interface PaymentService {
      * @param paymentResult - 결제 실패 결과 정보
      * @return 결제 실패 결과가 담긴 공통 응답 객체
      */
-    SingleResponse<PaymentFailureResult> requestFail(final PaymentFailureResult paymentResult);
+    CommonResult<PaymentFailureResult> requestFail(final PaymentFailureResult paymentResult);
 
     /**
      * 승인된 결제를 취소합니다.

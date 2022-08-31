@@ -51,7 +51,7 @@ public class JwtAspect {
     private final RestTemplate restTemplate;
 
     @Pointcut("@within(org.springframework.stereotype.Controller) " +
-        "&& execution(* *.*(.., com.nhnacademy.marketgg.client.dto.MemberInfo, ..))")
+        "&& execution(* *.*(.., com.nhnacademy.marketgg.client.dto.common.MemberInfo, ..))")
     public void controller() {
 
     }

@@ -1,11 +1,11 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
-import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.label.LabelRegisterRequest;
+import com.nhnacademy.marketgg.client.dto.label.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.service.LabelService;
+import com.nhnacademy.marketgg.client.service.label.LabelService;
 import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
