@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/admin-title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
+
+<head>
+    <title>Market GG | 파일 업로드</title>
+
+    <!-- TOAST UI Editor -->
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css"/>
+
+    <!-- TOAST UI Editor -->
+    <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+    <script src="/plugins/tui/toast.js" defer></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" defer></script>
+</head>
+
+<body>
+<main>
+    <section th:replace="~{/fragments/products/create-form}"></section>
+</main>
+</body>
+
+</html>

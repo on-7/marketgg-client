@@ -115,7 +115,7 @@ class AdminProductControllerTest {
                                                                    Dummy.getDummyModelAttributeProductCreateRequest()));
 
         MvcResult mvcResult = resultActions.andExpect(status().is3xxRedirection()).andExpect(view().name(
-            "redirect:" + DEFAULT_PRODUCT_URI + "/index")).andReturn();
+            "redirect:/")).andReturn();
 
         assertThat(mvcResult.getModelAndView()).isNotNull();
         then(productService).should(times(1))
@@ -131,7 +131,7 @@ class AdminProductControllerTest {
         ResultActions resultActions = this.mockMvc.perform(get(DEFAULT_PRODUCT_URI + "/create"));
 
         MvcResult mvcResult = resultActions.andExpect(status().isOk())
-                                           .andExpect(view().name("pages/products/product-create-form"))
+                                           .andExpect(view().name("pages/admin/products/product-create-form"))
                                            .andReturn();
 
         assertThat(mvcResult.getModelAndView().getModel().get("categories")).isNotNull();
@@ -164,7 +164,7 @@ class AdminProductControllerTest {
 
         MvcResult mvcResult = resultActions.andExpect(status().is3xxRedirection())
                                            .andExpect(view().name(
-                                               "redirect:" + DEFAULT_PRODUCT_URI + "/index"))
+                                               "redirect:/"))
                                            .andReturn();
 
         assertThat(mvcResult.getModelAndView()).isNotNull();
@@ -183,7 +183,7 @@ class AdminProductControllerTest {
 
         MvcResult mvcResult = resultActions.andExpect(status().is3xxRedirection())
                                            .andExpect(view().name(
-                                               "redirect:" + DEFAULT_PRODUCT_URI + "/index"))
+                                               "redirect:/"))
                                            .andReturn();
 
         assertThat(mvcResult.getModelAndView()).isNotNull();
