@@ -23,19 +23,33 @@ tr:hover {
 }
 
 .pagination {
+    height: 2.5em;
     justify-content: center;
+    align-items: center;
 }
 
 .pagination > * {
     display: flex;
     flex-direction: row;
-    margin-left: 1em;
-    margin-right: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    height: 100%;
+    align-items: center;
+}
+
+.pagination > a:hover {
+    background-color: #868b8f;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.pagination > ul {
+    margin: 0;
 }
 
 ul {
     list-style: none;
-    padding-left: 0em;
 }
 
 li {
