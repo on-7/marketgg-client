@@ -21,18 +21,18 @@
                     alert("상품이 장바구니에 추가되었습니다.");
                 </script>
                 <div sec:authorize="!isAnonymous()">
-
-                    <input type="hidden" name="id" id="product-id" th:value="${productDetails.id}" />
-                    <div class="d-flex">
-                        <input class="form-control text-center me-3" name="amount" type="number"
-                               id="amount" value="1" style="max-width: 5rem" max="999" min="1" />
-                        <button id="cart-btn" class="btn btn-outline-dark flex-shrink-0" type="button">
-                            <i class="bi-cart-fill me-1"></i>
-                            Add to cart
-                        </button>
-                    </div>
+                    <form th:action="@{/cart}" method="POST">
+                        <input type="hidden" name="id" id="product-id" th:value="${productDetails.id}" />
+                        <div class="d-flex">
+                            <input class="form-control text-center me-3" name="amount" type="number"
+                                   value="1" style="max-width: 3rem" max="999" min="1" />
+                            <button id="cart-btn" class="btn btn-outline-dark flex-shrink-0">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </div>
+                    </form>
                     <br />
-
                     <div class="d-flex">
                         <div th:id="dib">
                             <button id="dib-btn" value="dib" th:if="${productDetails.dib}"
