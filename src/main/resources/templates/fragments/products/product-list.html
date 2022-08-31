@@ -12,8 +12,8 @@
 
                             <td><h2 th:text="${product.productName}"></h2></td>
                             <div th:if="${product.labelName == '라벨없음'}"></div>
-                            <div th:unless="${product.labelName == '라벨없음'}"><span class="btn btn-danger"
-                                                                                  th:text="${product.labelName}"></span>
+                            <div th:unless="${product.labelName == '라벨없음'}">
+                                <span class="btn btn-danger" th:text="${product.labelName}"></span>
                             </div>
                             <br>
                             <td th:text="${product.content}"></td>
@@ -26,10 +26,15 @@
                             <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
                                 <div class="btn-wrapper">
                                     <a th:href="@{|/admin/products/update/${product.id}|}">
-                                        <button type="submit" class="btn btn-primary" id="btn-submit" th:text="#{UPDATE}">수정</button>
+                                        <button type="submit" class="btn btn-primary" id="btn-submit"
+                                                th:text="#{UPDATE}">수정
+                                        </button>
                                     </a>
-
-                                    <button type="button" class="btn btn-secondary" th:text="#{DELETE}">삭제</button>
+                                    <form class="btn" th:action="'/admin/products/' + ${product.id}"
+                                          method="post">
+                                        <input type="hidden" name="_method" value="delete"/>
+                                        <input class="btn btn-danger" type="submit" th:value="#{DELETE}"/>
+                                    </form>
                                 </div>
                             </div>
                         </div>

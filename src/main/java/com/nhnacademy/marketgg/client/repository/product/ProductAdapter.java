@@ -125,8 +125,8 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId + "/deleted",
-                                           HttpMethod.POST,
+                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
+                                           HttpMethod.DELETE,
                                            httpEntity,
                                            new ParameterizedTypeReference<>() {
                                            });
