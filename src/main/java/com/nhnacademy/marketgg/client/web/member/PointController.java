@@ -1,13 +1,19 @@
 package com.nhnacademy.marketgg.client.web.member;
 
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.point.PointRetrieveResponse;
+import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.point.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/members")
@@ -16,17 +22,16 @@ public class PointController {
 
     private final PointService pointService;
 
-    @GetMapping("/points/index")
-    public ModelAndView index() {
-        return new ModelAndView("pages/points/index");
-    }
+    @GetMapping("/points")
+    public ModelAndView index(@RequestParam(defaultValue = "1") final int page) {
+        PageResult<PointRetrieveResponse> listPageResult = this.pointService.retrievePointHistories(page);
 
-    @GetMapping("/{memberId}/points")
-    public ModelAndView retrievePointHistory(@PathVariable final Long memberId) {
-        PointRetrieveResponse response = this.pointService.retrievePointHistories(memberId);
+        List<PointRetrieveResponse> points = listPageResult.getData();
+        Pagination pagination = new Pagination(listPageResult.getTotalPages(), page);
 
-        ModelAndView mav = new ModelAndView("pages/points/index");
-        mav.addObject("points", response);
+        ModelAndView mav = new ModelAndView("pages/mygg/points/index");
+        mav.addObject("point", points);
+        mav.addObject("pages", pagination);
 
         return mav;
     }

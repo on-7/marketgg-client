@@ -1,0 +1,36 @@
+<section>
+
+    <div style="text-align: center; display: flex; justify-content: center">
+        <table class="table table-hover" style="text-align:center">
+            <tr class="table-danger">
+                <th th:text="#{ORDER_NO}">주문 번호</th>
+                <th th:text="#{POINT}">포인트</th>
+                <th th:text="#{TOTAL_POINT}">누적포인트</th>
+                <th th:text="#{CONTENTS}">내용</th>
+                <th th:text="#{CREATED_AT}">갱신일시</th>
+            </tr>
+            <tr th:each="point : ${points}">
+                <td th:text="${point.orderNo}"></td>
+                <td th:text="${point.point}"></td>
+                <td th:text="${point.totalPoint}"></td>
+                <td th:text="${point.content}"></td>
+                <td th:text="${point.updatedAt}"></td>
+            </tr>
+        </table>
+    </div>
+
+    <div style="display: flex; flex-direction: row;">
+        <a th:href="@{|/members/points?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp; &lt;
+        <a th:if="${pages.page > 1}" th:href="@{|/members/points?page=${pages.page - 1}|}" style="color: black"></a>
+        &nbsp;
+        <ul class="pagination">
+            <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                <a th:href="@{|/members/points?page=${page}|}" th:text="${page}" style="color: black"></a> &nbsp;
+            </li>
+        </ul>
+        <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/members/points?page=${pages.page + 1}|}"
+           style="color: black"></a>
+        &gt; &nbsp;<a th:href="@{|/members/points?page=${pages.totalPageCnt}|}" th:text="#{LAST}"
+                      style="color: black"></a>
+    </div>
+</section>
