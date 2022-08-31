@@ -1,0 +1,49 @@
+h1 {
+    display: flex;
+    border-radius: 10px;
+    border: 2px solid #404549;
+    padding: 0.5em;
+}
+
+table {
+    text-align: center;
+}
+
+th {
+    background-color: #404549;
+    color: #FFFFFF;
+    border-bottom: 2px solid black;
+    cursor: default;
+}
+
+tr:hover {
+    background-color: #868b8f;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.pagination > * {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0em;
+}
+
+li {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.current {
+    font-weight: bold;
+    color: #404549;
+}
