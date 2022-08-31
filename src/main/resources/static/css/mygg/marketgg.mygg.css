@@ -10,7 +10,7 @@ main {
 }
 
 .list-group {
-    flex: 0.15;
+    justify-content: center;
 }
 
 .list-group a:first-child {
