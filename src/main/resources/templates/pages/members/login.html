@@ -16,7 +16,7 @@
                     <span th:text="#{LOGIN}"></span>
                 </h2>
                 <form th:action="@{/login}" method="POST" th:object="${loginRequest}">
-                    <input type="text" name="email" placeholder="EMAIL" />
+                    <input class="input-box" type="text" name="email" placeholder="EMAIL" />
                     <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">
                         EMAIL ERROR
                     </div>
@@ -29,7 +29,7 @@
                     </div>
                     <br />
 
-                    <input class="input-box" class="login-btn" type="submit" th:value="#{LOGIN}" />
+                    <input class="input-box login-btn" type="submit" th:value="#{LOGIN}" />
                     <br />
 
                     <a href="/login/google">
