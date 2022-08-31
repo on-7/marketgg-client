@@ -1,0 +1,29 @@
+main {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid gold;
+    padding: 5rem;
+}
+
+.list-group, .mygg-content {
+    height: calc(100vh - 18rem);
+}
+
+.list-group {
+    flex: 0.15;
+}
+
+.list-group a:first-child {
+    text-align: center;
+}
+
+.list-group-item.active {
+    background-color: orange;
+    border-color: orange;
+}
+
+.mygg-content {
+    flex: 0.85;
+    margin: 0 0 0 3rem;
+    border: 1px solid green;
+}
