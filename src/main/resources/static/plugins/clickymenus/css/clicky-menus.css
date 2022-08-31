@@ -24,6 +24,10 @@ svg[hidden] {
     align-items: center;
 }
 
+.category {
+    z-index: 100;
+}
+
 /* .subcategory { */
 /*     display: none; */
 /* } */
