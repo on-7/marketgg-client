@@ -5,9 +5,12 @@
                 <!-- FIXME: thymeleaf 를 이용하여 아이템 정보 불러오기 -->
                 <div class="col-md-4" th:each="product : ${products}">
                     <div class="card mb-4 shadow-sm">
-                        <img th:src="${product.imageAddress}" background="#55595c" color="#eceeef"
-                             class="card-img-top" text="Thumbnail"
-                             th:onclick="|location.href='/products/${product.id}'|">
+                        <div class="embed-responsive embed-responsive-4by3">
+                            <img th:src="${product.imageAddress}" background="#55595c" color="#eceeef"
+                                 class="card-img-top embed-responsive-item" alt="tree" text="Thumbnail"
+                                 th:onclick="|location.href='/products/${product.id}'|">
+                        </div>
+
                         <div class="card-body">
 
                             <td><h2 th:text="${product.productName}"></h2></td>
