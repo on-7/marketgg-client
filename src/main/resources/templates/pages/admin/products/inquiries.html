@@ -15,6 +15,7 @@
                     <li th:text="#{PRODUCT_NAME}"></li>
                     <li th:text="#{INQUIRY_TITLE}"></li>
                     <li th:text="#{INQUIRY_CONTENT}"></li>
+                    <li th:text="#{INQUIRY_WRITER}"></li>
                     <li th:text="#{INQUIRY_TYPE}"></li>
                     <li th:text="#{INQUIRY_DATE}"></li>
                     <li th:text="#{INQUIRY_MANAGEMENT}"></li>
@@ -22,9 +23,12 @@
 
                 <div class="product-inquiry-content" th:each="inquiry: ${inquiries}">
                     <div class="product-inquiry-row">
-                        <li th:text="${inquiry.productName}"></li>
+                        <li>
+                            <a th:href="@{|/products/${inquiry.productId}|}" style="color: black"  th:text="${inquiry.productName}"></a>
+                        </li>
                         <li th:text="${inquiry.title}"></li>
                         <li th:text="${inquiry.content}"></li>
+                        <li th:text="${inquiry.name}"></li>
                         <li th:text="${inquiry.isSecret} == true ? #{SECRET_POST} : #{PUBLIC_POST}"></li>
                         <li th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></li>
                         <li>
@@ -39,7 +43,8 @@
                         <li class="reply" th:text="'Q: ' + ${inquiry.adminReply}"></li>
                     </div>
                     <div class="reply-wrapper-form" th:if="${inquiry.adminReply} == null">
-                        <form th:action="'/admin/products/' + ${inquiry.productId} + '/inquiries/' + ${inquiry.productInquiryNo}" method="post">
+                        <form th:action="'/admin/products/' + ${inquiry.productId} + '/inquiries/' + ${inquiry.productInquiryNo}"
+                              method="post">
                             <input type="hidden" name="_method" value="put">
                             <input type="text" name="adminReply" placeholder="상품 문의를 입력하세요." style="color: blue" />
                             <input type="submit" th:value="#{INQUIRY_REPLY_REGISTER}"
@@ -64,7 +69,7 @@
                 <a th:if="${pages.page} < ${pages.totalPageCnt}"
                    th:href="@{|/admin/products/inquiries?page=${pages.page + 1}|}" style="color: black"></a>
                 <a th:href="@{|/admin/products/inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}"
-                              style="color: black"></a>
+                   style="color: black"></a>
             </div>
         </main>
     </body>

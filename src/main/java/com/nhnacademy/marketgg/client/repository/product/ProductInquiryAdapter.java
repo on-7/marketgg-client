@@ -68,9 +68,9 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
-                = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiries",
-                                        HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
-                });
+            = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiries" + "?page=" + page,
+                                    HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
+            });
 
         ResponseUtils.checkError(response);
 
@@ -84,9 +84,9 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
-                = restTemplate.exchange(gatewayIp + "/shop/v1/members/product-inquiries", HttpMethod.GET, httpEntity,
-                                        new ParameterizedTypeReference<>() {
-                                        });
+            = restTemplate.exchange(gatewayIp + "/shop/v1/members/product-inquiries" + "?page=" + page, HttpMethod.GET, httpEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
 
         ResponseUtils.checkError(response);
 
@@ -112,10 +112,10 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
-                = restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiries", HttpMethod.GET, httpEntity,
-                                        new ParameterizedTypeReference<>() {
-                                        });
-        ResponseUtils.checkError(response);
+            = restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiries" + "?page=" + page, HttpMethod.GET, httpEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
+         ResponseUtils.checkError(response);
 
         return Objects.requireNonNull(response.getBody()).getData();
     }
