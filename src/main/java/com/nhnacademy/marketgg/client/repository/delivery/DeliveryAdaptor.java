@@ -16,7 +16,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Component
 @RequiredArgsConstructor
 public class DeliveryAdaptor implements DeliveryRepository {
-
     public static final String SHOP_SERVICE_PREFIX_V1 = "/shop/v1";
     public static final String ORDERS_PATH_PREFIX = "/orders";
 
@@ -68,7 +67,9 @@ public class DeliveryAdaptor implements DeliveryRepository {
                                                  .trackingNo(createdTrackingNoRequest.getTrackingNo())
                                                  .orderNo(createdTrackingNoRequest.getOrderNo())
                                                  .build())
-              .retrieve();
+              .retrieve()
+              .toEntity(Void.class)
+              .block();
     }
 
 }

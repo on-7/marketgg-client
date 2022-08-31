@@ -64,7 +64,7 @@ public class OrderController {
      * @param trackingNo - 운송장 번호
      * @return 배송정보 페이지로 이동
      */
-    @GetMapping
+    @GetMapping()
     public ModelAndView retrieveDeliveryInfo(@RequestParam @Min(1) final String trackingNo) {
         ModelAndView modelAndView = new ModelAndView("delivery-info");
         modelAndView.addObject(orderService.retrieveDeliveryInfo(trackingNo));
