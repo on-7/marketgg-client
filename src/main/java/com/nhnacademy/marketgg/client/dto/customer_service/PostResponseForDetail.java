@@ -1,6 +1,5 @@
 package com.nhnacademy.marketgg.client.dto.customer_service;
 
-import com.nhnacademy.marketgg.client.dto.customer_service.CommentResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;

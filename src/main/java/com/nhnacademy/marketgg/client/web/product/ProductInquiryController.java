@@ -63,7 +63,7 @@ public class ProductInquiryController {
     public ModelAndView createProductInquiry(@PathVariable final Long productId,
                                              @ModelAttribute final
                                              ProductInquiryRequest inquiryRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         this.productInquiryService.createInquiry(productId, inquiryRequest);
         return new ModelAndView("redirect:/products/" + productId);
@@ -83,9 +83,10 @@ public class ProductInquiryController {
     @GetMapping("/index")
     public ModelAndView retrieveProductInquiry(@RequestParam(defaultValue = "1") final Integer page,
                                                @PathVariable final Long productId)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        PageResult<ProductInquiryResponse> inquiries = this.productInquiryService.retrieveInquiryByProduct(page, productId);
+        PageResult<ProductInquiryResponse> inquiries =
+                this.productInquiryService.retrieveInquiryByProduct(page, productId);
         Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/products/inquiries/product-inquiry");
@@ -110,7 +111,7 @@ public class ProductInquiryController {
     @DeleteMapping("/{inquiryId}")
     public ModelAndView deleteProductInquiry(@PathVariable final Long productId,
                                              @PathVariable final Long inquiryId)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         this.productInquiryService.deleteProductInquiry(productId, inquiryId);
         return new ModelAndView("redirect:/members/product-inquiries");

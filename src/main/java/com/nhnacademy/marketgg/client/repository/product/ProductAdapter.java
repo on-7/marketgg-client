@@ -5,11 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -45,10 +44,10 @@ public class ProductAdapter implements ProductRepository {
                 getLinkedMultiValueMapHttpEntity(image, productRequest);
 
         ResponseEntity<CommonResult<Void>> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
-                                                                               HttpMethod.POST,
-                                                                               httpEntity,
-                                                                               new ParameterizedTypeReference<>() {
-                                                                   });
+                                                                                 HttpMethod.POST,
+                                                                                 httpEntity,
+                                                                                 new ParameterizedTypeReference<>() {
+                                                                                 });
 
         this.checkResponseUri(response);
     }
@@ -165,7 +164,7 @@ public class ProductAdapter implements ProductRepository {
 
     @Override
     public PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
-                                                              final String option)
+                                                                    final String option)
             throws JsonProcessingException {
 
         String requestBody = objectMapper.writeValueAsString(searchRequest);

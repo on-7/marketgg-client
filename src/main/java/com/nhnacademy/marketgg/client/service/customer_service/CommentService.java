@@ -24,6 +24,6 @@ public interface CommentService {
      * @since 1.0.0
      */
     void createComment(final Long postId, final CommentRequest commentRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
 }

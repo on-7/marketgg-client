@@ -25,7 +25,7 @@ public interface LabelService {
      * @since 1.0.0
      */
     void createLabel(final LabelRegisterRequest labelRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 전체 라벨을 반환하는 Adapter 메소드를 실행합니다.

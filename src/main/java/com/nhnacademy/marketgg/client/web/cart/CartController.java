@@ -3,10 +3,10 @@ package com.nhnacademy.marketgg.client.web.cart;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.cart.CartService;
@@ -50,7 +50,7 @@ public class CartController {
     // @ResponseBody
     public ModelAndView addToProduct(@ModelAttribute @Valid ProductToCartRequest productAddRequest,
                                      RedirectAttributes redirectAttributes)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.addProduct(productAddRequest);
 
@@ -70,7 +70,7 @@ public class CartController {
      */
     @GetMapping
     public ModelAndView retrieveCart(MemberInfo memberInfo)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("pages/carts/index");
         List<CartProductResponse> carts = cartService.retrieveCarts();
@@ -95,7 +95,7 @@ public class CartController {
     @ResponseBody
     public ResponseEntity<CommonResult<String>> updateAmount(@RequestBody @Valid
                                                              ProductToCartRequest productUpdateRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.updateAmount(productUpdateRequest);
 
@@ -116,7 +116,7 @@ public class CartController {
     @DeleteMapping
     @ResponseBody
     public ResponseEntity<CommonResult<String>> deleteProduct(@RequestBody List<Long> products)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.deleteProducts(products);
 

@@ -31,7 +31,7 @@ public class DeliveryController {
      */
     @PatchMapping("/delivery-info")
     public void updateDeliveryInfoStatus(
-        @RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
+            @RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
         deliveryService.updateDeliveryInfoStatus(deliveryInfoStatusRequestDto);
     }
 

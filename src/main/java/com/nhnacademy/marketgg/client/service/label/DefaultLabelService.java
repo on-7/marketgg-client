@@ -6,7 +6,6 @@ import com.nhnacademy.marketgg.client.dto.label.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.label.LabelRepository;
-import com.nhnacademy.marketgg.client.service.label.LabelService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +19,7 @@ public class DefaultLabelService implements LabelService {
 
     @Override
     public void createLabel(final LabelRegisterRequest labelRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         labelRepository.createLabel(labelRequest);
     }

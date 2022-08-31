@@ -1,15 +1,14 @@
 package com.nhnacademy.marketgg.client.repository.review;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.review.ReviewCreateRequest;
-import com.nhnacademy.marketgg.client.dto.review.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.review.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
+import com.nhnacademy.marketgg.client.dto.review.ReviewUpdateRequest;
 import java.util.List;
-
-import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 
 /**
  * 후기를 관리하기 위한 Repository입니다.
@@ -39,6 +38,7 @@ public interface ReviewRepository {
 
     /**
      * 전체 후기의 별점을 조회합니다.
+     *
      * @param productId - 조회할 후기가 달린 상품의 상품번호입니다.
      * @return - 별점 개수를 반환합니다.
      */

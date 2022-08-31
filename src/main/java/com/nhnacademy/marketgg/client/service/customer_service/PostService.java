@@ -2,10 +2,10 @@ package com.nhnacademy.marketgg.client.service.customer_service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostRequest;
-import com.nhnacademy.marketgg.client.dto.customer_service.PostStatusUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostResponse;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.dto.customer_service.PostStatusUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -28,7 +28,7 @@ public interface PostService {
      * @since 1.0.0
      */
     void createPost(final PostRequest postRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 게시판 타입에 맞는 게시글 목록을 조회할 수 있는 메소드입니다.
@@ -41,7 +41,7 @@ public interface PostService {
      * @since 1.0.0
      */
     List<PostResponse> retrievePostList(final String categoryId, final Integer page)
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 게시글의 상세정보를 조회할 수 있는 메소드입니다.
@@ -54,7 +54,7 @@ public interface PostService {
      * @since 1.0.0
      */
     PostResponseForDetail retrievePost(final Long postId, final String categoryId)
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 카테고리 내에서 검색합니다.
@@ -67,7 +67,7 @@ public interface PostService {
      * @since 1.0.0
      */
     List<PostResponse> searchForCategory(final SearchRequestForCategory searchRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 카테고리 내에서 지정한 옵션내로 검색합니다.
@@ -83,7 +83,7 @@ public interface PostService {
      */
     List<PostResponse> searchForOption(final SearchRequestForCategory searchRequest,
                                        final String optionType, final String option)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 게시글을 수정할 수 있는 메소드입니다.
@@ -96,7 +96,7 @@ public interface PostService {
      * @since 1.0.0
      */
     void updatePost(final Long postId, final PostRequest postRequest, final String categoryId)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 게시글을 삭제할 수 있는 메소드입니다.
@@ -130,7 +130,7 @@ public interface PostService {
      * @since 1.0.0
      */
     void changeStatus(final Long postId, final PostStatusUpdateRequest postRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 1:1 문의에서 사용되는 상태 목록을 반환합니다.

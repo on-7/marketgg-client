@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.label.LabelRegisterRequest;
 import com.nhnacademy.marketgg.client.dto.label.LabelRetrieveResponse;
-import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +40,9 @@ public class LabelAdapter implements LabelRepository {
         ResponseEntity<CommonResult<Void>> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL,
                                                                             HttpMethod.POST,
                                                                             new HttpEntity<>(request,
-                                                                                           this.buildHeaders()),
+                                                                                             this.buildHeaders()),
                                                                             new ParameterizedTypeReference<>() {
-                                                                          });
+                                                                            });
 
         this.checkResponseUri(response);
     }
@@ -65,10 +65,10 @@ public class LabelAdapter implements LabelRepository {
     public void deleteLabel(final Long id) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<Void>> response = restTemplate.exchange(gateWayIp + DEFAULT_LABEL + "/" + id,
-                                                                          HttpMethod.DELETE,
-                                                                          requestEntity,
-                                                                          new ParameterizedTypeReference<>() {
-                                                                          });
+                                                                            HttpMethod.DELETE,
+                                                                            requestEntity,
+                                                                            new ParameterizedTypeReference<>() {
+                                                                            });
 
         this.checkResponseUri(response);
     }

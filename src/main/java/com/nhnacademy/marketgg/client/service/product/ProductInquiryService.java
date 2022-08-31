@@ -28,7 +28,7 @@ public interface ProductInquiryService {
      */
 
     void updateReply(final ProductInquiryReplyRequest replyRequest, final Long inquiryId)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 상품 문의를 등록하기 위헤 Adaptor 메소드를 실행합니다.
@@ -42,7 +42,7 @@ public interface ProductInquiryService {
      * @since 1.0.0
      */
     void createInquiry(final Long productId, final ProductInquiryRequest inquiryRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 한 상품에 대한 전체 상품 문의를 조회하기 위해 Adaptor 메소드를 실행합니다.
@@ -56,7 +56,7 @@ public interface ProductInquiryService {
      * @since 1.0.0
      */
     PageResult<ProductInquiryResponse> retrieveInquiryByProduct(final Integer page, final Long productId)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 특정 회원이 남긴 전체 상품 문의를 조회하기 위해 Adaptor 메소드를 실행합니다.
@@ -69,7 +69,7 @@ public interface ProductInquiryService {
      * @since 1.0.0
      */
     PageResult<ProductInquiryResponse> retrieveInquiryByMember(final Integer page)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 상품 문의를 삭제하기 위해 Adaptor 메소드를 실행합니다.
@@ -83,7 +83,7 @@ public interface ProductInquiryService {
      * @since 1.0.0
      */
     void deleteProductInquiry(final Long productId, final Long inquiryId)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 모든 상품 문의를 조회하기 위한 Adaptor 메소드를 실행합니다.

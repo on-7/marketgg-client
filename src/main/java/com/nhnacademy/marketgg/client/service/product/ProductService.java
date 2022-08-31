@@ -3,10 +3,10 @@ package com.nhnacademy.marketgg.client.service.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +28,7 @@ public interface ProductService {
      * @since 1.0.0
      */
     void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
-        throws IOException;
+            throws IOException;
 
     /**
      * 모든 상품을 조회합니다.
@@ -50,7 +50,7 @@ public interface ProductService {
     /**
      * 카테고리로 조회한 모든 상품을 반환 합니다.
      *
-     * @param categoryId         - 카테고리 소분류입니다. ex) 101 - 채소
+     * @param categoryId - 카테고리 소분류입니다. ex) 101 - 채소
      * @return - 해당 카테고리에 해당하는 모든 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
@@ -66,7 +66,7 @@ public interface ProductService {
      * @since 1.0.0
      */
     void updateProduct(final Long id, final MultipartFile image, final ProductUpdateRequest productRequest)
-        throws IOException;
+            throws IOException;
 
     /**
      * productId에 해당하는 상품을 삭제합니다.
@@ -97,7 +97,8 @@ public interface ProductService {
      * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
+    PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
+                                                             final String option)
             throws JsonProcessingException;
 
 }

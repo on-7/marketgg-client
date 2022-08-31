@@ -21,7 +21,8 @@ public interface CouponRepository {
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+    void createCoupon(final CouponRequest couponRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰 단건 조회를 실행하는 메소드입니다.
@@ -38,7 +39,8 @@ public interface CouponRepository {
      * @return 쿠폰 전체 목록 조회 결과 정보를 담은 객체 List 를 반환합니다.
      * @since 1.0.0
      */
-    PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page) throws UnAuthenticException, UnAuthorizationException;
+    PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page)
+            throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰을 수정하는 메소드입니다.
@@ -48,7 +50,8 @@ public interface CouponRepository {
      * @throws JsonProcessingException - Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
      * @since 1.0.0
      */
-    void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+    void updateCoupon(final Long couponId, final CouponRequest couponRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 쿠폰을 삭제하는 메소드입니다.

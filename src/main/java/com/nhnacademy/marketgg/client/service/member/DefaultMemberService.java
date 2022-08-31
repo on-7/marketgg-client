@@ -2,17 +2,16 @@ package com.nhnacademy.marketgg.client.service.member;
 
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
-import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
+import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
+import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.repository.member.MemberRepository;
 import com.nhnacademy.marketgg.client.repository.auth.MemberInfoRepository;
-import com.nhnacademy.marketgg.client.service.member.MemberService;
+import com.nhnacademy.marketgg.client.repository.member.MemberRepository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +33,7 @@ public class DefaultMemberService implements MemberService {
 
     @Override
     public void update(final MemberUpdateRequest memberUpdateRequest, MemberInfo memberInfo)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         memberRepository.update(memberUpdateRequest, memberInfo);
     }
 
@@ -45,19 +44,19 @@ public class DefaultMemberService implements MemberService {
 
     @Override
     public List<DeliveryAddressResponse> retrieveDeliveryAddresses()
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         return memberRepository.retrieveDeliveryAddresses();
     }
 
     @Override
     public void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         memberRepository.createDeliveryAddress(addressRequest);
     }
 
     @Override
     public void deleteDeliveryAddress(final Long deliveryAddressId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         memberRepository.deleteDeliveryAddress(deliveryAddressId);
     }
 
@@ -70,7 +69,7 @@ public class DefaultMemberService implements MemberService {
      */
     @Override
     public void doSignup(final SignupRequest signupRequest)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         memberRepository.signup(signupRequest);
     }
 

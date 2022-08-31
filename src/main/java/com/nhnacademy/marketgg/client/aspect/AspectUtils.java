@@ -22,8 +22,8 @@ public final class AspectUtils {
      */
     public static HttpServletRequest getHttpRequest() {
         ServletRequestAttributes requestAttributes =
-            Objects.requireNonNull(
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+                Objects.requireNonNull(
+                        (ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
 
         return requestAttributes.getRequest();
     }

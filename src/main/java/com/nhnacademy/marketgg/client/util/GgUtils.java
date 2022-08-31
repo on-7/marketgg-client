@@ -27,7 +27,7 @@ public final class GgUtils {
 
     public static boolean hasRole(Authentication authentication, Role role) {
         return Objects.nonNull(authentication)
-            && authentication.getAuthorities().contains(new SimpleGrantedAuthority(role.name()));
+                && authentication.getAuthorities().contains(new SimpleGrantedAuthority(role.name()));
     }
 
 }

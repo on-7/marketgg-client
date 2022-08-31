@@ -54,7 +54,7 @@ public class AdminCouponController {
      */
     @PostMapping
     public ModelAndView createCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException,
-        UnAuthenticException, UnAuthorizationException {
+            UnAuthenticException, UnAuthorizationException {
 
         couponService.createCoupon(couponRequest);
 
@@ -68,7 +68,8 @@ public class AdminCouponController {
      * @since 1.0.0
      */
     @GetMapping("/index")
-    public ModelAndView retrieveCoupons(@RequestParam(defaultValue = "1") final Integer page) throws UnAuthenticException, UnAuthorizationException {
+    public ModelAndView retrieveCoupons(@RequestParam(defaultValue = "1") final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
         PageResult<CouponRetrieveResponse> responses = couponService.retrieveCoupons(page);
 
         Pagination pagination = new Pagination(responses.getTotalPages(), page);
@@ -89,7 +90,7 @@ public class AdminCouponController {
      */
     @GetMapping("/update/{couponId}")
     public ModelAndView doUpdateCoupon(@PathVariable final Long couponId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("pages/admin/coupons/update-form");
 
         CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
@@ -110,7 +111,7 @@ public class AdminCouponController {
     @PutMapping("/{couponId}")
     public ModelAndView updateCoupon(@PathVariable final Long couponId,
                                      @ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException,
-        UnAuthenticException, UnAuthorizationException {
+            UnAuthenticException, UnAuthorizationException {
 
         couponService.updateCoupon(couponId, couponRequest);
 
@@ -126,7 +127,7 @@ public class AdminCouponController {
      */
     @DeleteMapping("/{couponId}")
     public ModelAndView deleteCoupon(@PathVariable final Long couponId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         couponService.deleteCoupon(couponId);
 
         return new ModelAndView(REDIRECT_DEFAULT);

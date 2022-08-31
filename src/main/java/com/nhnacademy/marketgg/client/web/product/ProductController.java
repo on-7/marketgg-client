@@ -1,14 +1,14 @@
 package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
-import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.review.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
-import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.product.ProductService;
@@ -79,7 +79,9 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryId}/price/{option}/search")
-    public ModelAndView searchProductListByPrice(@PathVariable final String categoryId, @PathVariable final String option, @RequestParam final String keyword, @RequestParam final Integer page) throws JsonProcessingException {
+    public ModelAndView searchProductListByPrice(@PathVariable final String categoryId,
+                                                 @PathVariable final String option, @RequestParam final String keyword,
+                                                 @RequestParam final Integer page) throws JsonProcessingException {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         PageResult<ProductListResponse> responses = productService.searchProductListByPrice(request, option);
@@ -134,10 +136,12 @@ public class ProductController {
      * @since 1.0.0
      */
     @GetMapping("/categories/{categoryCode}")
-    public ModelAndView retrieveProductsByCategory(@PathVariable final String categoryCode, @RequestParam(defaultValue = "0") int page) {
+    public ModelAndView retrieveProductsByCategory(@PathVariable final String categoryCode,
+                                                   @RequestParam(defaultValue = "0") int page) {
 
-        PageResult<ProductListResponse> searchProductResponsePageResult = this.productService.retrieveProductsByCategory(
-            categoryCode, page);
+        PageResult<ProductListResponse> searchProductResponsePageResult =
+                this.productService.retrieveProductsByCategory(
+                        categoryCode, page);
         Pagination pagination = new Pagination(searchProductResponsePageResult.getTotalPages(), page);
         List<ProductListResponse> products = searchProductResponsePageResult.getData();
 
@@ -167,7 +171,7 @@ public class ProductController {
     public ModelAndView retrieveProductDetails(@PathVariable final Long productId,
                                                @RequestParam(defaultValue = "0") int page,
                                                @RequestParam(defaultValue = "1", value = "requestPage") int page2)
-        throws JsonProcessingException {
+            throws JsonProcessingException {
 
         ProductResponse productDetails = this.productService.retrieveProductDetails(productId);
         ModelAndView mav = new ModelAndView(DEFAULT_PRODUCT_VIEW);

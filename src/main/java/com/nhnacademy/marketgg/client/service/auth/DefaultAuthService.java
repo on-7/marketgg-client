@@ -3,15 +3,14 @@ package com.nhnacademy.marketgg.client.service.auth;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.context.SessionContext;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
-import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
-import com.nhnacademy.marketgg.client.service.auth.AuthService;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +66,7 @@ public class DefaultAuthService implements AuthService {
     private boolean checkStatus(ResponseEntity<?> response) {
         System.out.println(response.getStatusCode());
         if (Objects.equals(response.getStatusCode(), HttpStatus.UNAUTHORIZED)
-            || Objects.equals(response.getStatusCode(), HttpStatus.FORBIDDEN)) {
+                || Objects.equals(response.getStatusCode(), HttpStatus.FORBIDDEN)) {
             log.info("Login Fail - http status: {}", response.getStatusCode());
             return false;
         }
@@ -83,7 +82,7 @@ public class DefaultAuthService implements AuthService {
         }
 
         if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
-            || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
+                || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
             log.info("Empty header");
             throw new LoginFailException();
         }

@@ -2,9 +2,9 @@ package com.nhnacademy.marketgg.client.repository.member;
 
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
-import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -24,7 +24,7 @@ public interface MemberRepository {
      * @since 1.0.0
      */
     void signup(final SignupRequest signupRequest)
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원탈퇴 메소드입니다.
@@ -35,7 +35,7 @@ public interface MemberRepository {
     void withdraw() throws UnAuthenticException, UnAuthorizationException;
 
     void update(final MemberUpdateRequest memberUpdateRequest, final MemberInfo memberInfo)
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 가지고 있는 전체 배송지 조회 메소드 입니다.
@@ -45,12 +45,12 @@ public interface MemberRepository {
      * @since 1.0.0
      */
     List<DeliveryAddressResponse> retrieveDeliveryAddresses()
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
     void createDeliveryAddress(final DeliveryAddressCreateRequest createRequest)
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
     void deleteDeliveryAddress(final Long deliveryAddressId)
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
 }

@@ -3,10 +3,10 @@ package com.nhnacademy.marketgg.client.repository.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import java.io.IOException;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,7 +50,7 @@ public interface ProductRepository {
     /**
      * 카테고리로 상품 목록을 조회합니다.
      *
-     * @param categoryId         - 카테고리 소분류 입니다. ex) 101 - 채소
+     * @param categoryId - 카테고리 소분류 입니다. ex) 101 - 채소
      * @return - 상품 리스트를 반환합니다.
      * @since 1.0.0
      */
@@ -98,6 +98,6 @@ public interface ProductRepository {
      * @since 1.0.0
      */
     PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
-                                                       final String option) throws JsonProcessingException;
+                                                             final String option) throws JsonProcessingException;
 
 }

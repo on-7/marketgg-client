@@ -2,15 +2,14 @@ package com.nhnacademy.marketgg.client.service.auth;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.oauth2.GoogleProfile;
 import com.nhnacademy.marketgg.client.oauth2.TokenRequest;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.repository.auth.OauthRepository;
-import com.nhnacademy.marketgg.client.service.auth.Oauth2Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -53,10 +52,10 @@ public class GoogleLoginService implements Oauth2Service {
     @Override
     public String getRedirectUrl() {
         String scope = "https://www.googleapis.com/auth/userinfo.profile "
-            + "https://www.googleapis.com/auth/userinfo.email ";
+                + "https://www.googleapis.com/auth/userinfo.email ";
 
         return "https://accounts.google.com/o/oauth2/v2/auth?client_id=" + clientId
-            + "&redirect_uri=" + redirectUri + "&scope=" + scope + "&response_type=code";
+                + "&redirect_uri=" + redirectUri + "&scope=" + scope + "&response_type=code";
     }
 
     @Override
@@ -70,7 +69,7 @@ public class GoogleLoginService implements Oauth2Service {
         HttpEntity<TokenRequest> httpEntity = new HttpEntity<>(parameters, headers);
 
         ResponseEntity<CommonResult<GoogleProfile>> profileResponse =
-            oauthRepository.getProfile(loginRequestUrl, httpEntity);
+                oauthRepository.getProfile(loginRequestUrl, httpEntity);
 
         return this.setLogin(profileResponse, sessionId);
     }
@@ -111,15 +110,15 @@ public class GoogleLoginService implements Oauth2Service {
 
     private boolean isLoginFail(ResponseEntity<CommonResult<GoogleProfile>> profileResponse) {
         return profileResponse.getStatusCode().is4xxClientError()
-            && (Objects.isNull(profileResponse.getHeaders().get(HttpHeaders.AUTHORIZATION))
-            || isInvalidHeader(profileResponse.getHeaders()));
+                && (Objects.isNull(profileResponse.getHeaders().get(HttpHeaders.AUTHORIZATION))
+                || isInvalidHeader(profileResponse.getHeaders()));
     }
 
     private boolean isInvalidHeader(HttpHeaders headers) {
         return Objects.isNull(headers.get(AUTHORIZATION))
-            || Objects.isNull(Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0))
-            || Objects.isNull(headers.get(JwtInfo.JWT_EXPIRE))
-            || Objects.isNull(Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0));
+                || Objects.isNull(Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0))
+                || Objects.isNull(headers.get(JwtInfo.JWT_EXPIRE))
+                || Objects.isNull(Objects.requireNonNull(headers.get(JwtInfo.JWT_EXPIRE)).get(0));
     }
 
 }

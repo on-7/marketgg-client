@@ -3,16 +3,16 @@ package com.nhnacademy.marketgg.client.repository.order;
 import static com.nhnacademy.marketgg.client.util.GgUtils.SHOP_SERVICE_PREFIX_V1;
 import static java.util.Collections.singletonList;
 
+import com.nhnacademy.marketgg.client.dto.cart.CartOrderRequest;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderFormResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
-import com.nhnacademy.marketgg.client.dto.cart.CartOrderRequest;
-import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
-import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.util.JwtUtils;
 import java.util.Collections;
 import java.util.List;
@@ -45,23 +45,23 @@ public class OrderAdapter implements OrderRepository {
     @Override
     public OrderToPayment createOrder(final OrderCreateRequest orderRequest, final MemberInfo memberinfo) {
         ResponseEntity<CommonResult<OrderToPayment>> response
-            = WebClient.builder()
-                       .baseUrl(gatewayIp)
-                       .defaultHeaders(httpHeaders -> {
-                           httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                           httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
-                           httpHeaders.setBearerAuth(JwtUtils.getToken());
-                       })
-                       .build()
-                       .post()
-                       .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
-                       .bodyValue(orderRequest)
-                       .retrieve()
-                       .toEntity(
-                           new ParameterizedTypeReference<CommonResult<OrderToPayment>>() {
+                = WebClient.builder()
+                           .baseUrl(gatewayIp)
+                           .defaultHeaders(httpHeaders -> {
+                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                               httpHeaders.setBearerAuth(JwtUtils.getToken());
                            })
-                       .blockOptional()
-                       .orElseThrow(NullPointerException::new);
+                           .build()
+                           .post()
+                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
+                           .bodyValue(orderRequest)
+                           .retrieve()
+                           .toEntity(
+                                   new ParameterizedTypeReference<CommonResult<OrderToPayment>>() {
+                                   })
+                           .blockOptional()
+                           .orElseThrow(NullPointerException::new);
 
         return Objects.requireNonNull(response.getBody()).getData();
     }
@@ -132,7 +132,7 @@ public class OrderAdapter implements OrderRepository {
         WebClient client = WebClient.builder()
                                     .baseUrl(gatewayIp)
                                     .defaultHeaders(
-                                        headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
+                                            headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
                                     )
                                     .build();
 
@@ -189,23 +189,23 @@ public class OrderAdapter implements OrderRepository {
     @Override
     public OrderFormResponse retrieveOrderForm(CartOrderRequest cartRequest) {
         ResponseEntity<CommonResult<OrderFormResponse>> response
-            = WebClient.builder()
-                       .baseUrl(gatewayIp)
-                       .defaultHeaders(httpHeaders -> {
-                           httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                           httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
-                           httpHeaders.setBearerAuth(JwtUtils.getToken());
-                       })
-                       .build()
-                       .post()
-                       .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/order-form")
-                       .bodyValue(cartRequest)
-                       .retrieve()
-                       .toEntity(
-                           new ParameterizedTypeReference<CommonResult<OrderFormResponse>>() {
+                = WebClient.builder()
+                           .baseUrl(gatewayIp)
+                           .defaultHeaders(httpHeaders -> {
+                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                               httpHeaders.setBearerAuth(JwtUtils.getToken());
                            })
-                       .blockOptional()
-                       .orElseThrow(NullPointerException::new);
+                           .build()
+                           .post()
+                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/order-form")
+                           .bodyValue(cartRequest)
+                           .retrieve()
+                           .toEntity(
+                                   new ParameterizedTypeReference<CommonResult<OrderFormResponse>>() {
+                                   })
+                           .blockOptional()
+                           .orElseThrow(NullPointerException::new);
 
         return Objects.requireNonNull(response.getBody()).getData();
     }

@@ -2,10 +2,10 @@ package com.nhnacademy.marketgg.client.web.member;
 
 import static org.springframework.http.HttpStatus.OK;
 
-import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
-import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
+import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
+import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
 import com.nhnacademy.marketgg.client.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -51,7 +51,7 @@ public class CommentController {
                                       @RequestParam @Min(0) final Integer page,
                                       @Valid @ModelAttribute final CommentRequest commentRequest,
                                       BindingResult bindingResult)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         if (bindingResult.hasErrors()) {
             ModelAndView mav = new ModelAndView("pages/board/oto-inquiries/detail");

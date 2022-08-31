@@ -1,12 +1,11 @@
 package com.nhnacademy.marketgg.client.service.cart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.cart.CartRepository;
-import com.nhnacademy.marketgg.client.service.cart.CartService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,28 +25,28 @@ public class DefaultCartService implements CartService {
 
     @Override
     public void addProduct(final ProductToCartRequest productAddRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartRepository.addToCart(productAddRequest);
     }
 
     @Override
     public List<CartProductResponse> retrieveCarts()
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         return cartRepository.retrieveCart();
     }
 
     @Override
     public void updateAmount(final ProductToCartRequest productUpdateRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartRepository.updateAmount(productUpdateRequest);
     }
 
     @Override
     public void deleteProducts(final List<Long> products)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartRepository.delete(products);
     }

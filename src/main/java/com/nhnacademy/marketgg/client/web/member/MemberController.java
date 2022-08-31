@@ -44,7 +44,7 @@ public class MemberController {
      */
     @PostMapping("/coupons")
     public ModelAndView registerCoupon(@ModelAttribute final GivenCouponCreateRequest givenCouponRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         givenCouponService.registerCoupon(givenCouponRequest);
 
@@ -59,7 +59,7 @@ public class MemberController {
      */
     @GetMapping("/coupons")
     public ModelAndView retrieveOwnCoupons(@RequestParam(defaultValue = "1") final Integer page)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         PageResult<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(page);
         Pagination pagination = new Pagination(responses.getTotalPages(), page);
@@ -83,7 +83,7 @@ public class MemberController {
      */
     @GetMapping("/product-inquiries")
     public ModelAndView retrieveProductInquiry(@RequestParam(defaultValue = "1") final Integer page)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByMember(page);
         Pagination pagination = new Pagination(inquiries.getTotalPages(), page);

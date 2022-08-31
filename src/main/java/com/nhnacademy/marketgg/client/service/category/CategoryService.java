@@ -1,10 +1,10 @@
 package com.nhnacademy.marketgg.client.service.category;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.category.CategoryCreateRequest;
-import com.nhnacademy.marketgg.client.dto.category.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.category.CategorizationRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.category.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.category.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -27,7 +27,7 @@ public interface CategoryService {
      * @since 1.0.0
      */
     void createCategory(final CategoryCreateRequest categoryRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 카테고리를 반환하는 Adapter 메소드를 실행합니다.
@@ -49,7 +49,7 @@ public interface CategoryService {
      * @since 1.0.0
      */
     List<CategorizationRetrieveResponse> retrieveCategorizations()
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 카테고리 전체를 반환하는 Adapter 메소드를 실행합니다.
@@ -72,7 +72,7 @@ public interface CategoryService {
      * @since 1.0.0
      */
     void updateCategory(final String categoryId, final CategoryUpdateRequest categoryRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 지정한 카테고리를 삭제하는 Adapter 메소드를 실행합니다.

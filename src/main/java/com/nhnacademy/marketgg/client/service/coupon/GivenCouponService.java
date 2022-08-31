@@ -22,7 +22,7 @@ public interface GivenCouponService {
      * @since 1.0.0
      */
     void registerCoupon(final GivenCouponCreateRequest givenCouponRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원의 보유 쿠폰 목록을 조회하기 위해 Adapter 메소드를 실행합니다.
@@ -31,6 +31,6 @@ public interface GivenCouponService {
      * @since 1.0.0
      */
     PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Integer page)
-        throws UnAuthenticException, UnAuthorizationException;
+            throws UnAuthenticException, UnAuthorizationException;
 
 }

@@ -19,14 +19,14 @@ import org.springframework.web.servlet.ModelAndView;
 public class AuthControllerAdvice {
 
     @ExceptionHandler({
-        UnAuthenticException.class
+            UnAuthenticException.class
     })
     public ModelAndView unauthenticException(UnAuthenticException e) {
         return new ModelAndView();
     }
 
     @ExceptionHandler({
-        UnAuthorizationException.class
+            UnAuthorizationException.class
     })
     public ModelAndView unAuthorizationException(UnAuthorizationException e) {
         return new ModelAndView();

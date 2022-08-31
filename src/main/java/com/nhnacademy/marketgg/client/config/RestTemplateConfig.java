@@ -42,10 +42,10 @@ public class RestTemplateConfig {
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
         return builder
-            .setReadTimeout(Duration.ofSeconds(10L))
-            .setConnectTimeout(Duration.ofSeconds(5L))
-            .interceptors(new JwtAddInterceptor())
-            .build();
+                .setReadTimeout(Duration.ofSeconds(10L))
+                .setConnectTimeout(Duration.ofSeconds(5L))
+                .interceptors(new JwtAddInterceptor())
+                .build();
     }
 
     /**
@@ -89,7 +89,7 @@ public class RestTemplateConfig {
         }
 
         SSLConnectionSocketFactory socketFactory
-            = new SSLConnectionSocketFactory(Optional.ofNullable(sslContext).orElseThrow());
+                = new SSLConnectionSocketFactory(Optional.ofNullable(sslContext).orElseThrow());
 
         return HttpClients.custom()
                           .setSSLSocketFactory(socketFactory)

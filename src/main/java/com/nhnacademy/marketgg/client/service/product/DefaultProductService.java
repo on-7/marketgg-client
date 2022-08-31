@@ -3,12 +3,11 @@ package com.nhnacademy.marketgg.client.service.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
-import com.nhnacademy.marketgg.client.service.product.ProductService;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,7 @@ public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
     public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
-        throws IOException {
+            throws IOException {
 
         this.productRepository.createProduct(image, productRequest);
     }
@@ -62,7 +61,8 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    public PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest, final String option)
+    public PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
+                                                                    final String option)
             throws JsonProcessingException {
 
         return productRepository.searchProductListByPrice(searchRequest, option);

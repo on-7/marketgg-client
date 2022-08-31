@@ -2,13 +2,13 @@ package com.nhnacademy.marketgg.client.repository.review;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.review.ReviewCreateRequest;
-import com.nhnacademy.marketgg.client.dto.review.ReviewUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.review.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
-import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.review.ReviewUpdateRequest;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -41,10 +41,10 @@ public class ReviewAdapter implements ReviewRepository {
         String request = this.objectMapper.writeValueAsString(reviewRequest);
 
         ResponseEntity<Void> response =
-            this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW,
-                                       HttpMethod.POST,
-                                       new HttpEntity<>(request, buildHeaders()),
-                                       Void.class);
+                this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW,
+                                           HttpMethod.POST,
+                                           new HttpEntity<>(request, buildHeaders()),
+                                           Void.class);
 
         checkResponseUri(response);
     }
@@ -56,11 +56,11 @@ public class ReviewAdapter implements ReviewRepository {
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
         ResponseEntity<PageResult<ReviewResponse>> response =
-            this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "?page=" + page,
-                                       HttpMethod.GET,
-                                       request,
-                                       new ParameterizedTypeReference<>() {
-                                       });
+                this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "?page=" + page,
+                                           HttpMethod.GET,
+                                           request,
+                                           new ParameterizedTypeReference<>() {
+                                           });
 
         this.checkResponseUri(response);
         return Objects.requireNonNull(response.getBody());
@@ -74,10 +74,10 @@ public class ReviewAdapter implements ReviewRepository {
 
         ResponseEntity<CommonResult<List<ReviewRatingResponse>>> response =
                 this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/rating",
-                        HttpMethod.GET,
-                        request,
-                        new ParameterizedTypeReference<>() {
-                        });
+                                           HttpMethod.GET,
+                                           request,
+                                           new ParameterizedTypeReference<>() {
+                                           });
 
         this.checkResponseUri(response);
         return Objects.requireNonNull(response.getBody());
@@ -91,12 +91,12 @@ public class ReviewAdapter implements ReviewRepository {
         HttpEntity<Void> request = new HttpEntity<>(headers);
 
         ResponseEntity<CommonResult<ReviewResponse>> response =
-            this.restTemplate.exchange(
-                gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/" + reviewId,
-                HttpMethod.GET,
-                request,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(
+                        gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/" + reviewId,
+                        HttpMethod.GET,
+                        request,
+                        new ParameterizedTypeReference<>() {
+                        });
 
         this.checkResponseUri(response);
         return Objects.requireNonNull(response.getBody()).getData();
@@ -109,11 +109,11 @@ public class ReviewAdapter implements ReviewRepository {
         String request = this.objectMapper.writeValueAsString(reviewRequest);
 
         ResponseEntity<Void> response =
-            this.restTemplate.exchange(
-                gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/" + reviewId,
-                HttpMethod.PUT,
-                new HttpEntity<>(request, buildHeaders()),
-                Void.class);
+                this.restTemplate.exchange(
+                        gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/" + reviewId,
+                        HttpMethod.PUT,
+                        new HttpEntity<>(request, buildHeaders()),
+                        Void.class);
 
         checkResponseUri(response);
     }
@@ -123,10 +123,10 @@ public class ReviewAdapter implements ReviewRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
 
         ResponseEntity<Void> response =
-            restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/" + reviewId,
-                                  HttpMethod.DELETE,
-                                  requestEntity,
-                                  Void.class);
+                restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/" + reviewId,
+                                      HttpMethod.DELETE,
+                                      requestEntity,
+                                      Void.class);
 
         this.checkResponseUri(response);
     }
@@ -136,10 +136,10 @@ public class ReviewAdapter implements ReviewRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
 
         ResponseEntity<Boolean> response =
-            restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/" + reviewId,
-                                  HttpMethod.DELETE,
-                                  requestEntity,
-                                  Boolean.class);
+                restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + productId + DEFAULT_REVIEW + "/" + reviewId,
+                                      HttpMethod.DELETE,
+                                      requestEntity,
+                                      Boolean.class);
 
         if (Boolean.TRUE.equals(response.getBody())) {
             log.info("다음의 상품이 베스트후기로 선정되었습니다:{}", productId);

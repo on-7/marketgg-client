@@ -32,11 +32,11 @@ public class ImageAdapter implements ImageRepository {
 
         HttpEntity<ImageResponse> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ImageResponse> response =
-            this.restTemplate.exchange(gatewayIp + IMAGE_DEFAULT_URI + "/" + id,
-                HttpMethod.GET,
-                httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(gatewayIp + IMAGE_DEFAULT_URI + "/" + id,
+                                           HttpMethod.GET,
+                                           httpEntity,
+                                           new ParameterizedTypeReference<>() {
+                                           });
 
         return response.getBody();
     }
@@ -52,26 +52,26 @@ public class ImageAdapter implements ImageRepository {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
-            getLinkedMultiValueMapHttpEntity(image);
+                getLinkedMultiValueMapHttpEntity(image);
 
         ResponseEntity<ImageResponse> response =
-            this.restTemplate.exchange(gatewayIp + IMAGE_DEFAULT_URI,
-                HttpMethod.POST,
-                httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                this.restTemplate.exchange(gatewayIp + IMAGE_DEFAULT_URI,
+                                           HttpMethod.POST,
+                                           httpEntity,
+                                           new ParameterizedTypeReference<>() {
+                                           });
 
         return response.getBody().getImageAddress();
     }
 
     private <T> HttpEntity<LinkedMultiValueMap<String, Object>> getLinkedMultiValueMapHttpEntity(
-        MultipartFile image) throws IOException {
+            MultipartFile image) throws IOException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         LinkedMultiValueMap<String, String> headerMap = new LinkedMultiValueMap<>();
         headerMap.add("Content-disposition",
-            "form-data; name=image; filename=" + image.getOriginalFilename());
+                      "form-data; name=image; filename=" + image.getOriginalFilename());
         headerMap.add("Content-type", "application/octet-stream");
         HttpEntity<byte[]> imageBytes = new HttpEntity<>(image.getBytes(), headerMap);
 

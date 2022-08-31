@@ -20,7 +20,7 @@ public class LoginRequest {
     public LoginRequest(String email,
                         @NotBlank(message = "비밀번호를 입력해 주세요.")
                         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{10,20}$",
-                            message = "비밀번호는 영문과 특수문자 숫자를 포함하며 10자 이상이어야 합니다.")
+                                 message = "비밀번호는 영문과 특수문자 숫자를 포함하며 10자 이상이어야 합니다.")
                         String password) {
 
         this.email = email;

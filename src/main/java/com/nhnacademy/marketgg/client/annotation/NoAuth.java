@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 /**
  * 인증이 필요하지 않은 접근을 AOP 동작에서 제외시키기 위한 Annotation.
  */
-@Target({ElementType.METHOD})
+@Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NoAuth {
 }

@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.service.cart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -21,7 +21,7 @@ public interface CartService {
      * @param productAddRequest - 장바구니에 담으려는 상품 정보
      */
     void addProduct(final ProductToCartRequest productAddRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 회원이 장바구니에 담은 상품을 조회합니다.
@@ -29,7 +29,7 @@ public interface CartService {
      * @return - 장바구니 목록
      */
     List<CartProductResponse> retrieveCarts()
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 장바구니에 담긴 상품 수량을 변경합니다.
@@ -37,7 +37,7 @@ public interface CartService {
      * @param productUpdateRequest - 수량을 변경하려는 상품 정보
      */
     void updateAmount(final ProductToCartRequest productUpdateRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 장바구니에 담긴 상품을 삭제합니다.
@@ -45,6 +45,6 @@ public interface CartService {
      * @param products - 삭제하려는 상품 목록
      */
     void deleteProducts(final List<Long> products)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
 }

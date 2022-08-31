@@ -3,9 +3,9 @@ package com.nhnacademy.marketgg.client.web.member;
 import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
-import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.member.MemberService;
@@ -94,7 +94,7 @@ public class MemberInfoController {
     @PostMapping("/update")
     public ModelAndView doUpdate(@ModelAttribute @Valid final MemberUpdateRequest memberUpdateRequest,
                                  MemberInfo memberInfo)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         memberService.update(memberUpdateRequest, memberInfo);
         return new ModelAndView(REDIRECT);
     }
@@ -137,8 +137,8 @@ public class MemberInfoController {
      */
     @GetMapping("/delivery-address")
     public ModelAndView deliveryAddress(
-        final @ModelAttribute(name = "addressRequest") DeliveryAddressCreateRequest addressRequest)
-        throws UnAuthenticException, UnAuthorizationException {
+            final @ModelAttribute(name = "addressRequest") DeliveryAddressCreateRequest addressRequest)
+            throws UnAuthenticException, UnAuthorizationException {
 
         return new ModelAndView("pages/mygg/delivery-addresses/form");
     }
@@ -153,9 +153,9 @@ public class MemberInfoController {
      */
     @PostMapping("/delivery-address")
     public ModelAndView createDeliveryAddress(
-        @ModelAttribute(name = "addressRequest") @Valid final DeliveryAddressCreateRequest addressRequest,
-        BindingResult bindingResult)
-        throws UnAuthenticException, UnAuthorizationException {
+            @ModelAttribute(name = "addressRequest") @Valid final DeliveryAddressCreateRequest addressRequest,
+            BindingResult bindingResult)
+            throws UnAuthenticException, UnAuthorizationException {
         if (bindingResult.hasErrors()) {
             return new ModelAndView(REDIRECT + DEFAULT_DELIVERY_ADDRESS);
         }
@@ -174,7 +174,7 @@ public class MemberInfoController {
      */
     @DeleteMapping("/delivery-address/{deliveryAddressId}")
     public void deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         memberService.deleteDeliveryAddress(deliveryAddressId);
     }
 

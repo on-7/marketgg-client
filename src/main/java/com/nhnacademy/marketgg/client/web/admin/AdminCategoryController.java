@@ -1,10 +1,10 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.category.CategoryCreateRequest;
-import com.nhnacademy.marketgg.client.dto.category.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.category.CategorizationRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.category.CategoryCreateRequest;
 import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.category.CategoryUpdateRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.category.CategoryService;
@@ -67,7 +67,7 @@ public class AdminCategoryController {
      */
     @PostMapping
     public ModelAndView createCategory(@ModelAttribute final CategoryCreateRequest categoryRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + REDIRECT_CATEGORY + "/index");
 
@@ -106,7 +106,7 @@ public class AdminCategoryController {
      */
     @GetMapping("/update/{categoryId}")
     public ModelAndView doUpdateCategory(@PathVariable final String categoryId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView(DEFAULT_CATEGORY + "/update-form");
 
         CategoryRetrieveResponse categoryResponse = categoryService.retrieveCategory(categoryId);
@@ -128,7 +128,7 @@ public class AdminCategoryController {
     @PutMapping("/{categoryId}")
     public ModelAndView updateCategory(@PathVariable final String categoryId,
                                        @ModelAttribute final CategoryUpdateRequest categoryRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("redirect:" + REDIRECT_CATEGORY + "/index");
 
@@ -148,7 +148,7 @@ public class AdminCategoryController {
      */
     @DeleteMapping("/{categoryId}")
     public ModelAndView deleteCategory(@PathVariable final String categoryId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("redirect:" + REDIRECT_CATEGORY + "/index");
 
         categoryService.deleteCategory(categoryId);

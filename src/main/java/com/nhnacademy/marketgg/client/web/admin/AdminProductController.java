@@ -1,14 +1,14 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.label.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryReplyRequest;
-import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.label.LabelRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.paging.Pagination;
@@ -79,7 +79,7 @@ public class AdminProductController {
     public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute @Valid final ProductCreateRequest productRequest,
                                       BindingResult bindingResult)
-        throws IOException {
+            throws IOException {
 
         if (bindingResult.hasErrors()) {
             log.warn(String.valueOf(bindingResult.getAllErrors().get(0)));
@@ -124,7 +124,7 @@ public class AdminProductController {
      */
     @GetMapping("/update/{productId}")
     public ModelAndView updateProduct(@PathVariable final Long productId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView("pages/products/product-modify-form");
 
@@ -155,7 +155,7 @@ public class AdminProductController {
                                       @RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute @Valid final ProductUpdateRequest productRequest,
                                       BindingResult bindingResult)
-        throws IOException {
+            throws IOException {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).toString());
@@ -192,7 +192,7 @@ public class AdminProductController {
      */
     @GetMapping("/inquiries")
     public ModelAndView retrieveProductInquiry(@RequestParam(defaultValue = "1") final Integer page)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiries(page);
         Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
@@ -219,7 +219,7 @@ public class AdminProductController {
     @DeleteMapping("/{productId}/inquiries/{inquiryId}")
     public ModelAndView deleteProductInquiryByAdmin(@PathVariable final Long productId,
                                                     @PathVariable final Long inquiryId)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         this.inquiryService.deleteProductInquiry(productId, inquiryId);
         return new ModelAndView("redirect:/admin/products/inquiries");
@@ -240,7 +240,7 @@ public class AdminProductController {
     public ModelAndView replyInquiry(@PathVariable final Long productId,
                                      @PathVariable final Long inquiryId,
                                      @ModelAttribute @Valid final ProductInquiryReplyRequest replyRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         this.inquiryService.updateReply(replyRequest, inquiryId);
 

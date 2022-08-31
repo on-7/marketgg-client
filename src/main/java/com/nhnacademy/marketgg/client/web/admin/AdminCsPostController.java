@@ -2,9 +2,9 @@ package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostRequest;
+import com.nhnacademy.marketgg.client.dto.customer_service.PostResponse;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostStatusUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.customer_service.PostResponse;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;

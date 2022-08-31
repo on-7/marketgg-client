@@ -50,7 +50,7 @@ public class DibController {
      */
     @DeleteMapping("/{productId}")
     public ModelAndView deleteDib(@PathVariable final Long productId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         dibService.deleteDib(productId);
         return new ModelAndView("redirect:/members/dibs");

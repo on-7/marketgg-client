@@ -93,10 +93,10 @@ public class JwtInfo implements Serializable {
 
     private static Date localDateTimeToDateForRenewToken(LocalDateTime expiredTime) {
         Instant instant = expiredTime
-            .plus(6, DAYS)
-            .plus(30, MINUTES)
-            .atZone(ZoneId.systemDefault())
-            .toInstant();
+                .plus(6, DAYS)
+                .plus(30, MINUTES)
+                .atZone(ZoneId.systemDefault())
+                .toInstant();
         return Date.from(instant);
     }
 

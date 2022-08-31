@@ -6,7 +6,6 @@ import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.product.ProductService;
 import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,7 @@ public class IndexController {
     private final ProductService productService;
 
 
-    @GetMapping({"/", "/index"})
+    @GetMapping({ "/", "/index" })
     public ModelAndView index(MemberInfo memberInfo, @RequestParam(defaultValue = "0") int page) {
         log.info("MemberInfo = {}", memberInfo);
 

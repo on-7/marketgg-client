@@ -3,8 +3,8 @@ package com.nhnacademy.marketgg.client.aspect;
 import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_ANONYMOUS;
 
 import com.nhnacademy.marketgg.client.context.SessionContext;
-import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.util.GgUtils;
@@ -58,7 +58,7 @@ public class MemberAspect {
         String sessionId = SessionContext.getSessionId();
 
         JwtInfo jwtInfo =
-            (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
+                (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         if (Objects.isNull(jwtInfo)) {
             return pjp.proceed();

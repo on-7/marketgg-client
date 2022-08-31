@@ -53,7 +53,7 @@ public class SignupRequest {
     public SignupRequest(String email,
                          @NotBlank
                          @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{10,20}$",
-                             message = "비밀번호는 영문과 특수문자 숫자를 포함하며 10자 이상이어야 합니다.")
+                                  message = "비밀번호는 영문과 특수문자 숫자를 포함하며 10자 이상이어야 합니다.")
                          String password,
                          String name, String phoneNumber,
                          Character gender,

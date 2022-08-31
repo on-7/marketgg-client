@@ -1,9 +1,9 @@
 package com.nhnacademy.marketgg.client.repository.auth;
 
-import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
-import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
+import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
+import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -38,9 +38,9 @@ public class MemberInfoAdapter implements MemberInfoRepository {
         HttpEntity<EmailRequest> httpEntity = new HttpEntity<>(emailRequest, headers);
 
         ResponseEntity<CommonResult<EmailExistResponse>> exchange =
-            restTemplate.exchange(requestUrl + "/auth/v1/members/check/email", HttpMethod.POST, httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                restTemplate.exchange(requestUrl + "/auth/v1/members/check/email", HttpMethod.POST, httpEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         log.info("email exist {}", exchange.getBody());
         return Objects.requireNonNull(exchange.getBody()).getData();
@@ -54,9 +54,9 @@ public class MemberInfoAdapter implements MemberInfoRepository {
         HttpEntity<EmailRequest> httpEntity = new HttpEntity<>(emailRequest, headers);
 
         ResponseEntity<CommonResult<EmailUseResponse>> exchange =
-            restTemplate.exchange(requestUrl + "/auth/v1/members/use/email", HttpMethod.POST, httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                restTemplate.exchange(requestUrl + "/auth/v1/members/use/email", HttpMethod.POST, httpEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         log.info("email exist {}", exchange.getBody());
 

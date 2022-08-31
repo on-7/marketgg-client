@@ -2,7 +2,6 @@ package com.nhnacademy.marketgg.client.service.point;
 
 import com.nhnacademy.marketgg.client.dto.point.PointRetrieveResponse;
 import com.nhnacademy.marketgg.client.repository.point.PointRepository;
-import com.nhnacademy.marketgg.client.service.point.PointService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

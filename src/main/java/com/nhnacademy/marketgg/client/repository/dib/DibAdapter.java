@@ -2,9 +2,9 @@ package com.nhnacademy.marketgg.client.repository.dib;
 
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.dib.DibRetrieveResponse;
-import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;

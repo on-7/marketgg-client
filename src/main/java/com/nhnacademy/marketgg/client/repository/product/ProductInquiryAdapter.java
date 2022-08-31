@@ -1,13 +1,13 @@
 package com.nhnacademy.marketgg.client.repository.product;
 
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryReplyRequest;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryRequest;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
-import com.nhnacademy.marketgg.client.dto.common.CommonResult;
-import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -33,29 +33,29 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
     @Override
     public void updateInquiryReply(final ProductInquiryReplyRequest replyRequest, final Long inquiryId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<ProductInquiryReplyRequest> httpEntity = new HttpEntity<>(replyRequest, buildHeaders());
 
         ResponseEntity<CommonResult<String>> response = restTemplate.exchange(
-            gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiries/" + inquiryId,
-            HttpMethod.PUT,
-            httpEntity, new ParameterizedTypeReference<>() {
-            });
+                gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiries/" + inquiryId,
+                HttpMethod.PUT,
+                httpEntity, new ParameterizedTypeReference<>() {
+                });
 
         ResponseUtils.checkError(response);
     }
 
     @Override
     public void createInquiry(final Long productId, final ProductInquiryRequest inquiryRequest)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<ProductInquiryRequest> httpEntity = new HttpEntity<>(inquiryRequest, buildHeaders());
 
         ResponseEntity<CommonResult<String>> response = restTemplate.exchange(
-            gatewayIp + DEFAULT_PRODUCT + productId + "/inquiry",
-            HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
-            });
+                gatewayIp + DEFAULT_PRODUCT + productId + "/inquiry",
+                HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
+                });
 
         ResponseUtils.checkError(response);
 
@@ -63,14 +63,14 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
     @Override
     public PageResult<ProductInquiryResponse> retrieveAllInquiry(final Integer page, final Long productId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
-            = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiries",
-                                    HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
-            });
+                = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiries",
+                                        HttpMethod.GET, httpEntity, new ParameterizedTypeReference<>() {
+                });
 
         ResponseUtils.checkError(response);
 
@@ -79,14 +79,14 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
     @Override
     public PageResult<ProductInquiryResponse> retrieveAllInquiry(final Integer page)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
-            = restTemplate.exchange(gatewayIp + "/shop/v1/members/product-inquiries", HttpMethod.GET, httpEntity,
-                                    new ParameterizedTypeReference<>() {
-                                    });
+                = restTemplate.exchange(gatewayIp + "/shop/v1/members/product-inquiries", HttpMethod.GET, httpEntity,
+                                        new ParameterizedTypeReference<>() {
+                                        });
 
         ResponseUtils.checkError(response);
 
@@ -95,14 +95,14 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
 
     @Override
     public void deleteInquiry(final Long productId, final Long inquiryId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<CommonResult<String>> response
-            = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiry/" + inquiryId,
-                                    HttpMethod.DELETE, httpEntity, new ParameterizedTypeReference<>() {
-            });
+                = restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + productId + "/inquiry/" + inquiryId,
+                                        HttpMethod.DELETE, httpEntity, new ParameterizedTypeReference<>() {
+                });
 
         ResponseUtils.checkError(response);
     }
@@ -112,9 +112,9 @@ public class ProductInquiryAdapter implements ProductInquiryRepository {
         HttpEntity<String> httpEntity = new HttpEntity<>(buildHeaders());
 
         ResponseEntity<CommonResult<PageResult<ProductInquiryResponse>>> response
-            = restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiries", HttpMethod.GET, httpEntity,
-                                    new ParameterizedTypeReference<>() {
-                                    });
+                = restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "inquiries", HttpMethod.GET, httpEntity,
+                                        new ParameterizedTypeReference<>() {
+                                        });
         ResponseUtils.checkError(response);
 
         return Objects.requireNonNull(response.getBody()).getData();
