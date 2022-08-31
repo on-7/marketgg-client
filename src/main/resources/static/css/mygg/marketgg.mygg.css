@@ -10,7 +10,7 @@ main {
 }
 
 .list-group {
-    justify-content: center;
+    margin-right: 2em;
 }
 
 .list-group a:first-child {
