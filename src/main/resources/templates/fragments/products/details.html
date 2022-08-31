@@ -21,7 +21,6 @@
                     alert("상품이 장바구니에 추가되었습니다.");
                 </script>
                 <div sec:authorize="!isAnonymous()">
-                    <form th:action="@{/cart}" method="POST">
                         <input type="hidden" name="id" id="product-id" th:value="${productDetails.id}" />
                         <div class="d-flex">
                             <input id="amount" class="form-control text-center me-3" name="amount" type="number"
@@ -31,7 +30,6 @@
                                 Add to cart
                             </button>
                         </div>
-                    </form>
                     <br />
                     <div class="d-flex">
                         <div th:id="dib">
