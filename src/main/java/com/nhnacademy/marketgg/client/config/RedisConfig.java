@@ -10,6 +10,8 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.session.web.http.CookieSerializer;
+import org.springframework.session.web.http.DefaultCookieSerializer;
 
 /**
  * Redis 설정을 담당합니다.
@@ -50,6 +52,17 @@ public class RedisConfig {
         configuration.setDatabase(database);
 
         return new LettuceConnectionFactory(configuration);
+    }
+
+    @Bean
+    public CookieSerializer cookieSerializer() {
+        DefaultCookieSerializer serializer = new DefaultCookieSerializer();
+        serializer.setCookieName("_SESSION");
+        serializer.setCookieMaxAge(1800);
+        serializer.setCookiePath("/");
+        serializer.setUseHttpOnlyCookie(true);
+
+        return serializer;
     }
 
     /**

@@ -4,7 +4,7 @@ function addToCart() {
 
     cartBtn.addEventListener("click", () => {
         const productId = document.getElementById("product-id").value;
-        const amount = document.getElementById("inputQuantity").value;
+        const amount = document.getElementById("amount").value;
 
         let productToCartRequest = {
             id: parseInt(productId),
@@ -23,7 +23,8 @@ function addToCart() {
             } else {
                 alert("문제가 발생하여 상품이 추가되지 않았습니다. 죄송합니다.");
             }
-        }).catch(e => console.log("error: " + e));
+        }).catch(e => console.log("error: " + e))
+            .finally(() => location.reload());
     });
 }
 

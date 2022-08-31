@@ -40,7 +40,8 @@ function addUpdateListener() {
                     document.getElementById("amount-" + productId).value = amount;
                     alert("수량이 변경되었습니다.");
                 }
-            }).catch(e => console.log("error: " + e));
+            }).catch(e => console.log("error: " + e))
+                .finally(() => location.reload());
         });
     }
 }
@@ -67,7 +68,8 @@ function addDeleteListener() {
                     document.getElementById("cart-" + productId).remove();
                     alert("삭제되었습니다.");
                 }
-            }).catch(e => console.log("error: " + e));
+            }).catch(e => console.log("error: " + e))
+                .finally(() => location.reload());
         })
     }
 }
@@ -99,7 +101,8 @@ function addDeleteAll() {
                 }
                 alert("삭제되었습니다.");
             }
-        }).catch(e => console.log("error: " + e));
+        }).catch(e => console.log("error: " + e))
+            .finally(() => location.reload());
     });
 }
 
@@ -137,7 +140,8 @@ function addDeleteSelection() {
                     alert("삭제되었습니다.");
                 }
             }
-        }).catch(e => console.log("error: " + e));
+        }).catch(e => console.log("error: " + e))
+            .finally(() => location.reload());
     });
 }
 

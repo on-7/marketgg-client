@@ -89,6 +89,7 @@ class DefaultAuthServiceTest {
     void logout() {
         String sessionId = "sessionId";
         JwtInfo jwtInfo = mock(JwtInfo.class);
+        SessionContext.setSessionId(sessionId);
 
         HashOperations<String, Object, Object> hashOps = mock(HashOperations.class);
         given(redisTemplate.opsForHash()).willReturn(hashOps);
@@ -104,12 +105,14 @@ class DefaultAuthServiceTest {
         then(authRepository).should(times(1)).logout();
         then(redisTemplate).should(times(2)).opsForHash();
         then(hashOps).should(times(1)).delete(sessionId, JwtInfo.JWT_REDIS_KEY);
+        SessionContext.remove();
     }
 
     @Test
     @DisplayName("로그아웃2")
     void testLogout2() {
         String sessionId = "sessionId";
+        SessionContext.setSessionId(sessionId);
 
         HashOperations<String, Object, Object> hashOps = mock(HashOperations.class);
         given(redisTemplate.opsForHash()).willReturn(hashOps);
@@ -119,25 +122,7 @@ class DefaultAuthServiceTest {
 
         then(redisTemplate).should(times(1)).opsForHash();
         then(hashOps).should(times(1)).get(sessionId, JwtInfo.JWT_REDIS_KEY);
-    }
-
-    @Test
-    @DisplayName("로그아웃 실패")
-    void testLogoutFail() {
-        String sessionId = "sessionId";
-        JwtInfo jwtInfo = mock(JwtInfo.class);
-        SessionContext.setSessionId(sessionId);
-
-        HashOperations<String, Object, Object> hashOps = mock(HashOperations.class);
-        given(redisTemplate.opsForHash()).willReturn(hashOps);
-        given(hashOps.get(sessionId, JwtInfo.JWT_REDIS_KEY)).willReturn(jwtInfo);
-
-        ResponseEntity<CommonResult<String>> resp = ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                                                                  .build();
-        given(authRepository.logout()).willReturn(resp);
-
-        assertThatThrownBy(() -> authService.logout())
-            .isInstanceOf(LogoutException.class);
+        SessionContext.remove();
     }
 
 }
