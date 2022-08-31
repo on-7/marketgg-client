@@ -197,6 +197,7 @@ public class ProductController {
         PageResult<ProductInquiryResponse> inquiries = productInquiryService.retrieveInquiryByProduct(page2, productId);
         Pagination inquiryPage = new Pagination(inquiries.getTotalPages(), page2);
 
+        mav.addObject("productId", productId);
         mav.addObject("inquiries", inquiries.getData());
         mav.addObject("inquiryPage", inquiryPage);
 

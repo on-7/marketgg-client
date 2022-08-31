@@ -3,7 +3,7 @@
     <h1 th:text="#{PRODUCT_INQUIRIES}" style="font-weight: bold; margin: 0 auto 0 0;"  id="inquiries"></h1>
     <br>
     <div>
-        <a th:href="@{|/products/${inquiries[0].getProductId()}/inquiries|}">
+        <a th:href="@{|/products/${productId}/inquiries|}">
             <button class="btn btn-danger" th:text="#{PRODUCT_INQUIRIES_REGISTER}"></button>
         </a>
         <br>
@@ -33,15 +33,15 @@
         <br>
         <br>
         <div style="display: flex; flex-direction: row;" class="product-inquiry-page">
-            <a th:href="@{|/products/${inquiries[0].productId}?requestPage=1|}" style="color: black"></a>
-            <a th:if="${inquiryPage.page > 1}" th:href="@{|/products/${inquiries[0].productId}?requestPage=${inquiryPage.page - 1}|}" style="color: black"></a>
+            <a th:href="@{|/products/${productId}?requestPage=1|}" style="color: black"></a>
+            <a th:if="${inquiryPage.page > 1}" th:href="@{|/products/${productId}?requestPage=${inquiryPage.page - 1}|}" style="color: black"></a>
             <ul class="pagination">
                 <li th:each="page: ${#numbers.sequence(inquiryPage.startPage, inquiryPage.endPage)}">
-                    <a th:href="@{|/products/${inquiries[0].productId}?requestPage=${page}|}" th:text="${page}" style="color: black"></a>
+                    <a th:href="@{|/products/${productId}?requestPage=${page}|}" th:text="${page}" style="color: black"></a>
                 </li>
             </ul>
-            <a th:if="${inquiryPage.page} < ${inquiryPage.totalPageCnt}" th:href="@{|/products/${inquiries[0].productId}?requestPage=${inquiryPage.page + 1}|}" style="color: black"></a>
-            <a th:href="@{|/products/${inquiries[0].productId}?requestPage=${inquiryPage.totalPageCnt}|}"  style="color: black"></a>
+            <a th:if="${inquiryPage.page} < ${inquiryPage.totalPageCnt}" th:href="@{|/products/${productId}?requestPage=${inquiryPage.page + 1}|}" style="color: black"></a>
+            <a th:href="@{|/products/${productId}?requestPage=${inquiryPage.totalPageCnt}|}"  style="color: black"></a>
         </div>
     </div>
 </section>
