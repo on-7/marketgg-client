@@ -3,13 +3,13 @@
       th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
     <head>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-        <script th:src="@{js/delivery-addresses/daum-postcode.js}" defer></script>
+        <script th:src="@{/js/delivery-addresses/daum-postcode.js}" defer></script>
         <title th:text="#{DELIVERY_ADDRESS_CREATE}"></title>
     </head>
     <body>
         <main>
             <h2 th:text="#{DELIVERY_ADDRESS_CREATE}"></h2>
-            <form method="post" th:action="@{/delivery-address}" th:object="${addressRequest}">
+            <form method="post" th:action="@{/mygg/member/delivery-address}" th:object="${addressRequest}">
                 <div style="display: flex; justify-content: end">
                     <label style="margin-right: 1em" for="defaultAddress" th:text="#{DELIVERY_DEFAULT_ADDRESS}"></label>
                     <input type="hidden" name="defaultAddress" th:value="true">

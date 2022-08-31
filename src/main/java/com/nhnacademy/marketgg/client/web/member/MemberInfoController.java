@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.annotation.NoAuth;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -32,11 +33,18 @@ import org.springframework.web.servlet.ModelAndView;
 public class MemberInfoController {
 
     private final MemberService memberService;
-
     private static final String REDIRECT = "redirect:";
-    private static final String DEFAULT_MEMBER = "/members";
-    private static final String DEFAULT_DELIVERY_ADDRESSES = "/delivery-addresses";
-    private static final String DEFAULT_DELIVERY_ADDRESS = "/delivery-address";
+    private static final String REDIRECT_LOGOUT = "redirect:/logout";
+    private static final String PAGES = "pages";
+    private static final String MEMBER = "/member";
+    private static final String MEMBERS = "/members";
+    private static final String MYGG = "/mygg";
+    private static final String SIGNUP = "/signup";
+    private static final String DELIVERY_ADDRESSES = "/delivery-addresses";
+    private static final String FORM = "/form";
+    private static final String INDEX = "/index";
+    private static final String UPDATE_FORM = "/update-form";
+    private static final String WITHDRAW_FORM = "/withdraw-form";
 
     /**
      * 회원가입 View.
@@ -48,7 +56,7 @@ public class MemberInfoController {
     @NoAuth
     @GetMapping("/signup")
     public ModelAndView signup(@ModelAttribute(name = "member") final SignupRequest member) {
-        return new ModelAndView("pages/members/signup");
+        return new ModelAndView(PAGES + MEMBERS + SIGNUP);
     }
 
     /**
@@ -67,19 +75,34 @@ public class MemberInfoController {
                                  BindingResult bindingResult) throws UnAuthenticException, UnAuthorizationException {
 
         if (bindingResult.hasErrors()) {
-            return new ModelAndView("pages/members/signup");
+            return new ModelAndView(PAGES + MEMBERS + SIGNUP);
         }
 
         memberService.doSignup(member);
-        return new ModelAndView("redirect:/");
+        return new ModelAndView(REDIRECT + INDEX);
     }
 
     @NoAuth
     @GetMapping("/signup/email-check")
     public ModelAndView emailCheckForm() {
-        return new ModelAndView("redirect:/");
+        return new ModelAndView(REDIRECT);
     }
 
+    /**
+     * 회원 수정 폼 입니다.
+     *
+     * @param memberUpdateRequest - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
+     * @return
+     */
+    @GetMapping("mygg/member/update")
+    public ModelAndView update(
+            final @ModelAttribute(name = "memberUpdateRequest") MemberUpdateRequest memberUpdateRequest,
+            MemberInfo memberInfo) throws UnAuthenticException, UnAuthorizationException {
+
+        ModelAndView modelAndView = new ModelAndView(PAGES + MYGG + MEMBERS + UPDATE_FORM);
+        modelAndView.addObject(memberInfo);
+        return modelAndView;
+    }
 
     /**
      * 회원정보 수정 요청을 받아 회원정보 수정 프로세스를 진행합니다.
@@ -91,12 +114,26 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @PostMapping("/update")
-    public ModelAndView doUpdate(@ModelAttribute @Valid final MemberUpdateRequest memberUpdateRequest,
-                                 MemberInfo memberInfo)
+    @PostMapping("mygg/member/update")
+    public ModelAndView doUpdate(
+            final @Valid @ModelAttribute(name = "memberUpdateRequest") MemberUpdateRequest memberUpdateRequest,
+            MemberInfo memberInfo,
+            BindingResult bindingResult)
             throws UnAuthenticException, UnAuthorizationException {
+
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView(PAGES + MYGG + MEMBERS + UPDATE_FORM);
+        }
+
         memberService.update(memberUpdateRequest, memberInfo);
-        return new ModelAndView(REDIRECT);
+        return new ModelAndView(REDIRECT_LOGOUT);
+    }
+
+    @GetMapping("mygg/member/withdraw")
+    public ModelAndView withdraw(final @ModelAttribute("loginRequest") LoginRequest loginRequest)
+        throws UnAuthenticException, UnAuthorizationException {
+
+        return new ModelAndView(PAGES + MYGG + MEMBERS + WITHDRAW_FORM);
     }
 
     /**
@@ -108,10 +145,17 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @GetMapping("/withdraw")
-    public ModelAndView doWithdraw() throws UnAuthenticException, UnAuthorizationException {
-        memberService.withdraw();
-        return new ModelAndView(REDIRECT);
+    @DeleteMapping("mygg/member/withdraw")
+    public ModelAndView doWithdraw(MemberInfo memberInfo,
+                                   final @Valid @ModelAttribute LoginRequest loginRequest,
+                                   BindingResult bindingResult) throws UnAuthenticException, UnAuthorizationException {
+
+        if (!(memberInfo.getEmail().equals(loginRequest.getEmail())) || bindingResult.hasErrors()) {
+            return new ModelAndView(PAGES + MYGG + MEMBERS + WITHDRAW_FORM);
+        }
+
+        memberService.withdraw(loginRequest);
+        return new ModelAndView(REDIRECT_LOGOUT);
     }
 
     /**
@@ -121,10 +165,10 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @GetMapping("/delivery-addresses")
+    @GetMapping("mygg/member/delivery-addresses")
     public ModelAndView deliveryAddresses() throws UnAuthenticException, UnAuthorizationException {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
-        ModelAndView modelAndView = new ModelAndView("pages/mygg/delivery-addresses/index");
+        ModelAndView modelAndView = new ModelAndView(PAGES + MYGG + DELIVERY_ADDRESSES + INDEX);
         modelAndView.addObject("deliveryAddressList", deliveryAddressResponseList);
 
         return modelAndView;
@@ -135,12 +179,12 @@ public class MemberInfoController {
      *
      * @return 배송지 추가 폼
      */
-    @GetMapping("/delivery-address")
+    @GetMapping("mygg/member/delivery-address")
     public ModelAndView deliveryAddress(
             final @ModelAttribute(name = "addressRequest") DeliveryAddressCreateRequest addressRequest)
             throws UnAuthenticException, UnAuthorizationException {
 
-        return new ModelAndView("pages/mygg/delivery-addresses/form");
+        return new ModelAndView(PAGES + MYGG + DELIVERY_ADDRESSES + FORM);
     }
 
     /**
@@ -151,18 +195,18 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @PostMapping("/delivery-address")
+    @PostMapping("mygg/member/delivery-address")
     public ModelAndView createDeliveryAddress(
             @ModelAttribute(name = "addressRequest") @Valid final DeliveryAddressCreateRequest addressRequest,
             BindingResult bindingResult)
             throws UnAuthenticException, UnAuthorizationException {
         if (bindingResult.hasErrors()) {
-            return new ModelAndView(REDIRECT + DEFAULT_DELIVERY_ADDRESS);
+            return new ModelAndView(PAGES + MYGG + MEMBER + DELIVERY_ADDRESSES + FORM);
         }
 
         memberService.createDeliveryAddress(addressRequest);
 
-        return new ModelAndView(REDIRECT + DEFAULT_DELIVERY_ADDRESSES);
+        return new ModelAndView(REDIRECT + MYGG + MEMBER + DELIVERY_ADDRESSES);
     }
 
     /**
@@ -172,7 +216,7 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @DeleteMapping("/delivery-address/{deliveryAddressId}")
+    @DeleteMapping("mygg/member/delivery-address/{deliveryAddressId}")
     public void deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
             throws UnAuthenticException, UnAuthorizationException {
         memberService.deleteDeliveryAddress(deliveryAddressId);
