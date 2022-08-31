@@ -49,6 +49,7 @@ public class IndexController {
         mav.addObject("option", "main");
         mav.addObject("pages", pagination);
         mav.addObject("sort", null);
+        mav.addObject("pageType", "default");
 
         return mav;
     }
