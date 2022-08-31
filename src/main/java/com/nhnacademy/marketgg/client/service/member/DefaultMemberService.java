@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -38,8 +39,8 @@ public class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public void withdraw() throws UnAuthenticException, UnAuthorizationException {
-        memberRepository.withdraw();
+    public void withdraw(LoginRequest loginRequest) throws UnAuthenticException, UnAuthorizationException {
+        memberRepository.withdraw(loginRequest);
     }
 
     @Override

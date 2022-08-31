@@ -157,14 +157,6 @@ public class ReviewController {
 
         ReviewResponse reviewResponse = reviewService.retrieveReview(productId, reviewId);
 
-        if (!Objects.equals(reviewResponse.getMemberName(), memberInfo.getName())) {
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out = response.getWriter();
-            out.println("<script>alert('본인이 작성한 댓글만 지울 수 있습니다!'); location.href='/index';</script>");
-            out.flush();
-            out.close();
-        }
-
         reviewService.deleteReview(productId, reviewId, memberInfo);
 
         return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW + productId);

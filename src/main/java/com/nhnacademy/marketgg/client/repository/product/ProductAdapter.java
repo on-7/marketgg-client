@@ -109,7 +109,7 @@ public class ProductAdapter implements ProductRepository {
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
                 getLinkedMultiValueMapHttpEntity(image, productRequest);
 
-        ResponseEntity<Void> response =
+        ResponseEntity<CommonResult<String>> response =
                 this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
                                            HttpMethod.PUT,
                                            httpEntity,
@@ -125,8 +125,8 @@ public class ProductAdapter implements ProductRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
         ResponseEntity<ProductResponse> response =
-                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId + "/deleted",
-                                           HttpMethod.POST,
+                this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT + "/" + productId,
+                                           HttpMethod.DELETE,
                                            httpEntity,
                                            new ParameterizedTypeReference<>() {
                                            });

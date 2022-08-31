@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
+    <head>
+        <link th:href="@{/css/members/update.css}" rel="stylesheet">
+        <title th:text="#{MEMBER_UPDATE}"></title>
+        <script th:src="@{/js/members/update.js}" defer></script>
+    </head>
+    <body>
+        <main th:object="${memberInfo}">
+            <section class="jumbotron text-center">
+                <h1 th:text="#{MEMBER_UPDATE}"></h1>
+                <form method="post" th:action="@{/mygg/member/update}" th:object="${memberUpdateRequest}"
+                      onsubmit="return formValidation()">
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password" name="password"
+                               th:placeholder="#{PASSWORD_VALIDATION}"
+                               maxlength="20"
+                               required/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="password-check"
+                               th:placeholder="#{PASSWORD_VALIDATION}"
+                               maxlength="20"
+                               required/>
+                    </div>
+                    <div class="error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">PASSWORD</div>
+                    <button type="button" class="btn btn-outline-info" id="password-check-btn"
+                            th:text="#{PASSWORD_CHECK}"></button>
+                    <input type="hidden" id="use-password" value="false"/>
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" th:placeholder="#{NAME}"
+                               maxlength="15"
+                               th:value="${memberInfo.getName()}" required/>
+                        <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" class="form-control" id="phone-number" name="phoneNumber"
+                               th:value="${memberInfo.getPhoneNumber()}"
+                               th:placeholder="#{PHONE}" maxlength="15" required/>
+                    </div>
+                    <input type="submit" class="btn btn-primary" id="enable-update" th:value="#{MEMBER_UPDATE}"
+                           disabled>
+                </form>
+                <div>
+                    <a th:href="@{/mygg/member/withdraw}">
+                        <div class="btn btn-danger withdraw-btn">
+                            <span th:text="#{MEMBER_WITHDRAW}"></span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </body>
+</html>

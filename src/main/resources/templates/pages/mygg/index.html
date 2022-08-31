@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/mygg-title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" th:href="@{/css/mygg/marketgg.mygg.css}">
+
+        <title th:text="#{TITLE_ORDER_DETAIL}"></title>
+    </head>
+
+    <body>
+        <main>
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                    MY GG
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">개인 정보 수정</a>
+                <a href="#" class="list-group-item list-group-item-action">배송지 목록</a>
+                <a href="#" class="list-group-item list-group-item-action">내가 찜한 상품</a>
+                <a href="#" class="list-group-item list-group-item-action">주문 내역</a>
+                <a href="#" class="list-group-item list-group-item-action">포인트 적립 내역</a>
+            </div>
+            <section class="mygg-content">
+            <!-- <section class="mygg-content" th:replace="~{fragments/mygg/{MY_FRAGMENT}}"> -->
+                foo
+            </section>
+        </main>
+    </body>
+
+</html>

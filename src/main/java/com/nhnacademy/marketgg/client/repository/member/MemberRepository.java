@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.repository.member;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -32,7 +33,7 @@ public interface MemberRepository {
      * @author 김훈민
      * @since 1.0.0
      */
-    void withdraw() throws UnAuthenticException, UnAuthorizationException;
+    void withdraw(final LoginRequest loginRequest) throws UnAuthenticException, UnAuthorizationException;
 
     void update(final MemberUpdateRequest memberUpdateRequest, final MemberInfo memberInfo)
             throws UnAuthenticException, UnAuthorizationException;

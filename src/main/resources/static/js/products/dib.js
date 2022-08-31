@@ -1,3 +1,12 @@
+let dibBtn;
+let productId;
+
+window.addEventListener('DOMContentLoaded', () => {
+    productId = document.getElementById("product-id").value;
+    dibBtn = document.getElementById("dib-btn");
+    addDibEventListener();
+})
+
 function dibInsert(productId) {
     $.ajax({
         url: '/dibs/insert/' + productId,
@@ -21,9 +30,7 @@ function dibDelete(productId) {
 /* =================== */
 
 function addDibEventListener() {
-    const productId = document.getElementById("product-id").value;
 
-    const dibBtn = document.getElementById("dib-btn");
     dibBtn.addEventListener("click", () => {
         if (dibBtn.value === "dib") {
             dibDelete(productId)
@@ -33,9 +40,3 @@ function addDibEventListener() {
         location.href=`/products/${productId}`;
     })
 }
-
-function main() {
-
-    addDibEventListener()
-}
-main();

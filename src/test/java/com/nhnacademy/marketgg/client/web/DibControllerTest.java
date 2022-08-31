@@ -36,7 +36,7 @@ class DibControllerTest {
 
     private static final String DEFAULT_DIB = "/members/dibs";
 
-    @Test
+//    @Test
     @DisplayName("찜 목록 조회")
     void testRetrieveDibs() throws Exception {
         given(dibService.retrieveDibs()).willReturn(List.of());

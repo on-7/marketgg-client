@@ -23,8 +23,8 @@
                 <div class="col-md-10">
                     <table class="stars-counters">
                         <tbody>
-                        <tr class="">
-                            <td>
+                            <tr class="">
+                                <td>
                                 <span>
                                     <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">5 Stars</button>
                                 </span>
@@ -32,7 +32,8 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${reviewRating != null}" th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:if="${!reviewRatings.isEmpty()}"
+                                              th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
@@ -47,7 +48,8 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${reviewRating != null}" th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:if="${!reviewRatings.isEmpty()}"
+                                              th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
@@ -62,7 +64,8 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${reviewRating != null}" th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:if="${!reviewRatings.isEmpty()}"
+                                              th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
@@ -77,7 +80,8 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${reviewRating != null}" th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:if="${!reviewRatings.isEmpty()}"
+                                              th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
@@ -92,7 +96,8 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${reviewRating != null}" th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:if="${!reviewRatings.isEmpty()}"
+                                              th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
@@ -146,14 +151,17 @@
                             </p>
                         </div>
                         <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
-                        <div class="btn-wrapper">
-<!--                            <button type="button" class="btn btn-danger btn-delete" th:btn-delete-id="${review.id}" th:text="#{DELETE}">삭제</button>-->
-                            <form class="btn" th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}" method="post">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <input class="btn btn-danger" type="submit" th:value="#{DELETE}"/>
-                            </form>
+                        <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                            <div class="btn-wrapper">
+                                <!--                            <button type="button" class="btn btn-danger btn-delete" th:btn-delete-id="${review.id}" th:text="#{DELETE}">삭제</button>-->
+                                <form class="btn"
+                                      th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}"
+                                      method="post">
+                                    <input type="hidden" name="_method" value="delete"/>
+                                    <input class="btn btn-danger" type="submit" th:value="#{DELETE}"/>
+                                </form>
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </li>

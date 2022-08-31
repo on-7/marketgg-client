@@ -9,12 +9,6 @@ h1 {
     margin-left: 1rem;
 }
 
-nav {
-    display: flex;
-    flex: 0.1;
-    padding-left: 1rem;
-}
-
 .dib-content-wrapper {
     display: flex;
     flex: 0.7;

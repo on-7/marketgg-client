@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+      th:replace="~{layouts/admin-title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
     <head>
         <link rel="stylesheet" th:href="@{/css/label/marketgg.label.css}">
         <title th:text="#{LABEL_MANAGEMENT}"></title>
@@ -9,7 +9,6 @@
         <main>
             <h1 th:text="#{LABEL_MANAGEMENT}"></h1>
             <div class="label-wrapper">
-                <nav></nav>
                 <div class="label-content-wrapper">
                     <details>
                         <summary class="btn btn-info" th:text="#{LABEL_CREATE}"></summary>

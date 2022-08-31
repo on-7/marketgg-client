@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
 import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
 import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -72,5 +73,5 @@ public interface MemberService {
     void deleteDeliveryAddress(final Long deliveryAddressId)
             throws UnAuthenticException, UnAuthorizationException;
 
-    void withdraw() throws UnAuthenticException, UnAuthorizationException;
+    void withdraw(final LoginRequest loginRequest) throws UnAuthenticException, UnAuthorizationException;
 }

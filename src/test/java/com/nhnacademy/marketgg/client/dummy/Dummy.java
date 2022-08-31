@@ -79,7 +79,7 @@ public class Dummy {
     }
 
     public static ProductUpdateRequest getDummyProductUpdateRequest() {
-        ProductUpdateRequest productRequest = new ProductUpdateRequest(1L, "001", 1L, "자몽", "자몽 맛있음", 100L,
+        ProductUpdateRequest productRequest = new ProductUpdateRequest( "001", 1L, "자몽", "자몽 맛있음", 100L,
                                                                        100000L, "자몽설명", "1박스", "냉장", "미국",
                                                                        "냉장", LocalDate.now(), "없음", "1개");
 

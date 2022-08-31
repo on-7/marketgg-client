@@ -3,8 +3,8 @@
       th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
     <head>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-        <script th:src="@{js/delivery-addresses/daum-postcode.js}" defer></script>
-        <script th:src="@{js/members/signup.js}" defer></script>
+        <script th:src="@{/js/delivery-addresses/daum-postcode.js}" defer></script>
+        <script th:src="@{/js/members/signup.js}" defer></script>
         <title th:text="#{SIGN_UP}"></title>
     </head>
     <body>
