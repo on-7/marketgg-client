@@ -8,8 +8,8 @@ import static org.mockito.Mockito.times;
 
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.repository.DibRepository;
-import com.nhnacademy.marketgg.client.service.impl.DefaultDibService;
+import com.nhnacademy.marketgg.client.repository.dib.DibRepository;
+import com.nhnacademy.marketgg.client.service.dib.DefaultDibService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

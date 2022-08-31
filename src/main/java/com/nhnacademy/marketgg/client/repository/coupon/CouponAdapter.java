@@ -2,13 +2,13 @@ package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.CouponRequest;
-import com.nhnacademy.marketgg.client.dto.response.CouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
-import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.coupon.CouponRequest;
+import com.nhnacademy.marketgg.client.dto.coupon.CouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -37,72 +37,75 @@ public class CouponAdapter implements CouponRepository {
 
     @Override
     public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException,
-        UnAuthenticException, UnAuthorizationException {
+            UnAuthenticException, UnAuthorizationException {
 
         String request = objectMapper.writeValueAsString(couponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<CommonResult<String>> response
-            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
-                                    HttpMethod.POST,
-                                    requestEntity,
-                                    new ParameterizedTypeReference<>() {
-                                    });
+                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+                                        HttpMethod.POST,
+                                        requestEntity,
+                                        new ParameterizedTypeReference<>() {
+                                        });
 
         ResponseUtils.checkError(response);
     }
 
     @Override
-    public CouponRetrieveResponse retrieveCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException {
+    public CouponRetrieveResponse retrieveCoupon(final Long couponId)
+            throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<CouponRetrieveResponse>> response
-            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId, HttpMethod.GET, requestEntity,
-                                    new ParameterizedTypeReference<>() {
-                                    });
+                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId, HttpMethod.GET, requestEntity,
+                                        new ParameterizedTypeReference<>() {
+                                        });
 
         ResponseUtils.checkError(response);
         return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public List<CouponRetrieveResponse> retrieveCoupons() throws UnAuthenticException, UnAuthorizationException {
+    public PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<PageResult<CouponRetrieveResponse>>> response
-            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
-                                    HttpMethod.GET, requestEntity,
-                                    new ParameterizedTypeReference<>() {
-                                    });
+                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "?page=" + page,
+                                        HttpMethod.GET, requestEntity,
+                                        new ParameterizedTypeReference<>() {
+                                        });
 
         ResponseUtils.checkError(response);
-        return Objects.requireNonNull(response.getBody()).getData().getData();
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
-    public void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+    public void updateCoupon(final Long couponId, final CouponRequest couponRequest)
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         String request = objectMapper.writeValueAsString(couponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<CommonResult<String>> response
-            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
-                                    HttpMethod.PUT,
-                                    requestEntity,
-                                    new ParameterizedTypeReference<>() {
-                                    });
+                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+                                        HttpMethod.PUT,
+                                        requestEntity,
+                                        new ParameterizedTypeReference<>() {
+                                        });
 
         ResponseUtils.checkError(response);
     }
 
     @Override
-    public void deleteCoupon(Long couponId) throws UnAuthenticException, UnAuthorizationException {
+    public void deleteCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<String>> response =
-            restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
-                                  HttpMethod.DELETE,
-                                  requestEntity,
-                                  new ParameterizedTypeReference<>() {
-                                  });
+                restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+                                      HttpMethod.DELETE,
+                                      requestEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         ResponseUtils.checkError(response);
     }

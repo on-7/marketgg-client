@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/admin-title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
+    <head>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" th:href="@{/css/category/category-index.css}">
+
+        <title th:text="#{TITLE_CATEGORY_CREATE}"></title>
+    </head>
+
+    <body>
+        <main>
+
+            <h1 th:text="#{CATEGORY_CREATE}"></h1>
+            <hr />
+            <div>
+                <form th:method="post" th:action="'/admin/categories'">
+                    <table>
+                        <tr>
+                            <th th:text="#{CATEGORY_CLASSIFICATION}"></th>
+                            <th th:text="#{CATEGORY_CODE}"></th>
+                            <th th:text="#{CATEGORY_NAME}"></th>
+                            <th th:text="#{CATEGORY_SEQUENCE}"></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <select name="categorizationCode">
+                                    <option th:each="categorization : ${categorizations}"
+                                            th:text="${categorization.name}"
+                                            th:value="${categorization.categorizationCode}"
+                                            th:selected="${categorization.name} == '상품'"></option>
+                                </select>
+                            </td>
+                            <td>
+                                <input class="code" type="text" name="categoryCode" />
+                            </td>
+                            <td>
+                                <input type="text" name="name" />
+                            </td>
+                            <td>
+                                <input class="sequence" type="number" name="sequence" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <button class="update" style="flex: none; float: right;" type="submit"
+                                        th:text="#{ADD}"></button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+        </main>
+    </body>
+</html>

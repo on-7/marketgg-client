@@ -41,9 +41,9 @@ public class GlobalControllerAdvice {
      * @return - 에러 페이지
      */
     @ExceptionHandler({
-        ServerException.class,
-        SecureManagerException.class,
-        JsonProcessingException.class
+            ServerException.class,
+            SecureManagerException.class,
+            JsonProcessingException.class
     })
     public ModelAndView serverException(ServerException e) {
         log.error("", e);
@@ -71,7 +71,7 @@ public class GlobalControllerAdvice {
      * @return 예외 처리 페이지
      */
     @ExceptionHandler({
-        Throwable.class
+            Throwable.class
     })
     public ModelAndView serverErrorHandle(Throwable t) {
         log.error("", t);

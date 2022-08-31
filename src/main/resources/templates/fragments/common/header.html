@@ -1,34 +1,51 @@
-<header>
-    <div class="navbar navbar-dark bg-dark shadow-sm">
-        <div class="container d-flex justify-content-between">
-            <a href="/" class="navbar-brand d-flex align-items-center">
-                <i class="fab fa-shopify"></i>
-                <strong>Market GG</strong>
-            </a>
-            <div style="display: flex">
-                <div class="dropdown">
-                    <button class="btn" type="button" data-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-globe" style="font-size: 1.5rem; line-height: 1.7; color: white;"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" th:href="@{__${#httpServletRequest.requestURI}__?lang=ko}"
-                           th:text="#{KOREAN}"></a>
-                        <a class="dropdown-item" th:href="@{__${#httpServletRequest.requestURI}__?lang=en}"
-                           th:text="#{ENGLISH}"></a>
+<html lang="ko" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <header>
+        <div class="navbar navbar-dark bg-dark shadow-sm">
+            <div class="container d-flex justify-content-between">
+                <a href="/" class="navbar-brand d-flex align-items-center">
+                    <i class="fab fa-shopify"></i>
+                    <strong>Market GG</strong>
+                </a>
+                <div style="display: flex">
+                    <div class="dropdown">
+                        <button class="btn" type="button" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-globe" style="font-size: 1.5rem; line-height: 1.7; color: white;"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" th:href="@{__${#httpServletRequest.requestURI}__?lang=ko}"
+                               th:text="#{KOREAN}"></a>
+                            <a class="dropdown-item" th:href="@{__${#httpServletRequest.requestURI}__?lang=en}"
+                               th:text="#{ENGLISH}"></a>
+                        </div>
                     </div>
-                </div>
-                <div sec:authorize="isAnonymous()">
-                    <a href="/signup" class="btn btn-primary my-2" th:text="#{SIGN_UP}"></a>
-                    <a href="/login" class="btn btn-secondary my-2" th:text="#{LOGIN}"></a>
-                </div>
-                <div sec:authorize="!isAnonymous()">
-                    <span th:text="|Hello, ${#authentication.name}!|"></span>
-                    <a href="/cart">
-                        <i class="bi-cart-fill me-1"></i>
-                    </a>
-                    <a href="/logout" class="btn btn-secondary my-2" th:text="#{LOGOUT}"></a>
+                    <div sec:authorize="isAnonymous()">
+                        <a href="/signup" class="btn btn-primary my-2" th:text="#{SIGN_UP}"></a>
+                        <a href="/login" class="btn btn-secondary my-2" th:text="#{LOGIN}"></a>
+                    </div>
+                    <div sec:authorize="!isAnonymous()" class="user-info">
+                        <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
+                        <span>
+                            <div class="dropdown">
+                                <button style="color: white;" class="btn" type="button" data-toggle="dropdown"
+                                        aria-expanded="false"
+                                        th:text="|Hello, ${#authentication.name}!|">
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/mygg/orders">주문 내역</a>
+                                    <a class="dropdown-item" href="/mygg">찜 목록</a>
+                                    <a class="dropdown-item" href="#">배송지 관리</a>
+                                    <a class="dropdown-item" href="#">상품 후기</a>
+                                    <a class="dropdown-item" href="#">상품 문의</a>
+                                    <a class="dropdown-item" href="#">적립금</a>
+                                    <a class="dropdown-item" href="#">쿠폰</a>
+                                    <a class="dropdown-item" href="/mygg/member/update">개인 정보 수정</a>
+                                </div>
+                            </div>
+                        </span>
+                        <a href="/logout" class="btn btn-secondary my-2" th:text="#{LOGOUT}"></a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
+</html>

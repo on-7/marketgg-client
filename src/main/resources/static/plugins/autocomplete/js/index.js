@@ -1,13 +1,42 @@
 // SEE: https://tarekraafat.github.io/autoComplete.js
 window.addEventListener('DOMContentLoaded', () => {
+  let count = 0;
+  document.getElementById('autoComplete').addEventListener('keydown', async (event) => {
+    if (event.keyCode !== 32 && event.keyCode !== 8) {
+        count++;
+    }
+    const $autoComplete = document.getElementById('autoComplete');
+    const $categoryCode = document.getElementById('categoryCode').value;
+    $autoComplete.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        const keyword = event.target.value;
+        location.href=`/products/search?categoryId=${$categoryCode}&keyword=${keyword}&page=0`;
+      }
+    });
+    if(count === 5) {
+      const keyword = event.target.value;
+      await fetch(`/products/suggest?keyword=${keyword}&page=0`).then(async (response) => await response.json())
+        .then(async (data) => {
+          autoCompleteJS.data.src = await copy(data);
+        })
+      count = 0;
+    }
+  });
+
+  function copy(o) {
+    let out, v, key;
+    out = Array.isArray(o) ? [] : {};
+    for(key in o) {
+      v = o[key];
+      out[key] = (typeof v === "object" && v !==null) ? copy(v) : v;
+    }
+    return out;
+  }
+
   const autoCompleteJS = new autoComplete({
     selector: "#autoComplete",
-    placeHolder: "검색어를 입력해주세요",
-    data: {
-      // FIXME: 이곳에 상품 검색 결과를 문자열 배열로 넣는다.
-      src: ["Sauce - Thousand Island", "Wild Boar - Tenderloin", "Goat - Whole Cut"],
-      cache: true,
-    },
+    placeHolder: "Search for Food...",
+    data: [],
     resultsList: {
       element: (list, data) => {
         if (!data.results.length) {
@@ -29,8 +58,7 @@ window.addEventListener('DOMContentLoaded', () => {
     events: {
       input: {
         selection: (event) => {
-          const selection = event.detail.selection.value;
-          autoCompleteJS.input.value = selection;
+          autoCompleteJS.input.value = event.detail.selection.value;
         }
       }
     }

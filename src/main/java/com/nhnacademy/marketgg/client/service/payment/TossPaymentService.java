@@ -1,10 +1,10 @@
 package com.nhnacademy.marketgg.client.service.payment;
 
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentFailureResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
 import com.nhnacademy.marketgg.client.repository.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,7 +59,7 @@ public class TossPaymentService implements PaymentService {
      * @return 결제 실패 결과가 담긴 공통 응답 객체
      */
     @Override
-    public SingleResponse<PaymentFailureResult> requestFail(PaymentFailureResult paymentResult) {
+    public CommonResult<PaymentFailureResult> requestFail(PaymentFailureResult paymentResult) {
         return null;
     }
 

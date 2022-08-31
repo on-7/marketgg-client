@@ -32,3 +32,8 @@ nav {
     border: 1px solid black;
     background-color: navajowhite;
 }
+
+img {
+    width: 5rem;
+    height: 5rem;
+}

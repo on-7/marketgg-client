@@ -6,9 +6,9 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 
-import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
-import com.nhnacademy.marketgg.client.repository.CommentRepository;
-import com.nhnacademy.marketgg.client.service.impl.DefaultCommentService;
+import com.nhnacademy.marketgg.client.dto.customer_service.CommentRequest;
+import com.nhnacademy.marketgg.client.repository.customer_service.CommentRepository;
+import com.nhnacademy.marketgg.client.service.customer_service.DefaultCommentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

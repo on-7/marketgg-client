@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.service.DibService;
+import com.nhnacademy.marketgg.client.service.dib.DibService;
 import com.nhnacademy.marketgg.client.web.member.DibController;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +43,7 @@ class DibControllerTest {
 
         this.mockMvc.perform(get(DEFAULT_DIB))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("/pages/mygg/dibs/index"));
+                    .andExpect(view().name("pages/mygg/dibs/index"));
 
         then(dibService).should(times(1)).retrieveDibs();
     }

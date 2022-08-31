@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{/layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
     <head>
-        <meta charset="UTF-8">
-        <title>Title</title>
+        <link rel="stylesheet" th:href="@{/css/productinquries/marketgg.myinquiries.css}">
+        <title>Market GG | MY gg 상품 문의 조회</title>
     </head>
     <body>
-        [MY GG] 상품 문의 조회 페이지
+        <main>
+            <div>
+                <div class="product-inquiry-header">
+                    <li th:text="#{PRODUCT_NAME}"></li>
+                    <li th:text="#{INQUIRY_TITLE}"></li>
+                    <li th:text="#{INQUIRY_CONTENT}"></li>
+                    <li th:text="#{INQUIRY_DATE}"></li>
+                    <li th:text="#{IS_REPLY}"></li>
+                    <li th:text="#{DELETE}"></li>
+                </div>
+
+                <div class="product-inquiry-content" th:each="inquiry : ${inquiries}">
+                    <div class="product-inquiry-row">
+                        <li>
+                            <a style="text-decoration: none" th:href="@{|/products/${inquiry.productId}|}">
+                                <button th:text="${inquiry.productName}" class="btn btn-outline-warning" />
+                            </a>
+                        </li>
+                        <li th:text="${inquiry.title}"></li>
+                        <li th:text="'A: ' + ${inquiry.content}"></li>
+                        <li th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></li>
+                        <li th:text="${#strings.isEmpty(inquiry.adminReply)} ? #{REPLY_WAIT} : #{REPLY_DONE}"></li>
+                        <li>
+                            <form th:action="'/products/' + ${inquiry.getProductId()} + '/inquiries/' + ${inquiry.getProductInquiryNo()}" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <input type="submit" th:value="#{DELETE}" class="btn btn-outline-danger"/>
+                            </form>
+                        </li>
+                    </div>
+                    <div class="reply-wrapper" th:if="${inquiry.adminReply} != null">
+                        <li class="reply" th:text="'Q: ' + ${inquiry.adminReply}"></li>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div style="display: flex; flex-direction: row;" class="product-inquiry-page">
+                <a th:href="@{|/members/product-inquiries?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp; &lt;
+                <a th:if="${pages.page > 1}" th:href="@{|/members/product-inquiries?page=${pages.page - 1}|}" style="color: black"></a> &nbsp;
+                <ul class="pagination">
+                    <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                        <a th:href="@{|/members/product-inquiries?page=${page}|}" th:text="${page}" style="color: black"></a> &nbsp;
+                    </li>
+                </ul>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/members/product-inquiries?page=${pages.page + 1}|}" style="color: black"></a>
+                &gt; &nbsp;<a th:href="@{|/members/product-inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}" style="color: black"></a>
+            </div>
+        </main>
     </body>
 </html>

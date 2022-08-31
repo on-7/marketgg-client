@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.service.ReviewService;
+import com.nhnacademy.marketgg.client.service.review.ReviewService;
 import com.nhnacademy.marketgg.client.web.admin.AdminReviewController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

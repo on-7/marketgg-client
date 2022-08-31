@@ -1,16 +1,57 @@
 h1 {
     display: flex;
-}
-
-table {
-    display: flex;
-    justify-content: center;
-    border: 1px solid black;
-    margin-top: 2em;
+    border-radius: 10px;
+    border: 2px solid #404549;
     padding: 0.5em;
 }
 
-table > * {
+table {
+    min-width: 40em;
+    border: 2px solid #404549;
+    border-radius: 10px;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
+    padding: 0.5em;
+    border-collapse: separate;
 }
 
+th {
+    background-color: #404549;
+    color: #FFFFFF;
+    padding: 1em;
+    border-radius: 10px;
+    font-size: 1.1em;
+}
+
+td {
+    padding: 1em 0.5em;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+}
+
+.update {
+    border: none;
+    height: 2em;
+    border-radius: 10px;
+    background-color: #404549;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.update:hover {
+    background-color: #868b8f;
+}
+
+.code {
+    width: 6em;
+}
+
+.sequence {
+    width: 5em;
+}

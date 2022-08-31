@@ -6,7 +6,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
@@ -93,10 +93,10 @@ public class JwtInfo implements Serializable {
 
     private static Date localDateTimeToDateForRenewToken(LocalDateTime expiredTime) {
         Instant instant = expiredTime
-            .plus(6, DAYS)
-            .plus(30, MINUTES)
-            .atZone(ZoneId.systemDefault())
-            .toInstant();
+                .plus(6, DAYS)
+                .plus(30, MINUTES)
+                .atZone(ZoneId.systemDefault())
+                .toInstant();
         return Date.from(instant);
     }
 

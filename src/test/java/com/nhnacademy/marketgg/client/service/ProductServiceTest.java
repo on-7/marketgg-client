@@ -11,18 +11,18 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
 import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
-import com.nhnacademy.marketgg.client.service.impl.DefaultProductService;
+import com.nhnacademy.marketgg.client.service.product.DefaultProductService;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -32,6 +32,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
@@ -46,11 +47,20 @@ class ProductServiceTest {
     private ProductUpdateRequest productUpdateRequest;
     private ProductResponse productResponse;
 
+    private PageResult<ProductListResponse> pageResult;
+
     @BeforeEach
     void setUp() {
         productCreateRequest = Dummy.getDummyProductCreateRequest();
         productUpdateRequest = Dummy.getDummyProductUpdateRequest();
         productResponse = Dummy.getDummyProductResponse();
+
+        pageResult = new PageResult<>();
+
+        ReflectionTestUtils.setField(pageResult, "pageNumber", 0);
+        ReflectionTestUtils.setField(pageResult, "pageSize", 10);
+        ReflectionTestUtils.setField(pageResult, "totalPages", 0);
+        ReflectionTestUtils.setField(pageResult, "data", null);
     }
 
     @Test
@@ -110,7 +120,7 @@ class ProductServiceTest {
     @Test
     @DisplayName("카테고리 번호내 목록에서 상품 검색")
     void testSearchProductListByCategory() throws JsonProcessingException {
-        given(productRepository.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(List.of());
+        given(productRepository.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
 
         productService.searchProductListByCategory(new SearchRequestForCategory("100", "hello", 0, 10));
 
@@ -121,7 +131,7 @@ class ProductServiceTest {
     @DisplayName("카테고리 번호 내 목록 및 가격 옵션 검색")
     void testSearchProductListByPrice() throws JsonProcessingException {
         given(productRepository.searchProductListByPrice(any(SearchRequestForCategory.class), anyString())).willReturn(
-            List.of());
+            pageResult);
 
         productService.searchProductListByPrice(new SearchRequestForCategory("100", "hello", 0, 10), "asc");
 

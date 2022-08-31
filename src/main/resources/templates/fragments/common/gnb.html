@@ -10,7 +10,16 @@
                 </a>
                 <ul class="category">
                     <!-- FIXME: DB 에서 상위 카테고리 each 돌리기 -->
-                    <li><a th:href="@{/products/categories/104}" th:text="밀키트"></a></li>
+                    <li>
+                        <a th:href="@{/products/categories/104}" th:text="밀키트"></a>
+                        <ul class="subcategory">
+                            <!-- FIXME: DB 에서 상위 카테고리 each 돌리기 -->
+                            <li th:text="밀키트2"></a></li>
+                            <li th:text="채소2"></a></li>
+                            <li th:text="|과일/견과/쌀2|"></a></li>
+                            <li th:text="|정육/계란2|"></a></li>
+                        </ul>
+                    </li>
                     <li><a th:href="@{/products/categories/101}" th:text="채소"></a></li>
                     <li><a th:href="@{/products/categories/102}" th:text="|과일/견과/쌀|"></a></li>
                     <li><a th:href="@{/products/categories/103}" th:text="|정육/계란|"></a></li>
@@ -21,27 +30,23 @@
         </ul>
     </div>
     <div class="autocomplete-container">
-        <!-- NOTE: 카테고리 선택 드롭다운 목록 -->
+        <label for="categoryCode"></label>
         <div class="dropdown">
-            <button type="button" class="btn btn-outline-light dropdown-toggle"
-                    data-toggle="dropdown" aria-expanded="false">
-                카테고리 선택
-            </button>
-            <div class="dropdown-menu">
-                <a class="dropdown-item" href="#">밀키트</a>
-                <a class="dropdown-item" href="#">파전</a>
-                <a class="dropdown-item" href="#">주류</a>
-            </div>
+            <select class="custom-select" id="categoryCode">
+                <option selected th:text="'전체'" th:value="'001'"></option>
+                <option th:text="'채소'" th:value="'101'"></option>
+                <option th:text="'과일/견과/쌀'" th:value="'102'"></option>
+                <option th:text="'정육/계란'" th:value="'103'"></option>
+                <option th:text="'밀키트'" th:value="'104'"></option>
+            </select>
         </div>
-
-        <!-- NOTE: 검색 창 -->
         <div class="autocomplete-input">
             <label for="autoComplete"></label>
             <input id="autoComplete" type="search" dir="ltr" maxlength="2048" tabindex="1"
                    spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off">
         </div>
         <div>
-            <i class="fas fa-search"></i>
+            <i class="fas fa-search-dollar"></i>
         </div>
     </div>
 </nav>

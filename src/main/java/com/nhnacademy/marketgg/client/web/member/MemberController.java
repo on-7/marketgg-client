@@ -1,21 +1,22 @@
 package com.nhnacademy.marketgg.client.web.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
-import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductInquiryResponse;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponCreateRequest;
+import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.service.GivenCouponService;
-import com.nhnacademy.marketgg.client.service.ProductInquiryService;
-import java.util.List;
+import com.nhnacademy.marketgg.client.paging.Pagination;
+import com.nhnacademy.marketgg.client.service.coupon.GivenCouponService;
+import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -43,7 +44,7 @@ public class MemberController {
      */
     @PostMapping("/coupons")
     public ModelAndView registerCoupon(@ModelAttribute final GivenCouponCreateRequest givenCouponRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         givenCouponService.registerCoupon(givenCouponRequest);
 
@@ -57,16 +58,15 @@ public class MemberController {
      * @since 1.0.0
      */
     @GetMapping("/coupons")
-    public ModelAndView retrieveOwnCoupons()
-        throws UnAuthenticException, UnAuthorizationException {
+    public ModelAndView retrieveOwnCoupons(@RequestParam(defaultValue = "1") final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
 
-        PageResult<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons();
+        PageResult<GivenCouponRetrieveResponse> responses = givenCouponService.retrieveOwnGivenCoupons(page);
+        Pagination pagination = new Pagination(responses.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/mygg/coupons/index");
         mav.addObject("coupons", responses.getData());
-        mav.addObject("pageNumber", responses.getPageNumber());
-        mav.addObject("pageSize", responses.getPageSize());
-        mav.addObject("totalPages", responses.getTotalPages());
+        mav.addObject("pages", pagination);
 
         return mav;
     }
@@ -82,13 +82,15 @@ public class MemberController {
      * @since 1.0.0
      */
     @GetMapping("/product-inquiries")
-    public ModelAndView retrieveProductInquiry()
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public ModelAndView retrieveProductInquiry(@RequestParam(defaultValue = "1") final Integer page)
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        List<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByMember();
+        PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiryByMember(page);
+        Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/mygg/inquiries/index");
-        mav.addObject("inquiries", inquiries);
+        mav.addObject("inquiries", inquiries.getData());
+        mav.addObject("pages", pagination);
 
         return mav;
     }

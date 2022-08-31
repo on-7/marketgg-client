@@ -13,10 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.request.CommentRequest;
-import com.nhnacademy.marketgg.client.dto.response.PostResponseForDetail;
-import com.nhnacademy.marketgg.client.service.CommentService;
-import com.nhnacademy.marketgg.client.service.PostService;
+import com.nhnacademy.marketgg.client.dto.customer_service.CommentRequest;
+import com.nhnacademy.marketgg.client.dto.customer_service.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.service.customer_service.CommentService;
+import com.nhnacademy.marketgg.client.service.customer_service.PostService;
+import com.nhnacademy.marketgg.client.web.customer_service.CommentController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

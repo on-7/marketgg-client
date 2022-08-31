@@ -13,6 +13,11 @@
     <body>
         <main>
             <h1>결제 요청이 진행중입니다.</h1>
+            <p id="orderId" th:text="${result.orderId}"></p>
+            <p id="orderName" th:text="${result.orderName}"></p>
+            <p id="customerName" th:text="${result.memberName}"></p>
+            <p id="customerEmail" th:text="${result.memberEmail}"></p>
+            <p id="amount" th:text="${result.totalAmount}"></p>
         </main>
     </body>
 

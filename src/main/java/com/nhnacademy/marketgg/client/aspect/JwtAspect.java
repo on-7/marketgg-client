@@ -51,7 +51,7 @@ public class JwtAspect {
     private final RestTemplate restTemplate;
 
     @Pointcut("@within(org.springframework.stereotype.Controller) " +
-        "&& execution(* *.*(.., com.nhnacademy.marketgg.client.dto.MemberInfo, ..))")
+            "&& execution(* *.*(.., com.nhnacademy.marketgg.client.dto.common.MemberInfo, ..))")
     public void controller() {
 
     }
@@ -60,8 +60,8 @@ public class JwtAspect {
      * JWT 가 만료되었을 때 JWT 갱신을 인증서버에 요청합니다.
      */
     @Before(value = "within(com.nhnacademy.marketgg.client.repository.impl..*)"
-        + " || controller()"
-        + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
+            + " || controller()"
+            + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
     public void refreshToken() {
         log.info("Jwt Aspect");
 
@@ -74,7 +74,7 @@ public class JwtAspect {
         String sessionId = SessionContext.getSessionId();
 
         JwtInfo jwtInfo =
-            (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
+                (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         if (Objects.isNull(jwtInfo)) {
             return;
@@ -91,8 +91,8 @@ public class JwtAspect {
         HttpEntity<Void> httpEntity = new HttpEntity<>(null, headers);
 
         ResponseEntity<Void> response
-            = restTemplate.exchange(gatewayOrigin + "/auth/v1/members/token/refresh", HttpMethod.GET, httpEntity,
-            Void.class);
+                = restTemplate.exchange(gatewayOrigin + "/auth/v1/members/token/refresh", HttpMethod.GET, httpEntity,
+                                        Void.class);
 
         if (this.isInvalid(response)) {
             return;
@@ -119,8 +119,8 @@ public class JwtAspect {
 
             SecurityContextHolder.clearContext();
             SecurityContextHolder.getContext().setAuthentication(
-                new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), jwt,
-                    authentication.getAuthorities()));
+                    new UsernamePasswordAuthenticationToken(authentication.getPrincipal(), jwt,
+                                                            authentication.getAuthorities()));
             log.info("Token Refresh");
         } catch (NullPointerException e) {
             log.error("JwtAspect Response is Null, {}", e.toString());
@@ -139,7 +139,7 @@ public class JwtAspect {
         }
 
         if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
-            || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
+                || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
             log.info("Empty header");
             return true;
         }
@@ -149,7 +149,7 @@ public class JwtAspect {
 
     private HttpServletResponse getResponse() {
         ServletRequestAttributes servletContainer =
-            Objects.requireNonNull((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+                Objects.requireNonNull((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
         return Objects.requireNonNull(servletContainer.getResponse());
     }
 

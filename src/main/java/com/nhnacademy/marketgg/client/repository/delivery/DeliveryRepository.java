@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.repository.delivery;
 
-import com.nhnacademy.marketgg.client.dto.request.CreatedTrackingNoRequest;
-import com.nhnacademy.marketgg.client.dto.request.DeliveryInfoStatusRequestDto;
+import com.nhnacademy.marketgg.client.dto.delivery.CreatedTrackingNoRequest;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryInfoStatusRequestDto;
 
 /**
  * Shop Server 로 Delivery 서버 데이터를 전송하기 위한 인터페이스 입니다.

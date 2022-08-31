@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.web.payment;
 
+import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.service.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,8 +24,11 @@ public class PaymentPageController {
     private final PaymentService paymentService;
 
     @GetMapping("/request-payment")
-    public ModelAndView index() {
-        return new ModelAndView("pages/payments/request-payment");
+    public ModelAndView index(OrderToPayment orderToPayment) {
+        ModelAndView mav = new ModelAndView("pages/payments/request-payment");
+        mav.addObject("result", orderToPayment);
+
+        return mav;
     }
 
     @GetMapping("/success-payment")

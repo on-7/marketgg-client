@@ -10,12 +10,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
 import com.nhnacademy.marketgg.client.context.SessionContext;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.request.LoginRequest;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
+import com.nhnacademy.marketgg.client.service.auth.DefaultAuthService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;

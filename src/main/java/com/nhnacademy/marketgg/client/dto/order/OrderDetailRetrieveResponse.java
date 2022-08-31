@@ -1,6 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.order;
 
-import com.nhnacademy.marketgg.client.dto.response.UsedCouponResponse;
+import com.nhnacademy.marketgg.client.dto.coupon.UsedCouponResponse;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Getter;

@@ -1,13 +1,12 @@
 package com.nhnacademy.marketgg.client.repository.cart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
-import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
-import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -39,12 +38,13 @@ public class CartAdapter implements CartRepository {
 
     @Override
     public void addToCart(final ProductToCartRequest productAddRequest)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<ProductToCartRequest> httpEntity = new HttpEntity<>(productAddRequest, getJsonHeader());
 
         ResponseEntity<CommonResult<String>> response =
-            restTemplate.exchange(gatewayIp + CART, HttpMethod.POST, httpEntity, new ParameterizedTypeReference<>() {
-            });
+                restTemplate.exchange(gatewayIp + CART, HttpMethod.POST, httpEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         ResponseUtils.checkError(response);
 
@@ -55,9 +55,9 @@ public class CartAdapter implements CartRepository {
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(getJsonHeader());
         ResponseEntity<CommonResult<List<CartProductResponse>>> response =
-            restTemplate.exchange(gatewayIp + CART, HttpMethod.GET, httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                restTemplate.exchange(gatewayIp + CART, HttpMethod.GET, httpEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         ResponseUtils.checkError(response);
 
@@ -66,25 +66,26 @@ public class CartAdapter implements CartRepository {
 
     @Override
     public void updateAmount(final ProductToCartRequest productUpdateRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         HttpEntity<ProductToCartRequest> httpEntity = new HttpEntity<>(productUpdateRequest, getJsonHeader());
         ResponseEntity<CommonResult<String>> response =
-            restTemplate.exchange(gatewayIp + CART, HttpMethod.PATCH, httpEntity,
-                new ParameterizedTypeReference<>() {
-                });
+                restTemplate.exchange(gatewayIp + CART, HttpMethod.PATCH, httpEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         ResponseUtils.checkError(response);
     }
 
     @Override
     public void delete(final List<Long> products)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         HttpEntity<List<Long>> httpEntity = new HttpEntity<>(products, getJsonHeader());
         ResponseEntity<CommonResult<String>> response =
-            restTemplate.exchange(gatewayIp + CART, HttpMethod.DELETE, httpEntity, new ParameterizedTypeReference<>() {
-            });
+                restTemplate.exchange(gatewayIp + CART, HttpMethod.DELETE, httpEntity,
+                                      new ParameterizedTypeReference<>() {
+                                      });
 
         ResponseUtils.checkError(response);
     }

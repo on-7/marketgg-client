@@ -1,51 +1,55 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+      th:replace="~{layouts/admin-title-main :: layout(~{::title}, ~{::main})}">
 
     <head>
         <meta charset="UTF-8">
         <title>Market GG | 쿠폰 수정</title>
     </head>
     <body>
-        <main>
+        <main style="text-align:center; background-color: white;">
+            <h1 th:text="#{COUPON_UPDATE}" style="font-weight: bold; margin: 0 auto 0 0;"></h1>
+            <br>
             <div>
                 <form th:method="put" th:action="'/admin/coupons/' + ${coupon.id}">
                     <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
-                        <tr>
-                            <th th:text="#{COUPON_NAME}"></th>
-                            <th th:text="#{COUPON_TYPE}"></th>
-                            <th th:text="#{EXPIRED_DATE}"></th>
-                            <th th:text="#{MINIMUM_MONEY}"></th>
-                            <th th:text="#{DISCOUNT_AMOUNT}"></th>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="text" name="name" th:value="${coupon.name}" th:placeholder="${coupon.name}"/>
-                            </td>
-                            <td>
-                                <input type="text" name="type" th:value="${coupon.type}" th:placeholder="${coupon.type}"/>
-                            </td>
-                            <td>
-                                <input type="number" min="1" name="expiredDate" th:value="${coupon.expiredDate}" th:placeholder="${coupon.expiredDate}"/>
-                            </td>
-                            <td>
-                                <input type="number" min="0" name="minimumMoney" th:value="${coupon.minimumMoney}" th:placeholder="${coupon.minimumMoney}"/>
-                            </td>
-                            <td>
-                                <input type="number" step="any" name="discountAmount" th:value="${coupon.discountAmount}" th:placeholder="${coupon.discountAmount}"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <input type="hidden" name="id" th:value="${coupon.id}"/>
-                                <button style="flex: none; float: right;" type="submit" th:text="#{UPDATE}" class="btn btn-lg btn-primary"></button>
-                            </td>
-                            <td>
-                                <a style="text-decoration: none" th:href="@{/shop/v1/admin/coupons/index}">
-                                    <button th:text="#{CANCEL}" class="btn btn-secondary btn-lg"></button>
-                                </a>
-                            </td>
-                        </tr>
+                        <thead class="thead-dark">
+                            <tr>
+                                <th th:text="#{COUPON_NAME}"></th>
+                                <th th:text="#{COUPON_TYPE}"></th>
+                                <th th:text="#{EXPIRED_DATE}"></th>
+                                <th th:text="#{MINIMUM_MONEY}"></th>
+                                <th th:text="#{DISCOUNT_AMOUNT}"></th>
+                            </tr>
+                        </thead>
+                            <tr>
+                                <td>
+                                    <input type="text" name="name" th:value="${coupon.name}" th:placeholder="${coupon.name}"/>
+                                </td>
+                                <td>
+                                    <input type="text" name="type" th:value="${coupon.type}" th:placeholder="${coupon.type}"/>
+                                </td>
+                                <td>
+                                    <input type="number" min="1" name="expiredDate" th:value="${coupon.expiredDate}" th:placeholder="${coupon.expiredDate}"/>
+                                </td>
+                                <td>
+                                    <input type="number" min="0" name="minimumMoney" th:value="${coupon.minimumMoney}" th:placeholder="${coupon.minimumMoney}"/>
+                                </td>
+                                <td>
+                                    <input type="number" step="any" name="discountAmount" th:value="${coupon.discountAmount}" th:placeholder="${coupon.discountAmount}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    <input type="hidden" name="id" th:value="${coupon.id}"/>
+                                    <button style="flex: none; float: right;" type="submit" th:text="#{UPDATE}" class="btn btn-outline-primary"></button>
+                                </td>
+                                <td>
+                                    <a style="text-decoration: none" th:href="@{/shop/v1/admin/coupons/index}">
+                                        <button th:text="#{CANCEL}" class="btn btn-outline-secondary"></button>
+                                    </a>
+                                </td>
+                            </tr>
                     </table>
                 </form>
             </div>

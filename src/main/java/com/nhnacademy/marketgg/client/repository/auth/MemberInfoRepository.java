@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.repository.auth;
 
-import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.response.EmailExistResponse;
-import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
+import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
+import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
+import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
 
 public interface MemberInfoRepository {
 

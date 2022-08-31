@@ -1,19 +1,21 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductInquiryReplyRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.CategoryRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.label.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductInquiryReplyRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.service.CategoryService;
-import com.nhnacademy.marketgg.client.service.ImageService;
-import com.nhnacademy.marketgg.client.service.LabelService;
-import com.nhnacademy.marketgg.client.service.ProductInquiryService;
-import com.nhnacademy.marketgg.client.service.ProductService;
+import com.nhnacademy.marketgg.client.paging.Pagination;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
+import com.nhnacademy.marketgg.client.service.label.LabelService;
+import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
+import com.nhnacademy.marketgg.client.service.product.ProductService;
 import java.io.IOException;
 import java.util.List;
 import javax.validation.Valid;
@@ -27,8 +29,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,10 +50,8 @@ public class AdminProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     private final LabelService labelService;
-    private final ImageService imageService;
     private final ProductInquiryService inquiryService;
 
-    private static final String DEFAULT_PRODUCT_URI = "/admin/products";
     private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
     private static final String REDIRECT_PRODUCT_URI = "redirect:/admin/products/index";
 
@@ -79,7 +79,7 @@ public class AdminProductController {
     public ModelAndView createProduct(@RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute @Valid final ProductCreateRequest productRequest,
                                       BindingResult bindingResult)
-        throws IOException {
+            throws IOException {
 
         if (bindingResult.hasErrors()) {
             log.warn(String.valueOf(bindingResult.getAllErrors().get(0)));
@@ -124,7 +124,7 @@ public class AdminProductController {
      */
     @GetMapping("/update/{productId}")
     public ModelAndView updateProduct(@PathVariable final Long productId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         ModelAndView mav = new ModelAndView("pages/products/product-modify-form");
 
@@ -155,7 +155,7 @@ public class AdminProductController {
                                       @RequestPart(value = "image") final MultipartFile image,
                                       @ModelAttribute @Valid final ProductUpdateRequest productRequest,
                                       BindingResult bindingResult)
-        throws IOException {
+            throws IOException {
 
         if (bindingResult.hasErrors()) {
             log.info(bindingResult.getAllErrors().get(0).toString());
@@ -182,6 +182,50 @@ public class AdminProductController {
     }
 
     /**
+     * 관리자가 모든 상품에 대한 문의를 조회합니다.
+     *
+     * @return 조회한 상품 문의를 담은 페이지를 반환합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
+     * @author 민아영
+     * @since 1.0.0
+     */
+    @GetMapping("/inquiries")
+    public ModelAndView retrieveProductInquiry(@RequestParam(defaultValue = "1") final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
+
+        PageResult<ProductInquiryResponse> inquiries = this.inquiryService.retrieveInquiries(page);
+        Pagination pagination = new Pagination(inquiries.getTotalPages(), page);
+
+        ModelAndView mav = new ModelAndView("pages/admin/products/inquiries");
+        mav.addObject("inquiries", inquiries.getData());
+        mav.addObject("pages", pagination);
+
+        return mav;
+    }
+
+    /**
+     * 관리자가 상품 문의를 삭제하는 DeleteMapping 을 지원합니다.
+     *
+     * @param productId - 삭제할 상품 문의의 상품 Id 입니다.
+     * @param inquiryId - 삭제할 상품 문의 Id 입니다.
+     * @return 상품 문의 조회 페이지를 리턴합니다.
+     * @throws UnAuthenticException     - 인증되지 않은 사용자가 접근 시 발생하는 예외입니다.
+     * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
+     * @throws JsonProcessingException  - 응답으로 온 Json 데이터를 역직렬화 시 발생하는 예외입니다.
+     * @author 민아영
+     * @since 1.0.0
+     */
+    @DeleteMapping("/{productId}/inquiries/{inquiryId}")
+    public ModelAndView deleteProductInquiryByAdmin(@PathVariable final Long productId,
+                                                    @PathVariable final Long inquiryId)
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+
+        this.inquiryService.deleteProductInquiry(productId, inquiryId);
+        return new ModelAndView("redirect:/admin/products/inquiries");
+    }
+
+    /**
      * 관리자가 상품 문의에 답글을 남기는 PutMapping 을 지원합니다.
      *
      * @param replyRequest - 답글을 남길 상품 문의 정보와 답글이 들어있는 DTO 입니다.
@@ -191,14 +235,16 @@ public class AdminProductController {
      * @author 민아영
      * @since 1.0.0
      */
-    @PutMapping("/inquiry-reply")
+    @PutMapping("/{productId}/inquiries/{inquiryId}")
     @ResponseBody
-    public ModelAndView replyInquiry(@RequestBody @Valid final ProductInquiryReplyRequest replyRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public ModelAndView replyInquiry(@PathVariable final Long productId,
+                                     @PathVariable final Long inquiryId,
+                                     @ModelAttribute @Valid final ProductInquiryReplyRequest replyRequest)
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
-        this.inquiryService.updateReply(replyRequest);
+        this.inquiryService.updateReply(replyRequest, inquiryId);
 
-        return new ModelAndView("redirect:/products/" + replyRequest.getProductId() + "/inquiries");
+        return new ModelAndView("redirect:/admin/products/inquiries");
     }
 
 }

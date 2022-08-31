@@ -1,8 +1,8 @@
 package com.nhnacademy.marketgg.client.repository.cart;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
-import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -21,7 +21,7 @@ public interface CartRepository {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
     void addToCart(final ProductToCartRequest productAddRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 사용자가 장바구니를 조회할 때 실행됩니다.
@@ -32,7 +32,7 @@ public interface CartRepository {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
     List<CartProductResponse> retrieveCart()
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException;
 
     /**
      * 장바구니에 담긴 상품의 수량을 변경할 때 실행됩니다.
@@ -43,7 +43,7 @@ public interface CartRepository {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
     void updateAmount(final ProductToCartRequest productUpdateRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
     /**
      * 장바구니에 담긴 상품을 삭제할 때 실행됩니다.
@@ -54,6 +54,6 @@ public interface CartRepository {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
     void delete(final List<Long> products)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException;
 
 }

@@ -1,11 +1,14 @@
 package com.nhnacademy.marketgg.client.service.order;
 
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.PageResult;
+import com.nhnacademy.marketgg.client.dto.cart.CartOrderRequest;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderFormResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.DeliveryLocationResponseDto;
+import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.repository.order.OrderRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +30,11 @@ public class GgOrderService implements OrderService {
     /**
      * {@inheritDoc}
      *
-     * @param orderRequest - 주문 생성 시 필요한 요청 정보 객체
+     * @param orderRequest 주문 생성 시 필요한 요청 정보 객체
      */
     @Override
-    public void createOrder(final OrderCreateRequest orderRequest, final MemberInfo memberInfo) {
-        orderRepository.createOrder(orderRequest, memberInfo);
+    public OrderToPayment createOrder(final OrderCreateRequest orderRequest, final MemberInfo memberInfo) {
+        return orderRepository.createOrder(orderRequest, memberInfo);
     }
 
     /**
@@ -47,7 +50,7 @@ public class GgOrderService implements OrderService {
     /**
      * {@inheritDoc}
      *
-     * @param orderId - 주문 번호
+     * @param orderId 주문 번호
      * @return 주문 상세 정보 응답 객체
      */
     @Override
@@ -55,6 +58,11 @@ public class GgOrderService implements OrderService {
         return orderRepository.retrieveOrder(orderId);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param orderId 주문 번호
+     */
     @Override
     public void cancelOrder(final Long orderId) {
         orderRepository.cancelOrder(orderId);
@@ -63,7 +71,7 @@ public class GgOrderService implements OrderService {
     /**
      * 관리자가 운송장 번호 만들기를 요청합니다.
      *
-     * @param orderNo - 주문 번호
+     * @param orderNo 주문 번호
      */
     @Override
     public void createTrackingNo(final Long orderNo) {
@@ -73,12 +81,23 @@ public class GgOrderService implements OrderService {
     /**
      * 회원이 주문 내역에 있는 운송장 번호로 배송정보를 조회합니다.
      *
-     * @param trackingNo - 운송장 번호
+     * @param trackingNo 운송장 번호
      * @return 배송정보 리스트
      */
     @Override
     public List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo) {
         return orderRepository.retrieveDeliveryInfo(trackingNo);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param cartRequest 장바구니에 담긴 상품 목록
+     * @return
+     */
+    @Override
+    public OrderFormResponse retrieveOrderForm(final CartOrderRequest cartRequest) {
+        return orderRepository.retrieveOrderForm(cartRequest);
     }
 
 }

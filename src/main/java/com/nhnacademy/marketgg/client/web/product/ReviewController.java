@@ -2,12 +2,17 @@ package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.annotation.Auth;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.ReviewCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ReviewUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.response.ReviewResponse;
-import com.nhnacademy.marketgg.client.service.ReviewService;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.review.ReviewCreateRequest;
+import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
+import com.nhnacademy.marketgg.client.dto.review.ReviewUpdateRequest;
+import com.nhnacademy.marketgg.client.service.member.MemberService;
+import com.nhnacademy.marketgg.client.service.review.ReviewService;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Objects;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +44,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final MemberService memberService;
 
     private static final String DEFAULT_PRODUCT_DETAIL_VIEW = "pages/products/product-view";
     private static final String REDIRECT_PRODUCT_DETAIL_VIEW = "redirect:/products/";
@@ -147,11 +153,21 @@ public class ReviewController {
     @Auth
     @DeleteMapping("/{reviewId}")
     public ModelAndView deleteReview(@PathVariable final Long productId, @PathVariable final Long reviewId,
-                                     final MemberInfo memberInfo) {
+                                     final MemberInfo memberInfo, HttpServletResponse response) throws IOException {
+
+        ReviewResponse reviewResponse = reviewService.retrieveReview(productId, reviewId);
+
+        if (!Objects.equals(reviewResponse.getMemberName(), memberInfo.getName())) {
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script>alert('본인이 작성한 댓글만 지울 수 있습니다!'); location.href='/index';</script>");
+            out.flush();
+            out.close();
+        }
 
         reviewService.deleteReview(productId, reviewId, memberInfo);
 
-        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW);
+        return new ModelAndView(REDIRECT_PRODUCT_DETAIL_VIEW + productId);
     }
 
 }

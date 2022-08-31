@@ -13,14 +13,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.EmailRequest;
-import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
-import com.nhnacademy.marketgg.client.dto.response.EmailUseResponse;
-import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.service.GivenCouponService;
-import com.nhnacademy.marketgg.client.service.MemberService;
-import com.nhnacademy.marketgg.client.service.ProductInquiryService;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.member.EmailRequest;
+import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponCreateRequest;
+import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
+import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponRetrieveResponse;
+import com.nhnacademy.marketgg.client.service.coupon.GivenCouponService;
+import com.nhnacademy.marketgg.client.service.member.MemberService;
+import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import com.nhnacademy.marketgg.client.web.member.MemberAjaxController;
 import com.nhnacademy.marketgg.client.web.member.MemberController;
 import java.util.List;
@@ -104,7 +104,7 @@ class MemberControllerTest {
     @DisplayName("회원 보유 쿠폰 목록 조회")
     void testRetrieveOwnCoupons() throws Exception {
         PageResult<GivenCouponRetrieveResponse> result = new PageResult<>();
-        given(givenCouponService.retrieveOwnGivenCoupons()).willReturn(result);
+        given(givenCouponService.retrieveOwnGivenCoupons(1)).willReturn(result);
 
         MvcResult mvcResult = mockMvc.perform(get("/members/coupons"))
                                      .andExpect(status().isOk())
@@ -112,7 +112,7 @@ class MemberControllerTest {
                                      .andReturn();
         Map<String, Object> resultModel = Objects.requireNonNull(mvcResult.getModelAndView()).getModel();
 
-        then(givenCouponService).should(times(1)).retrieveOwnGivenCoupons();
+        then(givenCouponService).should(times(1)).retrieveOwnGivenCoupons(1);
         assertThat(resultModel.get("coupons")).isInstanceOf(List.class);
     }
 

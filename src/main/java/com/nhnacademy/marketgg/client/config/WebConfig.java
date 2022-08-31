@@ -56,14 +56,14 @@ public class WebConfig {
     public CommonsMultipartResolver filterMultipartResolver() {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
         resolver.setDefaultEncoding("utf-8");
-        resolver.setMaxUploadSize(1_000_000);
+        resolver.setMaxUploadSize(20_000_000);
         return resolver;
     }
 
     @Bean
     public FilterRegistrationBean<MultipartFilter> multipartFilter() {
         FilterRegistrationBean<MultipartFilter> registrationBean
-            = new FilterRegistrationBean<>();
+                = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(new MultipartFilter());
         registrationBean.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER - 1);

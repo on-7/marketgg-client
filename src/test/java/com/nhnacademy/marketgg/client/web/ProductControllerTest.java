@@ -13,15 +13,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.ImageResponse;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
+import com.nhnacademy.marketgg.client.dto.image.ImageResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
-import com.nhnacademy.marketgg.client.service.ImageService;
-import com.nhnacademy.marketgg.client.service.ProductService;
-import com.nhnacademy.marketgg.client.service.ReviewService;
+import com.nhnacademy.marketgg.client.service.image.ImageService;
+import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
+import com.nhnacademy.marketgg.client.service.product.ProductService;
+import com.nhnacademy.marketgg.client.service.review.ReviewService;
 import com.nhnacademy.marketgg.client.web.product.ProductController;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +33,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
@@ -49,6 +50,9 @@ class ProductControllerTest {
     ProductService productService;
 
     @MockBean
+    ProductInquiryService productInquiryService;
+
+    @MockBean
     ImageService imageService;
 
     @MockBean
@@ -56,31 +60,44 @@ class ProductControllerTest {
 
     private static final String DEFAULT_PRODUCT = "/products";
 
-    private SearchProductResponse response;
+    private ProductListResponse response;
     private ImageResponse imageResponse;
-    private ProductResponse productResponse;
 
-    private
+    private PageResult<ProductListResponse> pageResult;
 
     @BeforeEach
     void setUp() {
-        response = new SearchProductResponse();
+        response = new ProductListResponse();
         imageResponse = Dummy.getDummyImageResponse();
-        productResponse = Dummy.getDummyProductResponse();
+        pageResult = new PageResult<>();
+
+        ReflectionTestUtils.setField(response, "id", 1L);
+        ReflectionTestUtils.setField(response, "categoryCode", "001");
+        ReflectionTestUtils.setField(response, "productName", "안녕");
+        ReflectionTestUtils.setField(response, "content", "안녕");
+        ReflectionTestUtils.setField(response, "description", "<p>안녕<p>");
+        ReflectionTestUtils.setField(response, "labelName", "라벨입니다");
+        ReflectionTestUtils.setField(response, "imageAddress", "http~");
+        ReflectionTestUtils.setField(response, "price", 1000L);
+        ReflectionTestUtils.setField(response, "amount", 100L);
+
+        ReflectionTestUtils.setField(pageResult, "pageNumber", 0);
+        ReflectionTestUtils.setField(pageResult, "pageSize", 10);
+        ReflectionTestUtils.setField(pageResult, "totalPages", 0);
+        ReflectionTestUtils.setField(pageResult, "data", List.of(response));
     }
 
     @Test
     @DisplayName("카테고리 목록에서 상품 검색")
     void testSearchProductListByCategory() throws Exception {
-        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(
-            List.of(response));
+        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/search", "100")
-                .param("categoryId", "001")
-                .param("keyword", "안녕")
-                .param("page", "0"))
+                                 .param("categoryId", "001")
+                                 .param("keyword", "안녕")
+                                 .param("page", "0"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("pages/products/index"));
+                    .andExpect(view().name("index"));
 
         then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
     }
@@ -89,13 +106,13 @@ class ProductControllerTest {
     @DisplayName("카테고리 목록 내에서 가격 옵션 별 검색")
     void testSearchProductListByPrice() throws Exception {
         given(productService.searchProductListByPrice(any(SearchRequestForCategory.class), anyString())).willReturn(
-            List.of(response));
+            pageResult);
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/categories/{categoryId}/price/{option}/search", "100", "asc")
-                .param("keyword", "안녕")
-                .param("page", "0"))
+                                 .param("keyword", "안녕")
+                                 .param("page", "0"))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("pages/products/index"));
+                    .andExpect(view().name("index"));
 
         then(productService).should(times(1))
                             .searchProductListByPrice(any(SearchRequestForCategory.class), anyString());
@@ -104,7 +121,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 전체조회 테스트")
     void testRetrieveProducts() throws Exception {
-        PageResult<SearchProductResponse> dummyPageResult = Dummy.getDummyPageResult();
+        PageResult<ProductListResponse> dummyPageResult = Dummy.getDummyPageResult();
         given(productService.retrieveProducts(anyInt())).willReturn(dummyPageResult);
         given(imageService.retrieveImage(anyLong())).willReturn(imageResponse);
 
@@ -119,10 +136,38 @@ class ProductControllerTest {
         then(productService).should(times(1)).retrieveProducts(anyInt());
     }
 
+    @Test
+    @DisplayName("상품 추천 목록 조회 테스트")
+    void testSuggestionProductList() throws Exception {
+        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
+
+        this.mockMvc.perform(get(DEFAULT_PRODUCT + "/suggest")
+                                 .param("keyword", "dd")
+                                 .param("page", "0"))
+                    .andExpect(status().isOk());
+
+        then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
+    }
+
+    @Test
+    @DisplayName("상품 추천 목록 조회 테스트 X 10")
+    void testSuggestionProductListForTen() throws Exception {
+        ReflectionTestUtils.setField(pageResult, "data", List.of(response, response, response, response, response
+            , response, response, response, response, response));
+        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
+
+        this.mockMvc.perform(get(DEFAULT_PRODUCT + "/suggest")
+                                 .param("keyword", "dd")
+                                 .param("page", "0"))
+                    .andExpect(status().isOk());
+
+        then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
+    }
+
 //    @Test
 //    @DisplayName("상품 상세조회 테스트")
 //    void testRetrieveProductDetails() throws Exception {
-//        given(productService.retrieveProductDetails(anyLong())).willReturn(productResponse);
+//        given(productService.retrieveProductDetails(anyLong())).willReturn();
 //        given(imageService.retrieveImage(anyLong())).willReturn(imageResponse);
 //        given(reviewService.retrieveReviews(anyLong())).willReturn()
 //

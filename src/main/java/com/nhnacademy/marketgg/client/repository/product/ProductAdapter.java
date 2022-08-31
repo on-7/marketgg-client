@@ -2,17 +2,13 @@ package com.nhnacademy.marketgg.client.repository.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.ShopResult;
-import com.nhnacademy.marketgg.client.dto.request.ProductCreateRequest;
-import com.nhnacademy.marketgg.client.dto.request.ProductUpdateRequest;
-import com.nhnacademy.marketgg.client.dto.request.SearchRequestForCategory;
-import com.nhnacademy.marketgg.client.dto.response.DefaultPageResult;
-import com.nhnacademy.marketgg.client.dto.response.ProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.SearchProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.SingleResponse;
-import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.product.ProductCreateRequest;
+import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductResponse;
+import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -26,8 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,21 +43,21 @@ public class ProductAdapter implements ProductRepository {
         HttpEntity<LinkedMultiValueMap<String, Object>> httpEntity =
                 getLinkedMultiValueMapHttpEntity(image, productRequest);
 
-        ResponseEntity<ShopResult<Void>> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
-                                                                               HttpMethod.POST,
-                                                                               httpEntity,
-                                                                               new ParameterizedTypeReference<>() {
-                                                                   });
+        ResponseEntity<CommonResult<Void>> response = this.restTemplate.exchange(gatewayIp + ADMIN_DEFAULT_PRODUCT,
+                                                                                 HttpMethod.POST,
+                                                                                 httpEntity,
+                                                                                 new ParameterizedTypeReference<>() {
+                                                                                 });
 
         this.checkResponseUri(response);
     }
 
     @Override
-    public PageResult<SearchProductResponse> retrieveProducts(int page) {
+    public PageResult<ProductListResponse> retrieveProducts(int page) {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> request = new HttpEntity<>(headers);
-        ResponseEntity<PageResult<SearchProductResponse>> response =
+        ResponseEntity<PageResult<ProductListResponse>> response =
                 this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + "?page=" + page,
                                            HttpMethod.GET,
                                            request,
@@ -81,7 +75,7 @@ public class ProductAdapter implements ProductRepository {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<SingleResponse<ProductResponse>> response =
+        ResponseEntity<CommonResult<ProductResponse>> response =
                 this.restTemplate.exchange(gatewayIp + DEFAULT_PRODUCT + "/" + productId,
                                            HttpMethod.GET,
                                            httpEntity,
@@ -93,12 +87,12 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public PageResult<SearchProductResponse> retrieveProductsByCategory(final String categoryId, final int page) {
+    public PageResult<ProductListResponse> retrieveProductsByCategory(final String categoryId, final int page) {
 
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
 
         HttpEntity<Void> httpEntity = new HttpEntity<>(headers);
-        ResponseEntity<PageResult<SearchProductResponse>> response = this.restTemplate.exchange(
+        ResponseEntity<PageResult<ProductListResponse>> response = this.restTemplate.exchange(
                 gatewayIp + DEFAULT_PRODUCT + "/categories/" + categoryId + "/?page=" + page,
                 HttpMethod.GET,
                 httpEntity,
@@ -141,7 +135,7 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
+    public PageResult<ProductListResponse> searchProductListByCategory(final SearchRequestForCategory searchRequest)
             throws JsonProcessingException {
 
         String requestBody = objectMapper.writeValueAsString(searchRequest);
@@ -156,7 +150,7 @@ public class ProductAdapter implements ProductRepository {
             requestUri = gatewayIp + DEFAULT_PRODUCT + "/search";
         }
 
-        ResponseEntity<List<SearchProductResponse>> response =
+        ResponseEntity<PageResult<ProductListResponse>> response =
                 this.restTemplate.exchange(
                         requestUri,
                         HttpMethod.POST,
@@ -169,8 +163,8 @@ public class ProductAdapter implements ProductRepository {
     }
 
     @Override
-    public List<SearchProductResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
-                                                                final String option)
+    public PageResult<ProductListResponse> searchProductListByPrice(final SearchRequestForCategory searchRequest,
+                                                                    final String option)
             throws JsonProcessingException {
 
         String requestBody = objectMapper.writeValueAsString(searchRequest);
@@ -178,10 +172,17 @@ public class ProductAdapter implements ProductRepository {
         HttpHeaders headers = new HttpHeaders(this.buildHeaders());
         HttpEntity<String> httpEntity = new HttpEntity<>(requestBody, headers);
 
-        ResponseEntity<List<SearchProductResponse>> response =
+        String requestUri =
+                gatewayIp + DEFAULT_PRODUCT + "/categories/" + searchRequest.getCategoryCode() +
+                        "/sort-price/" + option + "/search";
+
+        if (searchRequest.getCategoryCode().compareTo("001") == 0) {
+            requestUri = gatewayIp + DEFAULT_PRODUCT + "/sort-price/" + option + "/search";
+        }
+
+        ResponseEntity<PageResult<ProductListResponse>> response =
                 this.restTemplate.exchange(
-                        gatewayIp + DEFAULT_PRODUCT + "/categories/" + searchRequest.getCategoryCode() +
-                                "/sort-price/" + option + "/search",
+                        requestUri,
                         HttpMethod.POST,
                         httpEntity,
                         new ParameterizedTypeReference<>() {

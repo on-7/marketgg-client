@@ -2,7 +2,7 @@ package com.nhnacademy.marketgg.client.web.member;
 
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.service.DibService;
+import com.nhnacademy.marketgg.client.service.dib.DibService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +33,7 @@ public class DibController {
      */
     @GetMapping
     public ModelAndView retrieveDibs() throws UnAuthenticException, UnAuthorizationException {
-        ModelAndView mav = new ModelAndView("/pages/mygg/dibs/index");
+        ModelAndView mav = new ModelAndView("pages/mygg/dibs/index");
         mav.addObject("dibs", dibService.retrieveDibs());
 
         return mav;
@@ -50,7 +50,7 @@ public class DibController {
      */
     @DeleteMapping("/{productId}")
     public ModelAndView deleteDib(@PathVariable final Long productId)
-        throws UnAuthenticException, UnAuthorizationException {
+            throws UnAuthenticException, UnAuthorizationException {
 
         dibService.deleteDib(productId);
         return new ModelAndView("redirect:/members/dibs");

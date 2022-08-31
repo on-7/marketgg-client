@@ -1,18 +1,16 @@
 package com.nhnacademy.marketgg.client.web.cart;
 
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.request.ProductToCartRequest;
-import com.nhnacademy.marketgg.client.dto.response.CartProductResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.cart.CartProductResponse;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.product.ProductToCartRequest;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
-import com.nhnacademy.marketgg.client.service.CartService;
+import com.nhnacademy.marketgg.client.service.cart.CartService;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -50,14 +48,15 @@ public class CartController {
     // 비동기로 처리 예정
     @PostMapping
     // @ResponseBody
-    public ModelAndView addToProduct(
-        @ModelAttribute @Valid ProductToCartRequest productAddRequest, RedirectAttributes redirectAttributes)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public ModelAndView addToProduct(@ModelAttribute @Valid ProductToCartRequest productAddRequest,
+                                     RedirectAttributes redirectAttributes)
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.addProduct(productAddRequest);
 
         ModelAndView mav = new ModelAndView("/products/" + productAddRequest.getId());
         redirectAttributes.addFlashAttribute("addSuccess", true);
+
         return mav;
     }
 
@@ -71,32 +70,10 @@ public class CartController {
      */
     @GetMapping
     public ModelAndView retrieveCart(MemberInfo memberInfo)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         ModelAndView mav = new ModelAndView("pages/carts/index");
         List<CartProductResponse> carts = cartService.retrieveCarts();
-        // List<CartProductResponse> carts = List.of(
-        //     new CartProductResponse(1L, "포카칩", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 10,
-        //         1300L),
-        //     new CartProductResponse(2L, "자몽 주스", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 9,
-        //         2000L),
-        //     new CartProductResponse(3L, "오렌지 주스", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage",
-        //         8, 1500L),
-        //     new CartProductResponse(4L, "수미칩", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 7,
-        //         1300L),
-        //     new CartProductResponse(5L, "김자몽", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 6,
-        //         2300L),
-        //     new CartProductResponse(6L, "델몬트 오렌지", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage",
-        //         5, 2100L),
-        //     new CartProductResponse(7L, "프링글스", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 4,
-        //         1000L),
-        //     new CartProductResponse(8L, "자몽 주스", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 3,
-        //         1900L),
-        //     new CartProductResponse(9L, "썬키스트 오렌지", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage",
-        //         2, 1200L),
-        //     new CartProductResponse(10L, "포테토칩", "https://console.toast.com/project/5WrZ1g5H/storage/object-storage", 1,
-        //         1500L)
-        // );
         mav.addObject("carts", carts);
 
         if (!memberInfo.isNull()) {
@@ -116,9 +93,9 @@ public class CartController {
      */
     @PatchMapping
     @ResponseBody
-    public ResponseEntity<CommonResult<String>> updateAmount(
-        @RequestBody @Valid ProductToCartRequest productUpdateRequest)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+    public ResponseEntity<CommonResult<String>> updateAmount(@RequestBody @Valid
+                                                             ProductToCartRequest productUpdateRequest)
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.updateAmount(productUpdateRequest);
 
@@ -139,7 +116,7 @@ public class CartController {
     @DeleteMapping
     @ResponseBody
     public ResponseEntity<CommonResult<String>> deleteProduct(@RequestBody List<Long> products)
-        throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
+            throws UnAuthenticException, UnAuthorizationException, JsonProcessingException {
 
         cartService.deleteProducts(products);
 

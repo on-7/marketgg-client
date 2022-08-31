@@ -35,7 +35,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-        throws ServletException, IOException {
+            throws ServletException, IOException {
         log.info("Auth Filter Path = {}", request.getRequestURI());
 
         try {
@@ -49,7 +49,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             SessionContext.setSessionId(sessionId);
 
             Optional<JwtInfo> opJwtInfo =
-                Optional.ofNullable((JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY));
+                    Optional.ofNullable((JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY));
 
             if (opJwtInfo.isEmpty()) {
                 filterChain.doFilter(request, response);
@@ -67,7 +67,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
             // Authentication Principal 에 SessionId, Credential 에 JWT 저장
             Authentication authentication =
-                new UsernamePasswordAuthenticationToken(user, jwtInfo.getJwt(), jwtInfo.getAuthorities());
+                    new UsernamePasswordAuthenticationToken(user, jwtInfo.getJwt(), jwtInfo.getAuthorities());
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);

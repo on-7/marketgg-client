@@ -3,8 +3,8 @@ package com.nhnacademy.marketgg.client.aspect;
 import static com.nhnacademy.marketgg.client.jwt.Role.ROLE_ANONYMOUS;
 
 import com.nhnacademy.marketgg.client.context.SessionContext;
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
 import com.nhnacademy.marketgg.client.util.GgUtils;
@@ -46,7 +46,7 @@ public class MemberAspect {
      * @return 메서드 정보
      * @throws Throwable 메서드를 실행시킬 때 발생할 수 있는 예외입니다.
      */
-    @Around("@within(controller) && execution(* *.*(.., com.nhnacademy.marketgg.client.dto.MemberInfo, ..))")
+    @Around("@within(controller) && execution(* *.*(.., com.nhnacademy.marketgg.client.dto.common.MemberInfo, ..))")
     public Object injectMember(ProceedingJoinPoint pjp, Controller controller) throws Throwable {
         log.info("Method: {}", pjp.getSignature().getName());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -58,7 +58,7 @@ public class MemberAspect {
         String sessionId = SessionContext.getSessionId();
 
         JwtInfo jwtInfo =
-            (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
+                (JwtInfo) redisTemplate.opsForHash().get(sessionId, JwtInfo.JWT_REDIS_KEY);
 
         if (Objects.isNull(jwtInfo)) {
             return pjp.proceed();

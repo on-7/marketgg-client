@@ -2,13 +2,13 @@ package com.nhnacademy.marketgg.client.repository.coupon;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.marketgg.client.dto.PageResult;
-import com.nhnacademy.marketgg.client.dto.request.GivenCouponCreateRequest;
-import com.nhnacademy.marketgg.client.dto.response.GivenCouponRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.response.common.CommonResult;
-import com.nhnacademy.marketgg.client.dto.response.common.ResponseUtils;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponCreateRequest;
+import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
+import com.nhnacademy.marketgg.client.util.ResponseUtils;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -37,31 +37,31 @@ public class GivenCouponAdapter implements GivenCouponRepository {
 
     @Override
     public void registerCoupon(GivenCouponCreateRequest givenCouponRequest)
-        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
 
         String request = objectMapper.writeValueAsString(givenCouponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<CommonResult<String>> response
-            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
-                                    HttpMethod.POST,
-                                    requestEntity,
-                                    new ParameterizedTypeReference<>() {
-                                    });
+                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+                                        HttpMethod.POST,
+                                        requestEntity,
+                                        new ParameterizedTypeReference<>() {
+                                        });
 
         ResponseUtils.checkError(response);
     }
 
     @Override
-    public PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons()
-        throws UnAuthenticException, UnAuthorizationException {
+    public PageResult<GivenCouponRetrieveResponse> retrieveOwnGivenCoupons(final Integer page)
+            throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<PageResult<GivenCouponRetrieveResponse>>> response
-            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
-                                    HttpMethod.GET, requestEntity,
-                                    new ParameterizedTypeReference<>() {
-                                    });
+                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "?page=" + page,
+                                        HttpMethod.GET, requestEntity,
+                                        new ParameterizedTypeReference<>() {
+                                        });
 
         ResponseUtils.checkError(response);
         return Objects.requireNonNull(response.getBody()).getData();

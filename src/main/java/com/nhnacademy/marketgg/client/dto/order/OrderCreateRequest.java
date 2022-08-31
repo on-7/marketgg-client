@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.order;
 
+import java.util.List;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,11 +18,25 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class OrderCreateRequest {
 
+    @NotBlank
+    @Size(max = 100)
+    private final String name;
+
+    @NotBlank
+    @Size(max = 100)
+    private final String email;
+
     @NotNull
-    private final Long totalAmount;
+    private final Long deliveryAddressId;
+
+    @NotNull
+    private final List<Long> productIds;
 
     @NotNull
     private final Integer usedPoint;
+
+    @NotNull
+    private final Long totalAmount;
 
     private Integer trackingNo;
 
@@ -29,16 +44,6 @@ public class OrderCreateRequest {
     @Size(min = 2, max = 4)
     private final String paymentType;
 
-    @NotBlank
-    @Size(max = 100)
-    private final String orderName;
-
-    // @NotBlank
-    @Size(max = 100)
-    private final String customerName;
-
-    // @NotBlank
-    @Size(max = 100)
-    private final String customerEmail;
+    private Integer expectedSavePoint;
 
 }

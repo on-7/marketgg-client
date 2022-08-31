@@ -1,10 +1,11 @@
 package com.nhnacademy.marketgg.client.web.order;
 
-import com.nhnacademy.marketgg.client.dto.MemberInfo;
-import com.nhnacademy.marketgg.client.dto.PageResult;
+import com.nhnacademy.marketgg.client.dto.cart.CartOrderRequest;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderFormResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
-import com.nhnacademy.marketgg.client.dto.request.CartOrderRequest;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
 import java.util.List;
@@ -12,15 +13,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 주문과 관련된 페이지 요청 처리를 담당합니다.
  *
- * @author 이제훈, 김정민
+ * @author 김정민
+ * @author 이제훈
  * @version 1.0
  * @since 1.0
  */
@@ -36,10 +38,13 @@ public class OrderPageController {
      *
      * @return 주문서 작성 페이지
      */
-    @GetMapping("/orders/form")
-    public ModelAndView goOrderForm(@ModelAttribute CartOrderRequest cartOrderReqeust, final MemberInfo memberInfo) {
+    @PostMapping("/orders/form")
+    public ModelAndView goOrderForm(CartOrderRequest cartRequest, final MemberInfo memberInfo) {
+        OrderFormResponse orderFormResponse = orderService.retrieveOrderForm(cartRequest);
+
         ModelAndView mav = new ModelAndView("pages/orders/order-form");
-        mav.addObject(memberInfo);
+        mav.addObject("member", memberInfo);
+        mav.addObject("result", orderFormResponse);
 
         return mav;
     }
@@ -76,7 +81,7 @@ public class OrderPageController {
         OrderDetailRetrieveResponse order = orderService.retrieveOrder(orderId);
         log.info("retrieveOrder: {}", order);
 
-        ModelAndView mav = new ModelAndView("/pages/orders/order-details");
+        ModelAndView mav = new ModelAndView("pages/orders/order-details");
         mav.addObject("order", order);
 
         return mav;

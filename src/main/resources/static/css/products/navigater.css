@@ -1,0 +1,20 @@
+.nav-menu {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border: white;
+    background-color: #fd7e14;
+}
+
+.nav-menu ul {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.nav-menu ul li a {
+    color: #373b3e;
+}

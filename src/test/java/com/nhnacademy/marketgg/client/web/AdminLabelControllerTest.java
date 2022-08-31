@@ -13,9 +13,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.nhnacademy.marketgg.client.config.RedisConfig;
-import com.nhnacademy.marketgg.client.dto.request.LabelRegisterRequest;
-import com.nhnacademy.marketgg.client.dto.response.LabelRetrieveResponse;
-import com.nhnacademy.marketgg.client.service.LabelService;
+import com.nhnacademy.marketgg.client.dto.label.LabelRegisterRequest;
+import com.nhnacademy.marketgg.client.dto.label.LabelRetrieveResponse;
+import com.nhnacademy.marketgg.client.service.label.LabelService;
 import com.nhnacademy.marketgg.client.web.admin.AdminLabelController;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

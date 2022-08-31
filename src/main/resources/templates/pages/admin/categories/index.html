@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/admin-title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
+    <head>
+        <meta charset="UTF-8">
+
+        <link rel="stylesheet" th:href="@{/css/category/category-index.css}">
+
+        <title th:text="#{TITLE_CATEGORY_MANAGE}"></title>
+    </head>
+
+    <body>
+        <main>
+
+            <h1 th:text="#{CATEGORY_MANAGEMENT}"></h1>
+
+            <hr/>
+            <table>
+                <tr class="first-tr">
+                    <th th:text="#{CATEGORY_CLASSIFICATION}"></th>
+                    <th th:text="#{CATEGORY_CODE}"></th>
+                    <th th:text="#{CATEGORY_NAME}"></th>
+                    <th th:text="#{CATEGORY_SEQUENCE}"></th>
+                    <th th:text="#{CATEGORY_UPDATES}"></th>
+                </tr>
+                <tr th:each="category : ${categories}">
+                    <td th:text="${category.categorizationName}"></td>
+                    <td th:text="${category.categoryCode}"></td>
+                    <td th:text="${category.categoryName}"></td>
+                    <td th:text="${category.sequence}"></td>
+                    <td>
+                        <a th:href="@{/admin/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
+                            <button class="update" th:text="#{UPDATE}"></button>
+                        </a>
+                        <form style="display: inline" th:action="'/admin/categories/' + ${category.categoryCode}" method="post">
+                            <input type="hidden" name="_method" value="delete"/>
+                            <input class="update" type="submit" th:value="#{DELETE}"/>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+
+        </main>
+    </body>
+</html>

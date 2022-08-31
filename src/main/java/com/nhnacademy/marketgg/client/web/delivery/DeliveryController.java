@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.web.delivery;
 
-import com.nhnacademy.marketgg.client.dto.request.CreatedTrackingNoRequest;
-import com.nhnacademy.marketgg.client.dto.request.DeliveryInfoStatusRequestDto;
+import com.nhnacademy.marketgg.client.dto.delivery.CreatedTrackingNoRequest;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryInfoStatusRequestDto;
 import com.nhnacademy.marketgg.client.service.delivery.DeliveryService;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class DeliveryController {
      */
     @PatchMapping("/delivery-info")
     public void updateDeliveryInfoStatus(
-        @RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
+            @RequestBody @Valid final DeliveryInfoStatusRequestDto deliveryInfoStatusRequestDto) {
         deliveryService.updateDeliveryInfoStatus(deliveryInfoStatusRequestDto);
     }
 

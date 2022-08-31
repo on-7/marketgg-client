@@ -1,6 +1,6 @@
 package com.nhnacademy.marketgg.client.repository.payment;
 
-import com.nhnacademy.marketgg.client.dto.ShopResult;
+import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
@@ -51,25 +51,25 @@ public class PaymentAdapter implements PaymentRepository {
      */
     @Override
     public void pay(final PaymentConfirmRequest paymentRequest) {
-        ParameterizedTypeReference<ShopResult<PaymentResponse>> typeReference = new ParameterizedTypeReference<>() {
+        ParameterizedTypeReference<CommonResult<PaymentResponse>> typeReference = new ParameterizedTypeReference<>() {
         };
-        ResponseEntity<ShopResult<PaymentResponse>> response
-            = WebClient.builder()
-                       .baseUrl(gatewayIp)
-                       .defaultHeaders(httpHeaders -> {
-                           httpHeaders.setContentType(
-                               MediaType.APPLICATION_JSON);
-                           httpHeaders.setAccept(
-                               Collections.singletonList(
-                                   MediaType.APPLICATION_JSON));
-                       })
-                       .build()
-                       .post()
-                       .uri("/shop/v1/payments/confirm")
-                       .bodyValue(paymentRequest)
-                       .retrieve()
-                       .toEntity(typeReference)
-                       .block();
+        ResponseEntity<CommonResult<PaymentResponse>> response
+                = WebClient.builder()
+                           .baseUrl(gatewayIp)
+                           .defaultHeaders(httpHeaders -> {
+                               httpHeaders.setContentType(
+                                       MediaType.APPLICATION_JSON);
+                               httpHeaders.setAccept(
+                                       Collections.singletonList(
+                                               MediaType.APPLICATION_JSON));
+                           })
+                           .build()
+                           .post()
+                           .uri("/shop/v1/payments/confirm")
+                           .bodyValue(paymentRequest)
+                           .retrieve()
+                           .toEntity(typeReference)
+                           .block();
 
         System.out.println(response.getBody().getData());
     }
