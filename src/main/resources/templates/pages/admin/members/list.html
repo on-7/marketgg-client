@@ -10,9 +10,9 @@
     <body>
 
         <main>
-            <h1>회원 관리</h1><br />
+            <h1 id="admin-member-title">회원 관리</h1><br />
             <table class="table table-hover">
-                <thead class="thead dart">
+                <thead class="thead dark">
                     <tr>
                         <th>이름</th>
                         <th>Email</th>
@@ -38,7 +38,21 @@
                         <td th:if="${member.isAdmin()}">N</td>
                     </tr>
                 </tbody>
-            </table>
+            </table> <br />
+
+            <div class="page-block">
+                <a th:href="@{|/_admin/members?page=1|}" th:text="#{FIRST}"></a> &nbsp; &lt;
+                <a th:if="${pages.page > 1}" th:href="@{|/_admin/members?page=${pages.page - 1}|}"></a> &nbsp;
+                <ul class="pagination">
+                    <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                        <a th:href="@{|/_admin/members?page=${page}|}" th:text="${page}"></a>&nbsp;
+                    </li>
+                </ul>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}"
+                   th:href="@{|/_admin/members?page=${pages.page + 1}|}"></a>&gt; &nbsp;
+                <a th:href="@{|/_admin/members?page=${pages.totalPageCnt}|}" th:text="#{LAST}"></a>
+            </div>
+
         </main>
 
     </body>

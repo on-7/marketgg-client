@@ -175,6 +175,7 @@ public class MemberAdapter implements MemberRepository {
         HttpEntity<Void> httpEntity = new HttpEntity<>(buildHeaders());
         String requestUrl = gateWayIp + "/shop/v1/admin/members?page=" + page;
 
+
         ResponseEntity<CommonResult<PageResult<AdminMemberResponse>>> response =
             restTemplate.exchange(requestUrl, GET, httpEntity, new ParameterizedTypeReference<>() {
             });
