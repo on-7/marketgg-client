@@ -12,7 +12,7 @@ Market GG 클라이언트는 애플리케이션 이용에 필요한 정보를 �
 
 # Project Architecture
 
-![marketgg-architecture-v1-0-3](https://user-images.githubusercontent.com/38161720/183289639-452bfe2d-792e-4260-a10a-652a87b62928.png)
+![marketgg-architecture-v1-0-4](https://user-images.githubusercontent.com/83569822/187658420-b8ef3768-6fba-48bd-870c-22348fbbbd25.png)
 
 # Features
 
