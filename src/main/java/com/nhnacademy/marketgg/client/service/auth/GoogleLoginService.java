@@ -109,9 +109,8 @@ public class GoogleLoginService implements Oauth2Service {
     }
 
     private boolean isLoginFail(ResponseEntity<CommonResult<GoogleProfile>> profileResponse) {
-        return profileResponse.getStatusCode().is4xxClientError()
-                && (Objects.isNull(profileResponse.getHeaders().get(HttpHeaders.AUTHORIZATION))
-                || isInvalidHeader(profileResponse.getHeaders()));
+        return Objects.isNull(profileResponse.getHeaders().get(HttpHeaders.AUTHORIZATION))
+                || isInvalidHeader(profileResponse.getHeaders());
     }
 
     private boolean isInvalidHeader(HttpHeaders headers) {
