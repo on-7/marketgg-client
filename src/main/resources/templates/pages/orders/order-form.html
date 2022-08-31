@@ -87,12 +87,16 @@
                     <hr>
                     <div>
                         <p>결제 수단 선택</p>
-                        <div th:replace="fragments/orders/radio-button :: formCheck('card', '카드')"></div>
+                        <div class="form-check" th:fragment="formCheck(id, text)">
+                            <input class="form-check-input" type="radio" id="card" name="paymentType" value="카드" checked>
+                            <label class="form-check-label" for="card">카드</label>
+                        </div>
                         <div th:replace="fragments/orders/radio-button :: formCheck('virtual-account', '가상계좌')"></div>
                         <div th:replace="fragments/orders/radio-button :: formCheck('transfer', '계좌이체')"></div>
                         <div th:replace="fragments/orders/radio-button :: formCheck('mobile-phone', '휴대폰')"></div>
                     </div>
                 </section>
+
 
                 <section>
                     <h2>개인정보 수집/제공</h2>
