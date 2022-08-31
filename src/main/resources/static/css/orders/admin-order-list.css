@@ -1,0 +1,63 @@
+h1 {
+    display: flex;
+    border-radius: 10px;
+    border: 2px solid #404549;
+    padding: 0.5em;
+}
+
+table {
+    text-align: center;
+}
+
+th {
+    background-color: #404549;
+    color: #FFFFFF;
+    border-bottom: 2px solid black;
+    cursor: default;
+}
+
+tr:hover {
+    background-color: #868b8f;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.pagination {
+    height: 2.5em;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination > * {
+    display: flex;
+    flex-direction: row;
+    padding-left: 1em;
+    padding-right: 1em;
+    height: 100%;
+    align-items: center;
+}
+
+.pagination > a:hover {
+    background-color: #868b8f;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.pagination > ul {
+    margin: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.current {
+    font-weight: bold;
+    color: #404549;
+}
