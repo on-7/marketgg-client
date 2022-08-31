@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.service.member;
 
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.EmailExistResponse;
@@ -9,6 +10,7 @@ import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
+import com.nhnacademy.marketgg.client.dto.response.AdminMemberResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -41,7 +43,7 @@ public interface MemberService {
      * @throws UnAuthorizationException - 권한이 없는 사용자가 접근 시 발생하는 예외입니다.
      */
     void update(final MemberUpdateRequest memberUpdateRequest, MemberInfo memberInfo)
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 보유한 배송지 목록 리스트를 보여줍니다.
@@ -51,7 +53,7 @@ public interface MemberService {
      * @since 1.0.0
      */
     List<DeliveryAddressResponse> retrieveDeliveryAddresses()
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 회원가입시 입력했던 배송지외에 배송지를 추가하는 메소드 입니다.
@@ -61,7 +63,7 @@ public interface MemberService {
      * @since 1.0.0
      */
     void createDeliveryAddress(final DeliveryAddressCreateRequest addressRequest)
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 가진 배송지 정보를 삭제하는 메소드 입니다.
@@ -71,7 +73,10 @@ public interface MemberService {
      * @since 1.0.0
      */
     void deleteDeliveryAddress(final Long deliveryAddressId)
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
     void withdraw(final LoginRequest loginRequest) throws UnAuthenticException, UnAuthorizationException;
+    
+    PageResult<AdminMemberResponse> retrieveMembers(int page);
+
 }

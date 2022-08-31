@@ -1,11 +1,13 @@
 package com.nhnacademy.marketgg.client.repository.member;
 
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
+import com.nhnacademy.marketgg.client.dto.response.AdminMemberResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -25,7 +27,7 @@ public interface MemberRepository {
      * @since 1.0.0
      */
     void signup(final SignupRequest signupRequest)
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원탈퇴 메소드입니다.
@@ -36,7 +38,7 @@ public interface MemberRepository {
     void withdraw(final LoginRequest loginRequest) throws UnAuthenticException, UnAuthorizationException;
 
     void update(final MemberUpdateRequest memberUpdateRequest, final MemberInfo memberInfo)
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
     /**
      * 회원이 가지고 있는 전체 배송지 조회 메소드 입니다.
@@ -45,13 +47,20 @@ public interface MemberRepository {
      * @author 김훈민
      * @since 1.0.0
      */
-    List<DeliveryAddressResponse> retrieveDeliveryAddresses()
-            throws UnAuthenticException, UnAuthorizationException;
+    List<DeliveryAddressResponse> retrieveDeliveryAddresses() throws UnAuthenticException, UnAuthorizationException;
 
     void createDeliveryAddress(final DeliveryAddressCreateRequest createRequest)
-            throws UnAuthenticException, UnAuthorizationException;
+        throws UnAuthenticException, UnAuthorizationException;
 
-    void deleteDeliveryAddress(final Long deliveryAddressId)
-            throws UnAuthenticException, UnAuthorizationException;
+    void deleteDeliveryAddress(final Long deliveryAddressId) throws UnAuthenticException, UnAuthorizationException;
+
+    /**
+     * 관리자의 회원 목록 조회.
+     *
+     * @param page - 페이지
+     * @return 회원 정보 목록
+     * @author 윤동열
+     */
+    PageResult<AdminMemberResponse> retrieveMembers(int page);
 
 }
