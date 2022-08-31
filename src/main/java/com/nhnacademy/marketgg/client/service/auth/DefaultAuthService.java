@@ -3,11 +3,9 @@ package com.nhnacademy.marketgg.client.service.auth;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 import com.nhnacademy.marketgg.client.context.SessionContext;
-import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
-import com.nhnacademy.marketgg.client.exception.LogoutException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
@@ -19,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 /**
  * 로그인, 로그아웃 로직을 실행하는 구현체입니다.
@@ -64,9 +63,8 @@ public class DefaultAuthService implements AuthService {
     }
 
     private boolean checkStatus(ResponseEntity<?> response) {
-        System.out.println(response.getStatusCode());
         if (Objects.equals(response.getStatusCode(), HttpStatus.UNAUTHORIZED)
-                || Objects.equals(response.getStatusCode(), HttpStatus.FORBIDDEN)) {
+            || Objects.equals(response.getStatusCode(), HttpStatus.FORBIDDEN)) {
             log.info("Login Fail - http status: {}", response.getStatusCode());
             return false;
         }
@@ -82,7 +80,7 @@ public class DefaultAuthService implements AuthService {
         }
 
         if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
-                || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
+            || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
             log.info("Empty header");
             throw new LoginFailException();
         }
@@ -98,15 +96,14 @@ public class DefaultAuthService implements AuthService {
             return;
         }
 
-        ResponseEntity<CommonResult<String>> response = authRepository.logout();
-
-        HttpStatus statusCode = response.getStatusCode();
-
-        if (statusCode.is4xxClientError() || statusCode.is5xxServerError()) {
-            throw new LogoutException(statusCode);
+        try {
+            authRepository.logout();
+        } catch (HttpServerErrorException e) {
+            log.error(e.toString());
+        } finally {
+            redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
         }
 
-        redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
     }
 
 }
