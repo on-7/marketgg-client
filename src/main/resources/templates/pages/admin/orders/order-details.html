@@ -1,10 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/admin-title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
     <head>
         <meta charset="UTF-8">
-        <title>Title</title>
-    </head>
-    <body>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+        <link rel="stylesheet" th:href="@{/css/orders/admin-order-details.css}">
+
+        <title th:text="#{TITLE_ORDER_DETAIL}"></title>
+    </head>
+
+    <body>
+        <main>
+
+            <h1 th:text="#{ORDER_DETAIL}"></h1><hr /><br />
+
+            <h3 style="margin-bottom: 1em; font-weight: bold;">주문 정보</h3>
+            <div class="top-info">
+                <p>주문 번호</p>
+                <p th:text="${orderId}"></p>
+                <p>주문 일시</p>
+                <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></p>
+                <p>주문 상태</p>
+                <p th:text="${order.orderStatus}"></p>
+                <p>운송장 번호</p>
+                <p>123123123</p>
+            </div>
+            <h3>주문 상품</h3>
+            <table class="table">
+                <tr th:each="product : ${order.getOrderProductList()}">
+                    <td>상품 이름</td>
+                    <td th:text="${product.name}"></td>
+                    <td>가격</td>
+                    <td th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}+' '+#{WON}"></td>
+                    <td>수량</td>
+                    <td th:text="${product.amount}"></td>
+                    <td>소계</td>
+                    <td th:text="${#numbers.formatInteger(product.price*product.amount, 3, 'COMMA')}+' '+#{WON}"></td>
+                </tr>
+            </table>
+            <div class="bot-info">
+                <p>사용 쿠폰</p>
+                <p th:text="${order.usedCoupon.name}"></p>
+                <p>할인금액</p>
+                <p th:if="${order.usedCoupon.type.equals('정액할인')}"
+                    th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
+                <p th:unless="${order.usedCoupon.type.equals('정액할인')}"
+                    th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
+                <p>사용 포인트</p>
+                <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' G'"></p>
+                <p>합계</p>
+                <p th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></p>
+            </div>
+        </main>
     </body>
+
 </html>
