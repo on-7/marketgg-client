@@ -32,7 +32,7 @@
         </div>
         <br>
         <br>
-        <div style="display: flex; flex-direction: row;" class="product-inquiry-page">
+        <div th:if="${!inquiries.isEmpty()}" style="display: flex; flex-direction: row;" class="product-inquiry-page">
             <a th:href="@{|/products/${productId}?requestPage=1|}" style="color: black"></a>
             <a th:if="${inquiryPage.page > 1}" th:href="@{|/products/${productId}?requestPage=${inquiryPage.page - 1}|}" style="color: black"></a>
             <ul class="pagination">
