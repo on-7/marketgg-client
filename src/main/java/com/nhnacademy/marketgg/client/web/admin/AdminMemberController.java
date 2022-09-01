@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/_admin/members")
+@RequestMapping("/admin/members")
 @RequiredArgsConstructor
 public class AdminMemberController {
 
