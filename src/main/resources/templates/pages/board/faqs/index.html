@@ -117,44 +117,44 @@
                     </div>
                     <div style="text-align: center" th:if="${isAdmin == 'no'}">
                         <div th:if="${searchType == 'default'}">
-                            <a class="btn-primary"
+                            <a class="btn-outline-primary"
                                th:href="'/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}"
                                th:if="${page} != 0" th:text="prev"></a>
                             <span style="background-color: white; border: 1px outset black; padding: 5px"
                                   class="btn-outline-dark" th:text="${page + 1} + 'PAGE'"></span>
-                            <a class="btn-primary"
+                            <a class="btn-outline-primary"
                                th:href="'/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}"
                                th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                         <div th:if="${searchType == 'no'}">
-                            <a class="btn-primary"
+                            <a class="btn-outline-primary"
                                th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page - 1}"
                                th:if="${page} != 0" th:text="prev"></a>
                             <span style="background-color: white; border: 1px outset black; padding: 5px"
                                   class="btn-outline-dark" th:text="${page + 1} + 'PAGE'"></span>
-                            <a class="btn-primary"
+                            <a class="btn-outline-primary"
                                th:href="'/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page + 1}"
                                th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                     </div>
                     <div style="text-align: center" th:if="${isAdmin == 'yes'}">
                         <div th:if="${searchType == 'default'}">
-                            <a class="btn-primary"
+                            <a class="btn-outline-primary"
                                th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page - 1} + '&keyword=' + ${keyword}"
                                th:if="${page} != 0" th:text="prev"></a>
                             <span style="background-color: white; border: 1px outset black; padding: 5px"
                                   class="btn-outline-dark" th:text="${page + 1} + 'PAGE'"></span>
-                            <a class="btn-primary"
+                            <a class="btn-outline-primary"
                                th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'/search?page=' + ${page + 1} + '&keyword=' + ${keyword}"
                                th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
                         <div th:if="${searchType == 'no'}">
-                            <a class="btn-primary"
+                            <a class="btn-outline-primary"
                                th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page - 1}"
                                th:if="${page} != 0" th:text="prev"></a>
                             <span style="background-color: white; border: 1px outset black; padding: 5px"
                                   class="btn-outline-dark" th:text="${page + 1} + 'PAGE'"></span>
-                            <a class="btn-primary"
+                            <a class="btn-outline-primary"
                                th:href="'/admin/customer-services/categories/'+${FAQ_CODE}+'?page=' + ${page + 1}"
                                th:if="${isEnd} == 0" th:text="next"></a>
                         </div>
