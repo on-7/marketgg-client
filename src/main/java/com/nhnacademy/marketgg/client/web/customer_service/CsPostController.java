@@ -219,7 +219,7 @@ public class CsPostController {
     }
 
     private <T> Integer checkPageEnd(List<T> list) {
-        if (list.size() <= PAGE_SIZE) {
+        if (list.size() <= PAGE_SIZE - 1) {
             return 1;
         }
         return 0;
