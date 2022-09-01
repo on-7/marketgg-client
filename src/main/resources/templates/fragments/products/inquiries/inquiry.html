@@ -19,14 +19,14 @@
 
             <div class="product-inquiry-content" th:each="inquiry : ${inquiries}">
                 <div class="product-inquiry-row">
-                    <li th:text="${inquiry.isSecret} == true ? '&#x1F512; ' + #{IS_SECRET_POST} : ${inquiry.title}"></li>
-                    <li th:text="${inquiry.isSecret} == true ? '&#x1F512; ' + #{IS_SECRET_POST} : 'A: ' + ${inquiry.content}"></li>
+                    <li th:text="${inquiry.isSecret} == true and ${inquiry.isReadable} == null ? '&#x1F512; ' + #{IS_SECRET_POST} : ${inquiry.title}"></li>
+                    <li th:text="${inquiry.isSecret} == true and ${inquiry.isReadable} == null ? '&#x1F512; ' + #{IS_SECRET_POST} : 'A: ' + ${inquiry.content}"></li>
                     <li th:text="${inquiry.name}"></li>
                     <li th:text="${#temporals.format(inquiry.createdAt, 'yyyy-MM-dd')}"></li>
                     <li th:text="${#strings.isEmpty(inquiry.adminReply)} ? #{REPLY_WAIT} : #{REPLY_DONE}"></li>
                 </div>
                 <div class="reply-wrapper" th:if="${inquiry.adminReply} != null">
-                    <li class="reply" th:text="${inquiry.isSecret} == true ? '&#x1F512; ' + #{IS_SECRET_POST} : 'Q: ' + ${inquiry.adminReply}"></li>
+                    <li class="reply" th:text="${inquiry.isSecret} == true and ${inquiry.isReadable} == null ? '&#x1F512; ' + #{IS_SECRET_POST} : 'Q: ' + ${inquiry.adminReply}"></li>
                 </div>
             </div>
         </div>

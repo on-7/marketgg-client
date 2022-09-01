@@ -56,19 +56,19 @@
             <br>
             <br>
             <div style="display: flex; flex-direction: row;" class="product-inquiry-page">
-                <a th:href="@{|/admin/products/inquiries?page=1|}" th:text="#{FIRST}" style="color: black"></a>
+                <a th:href="@{|/admin/products/inquiries?page=1|}" th:text="#{FIRST}" style="color: black"></a>  &nbsp; &lt;
 
                 <a th:if="${pages.page > 1}" th:href="@{|/admin/products/inquiries?page=${pages.page - 1}|}"
-                   style="color: black"></a>
+                   style="color: black"></a> &nbsp;
                 <ul class="pagination">
                     <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
                         <a th:href="@{|/admin/products/inquiries?page=${page}|}" th:text="${page}"
-                           style="color: black"></a>
+                           style="color: black"></a> &nbsp;
                     </li>
                 </ul>
                 <a th:if="${pages.page} < ${pages.totalPageCnt}"
                    th:href="@{|/admin/products/inquiries?page=${pages.page + 1}|}" style="color: black"></a>
-                <a th:href="@{|/admin/products/inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}"
+                &gt; &nbsp;<a th:href="@{|/admin/products/inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}"
                    style="color: black"></a>
             </div>
         </main>
