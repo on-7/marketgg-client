@@ -34,12 +34,12 @@ public class WebSecurityConfig {
                                            RedisTemplate<String, Object> redisTemplate) throws Exception {
 
         http.csrf()
-                .ignoringAntMatchers("/admin/products/**")
-                .ignoringAntMatchers("/editor/**")
-                .disable();
+            .ignoringAntMatchers("/admin/products/**")
+            .ignoringAntMatchers("/editor/**")
+            .disable();
 
         http.addFilterBefore(new AuthenticationFilter(redisTemplate),
-                             UsernamePasswordAuthenticationFilter.class);
+            UsernamePasswordAuthenticationFilter.class);
 
         http.formLogin().disable()
             .logout().disable();
@@ -49,7 +49,7 @@ public class WebSecurityConfig {
             .antMatchers("/admin/**").hasRole("ADMIN")
             // TODO: 로그인이 필요한 경로 추가 해야합니다.
             .antMatchers("/cart/**", "/dibs/**", "/members/dibs/**", "/members/ggpass/**",
-                         "/customer-services/categories/" + OTO_CODE + "/**", "/orders/**", "/mygg/**").authenticated()
+                "/customer-services/categories/" + OTO_CODE + "/**", "/orders/**", "/mygg/**").authenticated()
             .anyRequest().permitAll();
 
         http.headers()
