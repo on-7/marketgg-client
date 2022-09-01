@@ -26,10 +26,8 @@
                 <div class="first-info">
                     <p th:text="#{ORDER_STATUS}"></p>
                     <p th:text="${order.orderStatus}"></p>
-                    <p th:if="${!order.trackingNo.isEmpty()}" th:text="#{TRACKING_NO}"></p> <!-- memo: trackingNo
-                    null 체크
-                     -->
-                    <p th:text="${order.trackingNo}"></p>
+                    <p th:if="${!order.trackingNo.isBlank()}" th:text="#{TRACKING_NO}"></p>
+                    <p th:if="${!order.trackingNo.isBlank()}" th:text="${order.trackingNo}"></p>
                 </div>
 
                 <div class="second-info" th:if="${!order.getOrderProductList().isEmpty()}">
