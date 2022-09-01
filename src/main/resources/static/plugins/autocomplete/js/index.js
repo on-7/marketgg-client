@@ -1,42 +1,10 @@
-// SEE: https://tarekraafat.github.io/autoComplete.js
 window.addEventListener('DOMContentLoaded', () => {
   let count = 0;
-  const reg = "/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi";
+  const regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
+  const alpha = /^[a-z|A-Z|0-9|]+$/;
 
-  document.getElementById('autoComplete')
-          .addEventListener('keydown', async (event) => {
-            if (event.keyCode !== 32 && event.keyCode !== 8) {
-              count++;
-            }
-            console.log(count);
-
-            const $autoComplete = document.getElementById('autoComplete');
-            const $categoryCode = document.getElementById('categoryCode').value;
-
-            $autoComplete.addEventListener('keydown', (event) => {
-              if (event.key === 'Enter') {
-                const keyword = event.target.value;
-
-                if(keyword === null && reg.test(keyword)) {
-                    alert('검색어는 공백일 수 없습니다.')
-                    location.reload();
-                }
-                location.href = `/products/search?categoryId=${$categoryCode}&keyword=${keyword}&page=0`;
-              }
-            });
-
-            if (event.target.value && count >= 5) {
-              const keyword = event.target.value;
-
-              await fetch(`/products/suggest?keyword=${keyword}&page=0`)
-                .then(async (response) => await response.json())
-                .then(async (data) => {
-                  autoCompleteJS.data.src = await copy(data);
-                });
-
-              count = 0;
-            }
-          });
+  const SPACE_BAR = 32;
+  const BACKSPACE = 8;
 
   /**
    *
@@ -60,7 +28,10 @@ window.addEventListener('DOMContentLoaded', () => {
     {
       selector: "#autoComplete",
       placeHolder: "Search for Food...",
-      data: [],
+      data: {
+        src: [],
+        store: []
+      },
       resultsList: {
         element: (list, data) => {
           if (!data.results.length) {
@@ -84,6 +55,52 @@ window.addEventListener('DOMContentLoaded', () => {
       },
       events: {
         input: {
+          keydown: async (event) => {
+            let keyword = event.target.value;
+
+            if (event.keyCode !== SPACE_BAR && event.keyCode !== BACKSPACE &&
+              (event.key === 'Process' || alpha.test(event.key))) {
+              count++;
+            }
+
+            if (keyword && count >= 4) {
+              if (keyword.split(' ').join('').indexOf(']')) {
+                keyword = keyword.split(']').join('');
+                keyword = keyword.split('[').join('');
+              }
+              console.log(keyword);
+              await fetch(`/products/suggest?keyword=${keyword}&page=0`)
+                .then(async (response) => await response.json())
+                .then((data) => {
+                  autoCompleteJS.data.src = copy(data);
+                });
+
+              count = 0;
+            }
+            const $categoryCode = document.getElementById('categoryCode').value;
+
+            if (keyword.split(' ').join('').indexOf(']')) {
+              keyword = keyword.split(']').join('');
+              keyword = keyword.split('[').join('');
+            }
+            if (event.key === 'Enter') {
+              console.log(keyword.split(' ').join(''));
+              if (regex.test(keyword.split(' ').join(''))) {
+                if(keyword.length > 20) {
+                  alert('검색어는 20글자를 초과할 수 없습니다.')
+                  event.target.value = '';
+                  document.getElementById('autoComplete').focus();
+                } else {
+                  location.href = `/products/search?categoryId=${$categoryCode}&keyword=${keyword}&page=0`;
+                }
+              }
+              else {
+                alert(keyword + '는(은) 허용되지 않는 검색어입니다. 한글, 영어, 숫자를 통해서 검색해주세요.')
+                event.target.value = '';
+                document.getElementById('autoComplete').focus();
+              }
+            }
+          },
           selection: (event) => {
             autoCompleteJS.input.value = event.detail.selection.value;
           }

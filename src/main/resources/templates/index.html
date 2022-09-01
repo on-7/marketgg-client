@@ -22,22 +22,22 @@
                 </div>
                 <div class="container" id="search__title" th:if="${option == 'search'}">
                     <h1 class="main__title" th:text="'['+${keyword}+']'"></h1>
-                    <p class="lead text-muted main__description">로 검색하신 결과입니다.</p>
+                    <p class="lead main__description">로 검색하신 결과입니다.</p>
                     <div th:if="${sort == null}">
                         <a th:href="'/products/categories/'+${categoryId}+'/price/asc/search?keyword='+${keyword}+'&page=0'"
-                            class="lead text-muted main__description" th:text="'낮은 가격순으로 보기'"></a>
+                            class="btn btn-outline-light" th:text="'낮은 가격순으로 보기'"></a>
                         <a th:href="'/products/categories/'+${categoryId}+'/price/desc/search?keyword='+${keyword}+'&page=0'"
-                            class="lead text-muted main__description" th:text="'높은 가격순으로 보기'"></a>
+                            class="btn btn-outline-light" th:text="'높은 가격순으로 보기'"></a>
                     </div>
                     <div th:if="${sort == 'asc'}">
-                        <p class="lead text-muted main__description" th:text="'정렬 기준: 낮은 가격 순'"></p>
+                        <p class="lead main__description" th:text="'정렬 기준: 낮은 가격 순'"></p>
                         <a th:href="'/products/categories/'+${categoryId}+'/price/desc/search?keyword='+${keyword}+'&page=0'"
-                            class="lead text-muted main__description" th:text="'높은 가격순으로 보기'"></a>
+                            class="btn btn-outline-light" th:text="'높은 가격순으로 보기'"></a>
                     </div>
                     <div th:if="${sort == 'desc'}">
-                        <p class="lead text-muted main__description" th:text="'정렬 기준: 높은 가격 순'"></p>
+                        <p class="lead main__description" th:text="'정렬 기준: 높은 가격 순'"></p>
                         <a th:href="'/products/categories/'+${categoryId}+'/price/asc/search?keyword='+${keyword}+'&page=0'"
-                            class="lead text-muted main__description" th:text="'낮은 가격순으로 보기'"></a>
+                            class="btn btn-outline-light" th:text="'낮은 가격순으로 보기'"></a>
                     </div>
                 </div>
             </section>
