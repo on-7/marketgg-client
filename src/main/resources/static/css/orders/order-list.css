@@ -13,6 +13,7 @@ main {
     display: flex;
     flex-direction: column;
     height: calc(100vh - 18rem);
+    overflow: auto;
 }
 
 table {
