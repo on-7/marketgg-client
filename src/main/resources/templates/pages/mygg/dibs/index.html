@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/mygg-title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link})}">
+      th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
 
     <head>
         <meta charset="UTF-8">
@@ -8,17 +8,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <link rel="stylesheet" th:href="@{/css/orders/order-details.css}">
+        <link rel="stylesheet" th:href="@{/css/mygg/marketgg.mygg.css}">
 
-        <title th:text="#{TITLE_ORDER_DETAIL}"></title>
+        <title th:text="#{WISH_LIST}"></title>
     </head>
 
     <body>
         <main>
-            <h1 th:text="#{DIB_RETRIEVE}"></h1>
-            <div class="dib-wrapper">
+            <div class="dib-wrapper" style="display: flex;">
                 <div th:replace="fragments/common/mygg-sidebar"></div>
 
                 <div class="dib-content-wrapper">
+                    <h1 th:text="#{DIB_RETRIEVE}"></h1>
                     <div class="dib-content-sub-util">
                         <table class="table dib-table-wrapper">
                             <tr>
@@ -45,39 +46,7 @@
                         </table>
                     </div>
                 </div>
-
-                <div class="third-info">
-                    <h3 th:text="#{DELIVERY_ADDRESS}"></h3>
-                    <p th:text="#{ADDRESS}+'('+#{ZIPCODE}+')'"></p>
-                    <p th:text="${order.address}+' ('+${order.zipCode}+')'"></p>
-                    <p th:text="#{DETAIL_ADDRESS}"></p>
-                    <p th:text="${order.detailAddress}"></p>
-                </div>
-
-                <div class="last-info">
-                    <h3 th:text="#{DISCOUNT_APPLIED}"></h3>
-                    <div class="discount">
-                        <div class="coupon">
-                            <p th:if="${!order.usedCoupon.name.isEmpty()}" th:text="#{COUPON}"></p>
-                            <p th:text="${order.usedCoupon.name}"></p>
-                            <p th:text="#{DISCOUNTED_AMOUNT}"></p>
-                            <p th:if="${order.usedCoupon.type.equals('정액할인')}"
-                               th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
-                            <p th:unless="${order.usedCoupon.type.equals('정액할인')}"
-                               th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
-                        </div>
-                        <div class="point">
-                            <p th:text="#{USED_POINT}"></p>
-                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' G'"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="total">
-                    <p th:text="#{TOTAL}+': '+${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></p>
-                </div>
             </div>
-
         </main>
     </body>
 

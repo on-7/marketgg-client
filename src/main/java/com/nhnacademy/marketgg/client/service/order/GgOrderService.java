@@ -55,7 +55,10 @@ public class GgOrderService implements OrderService {
      */
     @Override
     public OrderDetailRetrieveResponse retrieveOrder(final Long orderId) {
-        return orderRepository.retrieveOrder(orderId);
+        OrderDetailRetrieveResponse response = orderRepository.retrieveOrder(orderId);
+        response.checkTrackingNo(response.getTrackingNo());
+
+        return response;
     }
 
     /**

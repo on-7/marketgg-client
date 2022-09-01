@@ -3,6 +3,8 @@ package com.nhnacademy.marketgg.client.dto.order;
 import com.nhnacademy.marketgg.client.dto.coupon.UsedCouponResponse;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -42,5 +44,11 @@ public class OrderDetailRetrieveResponse {
     private LocalDateTime createdAt;
 
     private List<ProductToOrder> orderProductList;
+
+    public void checkTrackingNo(final String trackingNo) {
+        if (Objects.isNull(trackingNo)) {
+            this.trackingNo = "";
+        }
+    }
 
 }

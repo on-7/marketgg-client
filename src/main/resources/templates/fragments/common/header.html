@@ -33,9 +33,8 @@
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="/mygg">MY GG</a>
                                     <a class="dropdown-item" href="/orders">주문 내역</a>
-                                    <a class="dropdown-item" href="/mygg">찜 목록</a>
+                                    <a class="dropdown-item" href="/members/dibs">찜 목록</a>
                                     <a class="dropdown-item" href="#">배송지 관리</a>
-                                    <a class="dropdown-item" href="#">상품 후기</a>
                                     <a class="dropdown-item" href="#">상품 문의</a>
                                     <a class="dropdown-item" href="#">적립금</a>
                                     <a class="dropdown-item" href="#">쿠폰</a>
@@ -44,6 +43,8 @@
                             </div>
                         </span>
                         <a href="/logout" class="btn btn-secondary my-2" th:text="#{LOGOUT}"></a>
+                        <a href="/gg-admin" sec:authorize="hasRole('ADMIN')" class="btn btn-outline-light"
+                           style="margin-left: 0.5rem;" th:text="관리자용"></a>
                     </div>
                 </div>
             </div>
