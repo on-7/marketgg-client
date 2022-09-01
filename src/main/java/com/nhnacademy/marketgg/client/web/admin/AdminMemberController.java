@@ -1,7 +1,7 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
-import com.nhnacademy.marketgg.client.dto.response.AdminMemberResponse;
+import com.nhnacademy.marketgg.client.dto.member.MemberResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.member.MemberService;
 import java.util.List;
@@ -21,10 +21,10 @@ public class AdminMemberController {
 
     @GetMapping
     public ModelAndView retrieveMember(@RequestParam(value = "page", defaultValue = "1") Integer page) {
-        PageResult<AdminMemberResponse> memberResult = memberService.retrieveMembers(page);
+        PageResult<MemberResponse> memberResult = memberService.retrieveMembers(page);
 
         Pagination pagination = new Pagination(memberResult.getTotalPages(), page);
-        List<AdminMemberResponse> members = memberResult.getData();
+        List<MemberResponse> members = memberResult.getData();
 
         ModelAndView mav = new ModelAndView("pages/admin/members/list");
         mav.addObject("members", members);

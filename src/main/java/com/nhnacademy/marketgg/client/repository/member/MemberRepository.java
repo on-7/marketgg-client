@@ -7,7 +7,7 @@ import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
-import com.nhnacademy.marketgg.client.dto.response.AdminMemberResponse;
+import com.nhnacademy.marketgg.client.dto.member.MemberResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -61,6 +61,6 @@ public interface MemberRepository {
      * @return 회원 정보 목록
      * @author 윤동열
      */
-    PageResult<AdminMemberResponse> retrieveMembers(int page);
+    PageResult<MemberResponse> retrieveMembers(int page);
 
 }

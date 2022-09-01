@@ -10,7 +10,7 @@ import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
-import com.nhnacademy.marketgg.client.dto.response.AdminMemberResponse;
+import com.nhnacademy.marketgg.client.dto.member.MemberResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import java.util.List;
@@ -77,6 +77,6 @@ public interface MemberService {
 
     void withdraw(final LoginRequest loginRequest) throws UnAuthenticException, UnAuthorizationException;
     
-    PageResult<AdminMemberResponse> retrieveMembers(int page);
+    PageResult<MemberResponse> retrieveMembers(int page);
 
 }

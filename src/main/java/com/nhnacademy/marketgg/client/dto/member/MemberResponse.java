@@ -1,4 +1,4 @@
-package com.nhnacademy.marketgg.client.dto.response;
+package com.nhnacademy.marketgg.client.dto.member;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nhnacademy.marketgg.client.jwt.Role;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
-public class AdminMemberResponse {
+public class MemberResponse {
 
     private String uuid;
     private String email;

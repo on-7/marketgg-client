@@ -10,7 +10,7 @@ import com.nhnacademy.marketgg.client.dto.member.EmailUseResponse;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
-import com.nhnacademy.marketgg.client.dto.response.AdminMemberResponse;
+import com.nhnacademy.marketgg.client.dto.member.MemberResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.auth.MemberInfoRepository;
@@ -92,7 +92,7 @@ public class DefaultMemberService implements MemberService {
     }
 
     @Override
-    public PageResult<AdminMemberResponse> retrieveMembers(int page) {
+    public PageResult<MemberResponse> retrieveMembers(int page) {
         return memberRepository.retrieveMembers(page);
     }
 

@@ -12,7 +12,7 @@ import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
-import com.nhnacademy.marketgg.client.dto.response.AdminMemberResponse;
+import com.nhnacademy.marketgg.client.dto.member.MemberResponse;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -171,12 +171,12 @@ public class MemberAdapter implements MemberRepository {
     }
 
     @Override
-    public PageResult<AdminMemberResponse> retrieveMembers(int page) {
+    public PageResult<MemberResponse> retrieveMembers(int page) {
         HttpEntity<Void> httpEntity = new HttpEntity<>(buildHeaders());
         String requestUrl = gateWayIp + "/shop/v1/admin/members?page=" + page;
 
 
-        ResponseEntity<CommonResult<PageResult<AdminMemberResponse>>> response =
+        ResponseEntity<CommonResult<PageResult<MemberResponse>>> response =
             restTemplate.exchange(requestUrl, GET, httpEntity, new ParameterizedTypeReference<>() {
             });
 
