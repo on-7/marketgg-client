@@ -33,7 +33,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            RedisTemplate<String, Object> redisTemplate) throws Exception {
 
-        http.csrf().disable();
+        http.csrf()
+                .ignoringAntMatchers("/admin/products/**")
+                .ignoringAntMatchers("/editor/**")
+                .disable();
 
         http.addFilterBefore(new AuthenticationFilter(redisTemplate),
                              UsernamePasswordAuthenticationFilter.class);
