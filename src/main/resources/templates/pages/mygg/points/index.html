@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+      th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
 
 <head>
     <title>Market GG | 포인트내역 조회</title>
-
+    <link rel="stylesheet" th:href="@{/plugins/marketgg/css/product-details.css}">
 </head>
 
 <body>

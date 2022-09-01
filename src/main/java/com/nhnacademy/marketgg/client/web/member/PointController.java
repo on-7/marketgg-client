@@ -1,6 +1,5 @@
 package com.nhnacademy.marketgg.client.web.member;
 
-import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.point.PointRetrieveResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
@@ -8,7 +7,6 @@ import com.nhnacademy.marketgg.client.service.point.PointService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,7 +28,7 @@ public class PointController {
         Pagination pagination = new Pagination(listPageResult.getTotalPages(), page);
 
         ModelAndView mav = new ModelAndView("pages/mygg/points/index");
-        mav.addObject("point", points);
+        mav.addObject("points", points);
         mav.addObject("pages", pagination);
 
         return mav;

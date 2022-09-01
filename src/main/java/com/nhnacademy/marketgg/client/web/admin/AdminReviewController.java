@@ -32,8 +32,7 @@ public class AdminReviewController {
      * @return - 해당 후기가 달린 상품의 view를 반환합니다.
      */
     @PostMapping("/{reviewId}/make-best")
-    public ModelAndView makeBestReview(@PathVariable final Long productId, @PathVariable final Long reviewId,
-                                       HttpServletResponse response) throws IOException {
+    public ModelAndView makeBestReview(@PathVariable final Long productId, @PathVariable final Long reviewId) {
 
         reviewService.makeBestReview(productId, reviewId);
 
