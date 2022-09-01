@@ -19,39 +19,48 @@
 
             <h3 style="margin-bottom: 1em; font-weight: bold;">주문 정보</h3>
             <div class="top-info">
-                <p>주문 번호</p>
+                <p th:text="#{ORDER_NO}"></p>
                 <p th:text="${orderId}"></p>
-                <p>주문 일시</p>
+                <p th:text="#{ORDER_CREATED_AT}"></p>
                 <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></p>
-                <p>주문 상태</p>
+                <p th:text="#{ORDER_STATUS}"></p>
                 <p th:text="${order.orderStatus}"></p>
-                <p>운송장 번호</p>
-                <p>123123123</p>
+                <p th:if="${!order.trackingNo.isBlank()}" th:text="#{TRACKING_NO}"></p>
+                <p th:if="${!order.trackingNo.isBlank()}" th:text="${order.trackingNo}"></p>
             </div>
-            <h3>주문 상품</h3>
+            <h3 th:text="#{ORDER_PRODUCT_LIST}"></h3>
             <table class="table">
                 <tr th:each="product : ${order.getOrderProductList()}">
-                    <td>상품 이름</td>
+                    <td th:text="#{PRODUCT_NAME}"></td>
                     <td th:text="${product.name}"></td>
-                    <td>가격</td>
+                    <td th:text="#{PRODUCT_PRICE}"></td>
                     <td th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}+' '+#{WON}"></td>
-                    <td>수량</td>
+                    <td th:text="#{PRODUCT_AMOUNT}"></td>
                     <td th:text="${product.amount}"></td>
-                    <td>소계</td>
+                    <td th:text="#{SUBTOTAL}"></td>
                     <td th:text="${#numbers.formatInteger(product.price*product.amount, 3, 'COMMA')}+' '+#{WON}"></td>
                 </tr>
             </table>
+            <h3 th:text="#{DELIVERY_ADDRESS}"></h3>
+            <table class="table">
+                <tr>
+                    <td th:text="#{ADDRESS}+' ('+#{ZIPCODE}+')'"></td>
+                    <td th:text="${order.address}+' ('+${order.zipCode}+')'"></td>
+                    <td th:text="#{DETAIL_ADDRESS}"></td>
+                    <td th:text="${order.detailAddress}"></td>
+                </tr>
+            </table>
             <div class="bot-info">
-                <p>사용 쿠폰</p>
+                <p th:text="#{USED_COUPON}"></p>
                 <p th:text="${order.usedCoupon.name}"></p>
-                <p>할인금액</p>
+                <p th:text="#{DISCOUNTED_AMOUNT}"></p>
                 <p th:if="${order.usedCoupon.type.equals('정액할인')}"
                     th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
                 <p th:unless="${order.usedCoupon.type.equals('정액할인')}"
                     th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
-                <p>사용 포인트</p>
+                <p th:text="#{USED_POINT}"></p>
                 <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' G'"></p>
-                <p>합계</p>
+                <p th:text="#{TOTAL}"></p>
                 <p th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></p>
             </div>
         </main>
