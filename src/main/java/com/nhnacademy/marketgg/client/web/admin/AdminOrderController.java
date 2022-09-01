@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web.admin;
 
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
@@ -43,6 +44,18 @@ public class AdminOrderController {
         ModelAndView mav = new ModelAndView("pages/admin/orders/order-list");
         mav.addObject("orders", orderList);
         mav.addObject("pages", pagination);
+
+        return mav;
+    }
+
+    @GetMapping("/{orderId}")
+    public ModelAndView adminRetrieveOrderDetail(@PathVariable final Long orderId) {
+        log.info("retrieveOrderDetail: {}", orderId);
+
+        OrderDetailRetrieveResponse order = orderService.retrieveOrder(orderId);
+
+        ModelAndView mav = new ModelAndView("pages/admin/orders/order-details");
+        mav.addObject("order", order);
 
         return mav;
     }
