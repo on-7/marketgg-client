@@ -3,10 +3,12 @@
       th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
     <head>
         <link rel="stylesheet" th:href="@{/css/productinquries/marketgg.myinquiries.css}">
+        <link rel="stylesheet" th:href="@{/css/mygg/marketgg.mygg.css}">
         <title>Market GG | MY gg 상품 문의 조회</title>
     </head>
     <body>
         <main>
+            <div th:replace="fragments/common/mygg-sidebar"></div>
             <div>
                 <div class="product-inquiry-header">
                     <li th:text="#{PRODUCT_NAME}"></li>
