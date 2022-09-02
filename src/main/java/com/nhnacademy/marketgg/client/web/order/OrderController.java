@@ -1,12 +1,15 @@
 package com.nhnacademy.marketgg.client.web.order;
 
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +27,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  * @version 1.0
  * @since 1.0
  */
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class OrderController {
@@ -64,10 +68,12 @@ public class OrderController {
      * @param trackingNo - 운송장 번호
      * @return 배송정보 페이지로 이동
      */
-    @GetMapping
+    @GetMapping("/orders/delivery")
     public ModelAndView retrieveDeliveryInfo(@RequestParam @Min(1) final String trackingNo) {
-        ModelAndView modelAndView = new ModelAndView("delivery-info");
-        modelAndView.addObject(orderService.retrieveDeliveryInfo(trackingNo));
+        //FIXME = 페이지 필요.
+        ModelAndView modelAndView = new ModelAndView("/index");
+
+        modelAndView.addObject("deliveryInfo", orderService.retrieveDeliveryInfo(trackingNo));
 
         return modelAndView;
     }
