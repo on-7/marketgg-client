@@ -31,7 +31,7 @@ public class ProductController {
     private final ProductService productService;
     private final ReviewService reviewService;
     private final ProductInquiryService productInquiryService;
-    private static final Integer PAGE_SIZE = 10;
+    private static final Integer PAGE_SIZE = 9;
 
     private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
 
@@ -218,14 +218,14 @@ public class ProductController {
     public String[] suggestionProductList(@RequestParam final String keyword,
                                           @RequestParam final Integer page) throws JsonProcessingException {
 
-        SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 10);
+        SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 5);
         PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
         List<ProductListResponse> products = responses.getData();
-        String[] productNameList = new String[10];
+        String[] productNameList = new String[PAGE_SIZE];
 
         for (int i = 0; i < products.size(); i++) {
             productNameList[i] = products.get(i).getProductName();
-            if (i == 9) {
+            if (i == 4) {
                 break;
             }
         }

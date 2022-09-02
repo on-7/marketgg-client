@@ -7,7 +7,6 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <link rel="stylesheet" th:href="@{/css/orders/order-details.css}">
         <link rel="stylesheet" th:href="@{/css/mygg/marketgg.mygg.css}">
 
         <title th:text="#{WISH_LIST}"></title>
@@ -30,7 +29,7 @@
                             </tr>
                             <tr style="background-color: whitesmoke;" class="table table-hover" th:each="dib : ${dibs}">
                                 <td>
-                                    <img th:src="${dib.thumbnail}" alt="null"/>
+                                    <img style="width: 10rem; height: 5rem;" th:src="${dib.thumbnail}" alt="이미지 없음"/>
                                 </td>
                                 <td>
                                     <a th:href="'/products/' + ${dib.productNo}" th:text="${dib.productName}"></a>
