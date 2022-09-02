@@ -26,7 +26,11 @@
                                     <input type="text" name="name"/>
                                 </td>
                                 <td>
-                                    <input type="text" name="type"/>
+                                    <select name="type">
+                                        <option selected th:text="#{COUPON_TYPE_SELECT}"></option>
+                                        <option value="정액할인" >정액할인</option>
+                                        <option value="정률할인" >정률할인</option>
+                                    </select>
                                 </td>
                                 <td>
                                     <input type="number" min="1" name="expiredDate"/>
