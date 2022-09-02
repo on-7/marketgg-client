@@ -2,9 +2,21 @@ main > > div {
     width: 70rem;
 }
 
-.list-group, .mygg-content{
-    height: 100rem;
-    margin-right: 1rem;
+.list-group, .mygg-content {
+    height: calc(100vh + 20rem);
+}
+
+.list-group {
+    margin-right: 2em;
+}
+
+.list-group a:first-child {
+    text-align: center;
+}
+
+.list-group-item.active {
+    background-color: orange;
+    border-color: orange;
 }
 
 .product-inquiry-header {
