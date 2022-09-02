@@ -221,7 +221,7 @@ public class ProductController {
         SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 5);
         PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
         List<ProductListResponse> products = responses.getData();
-        String[] productNameList = new String[PAGE_SIZE];
+        String[] productNameList = new String[5];
 
         for (int i = 0; i < products.size(); i++) {
             productNameList[i] = products.get(i).getProductName();
