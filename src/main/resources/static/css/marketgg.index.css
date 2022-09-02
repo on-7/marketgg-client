@@ -19,6 +19,7 @@ html {
 .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .pagination li {

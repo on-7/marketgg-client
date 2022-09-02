@@ -31,7 +31,7 @@ public class IndexController {
     private final ProductService productService;
 
     @GetMapping({ "/", "/index" })
-    public ModelAndView index(MemberInfo memberInfo, @RequestParam(defaultValue = "0") int page) {
+    public ModelAndView index(MemberInfo memberInfo, @RequestParam(defaultValue = "1") int page) {
         log.info("MemberInfo = {}", memberInfo);
 
         ModelAndView mav = new ModelAndView("index");
