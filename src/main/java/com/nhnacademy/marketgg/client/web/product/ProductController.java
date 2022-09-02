@@ -169,7 +169,7 @@ public class ProductController {
      */
     @GetMapping("/{productId}")
     public ModelAndView retrieveProductDetails(@PathVariable final Long productId,
-                                               @RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "1") int page,
                                                @RequestParam(defaultValue = "1", value = "requestPage") int page2)
             throws JsonProcessingException {
 

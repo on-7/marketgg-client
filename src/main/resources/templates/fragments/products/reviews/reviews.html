@@ -193,11 +193,18 @@
         </div>
     </form>
 
-    <div th:if="${!reviews.isEmpty()}">
+    <div class="pagination" th:if="${!reviews.isEmpty()}">
+        <a th:href="@{|/products/${productDetails.id}/?page=1|}" th:text="#{FIRST_PAGE}"></a>
+        <a th:if="${pages.page} > 1" th:href="@{|/products/${productDetails.id}/?page=${pages.page-1}|}" th:text="#{PREV_PAGE}"></a>
         <ul class="pagination">
-            <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
-                <a th:href="@{|/products/${productDetails.id}/?page=${page}|}" th:text="${page + 1}"></a>
+            <li th:each="page : ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                <a th:href="@{|/products/${productDetails.id}/?page=${page}|}" th:text="${page}"
+                   th:classappend="${page} == ${pages.page} ? 'current'"></a>
             </li>
         </ul>
+        <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/products/${productDetails.id}/?page=${pages.page+1}|}"
+           th:text="#{NEXT_PAGE}"></a>
+        <a th:href="@{|/products/${productDetails.id}/?page=${pages.totalPageCnt}|}" th:text="#{END_PAGE}"></a>
     </div>
+
 </section>

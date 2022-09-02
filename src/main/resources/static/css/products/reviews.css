@@ -1,6 +1,14 @@
+.pagination > * {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
 .pagination {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .pagination li {
@@ -12,4 +20,11 @@
     height: 50px;
     text-align: center;
     line-height: 1.2;
+}
+
+.pagination > a:hover {
+    background-color: #868b8f;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 10px;
 }
