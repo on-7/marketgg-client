@@ -53,7 +53,7 @@ public class ProductController {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
-        Pagination pagination = new Pagination(responses.getTotalPages(), page);
+        Pagination pagination = new Pagination(responses.getTotalPages(), page + 1);
         List<ProductListResponse> products = responses.getData();
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("pageType", "search");
@@ -86,7 +86,7 @@ public class ProductController {
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         PageResult<ProductListResponse> responses = productService.searchProductListByPrice(request, option);
         List<ProductListResponse> products = responses.getData();
-        Pagination pagination = new Pagination(responses.getTotalPages(), page);
+        Pagination pagination = new Pagination(responses.getTotalPages(), page + 1);
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("keyword", keyword);

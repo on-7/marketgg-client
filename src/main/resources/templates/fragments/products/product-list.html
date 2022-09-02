@@ -61,20 +61,35 @@
                 <a th:href="@{|/products?page=${pages.totalPageCnt}|}" th:text="#{END_PAGE}"></a>
             </div>
         </div>
+
         <div th:if="${pageType == 'search'}">
             <ul class="pagination">
-                <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
-                    <a th:href="'products/search?categoryId='+${categoryId}+'&keyword='+${keyword}+'&page='+${page + 1}"
-                       th:text="${page + 1}"></a>
-                </li>
+                <a th:href="@{|/products/search?categoryId=${categoryId}&keyword=${keyword}&page=0|}" th:text="#{FIRST_PAGE}"></a>
+                <a th:if="${pages.page} > 1" th:href="@{|/products/search?categoryId=${categoryId}&keyword=${keyword}&page=${pages.page-1}|}" th:text="#{PREV_PAGE}"></a>
+                <ul class="pagination">
+                    <li th:each="page : ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                        <a th:href="@{|/products/search?categoryId=${categoryId}&keyword=${keyword}&page=${page}|}" th:text="${page}"
+                           th:classappend="${page} == ${pages.page} ? 'current'"></a>
+                    </li>
+                </ul>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/products/search?categoryId=${categoryId}&keyword=${keyword}&page=${pages.page+1}|}"
+                   th:text="#{NEXT_PAGE}"></a>
+                <a th:href="@{|/products?page=${pages.totalPageCnt}|}" th:text="#{END_PAGE}"></a>
             </ul>
         </div>
         <div th:if="${pageType == 'priceSearch'}">
             <ul class="pagination">
-                <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
-                    <a th:href="'products/categories/'+${categoryId}+'/price/'+${option}+'/search?keyword='+${keyword}+'&page='+${page + 1}"
-                       th:text="${page + 1}"></a>
-                </li>
+                <a th:href="@{|/products/categories/${categoryId}/price/${option}/search?keyword=${keyword}&page=0|}" th:text="#{FIRST_PAGE}"></a>
+                <a th:if="${pages.page} > 1" th:href="@{|/products/categories/${categoryId}/price/${option}/search?keyword=${keyword}&page=${pages.page-1}|}" th:text="#{PREV_PAGE}"></a>
+                <ul class="pagination">
+                    <li th:each="page : ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                        <a th:href="@{|/products/categories/${categoryId}/price/${option}/search?keyword=${keyword}&page=${pages.page}|}" th:text="${page}"
+                           th:classappend="${page} == ${pages.page} ? 'current'"></a>
+                    </li>
+                </ul>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/products/categories/${categoryId}/price/${option}/search?keyword=${keyword}&page=${pages.page+1}|}"
+                   th:text="#{NEXT_PAGE}"></a>
+                <a th:href="@{|/products/categories/${categoryId}/price/${option}/search?keyword=${keyword}&page=0|}" th:text="#{END_PAGE}"></a>
             </ul>
         </div>
     </div>
