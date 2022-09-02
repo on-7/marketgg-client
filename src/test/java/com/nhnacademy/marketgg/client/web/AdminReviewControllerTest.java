@@ -42,7 +42,7 @@ class AdminReviewControllerTest {
 
         mockMvc.perform(post("/admin/products/{productId}/reviews/{reviewId}/make-best", 1, 1))
                .andExpect(status().is3xxRedirection())
-               .andExpect(view().name("redirect:/" + "pages/products/product-view"));
+               .andExpect(view().name("redirect:/products/1"));
 
         then(reviewService).should(times(1)).makeBestReview(anyLong(), anyLong());
 

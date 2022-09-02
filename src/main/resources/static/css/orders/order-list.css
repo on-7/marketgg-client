@@ -9,6 +9,13 @@ main {
     padding: 3rem;
 }
 
+.custom-order-div {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 18rem);
+    overflow: auto;
+}
+
 table {
     text-align: center;
 }
@@ -24,6 +31,10 @@ tr:hover {
     cursor: pointer;
 }
 
+.pagination {
+    justify-content: center;
+}
+
 .pagination > * {
     display: flex;
     flex-direction: row;
@@ -33,7 +44,7 @@ tr:hover {
 
 ul {
     list-style: none;
-    padding-left: 0em;
+    padding-left: 0;
 }
 
 li {

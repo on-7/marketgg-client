@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ProductInquiryResponse {
 
-    private String uuid;
-
     private String name;
 
     private Long productId;
@@ -27,5 +25,7 @@ public class ProductInquiryResponse {
     private String adminReply;
 
     private LocalDateTime createdAt;
+
+    private Boolean isReadable;
 
 }

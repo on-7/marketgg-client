@@ -1,8 +1,10 @@
 package com.nhnacademy.marketgg.client.dto.delivery;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -14,11 +16,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class DeliveryLocationResponseDto {
 
     private String status;
     private LocalDateTime completionTime;
-    private Long locationNo;
+    private String middleLocation;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime arrivalTime;
 
 }

@@ -1,15 +1,18 @@
 package com.nhnacademy.marketgg.client.repository.member;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpMethod.GET;
 
 import com.nhnacademy.marketgg.client.context.SessionContext;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
+import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressCreateRequest;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.dto.member.MemberUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.member.SignupRequest;
+import com.nhnacademy.marketgg.client.dto.member.MemberResponse;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
@@ -53,13 +56,13 @@ public class MemberAdapter implements MemberRepository {
 
     @Override
     public void signup(final SignupRequest signupRequest)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<SignupRequest> response = new HttpEntity<>(signupRequest, buildHeaders());
         ResponseEntity<CommonResult<Void>> exchange =
-                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + SIGNUP, HttpMethod.POST, response,
-                                      new ParameterizedTypeReference<>() {
-                                      });
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + SIGNUP, HttpMethod.POST, response,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(exchange);
     }
@@ -86,14 +89,15 @@ public class MemberAdapter implements MemberRepository {
 
     @Override
     public void update(final MemberUpdateRequest memberUpdateRequest, MemberInfo memberInfo)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
+
 
         HttpEntity<MemberUpdateRequest> request =
-                new HttpEntity<>(memberUpdateRequest, buildHeaders());
+            new HttpEntity<>(memberUpdateRequest, buildHeaders());
         ResponseEntity<CommonResult<Void>> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.PUT, request,
-                                      new ParameterizedTypeReference<>() {
-                                      });
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER, HttpMethod.PUT, request,
+                new ParameterizedTypeReference<>() {
+                });
 
         HttpHeaders headers = response.getHeaders();
 
@@ -123,14 +127,16 @@ public class MemberAdapter implements MemberRepository {
 
     @Override
     public List<DeliveryAddressResponse> retrieveDeliveryAddresses()
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
+
         HttpEntity<Void> requestEntity = new HttpEntity<>(buildHeaders());
+
         ResponseEntity<CommonResult<List<DeliveryAddressResponse>>> response = this.restTemplate.exchange(
-                gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESSES,
-                HttpMethod.GET,
-                requestEntity,
-                new ParameterizedTypeReference<>() {
-                });
+            gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESSES,
+            HttpMethod.GET,
+            requestEntity,
+            new ParameterizedTypeReference<>() {
+            });
 
         this.checkResponseUri(response);
 
@@ -139,26 +145,44 @@ public class MemberAdapter implements MemberRepository {
 
     @Override
     public void createDeliveryAddress(final DeliveryAddressCreateRequest createRequest)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<DeliveryAddressCreateRequest> response = new HttpEntity<>(createRequest, buildHeaders());
+
         ResponseEntity<CommonResult<Void>> exchange =
-                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.POST, response,
-                                      new ParameterizedTypeReference<>() {
-                                      });
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS, HttpMethod.POST, response,
+                new ParameterizedTypeReference<>() {
+                });
+
 
         this.checkResponseUri(exchange);
     }
 
     @Override
     public void deleteDeliveryAddress(final Long deliveryAddressId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
+
         HttpEntity<Long> response = new HttpEntity<>(deliveryAddressId, buildHeaders());
         ResponseEntity<CommonResult<Void>> exchange =
-                restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS + "/" + deliveryAddressId,
-                                      HttpMethod.DELETE, response, new ParameterizedTypeReference<>() {
-                        });
+            restTemplate.exchange(gateWayIp + DEFAULT_MEMBER + DELIVERY_ADDRESS + "/" + deliveryAddressId,
+                HttpMethod.DELETE, response, new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponseUri(exchange);
+    }
+
+    @Override
+    public PageResult<MemberResponse> retrieveMembers(int page) {
+        HttpEntity<Void> httpEntity = new HttpEntity<>(buildHeaders());
+        String requestUrl = gateWayIp + "/shop/v1/admin/members?page=" + page;
+
+
+        ResponseEntity<CommonResult<PageResult<MemberResponse>>> response =
+            restTemplate.exchange(requestUrl, GET, httpEntity, new ParameterizedTypeReference<>() {
+            });
+
+        this.checkResponseUri(response);
+
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     private HttpHeaders buildHeaders() {
@@ -170,7 +194,7 @@ public class MemberAdapter implements MemberRepository {
     }
 
     private <T> void checkResponseUri(final ResponseEntity<CommonResult<T>> response)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         ResponseUtils.checkError(response);
         log.info(String.valueOf(response.getHeaders().getLocation()));

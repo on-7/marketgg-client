@@ -63,7 +63,7 @@ public class OrderPageController {
         Pagination pagination = new Pagination(orders.getTotalPages(), page);
         List<OrderRetrieveResponse> orderList = orders.getData();
 
-        ModelAndView mav = new ModelAndView("pages/orders/order-list");
+        ModelAndView mav = new ModelAndView("pages/mygg/orders/order-list");
         mav.addObject("orders", orderList);
         mav.addObject("pages", pagination);
 
@@ -81,7 +81,7 @@ public class OrderPageController {
         OrderDetailRetrieveResponse order = orderService.retrieveOrder(orderId);
         log.info("retrieveOrder: {}", order);
 
-        ModelAndView mav = new ModelAndView("pages/orders/order-details");
+        ModelAndView mav = new ModelAndView("pages/mygg/orders/order-details");
         mav.addObject("order", order);
 
         return mav;

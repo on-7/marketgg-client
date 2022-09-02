@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,10 @@ public class OrderAdapter implements OrderRepository {
     private static final String ORDERS_PATH_PREFIX = "/orders";
     private final String gatewayIp;
 
+    @Value("${gg.delivery.origin}")
+    private String deliveryHost;
+    private static final String EGGPLANT_DELIVERY_PREFIX = "/eggplant-delivery";
+
     /**
      * {@inheritDoc}
      *
@@ -45,23 +50,23 @@ public class OrderAdapter implements OrderRepository {
     @Override
     public OrderToPayment createOrder(final OrderCreateRequest orderRequest, final MemberInfo memberinfo) {
         ResponseEntity<CommonResult<OrderToPayment>> response
-                = WebClient.builder()
-                           .baseUrl(gatewayIp)
-                           .defaultHeaders(httpHeaders -> {
-                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
-                               httpHeaders.setBearerAuth(JwtUtils.getToken());
+            = WebClient.builder()
+                       .baseUrl(gatewayIp)
+                       .defaultHeaders(httpHeaders -> {
+                           httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                           httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                           httpHeaders.setBearerAuth(JwtUtils.getToken());
+                       })
+                       .build()
+                       .post()
+                       .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
+                       .bodyValue(orderRequest)
+                       .retrieve()
+                       .toEntity(
+                           new ParameterizedTypeReference<CommonResult<OrderToPayment>>() {
                            })
-                           .build()
-                           .post()
-                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
-                           .bodyValue(orderRequest)
-                           .retrieve()
-                           .toEntity(
-                                   new ParameterizedTypeReference<CommonResult<OrderToPayment>>() {
-                                   })
-                           .blockOptional()
-                           .orElseThrow(NullPointerException::new);
+                       .blockOptional()
+                       .orElseThrow(NullPointerException::new);
 
         return Objects.requireNonNull(response.getBody()).getData();
     }
@@ -74,22 +79,22 @@ public class OrderAdapter implements OrderRepository {
     @Override
     public PageResult<OrderRetrieveResponse> retrieveOrders(final Integer page) {
         ResponseEntity<CommonResult<PageResult<OrderRetrieveResponse>>> response
-                = WebClient.builder()
-                           .baseUrl(gatewayIp)
-                           .defaultHeaders(httpHeaders -> {
-                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
-                               httpHeaders.setBearerAuth(JwtUtils.getToken());
+            = WebClient.builder()
+                       .baseUrl(gatewayIp)
+                       .defaultHeaders(httpHeaders -> {
+                           httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                           httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                           httpHeaders.setBearerAuth(JwtUtils.getToken());
+                       })
+                       .build()
+                       .get()
+                       .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "?page=" + page)
+                       .retrieve()
+                       .toEntity(
+                           new ParameterizedTypeReference<CommonResult<PageResult<OrderRetrieveResponse>>>() {
                            })
-                           .build()
-                           .get()
-                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "?page=" + page)
-                           .retrieve()
-                           .toEntity(
-                                   new ParameterizedTypeReference<CommonResult<PageResult<OrderRetrieveResponse>>>() {
-                                   })
-                           .blockOptional()
-                           .orElseThrow(NullPointerException::new);
+                       .blockOptional()
+                       .orElseThrow(NullPointerException::new);
 
         return Objects.requireNonNull(response.getBody()).getData();
     }
@@ -103,22 +108,22 @@ public class OrderAdapter implements OrderRepository {
     @Override
     public OrderDetailRetrieveResponse retrieveOrder(final Long orderId) {
         ResponseEntity<CommonResult<OrderDetailRetrieveResponse>> response
-                = WebClient.builder()
-                           .baseUrl(gatewayIp)
-                           .defaultHeaders(httpHeaders -> {
-                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
-                               httpHeaders.setBearerAuth(JwtUtils.getToken());
+            = WebClient.builder()
+                       .baseUrl(gatewayIp)
+                       .defaultHeaders(httpHeaders -> {
+                           httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                           httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                           httpHeaders.setBearerAuth(JwtUtils.getToken());
+                       })
+                       .build()
+                       .get()
+                       .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + orderId)
+                       .retrieve()
+                       .toEntity(
+                           new ParameterizedTypeReference<CommonResult<OrderDetailRetrieveResponse>>() {
                            })
-                           .build()
-                           .get()
-                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + orderId)
-                           .retrieve()
-                           .toEntity(
-                                   new ParameterizedTypeReference<CommonResult<OrderDetailRetrieveResponse>>() {
-                                   })
-                           .blockOptional()
-                           .orElseThrow(NullPointerException::new);
+                       .blockOptional()
+                       .orElseThrow(NullPointerException::new);
         return Objects.requireNonNull(response.getBody()).getData();
     }
 
@@ -132,7 +137,7 @@ public class OrderAdapter implements OrderRepository {
         WebClient client = WebClient.builder()
                                     .baseUrl(gatewayIp)
                                     .defaultHeaders(
-                                            headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
+                                        headers -> headers.setAccept(singletonList(MediaType.APPLICATION_JSON))
                                     )
                                     .build();
 
@@ -170,7 +175,7 @@ public class OrderAdapter implements OrderRepository {
     @Override
     public List<DeliveryLocationResponseDto> retrieveDeliveryInfo(final String trackingNo) {
         WebClient client = WebClient.builder()
-                                    .baseUrl(gatewayIp)
+                                    .baseUrl(deliveryHost)
                                     .defaultHeaders(httpHeaders -> {
                                         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                                         httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -178,7 +183,9 @@ public class OrderAdapter implements OrderRepository {
                                     .build();
 
         return client.get()
-                     .uri("localhost:9090/" + trackingNo)
+                     .uri(uriBuilder -> uriBuilder.path(EGGPLANT_DELIVERY_PREFIX + "/tracking-no")
+                                                  .queryParam("trackingNo", trackingNo)
+                                                  .build())
                      .retrieve()
                      .bodyToMono(new ParameterizedTypeReference<List<DeliveryLocationResponseDto>>() {
                      })
@@ -189,23 +196,23 @@ public class OrderAdapter implements OrderRepository {
     @Override
     public OrderFormResponse retrieveOrderForm(CartOrderRequest cartRequest) {
         ResponseEntity<CommonResult<OrderFormResponse>> response
-                = WebClient.builder()
-                           .baseUrl(gatewayIp)
-                           .defaultHeaders(httpHeaders -> {
-                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
-                               httpHeaders.setBearerAuth(JwtUtils.getToken());
+            = WebClient.builder()
+                       .baseUrl(gatewayIp)
+                       .defaultHeaders(httpHeaders -> {
+                           httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                           httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                           httpHeaders.setBearerAuth(JwtUtils.getToken());
+                       })
+                       .build()
+                       .post()
+                       .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/order-form")
+                       .bodyValue(cartRequest)
+                       .retrieve()
+                       .toEntity(
+                           new ParameterizedTypeReference<CommonResult<OrderFormResponse>>() {
                            })
-                           .build()
-                           .post()
-                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/order-form")
-                           .bodyValue(cartRequest)
-                           .retrieve()
-                           .toEntity(
-                                   new ParameterizedTypeReference<CommonResult<OrderFormResponse>>() {
-                                   })
-                           .blockOptional()
-                           .orElseThrow(NullPointerException::new);
+                       .blockOptional()
+                       .orElseThrow(NullPointerException::new);
 
         return Objects.requireNonNull(response.getBody()).getData();
     }

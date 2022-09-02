@@ -1,0 +1,28 @@
+main {
+    display: flex;
+    border: 1px solid #000;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    margin: 0 auto;
+    padding: 3rem;
+}
+
+.pagination {
+    justify-content: center;
+}
+
+.pagination > * {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.my-coupon {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 18rem);
+    overflow: auto;
+}

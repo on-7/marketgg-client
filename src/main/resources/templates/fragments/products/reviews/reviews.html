@@ -131,9 +131,9 @@
                     <div class="left">
                     </div>
                     <div class="right">
-                        <h4>
+                        <h4 style="width: 30rem">
                             <span th:text="${review.memberName}"></span>
-                            <span class="gig-rating text-body-2">
+                            <span class="gig-rating text-body-2" style="padding: 20px">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1792 1792" width="15" height="15">
                                     <path
                                             fill="currentColor"
@@ -145,7 +145,7 @@
                         </h4>
                         <div class="country d-flex align-items-center">
                         </div>
-                        <div class="review-description">
+                        <div class="review-description" style="width: 200rem">
                             <p>
                                 <span th:utext="${review.content}">></span>
                             </p>
@@ -153,12 +153,18 @@
                         <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
                         <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
                             <div class="btn-wrapper">
-                                <!--                            <button type="button" class="btn btn-danger btn-delete" th:btn-delete-id="${review.id}" th:text="#{DELETE}">삭제</button>-->
                                 <form class="btn"
                                       th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}"
                                       method="post">
                                     <input type="hidden" name="_method" value="delete"/>
                                     <input class="btn btn-danger" type="submit" th:value="#{DELETE}"/>
+                                </form>
+
+                                <form class="btn"
+                                      th:action="'/admin/products/' + ${productDetails.id} + '/reviews/' + ${review.id} + '/make-best'"
+                                      method="post">
+                                    <input class="btn btn-success" type="submit" th:value="#{MAKE_BEST_REVIEW}"/>
+                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
                                 </form>
                             </div>
                         </div>
@@ -187,7 +193,7 @@
         </div>
     </form>
 
-    <div>
+    <div th:if="${!reviews.isEmpty()}">
         <ul class="pagination">
             <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
                 <a th:href="@{|/products/${productDetails.id}/?page=${page}|}" th:text="${page + 1}"></a>

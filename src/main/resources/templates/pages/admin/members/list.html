@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/admin-title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/admin/members.css}">
+        <title>Market GG | ADMIN</title>
+    </head>
+
+    <body>
+
+        <main>
+            <h1 id="admin-member-title">회원 관리</h1><br />
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>이름</th>
+                        <th>Email</th>
+                        <th>전화번호</th>
+                        <th>회원등급</th>
+                        <th>성별</th>
+                        <th>생일</th>
+                        <th>가입일시</th>
+                        <th>관리자 여부</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="member : ${members}">
+                        <td th:text="${member.name}">이름</td>
+                        <td th:text="${member.email}">Email</td>
+                        <td th:text="${member.phoneNumber}">전화번호</td>
+                        <td th:text="${member.memberGrade}">회원등급</td>
+                        <td th:if="${#strings.equals(member.gender, 'M')}">남</td>
+                        <td th:unless="${#strings.equals(member.gender, 'M')}">여</td>
+                        <td th:text="${member.birthDate}">생일</td>
+                        <td th:text="${#temporals.format(member.createdAt, 'yyyy-mm-dd HH:mm')}">가입일시</td>
+                        <td th:if="${member.isAdmin()}">Y</td>
+                        <td th:unless="${member.isAdmin()}">N</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br />
+
+            <div class="page-block">
+                <a th:href="@{|/admin/members?page=1|}" th:text="#{FIRST}"></a> &nbsp; &lt;
+                <a th:if="${pages.page > 1}" th:href="@{|/admin/members?page=${pages.page - 1}|}"></a> &nbsp;
+                <ul class="pagination">
+                    <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                        <a th:href="@{|/admin/members?page=${page}|}" th:text="${page}"></a>&nbsp;
+                    </li>
+                </ul>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}"
+                   th:href="@{|/admin/members?page=${pages.page + 1}|}"></a>&gt; &nbsp;
+                <a th:href="@{|/admin/members?page=${pages.totalPageCnt}|}" th:text="#{LAST}"></a>
+            </div>
+
+        </main>
+
+    </body>
+
+</html>

@@ -1,11 +1,11 @@
-const productId = document.getElementById("id");
-const reviewId = document.getElementById("reviewId");
+
 
 window.addEventListener('DOMContentLoaded', () => {
-
-    // let reviewsRetrieveBtn = document.getElementById("review-retrieve");
     const reviewUpdateBtn = document.querySelectorAll('.btn-update');
     const reviewDeleteBtns = document.querySelectorAll('.btn-delete');
+
+    const productId = document.getElementById("id");
+    const reviewId = document.getElementById("reviewId");
 
     // function retrieveReviews() {
     //     let html = "";

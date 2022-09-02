@@ -4,10 +4,12 @@ import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreatedTrackingNoRequest {
 
     @NotBlank(message = "운송장 번호가 유효하지 않습니다.")
