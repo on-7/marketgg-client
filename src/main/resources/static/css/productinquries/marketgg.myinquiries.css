@@ -1,11 +1,16 @@
-main > div {
-    width: 100%;
+main > > div {
+    width: 70rem;
+}
+
+.list-group, .mygg-content{
+    height: 100rem;
+    margin-right: 1rem;
 }
 
 .product-inquiry-header {
     display: flex;
     justify-content: space-around;
-    background-color: pink;
+    background-color: darkorange;
     padding: 1rem;
 }
 
@@ -57,7 +62,7 @@ ul div {
 .reply {
     display: flex;
     justify-content: left;
-    padding-left: 30rem;
+    padding-left: 20rem;
     flex: 1;
     color: deeppink;
 }
@@ -72,4 +77,24 @@ ul div {
 .product-inquiry-page {
     display: flex;
     justify-content: center;
+}
+
+.pagination {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+}
+
+.pagination > * {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+.my-coupon {
+    display: flex;
+    flex-direction: column;
+    height: 100rem;
+    overflow: auto;
 }
