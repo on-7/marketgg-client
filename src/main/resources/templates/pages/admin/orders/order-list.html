@@ -27,6 +27,7 @@
                     <th th:text="#{ORDER_TOTAL_AMOUNT}"></th>
                     <th th:text="#{ORDER_STATUS}"></th>
                     <th th:text="#{ORDER_CREATED_AT}"></th>
+                    <th>운송장 발급</th>
                 </tr>
                 <tr class="order-content" th:each="order : ${orders}"
                     th:onclick="|location.href='/admin/orders/'+${order.id}|">
@@ -35,21 +36,25 @@
                     <td th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></td>
                     <td th:text="${order.orderStatus}"></td>
                     <td th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></td>
+                    <td>
+                        <a th:href="@{|/admin/orders/${order.id}/delivery|}">발급</a>
+                    </td>
                 </tr>
             </table>
 
             <div class="pagination" th:if="${!orders.isEmpty()}">
-                <a th:href="@{|/orders?page=1|}" th:text="#{FIRST_PAGE}"></a>
-                <a th:if="${pages.page} > 1" th:href="@{|/orders?page=${pages.page-1}|}" th:text="#{PREV_PAGE}"></a>
+                <a th:href="@{|/admin/orders/index?page=1|}" th:text="#{FIRST_PAGE}"></a>
+                <a th:if="${pages.page} > 1" th:href="@{|/admin/orders/index?page=${pages.page-1}|}"
+                   th:text="#{PREV_PAGE}"></a>
                 <ul>
                     <li th:each="page : ${#numbers.sequence(pages.startPage, pages.endPage)}">
-                        <a th:href="@{|/orders?page=${page}|}" th:text="${page}"
+                        <a th:href="@{|/admin/orders/index?page=${page}|}" th:text="${page}"
                            th:classappend="${page} == ${pages.page} ? 'current'"></a>
                     </li>
                 </ul>
-                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/orders?page=${pages.page+1}|}"
+                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/admin/orders/index?page=${pages.page+1}|}"
                    th:text="#{NEXT_PAGE}"></a>
-                <a th:href="@{|/orders?page=${pages.totalPageCnt}|}" th:text="#{END_PAGE}"></a>
+                <a th:href="@{|/admin/orders/index?page=${pages.totalPageCnt}|}" th:text="#{END_PAGE}"></a>
             </div>
 
         </main>

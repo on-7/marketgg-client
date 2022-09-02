@@ -66,12 +66,12 @@ public class AdminOrderController {
      * @param orderNo - 주문 번호
      * @return 운송장 번호 만들기를 요청하고 난뒤 이동할 페이지(구축 필요)
      */
-    @PatchMapping("/{orderNo}/delivery")
+    @GetMapping("/{orderNo}/delivery")
     public ModelAndView createTrackingNo(@PathVariable @Min(1) final Long orderNo) {
 
         orderService.createTrackingNo(orderNo);
-        // TODO: 관리자 View 단 작업필요.
-        return new ModelAndView("redirect:/");
+
+        return new ModelAndView("redirect:/admin/orders/index");
     }
 
 }
