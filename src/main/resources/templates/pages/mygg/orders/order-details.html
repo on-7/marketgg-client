@@ -28,6 +28,10 @@
                     <p th:text="${order.orderStatus}"></p>
                     <p th:if="${!order.trackingNo.isBlank()}" th:text="#{TRACKING_NO}"></p>
                     <p th:if="${!order.trackingNo.isBlank()}" th:text="${order.trackingNo}"></p>
+                    <button th:if="${!order.trackingNo.isBlank()}" type="button" class="btn-primary form-control"
+                            name="delivery" data-target="#delivery-modal" data-toggle="modal"
+                            th:text="#{DELIVERY_INFO}">
+                    </button>
                 </div>
 
                 <div class="second-info" th:if="${!order.getOrderProductList().isEmpty()}">
@@ -85,7 +89,46 @@
                 </div>
             </div>
 
+            <div class="modal fade" id="delivery-modal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header float-right">
+                            <h5>배송 정보</h5>
+                            <div class="text-right">
+                                <i data-dismiss="modal" aria-label="Close" class="fa fa-close"></i>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <div>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">도착 장소</th>
+                                            <th scope="col">도착 시간</th>
+                                            <th scope="col">중간 도착지</th>
+                                            <th scope="col">상태</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="delivery-info" th:each="info : ${deliveryInfo}">
+                                            <td th:text="${info.getArrivalTime()}"></td>
+                                            <td th:text="${info.getCompletionTime()}"></td>
+                                            <td th:text="${info.getMiddleLocation()}"></td>
+                                            <td th:text="${info.status}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
+
     </body>
 
 </html>
