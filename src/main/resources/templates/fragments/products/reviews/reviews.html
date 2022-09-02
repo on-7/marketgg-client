@@ -32,7 +32,9 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${!#lists.isEmpty(reviewRatings)}"
+                                        <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
@@ -48,7 +50,9 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${!#lists.isEmpty(reviewRatings)}"
+                                        <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
@@ -64,7 +68,9 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${!#lists.isEmpty(reviewRatings)}"
+                                        <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
@@ -80,7 +86,9 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${!#lists.isEmpty(reviewRatings)}"
+                                        <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
@@ -96,7 +104,9 @@
                             <td class="progress-bar-container">
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
-                                        <span class="progress-fill" th:if="${!#lists.isEmpty(reviewRatings)}"
+                                        <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
