@@ -4,7 +4,7 @@
             <div class="row">
                 <!-- FIXME: thymeleaf 를 이용하여 아이템 정보 불러오기 -->
                 <div class="col-md-4" th:each="product : ${products}">
-                    <div class="card mb-4 shadow-sm">
+                    <div class="card mb-4 shadow-sm h-100">
                         <div class="embed-responsive embed-responsive-4by3">
                             <img th:src="${product.imageAddress}" background="#55595c" color="#eceeef"
                                  class="card-img-top embed-responsive-item" alt="tree" text="Thumbnail"
@@ -13,12 +13,16 @@
 
                         <div class="card-body">
 
-                            <td><h2 th:text="${product.productName}"></h2></td>
-                            <div th:if="${product.labelName == '라벨없음'}"></div>
-                            <div th:unless="${product.labelName == '라벨없음'}">
-                                <span class="btn btn-danger" th:text="${product.labelName}"></span>
+                            <div class="h-50">
+                                <td><h3 th:text="${product.productName}"></h3></td>
                             </div>
-                            <br>
+                            <div class="h-25">
+                                <div th:if="${product.labelName == '라벨없음'}"></div>
+                                <div th:unless="${product.labelName == '라벨없음'}">
+                                    <span class="btn btn-danger" th:text="${product.labelName}"></span>
+                                </div>
+                            </div>
+
                             <td th:text="${product.content}"></td>
                             <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-muted">
