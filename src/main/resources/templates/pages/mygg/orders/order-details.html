@@ -70,11 +70,11 @@
                     <div class="discount">
                         <div class="coupon">
                             <p th:if="${!order.usedCoupon.name.isEmpty()}" th:text="#{COUPON}"></p>
-                            <p th:text="${order.usedCoupon.name}"></p>
-                            <p th:text="#{DISCOUNTED_AMOUNT}"></p>
-                            <p th:if="${order.usedCoupon.type.equals('정액할인')}"
+                            <p th:if="${!order.usedCoupon.name.isEmpty()}" th:text="${order.usedCoupon.name}"></p>
+                            <p th:if="${!order.usedCoupon.name.isEmpty()}" th:text="#{DISCOUNTED_AMOUNT}"></p>
+                            <p th:if="${!order.usedCoupon.name.isEmpty() && order.usedCoupon.type.equals('정액할인')}"
                                th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
-                            <p th:unless="${order.usedCoupon.type.equals('정액할인')}"
+                            <p th:unless="${!order.usedCoupon.name.isEmpty() && order.usedCoupon.type.equals('정액할인')}"
                                th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
                         </div>
                         <div class="point">
