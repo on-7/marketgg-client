@@ -2,12 +2,16 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
     <head>
+        <link rel="stylesheet" th:href="@{/css/mygg/marketgg.mygg.css}">
         <link rel="stylesheet" th:href="@{/css/productinquries/marketgg.myinquiries.css}">
         <title>Market GG | MY gg 상품 문의 조회</title>
     </head>
     <body>
         <main>
-            <div>
+            <div th:replace="fragments/common/mygg-sidebar"></div>
+            <div style="width: 70rem">
+                <h2 th:text="#{PRODUCT_INQUIRIES}" style="font-weight: bold; margin: 0 auto 0 0;"></h2>
+                <br>
                 <div class="product-inquiry-header">
                     <li th:text="#{PRODUCT_NAME}"></li>
                     <li th:text="#{INQUIRY_TITLE}"></li>
@@ -39,20 +43,20 @@
                         <li class="reply" th:text="'Q: ' + ${inquiry.adminReply}"></li>
                     </div>
                 </div>
+
+                <div style="display: flex; flex-direction: row;" class="product-inquiry-page">
+                    <a th:href="@{|/members/product-inquiries?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp; &lt;
+                    <a th:if="${pages.page > 1}" th:href="@{|/members/product-inquiries?page=${pages.page - 1}|}" style="color: black"></a> &nbsp;
+                    <ul class="pagination">
+                        <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                            <a th:href="@{|/members/product-inquiries?page=${page}|}" th:text="${page}" style="color: black"></a> &nbsp;
+                        </li>
+                    </ul>
+                    <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/members/product-inquiries?page=${pages.page + 1}|}" style="color: black"></a>
+                    &gt; &nbsp;<a th:href="@{|/members/product-inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}" style="color: black"></a>
+                </div>
             </div>
-            <br>
-            <br>
-            <div style="display: flex; flex-direction: row;" class="product-inquiry-page">
-                <a th:href="@{|/members/product-inquiries?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp; &lt;
-                <a th:if="${pages.page > 1}" th:href="@{|/members/product-inquiries?page=${pages.page - 1}|}" style="color: black"></a> &nbsp;
-                <ul class="pagination">
-                    <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
-                        <a th:href="@{|/members/product-inquiries?page=${page}|}" th:text="${page}" style="color: black"></a> &nbsp;
-                    </li>
-                </ul>
-                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/members/product-inquiries?page=${pages.page + 1}|}" style="color: black"></a>
-                &gt; &nbsp;<a th:href="@{|/members/product-inquiries?page=${pages.totalPageCnt}|}" th:text="#{LAST}" style="color: black"></a>
-            </div>
+
         </main>
     </body>
 </html>
