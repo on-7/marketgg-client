@@ -137,7 +137,7 @@ public class ProductController {
      */
     @GetMapping("/categories/{categoryCode}")
     public ModelAndView retrieveProductsByCategory(@PathVariable final String categoryCode,
-                                                   @RequestParam(defaultValue = "0") int page) {
+                                                   @RequestParam(defaultValue = "1") int page) {
 
         PageResult<ProductListResponse> searchProductResponsePageResult =
                 this.productService.retrieveProductsByCategory(
@@ -169,7 +169,7 @@ public class ProductController {
      */
     @GetMapping("/{productId}")
     public ModelAndView retrieveProductDetails(@PathVariable final Long productId,
-                                               @RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "1") int page,
                                                @RequestParam(defaultValue = "1", value = "requestPage") int page2)
             throws JsonProcessingException {
 
