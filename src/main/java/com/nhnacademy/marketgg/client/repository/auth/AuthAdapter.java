@@ -18,7 +18,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -50,22 +49,14 @@ public class AuthAdapter implements AuthRepository {
 
         HttpEntity<LoginRequest> httpEntity = new HttpEntity<>(loginRequest, httpHeaders);
 
-        ResponseEntity<Void> response;
-        try {
-            response = restTemplate.exchange(requestUrl + "/auth/v1/members/login", POST, httpEntity, Void.class);
-        } catch (Exception e) {
-            log.error(e.toString());
-            response = ResponseEntity.status(HttpStatus.UNAUTHORIZED.value())
-                                     .build();
-        }
-        return response;
+        return restTemplate.exchange(requestUrl + "/auth/v1/members/login", POST, httpEntity, Void.class);
     }
 
     @Override
     public ResponseEntity<CommonResult<String>> logout() {
         return restTemplate.exchange(requestUrl + "/auth/v1/members/logout", HttpMethod.GET, null,
-                                     new ParameterizedTypeReference<>() {
-                                     });
+            new ParameterizedTypeReference<>() {
+            });
     }
 
     @Override
@@ -80,9 +71,9 @@ public class AuthAdapter implements AuthRepository {
 
     private ResponseEntity<CommonResult<MemberInfo>> requestMemberInfo(HttpEntity<Void> httpEntity) {
         ResponseEntity<CommonResult<MemberInfo>> exchange =
-                restTemplate.exchange(requestUrl + "/shop/v1/members", GET, httpEntity,
-                                      new ParameterizedTypeReference<>() {
-                                      });
+            restTemplate.exchange(requestUrl + "/shop/v1/members", GET, httpEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         if (Objects.isNull(exchange.getBody())) {
             throw new ServerException();

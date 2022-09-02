@@ -71,9 +71,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             filterChain.doFilter(request, response);
-            SessionContext.remove();
         } catch (Exception e) {
-            log.error("", e);
+            log.error(e.toString());
         } finally {
             log.info("Security Context Remove");
             SessionContext.remove();

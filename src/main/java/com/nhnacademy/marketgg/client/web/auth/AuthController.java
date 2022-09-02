@@ -9,6 +9,7 @@ import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.jwt.Role;
 import com.nhnacademy.marketgg.client.service.auth.AuthService;
 import com.nhnacademy.marketgg.client.util.GgUtils;
+import com.nhnacademy.marketgg.client.util.LoginStatus;
 import java.util.Objects;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -80,10 +81,13 @@ public class AuthController {
             return new ModelAndView("pages/members/login");
         }
 
-        boolean loginSuccess = authService.doLogin(loginRequest, httpSession.getId());
+        LoginStatus loginStatus = authService.doLogin(loginRequest, httpSession.getId());
 
-        if (!loginSuccess) {
-            redirectAttributes.addFlashAttribute("loginSuccess", false);
+        if (loginStatus == LoginStatus.UNAUTHORIZED) {
+            redirectAttributes.addFlashAttribute("loginStatus", LoginStatus.UNAUTHORIZED);
+            return new ModelAndView("redirect:/login");
+        } else if (loginStatus == LoginStatus.WITHDRAW) {
+            redirectAttributes.addFlashAttribute("loginStatus", LoginStatus.WITHDRAW);
             return new ModelAndView("redirect:/login");
         }
 
