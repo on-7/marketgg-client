@@ -59,4 +59,10 @@ public class IndexController {
         return new ModelAndView("pages/mygg/index");
     }
 
+    @GetMapping("/loaderio-7de0bc4478fedc6a3192d70a6d5dab56.txt")
+    public ModelAndView test() {
+        return new ModelAndView("test/test");
+    }
+
+
 }
