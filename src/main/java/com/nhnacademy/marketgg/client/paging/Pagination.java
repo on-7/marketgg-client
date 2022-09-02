@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class Pagination {
 
-    private int pageSize = 10; // 한 페이지당 데이터 개수
+    private int pageSize = 9; // 한 페이지당 데이터 개수
     private int blockSize = 10; // 뷰에 보여줄 페이지 이동가능 개수(블럭)
     private int page; // 현재 페이지
     private int block;
