@@ -10,8 +10,6 @@ public class PointRetrieveResponse {
 
     private Long memberId;
 
-    private Long orderNo;
-
     private Integer point;
 
     private Integer totalPoint;

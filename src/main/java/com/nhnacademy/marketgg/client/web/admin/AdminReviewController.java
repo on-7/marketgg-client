@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 /**
  * 관리자의 후기 관리를 위한 Controller입니다.
  */
@@ -28,12 +32,11 @@ public class AdminReviewController {
      * @return - 해당 후기가 달린 상품의 view를 반환합니다.
      */
     @PostMapping("/{reviewId}/make-best")
-    public ModelAndView makeBestReview(@PathVariable final Long productId,
-                                       @PathVariable final Long reviewId) {
+    public ModelAndView makeBestReview(@PathVariable final Long productId, @PathVariable final Long reviewId) {
 
         reviewService.makeBestReview(productId, reviewId);
 
-        return new ModelAndView("redirect:/" + "pages/products/product-view");
+        return new ModelAndView("redirect:/products/" + productId);
     }
 
 }

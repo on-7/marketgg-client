@@ -153,12 +153,18 @@
                         <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
                         <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
                             <div class="btn-wrapper">
-                                <!--                            <button type="button" class="btn btn-danger btn-delete" th:btn-delete-id="${review.id}" th:text="#{DELETE}">삭제</button>-->
                                 <form class="btn"
                                       th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}"
                                       method="post">
                                     <input type="hidden" name="_method" value="delete"/>
                                     <input class="btn btn-danger" type="submit" th:value="#{DELETE}"/>
+                                </form>
+
+                                <form class="btn"
+                                      th:action="'/admin/products/' + ${productDetails.id} + '/reviews/' + ${review.id} + '/make-best'"
+                                      method="post">
+                                    <input class="btn btn-success" type="submit" th:value="#{MAKE_BEST_REVIEW}"/>
+                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
                                 </form>
                             </div>
                         </div>
