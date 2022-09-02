@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web.order;
 import com.nhnacademy.marketgg.client.dto.cart.CartOrderRequest;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
+import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderFormResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
@@ -83,6 +84,11 @@ public class OrderPageController {
 
         ModelAndView mav = new ModelAndView("pages/mygg/orders/order-details");
         mav.addObject("order", order);
+
+        if (!order.getTrackingNo().isBlank()) {
+            List<DeliveryLocationResponseDto> deliveryInfo = orderService.retrieveDeliveryInfo(order.getTrackingNo());
+            mav.addObject("deliveryInfo", deliveryInfo);
+        }
 
         return mav;
     }

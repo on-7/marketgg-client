@@ -62,20 +62,4 @@ public class OrderController {
         return new ModelAndView("redirect:/");
     }
 
-    /**
-     * 회원이 운송장 번호로 배송 정보를 조회합니다.
-     *
-     * @param trackingNo - 운송장 번호
-     * @return 배송정보 페이지로 이동
-     */
-    @GetMapping("/orders/delivery")
-    public ModelAndView retrieveDeliveryInfo(@RequestParam @Min(1) final String trackingNo) {
-        //FIXME = 페이지 필요.
-        ModelAndView modelAndView = new ModelAndView("/index");
-
-        modelAndView.addObject("deliveryInfo", orderService.retrieveDeliveryInfo(trackingNo));
-
-        return modelAndView;
-    }
-
 }

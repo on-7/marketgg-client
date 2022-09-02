@@ -34,6 +34,8 @@
                                     <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
@@ -49,6 +51,8 @@
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
@@ -66,6 +70,8 @@
                                     <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
@@ -82,6 +88,8 @@
                                     <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
                             </td>
@@ -97,6 +105,8 @@
                                 <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
                                     <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${#lists.isEmpty(reviewRatings)}"
+                                              th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        <span class="progress-fill" th:unless="${#lists.isEmpty(reviewRatings)}"
                                               th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
                                     </div>
                                 </div>
@@ -193,11 +203,18 @@
         </div>
     </form>
 
-    <div th:if="${!reviews.isEmpty()}">
+    <div class="pagination" th:if="${!reviews.isEmpty()}">
+        <a th:href="@{|/products/${productDetails.id}/?page=1|}" th:text="#{FIRST_PAGE}"></a>
+        <a th:if="${pages.page} > 1" th:href="@{|/products/${productDetails.id}/?page=${pages.page-1}|}" th:text="#{PREV_PAGE}"></a>
         <ul class="pagination">
-            <li th:each="page: ${#numbers.sequence(0, pages.totalPageCnt - 1)}">
-                <a th:href="@{|/products/${productDetails.id}/?page=${page}|}" th:text="${page + 1}"></a>
+            <li th:each="page : ${#numbers.sequence(pages.startPage, pages.endPage)}">
+                <a th:href="@{|/products/${productDetails.id}/?page=${page}|}" th:text="${page}"
+                   th:classappend="${page} == ${pages.page} ? 'current'"></a>
             </li>
         </ul>
+        <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/products/${productDetails.id}/?page=${pages.page+1}|}"
+           th:text="#{NEXT_PAGE}"></a>
+        <a th:href="@{|/products/${productDetails.id}/?page=${pages.totalPageCnt}|}" th:text="#{END_PAGE}"></a>
     </div>
+
 </section>

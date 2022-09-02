@@ -64,9 +64,11 @@ window.addEventListener('DOMContentLoaded', () => {
             }
 
             if (keyword && count >= 4) {
-              if (keyword.split(' ').join('').indexOf(']')) {
+              if (keyword.split(' ').join('').indexOf(']') || keyword.split(' ').join('').indexOf(')')) {
                 keyword = keyword.split(']').join('');
                 keyword = keyword.split('[').join('');
+                keyword = keyword.split(')').join('');
+                keyword = keyword.split('(').join('');
               }
               console.log(keyword);
               await fetch(`/products/suggest?keyword=${keyword}&page=0`)

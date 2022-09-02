@@ -31,7 +31,7 @@ public class ProductController {
     private final ProductService productService;
     private final ReviewService reviewService;
     private final ProductInquiryService productInquiryService;
-    private static final Integer PAGE_SIZE = 10;
+    private static final Integer PAGE_SIZE = 9;
 
     private static final String DEFAULT_PRODUCT_VIEW = "pages/products/product-view";
 
@@ -53,7 +53,7 @@ public class ProductController {
 
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
-        Pagination pagination = new Pagination(responses.getTotalPages(), page);
+        Pagination pagination = new Pagination(responses.getTotalPages(), page + 1);
         List<ProductListResponse> products = responses.getData();
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("pageType", "search");
@@ -86,7 +86,7 @@ public class ProductController {
         SearchRequestForCategory request = new SearchRequestForCategory(categoryId, keyword, page, PAGE_SIZE);
         PageResult<ProductListResponse> responses = productService.searchProductListByPrice(request, option);
         List<ProductListResponse> products = responses.getData();
-        Pagination pagination = new Pagination(responses.getTotalPages(), page);
+        Pagination pagination = new Pagination(responses.getTotalPages(), page + 1);
 
         ModelAndView mav = new ModelAndView("index");
         mav.addObject("keyword", keyword);
@@ -137,7 +137,7 @@ public class ProductController {
      */
     @GetMapping("/categories/{categoryCode}")
     public ModelAndView retrieveProductsByCategory(@PathVariable final String categoryCode,
-                                                   @RequestParam(defaultValue = "0") int page) {
+                                                   @RequestParam(defaultValue = "1") int page) {
 
         PageResult<ProductListResponse> searchProductResponsePageResult =
                 this.productService.retrieveProductsByCategory(
@@ -169,7 +169,7 @@ public class ProductController {
      */
     @GetMapping("/{productId}")
     public ModelAndView retrieveProductDetails(@PathVariable final Long productId,
-                                               @RequestParam(defaultValue = "0") int page,
+                                               @RequestParam(defaultValue = "1") int page,
                                                @RequestParam(defaultValue = "1", value = "requestPage") int page2)
             throws JsonProcessingException {
 
@@ -218,14 +218,14 @@ public class ProductController {
     public String[] suggestionProductList(@RequestParam final String keyword,
                                           @RequestParam final Integer page) throws JsonProcessingException {
 
-        SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 10);
+        SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 5);
         PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
         List<ProductListResponse> products = responses.getData();
-        String[] productNameList = new String[10];
+        String[] productNameList = new String[PAGE_SIZE];
 
         for (int i = 0; i < products.size(); i++) {
             productNameList[i] = products.get(i).getProductName();
-            if (i == 9) {
+            if (i == 4) {
                 break;
             }
         }
