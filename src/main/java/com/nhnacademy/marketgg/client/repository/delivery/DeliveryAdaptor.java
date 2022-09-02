@@ -18,8 +18,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class DeliveryAdaptor implements DeliveryRepository {
     public static final String SHOP_SERVICE_PREFIX_V1 = "/shop/v1";
     public static final String ORDERS_PATH_PREFIX = "/orders";
-
     public static final String DELIVERY_PATH_PREFIX = "/delivery";
+    public static final String STATUS = "/status";
 
     private final String gatewayIp;
 
@@ -39,11 +39,13 @@ public class DeliveryAdaptor implements DeliveryRepository {
                                     .build();
 
         client.patch()
-              .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + deliveryInfoStatusRequestDto.getOrderNo())
+              .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + deliveryInfoStatusRequestDto.getOrderNo() + STATUS)
               .bodyValue(DeliveryInfoStatusRequestDto.builder()
                                                      .status(deliveryInfoStatusRequestDto.getStatus())
                                                      .build())
-              .retrieve();
+              .retrieve()
+              .toEntity(Void.class)
+              .block();
     }
 
     /**
