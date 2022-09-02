@@ -162,8 +162,10 @@ public class OrderAdapter implements OrderRepository {
                                     .build();
 
         client.patch()
-              .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + orderId + "/delivery")
-              .retrieve();
+                .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + orderId + "/delivery")
+                .retrieve()
+                .toEntity(Void.class)
+                .block();
     }
 
     /**
