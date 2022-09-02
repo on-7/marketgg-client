@@ -51,13 +51,14 @@
                 </tr>
             </table>
             <div class="bot-info">
-                <p th:if="${!order.usedCoupon.name.isEmpty()}" th:text="#{USED_COUPON}"></p>
-                <p th:if="${!order.usedCoupon.name.isEmpty()}" th:text="${order.usedCoupon.name}"></p>
-                <p th:if="${!order.usedCoupon.name.isEmpty()}" th:text="#{DISCOUNTED_AMOUNT}"></p>
-                <p th:if="${!order.usedCoupon.name.isEmpty() && order.usedCoupon.type.equals('정액할인')}"
-                    th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
-                <p th:unless="${!order.usedCoupon.name.isEmpty() && order.usedCoupon.type.equals('정액할인')}"
-                    th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
+                <p th:text="#{USED_COUPON}"></p>
+                <p th:text="${order.usedCoupon?.name}"></p>
+                <p th:if="${order.usedCoupon?.name != null}" th:text="#{DISCOUNTED_AMOUNT}"></p>
+                <p th:unless="${order.usedCoupon?.name != null}">없음</p>
+                <p th:if="${(order.usedCoupon?.name != null) && (order.usedCoupon.type.equals('정액할인'))}"
+                   th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
+                <p th:if="${(order.usedCoupon?.name != null) && (order.usedCoupon.type.equals('정액할인'))}"
+                   th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
                 <p th:text="#{USED_POINT}"></p>
                 <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' G'"></p>
                 <p th:text="#{TOTAL}"></p>

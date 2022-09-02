@@ -43,7 +43,7 @@ public class OrderPageController {
     public ModelAndView goOrderForm(CartOrderRequest cartRequest, final MemberInfo memberInfo) {
         OrderFormResponse orderFormResponse = orderService.retrieveOrderForm(cartRequest);
 
-        ModelAndView mav = new ModelAndView("pages/orders/order-form");
+        ModelAndView mav = new ModelAndView("pages/mygg/orders/order-form");
         mav.addObject("member", memberInfo);
         mav.addObject("result", orderFormResponse);
 
