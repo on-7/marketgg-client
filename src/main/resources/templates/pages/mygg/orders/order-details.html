@@ -87,7 +87,8 @@
                 </div>
 
                 <div class="total">
-                    <button class="btn btn-danger" th:text="#{ORDER_CANCEL}"></button>
+                    <button class="btn btn-danger" th:href="@{|payemnts/cancel-payment|}"
+                            th:text="#{ORDER_CANCEL}"></button>
                     <p th:text="#{TOTAL}+': '+${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></p>
                 </div>
             </div>
