@@ -3,20 +3,20 @@ package com.nhnacademy.marketgg.client.web.admin;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
+import com.nhnacademy.marketgg.client.exception.ClientException;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
+import java.util.List;
+import java.util.Objects;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 /**
  * 주문관리를 위한 컨트롤러 입니다.
@@ -66,8 +66,13 @@ public class AdminOrderController {
      * @param orderNo - 주문 번호
      * @return 운송장 번호 만들기를 요청하고 난뒤 이동할 페이지(구축 필요)
      */
-    @GetMapping("/{orderNo}/delivery")
-    public ModelAndView createTrackingNo(@PathVariable @Min(1) final Long orderNo) {
+    @GetMapping("/order/{orderNo}/delivery")
+    public ModelAndView createTrackingNo(@PathVariable @Min(1) final Long orderNo,
+                                         @RequestParam(value = "orderStatus") String orderStatus) {
+
+        if (Objects.nonNull(orderStatus)) {
+            throw new ClientException(orderStatus + "의 상태를 확인해 주세요.");
+        }
 
         orderService.createTrackingNo(orderNo);
 
