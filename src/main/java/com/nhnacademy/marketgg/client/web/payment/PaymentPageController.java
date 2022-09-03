@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web.payment;
 
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
+import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
 import com.nhnacademy.marketgg.client.service.payment.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -32,8 +33,11 @@ public class PaymentPageController {
     }
 
     @GetMapping("/success-payment")
-    public ModelAndView goOrderConfirmation() {
-        return new ModelAndView("pages/payments/success-payment");
+    public ModelAndView goOrderConfirmation(PaymentResponse paymentResponse) {
+        ModelAndView mav = new ModelAndView("pages/payments/success-payment");
+        mav.addObject("paymentResponse", paymentResponse);
+
+        return mav;
     }
 
     @GetMapping("/cancel-payment")

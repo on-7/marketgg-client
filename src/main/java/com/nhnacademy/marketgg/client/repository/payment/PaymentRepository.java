@@ -2,6 +2,7 @@ package com.nhnacademy.marketgg.client.repository.payment;
 
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
+import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
 
 /**
@@ -25,7 +26,7 @@ public interface PaymentRepository {
      *
      * @param paymentRequest - 결제 승인 요청 정보
      */
-    void pay(final PaymentConfirmRequest paymentRequest);
+    PaymentResponse pay(final PaymentConfirmRequest paymentRequest);
 
     void retrievePayment(String paymentKey);
 
@@ -35,4 +36,5 @@ public interface PaymentRepository {
      * @param paymentRequest - 결제 취소 요청 객체
      */
     void cancelPayment(final String paymentKey, final PaymentCancelRequest paymentRequest);
+
 }

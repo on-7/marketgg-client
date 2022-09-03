@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentFailureResult;
+import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
 
 /**
@@ -27,7 +28,7 @@ public interface PaymentService {
      *
      * @param paymentRequest - 결제 승인 요청 정보
      */
-    void pay(final PaymentConfirmRequest paymentRequest);
+    PaymentResponse pay(final PaymentConfirmRequest paymentRequest);
 
     /**
      * 결제 내역을 조회합니다.

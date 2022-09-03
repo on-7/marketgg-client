@@ -18,7 +18,7 @@
             <section class="jumbotron text-center">
                 <div class="container" id="main__title" th:if="${option == 'main'}">
                     <h1 class="main__title">Market GG</h1>
-                    <p class="lead main__description">밀키트 중심의 사용자 친화적 쇼핑몰에 오신 것을 환영합니다.</p>
+                    <p class="lead main__description" th:text="#{MAIN_DESCRIPTION}"></p>
                 </div>
                 <div class="container" id="search__title" th:if="${option == 'search'}">
                     <h1 class="main__title" th:text="'['+${keyword}+']'"></h1>

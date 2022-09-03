@@ -62,11 +62,10 @@ public class OrderAdapter implements OrderRepository {
                        .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX)
                        .bodyValue(orderRequest)
                        .retrieve()
-                       .toEntity(
-                           new ParameterizedTypeReference<CommonResult<OrderToPayment>>() {
-                           })
+                       .toEntity(new ParameterizedTypeReference<CommonResult<OrderToPayment>>() {
+                       })
                        .blockOptional()
-                       .orElseThrow(NullPointerException::new);
+                       .orElseThrow(RuntimeException::new);
 
         return Objects.requireNonNull(response.getBody()).getData();
     }
