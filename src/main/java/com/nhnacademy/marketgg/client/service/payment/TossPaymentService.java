@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentFailureResult;
+import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
 import com.nhnacademy.marketgg.client.repository.payment.PaymentRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +39,8 @@ public class TossPaymentService implements PaymentService {
      * @param paymentRequest - 결제 승인 요청 정보
      */
     @Override
-    public void pay(PaymentConfirmRequest paymentRequest) {
-        paymentRepository.pay(paymentRequest);
+    public PaymentResponse pay(PaymentConfirmRequest paymentRequest) {
+        return paymentRepository.pay(paymentRequest);
     }
 
     /**

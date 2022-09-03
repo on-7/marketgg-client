@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" th:href="@{/css/orders/order-form.css}">
+
+        <title th:text="#{TITLE_ORDER_FORM}"></title>
+
+        <script th:src="@{/js/orders/coupon.js}"></script>
+        <script th:src="@{/js/orders/order.js}"></script>
+    </head>
+
+    <body>
+        <main>
+            <h1>주문서</h1>
+            <form id="order-form" method="post" th:action="@{/orders}">
+                <section class="order-products">
+                    <h2>주문 상품</h2>
+                    <hr>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>상품 이미지</th>
+                                <th>상품</th>
+                                <th>수량</th>
+                                <th>가격</th>
+                                <th>배송비</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="product : ${result.products}">
+                                <td th:if="${product.imageAddress} != null" class="product-thumbnail">
+                                    <img th:src="@{/images/image-placeholder.png}" alt="">
+                                </td>
+                                <td th:unless="${product.imageAddress} != null" class="product-thumbnail">
+                                    <img th:src="@{/images/image-placeholder.png}" alt="">
+                                </td>
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.amount}"></td>
+                                <td th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}"></td>
+                                <td>2,500</td>
+                                <input type="hidden" name="productIds" th:value="${product.id}">
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <section class="customer-information">
+                    <h2>주문자 정보</h2>
+                    <hr>
+                    <div>
+                        <div class="customer-information-item">
+                            <p>보내는 분</p>
+                            <p th:text="${result.memberName}"></p>
+                            <input type="hidden" name="name" th:value="${result.memberName}">
+                        </div>
+                        <div class="customer-information-item">
+                            <p>휴대폰</p>
+                            <p>010-8765-4321</p>
+                        </div>
+                        <div class="customer-information-item">
+                            <p th:text="#{EMAIL_LABEL}"></p>
+                            <p th:text="${result.memberEmail}"></p>
+                            <input type="hidden" name="email" th:value="${result.memberEmail}">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="delivery-information">
+                    <h2>배송지</h2>
+                    <hr>
+                    <th:block th:if="${result.deliveryAddressList}"
+                              th:each="deliveryAddress: ${result.deliveryAddressList}">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio"
+                                   th:if="${deliveryAddress.isDefaultAddress == true}" name="deliveryAddressId"
+                                   th:id="${deliveryAddress.id}" th:value="${deliveryAddress.id}" checked>
+                            <input class="form-check-input" type="radio"
+                                   th:unless="${deliveryAddress.isDefaultAddress == true}" name="deliveryAddressId"
+                                   th:id="${deliveryAddress.id}" th:value="${deliveryAddress.id}">
+                            <label class="form-check-label" th:for="${deliveryAddress.id}">
+                                <span th:text="'(' + ${deliveryAddress.zipcode} + ') ' + ${deliveryAddress.address} + ${deliveryAddress.detailAddress}"></span>
+                            </label>
+                            <!-- <input type="hidden" name="deliveryAddressId" th:value="${result.deliveryAddressList[0].id}"> -->
+                        </div>
+                    </th:block>
+                </section>
+
+                <section class="benefits">
+                    <h2>쿠폰 / 적립금</h2>
+                    <hr>
+                    <div>
+                        <p>쿠폰 사용</p>
+                        <!-- Custom select structure -->
+                        <div class="select_mate" id="coupons" data-mate-select="active">
+                            <select name="" onchange="" onclick="return false;" id="">
+                                <option value="">쿠폰을 선택해주세요.</option>
+                                <option th:each="givenCoupon: ${result.givenCouponList}"
+                                        th:value="${givenCoupon.discountAmount}"
+                                        th:text="${givenCoupon.name}
+                                        + ' (' + ${#numbers.formatInteger(givenCoupon.minimumMoney, 3, 'COMMA')}
+                                        + '원, ' + ${givenCoupon.discountAmount ge 1 ? #numbers.formatInteger(givenCoupon.discountAmount, 3, 'COMMA') + '원' : #numbers.formatPercent(givenCoupon.discountAmount, 1, 2)}
+                                        + ')'"></option>
+                            </select>
+                            <p class="selected-option" onclick="openSelect(this)"></p>
+                            <div class="cont_list_select_mate">
+                                <ul class="cont_select_int" id="selected-coupons"></ul>
+                            </div>
+                        </div>
+                        <!-- Custom select structure -->
+                        <input type="hidden" name="selectedCoupon" id="selected-coupon" th:value="0">
+                        <input type="hidden" name="selectedCouponName" id="selected-coupon-name">
+                    </div>
+
+                    <div class="points">
+                        <p>적립금</p>
+                        <input type="number" id="used-point" name="usedPoint" th:value="${result.totalPoint}">
+                        <button type="button" class="btn btn-outline-primary" id="use-point-button">적용</button>
+                    </div>
+                </section>
+
+                <section class="payment-type">
+                    <h2>결제 수단</h2>
+                    <hr>
+                    <div>
+                        <p>결제 수단 선택</p>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" id="card" name="paymentType" value="카드"
+                                   checked>
+                            <label class="form-check-label" for="card">카드</label>
+                        </div>
+                        <div th:replace="fragments/orders/radio-button :: formCheck('virtual-account', '가상계좌')"></div>
+                        <div th:replace="fragments/orders/radio-button :: formCheck('transfer', '계좌이체')"></div>
+                        <div th:replace="fragments/orders/radio-button :: formCheck('mobile-phone', '휴대폰')"></div>
+                    </div>
+                </section>
+
+                <!-- FIXME: 유효성 검사 반영되어 있음. 필요한 값 수정 필요 -->
+                <input type="hidden" name="totalAmount" id="total-origin" th:value="40000" />
+                <input type="hidden" name="expectedSavePoint" th:value="${result.totalOrigin}" />
+
+                <div class="payment-button-wrapper">
+                    <button type="button" id="order-to-payment-button" class="btn btn-primary my-2">최종 결제하기</button>
+                </div>
+            </form>
+            <!-- <aside> -->
+            <!--     <h4>결제 금액</h4> -->
+            <!--     <p>222,222 <span>원</span></p> -->
+            <!-- </aside> -->
+        </main>
+    </body>
+
+</html>

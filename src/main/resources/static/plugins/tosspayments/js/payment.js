@@ -1,5 +1,6 @@
 // SEE: https://developers.tosspayments.com/304121/accounts/411128/phases/test/payment-logs
 window.addEventListener('DOMContentLoaded', () => {
+
   const clientKey = 'test_ck_k6bJXmgo28e1RagkzMe8LAnGKWx4';
   const clientOrigin = 'https://www.marketgg.shop';
   const tossPayments = TossPayments(clientKey);

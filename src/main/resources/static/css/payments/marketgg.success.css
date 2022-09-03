@@ -1,0 +1,11 @@
+main {
+    height: 90vh;
+}
+
+.payment-desc {
+    margin: 1rem 0 5rem;
+}
+
+.card {
+    width: 50vw;
+}

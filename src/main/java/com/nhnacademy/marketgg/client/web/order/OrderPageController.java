@@ -43,7 +43,8 @@ public class OrderPageController {
     public ModelAndView goOrderForm(CartOrderRequest cartRequest, final MemberInfo memberInfo) {
         OrderFormResponse orderFormResponse = orderService.retrieveOrderForm(cartRequest);
 
-        ModelAndView mav = new ModelAndView("pages/mygg/orders/order-form");
+        ModelAndView mav = new ModelAndView("pages/orders/order-form");
+        // TODO: 회원 전화번호도 모델에 담아서 display
         mav.addObject("member", memberInfo);
         mav.addObject("result", orderFormResponse);
 

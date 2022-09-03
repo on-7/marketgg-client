@@ -325,7 +325,7 @@ public class AdminCsPostController {
     }
 
     private <T> Integer checkPageEnd(final List<T> list) {
-        if (list.size() <= PAGE_SIZE) {
+        if (list.size() <= PAGE_SIZE - 1) {
             return 1;
         }
         return 0;

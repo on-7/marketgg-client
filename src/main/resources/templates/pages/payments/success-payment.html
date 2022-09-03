@@ -1,14 +1,29 @@
 <!DOCTYPE HTML>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main :: layout(~{::title}, ~{::main})}">
+      th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
 
     <head>
+        <link rel="stylesheet" th:href="@{/css/payments/marketgg.success.css}">
         <title>Market GG | 주문 완료</title>
     </head>
 
     <body>
         <main>
-            주문 완료 (결제 완료)
+            <h1>주문 및 결제가 완료되었습니다.</h1>
+            <p class="payment-desc">즐거운 쇼핑이 되셨습니까?<br>항상 고객님을 최우선으로 생각하는 Market GG 가 되겠습니다. 감사합니다.</p>
+
+            <div>
+                <div class="card text-center">
+                    <div class="card-header">주문 및 결제 내역</div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${paymentResponse.orderName}"></h5>
+                        <p class="card-text"
+                           th:text="${#numbers.formatInteger(paymentResponse.totalAmount, 3, 'COMMA')} + ' ' + #{WON}"></p>
+                    </div>
+                    <div class="card-footer text-muted"
+                         th:text="${#strings.arraySplit(paymentResponse.approvedAt, 'T')[0]}"></div>
+                </div>
+            </div>
         </main>
     </body>
 

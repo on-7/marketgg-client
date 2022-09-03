@@ -4,6 +4,7 @@ import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentCancelRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentFailureResult;
+import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
 import com.nhnacademy.marketgg.client.dto.payment.VirtualAccountDepositRequest;
 import com.nhnacademy.marketgg.client.service.payment.PaymentService;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 결제 요청에 대한 결정을 처리해주는 클래스입니다.
@@ -57,12 +59,13 @@ public class PaymentController {
      */
     @GetMapping("/payments/success")
     public ModelAndView confirmPayment(@RequestParam final String orderId, @RequestParam final String paymentKey,
-                                       @RequestParam final Long amount) {
+                                       @RequestParam final Long amount, RedirectAttributes attributes) {
 
         PaymentConfirmRequest paymentRequest = PaymentConfirmRequest.create(orderId, paymentKey, amount);
         log.info("confirmPayment: {}", paymentRequest);
 
-        paymentService.pay(paymentRequest);
+        PaymentResponse result = paymentService.pay(paymentRequest);
+        attributes.addFlashAttribute("paymentResponse", result);
 
         return new ModelAndView("redirect:/payments/success-payment");
     }
