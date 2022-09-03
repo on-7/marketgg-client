@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
 
 /**
  * 주문 생성 요청에 대한 정보를 담고 있는 클래스입니다.
@@ -32,7 +33,10 @@ public class OrderCreateRequest {
     @NotNull
     private final List<Long> productIds;
 
-    @NotNull
+    @Nullable
+    private final String selectedCouponName;
+
+    @Nullable
     private final Integer usedPoint;
 
     @NotNull
