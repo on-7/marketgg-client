@@ -12,13 +12,13 @@
         <title th:text="#{TITLE_ORDER_FORM}"></title>
 
         <script th:src="@{/js/orders/coupon.js}"></script>
-        <script th:src="@{/js/orders/calculateAmount.js}"></script>
+        <script th:src="@{/js/orders/order.js}"></script>
     </head>
 
     <body>
         <main>
             <h1>주문서</h1>
-            <form method="post" th:action="@{/orders}">
+            <form id="order-form" method="post" th:action="@{/orders}">
                 <section class="order-products">
                     <h2>주문 상품</h2>
                     <hr>
@@ -74,10 +74,15 @@
                 <section class="delivery-information">
                     <h2>배송지</h2>
                     <hr>
-                    <th:block th:if="${result.deliveryAddressList}" th:each="deliveryAddress: ${result.deliveryAddressList}">
+                    <th:block th:if="${result.deliveryAddressList}"
+                              th:each="deliveryAddress: ${result.deliveryAddressList}">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" th:if="${deliveryAddress.isDefaultAddress == true}" th:name="${deliveryAddress.id}" th:id="${deliveryAddress.id}" checked>
-                            <input class="form-check-input" type="radio" th:unless="${deliveryAddress.isDefaultAddress == true}" th:name="${deliveryAddress.id}" th:id="${deliveryAddress.id}">
+                            <input class="form-check-input" type="radio"
+                                   th:if="${deliveryAddress.isDefaultAddress == true}" name="deliveryAddressId"
+                                   th:id="${deliveryAddress.id}" th:value="${deliveryAddress.id}" checked>
+                            <input class="form-check-input" type="radio"
+                                   th:unless="${deliveryAddress.isDefaultAddress == true}" name="deliveryAddressId"
+                                   th:id="${deliveryAddress.id}" th:value="${deliveryAddress.id}">
                             <label class="form-check-label" th:for="${deliveryAddress.id}">
                                 <span th:text="'(' + ${deliveryAddress.zipcode} + ') ' + ${deliveryAddress.address} + ${deliveryAddress.detailAddress}"></span>
                             </label>
@@ -95,24 +100,27 @@
                         <div class="select_mate" id="coupons" data-mate-select="active">
                             <select name="" onchange="" onclick="return false;" id="">
                                 <option value="">쿠폰을 선택해주세요.</option>
-                                <option th:each="givenCoupon: ${result.givenCouponList}" th:value="${givenCoupon.discountAmount}"
+                                <option th:each="givenCoupon: ${result.givenCouponList}"
+                                        th:value="${givenCoupon.discountAmount}"
                                         th:text="${givenCoupon.name}
                                         + ' (' + ${#numbers.formatInteger(givenCoupon.minimumMoney, 3, 'COMMA')}
                                         + '원, ' + ${givenCoupon.discountAmount ge 1 ? #numbers.formatInteger(givenCoupon.discountAmount, 3, 'COMMA') + '원' : #numbers.formatPercent(givenCoupon.discountAmount, 1, 2)}
                                         + ')'"></option>
                             </select>
-                            <p class="selecionado_opcion" onclick="open_select(this)"></p>
+                            <p class="selected-option" onclick="openSelect(this)"></p>
                             <div class="cont_list_select_mate">
-                                <ul class="cont_select_int" id="selected-coupon"></ul>
+                                <ul class="cont_select_int" id="selected-coupons"></ul>
                             </div>
                         </div>
-                    </div>
                         <!-- Custom select structure -->
+                        <input type="hidden" name="selectedCoupon" id="selected-coupon" th:value="0">
+                        <input type="hidden" name="selectedCouponName" id="selected-coupon-name">
+                    </div>
 
                     <div class="points">
                         <p>적립금</p>
-                        <input type="text" class="used-point" name="usedPoint" th:value="${result.totalPoint}">
-                        <button type="button" class="btn btn-outline-primary">적용</button>
+                        <input type="text" id="used-point" name="usedPoint" th:value="${result.totalPoint}">
+                        <button type="button" class="btn btn-outline-primary" id="use-point-button">적용</button>
                     </div>
                 </section>
 
@@ -133,14 +141,17 @@
                 </section>
 
                 <!-- FIXME: 유효성 검사 반영되어 있음. 필요한 값 수정 필요 -->
-                <input type="hidden" name="totalAmount" id="total-amount" th:value="${result.totalOrigin}" />
+                <input type="hidden" name="totalAmount" id="total-origin" th:value="|${result.totalOrigin} * 10|" />
                 <input type="hidden" name="expectedSavePoint" th:value="${result.totalOrigin}" />
+
+                <div class="payment-button-wrapper">
+                    <button type="button" id="order-to-payment-button" class="btn btn-primary my-2">최종 결제하기</button>
+                </div>
             </form>
             <!-- <aside> -->
             <!--     <h4>결제 금액</h4> -->
             <!--     <p>222,222 <span>원</span></p> -->
             <!-- </aside> -->
-            <button id="payment-button" class="btn btn-primary my-2" th:text="최종 결제하기"></button>
         </main>
     </body>
 

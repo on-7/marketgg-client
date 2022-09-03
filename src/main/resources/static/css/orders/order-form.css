@@ -182,6 +182,10 @@ ul {
     margin: 1rem;
 }
 
+.payment-button-wrapper {
+    text-align: center;
+}
+
 :root {
     --form-control-color: rebeccapurple;
 }
@@ -374,7 +378,7 @@ input[type="checkbox"]:disabled {
     z-index: -1;
 }
 
-.selecionado_opcion {
+.selected-option {
     text-align: center;
     padding: 1rem;
 }
