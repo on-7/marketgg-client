@@ -65,7 +65,7 @@ public class PaymentController {
         log.info("confirmPayment: {}", paymentRequest);
 
         PaymentResponse result = paymentService.pay(paymentRequest);
-        attributes.addFlashAttribute("result", result);
+        attributes.addFlashAttribute("paymentResponse", result);
 
         return new ModelAndView("redirect:/payments/success-payment");
     }

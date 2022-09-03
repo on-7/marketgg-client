@@ -119,7 +119,7 @@
 
                     <div class="points">
                         <p>적립금</p>
-                        <input type="text" id="used-point" name="usedPoint" th:value="${result.totalPoint}">
+                        <input type="number" id="used-point" name="usedPoint" th:value="${result.totalPoint}">
                         <button type="button" class="btn btn-outline-primary" id="use-point-button">적용</button>
                     </div>
                 </section>
@@ -141,7 +141,7 @@
                 </section>
 
                 <!-- FIXME: 유효성 검사 반영되어 있음. 필요한 값 수정 필요 -->
-                <input type="hidden" name="totalAmount" id="total-origin" th:value="${result.totalOrigin}" />
+                <input type="hidden" name="totalAmount" id="total-origin" th:value="40000" />
                 <input type="hidden" name="expectedSavePoint" th:value="${result.totalOrigin}" />
 
                 <div class="payment-button-wrapper">
