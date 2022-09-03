@@ -27,7 +27,7 @@
                     <th th:text="#{ORDER_TOTAL_AMOUNT}"></th>
                     <th th:text="#{ORDER_STATUS}"></th>
                     <th th:text="#{ORDER_CREATED_AT}"></th>
-                    <th>운송장 발급</th>
+                    <th th:text="#{TRACKING_NO_ISSUE}"></th>
                 </tr>
                 <tr class="order-content" th:each="order : ${orders}"
                     th:onclick="|location.href='/admin/orders/'+${order.id}|">
@@ -36,8 +36,8 @@
                     <td th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></td>
                     <td th:text="${order.orderStatus}"></td>
                     <td th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></td>
-                    <td th:if="${#strings.equals(order.getOrderStatus(),'결제완료')}">
-                        <a th:href="@{|/admin/orders/order/${order.getId()}/delivery?orderStatus=${order.getOrderStatus()}|}">발급</a>
+                    <td>
+                        <a th:href="@{|/admin/orders/${order.id}/delivery|}" th:text="#{ISSUE}"></a>
                     </td>
                 </tr>
             </table>

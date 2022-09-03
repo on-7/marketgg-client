@@ -2,20 +2,25 @@
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
       th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
     <head>
-        <script th:src="@{/js/delivery-addresses/delivery-address.js}" defer></script>
+        <script></script>
+        <!--        <script th:src="@{/js/delivery-addresses/delivery-address.js}" defer></script>-->
         <title th:text="#{DELIVERY_ADDRESS_LIST}"></title>
     </head>
     <body>
         <main>
             <div style="display: flex; justify-content: center;">
                 <h2 style="background-color: white; border: 1px outset black; padding: 5px"
-                    th:text="#{DELIVERY_ADDRESS_LIST}">
+                    th:text="#{DELIVERY_ADDRESS_LIST}"
+                    class="border-0"
+                >
                 </h2>
             </div>
 
             <div style="display: flex; flex-direction: column;">
                 <div style="display: flex; justify-content: flex-end;">
-                    <button><a th:href="@{/mygg/member/delivery-address}" th:text="#{ADD}"></a></button>
+                    <a th:href="@{/mygg/member/delivery-address}" >
+                        <button th:text="#{ADD}" class="btn btn-primary"></button>
+                    </a>
                 </div>
 
                 <div style="text-align: center; display: flex;">
@@ -32,18 +37,17 @@
                         <tr th:each="deliveryAddress: ${deliveryAddressList}">
                             <td th:if="${deliveryAddress.isDefaultAddress}">O</td>
                             <td th:unless="${deliveryAddress.isDefaultAddress}">X</td>
-                            <td th:text="${deliveryAddress.id}" >
+                            <td th:text="${deliveryAddress.id}">
                                 <input type="hidden" th:text="${deliveryAddress.isDefaultAddress}">
                             </td>
                             <td th:text="${deliveryAddress.zipcode}"></td>
                             <td th:text="${deliveryAddress.address}"></td>
                             <td th:text="${deliveryAddress.detailAddress}"></td>
                             <td>
-                                <div class="form-group">
-                                <button type="button" class="deleteButton"
-                                       th:delivery-address-id="${deliveryAddress.id}" th:text="#{DELETE}">
-                                </button>
-                                </div>
+                                <form th:action="@{'/mygg/member/delivery-address/' + ${deliveryAddress.id}}" method="post">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <input class="delivery btn btn-danger" type="submit" th:value="#{DELETE}">
+                                </form>
                             </td>
                         </tr>
                     </table>
