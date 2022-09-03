@@ -19,6 +19,10 @@ svg[hidden] {
     margin: 0;
 }
 
+.clicky-menu li:first-child {
+    width: 20vw;
+}
+
 .clicky-menu li:last-child {
     display: flex;
     align-items: center;

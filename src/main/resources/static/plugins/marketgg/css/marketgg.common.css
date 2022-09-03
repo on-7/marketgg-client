@@ -38,6 +38,16 @@ nav {
     box-shadow: 2px 4px 4px rgb(0 0 0 / 20%);
 }
 
+.gnb-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.gnb {
+    display: flex;
+}
+
 .custom-select {
     width: 9rem;
 }
@@ -58,10 +68,6 @@ nav {
     color: ghostwhite;
     cursor: pointer;
     font-size: 2rem;
-}
-
-.gnb {
-    flex: 0.6;
 }
 
 .autocomplete-container {
@@ -187,5 +193,31 @@ footer a:hover {
 @media screen and (prefers-reduced-motion: no-preference) {
     html {
         scroll-behavior: smooth;
+    }
+}
+
+@media (min-width: 576px) {
+    .gnb-container {
+        max-width: 540px;
+    }
+}
+@media (min-width: 768px) {
+    .gnb-container {
+        max-width: 720px;
+    }
+}
+@media (min-width: 992px) {
+    .gnb-container {
+        max-width: 960px;
+    }
+}
+@media (min-width: 1200px) {
+    .gnb-container {
+        max-width: 1140px;
+    }
+}
+@media (min-width: 1400px) {
+    .gnb-container {
+        max-width: 1140px;
     }
 }
