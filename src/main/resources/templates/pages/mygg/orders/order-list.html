@@ -17,9 +17,8 @@
         <main>
             <div th:replace="fragments/common/mygg-sidebar"></div>
             <div>
+                <h2 th:text="#{ORDER_LIST}"></h2>
                 <div class="custom-order-div">
-                    <h2 th:text="#{ORDER_LIST}"></h2>
-
                     <h2 th:if="${orders.isEmpty()}" th:text="#{NOT_EXISTS_ORDERS}"></h2>
                     <table th:unless="${orders.isEmpty()}" class="table">
                         <tr>
