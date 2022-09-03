@@ -47,7 +47,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const $usedPoint = document.getElementById('used-point');
     const $totalAmount = document.getElementById('total-origin');
 
-    if (!isValidPaymentAmount($totalAmount.value, $decidedCoupon.value, $usedPoint.value)) {
+    if (!isValidPaymentAmount(parseInt($totalAmount.value),
+                              parseInt($decidedCoupon.value), parseInt($usedPoint.value))) {
       alert("결제 금액보다 초과하여 할인을 적용할 수 없습니다.");
       return false;
     }
@@ -59,19 +60,21 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log($totalAmount.value);
 
     // 총 금액에서 할인 계산
-    $totalAmount.value = $totalAmount.value - ($decidedCoupon.value + $usedPoint.value);
+    $totalAmount.value = parseInt($totalAmount.value) - (parseInt($decidedCoupon.value) + parseInt($usedPoint.value));
 
-    document.getElementById('order-form').submit();
+    document.getElementById('order-form')
+            .submit();
   });
 
   const isValidPaymentAmount = (totalAmount, couponDiscountAmount, usedPoint) => {
     let fixedAmount = isFixedRate(couponDiscountAmount) ? couponDiscountAmount * 100 : couponDiscountAmount;
     // FIXME: 확인 후 삭제 요망
-    console.log(`totalAmount: ${totalAmount}`);
-    console.log(`fixedAmount: ${fixedAmount}`);
-    console.log(`usedPoint: ${usedPoint}`);
+    console.log(`totalAmount: ${typeof totalAmount}`);
+    console.log(`fixedAmount: ${typeof fixedAmount}`);
+    console.log(`usedPoint: ${typeof usedPoint}`);
+    console.log(totalAmount < fixedAmount + usedPoint);
 
-    return totalAmount < fixedAmount + usedPoint;
+    return totalAmount >= fixedAmount + usedPoint;
   };
 
   /**

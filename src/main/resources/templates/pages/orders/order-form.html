@@ -141,7 +141,7 @@
                 </section>
 
                 <!-- FIXME: 유효성 검사 반영되어 있음. 필요한 값 수정 필요 -->
-                <input type="hidden" name="totalAmount" id="total-origin" th:value="|${result.totalOrigin} * 10|" />
+                <input type="hidden" name="totalAmount" id="total-origin" th:value="${result.totalOrigin}" />
                 <input type="hidden" name="expectedSavePoint" th:value="${result.totalOrigin}" />
 
                 <div class="payment-button-wrapper">

@@ -27,7 +27,7 @@ window.addEventListener('DOMContentLoaded', () => {
   const autoCompleteJS = new autoComplete(
     {
       selector: "#autoComplete",
-      placeHolder: "Search for Food...",
+      placeHolder: "검색어를 입력해주세요",
       data: {
         src: [],
         store: []
