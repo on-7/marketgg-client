@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.payment;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,7 +16,9 @@ import lombok.NoArgsConstructor;
  */
 @NoArgsConstructor
 @Getter
-public class PaymentResponse {
+public class PaymentResponse implements Serializable {
+
+    private static final long serialVersionUID = 1138662999082181099L;
 
     @NotBlank
     @Size(max = 200)

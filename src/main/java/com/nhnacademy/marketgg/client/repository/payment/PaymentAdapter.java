@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.dto.payment.PaymentConfirmRequest;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
 import java.util.Collections;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -50,28 +51,28 @@ public class PaymentAdapter implements PaymentRepository {
      * @param paymentRequest - 결제 승인 요청 정보
      */
     @Override
-    public void pay(final PaymentConfirmRequest paymentRequest) {
-        ParameterizedTypeReference<CommonResult<PaymentResponse>> typeReference = new ParameterizedTypeReference<>() {
-        };
+    public PaymentResponse pay(final PaymentConfirmRequest paymentRequest) {
         ResponseEntity<CommonResult<PaymentResponse>> response
-                = WebClient.builder()
-                           .baseUrl(gatewayIp)
-                           .defaultHeaders(httpHeaders -> {
-                               httpHeaders.setContentType(
-                                       MediaType.APPLICATION_JSON);
-                               httpHeaders.setAccept(
-                                       Collections.singletonList(
-                                               MediaType.APPLICATION_JSON));
-                           })
-                           .build()
-                           .post()
-                           .uri("/shop/v1/payments/confirm")
-                           .bodyValue(paymentRequest)
-                           .retrieve()
-                           .toEntity(typeReference)
-                           .block();
+            = WebClient.builder()
+                       .baseUrl(gatewayIp)
+                       .defaultHeaders(httpHeaders -> {
+                           httpHeaders.setContentType(
+                               MediaType.APPLICATION_JSON);
+                           httpHeaders.setAccept(
+                               Collections.singletonList(
+                                   MediaType.APPLICATION_JSON));
+                       })
+                       .build()
+                       .post()
+                       .uri("/shop/v1/payments/confirm")
+                       .bodyValue(paymentRequest)
+                       .retrieve()
+                       .toEntity(new ParameterizedTypeReference<CommonResult<PaymentResponse>>() {
+                       })
+                       .blockOptional()
+                       .orElseThrow(RuntimeException::new);
 
-        System.out.println(response.getBody().getData());
+        return Objects.requireNonNull(response.getBody()).getData();
     }
 
     @Override
