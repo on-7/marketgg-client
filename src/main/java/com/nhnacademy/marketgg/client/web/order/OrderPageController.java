@@ -97,6 +97,7 @@ public class OrderPageController {
     @GetMapping("/orders/{orderId}/payments/cancel")
     public ModelAndView cancelOrder(@PathVariable final Long orderId) {
         String paymentKey = orderService.retrieveOrderPaymentKey(orderId).getPaymentKey();
+
         log.info("paymentKey: {}", paymentKey);
 
         ModelAndView mav = new ModelAndView("pages/payments/cancel-payment");
