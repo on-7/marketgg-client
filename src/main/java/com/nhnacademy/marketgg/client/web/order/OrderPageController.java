@@ -44,6 +44,7 @@ public class OrderPageController {
         OrderFormResponse orderFormResponse = orderService.retrieveOrderForm(cartRequest);
 
         ModelAndView mav = new ModelAndView("pages/orders/order-form");
+        // TODO: 회원 전화번호도 모델에 담아서 display
         mav.addObject("member", memberInfo);
         mav.addObject("result", orderFormResponse);
 
