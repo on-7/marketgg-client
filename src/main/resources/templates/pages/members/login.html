@@ -47,8 +47,17 @@
                         </div>
                     </a>
                 </form>
-                <script th:inline="javascript" th:if="${loginSuccess == false}">
-                    const message =  /*[[#{LOGIN_FAIL}]]*/;
+                <script th:inline="javascript" th:if="${loginStatus != null}">
+                    const loginStatus = /*[[${loginStatus}]]*/;
+                    let message;
+
+                    console.log(loginStatus);
+                    if (loginStatus == "WITHDRAW") {
+                        message =  /*[[#{WITHDRAW}]]*/;
+                    } else if(loginStatus == "UNAUTHORIZED") {
+                        message =  /*[[#{LOGIN_FAIL}]]*/;
+                    }
+
                     alert(message);
                 </script>
             </section>

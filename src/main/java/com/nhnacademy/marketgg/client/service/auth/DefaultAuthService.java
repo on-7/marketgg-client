@@ -7,8 +7,10 @@ import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.exception.LoginFailException;
 import com.nhnacademy.marketgg.client.exception.ServerException;
+import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.repository.auth.AuthRepository;
+import com.nhnacademy.marketgg.client.util.LoginStatus;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 
 /**
@@ -30,25 +33,37 @@ import org.springframework.web.client.HttpServerErrorException;
 @RequiredArgsConstructor
 public class DefaultAuthService implements AuthService {
 
+    private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
+    private static final String WITHDRAW = "WITHDRAW";
+
     private final AuthRepository authRepository;
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public boolean doLogin(final LoginRequest loginRequest, final String sessionId) {
-        ResponseEntity<Void> response = authRepository.doLogin(loginRequest, sessionId);
+    public LoginStatus doLogin(final LoginRequest loginRequest, final String sessionId) {
 
-        boolean loginSuccess = this.checkStatus(response);
+        ResponseEntity<Void> response;
 
-        if (!loginSuccess) {
-            return false;
+        try {
+            response = authRepository.doLogin(loginRequest, sessionId);
+            if (!response.getStatusCode().is4xxClientError() && isWithdraw(response)) {
+                return LoginStatus.WITHDRAW;
+            }
+        } catch (HttpClientErrorException e) {
+            log.error(e.toString());
+            if (e.getStatusCode() == HttpStatus.UNAUTHORIZED) {
+                return LoginStatus.UNAUTHORIZED;
+            }
+            throw new UnAuthenticException();
         }
 
-        HttpHeaders headers = response.getHeaders();
+        HttpHeaders headers = Objects.requireNonNull(response).getHeaders();
 
         String jwt = Objects.requireNonNull(headers.get(AUTHORIZATION)).get(0);
         if (jwt.startsWith(JwtInfo.BEARER)) {
             jwt = jwt.substring(7);
         }
+
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setBearerAuth(jwt);
 
@@ -59,33 +74,12 @@ public class DefaultAuthService implements AuthService {
 
         JwtInfo.saveJwt(redisTemplate, memberInfo, sessionId, jwt, expireAt);
 
-        return true;
+        return LoginStatus.LOGIN;
     }
 
-    private boolean checkStatus(ResponseEntity<?> response) {
-        if (Objects.equals(response.getStatusCode(), HttpStatus.UNAUTHORIZED)
-            || Objects.equals(response.getStatusCode(), HttpStatus.FORBIDDEN)) {
-            log.info("Login Fail - http status: {}", response.getStatusCode());
-            return false;
-        }
-
-        if (response.getStatusCode().is4xxClientError()) {
-            log.info("Cilent Error - http status: {}", response.getStatusCode());
-            throw new LoginFailException();
-        }
-
-        if (response.getStatusCode().is5xxServerError()) {
-            log.info("Sever Error - http status: {}", response.getStatusCode());
-            throw new ServerException();
-        }
-
-        if (Objects.isNull(response.getHeaders().get(AUTHORIZATION))
-            || Objects.isNull(response.getHeaders().get(JwtInfo.JWT_EXPIRE))) {
-            log.info("Empty header");
-            throw new LoginFailException();
-        }
-
-        return true;
+    private boolean isWithdraw(ResponseEntity<Void> response) {
+        return Objects.nonNull(response.getHeaders().get(WWW_AUTHENTICATE))
+            && Objects.requireNonNull(response.getHeaders().get(WWW_AUTHENTICATE)).contains(WITHDRAW);
     }
 
     @Override
