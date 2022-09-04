@@ -35,7 +35,7 @@
                         <tbody>
                             <tr th:each="product : ${result.products}">
                                 <td th:if="${product.imageAddress} != null" class="product-thumbnail">
-                                    <img th:src="@{/images/image-placeholder.png}" alt="">
+                                    <img th:src="${product.imageAddress}" alt="">
                                 </td>
                                 <td th:unless="${product.imageAddress} != null" class="product-thumbnail">
                                     <img th:src="@{/images/image-placeholder.png}" alt="">
@@ -43,7 +43,8 @@
                                 <td th:text="${product.name}"></td>
                                 <td th:text="${product.amount}"></td>
                                 <td th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')}"></td>
-                                <td>2,500</td>
+                                <td th:if="${result.products.get(0).id == product.id}">2,500</td>
+                                <td th:unless="${result.products.get(0).id == product.id}"> </td>
                                 <input type="hidden" name="productIds" th:value="${product.id}">
                             </tr>
                         </tbody>
