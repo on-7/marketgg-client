@@ -61,7 +61,8 @@
                         </div>
                         <div class="customer-information-item">
                             <p>휴대폰</p>
-                            <p>010-8765-4321</p>
+                            <p th:text="${result.memberPhone}"></p>
+                            <input type="hidden" name="phone" th:value="${result.memberPhone}">
                         </div>
                         <div class="customer-information-item">
                             <p th:text="#{EMAIL_LABEL}"></p>

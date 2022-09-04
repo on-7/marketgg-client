@@ -32,6 +32,10 @@ public class OrderFormResponse {
 
     @NotBlank
     @Size(max = 20)
+    private String memberPhone;
+
+    @NotBlank
+    @Size(max = 20)
     private String memberEmail;
 
     @NotBlank
