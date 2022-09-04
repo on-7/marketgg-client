@@ -10,6 +10,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * X-Forwarded-For 헤더를 로깅하기 위한 필터
+ */
 @Slf4j
 public class OriginFilter implements Filter {
 
