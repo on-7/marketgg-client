@@ -3,7 +3,9 @@
 
     <Properties>
         <Property name="fileName" value="auth.%d{yyyy-MM-dd}"/>
-        <Property name="filePath" value="${sys:user.home}/marketgg-auth-logs" />
+        <Property name="filePath" value="${sys:user.home}/marketgg-client-logs-origin" />
+        <Property name="originFileName" value="client.origin.%d{yyyy-MM-dd}"/>
+        <Property name="originLogPath" value="${sys:user.home}/marketgg-client-origin-logs" />
         <Property name="consoleLayout">
             %highlight{[%-5level]} %d{yyyy-MM-dd HH:mm:ss} [%thread] [%C.%M: %L] - %msg%n
         </Property>
@@ -30,6 +32,18 @@
             </Policies>
             <DefaultRolloverStrategy max="30" fileIndex="min"/>
         </RollingFile>
+
+        <RollingFile name="originLog" fileName="${originLogPath}/${originFileName}.log"
+                     filepattern="${originLogPath}/${originFileName}T%d{HH:mm}_%i.log">
+            <PatternLayout>
+                <pattern>${fileLayout}</pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="200KB"/>
+                <TimeBasedTriggeringPolicy interval="1"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30" fileIndex="min"/>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
@@ -37,9 +51,14 @@
             <appender-ref ref="console"/>
         </root>
 
-        <logger name="com.nhnacademy.marketgg.auth" level="WARN" additivity="false">
+        <logger name="com.nhnacademy.marketgg.client" level="WARN" additivity="false">
             <appender-ref ref="console"/>
             <appender-ref ref="file"/>
+        </logger>
+
+        <logger name="com.nhnacademy.marketgg.client.filter.OriginFilter" level="INFO" additivity="false">
+            <appender-ref ref="console"/>
+            <appender-ref ref="originLog"/>
         </logger>
     </Loggers>
 

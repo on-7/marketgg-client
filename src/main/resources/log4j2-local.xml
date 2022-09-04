@@ -22,7 +22,7 @@
         </root>
 
         <!-- 특정패키지 로깅레벨 설정 -->
-        <logger name="com.nhnacademy.marketgg.auth" level="DEBUG" additivity="false">
+        <logger name="com.nhnacademy.marketgg.client" level="DEBUG" additivity="false">
             <appender-ref ref="console"/>
             <appender-ref ref="file"/>
         </logger>
