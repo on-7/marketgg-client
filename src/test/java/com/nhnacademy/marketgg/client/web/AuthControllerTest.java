@@ -18,6 +18,7 @@ import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.member.LoginRequest;
 import com.nhnacademy.marketgg.client.jwt.JwtInfo;
 import com.nhnacademy.marketgg.client.service.auth.AuthService;
+import com.nhnacademy.marketgg.client.util.LoginStatus;
 import com.nhnacademy.marketgg.client.web.auth.AuthController;
 import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,7 +72,7 @@ class AuthControllerTest {
     void doLogin() throws Exception {
         LoginRequest loginRequest = new LoginRequest("email@gmail.com", "password");
 
-        given(authService.doLogin(any(LoginRequest.class), anyString())).willReturn(true);
+        given(authService.doLogin(any(LoginRequest.class), anyString())).willReturn(LoginStatus.LOGIN);
 
         this.mockMvc.perform(post("/login")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
