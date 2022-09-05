@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // 기존 form 태그 submit 이벤트를 막기 위함
     event.preventDefault();
 
-    const $totalAmount = document.getElementById('total-origin');
+    const $totalAmount = document.getElementById('total-amount');
     const $usedPoint = document.getElementById('used-point');
 
     if (!isValidPaymentAmount(parseInt($totalAmount.value),

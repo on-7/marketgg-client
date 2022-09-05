@@ -56,11 +56,8 @@ public class PaymentAdapter implements PaymentRepository {
             = WebClient.builder()
                        .baseUrl(gatewayIp)
                        .defaultHeaders(httpHeaders -> {
-                           httpHeaders.setContentType(
-                               MediaType.APPLICATION_JSON);
-                           httpHeaders.setAccept(
-                               Collections.singletonList(
-                                   MediaType.APPLICATION_JSON));
+                           httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                           httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
                        })
                        .build()
                        .post()

@@ -115,7 +115,7 @@
                         </div>
                         <!-- Custom select structure -->
                         <input type="hidden" name="selectedCoupon" id="selected-coupon" th:value="0">
-                        <input type="hidden" name="selectedCouponId" id="selected-coupon-id">
+                        <input type="hidden" name="couponId" id="selected-coupon-id">
                     </div>
 
                     <div class="points">
@@ -142,7 +142,8 @@
                 </section>
 
                 <!-- FIXME: 유효성 검사 반영되어 있음. 필요한 값 수정 필요 -->
-                <input type="hidden" name="totalAmount" id="total-origin" th:value="40000" />
+                <input type="hidden" name="totalOrigin" id="total-origin" th:value="${result.totalOrigin}" />
+                <input type="hidden" name="totalAmount" id="total-amount" th:value="${result.totalOrigin}" />
                 <input type="hidden" name="expectedSavePoint" th:value="${result.totalOrigin}" />
 
                 <div class="payment-button-wrapper">
