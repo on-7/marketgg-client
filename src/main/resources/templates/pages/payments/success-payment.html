@@ -23,6 +23,9 @@
                     <div class="card-footer text-muted"
                          th:text="${#strings.arraySplit(paymentResponse.approvedAt, 'T')[0]}"></div>
                 </div>
+                <div class="order-details-button-wrapper">
+                    <a class="btn go-order-details" href="/orders">주문 내역 확인</a>
+                </div>
             </div>
         </main>
     </body>
