@@ -34,7 +34,7 @@ public class OrderCreateRequest {
     private final List<Long> productIds;
 
     @Nullable
-    private final String selectedCouponName;
+    private final String selectedCouponId;
 
     @Nullable
     private final Integer usedPoint;

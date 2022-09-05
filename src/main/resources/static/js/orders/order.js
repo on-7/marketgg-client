@@ -9,14 +9,25 @@ window.addEventListener('DOMContentLoaded', () => {
     $ul.addEventListener('click', () => {
       $ul.childNodes.forEach((item, i) => {
         if (item.classList.contains("active")) {
+          // 최종 금액 계산을 위해 할인 금액 input 태그에 설정
           const $selectedCoupon = document.getElementById('coupons').children[0].children[i];
-          const $selectedCouponName = document.getElementById('selected-coupon-name');
-
           $decidedCoupon.value = $selectedCoupon.value;
 
+          const $selectedCouponId = document.getElementById('selected-coupon-id');
+
+          // 선택한 쿠폰 아이디 값 설정
+          const $select = document.getElementById('coupon-list');
+          for (const option of $select.children) {
+            if (option.textContent === item.textContent) {
+              $selectedCouponId.value = option.id;
+              break;
+            }
+          }
+
           // FIXME: 확인 후 삭제 요망
-          console.log($decidedCoupon);
-          $selectedCouponName.value = item.textContent;
+          // console.log($decidedCoupon);
+          // console.log($selectedCouponId);
+
           return false;
         }
       });

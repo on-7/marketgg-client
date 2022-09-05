@@ -98,11 +98,12 @@
                         <p>쿠폰 사용</p>
                         <!-- Custom select structure -->
                         <div class="select_mate" id="coupons" data-mate-select="active">
-                            <select name="" onchange="" onclick="return false;" id="">
+                            <select id="coupon-list" name="" onchange="" onclick="return false;">
                                 <option value="">쿠폰을 선택해주세요.</option>
-                                <option th:each="givenCoupon: ${result.givenCouponList}"
+                                <option th:each="givenCoupon, index : ${result.givenCouponList}"
+                                        th:id="${givenCoupon.id}"
                                         th:value="${givenCoupon.discountAmount}"
-                                        th:text="${givenCoupon.name}
+                                        th:text="${index.index} + 1 + '. ' + ${givenCoupon.name}
                                         + ' (' + ${#numbers.formatInteger(givenCoupon.minimumMoney, 3, 'COMMA')}
                                         + '원, ' + ${givenCoupon.discountAmount ge 1 ? #numbers.formatInteger(givenCoupon.discountAmount, 3, 'COMMA') + '원' : #numbers.formatPercent(givenCoupon.discountAmount, 1, 2)}
                                         + ')'"></option>
@@ -114,7 +115,7 @@
                         </div>
                         <!-- Custom select structure -->
                         <input type="hidden" name="selectedCoupon" id="selected-coupon" th:value="0">
-                        <input type="hidden" name="selectedCouponName" id="selected-coupon-name">
+                        <input type="hidden" name="selectedCouponId" id="selected-coupon-id">
                     </div>
 
                     <div class="points">
