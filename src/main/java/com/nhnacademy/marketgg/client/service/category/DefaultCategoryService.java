@@ -10,10 +10,13 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.repository.category.CategoryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class DefaultCategoryService implements CategoryService {
 
     private final CategoryRepository categoryRepository;
@@ -31,7 +34,9 @@ public class DefaultCategoryService implements CategoryService {
     }
 
     @Override
+    @Cacheable(cacheNames = "category")
     public List<CategoryRetrieveResponse> retrieveCategories() throws UnAuthenticException, UnAuthorizationException {
+        log.info("카테고리가 캐싱되었습니다.");
         return categoryRepository.retrieveCategories();
     }
 
@@ -44,7 +49,6 @@ public class DefaultCategoryService implements CategoryService {
     @Override
     public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
-
         categoryRepository.updateCategory(id, categoryRequest);
     }
 

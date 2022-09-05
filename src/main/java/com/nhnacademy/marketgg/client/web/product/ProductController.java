@@ -13,7 +13,9 @@ import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.product.ProductService;
 import com.nhnacademy.marketgg.client.service.review.ReviewService;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductController extends BaseController {
 
     private final ProductService productService;
     private final ReviewService reviewService;
