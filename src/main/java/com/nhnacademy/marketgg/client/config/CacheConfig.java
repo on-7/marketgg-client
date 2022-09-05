@@ -1,12 +1,20 @@
 package com.nhnacademy.marketgg.client.config;
 
-import org.springframework.cache.CacheManager;
+import org.ehcache.config.builders.CacheConfigurationBuilder;
+import org.ehcache.config.builders.ExpiryPolicyBuilder;
+import org.ehcache.config.builders.ResourcePoolsBuilder;
+import org.ehcache.config.units.MemoryUnit;
+import org.ehcache.jsr107.Eh107Configuration;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
-import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+import org.springframework.cache.interceptor.SimpleKey;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
+
+import javax.cache.CacheManager;
+import javax.cache.Caching;
+import javax.cache.spi.CachingProvider;
+import java.time.Duration;
+import java.util.List;
 
 @EnableCaching
 @Configuration
@@ -20,16 +28,25 @@ public class CacheConfig {
 //    }
 //
 
-    @Bean
-    public CacheManager cacheManager() {
-        return new EhCacheCacheManager(ehCacheManager().getObject());
-    }
 
     @Bean
-    public EhCacheManagerFactoryBean ehCacheManager() {
-        EhCacheManagerFactoryBean factory = new EhCacheManagerFactoryBean();
-        factory.setConfigLocation(new ClassPathResource("ehcache.xml"));
-        factory.setShared(true);
-        return factory;
+    public CacheManager ehCacheManager() {
+        CachingProvider provider = Caching.getCachingProvider();
+        CacheManager cacheManager = provider.getCacheManager();
+
+        CacheConfigurationBuilder<SimpleKey, List> configuration =
+                CacheConfigurationBuilder.newCacheConfigurationBuilder(
+                                SimpleKey.class,
+                                List.class,
+                                ResourcePoolsBuilder
+                                        .newResourcePoolsBuilder().offheap(1, MemoryUnit.MB))
+                        .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(20)));
+
+        javax.cache.configuration.Configuration<SimpleKey, List> stringDoubleConfiguration =
+                Eh107Configuration.fromEhcacheCacheConfiguration(configuration);
+
+        cacheManager.createCache("category", stringDoubleConfiguration);
+        return cacheManager;
+
     }
 }
