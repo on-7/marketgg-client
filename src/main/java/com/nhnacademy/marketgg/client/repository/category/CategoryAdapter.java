@@ -32,7 +32,8 @@ public class CategoryAdapter implements CategoryRepository {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    private static final String DEFAULT_CATEGORY = "/shop/v1/admin/categories";
+    private static final String DEFAULT_ADMIN_CATEGORY = "/shop/v1/admin/categories";
+    private static final String DEFAULT_CATEGORY = "/shop/v1/categories";
 
     @Override
     public void createCategory(final CategoryCreateRequest categoryRequest)
@@ -40,7 +41,7 @@ public class CategoryAdapter implements CategoryRepository {
         String request = objectMapper.writeValueAsString(categoryRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
-        ResponseEntity<CommonResult<Void>> response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY,
+        ResponseEntity<CommonResult<Void>> response = restTemplate.exchange(gateWayIp + DEFAULT_ADMIN_CATEGORY,
                                                                             HttpMethod.POST,
                                                                             requestEntity,
                                                                             new ParameterizedTypeReference<>() {
@@ -53,7 +54,7 @@ public class CategoryAdapter implements CategoryRepository {
     public CategoryRetrieveResponse retrieveCategory(String id) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<CategoryRetrieveResponse>>
-                response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
+                response = restTemplate.exchange(gateWayIp + DEFAULT_ADMIN_CATEGORY + "/" + id,
                                                  HttpMethod.GET, requestEntity,
                                                  new ParameterizedTypeReference<>() {
                                                  });
@@ -96,7 +97,7 @@ public class CategoryAdapter implements CategoryRepository {
         String request = objectMapper.writeValueAsString(categoryRequest);
 
         ResponseEntity<CommonResult<Void>> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
+                restTemplate.exchange(gateWayIp + DEFAULT_ADMIN_CATEGORY + "/" + id,
                                       HttpMethod.PUT,
                                       new HttpEntity<>(request, this.buildHeaders()),
                                       new ParameterizedTypeReference<>() {
@@ -109,7 +110,7 @@ public class CategoryAdapter implements CategoryRepository {
     public void deleteCategory(final String id) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<Void>> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY + "/" + id,
+                restTemplate.exchange(gateWayIp + DEFAULT_ADMIN_CATEGORY + "/" + id,
                                       HttpMethod.DELETE,
                                       requestEntity,
                                       new ParameterizedTypeReference<>() {

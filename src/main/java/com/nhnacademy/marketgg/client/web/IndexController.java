@@ -1,9 +1,11 @@
 package com.nhnacademy.marketgg.client.web;
 
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import com.nhnacademy.marketgg.client.paging.Pagination;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
 import com.nhnacademy.marketgg.client.service.product.ProductService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
 
     @GetMapping({ "/", "/index" })
     public ModelAndView index(MemberInfo memberInfo, @RequestParam(defaultValue = "1") int page) {
@@ -50,6 +53,9 @@ public class IndexController {
         mav.addObject("pages", pagination);
         mav.addObject("sort", null);
         mav.addObject("pageType", "default");
+
+        List<CategoryRetrieveResponse> categoryRetrieveResponses = categoryService.retrieveCategories();
+        mav.addObject("categories", categoryRetrieveResponses);
 
         return mav;
     }
