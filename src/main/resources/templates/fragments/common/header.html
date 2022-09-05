@@ -45,7 +45,7 @@
                         </span>
                         <a href="/logout" class="btn btn-secondary my-2" th:text="#{LOGOUT}"></a>
                         <a href="/gg-admin" sec:authorize="hasRole('ADMIN')" class="btn btn-outline-light"
-                           style="margin-left: 0.5rem;" th:text="관리자용"></a>
+                           style="margin-left: 0.5rem;" th:text="#{ADMIN_ONLY}"></a>
                     </div>
                 </div>
             </div>
