@@ -48,7 +48,9 @@ dependencies {
     implementation 'io.netty:netty-resolver-dns-native-macos:4.1.80.Final:osx-aarch_64'
     implementation 'org.projectlombok:lombok:1.18.24'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-    implementation 'org.springframework.boot:spring-boot-starter-cache:2.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+    implementation 'org.ehcache:ehcache:3.10.1'
+    implementation 'javax.cache:cache-api:1.1.1'
 
     compileOnly 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
