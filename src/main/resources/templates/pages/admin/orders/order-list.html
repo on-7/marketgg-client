@@ -27,7 +27,7 @@
                     <th th:text="#{ORDER_TOTAL_AMOUNT}"></th>
                     <th th:text="#{ORDER_STATUS}"></th>
                     <th th:text="#{ORDER_CREATED_AT}"></th>
-                    <th>운송장 발급</th>
+                    <th th:text="#{TRACKING_NO_ISSUE}"></th>
                 </tr>
                 <tr class="order-content" th:each="order : ${orders}"
                     th:onclick="|location.href='/admin/orders/'+${order.id}|">
@@ -37,7 +37,7 @@
                     <td th:text="${order.orderStatus}"></td>
                     <td th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (HH:mm)')}"></td>
                     <td>
-                        <a th:href="@{|/admin/orders/${order.id}/delivery|}">발급</a>
+                        <a th:href="@{|/admin/orders/${order.id}/delivery|}" th:text="#{ISSUE}"></a>
                     </td>
                 </tr>
             </table>

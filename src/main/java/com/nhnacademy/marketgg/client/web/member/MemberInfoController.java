@@ -200,6 +200,7 @@ public class MemberInfoController {
             @ModelAttribute(name = "addressRequest") @Valid final DeliveryAddressCreateRequest addressRequest,
             BindingResult bindingResult)
             throws UnAuthenticException, UnAuthorizationException {
+
         if (bindingResult.hasErrors()) {
             return new ModelAndView(PAGES + MYGG + MEMBER + DELIVERY_ADDRESSES + FORM);
         }
@@ -216,10 +217,14 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @DeleteMapping("/mygg/member/delivery-address/{deliveryAddressId}")
-    public void deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
+
+    @DeleteMapping("mygg/member/delivery-address/{deliveryAddressId}")
+    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
             throws UnAuthenticException, UnAuthorizationException {
+
         memberService.deleteDeliveryAddress(deliveryAddressId);
+
+        return new ModelAndView(REDIRECT + MYGG + MEMBER + DELIVERY_ADDRESSES);
     }
 
 }
