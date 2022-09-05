@@ -68,7 +68,7 @@
                                         <a th:href="'/admin/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'?page='+${page}"
                                            th:text="${board.title}"></a>
                                     </td>
-                                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></td>
                                     <td>
                                         <div class="row">
                                             <form th:method="get"
@@ -104,7 +104,7 @@
                                         <a th:href="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'?page='+${page}"
                                            th:text="${board.title}"></a>
                                     </td>
-                                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></td>
                                 </tr>
                             </tbody>
                         </table>

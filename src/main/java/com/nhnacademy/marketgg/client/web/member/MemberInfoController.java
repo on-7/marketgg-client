@@ -94,7 +94,7 @@ public class MemberInfoController {
      * @param memberUpdateRequest - 회원정보 수정에 필요한 요청 정보 객체 (Auth 정보만 수정됨)  입니다.
      * @return
      */
-    @GetMapping("mygg/member/update")
+    @GetMapping("/mygg/member/update")
     public ModelAndView update(
             final @ModelAttribute(name = "memberUpdateRequest") MemberUpdateRequest memberUpdateRequest,
             MemberInfo memberInfo) throws UnAuthenticException, UnAuthorizationException {
@@ -114,7 +114,7 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @PostMapping("mygg/member/update")
+    @PostMapping("/mygg/member/update")
     public ModelAndView doUpdate(
             final @Valid @ModelAttribute(name = "memberUpdateRequest") MemberUpdateRequest memberUpdateRequest,
             MemberInfo memberInfo,
@@ -129,7 +129,7 @@ public class MemberInfoController {
         return new ModelAndView(REDIRECT_LOGOUT);
     }
 
-    @GetMapping("mygg/member/withdraw")
+    @GetMapping("/mygg/member/withdraw")
     public ModelAndView withdraw(final @ModelAttribute("loginRequest") LoginRequest loginRequest)
         throws UnAuthenticException, UnAuthorizationException {
 
@@ -145,7 +145,7 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @DeleteMapping("mygg/member/withdraw")
+    @DeleteMapping("/mygg/member/withdraw")
     public ModelAndView doWithdraw(MemberInfo memberInfo,
                                    final @Valid @ModelAttribute LoginRequest loginRequest,
                                    BindingResult bindingResult) throws UnAuthenticException, UnAuthorizationException {
@@ -165,7 +165,7 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @GetMapping("mygg/member/delivery-addresses")
+    @GetMapping("/mygg/member/delivery-addresses")
     public ModelAndView deliveryAddresses() throws UnAuthenticException, UnAuthorizationException {
         List<DeliveryAddressResponse> deliveryAddressResponseList = memberService.retrieveDeliveryAddresses();
         ModelAndView modelAndView = new ModelAndView(PAGES + MYGG + DELIVERY_ADDRESSES + INDEX);
@@ -179,7 +179,7 @@ public class MemberInfoController {
      *
      * @return 배송지 추가 폼
      */
-    @GetMapping("mygg/member/delivery-address")
+    @GetMapping("/mygg/member/delivery-address")
     public ModelAndView deliveryAddress(
             final @ModelAttribute(name = "addressRequest") DeliveryAddressCreateRequest addressRequest)
             throws UnAuthenticException, UnAuthorizationException {
@@ -195,11 +195,12 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
-    @PostMapping("mygg/member/delivery-address")
+    @PostMapping("/mygg/member/delivery-address")
     public ModelAndView createDeliveryAddress(
             @ModelAttribute(name = "addressRequest") @Valid final DeliveryAddressCreateRequest addressRequest,
             BindingResult bindingResult)
             throws UnAuthenticException, UnAuthorizationException {
+
         if (bindingResult.hasErrors()) {
             return new ModelAndView(PAGES + MYGG + MEMBER + DELIVERY_ADDRESSES + FORM);
         }
@@ -216,10 +217,14 @@ public class MemberInfoController {
      * @author 김훈민
      * @since 1.0.0
      */
+
     @DeleteMapping("mygg/member/delivery-address/{deliveryAddressId}")
-    public void deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
+    public ModelAndView deleteDeliveryAddress(@PathVariable @Min(1) final Long deliveryAddressId)
             throws UnAuthenticException, UnAuthorizationException {
+
         memberService.deleteDeliveryAddress(deliveryAddressId);
+
+        return new ModelAndView(REDIRECT + MYGG + MEMBER + DELIVERY_ADDRESSES);
     }
 
 }

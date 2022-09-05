@@ -40,12 +40,11 @@ public class OrderPageController {
      * @return 주문서 작성 페이지
      */
     @PostMapping("/orders/form")
-    public ModelAndView goOrderForm(CartOrderRequest cartRequest, final MemberInfo memberInfo) {
+    public ModelAndView goOrderForm(CartOrderRequest cartRequest) {
         OrderFormResponse orderFormResponse = orderService.retrieveOrderForm(cartRequest);
 
         ModelAndView mav = new ModelAndView("pages/orders/order-form");
-        // TODO: 회원 전화번호도 모델에 담아서 display
-        mav.addObject("member", memberInfo);
+
         mav.addObject("result", orderFormResponse);
 
         return mav;
@@ -90,6 +89,18 @@ public class OrderPageController {
             List<DeliveryLocationResponseDto> deliveryInfo = orderService.retrieveDeliveryInfo(order.getTrackingNo());
             mav.addObject("deliveryInfo", deliveryInfo);
         }
+
+        return mav;
+    }
+
+    @GetMapping("/orders/{orderId}/payments/cancel")
+    public ModelAndView cancelOrder(@PathVariable final Long orderId) {
+        String paymentKey = orderService.retrieveOrderPaymentKey(orderId).getPaymentKey();
+
+        log.info("paymentKey: {}", paymentKey);
+
+        ModelAndView mav = new ModelAndView("pages/payments/cancel-payment");
+        mav.addObject("paymentKey", paymentKey);
 
         return mav;
     }

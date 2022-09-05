@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderFormResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderPaymentKey;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.repository.order.OrderRepository;
@@ -30,7 +31,7 @@ public class GgOrderService implements OrderService {
     /**
      * {@inheritDoc}
      *
-     * @param orderRequest 주문 생성 시 필요한 요청 정보 객체
+     * @param orderRequest - 주문 생성 시 필요한 요청 정보 객체
      */
     @Override
     public OrderToPayment createOrder(final OrderCreateRequest orderRequest, final MemberInfo memberInfo) {
@@ -50,7 +51,7 @@ public class GgOrderService implements OrderService {
     /**
      * {@inheritDoc}
      *
-     * @param orderId 주문 번호
+     * @param orderId - 주문 번호
      * @return 주문 상세 정보 응답 객체
      */
     @Override
@@ -64,7 +65,7 @@ public class GgOrderService implements OrderService {
     /**
      * {@inheritDoc}
      *
-     * @param orderId 주문 번호
+     * @param orderId - 주문 번호
      */
     @Override
     public void cancelOrder(final Long orderId) {
@@ -74,7 +75,7 @@ public class GgOrderService implements OrderService {
     /**
      * 관리자가 운송장 번호 만들기를 요청합니다.
      *
-     * @param orderNo 주문 번호
+     * @param orderNo - 주문 번호
      */
     @Override
     public void createTrackingNo(final Long orderNo) {
@@ -84,7 +85,7 @@ public class GgOrderService implements OrderService {
     /**
      * 회원이 주문 내역에 있는 운송장 번호로 배송정보를 조회합니다.
      *
-     * @param trackingNo 운송장 번호
+     * @param trackingNo - 운송장 번호
      * @return 배송정보 리스트
      */
     @Override
@@ -95,12 +96,23 @@ public class GgOrderService implements OrderService {
     /**
      * {@inheritDoc}
      *
-     * @param cartRequest 장바구니에 담긴 상품 목록
-     * @return
+     * @param cartRequest - 장바구니에 담긴 상품 목록
+     * @return 주문서 작성에 필요한 정보를 담은 DTO 객체
      */
     @Override
     public OrderFormResponse retrieveOrderForm(final CartOrderRequest cartRequest) {
         return orderRepository.retrieveOrderForm(cartRequest);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @param orderId - paymentKey 를 조회할 주문 식별 번호
+     * @return paymentKey 정보를 담은 DTO 객체
+     */
+    @Override
+    public OrderPaymentKey retrieveOrderPaymentKey(final Long orderId) {
+        return orderRepository.retrieveOrderPaymentKey(orderId);
     }
 
 }

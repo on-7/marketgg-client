@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/title-main-script :: layout(~{::title}, ~{::main}, ~{::script})}">
+      th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
     <head>
+        <link rel="stylesheet" th:href="@{/css/mygg/marketgg.mygg.css}">
         <script th:src="@{/js/delivery-addresses/delivery-address.js}" defer></script>
+
         <title th:text="#{DELIVERY_ADDRESS_LIST}"></title>
     </head>
     <body>
         <main>
-            <div style="display: flex; justify-content: center;">
-                <h2 style="background-color: white; border: 1px outset black; padding: 5px"
-                    th:text="#{DELIVERY_ADDRESS_LIST}">
-                </h2>
+            <div style="display: flex;">
+                <div th:replace="fragments/common/mygg-sidebar"></div>
+
+                <div style="display: flex; flex-direction: column;">
+                    <h1 th:text="#{DELIVERY_ADDRESS_LIST}"></h1>
+                    <div style="display: flex; justify-content: flex-end;">
+                        <button><a th:href="@{/mygg/member/delivery-address}" th:text="#{ADD}"></a></button>
+                    </div>
+
+                    <div style="text-align: center; display: flex;">
+                        <table class="table"
+                               style="text-align: center; border: 1px solid black;">
+                            <tr style="background-color: navajowhite;">
+                                <th th:text="#{DELIVERY_DEFAULT_ADDRESS}"></th>
+                                <th th:text="#{DELIVERY_ADDRESS_NO}"></th>
+                                <th th:text="#{DELIVERY_ZIPCODE}"></th>
+                                <th th:text="#{DELIVERY_ADDRESS}"></th>
+                                <th th:text="#{DELIVERY_DETAIL_ADDRESS}"></th>
+                                <th th:text="#{DELETE}"></th>
+                            </tr>
+                            <tr style="background-color: whitesmoke;" th:each="deliveryAddress: ${deliveryAddressList}">
+                                <td th:if="${deliveryAddress.isDefaultAddress}">O</td>
+                                <td th:unless="${deliveryAddress.isDefaultAddress}">X</td>
+                                <td th:text="${deliveryAddress.id}">
+                                    <input type="hidden" th:text="${deliveryAddress.isDefaultAddress}">
+                                </td>
+                                <td th:text="${deliveryAddress.zipcode}"></td>
+                                <td th:text="${deliveryAddress.address}"></td>
+                                <td th:text="${deliveryAddress.detailAddress}"></td>
+                                <td>
+                                    <form th:action="@{'/mygg/member/delivery-address/' + ${deliveryAddress.id}}"
+                                          method="post">
+                                        <input type="hidden" name="_method" value="delete">
+                                        <input class="delivery btn btn-danger" type="submit" th:value="#{DELETE}">
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
             </div>
 
-            <div style="display: flex; flex-direction: column;">
-                <div style="display: flex; justify-content: flex-end;">
-                    <button><a th:href="@{/mygg/member/delivery-address}" th:text="#{ADD}"></a></button>
-                </div>
-
-                <div style="text-align: center; display: flex;">
-                    <table class="table"
-                           style="text-align: center; border: 1px solid black; background-color: navajowhite">
-                        <tr>
-                            <th th:text="#{DELIVERY_DEFAULT_ADDRESS}"></th>
-                            <th th:text="#{DELIVERY_ADDRESS_NO}"></th>
-                            <th th:text="#{DELIVERY_ZIPCODE}"></th>
-                            <th th:text="#{DELIVERY_ADDRESS}"></th>
-                            <th th:text="#{DELIVERY_DETAIL_ADDRESS}"></th>
-                            <th th:text="#{DELETE}"></th>
-                        </tr>
-                        <tr th:each="deliveryAddress: ${deliveryAddressList}">
-                            <td th:if="${deliveryAddress.isDefaultAddress}">O</td>
-                            <td th:unless="${deliveryAddress.isDefaultAddress}">X</td>
-                            <td th:text="${deliveryAddress.id}" >
-                                <input type="hidden" th:text="${deliveryAddress.isDefaultAddress}">
-                            </td>
-                            <td th:text="${deliveryAddress.zipcode}"></td>
-                            <td th:text="${deliveryAddress.address}"></td>
-                            <td th:text="${deliveryAddress.detailAddress}"></td>
-                            <td>
-                                <div class="form-group">
-                                <button type="button" class="deleteButton"
-                                       th:delivery-address-id="${deliveryAddress.id}" th:text="#{DELETE}">
-                                </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
         </main>
     </body>
 </html>

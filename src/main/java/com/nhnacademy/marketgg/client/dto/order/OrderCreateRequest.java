@@ -24,6 +24,10 @@ public class OrderCreateRequest {
     private final String name;
 
     @NotBlank
+    @Size(max = 20)
+    private final String phone;
+
+    @NotBlank
     @Size(max = 100)
     private final String email;
 

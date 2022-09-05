@@ -10,12 +10,19 @@
         <main>
             <section>
                 <h1>결제 취소를 진행하시겠습니까?</h1>
-                <form method="post" th:action="@{/payments/EAK6k75XwlOyL0qZ4G1VOP4xk47qOroWb2MQYgmBDPdR9pxz/cancel}">
-                    <input type="hidden" name="cancelReason" value="단순 변심">
-                    <input type="hidden" name="bank" value="신한">
-                    <input type="hidden" name="accountNumber" value="110233045056">
-                    <input type="hidden" name="holderName" value="강태풍">
-                    <button id="payment-cancel-button" class="btn btn-primary">취소</button>
+                <p th:text="${paymentKey}"></p>
+                <form method="post" th:action="@{'/payments/'+${paymentKey}+'/cancel'}">
+                    <select name="cancelReason">
+                        <option value="단순 변심">단순 변심</option>
+                        <option value="상품 불량">상품 불량</option>
+                        <option value="실수로 잘못 주문">실수로 잘못 주문</option>
+                        <option value="상품 정보와 상이">상품 정보와 상이</option>
+                        <option value="기타">기타</option>
+                    </select>
+                    <input type="text" name="bank" value="신한">
+                    <input type="text" name="accountNumber" value="110233045056">
+                    <input type="text" name="holderName" value="강태풍">
+                    <button id="payment-cancel-button" class="btn btn-primary">결제 취소</button>
                 </form>
             </section>
         </main>

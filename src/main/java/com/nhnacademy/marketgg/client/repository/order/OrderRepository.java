@@ -7,6 +7,7 @@ import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderFormResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderPaymentKey;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import java.util.List;
@@ -72,5 +73,13 @@ public interface OrderRepository {
      * @return 주문서를 구성하는 주문 상품 정보
      */
     OrderFormResponse retrieveOrderForm(final CartOrderRequest cartResponse);
+
+    /**
+     * 주문에 대한 paymentKey 정보를 조회합니다.
+     *
+     * @param orderId - paymentKey 를 조회할 주문 번호
+     * @return 주문에 대한 paymentKey 정보
+     */
+    OrderPaymentKey retrieveOrderPaymentKey(final Long orderId);
 
 }

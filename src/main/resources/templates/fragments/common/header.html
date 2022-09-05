@@ -31,12 +31,13 @@
                                         th:text="|Hello, ${#authentication.name}!|">
                                 </button>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="/mygg">MY GG</a>
+                                    <a class="dropdown-item" href="/orders">MY GG</a>
+
                                     <a class="dropdown-item" href="/orders">주문 내역</a>
                                     <a class="dropdown-item" href="/members/dibs">찜한 상품</a>
-                                    <a class="dropdown-item" href="#">배송지 관리</a>
+                                    <a class="dropdown-item" href="/mygg/member/delivery-addresses" th:text="#{DELIVERY_ADDRESS_MANAGE}"></a>
                                     <a class="dropdown-item" href="/members/product-inquiries" th:text="#{PRODUCT_INQUIRIES}"></a>
-                                    <a class="dropdown-item" href="#">적립금</a>
+                                    <a class="dropdown-item" href="/members/points">적립금</a>
                                     <a class="dropdown-item" href="/members/coupons" th:text="#{COUPON}"></a>
                                     <a class="dropdown-item" href="/mygg/member/update">개인 정보 수정</a>
                                 </div>

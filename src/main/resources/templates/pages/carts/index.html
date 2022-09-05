@@ -20,7 +20,7 @@
                             <div th:id="cart- + ${cart.id}"
                                  class="cart-item d-flex flex-row bd-highlight mb-3 align-items-center"
                                  th:if="${!carts.isEmpty}" th:each="cart : ${carts}">
-                                <input type="hidden" />
+
                                 <input class="p-2" type="checkbox" th:id="check- + ${cart.id}"
                                        th:value="${cart.id}" name="id" checked />
 
