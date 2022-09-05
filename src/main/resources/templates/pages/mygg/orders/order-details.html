@@ -108,21 +108,28 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th scope="col">도착 장소</th>
-                                            <th scope="col">도착 시간</th>
                                             <th scope="col">중간 도착지</th>
+                                            <th scope="col">도착 시간</th>
                                             <th scope="col">상태</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="delivery-info" th:each="info : ${deliveryInfo}">
-                                            <td th:text="${info.getArrivalTime()}"></td>
-                                            <td th:text="${info.getCompletionTime()}"></td>
                                             <td th:text="${info.getMiddleLocation()}"></td>
-                                            <td th:text="${info.status}"></td>
+                                            <td
+                                                    th:text="${#temporals.format(info.getArrivalTime(), 'yyyy년 MM월 dd일 HH시 mm분')}"></td>
+                                            <td th:if="${info.status.equals('READY')}" th:text="#{DELIVERY_READY}"></td>
+                                            <td th:if="${info.status.equals('DELIVERING')}" th:text="#{DELIVERING}"></td>
+                                            <td th:if="${info.status.equals('ARRIVAL')}" th:text="#{ARRIVAL}"></td>
                                         </tr>
                                     </tbody>
                                 </table>
+                                <div style="display: flex; justify-content: flex-end;">
+                                    <span>배송완료 시간:&nbsp;</span>
+                                    <span
+                                            th:text="${#temporals.format(deliveryInfo.get(deliveryInfo.size()-1).completionTime, 'yyyy년 MM월 dd일 HH시 mm분')}"></span>
+                                </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
