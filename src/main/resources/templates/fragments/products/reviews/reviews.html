@@ -28,91 +28,96 @@
                                 <span>
                                     <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">5 Stars</button>
                                 </span>
-                            </td>
-                            <td class="progress-bar-container">
-                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                    <div class="fit-progressbar-background">
+                                </td>
+                                <td class="progress-bar-container">
+                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                        <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${reviewRatings.get(4).getRatingCount == 0}"
                                               th:style="'width:0%'"></span>
-                                        <span class="progress-fill" th:unless="${reviewRatings.get(4).getRatingCount == 0}"
-                                              th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                            <span class="progress-fill"
+                                                  th:unless="${reviewRatings.get(4).getRatingCount == 0}"
+                                                  th:style="'width:'+${reviewRatings.get(4).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="star-num" th:text="${reviewRatings.get(4).getRatingCount}"></td>
-                        </tr>
-                        <tr class="">
-                            <td>
+                                </td>
+                                <td class="star-num" th:text="${reviewRatings.get(4).getRatingCount}"></td>
+                            </tr>
+                            <tr class="">
+                                <td>
                                 <span>
                                     <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">4 Stars</button>
                                 </span>
-                            </td>
-                            <td class="progress-bar-container">
-                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                    <div class="fit-progressbar-background">
+                                </td>
+                                <td class="progress-bar-container">
+                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                        <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${reviewRatings.get(3).getRatingCount == 0}"
                                               th:style="'width:0%'"></span>
-                                        <span class="progress-fill" th:unless="${reviewRatings.get(3).getRatingCount == 0}"
-                                              th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                            <span class="progress-fill"
+                                                  th:unless="${reviewRatings.get(3).getRatingCount == 0}"
+                                                  th:style="'width:'+${reviewRatings.get(3).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="star-num" th:text="${reviewRatings.get(3).getRatingCount}"></td>
-                        </tr>
-                        <tr class="">
-                            <td>
+                                </td>
+                                <td class="star-num" th:text="${reviewRatings.get(3).getRatingCount}"></td>
+                            </tr>
+                            <tr class="">
+                                <td>
                                 <span>
                                     <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">3 Stars</button>
                                 </span>
-                            </td>
-                            <td class="progress-bar-container">
-                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                    <div class="fit-progressbar-background">
+                                </td>
+                                <td class="progress-bar-container">
+                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                        <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${reviewRatings.get(2).getRatingCount == 0}"
                                               th:style="'width:0%'"></span>
-                                        <span class="progress-fill" th:unless="${reviewRatings.get(2).getRatingCount == 0}"
-                                              th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                            <span class="progress-fill"
+                                                  th:unless="${reviewRatings.get(2).getRatingCount == 0}"
+                                                  th:style="'width:'+${reviewRatings.get(2).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="star-num" th:text="${reviewRatings.get(2).getRatingCount}"></td>
-                        </tr>
-                        <tr class="">
-                            <td>
+                                </td>
+                                <td class="star-num" th:text="${reviewRatings.get(2).getRatingCount}"></td>
+                            </tr>
+                            <tr class="">
+                                <td>
                                 <span>
                                     <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">2 Stars</button>
                                 </span>
-                            </td>
-                            <td class="progress-bar-container">
-                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                    <div class="fit-progressbar-background">
+                                </td>
+                                <td class="progress-bar-container">
+                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                        <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${reviewRatings.get(1).getRatingCount == 0}"
                                               th:style="'width:0%'"></span>
-                                        <span class="progress-fill" th:unless="${reviewRatings.get(1).getRatingCount == 0}"
-                                              th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                            <span class="progress-fill"
+                                                  th:unless="${reviewRatings.get(1).getRatingCount == 0}"
+                                                  th:style="'width:'+${reviewRatings.get(1).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="star-num" th:text="${reviewRatings.get(1).getRatingCount}"></td>
-                        </tr>
-                        <tr class="">
-                            <td>
+                                </td>
+                                <td class="star-num" th:text="${reviewRatings.get(1).getRatingCount}"></td>
+                            </tr>
+                            <tr class="">
+                                <td>
                                 <span>
                                     <button class="fit-button fit-button-color-blue fit-button-fill-ghost fit-button-size-medium stars-filter">1 Stars</button>
                                 </span>
-                            </td>
-                            <td class="progress-bar-container">
-                                <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
-                                    <div class="fit-progressbar-background">
+                                </td>
+                                <td class="progress-bar-container">
+                                    <div class="fit-progressbar fit-progressbar-bar star-progress-bar">
+                                        <div class="fit-progressbar-background">
                                         <span class="progress-fill" th:if="${reviewRatings.get(0).getRatingCount == 0}"
                                               th:style="'width:0%'"></span>
-                                        <span class="progress-fill" th:unless="${reviewRatings.get(0).getRatingCount == 0}"
-                                              th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                            <span class="progress-fill"
+                                                  th:unless="${reviewRatings.get(0).getRatingCount == 0}"
+                                                  th:style="'width:'+${reviewRatings.get(0).getRatingCount * 100}/${reviewCount}+'%'"></span>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="star-num" th:text="${reviewRatings.get(0).getRatingCount}"></td>
-                        </tr>
+                                </td>
+                                <td class="star-num" th:text="${reviewRatings.get(0).getRatingCount}"></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -166,14 +171,14 @@
                                 <form class="btn"
                                       th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}"
                                       method="post">
-                                    <input type="hidden" name="_method" value="delete"/>
-                                    <input class="btn btn-danger" type="submit" th:value="#{DELETE}"/>
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <input class="btn btn-danger" type="submit" th:value="#{DELETE}" />
                                 </form>
 
                                 <form class="btn"
                                       th:action="'/admin/products/' + ${productDetails.id} + '/reviews/' + ${review.id} + '/make-best'"
                                       method="post">
-                                    <input class="btn btn-success" type="submit" th:value="#{MAKE_BEST_REVIEW}"/>
+                                    <input class="btn btn-success" type="submit" th:value="#{MAKE_BEST_REVIEW}" />
                                     <input type="hidden" name="_csrf" value="${_csrf.token}">
                                 </form>
                             </div>
@@ -186,33 +191,38 @@
     </div>
     </div>
 
-    <form name="reviewRequest" method="post" th:action="@{|/products/${productDetails.id}/reviews|}"
-          enctype="multipart/form-data">
+    <div sec:authorize="hasRole('USER')">
+        <form name="reviewRequest" method="post" th:action="@{|/products/${productDetails.id}/reviews|}"
+              enctype="multipart/form-data">
 
-        <div th:replace="fragments/common/input-group :: formItem('rating', '별점', 'number', 5)"></div>
 
-        <div class="product-details">
-            <h1 style="font-weight: bold; margin: 0 auto 0 0;">후기 등록</h1>
-            <div id="editor"></div>
-            <input type="hidden" id="toast-content" name="content" value="">
-        </div>
+            <div th:replace="fragments/common/input-group :: formItem('rating', '별점', 'number', 5)"></div>
 
-        <div class="btn-wrapper">
-            <button type="submit" class="btn btn-primary" id="btn-submit" th:text="#{SUBMIT}">등록</button>
-            <button type="button" class="btn btn-secondary" th:text="#{CANCEL}">취소</button>
-        </div>
-    </form>
+            <div class="product-details">
+                <h1 style="font-weight: bold; margin: 0 auto 0 0;">후기 등록</h1>
+                <div id="editor"></div>
+                <input type="hidden" id="toast-content" name="content" value="">
+            </div>
+
+            <div class="btn-wrapper">
+                <button type="submit" class="btn btn-primary" id="btn-submit" th:text="#{SUBMIT}">등록</button>
+                <button type="button" class="btn btn-secondary" th:text="#{CANCEL}">취소</button>
+            </div>
+        </form>
+    </div>
 
     <div class="pagination" th:if="${!reviews.isEmpty()}">
         <a th:href="@{|/products/${productDetails.id}/?page=1|}" th:text="#{FIRST_PAGE}"></a>
-        <a th:if="${pages.page} > 1" th:href="@{|/products/${productDetails.id}/?page=${pages.page-1}|}" th:text="#{PREV_PAGE}"></a>
+        <a th:if="${pages.page} > 1" th:href="@{|/products/${productDetails.id}/?page=${pages.page-1}|}"
+           th:text="#{PREV_PAGE}"></a>
         <ul class="pagination">
             <li th:each="page : ${#numbers.sequence(pages.startPage, pages.endPage)}">
                 <a th:href="@{|/products/${productDetails.id}/?page=${page}|}" th:text="${page}"
                    th:classappend="${page} == ${pages.page} ? 'current'"></a>
             </li>
         </ul>
-        <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/products/${productDetails.id}/?page=${pages.page+1}|}"
+        <a th:if="${pages.page} < ${pages.totalPageCnt}"
+           th:href="@{|/products/${productDetails.id}/?page=${pages.page+1}|}"
            th:text="#{NEXT_PAGE}"></a>
         <a th:href="@{|/products/${productDetails.id}/?page=${pages.totalPageCnt}|}" th:text="#{END_PAGE}"></a>
     </div>

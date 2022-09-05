@@ -3,7 +3,7 @@
     <h1 th:text="#{PRODUCT_INQUIRIES}" style="font-weight: bold; margin: 0 auto 0 0;"  id="inquiries"></h1>
     <br>
     <div>
-        <a th:href="@{|/products/${productId}/inquiries|}">
+        <a sec:authorize="hasRole('USER')" th:href="@{|/products/${productId}/inquiries|}">
             <button class="btn btn-danger" th:text="#{PRODUCT_INQUIRIES_REGISTER}"></button>
         </a>
         <br>
