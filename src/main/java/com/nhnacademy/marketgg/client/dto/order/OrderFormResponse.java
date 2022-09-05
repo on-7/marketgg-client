@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.dto.order;
 
+import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryAddressResponse;
 import java.util.List;
 import javax.validation.constraints.NotBlank;
@@ -42,7 +43,7 @@ public class OrderFormResponse {
     private String memberGrade;
 
     @NotNull
-    private List<OrderGivenCoupon> givenCouponList;
+    private List<GivenCouponRetrieveResponse> givenCouponList;
 
     @NotNull
     private Integer totalPoint;
