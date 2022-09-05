@@ -35,6 +35,7 @@ public class WebSecurityConfig {
 
         http.csrf()
             .ignoringAntMatchers("/admin/products/**")
+            .ignoringAntMatchers("/products/**")
             .ignoringAntMatchers("/editor/**");
 
         http.addFilterBefore(new AuthenticationFilter(redisTemplate),

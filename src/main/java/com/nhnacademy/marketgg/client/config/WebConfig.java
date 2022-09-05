@@ -1,5 +1,6 @@
 package com.nhnacademy.marketgg.client.config;
 
+import com.nhnacademy.marketgg.client.filter.OriginFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -55,7 +56,7 @@ public class WebConfig {
     @Bean
     public CommonsMultipartResolver filterMultipartResolver() {
         CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setDefaultEncoding("utf-8");
+        resolver.setDefaultEncoding("UTF-8");
         resolver.setMaxUploadSize(20_000_000);
         return resolver;
     }
@@ -63,10 +64,20 @@ public class WebConfig {
     @Bean
     public FilterRegistrationBean<MultipartFilter> multipartFilter() {
         FilterRegistrationBean<MultipartFilter> registrationBean
-                = new FilterRegistrationBean<>();
+            = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(new MultipartFilter());
         registrationBean.setOrder(SecurityProperties.DEFAULT_FILTER_ORDER - 1);
+
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<OriginFilter> originFilter() {
+        FilterRegistrationBean<OriginFilter> registrationBean = new FilterRegistrationBean<>();
+
+        registrationBean.setFilter(new OriginFilter());
+        registrationBean.setOrder(0);
 
         return registrationBean;
     }

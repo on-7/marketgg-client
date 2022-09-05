@@ -1,28 +1,10 @@
 
-
 window.addEventListener('DOMContentLoaded', () => {
     const reviewUpdateBtn = document.querySelectorAll('.btn-update');
     const reviewDeleteBtns = document.querySelectorAll('.btn-delete');
 
     const productId = document.getElementById("id");
     const reviewId = document.getElementById("reviewId");
-
-    // function retrieveReviews() {
-    //     let html = "";
-    //     reviewsRetrieveBtn.addEventListener("click", () => {
-    //         console.log(productId);
-    //         fetch("/products/" + productId + "/reviews?" + new URLSearchParams({
-    //             page: 1
-    //         })).then(result => result.json())
-    //             .then(json => {
-    //                 html += '<p>'+json+'</p>';
-    //                 console.log(json)
-    //             })
-    //         $('#review-container').html(html);
-    //     })
-    // }
-    //
-    // retrieveReviews();
 
     function updateReview() {
         let html = '';
