@@ -81,7 +81,7 @@
                                     </td>
                                     <td th:text="${board.reason}"></td>
                                     <td th:text="${board.status}"></td>
-                                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></td>
                                     <td>
                                         <div th:if="${isAdmin == 'yes'}">
                                             <form th:method="post" th:action="'/admin/customer-services/categories/702/'+${board.id}+'/status'">
@@ -118,7 +118,7 @@
                                     </td>
                                     <td th:text="${board.reason}"></td>
                                     <td th:text="${board.status}"></td>
-                                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                                    <td th:text="${#temporals.format(board.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></td>
                                     <td>
                                         <form th:method="post" th:action="'/customer-services/categories/'+${board.categoryCode}+'/'+${board.id}+'/delete'">
                                             <input type="hidden" name="page" th:value="${page}">

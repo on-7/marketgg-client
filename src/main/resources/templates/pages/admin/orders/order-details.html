@@ -22,7 +22,7 @@
                 <p th:text="#{ORDER_NO}"></p>
                 <p th:text="${orderId}"></p>
                 <p th:text="#{ORDER_CREATED_AT}"></p>
-                <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></p>
+                <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (HH:mm)')}"></p>
                 <p th:text="#{ORDER_STATUS}"></p>
                 <p th:text="${order.orderStatus}"></p>
                 <p th:if="${!order.trackingNo.isBlank()}" th:text="#{TRACKING_NO}"></p>

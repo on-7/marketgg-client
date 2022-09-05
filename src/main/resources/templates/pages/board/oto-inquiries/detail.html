@@ -30,7 +30,8 @@
                             </tr>
                             <tr>
                                 <td><span style="text-align: center" th:text="#{CREATED_AT}"></span></td>
-                                <td colspan="2"><span style="text-align: center" th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></span></td>
+                                <td colspan="2"><span style="text-align: center"
+                                                      th:text="${#temporals.format(response.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></span></td>
                             </tr>
                             <tr>
                                 <td><span style="text-align: center" th:text="#{OTO_INQUIRY_CONTENT}"></span></td>
@@ -63,7 +64,7 @@
                             <tr th:each="comment : ${response.commentList}">
                                 <td th:text="${comment.content}"></td>
                                 <td th:text="${comment.name}"></td>
-                                <td th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd hh:mm:ss')}"></td>
+                                <td th:text="${#temporals.format(comment.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></td>
                             </tr>
                         </tbody>
                     </table>

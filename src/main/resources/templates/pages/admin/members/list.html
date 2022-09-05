@@ -34,7 +34,7 @@
                         <td th:if="${#strings.equals(member.gender, 'M')}">남</td>
                         <td th:unless="${#strings.equals(member.gender, 'M')}">여</td>
                         <td th:text="${member.birthDate}">생일</td>
-                        <td th:text="${#temporals.format(member.createdAt, 'yyyy-mm-dd HH:mm')}">가입일시</td>
+                        <td th:text="${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm')}">가입일시</td>
                         <td th:if="${member.isAdmin()}">Y</td>
                         <td th:unless="${member.isAdmin()}">N</td>
                     </tr>

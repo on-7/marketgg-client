@@ -34,7 +34,7 @@
                             <td th:text="${order.orderName}"></td>
                             <td th:text="${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></td>
                             <td th:text="${order.orderStatus}"></td>
-                            <td th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></td>
+                            <td th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (HH:mm)')}"></td>
                         </tr>
                     </table>
                 </div>

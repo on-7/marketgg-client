@@ -20,7 +20,7 @@
             <div class="info">
                 <div class="top-info">
                     <p th:text="#{ORDER_NO}+': '+${orderId}"></p>
-                    <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></p>
+                    <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (HH:mm)')}"></p>
                 </div>
 
                 <div class="first-info">
