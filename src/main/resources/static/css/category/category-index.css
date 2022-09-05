@@ -35,6 +35,16 @@ a {
     text-decoration: none;
 }
 
+.category-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.category-box > button {
+    width: 10rem;
+}
+
 .update {
     border: none;
     height: 2em;

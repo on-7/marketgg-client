@@ -16,30 +16,34 @@
             <h1 th:text="#{CATEGORY_MANAGEMENT}"></h1>
 
             <hr/>
-            <table>
-                <tr class="first-tr">
-                    <th th:text="#{CATEGORY_CLASSIFICATION}"></th>
-                    <th th:text="#{CATEGORY_CODE}"></th>
-                    <th th:text="#{CATEGORY_NAME}"></th>
-                    <th th:text="#{CATEGORY_SEQUENCE}"></th>
-                    <th th:text="#{CATEGORY_UPDATES}"></th>
-                </tr>
-                <tr th:each="category : ${categories}">
-                    <td th:text="${category.categorizationName}"></td>
-                    <td th:text="${category.categoryCode}"></td>
-                    <td th:text="${category.categoryName}"></td>
-                    <td th:text="${category.sequence}"></td>
-                    <td>
-                        <a th:href="@{/admin/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
-                            <button class="update" th:text="#{UPDATE}"></button>
-                        </a>
-                        <form style="display: inline" th:action="'/admin/categories/' + ${category.categoryCode}" method="post">
-                            <input type="hidden" name="_method" value="delete"/>
-                            <input class="update" type="submit" th:value="#{DELETE}"/>
-                        </form>
-                    </td>
-                </tr>
-            </table>
+            <div class="category-box">
+                <button class="update" th:onclick="|location.href='/admin/categories/create'|">카테고리 등록</button>
+                <table>
+                    <tr class="first-tr">
+                        <th th:text="#{CATEGORY_CLASSIFICATION}"></th>
+                        <th th:text="#{CATEGORY_CODE}"></th>
+                        <th th:text="#{CATEGORY_NAME}"></th>
+                        <th th:text="#{CATEGORY_SEQUENCE}"></th>
+                        <th th:text="#{CATEGORY_UPDATES}"></th>
+                    </tr>
+                    <tr th:each="category : ${categories}">
+                        <td th:text="${category.categorizationName}"></td>
+                        <td th:text="${category.categoryCode}"></td>
+                        <td th:text="${category.categoryName}"></td>
+                        <td th:text="${category.sequence}"></td>
+                        <td>
+                            <a th:href="@{/admin/categories/update/{categoryId}(categoryId=${category.categoryCode})}">
+                                <button class="update" th:text="#{UPDATE}"></button>
+                            </a>
+                            <form style="display: inline" th:action="'/admin/categories/' + ${category.categoryCode}" method="post">
+                                <input type="hidden" name="_method" value="delete"/>
+                                <input class="update" type="submit" th:value="#{DELETE}"/>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
 
         </main>
     </body>
