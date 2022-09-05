@@ -40,12 +40,11 @@ public class OrderPageController {
      * @return 주문서 작성 페이지
      */
     @PostMapping("/orders/form")
-    public ModelAndView goOrderForm(CartOrderRequest cartRequest, final MemberInfo memberInfo) {
+    public ModelAndView goOrderForm(CartOrderRequest cartRequest) {
         OrderFormResponse orderFormResponse = orderService.retrieveOrderForm(cartRequest);
 
         ModelAndView mav = new ModelAndView("pages/orders/order-form");
 
-        mav.addObject("member", memberInfo);
         mav.addObject("result", orderFormResponse);
 
         return mav;
