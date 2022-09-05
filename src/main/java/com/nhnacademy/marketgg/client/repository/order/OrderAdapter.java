@@ -11,6 +11,7 @@ import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderFormResponse;
+import com.nhnacademy.marketgg.client.dto.order.OrderPaymentKey;
 import com.nhnacademy.marketgg.client.dto.order.OrderRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.util.JwtUtils;
@@ -214,6 +215,29 @@ public class OrderAdapter implements OrderRepository {
                            })
                        .blockOptional()
                        .orElseThrow(NullPointerException::new);
+
+        return Objects.requireNonNull(response.getBody()).getData();
+    }
+
+    @Override
+    public OrderPaymentKey retrieveOrderPaymentKey(final Long orderId) {
+        ResponseEntity<CommonResult<OrderPaymentKey>> response
+                = WebClient.builder()
+                           .baseUrl(gatewayIp)
+                           .defaultHeaders(httpHeaders -> {
+                               httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                               httpHeaders.setAccept(singletonList(MediaType.APPLICATION_JSON));
+                               httpHeaders.setBearerAuth(JwtUtils.getToken());
+                           })
+                           .build()
+                           .get()
+                           .uri(SHOP_SERVICE_PREFIX_V1 + ORDERS_PATH_PREFIX + "/" + orderId + "/paymentKey")
+                           .retrieve()
+                           .toEntity(
+                                   new ParameterizedTypeReference<CommonResult<OrderPaymentKey>>() {
+                                   })
+                           .blockOptional()
+                           .orElseThrow(NullPointerException::new);
 
         return Objects.requireNonNull(response.getBody()).getData();
     }

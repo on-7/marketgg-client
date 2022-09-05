@@ -55,7 +55,7 @@ public class PaymentPageController {
     public ModelAndView retrievePayment(@PathVariable final String paymentKey) {
         paymentService.retrievePayment(paymentKey);
 
-        return new ModelAndView("/pages/payments/details");
+        return new ModelAndView("pages/payments/details");
     }
 
 }

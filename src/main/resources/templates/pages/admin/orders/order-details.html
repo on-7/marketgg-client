@@ -22,7 +22,7 @@
                 <p th:text="#{ORDER_NO}"></p>
                 <p th:text="${orderId}"></p>
                 <p th:text="#{ORDER_CREATED_AT}"></p>
-                <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (hh:mm)')}"></p>
+                <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (HH:mm)')}"></p>
                 <p th:text="#{ORDER_STATUS}"></p>
                 <p th:text="${order.orderStatus}"></p>
                 <p th:if="${!order.trackingNo.isBlank()}" th:text="#{TRACKING_NO}"></p>
@@ -57,7 +57,7 @@
                 <p th:unless="${order.usedCoupon?.name != null}">없음</p>
                 <p th:if="${(order.usedCoupon?.name != null) && (order.usedCoupon.type.equals('정액할인'))}"
                    th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
-                <p th:if="${(order.usedCoupon?.name != null) && (order.usedCoupon.type.equals('정액할인'))}"
+                <p th:if="${(order.usedCoupon?.name != null) && (order.usedCoupon.type.equals('정률할인'))}"
                    th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
                 <p th:text="#{USED_POINT}"></p>
                 <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' G'"></p>
