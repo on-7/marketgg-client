@@ -34,10 +34,13 @@ public class OrderCreateRequest {
     private final List<Long> productIds;
 
     @Nullable
-    private final String selectedCouponName;
+    private final Long couponId;
 
     @Nullable
     private final Integer usedPoint;
+
+    @NotNull
+    private final Long totalOrigin;
 
     @NotNull
     private final Long totalAmount;

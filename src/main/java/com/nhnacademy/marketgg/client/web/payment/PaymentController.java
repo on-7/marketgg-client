@@ -79,7 +79,7 @@ public class PaymentController {
      * @param orderId - Market GG 고유 주문 번호
      * @return 예외 처리 페이지
      */
-    @PostMapping("/payments/fail")
+    @GetMapping("/payments/fail")
     public ModelAndView redirectWhenPaymentRequestFailed(@RequestParam final String code,
                                                          @RequestParam final String message,
                                                          @RequestParam final String orderId) {
