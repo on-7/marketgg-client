@@ -51,13 +51,6 @@ class AdminCouponControllerTest {
     private static final String DEFAULT_COUPON = "/admin/coupons";
 
     @Test
-    @DisplayName("쿠폰 등록 페이지 이동")
-    void testDoCreateCoupon() throws Exception {
-        this.mockMvc.perform(get(DEFAULT_COUPON + "/create"))
-                    .andExpect(view().name("pages/admin/coupons/create-form"));
-    }
-
-    @Test
     @DisplayName("쿠폰 등록")
     void testCreateCoupon() throws Exception {
         CouponRequest couponRequest = new CouponRequest("couponName", "couponType", 1, 1000, 1D);
