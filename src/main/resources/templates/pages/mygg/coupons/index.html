@@ -14,7 +14,7 @@
                 <div class="my-coupon">
                 <h2 th:text="#{COUPON_VIEW}" style="font-weight: bold; margin: 0 auto 0 0;"></h2>
                     <br>
-                <form style="display: flex; justify-content: center" th:method="post" th:acthion="${memberId}+'/coupons'">
+                <form style="display: flex; justify-content: center" th:method="post" th:action=" '/members/coupons'">
                     <input type="text" name="name" th:placeholder="#{COUPON_NAME_INPUT}"
                            style="width:300px; text-align: center;">
                     <input type="submit" th:value="#{COUPON_CREATE}" class="btn btn-warning">
