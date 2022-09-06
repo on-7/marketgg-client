@@ -1,33 +1,34 @@
-<nav>
-    <div class="gnb-container">
-        <div class="gnb">
-            <ul class="clicky-menu">
-                <li>
-                    <a href="#">
-                        <span th:text="#{CATEGORIES_LABEL}"></span>
-                        <svg aria-hidden="true" width="16" height="16">
-                            <use xlink:href="#arrow" />
-                        </svg>
-                    </a>
-                    <ul class="category">
-                        <!-- FIXME: DB 에서 상위 카테고리 each 돌리기 -->
-                        <li>
-                            <a th:href="@{/products/categories/104}" th:text="밀키트"></a>
-                            <ul class="subcategory">
-                                <!-- FIXME: DB 에서 상위 카테고리 each 돌리기 -->
-                                <li th:text="밀키트2"></a></li>
-                                <li th:text="채소2"></a></li>
-                                <li th:text="|과일/견과/쌀2|"></a></li>
-                                <li th:text="|정육/계란2|"></a></li>
+<div class="nav-container">
+    <nav>
+        <div class="gnb-container">
+            <ul class="nav-menu nav-center">
+                <li><a href="#" class="nav-active">전체 카테고리</a>
+                    <ul>
+                        <li><a href="#">밀키트</a></li>
+                        <li><a href="#">채소</a>
+                            <ul>
+                                <li><a href="#">친환경</a></li>
+                                <li><a href="#">고구마/감자/당근</a></li>
                             </ul>
                         </li>
-                        <li><a th:href="@{/products/categories/101}" th:text="채소"></a></li>
-                        <li><a th:href="@{/products/categories/102}" th:text="|과일/견과/쌀|"></a></li>
-                        <li><a th:href="@{/products/categories/103}" th:text="|정육/계란|"></a></li>
+                        <li><a href="#">과일/견과/쌀</a>
+                            <ul>
+                                <li><a href="#">친환경</a></li>
+                                <li><a href="#">제철과일</a></li>
+                                <li><a href="#">국산과일</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">정육/계란</a>
+                            <ul>
+                                <li><a href="#">돼지고기</a></li>
+                                <li><a href="#">계란류</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </li>
                 <li><a href="#" th:text="#{BEST_LABEL}"></a></li>
                 <li><a th:href="@{/market-coupons}" th:text="#{BENEFITS_LABEL}"></a></li>
+
             </ul>
         </div>
         <div class="autocomplete-container">
@@ -50,5 +51,5 @@
                 <i class="fas fa-search-dollar"></i>
             </div>
         </div>
-    </div>
-</nav>
+    </nav>
+</div>
