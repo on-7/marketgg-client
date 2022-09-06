@@ -143,14 +143,14 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 추천 목록 조회 테스트")
     void testSuggestionProductList() throws Exception {
-        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
+        given(productService.suggestProductList(any(SearchRequestForCategory.class))).willReturn(new String[]{"안녕", "디지몬"});
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/suggest")
                                  .param("keyword", "dd")
                                  .param("page", "0"))
                     .andExpect(status().isOk());
 
-        then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
+        then(productService).should(times(1)).suggestProductList(any(SearchRequestForCategory.class));
     }
 
     @Test
@@ -158,14 +158,15 @@ class ProductControllerTest {
     void testSuggestionProductListForTen() throws Exception {
         ReflectionTestUtils.setField(pageResult, "data", List.of(response, response, response, response, response
             , response, response, response, response, response));
-        given(productService.searchProductListByCategory(any(SearchRequestForCategory.class))).willReturn(pageResult);
+        given(productService.suggestProductList(any(SearchRequestForCategory.class))).willReturn(new String[]{"안녕", "디지몬",
+        "유호철, 유호페, 돼지"});
 
         this.mockMvc.perform(get(DEFAULT_PRODUCT + "/suggest")
                                  .param("keyword", "dd")
                                  .param("page", "0"))
                     .andExpect(status().isOk());
 
-        then(productService).should(times(1)).searchProductListByCategory(any(SearchRequestForCategory.class));
+        then(productService).should(times(1)).suggestProductList(any(SearchRequestForCategory.class));
     }
 
 //    @Test
