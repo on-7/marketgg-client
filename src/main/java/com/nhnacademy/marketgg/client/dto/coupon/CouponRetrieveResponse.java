@@ -19,4 +19,6 @@ public class CouponRetrieveResponse {
 
     private Double discountAmount;
 
+    private Boolean isActive;
+
 }

@@ -3,7 +3,7 @@
      <div>
          <form th:method="post" th:action="'/admin/coupons'">
              <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
-                 <thead class="thead-dark">
+                 <thead class="thead-dark" style="text-align: center">
                      <tr>
                          <th th:text="#{COUPON_NAME}"></th>
                          <th th:text="#{COUPON_TYPE}"></th>
@@ -12,32 +12,34 @@
                          <th th:text="#{DISCOUNT_AMOUNT}"></th>
                      </tr>
                  </thead>
-                 <tr>
-                     <td>
-                         <input type="text" name="name"/>
-                     </td>
-                     <td>
-                         <select name="type">
-                             <option selected th:text="#{COUPON_TYPE_SELECT}"></option>
-                             <option value="정액할인" >정액할인</option>
-                             <option value="정률할인" >정률할인</option>
-                         </select>
-                     </td>
-                     <td>
-                         <input type="number" min="1" name="expiredDate"/>
-                     </td>
-                     <td>
-                         <input type="number" min="0" name="minimumMoney"/>
-                     </td>
-                     <td>
-                         <input type="number" step="any" min="0" name="discountAmount"/>
-                     </td>
-                 </tr>
-                 <tr>
-                     <td colspan="5">
-                         <button style="flex: none; float: right;" type="submit" th:text="#{COUPON_CREATE}" class="btn btn-outline-primary"></button>
-                     </td>
-                 </tr>
+                 <tbody style="text-align: center">
+                     <tr>
+                         <td>
+                             <input type="text" name="name"/>
+                         </td>
+                         <td>
+                             <select name="type">
+                                 <option selected th:text="#{COUPON_TYPE_SELECT}"></option>
+                                 <option value="정액할인" >정액할인</option>
+                                 <option value="정률할인" >정률할인</option>
+                             </select>
+                         </td>
+                         <td>
+                             <input type="number" min="1" name="expiredDate"/>
+                         </td>
+                         <td>
+                             <input type="number" min="0" name="minimumMoney"/>
+                         </td>
+                         <td>
+                             <input type="number" step="any" min="0" name="discountAmount"/>
+                         </td>
+                     </tr>
+                     <tr>
+                         <td colspan="5">
+                             <button style="flex: none; float: right;" type="submit" th:text="#{COUPON_CREATE}" class="btn btn-outline-primary"></button>
+                         </td>
+                     </tr>
+                 </tbody>
              </table>
          </form>
      </div>
