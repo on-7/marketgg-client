@@ -3,12 +3,13 @@
       th:replace="~{layouts/admin-title-main :: layout(~{::title}, ~{::main})}">
 
     <head>
-        <title>Market GG | 쿠폰 조회</title>
+        <title>Market GG | 쿠폰 관리</title>
     </head>
     <body>
         <main>
-            <h1 th:text="#{COUPON_VIEW}" style="font-weight: bold; margin: 0 auto 0 0;"></h1>
+            <h1 th:text="#{COUPON_MANAGEMENT}" style="font-weight: bold; margin: 0 auto 0 0;"></h1>
             <br>
+            <section th:replace="~{pages/admin/coupons/create-form}"></section>
             <table class="table table-hover">
                 <thead class="thead-dark">
                     <tr>
