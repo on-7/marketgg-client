@@ -34,17 +34,6 @@ public class AdminCouponController {
     private static final String REDIRECT_DEFAULT = "redirect:/admin/coupons/index";
 
     /**
-     * 쿠폰 등록 페이지로 이동하는 메소드입니다.
-     *
-     * @return 쿠폰 등록 페이지로 이동합니다.
-     * @since 1.0.0
-     */
-    @GetMapping("/create")
-    public ModelAndView doCreateCoupon() {
-        return new ModelAndView("pages/admin/coupons/create-form");
-    }
-
-    /**
      * 쿠폰을 등록하고 쿠폰 index 페이지로 이동하는 메소드입니다.
      *
      * @param couponRequest - 쿠폰 등록을 위한 정보를 담은 객체입니다.

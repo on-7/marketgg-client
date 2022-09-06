@@ -17,12 +17,12 @@
 
     <Loggers>
         <!-- root레벨 설정 -->
-        <root level="debug">
+        <root level="info">
             <appender-ref ref="console"/>
         </root>
 
         <!-- 특정패키지 로깅레벨 설정 -->
-        <logger name="com.nhnacademy.marketgg.client" level="DEBUG" additivity="false">
+        <logger name="com.nhnacademy.marketgg.client" level="info" additivity="false">
             <appender-ref ref="console"/>
             <appender-ref ref="file"/>
         </logger>
