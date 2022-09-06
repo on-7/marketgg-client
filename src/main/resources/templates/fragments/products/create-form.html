@@ -9,13 +9,13 @@
                 <div th:replace="fragments/common/input-group :: formItem('name', '상품 이름', 'text', '다시다맛 젤리')"></div>
 
                 <div th:each="category : ${categories}" class="form-check form-check-inline">
-                    <input type="checkbox" th:value="${category.categoryCode}" name="categoryCode"
+                    <input type="radio" th:value="${category.categoryCode}" name="categoryCode"
                            class="form-check-input">
                     <label th:text="${category.categoryName}" class="form-check-label">서울</label>
                 </div>
                 <br>
                 <div th:each="label : ${labels}" class="form-check form-check-inline">
-                    <input type="checkbox" th:value="${label.labelNo}" name="labelNo" class="form-check-input">
+                    <input type="radio" th:value="${label.labelNo}" name="labelNo" class="form-check-input">
                     <label th:text="${label.name}" class="form-check-label">서울</label>
                 </div>
 
