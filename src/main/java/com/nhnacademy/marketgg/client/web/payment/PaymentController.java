@@ -123,7 +123,7 @@ public class PaymentController {
 
         paymentService.cancelPayment(paymentKey, paymentRequest);
 
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/orders");
     }
 
 }

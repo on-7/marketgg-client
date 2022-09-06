@@ -25,8 +25,12 @@
                 <p th:text="${#temporals.format(order.createdAt, 'yyyy.MM.dd (HH:mm)')}"></p>
                 <p th:text="#{ORDER_STATUS}"></p>
                 <p th:text="${order.orderStatus}"></p>
-                <p th:if="${!order.trackingNo.isBlank()}" th:text="#{TRACKING_NO}"></p>
-                <p th:if="${!order.trackingNo.isBlank()}" th:text="${order.trackingNo}"></p>
+                <p th:text="#{ORDER_MEMBER_NAME}"></p>
+                <p th:text="${order.memberName}"></p>
+            </div>
+            <div class="delivery">
+                <span th:if="${!order.trackingNo.isBlank()}" th:text="#{TRACKING_NO}"></span>
+                <span th:if="${!order.trackingNo.isBlank()}" th:text="${order.trackingNo}"></span>
             </div>
             <h3 th:text="#{ORDER_PRODUCT_LIST}"></h3>
             <table class="table">
