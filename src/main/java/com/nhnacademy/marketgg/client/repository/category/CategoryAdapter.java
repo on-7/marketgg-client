@@ -10,8 +10,10 @@ import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.util.ResponseUtils;
+
 import java.util.List;
 import java.util.Objects;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -34,6 +36,7 @@ public class CategoryAdapter implements CategoryRepository {
 
     private static final String DEFAULT_ADMIN_CATEGORY = "/shop/v1/admin/categories";
     private static final String DEFAULT_CATEGORY = "/shop/v1/categories";
+    private static final String DEFAULT_CATEGORY_Categorization = "/shop/v1/categories/categorizations/";
 
     @Override
     public void createCategory(final CategoryCreateRequest categoryRequest)
@@ -42,10 +45,10 @@ public class CategoryAdapter implements CategoryRepository {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<CommonResult<Void>> response = restTemplate.exchange(gateWayIp + DEFAULT_ADMIN_CATEGORY,
-                                                                            HttpMethod.POST,
-                                                                            requestEntity,
-                                                                            new ParameterizedTypeReference<>() {
-                                                                            });
+                HttpMethod.POST,
+                requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponse(response);
     }
@@ -55,9 +58,9 @@ public class CategoryAdapter implements CategoryRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<CategoryRetrieveResponse>>
                 response = restTemplate.exchange(gateWayIp + DEFAULT_ADMIN_CATEGORY + "/" + id,
-                                                 HttpMethod.GET, requestEntity,
-                                                 new ParameterizedTypeReference<>() {
-                                                 });
+                HttpMethod.GET, requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponse(response);
         return Objects.requireNonNull(response.getBody()).getData();
@@ -68,9 +71,22 @@ public class CategoryAdapter implements CategoryRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<List<CategoryRetrieveResponse>>>
                 response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY,
-                                                 HttpMethod.GET, requestEntity,
-                                                 new ParameterizedTypeReference<>() {
-                                                 });
+                HttpMethod.GET, requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
+
+        this.checkResponse(response);
+        return Objects.requireNonNull(response.getBody()).getData();
+    }
+
+    @Override
+    public List<CategoryRetrieveResponse> retrieveCategoriesOnlyProducts() {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<CommonResult<List<CategoryRetrieveResponse>>>
+                response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY_Categorization + "100",
+                HttpMethod.GET, requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponse(response);
         return Objects.requireNonNull(response.getBody()).getData();
@@ -82,9 +98,9 @@ public class CategoryAdapter implements CategoryRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<List<CategorizationRetrieveResponse>>>
                 response = restTemplate.exchange(gateWayIp + "/shop/v1/admin/categorizations",
-                                                 HttpMethod.GET, requestEntity,
-                                                 new ParameterizedTypeReference<>() {
-                                                 });
+                HttpMethod.GET, requestEntity,
+                new ParameterizedTypeReference<>() {
+                });
 
         this.checkResponse(response);
         return Objects.requireNonNull(response.getBody()).getData();
@@ -98,10 +114,10 @@ public class CategoryAdapter implements CategoryRepository {
 
         ResponseEntity<CommonResult<Void>> response =
                 restTemplate.exchange(gateWayIp + DEFAULT_ADMIN_CATEGORY + "/" + id,
-                                      HttpMethod.PUT,
-                                      new HttpEntity<>(request, this.buildHeaders()),
-                                      new ParameterizedTypeReference<>() {
-                                      });
+                        HttpMethod.PUT,
+                        new HttpEntity<>(request, this.buildHeaders()),
+                        new ParameterizedTypeReference<>() {
+                        });
 
         this.checkResponse(response);
     }
@@ -111,10 +127,10 @@ public class CategoryAdapter implements CategoryRepository {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<Void>> response =
                 restTemplate.exchange(gateWayIp + DEFAULT_ADMIN_CATEGORY + "/" + id,
-                                      HttpMethod.DELETE,
-                                      requestEntity,
-                                      new ParameterizedTypeReference<>() {
-                                      });
+                        HttpMethod.DELETE,
+                        requestEntity,
+                        new ParameterizedTypeReference<>() {
+                        });
 
         this.checkResponse(response);
     }

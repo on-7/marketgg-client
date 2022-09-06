@@ -19,7 +19,7 @@ public class BaseController implements Controller {
 
     @ModelAttribute(name = "categories")
     public List<CategoryRetrieveResponse> retrieveCategories() {
-        return categoryService.retrieveCategories();
+        return categoryService.retrieveCategoriesOnlyProducts();
     }
 
     @Override

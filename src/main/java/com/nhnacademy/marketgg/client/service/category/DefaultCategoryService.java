@@ -41,6 +41,13 @@ public class DefaultCategoryService implements CategoryService {
     }
 
     @Override
+    @Cacheable(cacheNames = "category")
+    public List<CategoryRetrieveResponse> retrieveCategoriesOnlyProducts() {
+        log.info("카테고리가 캐싱되었습니다.");
+        return categoryRepository.retrieveCategoriesOnlyProducts();
+    }
+
+    @Override
     public List<CategorizationRetrieveResponse> retrieveCategorizations()
             throws UnAuthenticException, UnAuthorizationException {
         return categoryRepository.retrieveCategorizations();
