@@ -51,6 +51,11 @@ public interface CategoryRepository {
     List<CategoryRetrieveResponse> retrieveCategories() throws UnAuthenticException, UnAuthorizationException;
 
     /**
+     * 상품에 해당하는 카테고리 목록을 반환합니다.
+     */
+    List<CategoryRetrieveResponse> retrieveCategoriesOnlyProducts();
+
+    /**
      * 카테고리 분류 전체 목록을 반환하는 메소드입니다.
      *
      * @return 전체 카테고리 분류를 담은 List 를 반환합니다.
