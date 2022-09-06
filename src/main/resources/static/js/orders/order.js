@@ -57,6 +57,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const $totalAmount = document.getElementById('total-amount');
     const $usedPoint = document.getElementById('used-point');
+    const $delivery = 2500;
 
     if (!isValidPaymentAmount(parseInt($totalAmount.value),
                               parseInt($decidedCoupon.value), parseInt($usedPoint.value))) {
@@ -71,7 +72,7 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log($totalAmount.value);
 
     // 총 금액에서 할인 계산
-    $totalAmount.value = parseInt($totalAmount.value) - (parseInt($decidedCoupon.value) + parseInt($usedPoint.value));
+    $totalAmount.value = parseInt($totalAmount.value) - (parseInt($decidedCoupon.value) + parseInt($usedPoint.value)) + $delivery;
 
     document.getElementById('order-form')
             .submit();
