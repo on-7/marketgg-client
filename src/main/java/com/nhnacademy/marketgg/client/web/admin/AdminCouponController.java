@@ -43,7 +43,7 @@ public class AdminCouponController {
      */
     @PostMapping
     public ModelAndView createCoupon(@ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException,
-            UnAuthenticException, UnAuthorizationException {
+        UnAuthenticException, UnAuthorizationException {
 
         couponService.createCoupon(couponRequest);
 
@@ -58,7 +58,7 @@ public class AdminCouponController {
      */
     @GetMapping("/index")
     public ModelAndView retrieveCoupons(@RequestParam(defaultValue = "1") final Integer page)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         PageResult<CouponRetrieveResponse> responses = couponService.retrieveCoupons(page);
 
         Pagination pagination = new Pagination(responses.getTotalPages(), page);
@@ -79,7 +79,7 @@ public class AdminCouponController {
      */
     @GetMapping("/update/{couponId}")
     public ModelAndView doUpdateCoupon(@PathVariable final Long couponId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         ModelAndView mav = new ModelAndView("pages/admin/coupons/update-form");
 
         CouponRetrieveResponse couponResponse = couponService.retrieveCoupon(couponId);
@@ -100,9 +100,41 @@ public class AdminCouponController {
     @PutMapping("/{couponId}")
     public ModelAndView updateCoupon(@PathVariable final Long couponId,
                                      @ModelAttribute final CouponRequest couponRequest) throws JsonProcessingException,
-            UnAuthenticException, UnAuthorizationException {
+        UnAuthenticException, UnAuthorizationException {
 
         couponService.updateCoupon(couponId, couponRequest);
+
+        return new ModelAndView(REDIRECT_DEFAULT);
+    }
+
+    /**
+     * 쿠폰을 활성화하고 쿠폰 index 페이지로 이동하는 메소드입니다.
+     *
+     * @param couponId 활성화 시킬 쿠폰 식별번호입니다.
+     * @return 쿠폰 index 페이지로 REDIRECT 합니다.
+     * @since 1.0.0
+     */
+    @PutMapping("/{couponId}/activate")
+    public ModelAndView activateCoupon(@PathVariable final Long couponId) throws
+        UnAuthenticException, UnAuthorizationException {
+
+        couponService.activateCoupon(couponId);
+
+        return new ModelAndView(REDIRECT_DEFAULT);
+    }
+
+    /**
+     * 쿠폰을 비활성화하고 쿠폰 index 페이지로 이동하는 메소드입니다.
+     *
+     * @param couponId 비활성화 시킬 쿠폰 식별번호입니다.
+     * @return 쿠폰 index 페이지로 REDIRECT 합니다.
+     * @since 1.0.0
+     */
+    @PutMapping("/{couponId}/deactivate")
+    public ModelAndView deactivateCoupon(@PathVariable final Long couponId) throws
+        UnAuthenticException, UnAuthorizationException {
+
+        couponService.deactivateCoupon(couponId);
 
         return new ModelAndView(REDIRECT_DEFAULT);
     }
@@ -116,7 +148,7 @@ public class AdminCouponController {
      */
     @DeleteMapping("/{couponId}")
     public ModelAndView deleteCoupon(@PathVariable final Long couponId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         couponService.deleteCoupon(couponId);
 
         return new ModelAndView(REDIRECT_DEFAULT);

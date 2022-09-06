@@ -18,31 +18,41 @@ public class DefaultCouponService implements CouponService {
 
     @Override
     public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException, UnAuthenticException,
-            UnAuthorizationException {
+        UnAuthorizationException {
 
         couponRepository.createCoupon(couponRequest);
     }
 
     @Override
     public CouponRetrieveResponse retrieveCoupon(final Long couponId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         return couponRepository.retrieveCoupon(couponId);
     }
 
     @Override
     public PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
         return couponRepository.retrieveCoupons(page);
     }
 
     @Override
     public void updateCoupon(final Long couponId, final CouponRequest couponRequest) throws JsonProcessingException,
-            UnAuthenticException, UnAuthorizationException {
+        UnAuthenticException, UnAuthorizationException {
         couponRepository.updateCoupon(couponId, couponRequest);
     }
 
     @Override
     public void deleteCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException {
         couponRepository.deleteCoupon(couponId);
+    }
+
+    @Override
+    public void activateCoupon(final Long couponId) {
+        couponRepository.activateCoupon(couponId);
+    }
+
+    @Override
+    public void deactivateCoupon(final Long couponId) {
+        couponRepository.deactivateCoupon(couponId);
     }
 }

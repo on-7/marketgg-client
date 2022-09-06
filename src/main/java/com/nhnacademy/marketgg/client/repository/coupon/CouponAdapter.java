@@ -37,30 +37,30 @@ public class CouponAdapter implements CouponRepository {
 
     @Override
     public void createCoupon(final CouponRequest couponRequest) throws JsonProcessingException,
-            UnAuthenticException, UnAuthorizationException {
+        UnAuthenticException, UnAuthorizationException {
 
         String request = objectMapper.writeValueAsString(couponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<CommonResult<String>> response
-                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
-                                        HttpMethod.POST,
-                                        requestEntity,
-                                        new ParameterizedTypeReference<>() {
-                                        });
+            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON,
+                                    HttpMethod.POST,
+                                    requestEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
 
         ResponseUtils.checkError(response);
     }
 
     @Override
     public CouponRetrieveResponse retrieveCoupon(final Long couponId)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<CouponRetrieveResponse>> response
-                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId, HttpMethod.GET, requestEntity,
-                                        new ParameterizedTypeReference<>() {
-                                        });
+            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId, HttpMethod.GET, requestEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
 
         ResponseUtils.checkError(response);
         return Objects.requireNonNull(response.getBody()).getData();
@@ -68,14 +68,14 @@ public class CouponAdapter implements CouponRepository {
 
     @Override
     public PageResult<CouponRetrieveResponse> retrieveCoupons(final Integer page)
-            throws UnAuthenticException, UnAuthorizationException {
+        throws UnAuthenticException, UnAuthorizationException {
 
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<PageResult<CouponRetrieveResponse>>> response
-                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "?page=" + page,
-                                        HttpMethod.GET, requestEntity,
-                                        new ParameterizedTypeReference<>() {
-                                        });
+            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "?page=" + page,
+                                    HttpMethod.GET, requestEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
 
         ResponseUtils.checkError(response);
         return Objects.requireNonNull(response.getBody()).getData();
@@ -83,16 +83,16 @@ public class CouponAdapter implements CouponRepository {
 
     @Override
     public void updateCoupon(final Long couponId, final CouponRequest couponRequest)
-            throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         String request = objectMapper.writeValueAsString(couponRequest);
 
         HttpEntity<String> requestEntity = new HttpEntity<>(request, this.buildHeaders());
         ResponseEntity<CommonResult<String>> response
-                = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
-                                        HttpMethod.PUT,
-                                        requestEntity,
-                                        new ParameterizedTypeReference<>() {
-                                        });
+            = restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+                                    HttpMethod.PUT,
+                                    requestEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
 
         ResponseUtils.checkError(response);
     }
@@ -101,11 +101,37 @@ public class CouponAdapter implements CouponRepository {
     public void deleteCoupon(final Long couponId) throws UnAuthenticException, UnAuthorizationException {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<String>> response =
-                restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
-                                      HttpMethod.DELETE,
-                                      requestEntity,
-                                      new ParameterizedTypeReference<>() {
-                                      });
+            restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId,
+                                  HttpMethod.DELETE,
+                                  requestEntity,
+                                  new ParameterizedTypeReference<>() {
+                                  });
+
+        ResponseUtils.checkError(response);
+    }
+
+    @Override
+    public void activateCoupon(final Long couponId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<CommonResult<String>> response =
+            restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId + "/activate",
+                                  HttpMethod.PUT,
+                                  requestEntity,
+                                  new ParameterizedTypeReference<>() {
+                                  });
+
+        ResponseUtils.checkError(response);
+    }
+
+    @Override
+    public void deactivateCoupon(final Long couponId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<CommonResult<String>> response =
+            restTemplate.exchange(gateWayIp + DEFAULT_COUPON + "/" + couponId + "/deactivate",
+                                  HttpMethod.PUT,
+                                  requestEntity,
+                                  new ParameterizedTypeReference<>() {
+                                  });
 
         ResponseUtils.checkError(response);
     }
