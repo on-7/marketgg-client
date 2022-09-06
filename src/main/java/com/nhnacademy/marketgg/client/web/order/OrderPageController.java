@@ -1,7 +1,6 @@
 package com.nhnacademy.marketgg.client.web.order;
 
 import com.nhnacademy.marketgg.client.dto.cart.CartOrderRequest;
-import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.delivery.DeliveryLocationResponseDto;
 import com.nhnacademy.marketgg.client.dto.order.OrderDetailRetrieveResponse;
@@ -44,7 +43,6 @@ public class OrderPageController {
         OrderFormResponse orderFormResponse = orderService.retrieveOrderForm(cartRequest);
 
         ModelAndView mav = new ModelAndView("pages/orders/order-form");
-
         mav.addObject("result", orderFormResponse);
 
         return mav;

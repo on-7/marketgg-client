@@ -103,7 +103,7 @@
                             <select id="coupon-list" name="" onchange="" onclick="return false;">
                                 <option value="">쿠폰을 선택해주세요.</option>
                                 <option th:each="givenCoupon, index : ${result.givenCouponList}"
-                                        th:id="${givenCoupon.id}"
+                                        th:id="${givenCoupon.couponId}"
                                         th:value="${givenCoupon.discountAmount}"
                                         th:text="${index.index} + 1 + '. ' + ${givenCoupon.name}
                                         + ' (' + ${#numbers.formatInteger(givenCoupon.minimumMoney, 3, 'COMMA')}
@@ -123,7 +123,6 @@
                     <div class="points">
                         <p>적립금</p>
                         <input type="number" id="used-point" name="usedPoint" th:value="${result.totalPoint}">
-                        <button type="button" class="btn btn-outline-primary" id="use-point-button">적용</button>
                     </div>
                 </section>
 

@@ -1,3 +1,8 @@
+main {
+    height: 90vh;
+    justify-content: flex-start;
+}
+
 .payment-result p {
     display: none;
 }
