@@ -34,6 +34,18 @@ td:nth-child(2n-1) {
     margin-top: 1em;
 }
 
+.delivery {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.delivery > span:first-child {
+    margin-right: 3rem;
+    font-weight: bold;
+}
+
 p {
     color: black;
     margin: 0;

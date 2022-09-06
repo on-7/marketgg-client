@@ -1,55 +1,46 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/admin-title-main :: layout(~{::title}, ~{::main})}">
-
-    <head>
-        <title>Market GG | 쿠폰 등록</title>
-    </head>
-    <body>
-        <main>
-            <h1 th:text="#{COUPON_CREATE}"  style="font-weight: bold; margin: 0 auto 0 0;"></h1>
-            <br>
-            <div>
-                <form th:method="post" th:action="'/admin/coupons'">
-                    <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th th:text="#{COUPON_NAME}"></th>
-                                <th th:text="#{COUPON_TYPE}"></th>
-                                <th th:text="#{EXPIRED_DATE}"></th>
-                                <th th:text="#{MINIMUM_MONEY}"></th>
-                                <th th:text="#{DISCOUNT_AMOUNT}"></th>
-                            </tr>
-                        </thead>
-                            <tr>
-                                <td>
-                                    <input type="text" name="name"/>
-                                </td>
-                                <td>
-                                    <select name="type">
-                                        <option selected th:text="#{COUPON_TYPE_SELECT}"></option>
-                                        <option value="정액할인" >정액할인</option>
-                                        <option value="정률할인" >정률할인</option>
-                                    </select>
-                                </td>
-                                <td>
-                                    <input type="number" min="1" name="expiredDate"/>
-                                </td>
-                                <td>
-                                    <input type="number" min="0" name="minimumMoney"/>
-                                </td>
-                                <td>
-                                    <input type="number" step="any" min="0" name="discountAmount"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colspan="5">
-                                    <button style="flex: none; float: right;" type="submit" th:text="#{COUPON_CREATE}" class="btn btn-outline-primary"></button>
-                                </td>
-                            </tr>
-                    </table>
-                </form>
-            </div>
-        </main>
-    </body>
-</html>
+ <section>
+     <br>
+     <div>
+         <form th:method="post" th:action="'/admin/coupons'">
+             <table class="table table-hover" style="margin-left: auto; margin-right: auto;">
+                 <thead class="thead-dark" style="text-align: center">
+                     <tr>
+                         <th th:text="#{COUPON_NAME}"></th>
+                         <th th:text="#{COUPON_TYPE}"></th>
+                         <th th:text="#{EXPIRED_DATE}"></th>
+                         <th th:text="#{MINIMUM_MONEY}"></th>
+                         <th th:text="#{DISCOUNT_AMOUNT}"></th>
+                     </tr>
+                 </thead>
+                 <tbody style="text-align: center">
+                     <tr>
+                         <td>
+                             <input type="text" name="name"/>
+                         </td>
+                         <td>
+                             <select name="type">
+                                 <option selected th:text="#{COUPON_TYPE_SELECT}"></option>
+                                 <option value="정액할인" >정액할인</option>
+                                 <option value="정률할인" >정률할인</option>
+                             </select>
+                         </td>
+                         <td>
+                             <input type="number" min="1" name="expiredDate"/>
+                         </td>
+                         <td>
+                             <input type="number" min="0" name="minimumMoney"/>
+                         </td>
+                         <td>
+                             <input type="number" step="any" min="0" name="discountAmount"/>
+                         </td>
+                     </tr>
+                     <tr>
+                         <td colspan="5">
+                             <button style="flex: none; float: right;" type="submit" th:text="#{COUPON_CREATE}" class="btn btn-outline-primary"></button>
+                         </td>
+                     </tr>
+                 </tbody>
+             </table>
+         </form>
+     </div>
+ </section>

@@ -23,6 +23,8 @@ public class OrderDetailRetrieveResponse {
 
     private Long memberId;
 
+    private String memberName;
+
     private String orderName;
 
     private Long totalAmount;

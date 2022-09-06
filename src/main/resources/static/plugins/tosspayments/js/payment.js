@@ -3,6 +3,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const clientKey = 'test_ck_k6bJXmgo28e1RagkzMe8LAnGKWx4';
   const clientOrigin = 'https://www.marketgg.shop';
+
   const tossPayments = TossPayments(clientKey);
 
   tossPayments.requestPayment('카드', {
