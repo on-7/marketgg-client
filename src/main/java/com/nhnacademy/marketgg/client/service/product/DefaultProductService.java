@@ -9,6 +9,8 @@ import com.nhnacademy.marketgg.client.dto.product.ProductUpdateRequest;
 import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.repository.product.ProductRepository;
 import java.io.IOException;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -74,6 +76,22 @@ public class DefaultProductService implements ProductService {
             throws JsonProcessingException {
 
         return productRepository.searchProductListByPrice(searchRequest, option);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "productSuggestStore", key = "#searchRequest.keyword")
+    public String[] suggestProductList(SearchRequestForCategory searchRequest) throws JsonProcessingException {
+        PageResult<ProductListResponse> responses = productRepository.searchProductListByCategory(searchRequest);
+        List<ProductListResponse> products = responses.getData();
+        String[] productNameList = new String[5];
+
+        for (int i = 0; i < products.size(); i++) {
+            productNameList[i] = products.get(i).getProductName();
+            if (i == 4) {
+                break;
+            }
+        }
+        return productNameList;
     }
 
 }

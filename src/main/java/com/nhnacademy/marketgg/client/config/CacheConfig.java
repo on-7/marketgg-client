@@ -54,10 +54,10 @@ public class CacheConfig {
 
     @Bean
     @Primary
-    public CacheManager compositeCacheManager() {
+    public CacheManager compositeCacheManager(EhCacheCacheManager ehCacheCacheManager, CacheManager redisCacheManager) {
         List<CacheManager> managers = new ArrayList<>();
-        managers.add(ehCacheCacheManager(null));
-        managers.add(redisCacheManager(null));
+        managers.add(ehCacheCacheManager);
+        managers.add(redisCacheManager);
         CompositeCacheManager compositeCacheManager = new CompositeCacheManager();
         compositeCacheManager.setCacheManagers(managers);
         return compositeCacheManager;

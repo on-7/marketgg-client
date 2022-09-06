@@ -18,26 +18,31 @@
 <!--                                </li>-->
 <!--                            </ul>-->
 <!--                        </li>-->
-                        <li><a href="#">밀키트</a></li>
-                        <li><a href="#">채소</a>
-                            <ul>
-                                <li><a href="#">친환경</a></li>
-                                <li><a href="#">고구마/감자/당근</a></li>
-                            </ul>
+                        <li th:each="category : ${categories}">
+                            <a href="" th:if="${#strings.length(category.categoryCode)} <= 3" th:text="${category.categoryName}"></a>
+<!--                            <a th:href="@{|/products/categories/${category.categoryCode}|}" th:text="${category.categoryName}"></a>-->
                         </li>
-                        <li><a href="#">과일/견과/쌀</a>
-                            <ul>
-                                <li><a href="#">친환경</a></li>
-                                <li><a href="#">제철과일</a></li>
-                                <li><a href="#">국산과일</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="#">정육/계란</a>
-                            <ul>
-                                <li><a href="#">돼지고기</a></li>
-                                <li><a href="#">계란류</a></li>
-                            </ul>
-                        </li>
+
+<!--                        <li><a href="#">채소</a>-->
+<!--                            <ul>-->
+<!--                                <li><a href="#">친환경</a></li>-->
+<!--                                <li><a href="#">고구마/감자/당근</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                        <li><a href="#">과일/견과/쌀</a>-->
+<!--                            <ul>-->
+<!--                                <li><a href="#">친환경</a></li>-->
+<!--                                <li><a href="#">제철과일</a></li>-->
+<!--                                <li><a href="#">국산과일</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+<!--                        <li><a href="#">정육/계란</a>-->
+<!--                            <ul>-->
+<!--                                <li><a href="#">돼지고기</a></li>-->
+<!--                                <li><a href="#">계란류</a></li>-->
+<!--                            </ul>-->
+<!--                        </li>-->
+
                     </ul>
                 </li>
                 <li><a href="#" th:text="#{BEST_LABEL}"></a></li>

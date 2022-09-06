@@ -36,7 +36,7 @@ public class CategoryAdapter implements CategoryRepository {
 
     private static final String DEFAULT_ADMIN_CATEGORY = "/shop/v1/admin/categories";
     private static final String DEFAULT_CATEGORY = "/shop/v1/categories";
-    private static final String DEFAULT_CATEGORY_Categorization = "/shop/v1/categories/categorizations/";
+    private static final String DEFAULT_CATEGORY_CATEGORIZATION = "/shop/v1/categories/categorizations/";
 
     @Override
     public void createCategory(final CategoryCreateRequest categoryRequest)
@@ -83,7 +83,7 @@ public class CategoryAdapter implements CategoryRepository {
     public List<CategoryRetrieveResponse> retrieveCategoriesOnlyProducts() {
         HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
         ResponseEntity<CommonResult<List<CategoryRetrieveResponse>>>
-                response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY_Categorization + "100",
+                response = restTemplate.exchange(gateWayIp + DEFAULT_CATEGORY_CATEGORIZATION + "100",
                 HttpMethod.GET, requestEntity,
                 new ParameterizedTypeReference<>() {
                 });

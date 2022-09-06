@@ -220,20 +220,9 @@ public class ProductController extends BaseController {
     @ResponseBody
     public String[] suggestionProductList(@RequestParam final String keyword,
                                           @RequestParam final Integer page) throws JsonProcessingException {
-
         SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 5);
-        PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
-        List<ProductListResponse> products = responses.getData();
-        String[] productNameList = new String[5];
 
-        for (int i = 0; i < products.size(); i++) {
-            productNameList[i] = products.get(i).getProductName();
-            if (i == 4) {
-                break;
-            }
-        }
-
-        return productNameList;
+        return productService.suggestProductList(request);
     }
 
 }
