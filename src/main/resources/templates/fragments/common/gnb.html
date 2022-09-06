@@ -4,45 +4,17 @@
             <ul class="nav-menu nav-center">
                 <li><a href="#" class="nav-active">전체 카테고리</a>
                     <ul>
-<!--                        <li>-->
-<!--                            <a href="#">-->
-<!--                                <span th:text="#{CATEGORIES_LABEL}"></span>-->
-<!--                                <svg aria-hidden="true" width="16" height="16">-->
-<!--                                    <use xlink:href="#arrow" />-->
-<!--                                </svg>-->
-<!--                            </a>-->
-<!--                            <ul class="category">-->
-<!--                                &lt;!&ndash; FIXME: DB 에서 상위 카테고리 each 돌리기 &ndash;&gt;-->
-<!--                                <li th:each="category : ${categories}">-->
-<!--                                    <a th:href="@{|/products/categories/${category.categoryCode}|}" th:text="${category.categoryName}"></a>-->
-<!--                                </li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
                         <li th:each="category : ${categories}">
-                            <a href="" th:if="${#strings.length(category.categoryCode)} <= 3" th:text="${category.categoryName}"></a>
-<!--                            <a th:href="@{|/products/categories/${category.categoryCode}|}" th:text="${category.categoryName}"></a>-->
+                            <a th:href="@{|/products/categories/${category.categoryCode}|}"
+                               th:if="${#strings.length(category.categoryCode)} <= 3" th:text="${category.categoryName}"></a>
+                            <ul>
+                                <li th:each="categoryDepth : ${categories}">
+                                <a th:if="${#strings.contains(categoryDepth.categoryCode, category.categoryCode)} and ${#strings.length(categoryDepth.categoryCode)} > 3"
+                                   th:href="@{|/products/categories/${categoryDepth.categoryCode}|}"
+                                   th:text="${categoryDepth.categoryName}"> </a>
+                                </li>
+                            </ul>
                         </li>
-
-<!--                        <li><a href="#">채소</a>-->
-<!--                            <ul>-->
-<!--                                <li><a href="#">친환경</a></li>-->
-<!--                                <li><a href="#">고구마/감자/당근</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                        <li><a href="#">과일/견과/쌀</a>-->
-<!--                            <ul>-->
-<!--                                <li><a href="#">친환경</a></li>-->
-<!--                                <li><a href="#">제철과일</a></li>-->
-<!--                                <li><a href="#">국산과일</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-<!--                        <li><a href="#">정육/계란</a>-->
-<!--                            <ul>-->
-<!--                                <li><a href="#">돼지고기</a></li>-->
-<!--                                <li><a href="#">계란류</a></li>-->
-<!--                            </ul>-->
-<!--                        </li>-->
-
                     </ul>
                 </li>
                 <li><a href="#" th:text="#{BEST_LABEL}"></a></li>

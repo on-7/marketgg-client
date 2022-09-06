@@ -44,7 +44,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    @Cacheable(value = "product", key = "#page")
+    @Cacheable(value = "product", key = "#categoryId")
     public PageResult<ProductListResponse> retrieveProductsByCategory(final String categoryId, final int page) {
         log.info("카테고리로 상품 조회 정보가 캐싱되었습니다. 카테고리 번호: {}", categoryId);
         return this.productRepository.retrieveProductsByCategory(categoryId, page);
