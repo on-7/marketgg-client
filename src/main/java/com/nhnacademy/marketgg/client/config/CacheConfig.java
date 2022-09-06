@@ -1,14 +1,16 @@
 package com.nhnacademy.marketgg.client.config;
 
-import org.ehcache.config.builders.CacheConfigurationBuilder;
-import org.ehcache.config.builders.ExpiryPolicyBuilder;
-import org.ehcache.config.builders.ResourcePoolsBuilder;
-import org.ehcache.config.units.MemoryUnit;
-import org.ehcache.jsr107.Eh107Configuration;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.interceptor.SimpleKey;
+import org.springframework.cache.concurrent.ConcurrentMapCache;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
+import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+import org.springframework.cache.support.CompositeCacheManager;
+import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -16,44 +18,28 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import javax.cache.CacheManager;
-import javax.cache.Caching;
-import javax.cache.spi.CachingProvider;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 @EnableCaching
 @Configuration
 public class CacheConfig {
 
-//    @Bean
-//    public CacheManager cacheManager() {
-//        SimpleCacheManager simpleCacheManager = new SimpleCacheManager();
-//        simpleCacheManager.setCaches(List.of(new ConcurrentMapCache("category")));
-//        return simpleCacheManager;
-//    }
-//
-
+    @Bean
+    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
+        EhCacheManagerFactoryBean ehCacheManagerFactoryBean = new EhCacheManagerFactoryBean();
+        ehCacheManagerFactoryBean.setConfigLocation(
+                new ClassPathResource("ehcache-config.xml"));
+        ehCacheManagerFactoryBean.setShared(true);
+        return ehCacheManagerFactoryBean;
+    }
 
     @Bean
-    public CacheManager ehCacheManager() {
-        CachingProvider provider = Caching.getCachingProvider();
-        CacheManager cacheManager = provider.getCacheManager();
-
-        CacheConfigurationBuilder<SimpleKey, List> configuration =
-                CacheConfigurationBuilder.newCacheConfigurationBuilder(
-                                SimpleKey.class,
-                                List.class,
-                                ResourcePoolsBuilder
-                                        .newResourcePoolsBuilder().offheap(1, MemoryUnit.MB))
-                        .withExpiry(ExpiryPolicyBuilder.timeToLiveExpiration(Duration.ofSeconds(300)));
-
-        javax.cache.configuration.Configuration<SimpleKey, List> categoryConfiguration =
-                Eh107Configuration.fromEhcacheCacheConfiguration(configuration);
-
-        cacheManager.createCache("category", categoryConfiguration);
-        return cacheManager;
-
+    public EhCacheCacheManager ehCacheCacheManager(EhCacheManagerFactoryBean ehCacheManagerFactoryBean) {
+        EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager();
+        ehCacheCacheManager.setCacheManager(ehCacheManagerFactoryBean.getObject());
+        return ehCacheCacheManager;
     }
 
     @Bean
@@ -64,5 +50,16 @@ public class CacheConfig {
                 .disableCachingNullValues()
                 .entryTtl(Duration.ofSeconds(300));
         return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory).cacheDefaults(redisCacheConfiguration).build();
+    }
+
+    @Bean
+    @Primary
+    public CacheManager compositeCacheManager() {
+        List<CacheManager> managers = new ArrayList<>();
+        managers.add(ehCacheCacheManager(null));
+        managers.add(redisCacheManager(null));
+        CompositeCacheManager compositeCacheManager = new CompositeCacheManager();
+        compositeCacheManager.setCacheManagers(managers);
+        return compositeCacheManager;
     }
 }
