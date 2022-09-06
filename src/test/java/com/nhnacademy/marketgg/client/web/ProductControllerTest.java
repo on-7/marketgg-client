@@ -18,6 +18,7 @@ import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.image.ImageResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
 import com.nhnacademy.marketgg.client.dummy.Dummy;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
 import com.nhnacademy.marketgg.client.service.image.ImageService;
 import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.product.ProductService;
@@ -57,6 +58,9 @@ class ProductControllerTest {
 
     @MockBean
     ReviewService reviewService;
+
+    @MockBean
+    CategoryService categoryService;
 
     private static final String DEFAULT_PRODUCT = "/products";
 
