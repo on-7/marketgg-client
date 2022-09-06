@@ -65,12 +65,19 @@ public interface CouponRepository {
      *
      * @param couponId 활성화할 쿠폰 식별번호입니다.
      */
-    void activateCoupon(Long couponId);
+    void activateCoupon(final Long couponId);
 
     /**
      * 쿠폰을 비활성화하는 메소드입니다.
      *
      * @param couponId 비활성화할 쿠폰 식별번호입니다.
      */
-    void deactivateCoupon(Long couponId);
+    void deactivateCoupon(final Long couponId);
+
+    /**
+     * 활성화된 쿠폰을 조회하는 메소드입니다.
+     *
+     * @since 1.0.0
+     */
+    PageResult<CouponRetrieveResponse> retrieveActivateCoupon(final Integer page);
 }

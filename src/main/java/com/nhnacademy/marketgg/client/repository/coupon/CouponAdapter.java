@@ -136,6 +136,18 @@ public class CouponAdapter implements CouponRepository {
         ResponseUtils.checkError(response);
     }
 
+    @Override
+    public PageResult<CouponRetrieveResponse> retrieveActivateCoupon(final Integer page) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(this.buildHeaders());
+        ResponseEntity<CommonResult<PageResult<CouponRetrieveResponse>>> response
+            = restTemplate.exchange(gateWayIp + "/shop/v1/market-coupons", HttpMethod.GET, requestEntity,
+                                    new ParameterizedTypeReference<>() {
+                                    });
+
+        ResponseUtils.checkError(response);
+        return Objects.requireNonNull(response.getBody()).getData();
+    }
+
     private HttpHeaders buildHeaders() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
