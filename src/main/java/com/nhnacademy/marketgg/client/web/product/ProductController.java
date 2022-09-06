@@ -13,8 +13,11 @@ import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.product.ProductService;
 import com.nhnacademy.marketgg.client.service.review.ReviewService;
+
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductController extends BaseController {
 
     private final ProductService productService;
     private final ReviewService reviewService;
@@ -217,20 +220,9 @@ public class ProductController {
     @ResponseBody
     public String[] suggestionProductList(@RequestParam final String keyword,
                                           @RequestParam final Integer page) throws JsonProcessingException {
-
         SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 5);
-        PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
-        List<ProductListResponse> products = responses.getData();
-        String[] productNameList = new String[5];
 
-        for (int i = 0; i < products.size(); i++) {
-            productNameList[i] = products.get(i).getProductName();
-            if (i == 4) {
-                break;
-            }
-        }
-
-        return productNameList;
+        return productService.suggestProductList(request);
     }
 
 }
