@@ -98,6 +98,7 @@ public class JwtAspect {
                     Void.class);
         } catch (HttpClientErrorException e) {
             log.error(e.toString());
+            redisTemplate.opsForHash().delete(sessionId, JwtInfo.JWT_REDIS_KEY);
             return;
         }
 
