@@ -2,6 +2,10 @@
     font-family: 'Gmarket Sans', sans-serif;
 }
 
+body {
+    background: linear-gradient(-37deg, teal, purple, orange) center/cover no-repeat;
+}
+
 a, a:hover, a:active {
     outline: none;
     box-shadow: none !important;
@@ -33,14 +37,17 @@ a, a:hover, a:active {
 
 nav {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     flex: 1;
+}
+
+.nav-container {
     box-shadow: 2px 4px 4px rgb(0 0 0 / 20%);
 }
 
 .gnb-container {
     display: flex;
-    justify-content: space-between;
+    flex: 0.7;
     width: 100%;
 }
 
@@ -58,6 +65,9 @@ nav {
 
 .autocomplete-container {
     margin-left: 3rem;
+    display: flex;
+    flex: 0.3;
+    align-items: center;
 }
 
 .autocomplete-container div:last-child {
@@ -68,12 +78,6 @@ nav {
     color: ghostwhite;
     cursor: pointer;
     font-size: 2rem;
-}
-
-.autocomplete-container {
-    display: flex;
-    flex: 0.2;
-    align-items: center;
 }
 
 main {
@@ -165,6 +169,7 @@ footer a:hover {
     transition: transform 80ms ease-in;
     transform: scale(1);
 }
+
 .fa-arrow-up {
     color: white;
     margin: 0;
@@ -181,7 +186,7 @@ footer a:hover {
 }
 
 @media (max-width: 576px) {
-    nav, .clicky-menu {
+    nav {
         flex-direction: column;
     }
 
@@ -201,23 +206,32 @@ footer a:hover {
         max-width: 540px;
     }
 }
+
 @media (min-width: 768px) {
     .gnb-container {
         max-width: 720px;
     }
 }
+
 @media (min-width: 992px) {
     .gnb-container {
         max-width: 960px;
     }
 }
+
 @media (min-width: 1200px) {
     .gnb-container {
         max-width: 1140px;
     }
 }
+
 @media (min-width: 1400px) {
-    .gnb-container {
+    nav {
+        margin: 0 auto;
         max-width: 1140px;
     }
+
+    /* .gnb-container { */
+    /*     max-width: 1140px; */
+    /* } */
 }
