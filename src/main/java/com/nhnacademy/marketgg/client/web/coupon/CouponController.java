@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.repository.coupon.CouponRepository;
+import com.nhnacademy.marketgg.client.web.product.BaseController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/market-coupons")
 @RequiredArgsConstructor
-public class CouponController {
+public class CouponController extends BaseController {
 
     private final CouponRepository couponRepository;
 
