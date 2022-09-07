@@ -19,7 +19,7 @@
     </cache>
 
     <cache name="productSuggestStore"
-           timeToLiveSeconds="300"
+           timeToLiveSeconds="600"
            memoryStoreEvictionPolicy="LRU">
     </cache>
 </ehcache>

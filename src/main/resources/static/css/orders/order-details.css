@@ -64,13 +64,17 @@ img:hover {
     align-items: center;
 }
 
+.product-info-text > p:last-child {
+    margin-left: 2.3rem;
+}
+
 .form-control {
     width: auto;
     margin-bottom: 0.5rem;
 }
 
 .text-first {
-    width: 35%;
+    width: 100%;
     justify-content: space-between;
 }
 

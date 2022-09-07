@@ -28,19 +28,19 @@
                     </table>
                 </div>
                 <div class="pagination">
-                    <a th:href="@{|/members/coupons?page=1|}" th:text="#{FIRST}" style="color: black"></a>
-                    <a th:if="${pages.page > 1}" th:href="@{|/members/coupons?page=${pages.page - 1}|}"
+                    <a th:href="@{|/market-coupons|}" th:text="#{FIRST}" style="color: black"></a>
+                    <a th:if="${pages.page > 1}" th:href="@{|/market-coupons?page=${pages.page - 1}|}"
                        style="color: black"></a>
                     <ul>
                         <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}"
                             style="list-style-type: none">
-                            <a th:href="@{|/members/coupons?page=${page}|}" th:text="${page}" style="color: black"></a>
+                            <a th:href="@{|/market-coupons?page=${page}|}" th:text="${page}" style="color: black"></a>
                         </li>
                     </ul>
                     <a th:if="${pages.page} < ${pages.totalPageCnt}"
-                       th:href="@{|/members/coupons?page=${pages.page + 1}|}"
+                       th:href="@{|/market-coupons?page=${pages.page + 1}|}"
                        style="color: black"></a>
-                    <a th:href="@{|/members/coupons?page=${pages.totalPageCnt}|}" th:text="#{LAST}"
+                    <a th:href="@{|/market-coupons?page=${pages.totalPageCnt}|}" th:text="#{LAST}"
                        style="color: black"></a>
                 </div>
             </div>

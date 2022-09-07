@@ -74,9 +74,9 @@
                             <p th:if="${order.usedCoupon?.name != null}" th:text="#{DISCOUNTED_AMOUNT}"></p>
                             <p th:unless="${order.usedCoupon?.name != null}" th:text="#{NOTHING}"></p>
                             <p th:if="${(order.usedCoupon?.name != null) && order.usedCoupon.type.equals('정액할인')}"
-                               th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
+                               th:text="${#numbers.formatInteger(order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
                             <p th:if="${(order.usedCoupon?.name != null) && order.usedCoupon.type.equals('정률할인')}"
-                               th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
+                               th:text="${#numbers.formatInteger(order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
                         </div>
                         <div class="point">
                             <p th:text="#{USED_POINT}"></p>

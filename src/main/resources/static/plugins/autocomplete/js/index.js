@@ -56,14 +56,15 @@ window.addEventListener('DOMContentLoaded', () => {
       events: {
         input: {
           keydown: async (event) => {
+            console.log(event);
             let keyword = event.target.value;
 
-            if (event.keyCode !== SPACE_BAR && event.keyCode !== BACKSPACE &&
-              (event.key === 'Process' || alpha.test(event.key))) {
+            if (event.key !== 'BackSpace' && event.key !== 'Space' && event.keyCode !== SPACE_BAR && event.keyCode !== BACKSPACE &&
+              (event.key === 'Process' || alpha.test(event.key) || event.keyCode === 229)) {
               count++;
             }
 
-            if (keyword && count >= 4) {
+            if (keyword && count >= 3) {
               if (keyword.split(' ').join('').indexOf(']') || keyword.split(' ').join('').indexOf(')')) {
                 keyword = keyword.split(']').join('');
                 keyword = keyword.split('[').join('');
