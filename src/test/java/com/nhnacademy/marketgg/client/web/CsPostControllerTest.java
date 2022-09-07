@@ -19,10 +19,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostRequest;
-import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostResponse;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.exception.NotFoundException;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
 import com.nhnacademy.marketgg.client.service.customer_service.PostService;
 import com.nhnacademy.marketgg.client.web.customer_service.CsPostController;
 import java.util.List;
@@ -55,6 +56,9 @@ class CsPostControllerTest {
     @MockBean
     PostService postService;
 
+    @MockBean
+    CategoryService categoryService;
+
     private static final String DEFAULT_POST = "/customer-services";
     private static final String BOARD = "pages/board/";
     private static final String OTO_CODE = "702";
@@ -71,7 +75,7 @@ class CsPostControllerTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { "701", "702", "703" })
+    @ValueSource(strings = {"701", "702", "703"})
     @DisplayName("인덱스 조회")
     void testIndex(String categoryCode) throws Exception {
         given(postService.retrievePostList(anyString(), anyInt())).willReturn(List.of(response));
@@ -91,7 +95,7 @@ class CsPostControllerTest {
         }
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}", categoryCode)
-                                      .param("page", "0"))
+                                                       .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name("pages/board/" + type + "/index"))
                                           .andReturn();
@@ -106,7 +110,7 @@ class CsPostControllerTest {
             , response, response, response, response, response, response, response, response, response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}", OTO_CODE)
-                                      .param("page", "0"))
+                                                       .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name(BOARD + "oto-inquiries/index"))
                                           .andReturn();
@@ -132,11 +136,11 @@ class CsPostControllerTest {
         willDoNothing().given(postService).createPost(any(PostRequest.class));
 
         this.mockMvc.perform(post(DEFAULT_POST + "/categories/" + OTO_CODE + "/create")
-                .param("page", "0")
-                .param("categoryCode", "702")
-                .param("title", "hello")
-                .param("content", "안녕하세요.")
-                .param("reason", "환불"))
+                                 .param("page", "0")
+                                 .param("categoryCode", "702")
+                                 .param("title", "hello")
+                                 .param("content", "안녕하세요.")
+                                 .param("reason", "환불"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702?page=0"));
 
@@ -147,8 +151,8 @@ class CsPostControllerTest {
     @DisplayName("게시글 생성하기 실패")
     void testCreatePostFail() throws Exception {
         this.mockMvc.perform(post(DEFAULT_POST + "/categories/" + OTO_CODE + "/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(request)))
+                                 .contentType(MediaType.APPLICATION_JSON)
+                                 .content(mapper.writeValueAsString(request)))
                     .andExpect(status().isOk())
                     .andExpect(view().name(BOARD + "oto-inquiries/create-form"));
     }
@@ -159,7 +163,7 @@ class CsPostControllerTest {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(responseForDetail);
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postId}", "703", 1L)
-                                      .param("page", "0"))
+                                                       .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name(BOARD + "faqs/detail"))
                                           .andReturn();
@@ -174,7 +178,7 @@ class CsPostControllerTest {
 
         MvcResult mvcResult =
             this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/{postId}", OTO_CODE, 1L)
-                    .param("page", "0"))
+                                     .param("page", "0"))
                         .andExpect(status().isOk())
                         .andExpect(view().name(BOARD + "oto-inquiries/detail"))
                         .andReturn();
@@ -188,8 +192,8 @@ class CsPostControllerTest {
         given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(List.of(response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "701")
-                                      .param("keyword", "hi")
-                                      .param("page", "0"))
+                                                       .param("keyword", "hi")
+                                                       .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name(BOARD + "notices/index"))
                                           .andReturn();
@@ -204,8 +208,8 @@ class CsPostControllerTest {
             List.of(response));
 
         this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "710")
-                .param("keyword", "hi")
-                .param("page", "0"))
+                                 .param("keyword", "hi")
+                                 .param("page", "0"))
                     .andExpect(result -> assertTrue(Objects.requireNonNull(result.getResolvedException())
                                                            .getClass().isAssignableFrom(NotFoundException.class)))
                     .andReturn();
@@ -217,8 +221,8 @@ class CsPostControllerTest {
         given(postService.searchForCategory(any(SearchRequestForCategory.class))).willReturn(List.of(response));
 
         MvcResult mvcResult = this.mockMvc.perform(get(DEFAULT_POST + "/categories/{categoryCode}/search", "703")
-                                      .param("keyword", "hi")
-                                      .param("page", "0"))
+                                                       .param("keyword", "hi")
+                                                       .param("page", "0"))
                                           .andExpect(status().isOk())
                                           .andExpect(view().name(BOARD + "faqs/index"))
                                           .andReturn();
@@ -232,7 +236,7 @@ class CsPostControllerTest {
         willDoNothing().given(postService).deletePost(anyLong(), anyString());
 
         this.mockMvc.perform(delete(DEFAULT_POST + "/categories/" + OTO_CODE + "/{postId}/delete", 1L)
-                .param("page", "0"))
+                                 .param("page", "0"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702?page=0"));
 
