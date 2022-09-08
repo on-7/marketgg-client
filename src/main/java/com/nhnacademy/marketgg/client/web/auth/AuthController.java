@@ -107,13 +107,14 @@ public class AuthController {
      * @return 메인페이지로 리다이렉트합니다.
      */
     @GetMapping("/logout")
-    public ModelAndView logout() {
+    public ModelAndView logout(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (!GgUtils.hasRole(authentication, Role.ROLE_ANONYMOUS)) {
             authService.logout();
         }
 
+        redirectAttributes.addFlashAttribute("logout", true);
         return new ModelAndView(REDIRECT_TO_INDEX);
     }
 
