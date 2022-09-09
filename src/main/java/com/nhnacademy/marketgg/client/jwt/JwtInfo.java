@@ -45,6 +45,7 @@ public class JwtInfo implements Serializable {
     private String memberGrade;
     private Character gender;
     private LocalDate birthDay;
+    private Long id;
 
     public JwtInfo(String jwt, String jwtExpireDate) throws JsonProcessingException {
         this.jwt = jwt;
@@ -66,10 +67,11 @@ public class JwtInfo implements Serializable {
         this.memberGrade = memberInfo.getMemberGrade();
         this.gender = memberInfo.getGender();
         this.birthDay = memberInfo.getBirthDay();
+        this.id = memberInfo.getId();
     }
 
     public MemberInfo getMemberInfo() {
-        return new MemberInfo(this.email, this.name, this.phoneNumber, this.memberGrade, this.gender, this.birthDay);
+        return new MemberInfo(this.email, this.name, this.phoneNumber, this.memberGrade, this.gender, this.birthDay, this.id);
     }
 
     public static void saveJwt(RedisTemplate<String, Object> redisTemplate, MemberInfo memberInfo,
