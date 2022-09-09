@@ -60,7 +60,7 @@ public class JwtAspect {
     /**
      * JWT 가 만료되었을 때 JWT 갱신을 인증서버에 요청합니다.
      */
-    @Before(value = "within(com.nhnacademy.marketgg.client.repository.impl..*)"
+    @Before(value = "within(com.nhnacademy.marketgg.client.repository..*)"
         + " || controller()"
         + " && !@target(com.nhnacademy.marketgg.client.annotation.NoAuth)")
     public void refreshToken() {
