@@ -63,6 +63,8 @@
                     <p th:text="${order.address}+' ('+${order.zipCode}+')'"></p>
                     <p th:text="#{DETAIL_ADDRESS}"></p>
                     <p th:text="${order.detailAddress}"></p>
+                    <p th:text="#{DELIVERY_CHARGE}"></p>
+                    <p>2,500 원</p>
                 </div>
 
                 <div class="last-info">
@@ -80,7 +82,7 @@
                         </div>
                         <div class="point">
                             <p th:text="#{USED_POINT}"></p>
-                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+#{WON}"></p>
+                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' '+#{WON}"></p>
                         </div>
                     </div>
                 </div>
