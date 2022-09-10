@@ -58,6 +58,7 @@ public class GgOrderService implements OrderService {
     public OrderDetailRetrieveResponse retrieveOrder(final Long orderId) {
         OrderDetailRetrieveResponse response = orderRepository.retrieveOrder(orderId);
         response.checkTrackingNo(response.getTrackingNo());
+        response.checkCancel(response.getOrderStatus());
 
         return response;
     }

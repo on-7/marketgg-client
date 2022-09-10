@@ -88,7 +88,7 @@
                 </div>
 
                 <div class="total">
-                    <button th:if="${!order.orderStatus.equals('취소/환불완료')}" class="btn btn-danger"
+                    <button th:if="${order.cancellable}" class="btn btn-danger"
                             th:onclick="|location.href=${order.id}+'/payments/cancel'|"
                             th:text="#{ORDER_CANCEL}"></button>
                     <p th:text="#{TOTAL}+': '+${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></p>
