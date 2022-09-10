@@ -80,7 +80,7 @@
                         </div>
                         <div class="point">
                             <p th:text="#{USED_POINT}"></p>
-                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' G'"></p>
+                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+#{WON}"></p>
                         </div>
                     </div>
                 </div>
