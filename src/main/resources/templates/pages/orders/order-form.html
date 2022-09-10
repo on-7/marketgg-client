@@ -103,6 +103,7 @@
                             <select id="coupon-list" name="" onchange="" onclick="return false;">
                                 <option value="">쿠폰을 선택해주세요.</option>
                                 <option th:each="givenCoupon, index : ${result.givenCouponList}"
+                                        th:if="${givenCoupon.status.equals('사용가능')}"
                                         th:id="${givenCoupon.couponId}"
                                         th:value="${givenCoupon.discountAmount}"
                                         th:text="${index.index} + 1 + '. ' + ${givenCoupon.name}
