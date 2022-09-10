@@ -4,6 +4,9 @@ import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.order.OrderCreateRequest;
 import com.nhnacademy.marketgg.client.dto.order.OrderToPayment;
 import com.nhnacademy.marketgg.client.service.order.OrderService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +39,14 @@ public class OrderController {
      */
     @PostMapping("/orders")
     public ModelAndView createOrder(@ModelAttribute @Valid final OrderCreateRequest orderRequest,
-                                    MemberInfo memberInfo, RedirectAttributes attributes) {
+                                    MemberInfo memberInfo, RedirectAttributes attributes, HttpSession session) {
 
         OrderToPayment orderToPayment = orderService.createOrder(orderRequest, memberInfo);
         attributes.addFlashAttribute("orderToPayment", orderToPayment);
+
+        session.setAttribute("usedCouponId", orderToPayment.getCouponId());
+        session.setAttribute("usedPoint", orderToPayment.getUsedPoint());
+        session.setAttribute("orderedProducts", orderRequest.getProductIds());
 
         return new ModelAndView("redirect:/payments/request-payment");
     }
