@@ -176,15 +176,6 @@
                                         <input class="btn btn-danger" type="submit" th:value="#{DELETE}" />
                                     </form>
                                 </div>
-
-
-                                <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                                <form class="btn"
-                                      th:action="'/admin/products/' + ${productDetails.id} + '/reviews/' + ${review.id} + '/make-best'"
-                                      method="post">
-                                    <input class="btn btn-success" type="submit" th:value="#{MAKE_BEST_REVIEW}" />
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                </form>
                             </div>
                         </div>
                     </div>
