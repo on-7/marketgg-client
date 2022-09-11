@@ -1,6 +1,7 @@
 package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
@@ -10,11 +11,13 @@ import com.nhnacademy.marketgg.client.dto.review.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.paging.Pagination;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
 import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.product.ProductService;
 import com.nhnacademy.marketgg.client.service.review.ReviewService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,6 +35,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ProductController extends BaseController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
     private final ReviewService reviewService;
     private final ProductInquiryService productInquiryService;
     private static final Integer PAGE_SIZE = 9;
@@ -223,6 +227,16 @@ public class ProductController extends BaseController {
         SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 5);
 
         return productService.suggestProductList(request);
+    }
+
+    @GetMapping("/categories")
+    @ResponseBody
+    public List<CategoryRetrieveResponse> categoryListForProductSearch() {
+        List<CategoryRetrieveResponse> categoryRetrieveResponses = categoryService.retrieveCategoriesOnlyProducts();
+
+        return categoryRetrieveResponses.stream()
+                                        .filter(o -> o.getCategoryCode().length() == 6)
+                                        .collect(Collectors.toList());
     }
 
 }
