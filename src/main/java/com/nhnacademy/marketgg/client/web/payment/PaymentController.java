@@ -74,6 +74,10 @@ public class PaymentController {
         PaymentResponse result = paymentService.pay(paymentRequest);
         attributes.addFlashAttribute("paymentResponse", result);
 
+        session.removeAttribute("usedCouponId");
+        session.removeAttribute("usedPoint");
+        session.removeAttribute("orderedProducts");
+
         return new ModelAndView("redirect:/payments/success-payment");
     }
 
