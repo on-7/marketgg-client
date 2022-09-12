@@ -103,7 +103,7 @@ class CartControllerTest {
         String request = mapper.writeValueAsString(productToCartRequest);
         String sessionId = UUID.randomUUID().toString();
 
-        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now());
+        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now(), 1L);
         JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().toString(), memberInfo);
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
 
@@ -127,7 +127,7 @@ class CartControllerTest {
         MockedStatic<GgUtils> util = mockStatic(GgUtils.class);
 
         String sessionId = UUID.randomUUID().toString();
-        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now());
+        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now(), 1L);
         JwtInfo jwtInfo = new JwtInfo(jwt, LocalDateTime.now().toString(), memberInfo);
         redisTemplate.opsForHash().put(sessionId, JwtInfo.JWT_REDIS_KEY, jwtInfo);
 
