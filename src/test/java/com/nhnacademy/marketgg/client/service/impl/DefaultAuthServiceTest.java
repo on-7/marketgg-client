@@ -59,7 +59,7 @@ class DefaultAuthServiceTest {
         LoginRequest loginRequest = new LoginRequest("email@gmail.com", "password");
         String sessionId = "sessionId";
         JwtInfo jwtInfo = mock(JwtInfo.class);
-        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now());
+        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now(), 1L);
         CommonResult<MemberInfo> success = CommonResult.success(memberInfo);
 
         HashOperations<String, Object, Object> hashOps = mock(HashOperations.class);

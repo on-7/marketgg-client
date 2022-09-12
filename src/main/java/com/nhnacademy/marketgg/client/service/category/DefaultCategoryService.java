@@ -11,6 +11,7 @@ import com.nhnacademy.marketgg.client.repository.category.CategoryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +23,10 @@ public class DefaultCategoryService implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    @CacheEvict(cacheNames = "category")
     public void createCategory(final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
-
+        log.info("카테고리 캐시가 제거되었습니다.");
         categoryRepository.createCategory(categoryRequest);
     }
 
@@ -54,13 +56,17 @@ public class DefaultCategoryService implements CategoryService {
     }
 
     @Override
+    @CacheEvict(cacheNames = "category")
     public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
+        log.info("카테고리 캐시가 제거되었습니다.");
         categoryRepository.updateCategory(id, categoryRequest);
     }
 
     @Override
+    @CacheEvict(cacheNames = "category")
     public void deleteCategory(final String id) throws UnAuthenticException, UnAuthorizationException {
+        log.info("카테고리 캐시가 제거되었습니다.");
         categoryRepository.deleteCategory(id);
     }
 

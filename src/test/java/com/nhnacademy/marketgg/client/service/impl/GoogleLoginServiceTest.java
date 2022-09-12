@@ -68,7 +68,7 @@ class GoogleLoginServiceTest {
         String name = "홍길동";
         String provider = "GOOGLE";
 
-        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now());
+        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now(), 1L);
         CommonResult<MemberInfo> success = CommonResult.success(memberInfo);
 
         GoogleProfile mockGoogle = new GoogleProfile();
@@ -94,7 +94,7 @@ class GoogleLoginServiceTest {
     void testLogin() {
         String code = "code";
         String sessionId = "sessionId";
-        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now());
+        MemberInfo memberInfo = new MemberInfo("email", "name", "phoneNumber", "VIP", 'M', LocalDate.now(), 1L);
         CommonResult<MemberInfo> success = CommonResult.success(memberInfo);
         CommonResult<GoogleProfile> response = CommonResult.success(new GoogleProfile());
 
