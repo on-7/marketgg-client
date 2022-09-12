@@ -9,20 +9,12 @@
                     <th th:text="#{CONTENTS}">내용</th>
                     <th th:text="#{CREATED_AT}">생성일자</th>
                     <th th:text="#{RATING}">별점</th>
-                    <th th:text="#{DELETE}">삭제</th>
                 </tr>
 
                 <tr th:each="review : ${reviews}">
                     <td th:utext="${review.content}"></td>
                     <td th:text="${review.createdAt}"></td>
                     <td th:text="${review.rating}"></td>
-                    <td th:text="수정">
-                        <form class="btn" th:action="'/products/reviews/' + ${review.id}"
-                                            method="post">
-                        <input type="hidden" name="_method" value="delete"/>
-                        <input class="btn btn-danger" type="submit" th:value="#{DELETE}"/>
-                    </form>
-                    </td>
                 </tr>
             </table>
             <div style="display: flex; flex-direction: row;">
