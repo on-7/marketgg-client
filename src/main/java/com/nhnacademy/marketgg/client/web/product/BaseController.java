@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.Controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 중복되는 카테고리 조회 코드를 분리하기 위한 컨트롤러입니다.
@@ -32,6 +33,20 @@ public class BaseController implements Controller {
     }
 
     /**
+     * 상품 검색에 관한 카테고리 정보를 조회
+     *
+     * @return - 검색에 필요한 상품 카테고리 목록을 반환
+     * @since 1.0.0
+     */
+    @ModelAttribute(name = "categoryList")
+    public List<CategoryRetrieveResponse> retrieveResponses() {
+        return categoryService.retrieveCategoriesOnlyProducts()
+                .stream()
+                .filter(o -> o.getCategoryCode().length() == 6)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Controller를 implements하여 생긴 메소드입니다.
      * 아무 기능이 없습니다.
      */
@@ -39,4 +54,5 @@ public class BaseController implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
         return null;
     }
+
 }

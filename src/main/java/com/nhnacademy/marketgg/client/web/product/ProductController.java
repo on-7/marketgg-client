@@ -229,14 +229,4 @@ public class ProductController extends BaseController {
         return productService.suggestProductList(request);
     }
 
-    @GetMapping("/categories")
-    @ResponseBody
-    public List<CategoryRetrieveResponse> categoryListForProductSearch() {
-        List<CategoryRetrieveResponse> categoryRetrieveResponses = categoryService.retrieveCategoriesOnlyProducts();
-
-        return categoryRetrieveResponses.stream()
-                                        .filter(o -> o.getCategoryCode().length() == 6)
-                                        .collect(Collectors.toList());
-    }
-
 }
