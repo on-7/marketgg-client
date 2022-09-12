@@ -26,10 +26,6 @@
             <div class="dropdown">
                 <select class="custom-select" id="categoryCode">
                     <option selected th:text="'전체'" th:value="'001'"></option>
-                    <option th:text="'채소'" th:value="'101'"></option>
-                    <option th:text="'과일/견과/쌀'" th:value="'102'"></option>
-                    <option th:text="'정육/계란'" th:value="'103'"></option>
-                    <option th:text="'밀키트'" th:value="'104'"></option>
                 </select>
             </div>
             <div class="autocomplete-input">
@@ -43,3 +39,16 @@
         </div>
     </nav>
 </div>
+<script>
+    let target = document.getElementById('categoryCode')
+    let promise = fetch(`/products/categories`)
+        .then(async (response) => await response.json())
+        .then((data) => {
+            data.forEach(function (list){
+                let opt = document.createElement('option')
+                opt.setAttribute('value', list.categoryCode)
+                opt.innerText = list.categoryName;
+                target.appendChild(opt);
+            })
+        });
+</script>

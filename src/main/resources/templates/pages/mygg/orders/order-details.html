@@ -63,6 +63,8 @@
                     <p th:text="${order.address}+' ('+${order.zipCode}+')'"></p>
                     <p th:text="#{DETAIL_ADDRESS}"></p>
                     <p th:text="${order.detailAddress}"></p>
+                    <p th:text="#{DELIVERY_CHARGE}"></p>
+                    <p>2,500 원</p>
                 </div>
 
                 <div class="last-info">
@@ -80,13 +82,13 @@
                         </div>
                         <div class="point">
                             <p th:text="#{USED_POINT}"></p>
-                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' G'"></p>
+                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' '+#{WON}"></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="total">
-                    <button th:if="${!order.orderStatus.equals('취소/환불완료')}" class="btn btn-danger"
+                    <button th:if="${order.cancellable}" class="btn btn-danger"
                             th:onclick="|location.href=${order.id}+'/payments/cancel'|"
                             th:text="#{ORDER_CANCEL}"></button>
                     <p th:text="#{TOTAL}+': '+${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></p>

@@ -56,7 +56,6 @@ window.addEventListener('DOMContentLoaded', () => {
       events: {
         input: {
           keydown: async (event) => {
-            console.log(event);
             let keyword = event.target.value;
 
             if (event.key !== 'BackSpace' && event.key !== 'Space' && event.keyCode !== SPACE_BAR && event.keyCode !== BACKSPACE &&
@@ -71,7 +70,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 keyword = keyword.split(')').join('');
                 keyword = keyword.split('(').join('');
               }
-              console.log(keyword);
               await fetch(`/products/suggest?keyword=${keyword}&page=0`)
                 .then(async (response) => await response.json())
                 .then((data) => {
@@ -87,7 +85,6 @@ window.addEventListener('DOMContentLoaded', () => {
               keyword = keyword.split('[').join('');
             }
             if (event.key === 'Enter') {
-              console.log(keyword.split(' ').join(''));
               if (regex.test(keyword.split(' ').join(''))) {
                 if(keyword.length > 20) {
                   alert('검색어는 20글자를 초과할 수 없습니다.')
