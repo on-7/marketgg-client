@@ -75,4 +75,11 @@ public interface ReviewService {
      * @param reviewId  - 베스트후기로 선정하려는 후기의 후기번호입니다.
      */
     void makeBestReview(final Long productId, final Long reviewId);
+
+    /**
+     * 멤버정보로 후기를 조회합니다.
+     * @param memberInfo - 멤버의 정보입니다.
+     * @param page - 페이지 정보입니다.
+     */
+    PageResult<ReviewResponse> retrieveReviewsByMember(final MemberInfo memberInfo, int page);
 }

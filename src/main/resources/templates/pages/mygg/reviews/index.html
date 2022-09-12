@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org"
+      th:replace="~{layouts/title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
+
+<head>
+  <title>Market GG | 후기내역 조회</title>
+  <link rel="stylesheet" th:href="@{/css/mygg/marketgg.mygg.css}">
+</head>
+
+<body>
+
+<main>
+  <section th:replace="~{fragments/products/reviews/gg-reviews}"></section>
+</main>
+
+</body>
+
+</html>

@@ -8,12 +8,19 @@
 
                 <div th:replace="fragments/common/input-group :: formItem('name', '상품 이름', 'text', '다시다맛 젤리')"></div>
 
+                <div><h2>카테고리</h2></div>
                 <div th:each="category : ${categories}" class="form-check form-check-inline">
-                    <input type="radio" th:value="${category.categoryCode}" name="categoryCode"
+                    <input type="radio"
+                           th:if="${#strings.length(category.categoryCode)} > 3"
+                           th:value="${category.categoryCode}" name="categoryCode"
                            class="form-check-input">
-                    <label th:text="${category.categoryName}" class="form-check-label">서울</label>
+                    <label th:if="${#strings.length(category.categoryCode)} > 3"
+                            th:text="${category.categoryName}" class="form-check-label"></label>
+                    <label th:unless="${#strings.length(category.categoryCode)} > 3"
+                           th:utext="|&lt;h3&gt;${category.categoryName}&lt;/h3&gt;|" class="form-check-label"></label>
                 </div>
                 <br>
+                <div><h2>라벨</h2></div>
                 <div th:each="label : ${labels}" class="form-check form-check-inline">
                     <input type="radio" th:value="${label.labelNo}" name="labelNo" class="form-check-input">
                     <label th:text="${label.name}" class="form-check-label">서울</label>

@@ -79,7 +79,7 @@ public class ReviewController {
     }
 
     /**
-     * 비동기로 전체 후기를 조회하기 위한 컨트롤러입니다.
+     * 전체 후기를 조회하기 위한 컨트롤러입니다.
      *
      * @param id - 상품의 pk 입니다.
      * @return - JSON형식의 후기를 반환합니다.

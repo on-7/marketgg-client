@@ -18,6 +18,7 @@ public class MemberInfo {
     private String memberGrade;
     private Character gender;
     private LocalDate birthDay;
+    private Long id;
 
     public boolean isNull() {
         return email == null || name == null || memberGrade == null;

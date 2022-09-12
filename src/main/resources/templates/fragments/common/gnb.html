@@ -26,6 +26,7 @@
             <div class="dropdown">
                 <select class="custom-select" id="categoryCode">
                     <option selected th:text="'전체'" th:value="'001'"></option>
+                    <option th:each="list : ${categoryList}" th:value="${list.categoryCode}" th:uText="${list.categoryName}"></option>
                 </select>
             </div>
             <div class="autocomplete-input">
@@ -39,16 +40,3 @@
         </div>
     </nav>
 </div>
-<script>
-    let target = document.getElementById('categoryCode')
-    let promise = fetch(`/products/categories`)
-        .then(async (response) => await response.json())
-        .then((data) => {
-            data.forEach(function (list){
-                let opt = document.createElement('option')
-                opt.setAttribute('value', list.categoryCode)
-                opt.innerText = list.categoryName;
-                target.appendChild(opt);
-            })
-        });
-</script>

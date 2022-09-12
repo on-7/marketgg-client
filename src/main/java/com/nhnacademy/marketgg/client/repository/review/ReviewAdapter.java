@@ -31,6 +31,7 @@ public class ReviewAdapter implements ReviewRepository {
     private static final String ADMIN_DEFAULT_PRODUCT = "/shop/v1/admin/products/";
     private static final String DEFAULT_PRODUCT = "/shop/v1/products/";
     private static final String DEFAULT_REVIEW = "/reviews";
+    private static final String DEFAULT_GG_REVIEW = "/shop/v1/members/reviews";
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
@@ -144,6 +145,23 @@ public class ReviewAdapter implements ReviewRepository {
         log.info(response.getBody());
 
         this.checkResponseUri(response);
+    }
+
+    @Override
+    public PageResult<ReviewResponse> retrieveReviewsByMember(final MemberInfo memberInfo, final int page) {
+        HttpHeaders headers = new HttpHeaders(this.buildHeaders());
+
+        HttpEntity<Void> request = new HttpEntity<>(headers);
+
+        ResponseEntity<PageResult<ReviewResponse>> response =
+                this.restTemplate.exchange(gatewayIp + DEFAULT_GG_REVIEW + "?page=" + page,
+                        HttpMethod.GET,
+                        request,
+                        new ParameterizedTypeReference<>() {
+                        });
+
+        this.checkResponseUri(response);
+        return Objects.requireNonNull(response.getBody());
     }
 
     private HttpHeaders buildHeaders() {

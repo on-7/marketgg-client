@@ -3,6 +3,7 @@ package com.nhnacademy.marketgg.client.web.product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
@@ -176,6 +177,7 @@ public class ProductController extends BaseController {
      */
     @GetMapping("/{productId}")
     public ModelAndView retrieveProductDetails(@PathVariable final Long productId,
+                                               final MemberInfo memberInfo,
                                                @RequestParam(defaultValue = "1") int page,
                                                @RequestParam(defaultValue = "1", value = "requestPage") int page2)
             throws JsonProcessingException {
@@ -197,6 +199,7 @@ public class ProductController extends BaseController {
 
         mav.addObject("reviewCount", reviewCount);
         mav.addObject("reviewRatings", data);
+        mav.addObject("memberInfo", memberInfo);
 
         Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
         mav.addObject("pages", pagination);
@@ -227,16 +230,6 @@ public class ProductController extends BaseController {
         SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 5);
 
         return productService.suggestProductList(request);
-    }
-
-    @GetMapping("/categories")
-    @ResponseBody
-    public List<CategoryRetrieveResponse> categoryListForProductSearch() {
-        List<CategoryRetrieveResponse> categoryRetrieveResponses = categoryService.retrieveCategoriesOnlyProducts();
-
-        return categoryRetrieveResponses.stream()
-                                        .filter(o -> o.getCategoryCode().length() == 6)
-                                        .collect(Collectors.toList());
     }
 
 }
