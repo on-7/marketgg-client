@@ -5,7 +5,7 @@
                 <li><a href="#" class="nav-active">전체 카테고리</a>
                     <ul>
                         <li th:each="category : ${categories}">
-                            <a th:href="@{|/products/categories/${category.categoryCode}|}"
+                            <a href="#"
                                th:if="${#strings.length(category.categoryCode)} <= 3" th:text="${category.categoryName}"></a>
                             <ul>
                                 <li th:each="categoryDepth : ${categories}">
