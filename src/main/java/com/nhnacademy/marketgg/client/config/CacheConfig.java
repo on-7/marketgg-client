@@ -1,12 +1,13 @@
 package com.nhnacademy.marketgg.client.config;
 
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.cache.support.CompositeCacheManager;
-import org.springframework.cache.support.SimpleCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -17,10 +18,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 캐시의 설정을 위한 Configuration 클래스입니다.
@@ -59,20 +56,26 @@ public class CacheConfig {
      * @return - redisCacheManager를 반환합니다.
      */
     @Bean
-    public org.springframework.cache.CacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
+    public CacheManager redisCacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
-                .disableCachingNullValues().entryTtl(Duration.ofSeconds(300));
+                                                                                 .serializeKeysWith(
+                                                                                     RedisSerializationContext.SerializationPair.fromSerializer(
+                                                                                         new StringRedisSerializer()))
+                                                                                 .serializeValuesWith(
+                                                                                     RedisSerializationContext.SerializationPair.fromSerializer(
+                                                                                         new GenericJackson2JsonRedisSerializer()))
+                                                                                 .disableCachingNullValues()
+                                                                                 .entryTtl(Duration.ofSeconds(300));
 
-        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory).cacheDefaults(redisCacheConfiguration).build();
+        return RedisCacheManager.RedisCacheManagerBuilder.fromConnectionFactory(connectionFactory)
+                                                         .cacheDefaults(redisCacheConfiguration).build();
     }
 
     /**
      * ehCache와 redis 캐시를 동시에 사용하기 위한 매니저입니다.
      *
      * @param ehCacheCacheManager - ehCacheManager를 주입받아 List로 등록합니다.
-     * @param redisCacheManager - redisCacheManager를 주입받아 List로 등록합니다.
+     * @param redisCacheManager   - redisCacheManager를 주입받아 List로 등록합니다.
      * @return - eh 캐시와 redis 캐시 매니저가 등록된 compositeCacheManager를 반환합니다.
      */
     @Bean
