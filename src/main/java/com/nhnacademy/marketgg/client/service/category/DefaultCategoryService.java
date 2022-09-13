@@ -23,7 +23,7 @@ public class DefaultCategoryService implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    @CacheEvict(cacheNames = "category")
+    @CacheEvict(cacheNames = "category", allEntries = true)
     public void createCategory(final CategoryCreateRequest categoryRequest)
             throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         log.info("카테고리 캐시가 제거되었습니다.");
@@ -56,7 +56,7 @@ public class DefaultCategoryService implements CategoryService {
     }
 
     @Override
-    @CacheEvict(cacheNames = "category")
+    @CacheEvict(cacheNames = "category", allEntries = true)
     public void updateCategory(final String id, final CategoryUpdateRequest categoryRequest)
             throws JsonProcessingException, UnAuthenticException, UnAuthorizationException {
         log.info("카테고리 캐시가 제거되었습니다.");
@@ -64,7 +64,7 @@ public class DefaultCategoryService implements CategoryService {
     }
 
     @Override
-    @CacheEvict(cacheNames = "category")
+    @CacheEvict(cacheNames = "category", allEntries = true)
     public void deleteCategory(final String id) throws UnAuthenticException, UnAuthorizationException {
         log.info("카테고리 캐시가 제거되었습니다.");
         categoryRepository.deleteCategory(id);
