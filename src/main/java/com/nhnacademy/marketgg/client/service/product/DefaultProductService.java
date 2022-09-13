@@ -26,7 +26,7 @@ public class DefaultProductService implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    @CacheEvict(value = "product")
+    @CacheEvict(value = "product", allEntries = true)
     public void createProduct(final MultipartFile image, final ProductCreateRequest productRequest)
             throws IOException {
         log.info("상품이 새로 등록되어 캐시를 삭제합니다.");
@@ -53,7 +53,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    @CacheEvict(value = "product", key = "#id")
+    @CacheEvict(value = "product", key = "#id", allEntries = true)
     public void updateProduct(final Long id, final MultipartFile image,
                               final ProductUpdateRequest productRequest) throws IOException {
         log.info("상품 정보가 수정되어 캐시가 삭제됩니다. 상품번호: {}", id);
@@ -61,7 +61,7 @@ public class DefaultProductService implements ProductService {
     }
 
     @Override
-    @CacheEvict(value = "product", key = "#id")
+    @CacheEvict(value = "product", key = "#id", allEntries = true)
     public void deleteProduct(final Long id) {
         log.info("상품 정보가 수정되어 캐시가 삭제됩니다. 상품번호: {}", id);
         this.productRepository.deleteProduct(id);
