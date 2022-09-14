@@ -206,10 +206,7 @@ class AdminCsPostControllerTest {
         this.mockMvc.perform(get(DEFAULT_ADMIN_POST + "/categories/{categoryId}/search", "710")
                                      .param("keyword", "hi")
                                      .param("page", "0"))
-                    .andExpect(result -> assertTrue(
-                            Objects.requireNonNull(result.getResolvedException())
-                                   .getClass().isAssignableFrom(NotFoundException.class)))
-                    .andReturn();
+                    .andExpect(view().name("pages/errors/404"));
     }
 
     @Test
