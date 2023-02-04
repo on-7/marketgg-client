@@ -24,7 +24,9 @@
                 <div class="product-inquiry-content" th:each="inquiry: ${inquiries}">
                     <div class="product-inquiry-row">
                         <li>
-                            <a th:href="@{|/products/${inquiry.productId}|}" style="color: black"  th:text="${inquiry.productName}"></a>
+                            <a style="text-decoration: none" th:href="@{|/products/${inquiry.productId}|}">
+                                <button th:text="${inquiry.productName}" class="btn btn-outline-primary" style="width: 10rem;"/>
+                            </a>
                         </li>
                         <li th:text="${inquiry.title}"></li>
                         <li th:text="${inquiry.content}"></li>
@@ -35,7 +37,7 @@
                             <form th:action="'/admin/products/' + ${inquiry.productId} + '/inquiries/' + ${inquiry.productInquiryNo}"
                                   method="post">
                                 <input type="hidden" name="_method" value="delete" />
-                                <input type="submit" th:value="#{DELETE}" class="btn btn-outline-primary" />
+                                <input type="submit" th:value="#{DELETE}" class="btn btn-outline-primary"/>
                             </form>
                         </li>
                     </div>
@@ -45,10 +47,12 @@
                     <div class="reply-wrapper-form" th:if="${inquiry.adminReply} == null">
                         <form th:action="'/admin/products/' + ${inquiry.productId} + '/inquiries/' + ${inquiry.productInquiryNo}"
                               method="post">
-                            <input type="hidden" name="_method" value="put">
-                            <input type="text" name="adminReply" placeholder="상품 문의를 입력하세요." style="color: blue" />
-                            <input type="submit" th:value="#{INQUIRY_REPLY_REGISTER}"
-                                   class="btn btn-outline-primary" />
+                            <div style="display: flex;">
+                                <input type="hidden" name="_method" value="put"/>
+                                <textarea style="height: 3rem; width: 35rem; text-align: center; color: blue; resize: none" class="form-control"
+                                      name="adminReply" th:placeholder="#{WRITE_ANSWER}"></textarea>
+                                <input type="submit" th:value="#{INQUIRY_REPLY_REGISTER}" class="btn btn-outline-primary" style="margin: 0 0 0 1rem" />
+                            </div>
                         </form>
                     </div>
                 </div>

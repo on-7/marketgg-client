@@ -8,6 +8,9 @@ import com.nhnacademy.marketgg.client.dto.payment.PaymentResponse;
 import com.nhnacademy.marketgg.client.dto.payment.PaymentVerifyRequest;
 import com.nhnacademy.marketgg.client.dto.payment.VirtualAccountDepositRequest;
 import com.nhnacademy.marketgg.client.service.payment.PaymentService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 /**
  * 결제 요청에 대한 결정을 처리해주는 클래스입니다.
@@ -59,13 +64,19 @@ public class PaymentController {
      */
     @GetMapping("/payments/success")
     public ModelAndView confirmPayment(@RequestParam final String orderId, @RequestParam final String paymentKey,
-                                       @RequestParam final Long amount, RedirectAttributes attributes) {
+                                       @RequestParam final Long amount, RedirectAttributes attributes,
+                                       HttpSession session) {
 
         PaymentConfirmRequest paymentRequest = PaymentConfirmRequest.create(orderId, paymentKey, amount);
+        paymentRequest.addOrderInfo(session);
         log.info("confirmPayment: {}", paymentRequest);
 
         PaymentResponse result = paymentService.pay(paymentRequest);
         attributes.addFlashAttribute("paymentResponse", result);
+
+        session.removeAttribute("usedCouponId");
+        session.removeAttribute("usedPoint");
+        session.removeAttribute("orderedProducts");
 
         return new ModelAndView("redirect:/payments/success-payment");
     }
@@ -123,7 +134,7 @@ public class PaymentController {
 
         paymentService.cancelPayment(paymentKey, paymentRequest);
 
-        return new ModelAndView("redirect:/");
+        return new ModelAndView("redirect:/orders");
     }
 
 }

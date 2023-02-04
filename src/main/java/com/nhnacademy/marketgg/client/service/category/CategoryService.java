@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 카테고리 서비스입니다.
  *
- * @author 박세완, 김정민
+ * @author 박세완, 김정민, 조현진
  * @version 1.0.0
  */
 public interface CategoryService {
@@ -60,6 +60,13 @@ public interface CategoryService {
      * @since 1.0.0
      */
     List<CategoryRetrieveResponse> retrieveCategories() throws UnAuthenticException, UnAuthorizationException;
+
+    /**
+     * 상품에 해당하는 카테고리만을 조회합니다.
+     *
+     * @return - 상품에 해당하는 카테고리를 반환합니다.
+     */
+    List<CategoryRetrieveResponse> retrieveCategoriesOnlyProducts();
 
     /**
      * 지정한 카테고리를 입력받은 정보로 수정하는 Adapter 메소드를 실행합니다.

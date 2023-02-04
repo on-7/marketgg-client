@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
-      th:replace="~{layouts/form-layout :: layout(~{::title}, ~{::link}, ~{::script}, ~{::main})}">
+      th:replace="~{layouts/title-main-link-script :: layout(~{::title}, ~{::main}, ~{::link}, ~{::script})}">
 
     <head>
         <meta charset="UTF-8">
@@ -27,7 +27,7 @@
                                 <img class="cart-img p-2" th:src="${cart.thumbnail}" alt="thumbnail" />
 
                                 <a th:href="@{|/products/${cart.id}|}">
-                                <span class="item-name p-2" th:text="${cart.name}">상품 이름</span>
+                                    <span class="item-name p-2" th:text="${cart.name}">상품 이름</span>
                                 </a>
 
                                 <div class="cart-amount p-2">
@@ -69,6 +69,7 @@
                     </div>
 
                 </form>
+
             </section>
         </main>
     </body>

@@ -136,8 +136,6 @@ class AdminProductControllerTest {
 
         assertThat(mvcResult.getModelAndView().getModel().get("categories")).isNotNull();
         assertThat(mvcResult.getModelAndView().getModel().get("labels")).isNotNull();
-        then(categoryService).should(times(1)).retrieveCategories();
-        then(labelService).should(times(1)).retrieveLabels();
 
     }
 

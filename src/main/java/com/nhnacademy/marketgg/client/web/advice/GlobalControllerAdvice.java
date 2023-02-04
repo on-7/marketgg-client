@@ -29,9 +29,8 @@ public class GlobalControllerAdvice {
      */
     @ExceptionHandler(ClientException.class)
     public ModelAndView clientException(ClientException e) {
-        log.error("", e);
-        // : Error 페이지 제작
-        return new ModelAndView();
+        log.error(e.toString());
+        return new ModelAndView("pages/errors/default-error");
     }
 
     /**
@@ -45,10 +44,9 @@ public class GlobalControllerAdvice {
             SecureManagerException.class,
             JsonProcessingException.class
     })
-    public ModelAndView serverException(ServerException e) {
-        log.error("", e);
-        // TODO: Error 페이지 제작
-        return new ModelAndView();
+    public ModelAndView serverException(Exception e) {
+        log.error(e.toString());
+        return new ModelAndView("pages/errors/5xx");
     }
 
     /**
@@ -60,8 +58,7 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(NotFoundException.class)
     public ModelAndView notFoundException(NotFoundException e) {
         log.error(e.toString());
-        // TODO: Error 페이지 제작
-        return new ModelAndView();
+        return new ModelAndView("pages/errors/404");
     }
 
     /**
@@ -74,9 +71,8 @@ public class GlobalControllerAdvice {
             Throwable.class
     })
     public ModelAndView serverErrorHandle(Throwable t) {
-        log.error("", t);
-        // TODO: Error 페이지 제작
-        return new ModelAndView("");
+        log.error(t.toString());
+        return new ModelAndView("pages/errors/5xx");
     }
 
 }

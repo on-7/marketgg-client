@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.marketgg.client.config.RedisConfig;
 import com.nhnacademy.marketgg.client.dto.customer_service.CommentRequest;
 import com.nhnacademy.marketgg.client.dto.customer_service.PostResponseForDetail;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
 import com.nhnacademy.marketgg.client.service.customer_service.CommentService;
 import com.nhnacademy.marketgg.client.service.customer_service.PostService;
 import com.nhnacademy.marketgg.client.web.customer_service.CommentController;
@@ -44,6 +45,9 @@ class CommentControllerTest {
     @MockBean
     PostService postService;
 
+    @MockBean
+    CategoryService categoryService;
+
     private static final String DEFAULT_POST = "/customer-services";
 
     @Test
@@ -52,8 +56,8 @@ class CommentControllerTest {
         willDoNothing().given(commentService).createComment(anyLong(), any(CommentRequest.class));
 
         this.mockMvc.perform(post(DEFAULT_POST + "/{postId}", 1L)
-                .param("content", "hello!")
-                .param("page", "0"))
+                                 .param("content", "hello!")
+                                 .param("page", "0"))
                     .andExpect(status().is3xxRedirection())
                     .andExpect(view().name("redirect:" + DEFAULT_POST + "/categories/702/1"));
 
@@ -66,8 +70,8 @@ class CommentControllerTest {
         given(postService.retrievePost(anyLong(), anyString())).willReturn(new PostResponseForDetail());
 
         this.mockMvc.perform(post(DEFAULT_POST + "/{postId}", 1L)
-                .param("content", "")
-                .param("page", "0"))
+                                 .param("content", "")
+                                 .param("page", "0"))
                     .andExpect(status().isOk())
                     .andExpect(view().name("pages/board/oto-inquiries/detail"));
 

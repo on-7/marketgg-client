@@ -101,4 +101,15 @@ public interface ProductService {
                                                              final String option)
             throws JsonProcessingException;
 
+    /**
+     * 검색어에 대한 추천 상품 목록을 반환합니다.
+     *
+     * @param searchRequest - 검색을 진행 할 정보입니다.
+     * @return 선택한 카테고리 번호 내에서 검색한 상품 정보 목록의 제목을 반환합니다.
+     * @throws JsonProcessingException Json 컨텐츠를 처리할 때 발생하는 모든 문제에 대한 예외처리입니다.
+     * @since 1.0.0
+     */
+    String[] suggestProductList(final SearchRequestForCategory searchRequest)
+            throws JsonProcessingException;
+
 }

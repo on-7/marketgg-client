@@ -1,15 +1,18 @@
 package com.nhnacademy.marketgg.client.web.member;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponCreateRequest;
 import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
+import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.paging.Pagination;
 import com.nhnacademy.marketgg.client.service.coupon.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
+import com.nhnacademy.marketgg.client.service.review.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +36,7 @@ public class MemberController {
 
     private final GivenCouponService givenCouponService;
     private final ProductInquiryService inquiryService;
+    private final ReviewService reviewService;
 
     /**
      * 회원이 쿠폰을 등록할 수 있는 POST Mapping 을 지원합니다.
@@ -90,6 +94,19 @@ public class MemberController {
 
         ModelAndView mav = new ModelAndView("pages/mygg/inquiries/index");
         mav.addObject("inquiries", inquiries.getData());
+        mav.addObject("pages", pagination);
+
+        return mav;
+    }
+
+    @GetMapping("/reviews")
+    public ModelAndView retrieveReviewsByMember(final MemberInfo memberInfo, @RequestParam(defaultValue = "1") int page) {
+        PageResult<ReviewResponse> reviewResponsePageResult = reviewService.retrieveReviewsByMember(memberInfo, page);
+
+        ModelAndView mav = new ModelAndView("pages/mygg/reviews/index");
+        mav.addObject("reviews", reviewResponsePageResult.getData());
+
+        Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
         mav.addObject("pages", pagination);
 
         return mav;

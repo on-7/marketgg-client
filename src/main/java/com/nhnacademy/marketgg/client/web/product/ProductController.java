@@ -1,7 +1,9 @@
 package com.nhnacademy.marketgg.client.web.product;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.nhnacademy.marketgg.client.dto.category.CategoryRetrieveResponse;
 import com.nhnacademy.marketgg.client.dto.common.CommonResult;
+import com.nhnacademy.marketgg.client.dto.common.MemberInfo;
 import com.nhnacademy.marketgg.client.dto.common.PageResult;
 import com.nhnacademy.marketgg.client.dto.product.ProductInquiryResponse;
 import com.nhnacademy.marketgg.client.dto.product.ProductListResponse;
@@ -10,11 +12,16 @@ import com.nhnacademy.marketgg.client.dto.review.ReviewRatingResponse;
 import com.nhnacademy.marketgg.client.dto.review.ReviewResponse;
 import com.nhnacademy.marketgg.client.dto.search.SearchRequestForCategory;
 import com.nhnacademy.marketgg.client.paging.Pagination;
+import com.nhnacademy.marketgg.client.service.category.CategoryService;
 import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
 import com.nhnacademy.marketgg.client.service.product.ProductService;
 import com.nhnacademy.marketgg.client.service.review.ReviewService;
+
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +33,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/products")
 @RequiredArgsConstructor
-public class ProductController {
+public class ProductController extends BaseController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
     private final ReviewService reviewService;
     private final ProductInquiryService productInquiryService;
     private static final Integer PAGE_SIZE = 9;
@@ -169,6 +177,7 @@ public class ProductController {
      */
     @GetMapping("/{productId}")
     public ModelAndView retrieveProductDetails(@PathVariable final Long productId,
+                                               final MemberInfo memberInfo,
                                                @RequestParam(defaultValue = "1") int page,
                                                @RequestParam(defaultValue = "1", value = "requestPage") int page2)
             throws JsonProcessingException {
@@ -190,6 +199,7 @@ public class ProductController {
 
         mav.addObject("reviewCount", reviewCount);
         mav.addObject("reviewRatings", data);
+        mav.addObject("memberInfo", memberInfo);
 
         Pagination pagination = new Pagination(reviewResponsePageResult.getTotalPages(), page);
         mav.addObject("pages", pagination);
@@ -217,20 +227,9 @@ public class ProductController {
     @ResponseBody
     public String[] suggestionProductList(@RequestParam final String keyword,
                                           @RequestParam final Integer page) throws JsonProcessingException {
-
         SearchRequestForCategory request = new SearchRequestForCategory("001", keyword, page, 5);
-        PageResult<ProductListResponse> responses = productService.searchProductListByCategory(request);
-        List<ProductListResponse> products = responses.getData();
-        String[] productNameList = new String[5];
 
-        for (int i = 0; i < products.size(); i++) {
-            productNameList[i] = products.get(i).getProductName();
-            if (i == 4) {
-                break;
-            }
-        }
-
-        return productNameList;
+        return productService.suggestProductList(request);
     }
 
 }

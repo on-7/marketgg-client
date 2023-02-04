@@ -160,27 +160,22 @@
                         </h4>
                         <div class="country d-flex align-items-center">
                         </div>
-                        <div class="review-description" style="width: 200rem">
+                        <div class="review-description" style="width: 20rem">
                             <p>
                                 <span th:utext="${review.content}">></span>
                             </p>
                         </div>
                         <span class="publish py-3 d-inline-block w-100" th:text="${review.updatedAt}"> </span>
-                        <div sec:authorize="hasAnyRole('ROLE_ADMIN')">
-                            <div class="btn-wrapper">
-                                <form class="btn"
-                                      th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}"
-                                      method="post">
-                                    <input type="hidden" name="_method" value="delete" />
-                                    <input class="btn btn-danger" type="submit" th:value="#{DELETE}" />
-                                </form>
 
-                                <form class="btn"
-                                      th:action="'/admin/products/' + ${productDetails.id} + '/reviews/' + ${review.id} + '/make-best'"
-                                      method="post">
-                                    <input class="btn btn-success" type="submit" th:value="#{MAKE_BEST_REVIEW}" />
-                                    <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                </form>
+                            <div class="btn-wrapper">
+                                <div th:if="${#strings.equals(review.memberId, memberInfo.id)}">
+                                    <form class="btn"
+                                          th:action="'/products/' + ${productDetails.id} + '/reviews/' + ${review.id}"
+                                          method="post">
+                                        <input type="hidden" name="_method" value="delete" />
+                                        <input class="btn btn-danger" type="submit" th:value="#{DELETE}" />
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -3,15 +3,16 @@
       th:replace="~{layouts/admin-title-main :: layout(~{::title}, ~{::main})}">
 
     <head>
-        <title>Market GG | 쿠폰 조회</title>
+        <title>Market GG | 쿠폰 관리</title>
     </head>
     <body>
         <main>
-            <h1 th:text="#{COUPON_VIEW}" style="font-weight: bold; margin: 0 auto 0 0;"></h1>
+            <h1 th:text="#{COUPON_MANAGEMENT}" style="font-weight: bold; margin: 0 auto 0 0;"></h1>
             <br>
+            <section th:replace="~{pages/admin/coupons/create-form}"></section>
             <table class="table table-hover">
-                <thead class="thead-dark">
-                    <tr>
+                <thead class="thead-dark"style="text-align: center" >
+                    <tr style="text-align: center">
                         <th th:text="#{COUPON_NAME}"></th>
                         <th th:text="#{COUPON_TYPE}"></th>
                         <th th:text="#{EXPIRED_DATE}"></th>
@@ -20,6 +21,7 @@
                         <th th:text="#{COUPON_MANAGEMENT}"></th>
                     </tr>
                 </thead>
+                <tbody style="text-align: center">
                     <tr th:each="coupon : ${coupons}">
                         <td th:text="${coupon.name}"></td>
                         <td th:text="${coupon.type}"></td>
@@ -27,27 +29,46 @@
                         <td th:text="${#numbers.formatInteger(coupon.minimumMoney, 3, 'COMMA')+'원'}"></td>
                         <td th:text="${coupon.discountAmount &gt;= 1 ? #numbers.formatInteger(coupon.getDiscountAmount(), 3, 'COMMA')+'원' : #numbers.formatPercent(coupon.getDiscountAmount(), 1, 2)}"></td>
                         <td>
-                            <a style="text-decoration: none" th:href="@{update/{couponId}(couponId=${coupon.id})}">
-                                <button th:text="#{UPDATE}" class="btn btn-outline-primary"></button>
-                            </a>
-                            <form style="display: inline" th:action="'/admin/coupons/' + ${coupon.id}" method="post">
-                                <input type="hidden" name="_method" value="delete"/>
-                                <input type="submit" th:value="#{DELETE}" class="btn btn-outline-secondary"/>
-                            </form>
+                            <div style="display: flex; justify-content: center">
+                                <a style="text-decoration: none; margin: 0 1rem 0 0;" th:href="@{update/{couponId}(couponId=${coupon.id})}">
+                                    <button th:text="#{UPDATE}" class="btn btn-outline-primary"></button>
+                                </a>
+                                <form style="display: inline; margin: 0 1rem 0 0" th:action="'/admin/coupons/' + ${coupon.id}" method="post">
+                                    <input type="hidden" name="_method" value="delete" />
+                                    <input type="submit" th:value="#{DELETE}" class="btn btn-outline-dark" />
+                                </form>
+                                <div th:if="${coupon.isActive} == false">
+                                    <form th:action="'/admin/coupons/' + ${coupon.id} + '/activate'" method="post">
+                                        <input type="hidden" name="_method" value="put"/>
+                                        <button class="btn btn-outline-danger" style="margin: 0 1rem 0 0" th:text="#{ACTIVATE}"></button>
+                                    </form>
+                                </div>
+                                <div th:if="${coupon.isActive} == true">
+                                    <form th:action="'/admin/coupons/' + ${coupon.id} + '/deactivate'" method="post">
+                                        <input type="hidden" name="_method" value="put"/>
+                                        <button class="btn btn-danger" style="margin: 0 1rem 0 0" th:text="#{DEACTIVATE}"></button>
+                                    </form>
+                                </div>
+                            </div>
                         </td>
                     </tr>
+                </tbody>
             </table>
             <br>
             <div style="display: flex; flex-direction: row; justify-content: center;">
                 <a th:href="@{|/admin/coupons/index?page=1|}" th:text="#{FIRST}" style="color: black"></a> &nbsp; &lt;
-                <a th:if="${pages.page > 1}" th:href="@{|/admin/coupons/index?page=${pages.page - 1}|}" style="color: black"></a> &nbsp;
+                <a th:if="${pages.page > 1}" th:href="@{|/admin/coupons/index?page=${pages.page - 1}|}"
+                   style="color: black"></a> &nbsp;
                 <ul class="pagination">
                     <li th:each="page: ${#numbers.sequence(pages.startPage, pages.endPage)}">
-                        <a th:href="@{|/admin/coupons/index?page=${page}|}" th:text="${page}" style="color: black"></a> &nbsp;
+                        <a th:href="@{|/admin/coupons/index?page=${page}|}" th:text="${page}" style="color: black"></a>
+                        &nbsp;
                     </li>
                 </ul>
-                <a th:if="${pages.page} < ${pages.totalPageCnt}" th:href="@{|/admin/coupons/index?page=${pages.page + 1}|}" style="color: black"></a>
-                &gt; &nbsp;<a th:href="@{|/admin/coupons/index?page=${pages.totalPageCnt}|}" th:text="#{LAST}" style="color: black"></a>
+                <a th:if="${pages.page} < ${pages.totalPageCnt}"
+                   th:href="@{|/admin/coupons/index?page=${pages.page + 1}|}" style="color: black"></a>
+                &gt; &nbsp;<a th:href="@{|/admin/coupons/index?page=${pages.totalPageCnt}|}" th:text="#{LAST}"
+                              style="color: black"></a>
             </div>
         </main>
     </body>

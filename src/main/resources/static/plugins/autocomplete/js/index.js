@@ -58,19 +58,18 @@ window.addEventListener('DOMContentLoaded', () => {
           keydown: async (event) => {
             let keyword = event.target.value;
 
-            if (event.keyCode !== SPACE_BAR && event.keyCode !== BACKSPACE &&
-              (event.key === 'Process' || alpha.test(event.key))) {
+            if (event.key !== 'BackSpace' && event.key !== 'Space' && event.keyCode !== SPACE_BAR && event.keyCode !== BACKSPACE &&
+              (event.key === 'Process' || alpha.test(event.key) || event.keyCode === 229)) {
               count++;
             }
 
-            if (keyword && count >= 4) {
+            if (keyword && count >= 3) {
               if (keyword.split(' ').join('').indexOf(']') || keyword.split(' ').join('').indexOf(')')) {
                 keyword = keyword.split(']').join('');
                 keyword = keyword.split('[').join('');
                 keyword = keyword.split(')').join('');
                 keyword = keyword.split('(').join('');
               }
-              console.log(keyword);
               await fetch(`/products/suggest?keyword=${keyword}&page=0`)
                 .then(async (response) => await response.json())
                 .then((data) => {
@@ -86,7 +85,6 @@ window.addEventListener('DOMContentLoaded', () => {
               keyword = keyword.split('[').join('');
             }
             if (event.key === 'Enter') {
-              console.log(keyword.split(' ').join(''));
               if (regex.test(keyword.split(' ').join(''))) {
                 if(keyword.length > 20) {
                   alert('검색어는 20글자를 초과할 수 없습니다.')

@@ -63,6 +63,8 @@
                     <p th:text="${order.address}+' ('+${order.zipCode}+')'"></p>
                     <p th:text="#{DETAIL_ADDRESS}"></p>
                     <p th:text="${order.detailAddress}"></p>
+                    <p th:text="#{DELIVERY_CHARGE}"></p>
+                    <p>2,500 원</p>
                 </div>
 
                 <div class="last-info">
@@ -74,19 +76,19 @@
                             <p th:if="${order.usedCoupon?.name != null}" th:text="#{DISCOUNTED_AMOUNT}"></p>
                             <p th:unless="${order.usedCoupon?.name != null}" th:text="#{NOTHING}"></p>
                             <p th:if="${(order.usedCoupon?.name != null) && order.usedCoupon.type.equals('정액할인')}"
-                               th:text="${#numbers.formatInteger((order.totalAmount)-(order.usedCoupon.discountAmount), 3, 'COMMA')}+' '+#{WON}"></p>
+                               th:text="${#numbers.formatInteger(order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
                             <p th:if="${(order.usedCoupon?.name != null) && order.usedCoupon.type.equals('정률할인')}"
-                               th:text="${#numbers.formatInteger(order.totalAmount*order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
+                               th:text="${#numbers.formatInteger(order.usedCoupon.discountAmount, 3, 'COMMA')}+' '+#{WON}"></p>
                         </div>
                         <div class="point">
                             <p th:text="#{USED_POINT}"></p>
-                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' G'"></p>
+                            <p th:text="${#numbers.formatInteger(order.usedPoint, 3, 'COMMA')}+' '+#{WON}"></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="total">
-                    <button th:if="${!order.orderStatus.equals('취소/환불완료')}" class="btn btn-danger"
+                    <button th:if="${order.cancellable}" class="btn btn-danger"
                             th:onclick="|location.href=${order.id}+'/payments/cancel'|"
                             th:text="#{ORDER_CANCEL}"></button>
                     <p th:text="#{TOTAL}+': '+${#numbers.formatInteger(order.totalAmount, 3, 'COMMA')}+' '+#{WON}"></p>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         maxBytesLocalHeap="10M">
+
+    <!--<diskStore path="java.io.tmpdir" />-->
+
+    <sizeOfPolicy maxDepth="100000"/>
+
+    <!-- 필수로 설정해야하며 <cache> 들의 기본 설정 값 -->
+    <defaultCache
+            timeToLiveSeconds="180"
+            memoryStoreEvictionPolicy="LRU">
+    </defaultCache>
+
+    <cache name="category"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
+
+    <cache name="productSuggestStore"
+           timeToLiveSeconds="600"
+           memoryStoreEvictionPolicy="LRU">
+    </cache>
+</ehcache>

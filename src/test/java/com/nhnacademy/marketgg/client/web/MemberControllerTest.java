@@ -21,6 +21,7 @@ import com.nhnacademy.marketgg.client.dto.coupon.GivenCouponRetrieveResponse;
 import com.nhnacademy.marketgg.client.service.coupon.GivenCouponService;
 import com.nhnacademy.marketgg.client.service.member.MemberService;
 import com.nhnacademy.marketgg.client.service.product.ProductInquiryService;
+import com.nhnacademy.marketgg.client.service.review.ReviewService;
 import com.nhnacademy.marketgg.client.web.member.MemberAjaxController;
 import com.nhnacademy.marketgg.client.web.member.MemberController;
 import java.util.List;
@@ -63,6 +64,9 @@ class MemberControllerTest {
 
     @MockBean
     ProductInquiryService productInquiryService;
+
+    @MockBean
+    ReviewService reviewService;
 
     @Test
     @DisplayName("사용할 수 있는 이메일 검증 테스트")

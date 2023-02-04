@@ -2,23 +2,24 @@
 <html lang="ko" xmlns:th="https://www.thymeleaf.org"
       th:replace="~{layouts/admin-title-main-link :: layout(~{::title}, ~{::main}, ~{::link})}">
     <head>
-        <link rel="stylesheet" th:href="@{/css/label/marketgg.label.css}">
+        <link rel="stylesheet" th:href="@{/css/orders/admin-order-list.css}">
         <title th:text="#{LABEL_MANAGEMENT}"></title>
     </head>
     <body>
         <main>
-            <h1 th:text="#{LABEL_MANAGEMENT}"></h1>
+            <h1 th:text="#{LABEL_MANAGEMENT}"></h1><hr/>
             <div class="label-wrapper">
                 <div class="label-content-wrapper">
                     <details>
-                        <summary class="btn btn-info" th:text="#{LABEL_CREATE}"></summary>
+                        <summary class="btn btn-outline-primary" th:text="#{LABEL_CREATE}"></summary>
                             <form method="POST" th:action="@{/admin/labels/create}">
                                 <input type="text" name="name" th:placeholder="#{WRITE_LABEL_NAME}">
                                 <input class="btn btn-primary" type="submit" th:value="#{ADD}">
                             </form>
                     </details>
-                    <div class="label-table-wrapper">
-                        <table class="label-table-content-wrapper">
+                    <br />
+                    <div>
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th th:text="#{No}"></th>
@@ -33,7 +34,7 @@
                                     <td>
                                         <form th:method="post" th:action="'/admin/labels/' + ${label.labelNo}">
                                             <input type="hidden" name="_method" value="delete"/>
-                                            <input class="btn-primary" type="submit" th:value="#{DELETE}">
+                                            <input class="btn-outline-danger" type="submit" th:value="#{DELETE}">
                                         </form>
                                     </td>
                                 </tr>

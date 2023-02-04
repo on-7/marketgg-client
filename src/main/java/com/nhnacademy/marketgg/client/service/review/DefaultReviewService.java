@@ -59,4 +59,9 @@ public class DefaultReviewService implements ReviewService {
     public void makeBestReview(final Long productId, final Long reviewId) {
         reviewRepository.makeBestReview(productId, reviewId);
     }
+
+    @Override
+    public PageResult<ReviewResponse> retrieveReviewsByMember(MemberInfo memberInfo, int page) {
+        return reviewRepository.retrieveReviewsByMember(memberInfo, page);
+    }
 }

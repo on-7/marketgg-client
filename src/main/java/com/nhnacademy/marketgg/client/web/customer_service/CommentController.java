@@ -6,6 +6,7 @@ import com.nhnacademy.marketgg.client.exception.auth.UnAuthenticException;
 import com.nhnacademy.marketgg.client.exception.auth.UnAuthorizationException;
 import com.nhnacademy.marketgg.client.service.customer_service.CommentService;
 import com.nhnacademy.marketgg.client.service.customer_service.PostService;
+import com.nhnacademy.marketgg.client.web.product.BaseController;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/customer-services")
 @RequiredArgsConstructor
-public class CommentController {
+public class CommentController extends BaseController {
 
     private final CommentService commentService;
     private final PostService postService;

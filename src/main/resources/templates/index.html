@@ -14,6 +14,9 @@
     </head>
 
     <body>
+        <script type="text/javascript" th:if="${logout}">
+            location.reload();
+        </script>
         <main role="main" style="background-color: transparent;">
             <section class="jumbotron text-center">
                 <div class="container" id="main__title" th:if="${option == 'main'}">

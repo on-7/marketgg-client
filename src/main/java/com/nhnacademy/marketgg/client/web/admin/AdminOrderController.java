@@ -70,7 +70,7 @@ public class AdminOrderController {
     public ModelAndView createTrackingNo(@PathVariable @Min(1) final Long orderNo,
                                          @RequestParam(value = "orderStatus") String orderStatus) {
 
-        if (Objects.nonNull(orderStatus)) {
+        if (!orderStatus.equals("결제완료")) {
             throw new ClientException(orderStatus + "의 상태를 확인해 주세요.");
         }
 
